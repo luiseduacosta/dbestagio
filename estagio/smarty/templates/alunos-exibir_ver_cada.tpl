@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="pt-br">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Ver cada aluno</title>
+  <meta content="author" name="Luis Acosta">
+<style type="text/css">
+@import url("../../estagio.css");
+</style>
+
+</head>
+
+<body style="direction: ltr;">
+
+<div align="center">
+<table>
+<tbody>
+<tr>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="primeiro">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value="Primeiro">
+</form>
+</td>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="menos_10">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value=" - 10 ">
+</form>
+</td>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="retroceder">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value="Retroceder">
+</form>
+</td>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="avancar">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value="Avançar">
+</form>
+</td>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="mais_10">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value=" + 10 ">
+</form>
+</td>
+
+<td>
+<form action="#" method="post">
+<input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="botao" value="ultimo">
+<input type="hidden" name="id_aluno" value="">
+<input type="submit" name="submit" value="Último">
+</form>
+</td>
+
+</tr>
+</tbody>
+</table>
+</div>
+
+<div align="center">
+<table border="1" width="98%">
+<tbody>
+
+<tr>
+<th width='80%'>Aluno estagiário {* $num_aluno *}</th>
+{if $logado == 1}
+	<th width='20%'><a href='../cancelar/ver_cancela.php?id_aluno={$num_aluno}'>Excluir registro</a></th>
+{/if}
+</tr>
+</tbody>
+</table>
+
+<div align="center">
+<table border="1" width="98%">
+<tbody>
+
+<tr>
+<td width='20%'>Registro:</td>
+<td width='80%'>{$registro}</td>
+</tr>
+
+<tr>
+<td>Nome:</td>
+<td>{$nome}</td>
+</tr>
+
+<tr>
+<td>E-mail</td>
+<td>{$email}</td>
+</tr>
+
+{if $logado == 1}
+    <tr>
+    <td>Telefone</td>
+    <td>({$codigo_telefone}){$telefone}</td>
+    </tr>
+
+    <tr>
+    <td>Celular</td>
+    <td>({$codigo_celular}){$celular}</td>
+    </tr>
+
+    <tr>
+    <td>Observa&ccedil;&otilde;es</td>
+    <td>{$observacoes}</td>
+    </tr>
+{/if}
+
+</tbody>
+</table>
+</div>
+
+<div align="center">
+<table border="1" width="98%">
+<tbody>
+
+<tr>
+<th>Período</th>
+<th>TC</th>
+<th>Nivel</th>
+<th>Turno</th>
+<th>Instituição</th>
+<th>Supervisor</th>
+<th>Professor</th>
+{if $logado == 1}
+    <th>Nota</th>
+    <th>ch</th>
+{/if}
+</tr>
+
+{section name=estagio loop=$historico_estagio}
+
+<tr>
+<td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
+<td style="text-align:center">{$historico_estagio[estagio].tc}</td>
+<td style="text-align:center">{$historico_estagio[estagio].nivel}</td>
+<td style="text-align:center">{$historico_estagio[estagio].turno}</td>
+<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$historico_estagio[estagio].id_instituicao}">{$historico_estagio[estagio].instituicao}</a></td>
+{if $historico_estagio[estagio].id_supervisor eq 0}
+	<td>&nbsp;</td>
+{else}
+	<td><a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$historico_estagio[estagio].id_supervisor}">{$historico_estagio[estagio].supervisor}</a></td>
+{/if}
+<td>{$historico_estagio[estagio].professor}</td>
+{if $logado == 1}
+    <td style="text-align:center">{$historico_estagio[estagio].nota}</td>
+    <td style="text-align:center">{$historico_estagio[estagio].ch}</td>
+{/if}
+</tr>
+
+{/section}
+
+
+{if $logado == 1}
+    <tr>
+    <form action="../atualizar/atualiza.php" method="post">
+    <td colspan="8" style="text-align: center">
+    <input type="hidden" name="id_aluno" value="{$num_aluno}">
+    <input type="hidden" name="origem" value="{$origem}">
+    <input type="submit" name="submit" value="Clique aqui para modificar dados do aluno ou atualizar/inserir est&aacute;gios">
+    </td>
+    </form>
+    </tr>
+{/if}
+
+</tbody>
+</table>
+</div>
+
+{if $tcc}
+    <table border='1'>
+    <caption>Monografia de fim de curso</caption>
+    <tbody>
+
+    <tr>
+    <th>Peri&oacute;do</th>
+    <th>T&iacute;tulo</th>
+    <th>Cat&aacute;logo</th>
+    <th>Professor</th>
+    </tr>
+
+    <tr>
+    {section name=i loop=$tcc}
+    <td>{$tcc[i]}</td>
+    {/section}
+    </tr>
+
+    </tbody>
+    </table>
+{/if}
+
+</body>
+</html>

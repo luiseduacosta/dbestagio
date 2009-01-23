@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<title>Tabela de Supervisores</title>
+</head>
+
+<body>
+
+<div id="tabela">
+<table border="1">
+<caption>Tabela de Supervisores</caption>
+<tbody>
+
+<tr>
+<th><a href={$pagina_atual}?ordem=cress>Cress</a></th>
+<th><a href={$pagina_atual}?ordem=nome>Supervisor</a></th>
+<th><a href={$pagina_atual}?ordem=instituicao>Instituição</a></th>
+</tr>
+
+{section name=lista loop=$supervisores}
+<tr>
+<td>{$supervisores[lista].cress}</td>
+<td><a href="../exibir/exibir.php?id_supervisor={$supervisores[lista].id_supervisor}">{$supervisores[lista].nome}</a></td>
+<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$supervisores[lista].id_instituicao}">{$supervisores[lista].instituicao}</a></td>
+</tr>
+{/section}
+
+</tbody>
+</table>
+</div>
+
+</body>
+
+</html>

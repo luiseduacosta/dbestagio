@@ -1,0 +1,113 @@
+/*
+* Folha de estilos
+* corpo do texto
+*/
+
+body {
+    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+	font-size: medium;
+	line-height: 120%;
+	color: #000000;
+	background-color: #b0fffb;
+	margin: 10px
+	}
+
+p {
+	font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+	font-size: 90%;
+	background-color: #b0fffb;
+	color: #000000;
+	text-indent: 3em;
+	text-align: justify;
+	}
+
+h1 {
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #e7e1ae;
+	color: #000000;
+	text-align: center;
+}
+
+.corpo {
+	width: 750px;
+	}
+
+.acima {
+	position: relative;
+	width: 700px;
+	height: 50px;
+	}
+
+.centro {
+	position: relative;
+	width: 700px;
+	}
+
+.links {
+	width: 150px;
+	float: left;
+	}
+	
+table {
+	font-size: 110%;
+	background-color: #D0EFFF;
+	color: #000000;
+	text-align: left;
+	}
+
+caption {
+	font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+	text-align: center;
+	}
+
+tr {
+	background-color: #D0EFFF;
+	color: #000000;
+	text-align: left;
+	}
+
+th {
+	font-weight: bold;
+	background-color: #E7E1AE;
+	color: #000000;
+	text-align: center;
+	}
+
+td {
+    font: 80% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+	color: #000000;
+	text-align: left;
+	}
+
+.ultima_linha {
+    text-align: center;
+    }
+
+.coluna_centralizada {
+    text-align: center;
+    }
+
+.coluna_direita {
+    text-align: right;
+    }
+
+.rodape {
+    font-weight: bold;
+    color: #000000;
+    background-color: #E7E1AE;
+    text-align: center;
+    }
+
+.botao {
+	text-align: center;
+	font-weight: bold;
+	width: 80px;
+	background-color: #E7E1AE;
+   	border-width: thick;
+	border-style: outset;
+    }
+	
