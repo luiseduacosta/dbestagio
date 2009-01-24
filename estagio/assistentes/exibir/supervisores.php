@@ -8,20 +8,22 @@ if(empty($ordem))
 include_once("../../db.inc");
 include_once("../../setup.php");
 
-$sql = "select s.id, s.cress, s.nome, s.email "
+$sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 . " from supervisores s, inst_super j "
 . " where s.id = j.id_supervisor and "
 . " j.id_instituicao = $id_instituicao "
 . " order by s.nome ";
+// echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela supervisores e inst_super");
 $i = 0;
 while(!$resultado->EOF) {
-    $cress[$i]         = $resultado->fields['cress'];
-    $nome[$i]          = $resultado->fields['nome'];
-    $email[$i]         = $resultado->fields['email'];
-    $id_supervisor[$i] = $resultado->fields['id'];
+    $supervisores[$i]['cress']         = $resultado->fields['cress'];
+    $supervisores[$i]['nome']          = $resultado->fields['nome'];
+    $supervisores[$i]['email']         = $resultado->fields['email'];
+    $supervisores[$i]['id_supervisor'] = $resultado->fields['id_supervisor'];
+    // echo $resultado->fields['id_supervisor'] . " " . $supervisores[$i]['id_supervisor'] . "<br>";
     $i++;
     $resultado->MoveNext();
 }
@@ -35,10 +37,7 @@ $instituicao = $resultado_instituicao->fields['instituicao'];
 $smarty = new Smarty_estagio;
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
-$smarty->assign("id_supervisor",$id_supervisor);
-$smarty->assign("cress",$cress);
-$smarty->assign("nome_supervisor",$nome);
-$smarty->assign("email_supervisor",$email);
+$smarty->assign("supervisores",$supervisores);
 $smarty->display("supervisores_x_instituicao.tpl");
 
 ?>

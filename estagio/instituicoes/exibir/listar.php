@@ -33,20 +33,6 @@ while(!$resultado->EOF) {
   	
   	// echo $convenio . "<br>";
   	$resultado->MoveNext();
-
-    // Pego a quantidade de supervisores por instituicao
-	/*
-    $sql_supervisores  = "select s.id as num_supervisor ";
-    $sql_supervisores .= " from inst_super as i ";
-    $sql_supervisores .= " , supervisores as s ";
-    $sql_supervisores .= " where i.id_supervisor=s.id and i.id_instituicao=$id_instituicao";
-	// echo $sql_supervisores . "<br>";
-    $res_supervisores = $db->Execute($sql_supervisores);
-    if ($res_supervisores === false) die ("Não foi possível consultar as tabelas supervisores/inst_super");
-    $q_supervisores = $res_supervisores->RecordCount();
-    $total_supervisores = $total_supervisores + $q_supervisores;
-	// echo $q_supervisores .  " ". $total_supervisores .  "<br>";
-	*/
 	
 	// Quantidade de supervisores por periodo e instituicao
 	$sql_supervi  = "select id_supervisor from estagiarios where id_instituicao='$id_instituicao' ";
@@ -60,7 +46,7 @@ while(!$resultado->EOF) {
 	$total_supervi = $total_supervi + $q_supervi;
 	// echo " Super " . $id_supervisor . " quantidade: " . $q_supervi .  " acumulado: " . $total_supervi . "<br>";
 	
-    // Pego a turma das instituicoes
+    // Pego a ultima turma de cada instituicao
     $sql_turma = "select max(periodo) as turma from estagiarios where id_instituicao=$id_instituicao";
 	// echo $sql_turma . "<br>";
     $resultado_turma = $db->Execute($sql_turma);
@@ -74,17 +60,20 @@ while(!$resultado->EOF) {
 	}
 
 	// Quantidade de alunos por periodos
-	$sql_alunos = "select count(registro) as alunos from estagiarios where id_instituicao='$id_instituicao'";
-	if ($turma) $sql_alunos .= " and periodo='$turma'";
+	$sql_alunos = "select count(registro) as q_alunos from estagiarios where id_instituicao='$id_instituicao'";
+	if ($turma) $sql_alunos .= " and periodo='$turma' ";
+	$sql_alunos .= " group by registro ";
 	// echo $sql_alunos . "<br>";
 	$res_alunos = $db->Execute($sql_alunos);
-	$q_alunos = $res_alunos->fields['alunos'];
-	$total_alunos = $total_alunos + $q_alunos;
-	// echo $q_alunos .  " " . $total_alunos . "<br>";
-
-	// Total de alunos
-	$sql = "select id from estagiarios group by id_alunos";
-
+	unset($total_periodos);
+	$j = 0;
+	while (!$res_alunos->EOF){
+		$q_alunos = $res_alunos->fields['q_alunos'];
+		$total_periodos = $total_periodos + $q_alunos;
+		$res_alunos->MoveNext();
+		$j++;
+		// echo $j . " " . $q_alunos .  " " . $total_periodos . "<br>";
+	}
 
 	// Pego o mural da instituicao (por enquanto nao tem utilidade)
 	$sql_mural = "select id, periodo from mural_estagio where id_estagio=$id_instituicao";
@@ -108,7 +97,8 @@ while(!$resultado->EOF) {
   	$matriz[$i]['instituicao']    = $instituicao;
   	$matriz[$i]['supervisores']   = $q_supervi;
   	$matriz[$i]['turma']          = $turma_estagiarios;
-  	$matriz[$i]['alunos']         = $q_alunos;
+  	$matriz[$i]['alunos']         = $j;
+	$matriz[$i]['periodos']       = $total_periodos;
   	$matriz[$i]['id_area']        = $id_area;
   	$matriz[$i]['area']           = $area;
   	$matriz[$i]['convenio']       = $convenio;
