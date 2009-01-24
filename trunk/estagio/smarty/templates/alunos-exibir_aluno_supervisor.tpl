@@ -11,14 +11,18 @@
 
 <body>
 
+<p>
+<a href="javascript:history.back();">Voltar</a>
+</p>
+
 <div align="center">
 <table border="1">
 <tbody>
 
 <tr>
-<th><a href="{$pagina}?ordem=aluno">Aluno</a></th>
-<th><a href="{$pagina}?ordem=cress">Cress</a></th>
-<th><a href="{$pagina}?ordem=supervisor">Supervisor</a></th>
+<th><a href="?ordem=aluno">Aluno</a></th>
+<th><a href="?ordem=cress">Cress</a></th>
+<th><a href="?ordem=supervisor">Supervisor</a></th>
 </tr>
 
 {section name=elemento loop=$alunos_supervisor}

@@ -11,13 +11,13 @@ include_once("../../setup.php");
 $sql = "select s.id, s.cress, s.nome, s.email "
 . " from supervisores s, inst_super j "
 . " where s.id = j.id_supervisor and "
-. " j.id_instituicao = $id_instituicao ";
+. " j.id_instituicao = $id_instituicao "
+. " order by s.nome ";
 
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela supervisores e inst_super");
 $i = 0;
-while(!$resultado->EOF)
-{
+while(!$resultado->EOF) {
     $cress[$i]         = $resultado->fields['cress'];
     $nome[$i]          = $resultado->fields['nome'];
     $email[$i]         = $resultado->fields['email'];
@@ -33,13 +33,12 @@ if($resultado_instituicao === false) die ("Não foi possivel consutar a tabela es
 $instituicao = $resultado_instituicao->fields['instituicao'];
 
 $smarty = new Smarty_estagio;
-$smarty->assign("pagina",$PHP_SELF);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("cress",$cress);
 $smarty->assign("nome_supervisor",$nome);
 $smarty->assign("email_supervisor",$email);
-$smarty->display("supervisores_x_instituicao.tlp");
+$smarty->display("supervisores_x_instituicao.tpl");
 
 ?>
