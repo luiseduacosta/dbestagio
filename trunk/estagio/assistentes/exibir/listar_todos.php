@@ -5,6 +5,7 @@ include_once("../../setup.php");
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "nome";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
+$id_instituicao = isset($_GET['id_instituicao']) ? $_GET['id_instituicao'] : NULL;
 
 // echo $turma . "<br>";
 
@@ -18,6 +19,9 @@ $sql .= " left outer join estagiarios on s.id = estagiarios.id_supervisor ";
 
 if (!empty($turma))
 $sql .= " where estagiarios.periodo = '$turma' ";
+
+if (!empty($id_instituicao))
+$sql .= " where estagiarios.id_instituicao = '$id_instituicao' ";
 
 $sql .= " group by s.id ";
 
@@ -100,11 +104,14 @@ while (!$res_turma->EOF) {
 
 $smarty = new Smarty_estagio;
 
+$smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("supervisores",$matriz);
 $smarty->display("supervisores.tpl");
+
+require("supervisores.php");
 
 $db->Close();
 
