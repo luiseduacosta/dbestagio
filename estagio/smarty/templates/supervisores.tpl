@@ -20,15 +20,19 @@ function carrega_tabela() {
 
 <body>
 
+<a href="javascript:history.back();">Voltar</a>
+
 <input type=hidden name='ordem' id='ordem' value='{$ordem}'>
 
-<select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='0'>Selecione período</option>
-<option value='0'>Todos</option>
-{section name=i loop=$periodos}
-<option value='{$periodos[i]}'>{$periodos[i]}</option>
-{/section}
-</select>
+{if empty($id_instituicao)}
+	<select name='turma' id='turma' onChange="return carrega_tabela();">
+	<option value='0'>Selecione período</option>
+	<option value='0'>Todos</option>
+	{section name=i loop=$periodos}
+	<option value='{$periodos[i]}'>{$periodos[i]}</option>
+	{/section}
+	</select>
+{/if}
 
 <div id="tabela">
 <table border="1">

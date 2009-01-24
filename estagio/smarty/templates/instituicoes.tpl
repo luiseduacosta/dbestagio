@@ -43,7 +43,8 @@ function carrega_tabela() {
 <th><a href="?turma={$turma}&ordem=beneficio">Bene- <br>fícios</a></th>
 <th><a href="?turma={$turma}&ordem=turma">Turma</a></th>
 <th><a href="?turma={$turma}&ordem=alunos">Alunos</a></th>
-<th><a href="?turma={$turma}&ordem=q_supervisores">Super- <br>visores</a></th>
+<th><a href="?turma={$turma}&ordem=periodos">Períodos</a></th>
+<th><a href="?turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
 <th><a href="?turma={$turma}&ordem=area">Áreas</a></th>
 </tr>
 </thead>
@@ -54,8 +55,14 @@ function carrega_tabela() {
 {section name=elementos loop=$instituicoes}
 <tr>
 <td style="text-align:right">{$i++}</td>
+
+{* Convenio *}
 <td style="text-align:right"><a href="http://www.pr1.ufrj.br/estagios/info.php?codEmpresa={$instituicoes[elementos].convenio}">{$instituicoes[elementos].convenio}</a></td>
+
+{* Instituicoes *}
 <td><a href="../exibir/ver_cada.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].instituicao}</a></td>
+
+{* Beneficios *}
 <td>{$instituicoes[elementos].beneficio}</td>
 
 {* Turma *}
@@ -76,9 +83,19 @@ function carrega_tabela() {
 	{/if}
 {/if}
 
-{* Supervisores *}
-<td  style="text-align:center"><a href="supervisores.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].supervisores}</a></td>
+{* Períodos *}
+<td style="text-align:center">{$instituicoes[elementos].periodos}</td>
 
+{* Supervisores *}
+{if $instituicoes[elementos].supervisores == 0}
+	<td  style="text-align:center">{$instituicoes[elementos].supervisores}</td>
+{else}
+	<td  style="text-align:center">
+	<a href="../../assistentes/exibir/listar_todos.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].supervisores}</a>
+	</td>
+{/if}
+
+{* Area *}
 <td>{$instituicoes[elementos].area}</td>
 </tr>
 {/section}
