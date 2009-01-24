@@ -57,9 +57,28 @@ function carrega_tabela() {
 <td style="text-align:right"><a href="http://www.pr1.ufrj.br/estagios/info.php?codEmpresa={$instituicoes[elementos].convenio}">{$instituicoes[elementos].convenio}</a></td>
 <td><a href="../exibir/ver_cada.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].instituicao}</a></td>
 <td>{$instituicoes[elementos].beneficio}</td>
+
+{* Turma *}
+{if $turma}
+<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$turma}</a></td>
+{else}
 <td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
-<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
+{/if}
+
+{* Alunos *}
+{if $turma}
+	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
+{else}
+	{if $instituicoes[elementos].alunos == 0}
+	<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
+	{else}
+	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].alunos}</a></td>
+	{/if}
+{/if}
+
+{* Supervisores *}
 <td  style="text-align:center"><a href="supervisores.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].supervisores}</a></td>
+
 <td>{$instituicoes[elementos].area}</td>
 </tr>
 {/section}
