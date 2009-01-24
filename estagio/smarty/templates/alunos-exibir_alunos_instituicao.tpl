@@ -11,6 +11,10 @@
 
 <body style="direction: ltr;">
 
+<p>
+<a href="javascript:history.back();">Voltar</a>
+</p>
+
 <!--
 Tabela principal
 //-->
@@ -20,6 +24,7 @@ Tabela principal
   <tbody>
 
     <tr>
+	<th>Id</th>
     <th><a href="?ordem=registro&id_instituicao={$id_instituicao}&periodo={$periodo}">Registro</a></th>
     <th><a href="?ordem=nome&id_instituicao={$id_instituicao}&periodo={$periodo}">Nome</a></th>
     <th><a href="?ordem=nivel&id_instituicao={$id_instituicao}&periodo={$periodo}">Nível</a></th>
@@ -30,8 +35,10 @@ Tabela principal
 	<th><a href="?ordem=supervisor&id_instituicao={$id_instituicao}&periodo={$periodo}">Supervisor</a></th>
 	</tr>
 
+	{assign var="i" value=1}
     {section name=elemento loop=$alunos}
     <tr>
+	  <td style="text-align:center">{$i++}</td>
       <td>{$alunos[elemento].registro}</td>
       <td><a href="ver_cada.php?id_aluno={$alunos[elemento].id}">{$alunos[elemento].nome}</a></td>
       <td style="text-align:center">{$alunos[elemento].nivel}</td>
