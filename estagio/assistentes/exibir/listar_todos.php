@@ -111,7 +111,9 @@ $smarty->assign("periodos",$periodos);
 $smarty->assign("supervisores",$matriz);
 $smarty->display("supervisores.tpl");
 
-require("supervisores.php");
+if (empty($turma)) {
+	include("supervisores.php");	
+}
 
 $db->Close();
 

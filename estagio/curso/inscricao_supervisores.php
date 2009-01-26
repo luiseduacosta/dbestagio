@@ -206,8 +206,9 @@ $quantidade = $res_sql->fields['quantidade'];
 // var_dump($data_encerramento);
 // var_dump($hoje);
 if($hoje > $data_encerramento) {
-    echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
-    include("doc/selecionados2008.html");
+    // echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
+    echo "<h2>Inscrições para 2009-1 a partir do 02/03/2009</h2>";
+    // include("doc/selecionados2008.html");
     exit;
 }
 

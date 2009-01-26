@@ -31,6 +31,8 @@ function carrega_tabela() {
 {/section}
 </select>
 
+<p>Total de instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
+
 <div align="center">
 <table border="1">
 <caption>Tabela de instituições {$turma}</caption>

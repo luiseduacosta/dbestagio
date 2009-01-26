@@ -8,6 +8,34 @@ $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
 
 $smarty = new Smarty_estagio;
 
+// Calculo a quantidade de alunos total e/ou por periodo
+$sql_alunos  = "select count(registro) as total_alunos from estagiarios";
+if ($turma) $sql_alunos .= " where periodo='$turma' ";
+$sql_alunos .= " group by registro";
+// echo $sql_alunos . "<br>";
+$res_alunos = $db->Execute($sql_alunos);
+if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");
+while (!$res_alunos->EOF) {
+	$total_alunos = $res_alunos->fields['total_alunos'];
+	$todos_alunos++;
+	$res_alunos->MoveNext();
+}
+// echo "Total de alunos: ". $todos_alunos . " " . $total_alunos . "<br>";
+
+// Calculo a quantidade de instituicoes total e/ou por periodo
+$sql_instituicoes  = "select count(id_instituicao) as total_instituicao from estagiarios";
+if ($turma) $sql_instituicoes .= " where periodo='$turma' ";
+$sql_instituicoes .= " group by id_instituicao";
+// echo $sql_instituicoes . "<br>";
+$res_instituicoes = $db->Execute($sql_instituicoes);
+if ($res_instituicoes == false) die ("Não foi possível consultar a tabela estagiarios");
+while (!$res_instituicoes->EOF) {
+	$total_instituicoes = $res_instituicoes->fields['total_instituicoes'];
+	$todas_instituicoes++;
+	$res_instituicoes->MoveNext();
+}
+// echo "Total de instituicoes: ". $todas_instituicoes . " " . $total_instituicoes . "<br>";
+
 $sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficio ";
 $sql .= " , a.area ";
 $sql .= " , t.id_supervisor ";
@@ -31,7 +59,6 @@ while(!$resultado->EOF) {
   	$convenio       = $resultado->fields['convenio'];
 	$id_supervisor	= $resultado->fields['id_supervisor'];
   	
-  	// echo $convenio . "<br>";
   	$resultado->MoveNext();
 	
 	// Quantidade de supervisores por periodo e instituicao
@@ -65,16 +92,18 @@ while(!$resultado->EOF) {
 	$sql_alunos .= " group by registro ";
 	// echo $sql_alunos . "<br>";
 	$res_alunos = $db->Execute($sql_alunos);
-	unset($total_periodos);
+	$total_periodos = 0;
 	$j = 0;
 	while (!$res_alunos->EOF){
 		$q_alunos = $res_alunos->fields['q_alunos'];
 		$total_periodos = $total_periodos + $q_alunos;
+		// $todos_periodos = $todos_periodos + $total_periodos;
 		$res_alunos->MoveNext();
 		$j++;
-		// echo $j . " " . $q_alunos .  " " . $total_periodos . "<br>";
 	}
-
+	$todos_periodos = $todos_periodos + $total_periodos;
+	// echo "Todos periodos: " . $todos_periodos . "<br>";
+	
 	// Pego o mural da instituicao (por enquanto nao tem utilidade)
 	$sql_mural = "select id, periodo from mural_estagio where id_estagio=$id_instituicao";
 	// echo $sql_mural . "<br>";
@@ -109,11 +138,8 @@ while(!$resultado->EOF) {
 reset($matriz);
 sort($matriz);
 
-// echo "Período: " . $turma . " Instituições: ". $i .  " Supervisores: "  . $total_supervi .  " Alunos: ". $total_alunos . "<br>";
-
 /* Debugg 
-for($i=0;$i<sizeof($matriz);$i++)
-{
+for($i=0;$i<sizeof($matriz);$i++) {
 
  print $matriz[$i]['id'] . " ";      
  print $matriz[$i]['nome'] . " ";
@@ -135,6 +161,10 @@ $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("instituicoes",$matriz);
+$smarty->assign("total_instituicoes",$todas_instituicoes);
+$smarty->assign("total_supervisores",$total_supervi);
+$smarty->assign("total_alunos",$todos_alunos);
+$smarty->assign("total_periodos",$todos_periodos);
 $smarty->display("instituicoes.tpl");
 
 $db->Close();
