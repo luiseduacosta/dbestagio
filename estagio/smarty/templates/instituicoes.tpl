@@ -31,7 +31,7 @@ function carrega_tabela() {
 {/section}
 </select>
 
-<p>Total de instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
+<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
 
 <div align="center">
 <table border="1">
