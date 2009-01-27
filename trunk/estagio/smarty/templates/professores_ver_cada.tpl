@@ -23,6 +23,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="primeiro">
 <input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="id_professor" value="{$id_professor}">
 <input type="submit" name="submit" value="Primeiro">
 </form>
 </td>
@@ -31,6 +32,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="menos_10">
 <input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="id_professor" value="{$id_professor}">
 <input type="submit" name="submit" value="- 10">
 </form>
 </td>
@@ -39,6 +41,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="menos_1">
 <input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="id_professor" value="{$id_professor}">
 <input type="submit" name="submit" value="- 1">
 </form>
 </td>
@@ -47,6 +50,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="mais_1">
 <input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="id_professor" value="{$id_professor}">
 <input type="submit" name="submit" value="+ 1">
 </form>
 </td>
@@ -55,6 +59,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="mais_10">
 <input type="hidden" name="indice" value="{$indice}">
+<input type="hidden" name="id_professor" value="{$id_professor}">
 <input type="submit" name="submit" value="+ 10">
 </form>
 </td>
