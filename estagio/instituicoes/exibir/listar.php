@@ -6,8 +6,6 @@ include_once("../../setup.php");
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
 
-$smarty = new Smarty_estagio;
-
 // Calculo a quantidade de alunos total e/ou por periodo
 $sql_alunos  = "select count(registro) as total_alunos from estagiarios";
 if ($turma) $sql_alunos .= " where periodo='$turma' ";
@@ -35,6 +33,20 @@ while (!$res_instituicoes->EOF) {
 	$res_instituicoes->MoveNext();
 }
 // echo "Total de instituicoes: ". $todas_instituicoes . " " . $total_instituicoes . "<br>";
+
+// Calculo a quantidade de professores total e/ou por periodo
+$sql_professor  = "select count(id_professor) as total_professores from estagiarios";
+if ($turma) $sql_professor .= " where periodo='$turma' ";
+$sql_professor .= " group by id_professor";
+// echo $sql_professor . "<br>";
+$res_professor = $db->Execute($sql_professor);
+if ($res_professor == false) die ("Não foi possível consultar a tabela estagiarios");
+while (!$res_professor->EOF) {
+	$total_professores = $res_professor->fields['total_professores'];
+	$todos_professores++;
+	$res_professor->MoveNext();
+}
+// echo "Total de professores: ". $todos_professores . " " . $total_professores . "<br>";
 
 $sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficio ";
 $sql .= " , a.area ";
@@ -157,10 +169,13 @@ while (!$res_turma->EOF) {
 	$res_turma->MoveNext();
 }
 
+$smarty = new Smarty_estagio;
+
 $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("instituicoes",$matriz);
+$smarty->assign("total_professores",$todos_professores);
 $smarty->assign("total_instituicoes",$todas_instituicoes);
 $smarty->assign("total_supervisores",$total_supervi);
 $smarty->assign("total_alunos",$todos_alunos);

@@ -81,20 +81,21 @@ function alunos($id_professor,$db,$ordem="nome") {
 	return $alunos;
 }
 
-include_once("../../setup.php");
+require_once("../../setup.php");
 
 $id_professor = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
+$ordem  = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
 
 $indice = $_REQUEST['indice'];
 $submit = $_REQUEST['submit'];
 $botao  = $_REQUEST['botao'];
-$ordem  = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
 
-// echo " Indice: " . abs($indice) . "<br>";
-// echo " Submit: " . $submit;
+// echo " Indice: " . $indice . "<br>";
+// echo " Submit: " . $submit . "<br>";
 // echo " Botao: " . $botao . "<br>";
 
 $num_linhas = contar($db);
+// echo $num_linhas . "<br>";
 
 switch($botao)
 {
@@ -132,7 +133,7 @@ switch($botao)
 }
 
 if (!empty($id_professor)) {
-	$indice = lugar($id_professor);
+	$indice = lugar($id_professor,$db);
 }
 
 $professor = ver_cada($indice,$db);
