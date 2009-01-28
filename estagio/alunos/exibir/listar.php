@@ -10,16 +10,16 @@ if(isset($_REQUEST['usuario_senha'])) {
 	$logado = 1;
 }
 
-$ordem = @$_REQUEST["ordem"];
+$ordem = $_REQUEST["ordem"];
 if (empty($ordem))
     $ordem = "nome";
 
 // $periodo = $_REQUEST['periodo'];
-$seleciona_nivel = @$_REQUEST['seleciona_nivel'];
-$seleciona_turno = @$_REQUEST['seleciona_turno'];
-$seleciona_instituicao = @$_REQUEST['seleciona_instituicao'];
-$seleciona_periodo = @$_REQUEST['seleciona_periodo'];
-$seleciona_professor = @$_REQUEST['seleciona_professor'];
+$seleciona_nivel = $_REQUEST['seleciona_nivel'];
+$seleciona_turno = $_REQUEST['seleciona_turno'];
+$seleciona_instituicao = $_REQUEST['seleciona_instituicao'];
+$seleciona_periodo = $_REQUEST['seleciona_periodo'];
+$seleciona_professor = $_REQUEST['seleciona_professor'];
 
 // echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "<br>";
 
