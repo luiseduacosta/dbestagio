@@ -10,8 +10,9 @@
 function carrega_tabela() {
 	turma=document.getElementById('turma').value;
 	ordem=document.getElementById('ordem').value;
+	instituicao=document.getElementById('instituicao').value;
 	// alert(turma);
-	window.location="listar.php?turma=" + turma;
+	window.location="listar.php?turma=" + turma + "&ordem=" + ordem + "&instituicao=" + instituicao;
 	return false;
 }
 </script>
@@ -22,6 +23,7 @@ function carrega_tabela() {
 <body>
 
 <input type=hidden name='ordem' id='ordem' value='{$ordem}'>
+<input type=hidden name='instituicao' id='instituicao' value='{$instituicao}'>
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
 <option value='0'>Selecione período</option>
@@ -40,14 +42,14 @@ function carrega_tabela() {
 <thead>
 <tr>
 <th>Id</th>
-<th><a href="?turma={$turma}&ordem=convenio">Convênio</a></th>
-<th><a href="?turma={$turma}&ordem=instituicao">Instituições</a></th>
-<th><a href="?turma={$turma}&ordem=beneficio">Bene- <br>fícios</a></th>
-<th><a href="?turma={$turma}&ordem=turma">Turma</a></th>
-<th><a href="?turma={$turma}&ordem=alunos">Alunos</a></th>
-<th><a href="?turma={$turma}&ordem=periodos">Períodos</a></th>
-<th><a href="?turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
-<th><a href="?turma={$turma}&ordem=area">Áreas</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=convenio">Convênio</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=instituicao">Instituições</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>fícios</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=turma">Turma</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=alunos">Alunos</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Períodos</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">Áreas</a></th>
 </tr>
 </thead>
 

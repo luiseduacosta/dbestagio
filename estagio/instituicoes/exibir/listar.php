@@ -5,12 +5,15 @@ include_once("../../setup.php");
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
+$instituicao = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
+// echo $instituicao . "<br>";
 
 // Calculo a quantidade de alunos total e/ou por periodo
 $sql_alunos  = "select count(registro) as total_alunos from estagiarios";
 if ($turma) $sql_alunos .= " where periodo='$turma' ";
 $sql_alunos .= " group by registro";
 // echo $sql_alunos . "<br>";
+
 $res_alunos = $db->Execute($sql_alunos);
 if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");
 while (!$res_alunos->EOF) {
@@ -54,8 +57,17 @@ $sql .= " , t.id_supervisor ";
 $sql .= " from estagio as e ";
 $sql .= " left join areas_estagio as a on e.area = a.id ";
 $sql .= " left outer join estagiarios t on e.id = t.id_instituicao ";
-if ($turma) $sql .= " where t.periodo = '$turma' ";
+
+if (($turma) and ($instituicao)) {
+	$sql .= " where t.periodo = '$turma' and e.instituicao like '%$instituicao%'";
+} elseif ($turma) {
+	$sql .= " where t.periodo = '$turma' ";
+} elseif ($instituicao) {
+	$sql .= " where e.instituicao like '%$instituicao%' ";
+}
+
 $sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
+
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
@@ -63,13 +75,13 @@ if ($resultado == false) die ("Não foi possível consultar a tabela estagio");
 
 $i = 0;
 while(!$resultado->EOF) {
-  	$id_instituicao = $resultado->fields['id'];
-  	$instituicao    = $resultado->fields['instituicao'];
-  	$id_area        = $resultado->fields['id_area'];
-  	$area           = $resultado->fields['area'];
-	$beneficio      = $resultado->fields['beneficio'];
-  	$convenio       = $resultado->fields['convenio'];
-	$id_supervisor	= $resultado->fields['id_supervisor'];
+  	$id_instituicao   = $resultado->fields['id'];
+  	$nome_instituicao = $resultado->fields['instituicao'];
+  	$id_area          = $resultado->fields['id_area'];
+  	$area             = $resultado->fields['area'];
+	$beneficio        = $resultado->fields['beneficio'];
+  	$convenio         = $resultado->fields['convenio'];
+	$id_supervisor	  = $resultado->fields['id_supervisor'];
   	
   	$resultado->MoveNext();
 	
@@ -135,7 +147,7 @@ while(!$resultado->EOF) {
 
   	$matriz[$i][$ordem] = $$indice;
   	$matriz[$i]['id_instituicao'] = $id_instituicao;
-  	$matriz[$i]['instituicao']    = $instituicao;
+  	$matriz[$i]['instituicao']    = $nome_instituicao;
   	$matriz[$i]['supervisores']   = $q_supervi;
   	$matriz[$i]['turma']          = $turma_estagiarios;
   	$matriz[$i]['alunos']         = $j;
@@ -147,8 +159,10 @@ while(!$resultado->EOF) {
   	$i++;
 }
 
-reset($matriz);
-sort($matriz);
+if (!empty($matriz)) {
+	reset($matriz);
+	sort($matriz);
+}
 
 /* Debugg 
 for($i=0;$i<sizeof($matriz);$i++) {
@@ -174,6 +188,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);
 $smarty->assign("periodos",$periodos);
+$smarty->assign("instituicao",$instituicao);
 $smarty->assign("instituicoes",$matriz);
 $smarty->assign("total_professores",$todos_professores);
 $smarty->assign("total_instituicoes",$todas_instituicoes);

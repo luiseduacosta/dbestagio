@@ -7,9 +7,9 @@
 
 <body>
 
-<form name="busca_instituicao" action="resultado.php" method="post">
+<form name="busca_instituicao" action="../exibir/listar.php" method="post">
 <h1>Digite uma palavra para iniciar a busca de instituições</h1>
-<input type="text" name="palavra" size=30>
+<input type="text" name="instituicao" size=30>
 <input type="submit" name="submit" value="Confirma">
 </form>
 
