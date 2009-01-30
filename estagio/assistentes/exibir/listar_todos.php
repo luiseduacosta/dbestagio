@@ -112,7 +112,7 @@ $smarty->assign("supervisores",$matriz);
 $smarty->display("supervisores.tpl");
 
 if (empty($turma)) {
-	include("supervisores.php");	
+	// include("supervisores.php");	
 }
 
 $db->Close();
