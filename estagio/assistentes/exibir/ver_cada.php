@@ -110,6 +110,16 @@ while(!$resultado->EOF) {
 		$resultado->MoveNext();
 	}
 
+	// Verifico se fez inscricao para o curso
+	if(ctype_digit($cress)) {
+		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
+		// echo $sqlcurso . "<br />";
+		$supervisores_curso = $db->Execute($sqlcurso);
+		if($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
+		$id_curso = $supervisores_curso->fields['id'];
+		// echo "Id curso: " . $id_curso . "<br>";
+	}
+
 	// Alunos supervisionados pelo supervisor
 	$sqlalunos  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao from alunos ";
 	$sqlalunos .= " inner join estagiarios on estagiarios.registro = alunos.registro ";
@@ -135,14 +145,6 @@ while(!$resultado->EOF) {
 		$alunos[$i]['instituicao'] = $res_aluno_instituicao->fields['instituicao'];
 		// echo $res_aluno_instituicao->fields['instituicao'];
 
-		if(ctype_digit($cress)) {
-			$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
-			// echo $sqlcurso . "<br />";
-			$supervisores_curso = $db->Execute($sqlcurso);
-			if($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
-			$id_curso = $supervisores_curso->fields['id'];
-			// echo "Id curso: " . $id_curso . "<br>";
-		}
 		$i++;
 		// echo $i;
 		$res_alunos->MoveNext();
