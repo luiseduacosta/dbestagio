@@ -23,32 +23,44 @@
 
 <tr>
 <td>Instituição</td>
-<td><input type="text" name="nome_instituicao" size="50" value="{$nome_instituicao}"></td>
+<td>
+<input type="text" name="nome_instituicao" size="50" value="{$nome_instituicao}">
+</td>
 </tr>
 
 <tr>
 <td>Endereço</td>
-<td><input type="text" name="endereco_instituicao" size="50" value="{$endereco_instituicao}"></td>
+<td>
+<input type="text" name="endereco_instituicao" size="50" value="{$endereco_instituicao}">
+</td>
 </tr>
 
 <tr>
 <td>CEP</td>
-<td><input type="text" name="cep_instituicao" size="9" value="{$cep_instituicao}"></td>
+<td>
+<input type="text" name="cep_instituicao" size="9" value="{$cep_instituicao}">
+</td>
 </tr>
 
 <tr>
 <td>Telefone</td>
-<td><input type="text" name="telefone_instituicao" size="35" value="{$telefone_instituicao}"></td>
+<td>
+<input type="text" name="telefone_instituicao" size="35" value="{$telefone_instituicao}">
+</td>
 </tr>
 
 <tr>
 <td>Fax</td>
-<td><input type="text" name="fax_instituicao" size="15" value="{$fax_instituicao}"></td>
+<td>
+<input type="text" name="fax_instituicao" size="15" value="{$fax_instituicao}">
+</td>
 </tr>
 
 <tr>
 <td>Benefícios</td>
-<td><input type="text" name="beneficio_instituicao" size="50" value="{$beneficio_instituicao}"></td>
+<td>
+<input type="text" name="beneficio_instituicao" size="50" value="{$beneficio_instituicao}">
+</td>
 </tr>
 
 <tr>
@@ -56,17 +68,17 @@
 
 <td>
 {if $fim_de_semana == 0}
-<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Não
-<input type="radio" name="fim_de_semana" value="1">Sim
-<input type="radio" name="fim_de_semana" value="2">Parcialmente
+	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Não
+	<input type="radio" name="fim_de_semana" value="1">Sim
+	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 1}
-<input type="radio" name="fim_de_semana" value="0">Não
-<input type="radio" name="fim_de_semana" value="1" checked="{$fim_de_semana}">Sim
-<input type="radio" name="fim_de_semana" value="2">Parcialmente
+	<input type="radio" name="fim_de_semana" value="0">Não
+	<input type="radio" name="fim_de_semana" value="1" checked="{$fim_de_semana}">Sim
+	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 2}
-<input type="radio" name="fim_de_semana" value="0">Não
-<input type="radio" name="fim_de_semana" value="1">Sim
-<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
+	<input type="radio" name="fim_de_semana" value="0">Não
+	<input type="radio" name="fim_de_semana" value="1">Sim
+	<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
 {/if}
 </td>
 
@@ -79,7 +91,7 @@
 <select name="area_instituicao" size="1">
 <option value={$id_area_instituicao} selected>{$area_instituicao}</option>
 {section name=elementos loop=$matriz_areas}
-<option value={$matriz_areas[elementos].id_area}>{$matriz_areas[elementos].area}</option>
+	<option value={$matriz_areas[elementos].id_area}>{$matriz_areas[elementos].area}</option>
 {/section}
 </select>
 </td>
