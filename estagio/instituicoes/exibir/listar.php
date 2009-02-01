@@ -6,6 +6,7 @@ include_once("../../setup.php");
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
 $instituicao = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
+$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 // echo $instituicao . "<br>";
 
 // Calculo a quantidade de alunos total e/ou por periodo
@@ -71,6 +72,9 @@ $sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
+
+$quantidade_alunos = $resultado->RecordCount();
+
 if ($resultado == false) die ("Não foi possível consultar a tabela estagio");
 
 $i = 0;

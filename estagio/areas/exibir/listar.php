@@ -8,8 +8,7 @@ $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
 
 $i = 0;
-while(!$resultado->EOF)
-{
+while(!$resultado->EOF) {
     $id_area = $resultado->fields["id"];
     $area    = $resultado->fields["area"];
     // Para cada área conto a quantidade de instituicoes
@@ -29,7 +28,7 @@ while(!$resultado->EOF)
 $smarty = new Smarty_estagio;
 $smarty->assign("areas",$matriz);
 $smarty->assign("total",$total);
-$smarty->display("areas_listar.tlp");
+$smarty->display("areas_listar.tpl");
 
 exit;
 
