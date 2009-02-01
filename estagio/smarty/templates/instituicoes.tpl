@@ -61,7 +61,11 @@ function carrega_tabela() {
 <td style="text-align:right">{$i++}</td>
 
 {* Convenio *}
-<td style="text-align:right"><a href="http://www.pr1.ufrj.br/estagios/info.php?codEmpresa={$instituicoes[elementos].convenio}">{$instituicoes[elementos].convenio}</a></td>
+{if $instituicoes[elementos].convenio != 0}
+	<td style="text-align:right"><a href="http://www.pr1.ufrj.br/estagios/info.php?codEmpresa={$instituicoes[elementos].convenio}">{$instituicoes[elementos].convenio}</a></td>
+{else}
+	<td style="text-align:right">&nbsp;</td>
+{/if}
 
 {* Instituicoes *}
 <td><a href="../exibir/ver_cada.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].instituicao}</a></td>
@@ -71,9 +75,9 @@ function carrega_tabela() {
 
 {* Turma *}
 {if $turma}
-<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$turma}</a></td>
+	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$turma}</a></td>
 {else}
-<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
+	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
 {/if}
 
 {* Alunos *}
@@ -81,9 +85,9 @@ function carrega_tabela() {
 	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
 {else}
 	{if $instituicoes[elementos].alunos == 0}
-	<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
+		<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
 	{else}
-	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].alunos}</a></td>
+		<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].alunos}</a></td>
 	{/if}
 {/if}
 
@@ -101,6 +105,14 @@ function carrega_tabela() {
 
 {* Area *}
 <td>{$instituicoes[elementos].area}</td>
+
+{* Url *}
+{if $instituicoes[elementos].url}
+	<td><a href='{$instituicoes[elementos].url}'></a>{$instituicoes[elementos].url}</td>
+{else}
+	<td>&nbsp;</td>
+{/if}
+
 </tr>
 {/section}
 

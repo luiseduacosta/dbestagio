@@ -16,11 +16,6 @@
 <th>Área</th>
 <th>Quantidade <br> de instituições</th>
 <th>Editar <br> área</th>
-<!-- th>Cancelar</th //-->
-</tr>
-
-<tr>
-<td></td>
 </tr>
 
 {section name=elemento loop=$areas}
