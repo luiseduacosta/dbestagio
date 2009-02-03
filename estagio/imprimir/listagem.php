@@ -1,15 +1,8 @@
 <?php
 
-// Locuss
-// define("FPDF_FONTPATH","/home2/locuss/www/fpdf151/font/");
-// define("FPDF","/home2/locuss/www/fpdf151/");
-
 // Intranet
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf151/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf151/");
-
-// define("FPDF_FONTPATH","/var/www/fpdf151/font/");
-// define("FPDF","/var/www/fpdf151/");
+define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf153/font/");
+define("FPDF","/usr/local/htdocs/html/fpdf153/");
 
 require(FPDF."fpdf.php");
 

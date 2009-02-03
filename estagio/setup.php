@@ -43,11 +43,11 @@ class Smarty_estagio extends Smarty {
 define("ESTAGIO","/estagio/");
 
 /* Para produzir documentos PDF */
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf151/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf151/");
+define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf153/font/");
+define("FPDF","/usr/local/htdocs/html/fpdf153/");
 
 // Para o mural
-define("PERIODO_ATUAL", "2008-2");
+define("PERIODO_ATUAL", "2009-1");
 $periodo_atual = PERIODO_ATUAL;
 $_periodo_atual = explode("-",$periodo_atual);
 if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";

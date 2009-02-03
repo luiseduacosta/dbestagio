@@ -79,10 +79,10 @@ function get_turma() {
 
 <td>
 {if $matriz[elemento].supervisores_id <> 0}
-<a href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
-<a href='../assistentes/exibir/ver_cada.php?id_supervisor={$matriz[elemento].supervisores_id}'>[1]</a>
+	<a href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
+	<a href='../assistentes/exibir/ver_cada.php?id_supervisor={$matriz[elemento].supervisores_id}'>[1]</a>
 {else}
-<a href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
+	<a href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
 {/if}
 </td>
 
@@ -91,9 +91,9 @@ function get_turma() {
 {/if}
 
 <td>
-<a href=?id_instituicoa={$matriz[elemento].id_instituicao}>{$matriz[elemento].instituicao}</a>
+<a href='../instituicoes/exibir/ver_cada.php?curso=sem&id_instituicao={$matriz[elemento].id_instituicao}'>{$matriz[elemento].instituicao}</a>
 {if $matriz[elemento].id_estagio}
-<a href='../instituicoes/exibir/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
+	<a href='../instituicoes/exibir/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
 {/if}
 </td>
 
