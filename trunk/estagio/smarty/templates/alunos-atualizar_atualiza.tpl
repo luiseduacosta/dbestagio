@@ -25,6 +25,17 @@ $(document).ready(function() {
 });
 </script>
 
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script language="JavaScript" type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
+</script>
+
 <script language="JavaScript" type="text/javascript">
 function verificaPeriodo() {
     var tamanho = document.inserir_aluno.periodo.value.length;
@@ -37,6 +48,7 @@ function aluno() {
     window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;
 }
 </script>
+
 {/literal}
 
 {* Calendario *}
@@ -74,34 +86,34 @@ Modifica dados do aluno
 
 <tr>
 <td>Registro</td>
-<td><input type="text" name="registro" size="10" maxlenght="10" value="{$registro}"></td>
+<td><input type="text" name="registro" id="registro" size="10" maxlenght="10" value="{$registro}"></td>
 </tr>
 
 <tr>
 <td>Nome</td>
-<td><input type="text" name="nome" size="30" maxlenght="50" value="{$aluno_nome}"></td>
+<td><input type="text" name="nome" id="nome" size="30" maxlenght="50" value="{$aluno_nome}"></td>
 </tr>
 
 <tr>
 <td>Telefone:</td>
 <td>
 <input type="text" name="codigo_telefone" size="2" maxlenght="2" value="{$codigo_telefone}">
-<input type="text" name="telefone" size="9" maxlenght="9" value="{$telefone}">
+<input type="text" name="telefone" id="telefone" size="9" maxlenght="9" value="{$telefone}">
 Celular:
 <input type="text" name="codigo_celular" size="2" maxlenght="2" value="{$codigo_celular}">
-<input type="text" name="celular" size="9" maxlenght="9" value="{$celular}">
+<input type="text" name="celular" id="celular" size="9" maxlenght="9" value="{$celular}">
 </td>
 </tr>
 
 <tr>
 <td>E-mail:</td>
-<td colspan="3"><input type="text" name="email" size="30" maxlenght="50" value="{$email}"></td>
+<td colspan="3"><input type="text" name="email" id="email" size="30" maxlenght="50" value="{$email}"></td>
 </tr>
 
 <tr>
 <td>CPF</td>
 <td>
-<input type="text" maxlength="12" size="12" name="cpf" value='{$cpf}' />
+<input type="text" maxlength="12" size="12" name="cpf" id="cpf" value='{$cpf}' />
 </td>
 </tr>
 
@@ -110,16 +122,16 @@ Celular:
 Carteira de identidade: 
 </td>
 <td>
-<input type="text" maxlength="15" size="15" name="identidade" value='{$identidade}' />
+<input type="text" maxlength="15" size="15" name="identidade" id="identidade" value='{$identidade}' />
 Orgão:
-<input type="text" maxlength="10" size="10" name="orgao" value='{$orgao}' />
+<input type="text" maxlength="10" size="10" name="orgao" id="orgao" value='{$orgao}' />
 </td>
 </tr>
 
 <tr>
 <td>Data de nascimento</td>
 <td>
-<input id="nascimento" type="text" maxlength="10" size="10" name="nascimento" value='{$nascimento}' />
+<input id="nascimento" type="text" maxlength="10" size="10" name="nascimento" id="nascimento" value='{$nascimento}' />
 dd/mm/aaaa
 </td>
 </tr>
@@ -127,24 +139,24 @@ dd/mm/aaaa
 <tr>
 <td>Endereco</td>
 <td>
-<input type="text" maxlength="50" size="30" name="endereco" value='{$endereco}' />
-CEP: <input type="text" maxlength="9" size="9" name="cep" value='{$cep}' />
+<input type="text" maxlength="50" size="30" name="endereco" id="endereco" value='{$endereco}' />
+CEP: <input type="text" maxlength="9" size="9" name="cep" id="cep" value='{$cep}' />
 </td>
 </tr>
 
 <tr>
 <td>Bairro</td>
 <td>
-<input type="text" maxlength="30" size="15" name="bairro" value='{$bairro}' />
+<input type="text" maxlength="30" size="15" name="bairro" id="bairro" value='{$bairro}' />
 Municipio:
-<input type="text" maxlength="30" size="20" name="municipio" value='{$municipio}' />
+<input type="text" maxlength="30" size="20" name="municipio" id="municipio" value='{$municipio}' />
 </td>
 </tr>
 
 <tr>
 <td>Observa&ccedil;&otilde;es</td>
 <td>
-<textarea name="observacoes" rows="3" cols="60">
+<textarea name="observacoes" id="observacoes" rows="3" cols="60">
 {$observacoes}
 </textarea>
 </td>
