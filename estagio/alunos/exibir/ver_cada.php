@@ -95,7 +95,7 @@ while(!$resultado->EOF) {
     $telefone        = $resultado->fields['telefone'];
     $codigo_celular  = $resultado->fields['codigo_celular'];
     $celular         = $resultado->fields['celular'];
-    $email           = $resultado->fields['email'];
+    $email           = strtolower($resultado->fields['email']);
     $cpf             = $resultado->fields['cpf'];
     $identidade      = $resultado->fields['identidade'];
     $orgao           = $resultado->fields['orgao']; 
@@ -160,23 +160,23 @@ while(!$resultado->EOF) {
     $sql_professor = "select nome from professores where id=$id_professor";
 	$resultado_professor = $db->Execute($sql_professor);
    	if($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
-    $professor_nome = $resultado_professor->fields['nome'];
-	
-	$historico_estagio[$i]['nivel']          = $nivel;
-	$historico_estagio[$i]['tc']             = $tc;
-	$historico_estagio[$i]['turno']          = $turno;
-	$historico_estagio[$i]['periodo']        = $periodo;
-	$historico_estagio[$i]['nota']           = $nota;
-	$historico_estagio[$i]['ch']             = $ch;
-	$historico_estagio[$i]['id_instituicao'] = $id_instituicao;
-	$historico_estagio[$i]['instituicao']    = $instituicao;
-	$historico_estagio[$i]['id_supervisor']  = $id_supervisor;
-	$historico_estagio[$i]['supervisor']     = $supervisor_nome;
-	$historico_estagio[$i]['id_professor']   = $id_professor;
-	$historico_estagio[$i]['professor']      = $professor_nome;	
-	$i++;
-    
-	}
+	    $professor_nome = $resultado_professor->fields['nome'];
+		
+		$historico_estagio[$i]['nivel']          = $nivel;
+		$historico_estagio[$i]['tc']             = $tc;
+		$historico_estagio[$i]['turno']          = $turno;
+		$historico_estagio[$i]['periodo']        = $periodo;
+		$historico_estagio[$i]['nota']           = $nota;
+		$historico_estagio[$i]['ch']             = $ch;
+		$historico_estagio[$i]['id_instituicao'] = $id_instituicao;
+		$historico_estagio[$i]['instituicao']    = $instituicao;
+		$historico_estagio[$i]['id_supervisor']  = $id_supervisor;
+		$historico_estagio[$i]['supervisor']     = $supervisor_nome;
+		$historico_estagio[$i]['id_professor']   = $id_professor;
+		$historico_estagio[$i]['professor']      = $professor_nome;	
+		$i++;
+	    
+		}
     }
    	
     // TCC
@@ -186,20 +186,28 @@ while(!$resultado->EOF) {
     // echo $sql_tcc . "<br>";    
     $resultado_tcc = $db->Execute($sql_tcc);
     if($resultado_tcc === false) die ("Nao foi possivel consultar a tabela tcc_alunos");
-    $quantidade = $resultado_tcc->RecordCount();
-
-    if($quantidade > 0) {
 	$id_tcc = $resultado_tcc->fields['num_monografia'];
 
-        $sql_monografia  = "select titulo, catalogo, periodo, nome ";
-	$sql_monografia .= "from monografia ";
-	$sql_monografia .= "inner join professores on monografia.num_prof = professores.id ";
-	$sql_monografia .= "where codigo = '$id_tcc'";
-
-	$resultado_monografia = $db->Execute($sql_monografia);
-
-	$tcc = array($resultado_monografia->fields['periodo'],$resultado_monografia->fields['titulo'],$resultado_monografia->fields['catalogo'],$resultado_monografia->fields['nome']);
-	// echo $tcc['titulo'] . " ". $tcc['professor'] . "<br>";
+	$n = 1;
+    if ($id_tcc) {
+		$id_tcc = $resultado_tcc->fields['num_monografia'];
+	
+	    $sql_monografia  = "select codigo, titulo, catalogo, periodo, nome ";
+		$sql_monografia .= "from monografia ";
+		$sql_monografia .= "inner join professores on monografia.num_prof = professores.id ";
+		$sql_monografia .= "where codigo = '$id_tcc'";
+	
+		$resultado_monografia = $db->Execute($sql_monografia);
+		
+		$tcc['id'] = $resultado_monografia->fields['codigo'];
+		$tcc['periodo'] = $resultado_monografia->fields['periodo'];
+		$tcc['titulo'] = $resultado_monografia->fields['titulo'];
+		$tcc['catalogo'] = $resultado_monografia->fields['catalogo'];
+		$tcc['professor'] = $resultado_monografia->fields['nome'];
+	
+		$n++;
+	
+		// echo $tcc['titulo'] . " ". $tcc['professor'] . "<br>";
     }
 
 $smarty = new Smarty_estagio;

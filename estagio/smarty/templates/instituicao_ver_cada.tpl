@@ -146,7 +146,7 @@ debug
 {if $modifica}
 	<td width="25%" colspan="1">Instituição</td>
 	<td width="75%" colspan="2">
-	<input type="text" name="instituicao" size="50" maxsize='50' value="{$instituicao}">
+	<input type="text" name="instituicao" size="50" maxlength='100' value="{$instituicao}">
 {else}
 	<td width="25%" colspan="1" class="rodape">Instituição</td>
 	<td width="75%" colspan="2" class="rodape">
@@ -164,7 +164,7 @@ debug
 	<td width="25%" colspan="1">Página web</td>
 	<td colspan="2">
 	{if $modifica}
-		<input type="text" name="url" size="50" maxsize="100" value="{$url}">
+		<input type="text" name="url" size="50" maxlength="100" value="{$url}">
 	{else}
 		<a href="{$url}">{$url|truncate:50}</a>
 	{/if}
@@ -370,7 +370,14 @@ debug
 {if !empty($inst_supervisores)}
 	<div align="center">
 	<table border="1" width="90%">
-	<caption>Supervisores</caption>
+	<caption>
+	{if $curso}
+		Assistentes Sociais
+	{else}
+		Supervisores
+	{/if}
+	</caption>
+
 	<tbody>
 	
 	{section name=i loop=$inst_supervisores}
@@ -378,13 +385,21 @@ debug
 
 		<td width="10%" style="text-align:right">{$inst_supervisores[i].cress}</td>
 		<td>
-			{* Por enquanto no fazer o link para os supervisores do curso *}
 			{if $curso}
-				{$inst_supervisores[i].nome}
+				<a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].supervisor_id}'>{$inst_supervisores[i].nome}</a>
+
+				{* Tambem cadastrado como supervisor de estagio *}
+				{if $inst_supervisores[i].id_super_estagio}
+					<a href='../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].id_super_estagio}'>[1]</a>
+					&nbsp;
+					<a href='ver_cada.php?id_instituicao={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
+				{/if}
 			{else}	
-				<a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].id}">{$inst_supervisores[i].nome}</a>
-				{if $inst_supervisores[i].id_curso_super}
-					<a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_curso_super}'>[1]</a>
+				<a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
+
+				{* Tambem cadastrado como assistente social do curso *}
+				{if $inst_supervisores[i].id_super_curso}
+					<a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_super_curso}'>[1]</a>
 					&nbsp;
 					<a href='ver_cada.php?curso=sem&id_instituicao={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
 				{/if}

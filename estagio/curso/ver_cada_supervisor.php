@@ -146,6 +146,8 @@ function contacarateres() {
 </head>
 <body>
 
+<a href='javascript:history.back();'>Voltar</a>
+
 <?php
 
 include_once("../db.inc");

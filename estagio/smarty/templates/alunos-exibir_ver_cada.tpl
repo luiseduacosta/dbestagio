@@ -8,10 +8,26 @@
 @import url("../../estagio.css");
 </style>
 
+{literal}
+<script type="text/javascript" src="../lib/jquery.js"></script>
+<script type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
+</script>
+{/literal}
+
 </head>
 
 <body style="direction: ltr;">
 
+{include file='cabecalho.tpl'}
+
+<!-- ###CORPO### -->
 <div align="center">
 <table>
 <tbody>
@@ -186,6 +202,7 @@
 </table>
 </div>
 
+{* Monografia de fin do curso *}
 {if $tcc}
     <table border='1'>
     <caption>Monografia de fim de curso</caption>
@@ -199,14 +216,20 @@
     </tr>
 
     <tr>
-    {section name=i loop=$tcc}
-    <td>{$tcc[i]}</td>
-    {/section}
+
+    <td style='text-align:center'>{$tcc.periodo}</td>
+	<td><a href='../../../tcc/monografia/visualizar/ver_monografia.php?codigo={$tcc.id}'>{$tcc.titulo}</a></td>
+    <td style='text-align:center'>{$tcc.catalogo}</td>
+    <td>{$tcc.professor}</td>
+
     </tr>
 
     </tbody>
     </table>
 {/if}
+<!-- ###CORPO### -->
+
+{include file='rodape.tpl'}
 
 </body>
 </html>
