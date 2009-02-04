@@ -10,6 +10,10 @@ $flag = isset($_REQUEST['flag']) ? $_REQUEST['flag'] : NULL;
 $inserir = isset($_REQUEST['inserir']) ? $_REQUEST['inserir'] : NULL;
 $curso = isset($_REQUEST['curso']) ? $_REQUEST['curso'] : NULL;
 
+$indice = $_REQUEST['indice'];
+$submit = $_REQUEST['submit'];
+$botao  = $_REQUEST['botao'];
+
 if ($curso) {
 	$tabela_instituicao  = 'curso_inscricao_instituicao';
 	$tabela_supervisores = 'curso_inscricao_supervisor';
@@ -88,11 +92,6 @@ if ($modifica) {
 	}
 
 }
-
-$indice = $_REQUEST['indice'];
-$submit = $_REQUEST['submit'];
-$botao  = $_REQUEST['botao'];
-$curso  = $_REQUEST['curso'];
 
 /*
 echo "curso: " . $curso;
@@ -216,7 +215,7 @@ if (isset($indice)) {
 	    $natureza      = $res_estagio->fields['natureza'];	    
 	    $convenio      = $res_estagio->fields['convenio'];
 	    $observacoes   = $res_estagio->fields['observacoes'];
-	
+
 	    if ($id) {
 			// Nao fazer para os supervisores do curso
 			if (!$curso) {
@@ -229,72 +228,111 @@ if (isset($indice)) {
 					$periodo = $resultado->fields['periodo'];
 					$resultado->MoveNext();
 			    }
-			}	    
+			}
 
-			// Seleciono os supervisores
-		    $sql  = "select s.id, s.cress, s.nome from $tabela_supervisores as s, $tabela_instituicao as e, $tabela_inst_super as j ";
+			// Seleciono os supervisores ou assistentes sociais
+		    $sql  = "select s.id as supervisor_id, s.cress, s.nome, e.id as instituicao_id from $tabela_supervisores as s, $tabela_instituicao as e, $tabela_inst_super as j ";
 		    $sql .= "where s.id=j.id_supervisor and e.id=j.id_instituicao and e.id=$id order by s.nome";
 			// echo $sql . "<br>";
 		    $resultado = $db->Execute($sql);
 		    if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
 		    $i = 0;
 		    while (!$resultado->EOF) {
-				$inst_supervisores[$i]["id"]    = $resultado->fields["id"];
-				$inst_supervisores[$i]["cress"] = $resultado->fields["cress"];
-				$inst_supervisores[$i]["nome"]  = $resultado->fields["nome"];
+				$inst_supervisores[$i]["supervisor_id"]  = $resultado->fields["supervisor_id"];
+				$inst_supervisores[$i]["cress"]          = $resultado->fields["cress"];
+				$inst_supervisores[$i]["nome"]           = $resultado->fields["nome"];
+				$inst_supervisores[$i]["instituicao_id"] = $resultado->fields["instituicao_id"];
 
-				// Nao executar com a tabela do curso
-				if (!$curso) {	
-					// Capturo se ha supervisores da instituicao que fizeram inscricao para o curso de supervisores
-					$cress = $resultado->fields["cress"];
-					$sql_curso = "select id, cress from curso_inscricao_supervisor where cress='$cress'";
-					// echo $sql_curso . "<br>";
-			    	$res_curso = $db->Execute($sql_curso);
-					if ($res_curso == false) die("Não foi possivel consultar a tabela curso_inscricao_supervisor");
-					$id_curso_supervisor = $res_curso->fields['id'];
-					// echo $id_curso_supervisor . "<br>";
-					// Capturo o id da instituicao
-					if ($id_curso_supervisor) {
-						$sql_instituicao_curso = "select curso_inscricao_instituicao.id as id_curso_instituicao ";
-						$sql_instituicao_curso .= " from curso_inscricao_instituicao ";
-						$sql_instituicao_curso .= " join curso_inst_super on curso_inscricao_instituicao.id = curso_inst_super.id_instituicao ";
-						// $sql_instituicao_curso .= " join curso_inscricao_supervisor on curso_inst_super.id_supervisor = curso_inscricao_supervisor.id ";
-						$sql_instituicao_curso .= " where curso_inst_super.id='$id_curso_supervisor' ";
-						// echo $sql_instituicao_curso . "<br>";
-				    	$res_instituicao_curso = $db->Execute($sql_instituicao_curso);
-						$id_curso_inst_super = $res_instituicao_curso->fields['id_curso_instituicao'];
-						// echo $id_curso_inst_super . "<br>";
+				/*
+				echo "Supervisor: ";
+				echo $supervisor_id =  $resultado->fields["supervisor_id"];
+				echo " Cress: ";
+				echo $cress =  $resultado->fields["cress"];
+				echo " Instituição; ";			
+				echo $instituicao_id =  $resultado->fields["instituicao_id"];
+				echo "<br>";
+				*/
+
+				$supervisor_id =  $resultado->fields["supervisor_id"];
+				$cress =  $resultado->fields["cress"];
+				$instituicao_id =  $resultado->fields["instituicao_id"];
+
+				// Somente atraves do cress posso conetar as duas tabelas de supervisores
+				if ($cress) {
+					if ($curso) {
+						$sql_estagio = "select id from supervisores where cress=$cress";
+						$res_estagio = $db->Execute($sql_estagio);
+						$id_super_estagio = $res_estagio->fields['id'];	
+						if ($id_super_estagio) {
+							// echo "Assistente social supervisor de estagio: " . $id_super_estagio . "<br>";
+						}
+
+						// Para pegar as instituicoes tenho que inverter
+						$tabela_instituicao  = 'estagio';// 'curso_inscricao_instituicao';
+						$tabela_supervisores = 'supervisores'; // 'curso_inscricao_supervisor';
+						$tabela_inst_super   = 'inst_super'; // 'curso_inst_super';
+
+					} else {
+						$sql_curso = "select id from curso_inscricao_supervisor where cress=$cress";
+						// echo $sql_curso . "<br>";
+						$res_curso = $db->Execute($sql_curso);
+						$id_super_curso = $res_curso->fields['id'];
+						if ($id_super_curso) {
+							// echo "Supervisor inscrito no curso: " . $id_super_curso . "<br>";
+						}
+
+						// Para pegar as instituicoes tenho que inverter
+						$tabela_instituicao  = 'curso_inscricao_instituicao';
+						$tabela_supervisores = 'curso_inscricao_supervisor';
+						$tabela_inst_super   = 'curso_inst_super';
+
 					}
-					$inst_supervisores[$i]["id_curso_super"] = $id_curso_supervisor;			
-					$inst_supervisores[$i]["id_curso_inst"]  = $id_curso_inst_super;	
+
+					// Seleciono instituicoes 'cruzadas' entre as tabelas
+					$sql_inst_estagio  = "select e.id from $tabela_instituicao as e";
+					$sql_inst_estagio .= " join $tabela_inst_super as j on e.id = j.id_instituicao ";
+					$sql_inst_estagio .= " join $tabela_supervisores as s on j.id_supervisor = s.id ";
+					$sql_inst_estagio .= " where cress=$cress";
+					// echo $sql_inst_estagio . "<br>";							
+					$res_inst_estagio = $db->Execute($sql_inst_estagio);
+					$instituicao_num = $res_inst_estagio->fields['id'];
+					// echo $instituicao_num . "<br>";
+					$inst_supervisores[$i]["id_curso_inst"]  = $instituicao_num;
+
+
+					// Assistente social do curso em estagio
+					$inst_supervisores[$i]["id_super_estagio"] = $id_super_estagio;
+					// Supervisor de estagio no curso
+					$inst_supervisores[$i]["id_super_curso"] = $id_super_curso;
+
+
+				    // Seleciona os professores somente para os supervisores de estagio
+				    $sql_professor  = "select professores.id, professores.nome, max(estagiarios.periodo) as periodo ";
+				    $sql_professor .= " from $tabela_estagiarios ";
+				    $sql_professor .= " inner join $tabela_professores on estagiarios.id_professor = professores.id "; 
+				    $sql_professor .= " where estagiarios.id_instituicao = $id";
+				    $sql_professor .= " group by professores.nome ";
+				    $sql_professor .= " order by nome, periodo ";
+				    // echo $sql_professor . "<br>";
+					$resultado_professor = $db->Execute($sql_professor);
+					$j = 0;
+					while (!$resultado_professor->EOF) {
+						$inst_professores[$j]['id_professor'] = $resultado_professor->fields['id'];
+						$inst_professores[$j]['nome'] = $resultado_professor->fields['nome'];
+						$inst_professores[$j]['periodo'] = $resultado_professor->fields['periodo'];
+						$j++;
+						$resultado_professor->MoveNext();
+					}
+				
 				}
 
 				$i++;
 				$resultado->MoveNext();
-		    }
-	
-			// Nao executar com os supervisores do curso
-			if (!$curso) {
-			    // Seleciona os professores 
-			    $sql_professor  = "select professores.id, professores.nome, max(estagiarios.periodo) as periodo ";
-			    $sql_professor .= " from $tabela_estagiarios ";
-			    $sql_professor .= " inner join $tabela_professores on estagiarios.id_professor = professores.id "; 
-			    $sql_professor .= " where estagiarios.id_instituicao = $id";
-			    $sql_professor .= " group by professores.nome ";
-			    $sql_professor .= " order by nome, periodo ";
-			    // echo $sql_professor . "<br>";
-				$resultado_professor = $db->Execute($sql_professor);
-				$i = 0;
-				while (!$resultado_professor->EOF) {
-					$inst_professores[$i]['id_professor'] = $resultado_professor->fields['id'];
-					$inst_professores[$i]['nome'] = $resultado_professor->fields['nome'];
-					$inst_professores[$i]['periodo'] = $resultado_professor->fields['periodo'];
-					$i++;
-					$resultado_professor->MoveNext();
-				}
+
 			}
-			
+
 			// Nao executar com a tabela do curso
+/*
 			if (!$curso) {
 				// Curso de supervisores
 				$sql_curso = "select id from curso_inscricao_instituicao where id_estagio='$id'";
@@ -304,8 +342,9 @@ if (isset($indice)) {
 				$id_curso_instituicao = $res_curso->fields['id'];
 				// echo $id_curso_instituicao . "<br>";
 			}
+*/			
 		}
-	
+
 	    $res_estagio->MoveNext();
 	}
 }

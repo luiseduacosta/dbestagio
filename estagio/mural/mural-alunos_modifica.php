@@ -76,7 +76,7 @@ while(!$resultado_alunos->EOF) {
     $aluno_telefone        = $resultado_alunos->fields['telefone'];
 	$aluno_codigo_celular  = $resultado_alunos->fields['codigo_celular'];
     $aluno_celular         = $resultado_alunos->fields['celular'];
-    $aluno_email           = $resultado_alunos->fields['email'];
+    $aluno_email           = strtolower($resultado_alunos->fields['email']);
 	$aluno_cpf             = $resultado_alunos->fields['cpf'];
 	$aluno_identidade      = $resultado_alunos->fields['identidade'];
 	$aluno_orgao           = $resultado_alunos->fields['orgao'];

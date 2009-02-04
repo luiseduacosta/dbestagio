@@ -27,6 +27,17 @@ $(document).ready(function() {
 });
 </script>
 
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script language="JavaScript" type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
+</script>
+
 <script language="JavaScript" type="text/javascript">
 function verifica_nome() {
     var nome;
@@ -234,6 +245,7 @@ window.onload = function() {
 }
 
 </script>
+
 {/literal}
 
 </head>
