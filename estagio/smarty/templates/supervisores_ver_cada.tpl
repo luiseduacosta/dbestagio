@@ -8,20 +8,45 @@
   <style type="text/css">
   @import url("../../estagio.css");
   </style>
+
+{literal}
+<script type="text/javascript">
+
+function get_periodo() {
+	var periodo = document.getElementById('periodo').value;
+	var id_periodo = document.getElementById('id_periodo').value;
+	window.location = 'ver_cada.php?periodo=' + periodo + '&indice=0';
+}
+
+</script>
+{/literal}
+
 </head>
 
 <body>
 
-<div align="center">
-<table>
-<tbody>
-<caption>Supervisores</caption>
+<select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
+{if !$periodo}
+	<option value='0'>Seleciona periodo</option>
+{else}
+	<option value='0'>Período: {$periodo}</option>
+{/if}
+{section name=i loop=$periodos}
+<option value='{$periodos[i]}'>{$periodos[i]}</option>
+{/section}
+</select>
 
+
+<div align="center">
+<table id='navegacao'>
+<caption>Supervisores</caption>
+<tbody>
 <tr>
 
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value=0>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="Primeiro">
 </form>
 </td>
@@ -29,6 +54,7 @@
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value={$indice+10}>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="- 10">
 </form>
 </td>
@@ -36,6 +62,7 @@
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value={$indice-1}>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="Retrocede">
 </form>
 </td>
@@ -43,6 +70,7 @@
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value={$indice+1}>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="Avança">
 </form>
 </td>
@@ -50,6 +78,7 @@
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value={$indice+10}>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="+ 10">
 </form>
 </td>
@@ -57,6 +86,7 @@
 <td>
 <form action=? method="POST">
 <input type="hidden" name=indice value={$ultimo}>
+<input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="Último">
 </form>
 </td>

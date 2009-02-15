@@ -49,7 +49,7 @@ debug
 {if !$curso}
 	{if $sistema_autentica == 1}
 		<td style="background-color:red">
-		<form name="cabacalho" action="ver_cada.php" method="post">
+		<form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
 		<input type="hidden" name="botao" value="inserir">
 		<input type="hidden" name="indice" value="{$indice}">
 		<input type="submit" name="inserir" value="Inserir">
@@ -410,11 +410,11 @@ debug
 		{if !$curso}
 			{if $sistema_autentica == 1}
 				<td width="10%" style="text-align:center">
-				<a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].id}">Modifica</a>
+				<a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].supervisor_id}">Modifica</a>
 				</td>
 				
 				<td width="10%" style="text-align:center">
-				<a href="../../assistentes/cancelar/inst_supervisor.php?id_supervisor={$inst_supervisores[i].id}&id_instituicao={$id}">Excluir</a>
+				<a href="../../assistentes/cancelar/inst_supervisor.php?id_supervisor={$inst_supervisores[i].supervisor_id}&id_instituicao={$id}">Excluir</a>
 				</td>
 			{/if}
 		{/if}

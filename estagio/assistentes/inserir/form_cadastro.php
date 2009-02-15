@@ -219,13 +219,13 @@ function ver_Supervisor() {
     regiao.value = "";
     
     var outros_estudos = document.getElementById("outros_estudos");
-    outros_estudos = "";
+    outros_estudos.value = "";
 
     var area_curso = document.getElementById("area_curso");
-    area_curso = "";
+    area_curso.value = "";
 
     var ano_curso = document.getElementById("ano_curso");
-    ano_curso = "";
+    ano_curso.value = "";
     
     xajax_ver_Supervisor(id_supervisor);
 

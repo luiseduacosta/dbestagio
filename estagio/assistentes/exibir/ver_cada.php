@@ -6,17 +6,24 @@ include_once("../../setup.php");
 
 $indice = $_REQUEST['indice'];
 $id_supervisor = $_REQUEST['id_supervisor'];
-// echo "Indice0: " . $indice . "<br />";
+$periodo = $_REQUEST['periodo'];
+// echo "Indice: " . $indice . " Periodo "  . $periodo . "<br />";
 // echo "id_supervisor " . $id_supervisor . "<br />";
 
 $sql  = "select supervisores.id as num_supervisor, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, supervisores.email, "; 
 $sql .= " estagio.id, estagio.instituicao, ";
 $sql .= " supervisores.observacoes ";
+// $sql .= " max(estagiarios.periodo) ";
 $sql .= " from supervisores ";
-$sql .= " inner join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " inner join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " order by nome, id_supervisor";
+$sql .= " join inst_super on supervisores.id = inst_super.id_supervisor ";
+$sql .= " join estagio on inst_super.id_instituicao = estagio.id ";
+$sql .= " join estagiarios on supervisores.id = estagiarios.id_supervisor ";
+if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
+$sql .= " group by supervisores.id ";
+$sql .= " order by nome, inst_super.id_supervisor ";
+
 // echo $sql . "<br>";
+
 $resultado_total = $db->Execute($sql);
 $ultimo = $resultado_total->RecordCount();
 // echo $ultimo . "<br>";
@@ -33,15 +40,10 @@ if ($indice < 0) {
 
 // Calculo o indice
 if (!empty($id_supervisor)) {
-		// $sql = "select id from supervisores order by nome, id";
-		$sql  = "select supervisores.id as num_supervisor, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, supervisores.email, "; 
-		$sql .= " estagio.id, estagio.instituicao, ";
-		$sql .= " supervisores.observacoes ";
-		$sql .= " from supervisores ";
-		$sql .= " left outer join inst_super on supervisores.id = inst_super.id_supervisor ";
-		$sql .= " left outer join estagio on inst_super.id_instituicao = estagio.id ";
-		$sql .= " order by nome, id_supervisor";
 
+		/*
+		 * Utilizo a consulta anterior
+		 */
 		// echo $sql . "<br />";
 		$resultado = $db->Execute($sql);
 		$i = 0;
@@ -63,28 +65,19 @@ if (!empty($id_supervisor)) {
 // Rotina para acrescentar uma instituicao
 if(!empty($_POST['num_instituicao'])) {
 	// echo "Acrescentar instituicao<br>";
-	$sql = "insert into inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$_POST[num_instituicao]')";
+	$sql_inserir = "insert into inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$_POST[num_instituicao]')";
 	// echo $sql . "<br>";
-	$resultado = $db->Execute($sql);
-	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
+	$res_inserir = $db->Execute($sql_inserir);
+	if($res_inserir === false) die ("Não foi possível inserir dados na tabela inst_super");	
 } else {
 	// echo "Nada: " . $_POST[num_instituicao] . "<br>";
 }
 
-$sql  = "select supervisores.id as id_supervisor, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, email, "; 
-$sql .= " estagio.id, estagio.instituicao, ";
-$sql .= " supervisores.observacoes ";
-$sql .= " from supervisores ";
-$sql .= " left outer join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " left outer join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " order by nome, id_supervisor";
-
 // echo $sql . "<br>";
-// echo "Indice1: " . $indice . "<br>";
 $resultado = $db->SelectLimit($sql,1,$indice);
 if($resultado === false) die ("1 Não foi possível consultar a tabela supervisores");
 while(!$resultado->EOF) {
-	$id_supervisor = $resultado->fields['id_supervisor'];
+	$id_supervisor = $resultado->fields['num_supervisor'];
 	$cress = $resultado->fields['cress'];
 	$nome = $resultado->fields['nome'];
 	$telefone = $resultado->fields['telefone'];
@@ -165,11 +158,22 @@ while(!$resultado->EOF) {
     $i++;
 }
 
+// Pego a informacao sobre as turma de alunos
+$sqlturma = "select id, periodo from estagiarios group by periodo";
+// echo $sqlturma . "<br>";
+$res_turma = $db->Execute($sqlturma);
+if($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+while (!$res_turma->EOF) {
+	$periodos[] = $res_turma->fields['periodo'];
+	$res_turma->MoveNext();
+}
+
 $smarty = new Smarty_estagio;
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("ultimo",$ultimo-1);
 $smarty->assign("indice",$indice);
 $smarty->assign("id_supervisor",$id_supervisor);
+$smarty->assign("periodo",$periodo);
 $smarty->assign("cress",$cress);
 $smarty->assign("nome",$nome);
 $smarty->assign("telefone",$telefone);
@@ -180,20 +184,9 @@ $smarty->assign("emprego",$inst_emprego);
 $smarty->assign("id_curso",$id_curso);
 $smarty->assign("observacoes",$observacoes);
 $smarty->assign("alunos",$alunos);
+$smarty->assign("periodos",$periodos);
 $smarty->assign("instituicoes",$instituicoes);
 $smarty->display("supervisores_ver_cada.tpl");
-
-// $conteudo = $smarty->fetch("supervisores_ver_cada.tpl");
-// print_r($conteudo);
-// define('FPDF_FONTPATH','/usr/local/htdocs/html/html2pdf/font/');
-// define('RELATIVE_PATH','/usr/local/htdocs/html/html2pdf/').
-// require_once('/usr/local/htdocs/html/html2pdf/html2fpdf.php');
-// echo FPDF_FONTPATH . "<BR>";
-
-// $pdf = new HTML2FPDF('P','mm','A4');
-// $pdf->AddPage();
-// $pdf->WriteHTML($conteudo);
-// $pdf->Output();
 
 $db->Close();
 
