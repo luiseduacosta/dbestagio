@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
     <style>
     @import url(domTT.css);
     </style>
@@ -219,17 +220,19 @@ function ver_Supervisor() {
     regiao.value = "";
     
     var outros_estudos = document.getElementById("outros_estudos");
-    outros_estudos = "";
+    outros_estudos.value = "";
 
     var area_curso = document.getElementById("area_curso");
-    area_curso = "";
+    area_curso.value = "";
 
     var ano_curso = document.getElementById("ano_curso");
-    ano_curso = "";
+    ano_curso.value = "";
     
     xajax_ver_Supervisor(id_supervisor);
 
     // alert(id_supervisor);
+    alert(area_curso);
+    
     return true;
 }
 
@@ -246,7 +249,7 @@ function ver_Supervisor() {
 <?php
 
 include_once("../../setup.php");
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../autoriza.inc");
 
 if($sistema_autentica == 0) {
@@ -256,7 +259,7 @@ if($sistema_autentica == 0) {
 
 ?>
 
-<form action="inserir.php" name="cadastro" method="post">
+<form action="inserir.php" name="cadastro" id="cadastro" method="post">
 
 <div align="center">
 <table border="1">
