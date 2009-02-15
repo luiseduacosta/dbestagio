@@ -11,7 +11,7 @@ $id_instituicao = isset($_GET['id_instituicao']) ? $_GET['id_instituicao'] : NUL
 
 $sql  = "select e.id as estagio_id, e.instituicao ";
 $sql .= ", s.id as supervisor_id, s.cress, s.nome, s.email ";
-$sql .= ", max(estagiarios.periodo)  as turma";
+$sql .= ", max(estagiarios.periodo) as turma";
 $sql .= " from supervisores as s ";
 $sql .= " left outer join inst_super as i on s.id = i.id_supervisor ";
 $sql .= " left outer join estagio as e on e.id = i.id_instituicao ";

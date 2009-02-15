@@ -218,6 +218,18 @@ window.onload = function() {
 }
 
 </script>
+
+<script type="text/javascript" src="../../lib/jquery.js"></script>
+<script type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
+</script>
+
 {/literal}
 
 </head>

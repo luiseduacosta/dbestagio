@@ -4,7 +4,7 @@
 */
 
 body {
-    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
 	font-size: medium;
 	line-height: 120%;
 	color: #000000;
@@ -13,10 +13,7 @@ body {
 	}
 
 p {
-	font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
 	font-size: 90%;
-	background-color: #b0fffb;
-	color: #000000;
 	text-indent: 3em;
 	text-align: justify;
 	}
@@ -25,9 +22,8 @@ h1 {
 	font-size: 14px;
 	font-weight: bold;
 	background-color: #e7e1ae;
-	color: #000000;
 	text-align: center;
-}
+	}
 
 .corpo {
 	width: 750px;
@@ -48,66 +44,63 @@ h1 {
 	width: 150px;
 	float: left;
 	}
-	
+
 table {
 	font-size: 110%;
 	background-color: #D0EFFF;
-	color: #000000;
 	text-align: left;
 	}
 
 caption {
-	font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	font-weight: bold;
-	color: #000000;
 	text-align: center;
 	}
 
 tr {
 	background-color: #D0EFFF;
-	color: #000000;
 	text-align: left;
 	}
 
 th {
 	font-weight: bold;
 	background-color: #E7E1AE;
-	color: #000000;
 	text-align: center;
 	}
 
 td {
-    font: 80% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
-	color: #000000;
+	font-size: 80%;
 	text-align: left;
 	}
 
+#navegacao {
+	font-size: 10%;
+	padding: 3px;
+}
+
 .ultima_linha {
-    text-align: center;
-    }
+	text-align: center;
+	}
 
 .coluna_centralizada {
-    text-align: center;
-    }
+	text-align: center;
+	}
 
 .coluna_direita {
-    text-align: right;
-    }
+	text-align: right;
+	}
 
 .rodape {
-    font-weight: bold;
-    color: #000000;
-    background-color: #E7E1AE;
-    text-align: center;
-    }
+	font-weight: bold;
+	background-color: #E7E1AE;
+	text-align: center;
+	}
 
 .botao {
 	text-align: center;
 	font-weight: bold;
 	width: 80px;
 	background-color: #E7E1AE;
-   	border-width: thick;
+	border-width: thick;
 	border-style: outset;
-    }
-	
+	}

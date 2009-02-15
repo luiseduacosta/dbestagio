@@ -13,7 +13,7 @@ function ver_Instituicao($id_instituicao) {
     $sql .= " from estagio "; 
     $sql .= " where id=$id_instituicao order by instituicao";
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if ($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];
@@ -56,9 +56,9 @@ function ver_Supervisor($id_supervisor) {
     // echo $sql . "<br>";
     
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if ($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
 
-    while (!$resultado->EOF) {
+//    while (!$resultado->EOF) {
 			$nome = $resultado->fields['nome'];
 			$endereco = $resultado->fields['endereco'];
 			$bairro = $resultado->fields['bairro'];
@@ -96,8 +96,8 @@ function ver_Supervisor($id_supervisor) {
 			$respostaXajax->addAppend("area_curso","value",$area_curso);
 			$respostaXajax->addAppend("ano_curso","value",$ano_curso);
 			
-			$resultado->MoveNext();
-    }
+//			$resultado->MoveNext();
+//    }
     
     return $respostaXajax;
 
