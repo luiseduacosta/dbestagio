@@ -363,6 +363,7 @@ while(!$res_supervisores->EOF) {
 
 $smarty = new Smarty_estagio;
 
+$smarty->assign("titulo","Ver cada instituição");
 $smarty->assign("curso",$curso);
 $smarty->assign("modifica",$modifica);
 $smarty->assign("sistema_autentica",$sistema_autentica);

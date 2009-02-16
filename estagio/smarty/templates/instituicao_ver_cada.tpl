@@ -3,7 +3,8 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Ver cada instituição</title>
+<title>{titulo}</title>
+
 {literal}
 <script>
 function barra() {
@@ -23,6 +24,7 @@ function elimina() {
 }
 </script>
 {/literal}
+
 </head>
 
 <body>
