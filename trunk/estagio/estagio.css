@@ -25,24 +25,31 @@ h1 {
 	text-align: center;
 	}
 
-.corpo {
+#corpo {
 	width: 750px;
 	}
 
-.acima {
-	position: relative;
+#cabecalho {
 	width: 700px;
 	height: 50px;
 	}
 
-.centro {
-	position: relative;
-	width: 700px;
+#links {
+	float: left;
+	width: 150px;
 	}
 
-.links {
-	width: 150px;
+#box {
+	border: 1px solid black;
+	margin: 4px 4px 10px;
+	padding-bottom: 10px;
 	float: left;
+	width: 150px;
+	}
+
+#centro {
+	float: left;
+	width: 700px;
 	}
 
 table {
@@ -78,19 +85,20 @@ td {
 	padding: 3px;
 }
 
-.ultima_linha {
+td.ultima_linha {
 	text-align: center;
 	}
 
-.coluna_centralizada {
+td.coluna_centralizada {
 	text-align: center;
 	}
 
-.coluna_direita {
+td.coluna_direita {
 	text-align: right;
 	}
 
-.rodape {
+#rodape {
+	clear: both;
 	font-weight: bold;
 	background-color: #E7E1AE;
 	text-align: center;
