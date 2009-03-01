@@ -29,6 +29,7 @@
 	<script src="../lib/jquery.maskedinput-1.2.1.pack.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	$(function() {
+		 $("#cpf").mask("999999999-99");
 		 $("#cep").mask("99999-999");
 		 $("#telefone").mask("9999.9999");
  		 $("#celular").mask("9999.9999");
@@ -42,35 +43,42 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 function confirma() {
-    var nome, email, cress, instituicao;
+    var nome, cpf, endereco, bairro, municipio, cep, escola, ano, email, cress, instituicao;
 
     nome=document.inscricao.nome.value;
+    cpf=document.inscricao.cpf.value;
     email=document.inscricao.email.value;
     cress=document.inscricao.cress.value;
     instituicao=document.inscricao.instituicaoNova.value;
 
     if(nome=="") {
     	alert("Você precisa informar o seu nome");
-	document.inscricao.nome.focus();
-	return false;
+		document.inscricao.nome.focus();
+		return false;
+	}
+
+    if(cpf=="") {
+    	alert("Você precisa informar o seu CPF");
+		document.inscricao.cpf.focus();
+		return false;
 	}
 
     if(email=="") {
     	alert("É importante o seu e-mail para nossa comunicação");
-	document.inscricao.email.focus();
-	return false;
+		document.inscricao.email.focus();
+		return false;
 	}
 
     if(cress=="") {
     	alert("Favor informar o seu número de registro no CRESS 7a. região");
-	document.inscricao.cress.focus();
-	return false;
+		document.inscricao.cress.focus();
+		return false;
 	}
 
     if(instituicao=="") {
     	alert("Informe a instituição em que trabalha");
-	document.inscricao.instituicao.focus();
-	return false;
+		document.inscricao.instituicao.focus();
+		return false;
 	}
 
     return true;
@@ -82,6 +90,18 @@ function verifica_nome() {
     if(nome=="") {
 	alert("Você precisa informar o seu nome");
 	document.inscricao.nome.focus();
+	return false;
+} else {
+	return true;
+    }
+}
+
+function verifica_cpf() {
+    var cpf;
+    cpf=document.inscricao.cpf.value;
+    if(cpf=="") {
+	alert("Você precisa informar o seu CPF");
+	document.inscricao.cpf.focus();
 	return false;
 } else {
 	return true;
@@ -238,8 +258,11 @@ Quantidade de inscrições realizadas: <?php echo $quantidade; ?>
 </tr>
 
 <tr>
-<td width="30%">Nome: </td>
-<td width="70%"><input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" maxlength="70" size="50" onBlur="return verifica_nome();"></td>
+<td width="30%">Nome*: </td>
+<td width="70%">
+<input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" maxlength="70" size="45" onBlur="return verifica_nome();">
+CPF*: <input type="text" name="cpf" id="cpf" value="<?php echo $cpf; ?>" maxlength="12" size="12" onBlur="return verifica_cpf();"> 
+</td>
 </tr>
 
 <tr>
@@ -249,36 +272,28 @@ Quantidade de inscrições realizadas: <?php echo $quantidade; ?>
 
 <tr>
 <td>Bairro: </td>
-<td><input type="text" name="bairro" id="bairro" value="<?php echo $bairro; ?>" maxlength="30" size="30"></td>
-</tr>
-
-<tr>
-<td>Município: </td>
-<td><input type="text" name="municipio" id="municipio"  value="<?php echo $municipio; ?>" maxlength="30" size="30"></td>
-</tr>
-
-<tr>
-<td>CEP:</td>
-<td><input type="text" name="cep" id="cep" value="<?php echo $cep; ?>" maxlength="9" size="9" onkeyup="contacarateres();">
-<span id="quantidade"></span></td>
+<td>
+<input type="text" name="bairro" id="bairro" value="<?php echo $bairro; ?>" maxlength="30" size="20">
+Município: 
+<input type="text" name="municipio" id="municipio"  value="<?php echo $municipio; ?>" maxlength="30" size="20">
+CEP:
+<input type="text" name="cep" id="cep" value="<?php echo $cep; ?>" maxlength="9" size="9">
+</td>
 </tr>
 
 <tr>
 <td>Telefone: </td>
 <td>
 Código: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
-<input type="text" name="telefone" id="telefone" value="<?php echo $telefone; ?>" maxlength="9" size="9"></td>
+<input type="text" name="telefone" id="telefone" value="<?php echo $telefone; ?>" maxlength="9" size="9">
+Celular: 
+<input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
+<input type="text" name="celular" id="celular" value="<?php echo $celular; ?>" maxlength="9" size="9">
+</td>
 </tr>
 
 <tr>
-<td>Celular: </td>
-<td>
-Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
-<input type="text" name="celular" id="celular" value="<?php echo $celular; ?>" maxlength="9" size="9"></td>
-</tr>
-
-<tr>
-<td>E-mail: </td>
+<td>E-mail*: </td>
 <td><input type="text" name="email" id="email" value="<?php echo $email; ?>" maxlength="50" size="50" onBlur="return verifica_email();"></td>
 </tr>
 
@@ -293,7 +308,7 @@ Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size=
 </tr>
 
 <tr>
-<td>No. de registro no CRESS</td>
+<td>No. de registro no CRESS*</td>
 <td>
 <input type="text" name="cress" id="cress" value="<?php echo $cress; ?>" maxlength="15" size="10" onBlur="return verifica_cress();">
 <span style="text-align:right">Região: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
@@ -336,7 +351,7 @@ $resultado = $db->Execute($sql);
 if($resultado_=== false) die ("Não foi possivel consultar a tabela estagio");
 ?>
 <tr>
-<td>Selecione a instituição ou programa: </td>
+<td>Selecione a instituição ou programa*: </td>
 <td>
 <select name="id_instituicao" id="id_instituicao" size="1" onChange="return verInstituicao();">
 <option value=0>Selecione a instituição aqui, caso contrário, cadastre uma nova instituição</option>
@@ -357,7 +372,7 @@ while (!$resultado->EOF) {
 <input type="hidden" name="num_instituicao" id="num_instituicao">
 
 <tr>
-<td>Nome da instituição ou programa: </td>
+<td>Nome da instituição ou programa*: </td>
 <td><input type="text" maxlength="75" size="50" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();"></td>
 </tr>
 
