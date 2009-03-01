@@ -94,6 +94,6 @@ $smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("inscritos",$inscritos);
-$smarty->display("listaInscritosAdm.tpl");
+$smarty->display("listaInscritos.tpl");
 
 ?>

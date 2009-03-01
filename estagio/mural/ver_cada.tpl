@@ -52,11 +52,11 @@ function barra() {
 	    {* Se o email nao foi envidado *}
 	    {if $data_fax == 0}
 		<span class = "botao">
-		<a href="agenda_tarefa.php">Enviar e-mail</a>
+		<a href="agenda_tarefa.php?id_instituicao={$id_instituicao}">Enviar e-mail</a>
 		</span>
 		{else}
 		<span class = "botao">
-		<a href="agenda_tarefa.php">E-mail enviado</a>
+		<a href="agenda_tarefa.php?id_instituicao={$id_instituicao}">E-mail enviado</a>
 		</span>
 	    {/if}
 	{/if}

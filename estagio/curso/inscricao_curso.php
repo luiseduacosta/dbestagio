@@ -3,6 +3,7 @@
 $quantidade     = $_POST['quantidade'];
 // Dados do supervisor
 $nome           = $_POST['nome'];
+$cpf			= $_POST['cpf'];
 $endereco       = $_POST['endereco'];
 $bairro         = $_POST['bairro'];
 $municipio      = $_POST['municipio'];
@@ -35,6 +36,12 @@ $fim_de_semana  = $_POST['fim_de_semana'];
 
 if(empty($nome)) {
 	echo "<p>É obrigatário prencher o campo com o nome</p>";
+	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
+	exit;
+}
+
+if(empty($cpf)) {
+	echo "<p>É obrigatário prencher o campo com o CPF</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
@@ -94,28 +101,30 @@ $supervisores_cress_id = $res_cress->fields['id'];
 // Se esta cadastrado aproveito para atualizar a tabela supervisores
 if ($supervisores_cress_id) {
 	// echo "Supervisor conhecido: atualizando";
-	$sql = "update supervisores set nome='$nome', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso' where id='$supervisores_cress_id'";
-	// echo $sql . "<br>";
+	$sql = "update supervisores set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso' where id='$supervisores_cress_id'";
+	echo "Atualiza supervisor " . $sql . "<br>";
 	$res_atualiza_supervisores = $db->Execute($sql);
 	if($res_atualiza_supervisores === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");	
 }
 
 // Insero o supervisor
 $sql_supervisor  =  "insert into curso_inscricao_supervisor ";
-$sql_supervisor .= "(nome, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
-$sql_supervisor .= "values('$nome','$endereco','$bairro','$municipio','$cep','$codigo_tel','$telefone','$codigo_cel','$celular','$email','$escola','$ano_formatura','$cress','$regiao','$outros_estudos','$area_curso','$ano_curso','$cargo','$quantidade','$turma')";
+$sql_supervisor .= "(nome, cpf, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
+$sql_supervisor .= "values('$nome','$cpf','$endereco','$bairro','$municipio','$cep','$codigo_tel','$telefone','$codigo_cel','$celular','$email','$escola','$ano_formatura','$cress','$regiao','$outros_estudos','$area_curso','$ano_curso','$cargo','$quantidade','$turma')";
+echo "Insere supervisor " . $sql_supervisor . "<br>";
+
 $res_supervisor = $db->Execute($sql_supervisor);
 if($res_supervisor === false) die ("Nao foi possivel inserir o registro na tabela curso_inscricao_supervisor");
 
-$res_ultimo_supervisor = $db->Execute("select max(id) as ultimo_registro from curso_inscricao_supervisor");
-$id_supervisor = $res_ultimo_supervisor->fields['ultimo_registro'];
+// Capturo o id do registro inserido
+$id_supervisor = $db->Insert_ID();
 
 // Instituicao ainda nao conhecida como campo de estagio: inserir
 if (empty($id_estagio)) {
 	$sql_instituicao  = "insert into curso_inscricao_instituicao";
 	$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana) ";
 	$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$inst_fax','$beneficio','$fim_de_semana')";
-	// echo $sql_instituicao . "<br>";
+	echo "Insere instituicao nova no curso " . $sql_instituicao . "<br>";
 
 	$res_institucao = $db->Execute($sql_instituicao);
 	if($res_instituicao === false) die ("Nao foi possivel inserir o registro na tabela curso_incricao_instituicao");
@@ -127,11 +136,12 @@ if (empty($id_estagio)) {
 	$sql_instituicao  = "insert into curso_inscricao_instituicao";
 	$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana, id_estagio) ";
 	$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$inst_fax','$beneficio','$fim_de_semana', '$id_estagio')";
-	// echo $sql_instituicao . "<br>";
+	echo "Insere instituicao  conhecida no curso " . $sql_instituicao . "<br>";
 	$res_institucao = $db->Execute($sql_instituicao);
 	if($res_instituicao === false) die ("Nao foi possivel inserir o registro na tabela curso_incricao_instituicao");
 	$id_instituicao = $db->Insert_ID();
 
+	// Atualiza instituicao do curso que eh campo de estagio
 	$sql = "select id from curso_inscricao_instituicao where id_estagio=$id_estagio";
 	$res = $db->Execute($sql);
 	if($res === false) die ("Nao foi possivel consultar a tabela curso_incricao_instituicao");
@@ -149,7 +159,7 @@ if (empty($id_estagio)) {
 		$sql_atualiza .= " fim_de_semana = '$fim_de_semana' ";
 		$sql_atualiza .= " where id_estagio=$id_estagio";
 
-		// echo $sql_atualiza . "<br>";
+		echo "Atualiza instituicao conhecida no curso " . $sql_atualiza . "<br>";
 		$res_atualiza = $db->Execute($sql_atualiza);
 		if($res_atualiza === false) die ("Nao foi possivel atualizar o registro na tabela curso_incricao_instituicao");
 	}
@@ -166,7 +176,7 @@ if (empty($id_estagio)) {
 	$sql_estagio .= " beneficio = '$beneficio', ";
 	$sql_estagio .= " fim_de_semana = '$fim_de_semana' ";
 	$sql_estagio .= " where id=$id_estagio";
-	// echo $sql_estagio . "<br>";
+	echo "Atualiza instituicao campo de estagio " . $sql_estagio . "<br>";
 	$res_estagio = $db->Execute($sql_estagio);
 	if($res_estagio === false) die ("Nao foi possivel atualizar o registro na tabela estagio");
 
@@ -189,6 +199,7 @@ if($res_inst_sup === false) die ("Nao foi possivel inserir o registro na tabela 
 $mensage_supervisor  = "Solicitação de inscrição $num_inscricao para o curso de $nome, \n";
 $mensage_supervisor .= "registro no CRESS (7a. região) $cress \n\n";
 $mensage_supervisor .= "Nome: $nome \n";
+$mensage_supervisor .= "CPF: $cpf \n";
 $mensage_supervisor .= "Endereço: $endereco \n";
 $mensage_supervisor .= "Bairro $bairro \n";
 $mensage_supervisor .= "Município: $municipio \n";
@@ -221,6 +232,7 @@ $headers .= "X-Mailer: PHP/" . phpversion();
 // Envio outro e-mail para o supervisor que fez a inscricao
 $mensage_supervisor  = "Sua solicitação de inscrição foi realizada com os seguintes dados \n\n";
 $mensage_supervisor .= "Nome: $nome \n";
+$mensage_supervisor .= "CPF: $cpf \n";
 $mensage_supervisor .= "Endereço: $endereco \n";
 $mensage_supervisor .= "Bairro $bairro \n";
 $mensage_supervisor .= "Municí­pio: $municipio \n";
@@ -252,9 +264,10 @@ $headers .= "Replay-To: $email \r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
 // Envio outro e-mail para o supervisor que fez a inscricao
-mail ($to,$assunto,$mensage_supervisor,$headers);
+// mail ($to,$assunto,$mensage_supervisor,$headers);
 
-header("Location:inscricao_lista.php?num_inscricao=$quantidade");
+// header("Location:inscricao_lista.php?num_inscricao=$quantidade");
+echo  "<meta HTTP-EQUIV='refresh' CONTENT='15, URL=inscricao_lista.php?num_inscricao=$quantidade'>";
 // echo "<p>Sua inscricao foi a numero " . $quantidade . "<br>";
 
 ?>
