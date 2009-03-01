@@ -56,7 +56,7 @@ define("PERIODO_ANTERIOR",$periodo_anterior);
 
 // Para o curso - 2008 = turma 7
 define("TURMA",7);
-define("ENCERRAMENTO",date('d/m/Y',mktime(0,0,0,03,01,2008)));
+define("ENCERRAMENTO",date('d/m/Y',mktime(0,0,0,03,04,2009)));
 
 $debug = 0;
 

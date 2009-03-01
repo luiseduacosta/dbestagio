@@ -1,5 +1,11 @@
 <?php
 
+$tabela_supervisores = 'supervisores';
+$tabela_inst_super   = 'inst_super';
+$tabela_instituicoes = 'estagio';
+$tabela_estagiarios  = 'estagiarios';
+$tabela_alunos       = 'alunos';
+
 include_once("../../autoriza.inc");
 // include_once("../../db.inc");
 include_once("../../setup.php");
@@ -15,14 +21,14 @@ $sql .= " estagio.id, estagio.instituicao, ";
 $sql .= " supervisores.observacoes ";
 // $sql .= " max(estagiarios.periodo) ";
 $sql .= " from supervisores ";
-$sql .= " join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " join estagiarios on supervisores.id = estagiarios.id_supervisor ";
+$sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
+$sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
+$sql .= " left join estagiarios on supervisores.id = estagiarios.id_supervisor ";
 if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
 $sql .= " group by supervisores.id ";
 $sql .= " order by nome, inst_super.id_supervisor ";
 
-// echo $sql . "<br>";
+echo $sql . "<br>";
 
 $resultado_total = $db->Execute($sql);
 $ultimo = $resultado_total->RecordCount();
@@ -44,7 +50,7 @@ if (!empty($id_supervisor)) {
 		/*
 		 * Utilizo a consulta anterior
 		 */
-		// echo $sql . "<br />";
+		// echo "Calcula o indice " . $sql . "<br />";
 		$resultado = $db->Execute($sql);
 		$i = 0;
 		// echo $i . "<br />";
@@ -74,6 +80,8 @@ if(!empty($_POST['num_instituicao'])) {
 }
 
 // echo $sql . "<br>";
+//  echo $indice . "<br>";
+
 $resultado = $db->SelectLimit($sql,1,$indice);
 if($resultado === false) die ("1 Não foi possível consultar a tabela supervisores");
 while(!$resultado->EOF) {
@@ -89,8 +97,8 @@ while(!$resultado->EOF) {
 
 	// Capturo as instituicoes campo de emprego do supervisor
 	$sql_instituicoes = "select estagio.id, estagio.instituicao from estagio "; 
-	$sql_instituicoes .= " inner join inst_super on estagio.id=inst_super.id_instituicao ";
-	$sql_instituicoes .= "where inst_super.id_supervisor='$id_supervisor'";
+	$sql_instituicoes .= " join inst_super on estagio.id=inst_super.id_instituicao ";
+	$sql_instituicoes .= " where inst_super.id_supervisor='$id_supervisor'";
 	// echo $sql_instituicoes . "<br>";
 	$resultado = $db->Execute($sql_instituicoes);
 	if($resultado === false) die ("Não foi possível consultar a tabela estagio");
@@ -114,8 +122,9 @@ while(!$resultado->EOF) {
 	}
 
 	// Alunos supervisionados pelo supervisor
-	$sqlalunos  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao from alunos ";
-	$sqlalunos .= " inner join estagiarios on estagiarios.registro = alunos.registro ";
+	$sqlalunos  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao ";
+	$sqlalunos .= " from alunos ";
+	$sqlalunos .= " join estagiarios on estagiarios.registro = alunos.registro ";
 	$sqlalunos .= " where estagiarios.id_supervisor = $id_supervisor";
 	$sqlalunos .= " order by estagiarios.periodo, alunos.nome";
 	// echo $sqlalunos . "<br>";

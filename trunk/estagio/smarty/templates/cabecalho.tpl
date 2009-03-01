@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
+  <title>Insere aluno</title>
 <style type="text/css">
 @import url("../../estagio.css");
 </style>
