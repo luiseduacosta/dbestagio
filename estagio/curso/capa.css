@@ -8,19 +8,24 @@ body {
 	background-color: #b0fffb;
 	}
 
-p
-{
+p {
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-style: normal;
 	font-variant: normal;
 	font-weight: bold;
-	font-size: 18;
+	font-size: 18px;
 	text-align: justify;
 	color: #000000;
 }
 
 p.logo {
 	text-align: center
+}
+
+p#super_banner{
+    background-color:silver;
+    text-align:center;
+    font-size:larger;
 }
 
 p.pequena {
@@ -41,7 +46,7 @@ table {
 	background-color: #FFFFFF;
 	border-style: solid;
 	border-color: #000000;
-	border-width: 1;
+	border-width: 1px;
 	}
 
 td {
@@ -52,13 +57,13 @@ td {
 	text-align: left;
 	border-style: outset;
 	border-color: #000000;
-	border-width: 2;
+	border-width: 2px;
 	}
 
 hr {
-	background-color: #FF0000;
-	width: 150;
-	height: 5;
+	background-color: #ff0000;
+	width: 150px;
+	height: 5px;
 	}
 
 .coluna_centralizada {
@@ -73,13 +78,13 @@ a:link {
 	}
 	
 a:visited {
-	color: #1AAB0D;
+	color: #990000;
 	}
 
 a:active {
 	color: #010101;
 	}
 
-*/
-* Fim da folha de estilos
 /*
+* Fim da folha de estilos
+*/

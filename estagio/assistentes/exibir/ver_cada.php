@@ -28,7 +28,7 @@ if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
 $sql .= " group by supervisores.id ";
 $sql .= " order by nome, inst_super.id_supervisor ";
 
-echo $sql . "<br>";
+// echo $sql . "<br>";
 
 $resultado_total = $db->Execute($sql);
 $ultimo = $resultado_total->RecordCount();

@@ -4,29 +4,8 @@
 <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
     <title>Inscri&ccedil;&atilde;o para curso de supervisores</title>
-	<!-- Autocompletar //-->
 	<script type="text/javascript" src="../lib/jquery.js"></script>
-	<script type='text/javascript' src='../lib/jquery.autocomplete.js'></script>
-	<link rel="stylesheet" type="text/css" href="../lib/jquery.autocomplete.css" />
-	<script type="text/javascript">
-		
-	function selectItem(li) {
-		if (li.extra) {
-			// alert(" " + li.extra[0] + " selecionado.");
-		}
-	}
-	
-	function formatItem(row) {
-		return row[0] + "<br><i>" + row[1] + "</i>";
-	}
-	
-	$(document).ready(function() {
-		$("#nome").autocomplete("supervisores.php", { minChars:3, matchSubset:1, matchContains:1, cacheLength:10, onItemSelect:selectItem, formatItem:formatItem, selectOnly:1 });
-	});
-	
-	</script>
-
-	<script src="../lib/jquery.maskedinput-1.2.1.pack.js" type="text/javascript"></script>
+	<script type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 	<script type="text/javascript">
 	$(function() {
 		 $("#cpf").mask("999999999-99");
@@ -43,17 +22,23 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 function confirma() {
-    var nome, cpf, endereco, bairro, municipio, cep, escola, ano, email, cress, instituicao;
+    var nome, cpf, endereco, bairro, municipio, cep, escola, ano_formatura, email, cress, instituicao;
 
-    nome=document.inscricao.nome.value;
-    cpf=document.inscricao.cpf.value;
-    email=document.inscricao.email.value;
-    cress=document.inscricao.cress.value;
-    instituicao=document.inscricao.instituicaoNova.value;
+    nome=document.getElementById('nome').value;
+    cpf=document.getElementById('cpf').value;
+    endereco=document.getElementById('endereco').value;
+    bairro=document.getElementById('bairro').value;
+    municipio=document.getElementById('municipio').value;
+    cep=document.getElementById('cep').value;
+    escola=document.getElementById('escola').value;
+    ano_formatura=document.getElementById('ano_formatura').value;
+    email=document.getElementById('email').value;
+    cress=document.getElementById('cress').cress.value;
+    instituicao=document.getElementById('instituicaoNova').value;
 
     if(nome=="") {
     	alert("Você precisa informar o seu nome");
-		document.inscricao.nome.focus();
+        document.getElementById('nome').focus();
 		return false;
 	}
 
@@ -63,9 +48,45 @@ function confirma() {
 		return false;
 	}
 
+    if(endereco=="") {
+    	alert("Você precisa informar o seu endereço");
+        document.getElementById('endereco').focus();
+		return false;
+	}
+
+    if(bairro=="") {
+    	alert("Você precisa informar o bairro da sua residencia");
+        document.getElementById('bairro').focus();
+		return false;
+	}
+
+    if(municipio=="") {
+    	alert("Você precisa informar o municipio da sua residencia");
+        document.getElementById('municipio').focus();
+		return false;
+	}
+
+    if(cep=="") {
+    	alert("Você precisa informar o CEP do seu endereço");
+        document.getElementById('cep').focus();
+		return false;
+	}
+
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
-		document.inscricao.email.focus();
+    	alert("Favor informar o seu e-mail");
+        document.getElementById('email').focus();
+		return false;
+	}
+
+    if(escola=="") {
+    	alert("Favor informar a escola na que se formou");
+        document.getElementById('escola').focus();
+		return false;
+	}
+
+    if(ano_formatura=="") {
+    	alert("Favor informar o ano da sua formatura");
+        document.getElementById('ano_formatura').focus();
 		return false;
 	}
 
@@ -266,17 +287,17 @@ CPF*: <input type="text" name="cpf" id="cpf" value="<?php echo $cpf; ?>" maxleng
 </tr>
 
 <tr>
-<td>Endereço: </td>
+<td>Endereço*: </td>
 <td><input type="text" name="endereco" id="endereco" value="<?php echo $endereco; ?>" maxlength="100" size="50"></td>
 </tr>
 
 <tr>
-<td>Bairro: </td>
+<td>Bairro*: </td>
 <td>
-<input type="text" name="bairro" id="bairro" value="<?php echo $bairro; ?>" maxlength="30" size="20">
-Município: 
-<input type="text" name="municipio" id="municipio"  value="<?php echo $municipio; ?>" maxlength="30" size="20">
-CEP:
+<input type="text" name="bairro" id="bairro" value="<?php echo $bairro; ?>" maxlength="30" size="18">
+Município*:
+<input type="text" name="municipio" id="municipio"  value="<?php echo $municipio; ?>" maxlength="30" size="18">
+CEP*:
 <input type="text" name="cep" id="cep" value="<?php echo $cep; ?>" maxlength="9" size="9">
 </td>
 </tr>
@@ -298,12 +319,12 @@ Celular:
 </tr>
 
 <tr>
-<td>Escola em que se formou: </td>
+<td>Escola na qual se formou*: </td>
 <td><input type="text" name="escola" id="escola" value="<?php echo $escola; ?>" maxlength="70" size="30"></td>
 </tr>
 
 <tr>
-<td>Ano em que se formou: </td>
+<td>Ano em que se formou*: </td>
 <td><input type="text" name="ano_formatura" id="ano_formatura" value="<?php echo $ano_formatura; ?>" maxlength="4" size="4"></td>
 </tr>
 
@@ -318,12 +339,13 @@ Digite o número 0 se ainda não tem número de CRESS
 
 <tr>
 <td>Outros estudos realizados:</td>
-<td>Especialização:
+<td>
 <input type="radio" name="outros_estudos" id="outros_estudos" value="especializacão">
-Mestrado:
+Especialização
 <input type="radio" name="outros_estudos" id="outros_estudos" value="mestrado">
-Doutorado
+Mestrado
 <input type="radio" name="outros_estudos" id="outros_estudos" value="doutorado">
+Doutorado
 </td>
 </tr>
 
@@ -373,7 +395,9 @@ while (!$resultado->EOF) {
 
 <tr>
 <td>Nome da instituição ou programa*: </td>
-<td><input type="text" maxlength="75" size="50" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();"></td>
+<td><input type="text" maxlength="75" size="30" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();">
+    Digite "Não trabalha" se não esta trabalhado
+</td>
 </tr>
 
 <tr>
@@ -407,7 +431,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>O estagiário recebe algum benefí­cio económico (ex. bolsa, vale transporte, etc.): </td>
+<td>O estagiário recebe algum benefício económico (ex. bolsa, vale transporte, etc.): </td>
 <td><input type="text" maxlength="50" size="50" name="instituicao_beneficio" id="instituicao_beneficio"></td>
 </tr>
 
