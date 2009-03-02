@@ -28,7 +28,8 @@
 	<script src="../lib/jquery.maskedinput-1.2.1.pack.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	$(function() {
-		 $("#cep").mask("99999-999");
+         $("#cpf").mask("999999999-99");
+         $("#cep").mask("99999-999");
 		 $("#telefone").mask("9999.9999");
  		 $("#celular").mask("9999.9999");
 		 $("#ano_formatura").mask("9999");
@@ -159,6 +160,7 @@ $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;
 $flag = isset($_REQUEST['flag']) ? $_REQUEST['flag'] : NULL;
 
 $nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : NULL;
+$cpf = isset($_REQUEST['cpf']) ? $_REQUEST['cpf'] : NULL;
 $endereco = isset($_REQUEST['endereco']) ? $_REQUEST['endereco'] : NULL;
 $municipio = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : NULL;
 $bairro = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : NULL;
@@ -187,7 +189,7 @@ if ($flag == 1) {
 	$botao = "Atualizar";
 } elseif ($flag == 3) {
 
-	$sql = "update curso_inscricao_supervisor set nome='$nome', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso' where id='$id_supervisor'";
+	$sql = "update curso_inscricao_supervisor set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso' where id='$id_supervisor'";
 	// echo $sql . "<br>";
 	$res_atualiza = $db->Execute($sql);
 	if($res_atualiza === false) die ("Nao foi possivel atualizar a tabela curso_inscricao_supervisor");
@@ -197,11 +199,11 @@ if ($flag == 1) {
 	$botao = "Modificar";
 }
 
-$sql  = "select nome, curso_inscricao_supervisor.endereco, curso_inscricao_supervisor.bairro, curso_inscricao_supervisor.municipio, curso_inscricao_supervisor.cep, codigo_tel, curso_inscricao_supervisor.telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, num_inscricao, curso_turma, ";
+$sql  = "select nome, cpf, curso_inscricao_supervisor.endereco, curso_inscricao_supervisor.bairro, curso_inscricao_supervisor.municipio, curso_inscricao_supervisor.cep, codigo_tel, curso_inscricao_supervisor.telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, num_inscricao, curso_turma, ";
 $sql .= " id_estagio, curso_inscricao_instituicao.id as instituicao_id, instituicao ";
 $sql .= " from curso_inscricao_supervisor ";
-$sql .= " inner join curso_inst_super on curso_inscricao_supervisor.id = curso_inst_super.id_supervisor ";
-$sql .= " inner join curso_inscricao_instituicao on curso_inst_super.id_instituicao = curso_inscricao_instituicao.id ";
+$sql .= " left join curso_inst_super on curso_inscricao_supervisor.id = curso_inst_super.id_supervisor ";
+$sql .= " left join curso_inscricao_instituicao on curso_inst_super.id_instituicao = curso_inscricao_instituicao.id ";
 $sql .= " where curso_inscricao_supervisor.id='$id_supervisor'";
 // echo $sql . "<br>";
 
@@ -210,7 +212,8 @@ if($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao
 
 while (!$res_sql->EOF) {
 	$nome = $res_sql->fields['nome'];
-	$endereco = $res_sql->fields['endereco'];
+	$cpf = $res_sql->fields['cpf'];
+    $endereco = $res_sql->fields['endereco'];
 	$bairro = $res_sql->fields['bairro'];
 	$municipio = $res_sql->fields['municipio'];
 	$cep = $res_sql->fields['cep'];
@@ -269,13 +272,27 @@ if ($submit) {
 if ($sistema_autentica == 1) {
 ?>
 
+    <tr><td>CPF: </td>
+    <td>
+    <?php
+    if ($submit) {
+        echo "
+     	<input type='text' name='cpf' id='cpf' value='$cpf' maxlength='12' size='12'>
+        ";
+    } else {
+        echo $cpf;
+    }
+    ?>
+    </td>
+    </tr>
+
 	<tr>
 	<td>Endereço: </td>
 	<td>
 	<?php
 	if ($submit) {
 		echo "
-		<input type='text' name='endereco' id='endereco' value='$endereco' maxlength='100' size='50'>
+		<input type='text' name='endereco' id='endereco' value='$endereco' maxlength='100' size='40'>
 		";
 	} else {
 		echo $endereco;
@@ -383,7 +400,7 @@ if ($sistema_autentica == 1) {
 ?>
 
 <tr>
-<td>Escola em que se formou: </td>
+<td>Escola na qual se formou: </td>
 <td>
 <?php
 if ($submit) {
