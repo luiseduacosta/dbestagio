@@ -3,7 +3,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>{titulo}</title>
+<title>Ver cada</title>
 
 {literal}
 <script>
