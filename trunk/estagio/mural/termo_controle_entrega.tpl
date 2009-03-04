@@ -29,6 +29,8 @@
 	{/section}
 </select>
 
+<a href="email_tc.php?periodo={$periodo}">Email</a>
+
 <table border="1" summary="Tabela de controle de solicitação do Termo de Compromisso">
 	<caption>Controle de solicitação do termo de compromisso dos alunos que cursaram estágio no período {$periodo}</caption>
 	<thead>

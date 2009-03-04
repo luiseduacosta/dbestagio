@@ -37,69 +37,69 @@ function confirma() {
     instituicao=document.getElementById('instituicaoNova').value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("Informe o seu nome");
         document.getElementById('nome').focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Você precisa informar o seu CPF");
+    	alert("Informe o seu CPF");
 		document.inscricao.cpf.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Você precisa informar o seu endereço");
+    	alert("Informe o seu endereço");
         document.getElementById('endereco').focus();
 		return false;
 	}
 
     if(bairro=="") {
-    	alert("Você precisa informar o bairro da sua residencia");
+    	alert("Informe o bairro da sua residencia");
         document.getElementById('bairro').focus();
 		return false;
 	}
 
     if(municipio=="") {
-    	alert("Você precisa informar o municipio da sua residencia");
+    	alert("Informe o municipio da sua residencia");
         document.getElementById('municipio').focus();
-		return false;
+	return false;
 	}
 
     if(cep=="") {
-    	alert("Você precisa informar o CEP do seu endereço");
+    	alert("Informe o CEP do seu endereço");
         document.getElementById('cep').focus();
-		return false;
+	return false;
 	}
 
     if(email=="") {
-    	alert("Favor informar o seu e-mail");
+    	alert("Favor informe o seu e-mail");
         document.getElementById('email').focus();
-		return false;
+	return false;
 	}
 
     if(escola=="") {
-    	alert("Favor informar a escola na que se formou");
+    	alert("Favor informe a escola na que se formou");
         document.getElementById('escola').focus();
-		return false;
+	return false;
 	}
 
     if(ano_formatura=="") {
-    	alert("Favor informar o ano da sua formatura");
+    	alert("Favor informe o ano da sua formatura");
         document.getElementById('ano_formatura').focus();
-		return false;
+	return false;
 	}
 
     if(cress=="") {
-    	alert("Favor informar o seu número de registro no CRESS 7a. região");
-		document.inscricao.cress.focus();
-		return false;
+    	alert("Favor informe o seu número de registro no CRESS 7a. região");
+	document.inscricao.cress.focus();
+	return false;
 	}
 
     if(instituicao=="") {
     	alert("Informe a instituição em que trabalha");
-		document.inscricao.instituicao.focus();
-		return false;
+	document.inscricao.instituicao.focus();
+	return false;
 	}
 
     return true;
@@ -109,7 +109,7 @@ function verifica_nome() {
     var nome;
     nome=document.inscricao.nome.value;
     if(nome=="") {
-	alert("Você precisa informar o seu nome");
+	alert("Informe o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 } else {
@@ -121,7 +121,7 @@ function verifica_cpf() {
     var cpf;
     cpf=document.inscricao.cpf.value;
     if(cpf=="") {
-	alert("Você precisa informar o seu CPF");
+	alert("Informe o seu CPF");
 	document.inscricao.cpf.focus();
 	return false;
 } else {
@@ -145,7 +145,7 @@ function verifica_cress() {
     var cress;
     cress=document.inscricao.cress.value;
     if(cress=="") {
-	alert("Você precisa informar o número de registro no CRESS 7a. região");
+	alert("Informe o seu número de registro no CRESS 7a. região");
 	document.inscricao.cress.focus();
 	return false;
 } else {
@@ -157,11 +157,11 @@ function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
     if(instituicao=="") {
-		alert("Você precisa informar a instituição na que trabalha");
-		document.inscricao.instituicaoNova.focus();
-		return false;
+	alert("Informe a instituição na que trabalha");
+	document.inscricao.instituicaoNova.focus();
+	return false;
     } else {
-		return true;
+	return true;
     }
 }
 
@@ -177,7 +177,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
     if(quantidade > 9) {
-		alert("O limite do campo é de 9 carateres");
+	alert("O limite do campo é de 9 carateres");
 	}
 }
 
@@ -247,8 +247,8 @@ $quantidade = $res_sql->fields['quantidade'];
 // var_dump($data_encerramento);
 // var_dump($hoje);
 if($hoje > $data_encerramento) {
-    // echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
-    echo "<h2>Inscrições para 2009-1 a partir do 02/03/2009</h2>";
+    echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
+    // echo "<h2>Inscri&ccedil;&otilde;es para 2009-1 a partir do 02/03/2009</h2>";
     // include("doc/selecionados2008.html");
     exit;
 }
@@ -256,11 +256,11 @@ if($hoje > $data_encerramento) {
 ?>
 
 <form action="inscricao_curso.php" name="inscricao" method="post">
-<h1>Formulário de inscrição para o <?php echo $turma; ?>o. curso de
-capacitação profissional para supervisores:
+<h1>Formul&aacute;rio de inscri&ccedil;&atilde;o para o <?php echo $turma; ?>o. curso de
+capacita&ccedil;&atilde;o profissional para supervisores:
 </h1>
 
-<h2>"Desafios para intervenção profissional do assistente social"</h2>
+<h2>"Desafios para interven&ccedil;&atilde;o profissional do assistente social"</h2>
 
 <div align="center">
 <table border="1">
@@ -268,7 +268,7 @@ capacitação profissional para supervisores:
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-Quantidade de inscrições realizadas: <?php echo $quantidade; ?>
+Quantidade de inscri&ccedil;&otilde;es realizadas: <?php echo $quantidade; ?>
 </td>
 </tr>
 
@@ -287,7 +287,7 @@ CPF*: <input type="text" name="cpf" id="cpf" value="<?php echo $cpf; ?>" maxleng
 </tr>
 
 <tr>
-<td>Endereço*: </td>
+<td>Endere&ccedil;o*: </td>
 <td><input type="text" name="endereco" id="endereco" value="<?php echo $endereco; ?>" maxlength="100" size="50"></td>
 </tr>
 
@@ -295,7 +295,7 @@ CPF*: <input type="text" name="cpf" id="cpf" value="<?php echo $cpf; ?>" maxleng
 <td>Bairro*: </td>
 <td>
 <input type="text" name="bairro" id="bairro" value="<?php echo $bairro; ?>" maxlength="30" size="18">
-Município*:
+Munic&iacute;pio*:
 <input type="text" name="municipio" id="municipio"  value="<?php echo $municipio; ?>" maxlength="30" size="18">
 CEP*:
 <input type="text" name="cep" id="cep" value="<?php echo $cep; ?>" maxlength="9" size="9">
@@ -305,7 +305,7 @@ CEP*:
 <tr>
 <td>Telefone: </td>
 <td>
-Código: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
+C&oacute;digo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
 <input type="text" name="telefone" id="telefone" value="<?php echo $telefone; ?>" maxlength="9" size="9">
 Celular: 
 <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
@@ -333,7 +333,7 @@ Celular:
 <td>
 <input type="text" name="cress" id="cress" value="<?php echo $cress; ?>" maxlength="15" size="10" onBlur="return verifica_cress();">
 <span style="text-align:right">Região: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
-Digite o número 0 se ainda não tem número de CRESS
+Digite o n&uacute;mero 0 se ainda n&atilde;o tem n&uacute;mero de CRESS
 </td>
 </tr>
 
@@ -341,7 +341,7 @@ Digite o número 0 se ainda não tem número de CRESS
 <td>Outros estudos realizados:</td>
 <td>
 <input type="radio" name="outros_estudos" id="outros_estudos" value="especializacão">
-Especialização
+Especializa&ccedil;&atilde;o
 <input type="radio" name="outros_estudos" id="outros_estudos" value="mestrado">
 Mestrado
 <input type="radio" name="outros_estudos" id="outros_estudos" value="doutorado">
@@ -350,18 +350,18 @@ Doutorado
 </tr>
 
 <tr>
-<td>Área em que foi realizado o curso anteriormente mencionado</td>
+<td>&Aacute;rea em que foi realizado o curso anteriormente mencionado</td>
 <td><input type="text" name="area_curso" id="area_curso" value="<?php echo $area_curso; ?>" maxlength="40" size="30"></td>
 </tr>
 
 <tr>
-<td>Ano em que foi concluí­do o curso</td>
+<td>Ano em que foi conclu&iacute;do o curso</td>
 <td><input type="text" name="ano_curso" id="ano_curso" value="<?php echo $ano_curso; ?>" maxlength="4" size="4"></td>
 </tr>
 
 <tr>
 <td colspan="2" class="rodape">
-<b>Dados da instituição</b></td>
+<b>Dados da institui&ccedil;&atilde;o</b></td>
 </tr>
 
 <?php
@@ -370,13 +370,13 @@ $sql .= " from estagio ";
 // $sql .= " group by instituicao ";
 $sql .= " order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado_=== false) die ("Não foi possivel consultar a tabela estagio");
+if($resultado_=== false) die ("Nao foi possivel consultar a tabela estagio");
 ?>
 <tr>
-<td>Selecione a instituição ou programa*: </td>
+<td>Selecione a institui&ccedil;&atilde;o ou programa*: </td>
 <td>
 <select name="id_instituicao" id="id_instituicao" size="1" onChange="return verInstituicao();">
-<option value=0>Selecione a instituição aqui, caso contrário, cadastre uma nova instituição</option>
+<option value=0>Selecione a institui&ccedil;&atilde;o aqui, caso contrário, cadastre uma nova instituição</option>
 <?php
 while (!$resultado->EOF) {
     $id_instituicao = $resultado->fields['id'];
@@ -394,14 +394,14 @@ while (!$resultado->EOF) {
 <input type="hidden" name="num_instituicao" id="num_instituicao">
 
 <tr>
-<td>Nome da instituição ou programa*: </td>
+<td>Nome da institui&ccedil;&atilde;o ou programa*: </td>
 <td><input type="text" maxlength="75" size="30" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();">
-    Digite "Não trabalha" se não esta trabalhado
+    Digite "N&atilde;o trabalha" se n&atilde;o esta trabalhado
 </td>
 </tr>
 
 <tr>
-<td>Endereço: </td>
+<td>Endere&ccedil;o: </td>
 <td><input type="text" maxlength="105" size="50" name="instituicao_endereco" id="instituicao_endereco"></td>
 </tr>
 
@@ -411,7 +411,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>Município: </td>
+<td>Munic&iacute;pio: </td>
 <td><input type="text" maxlength="30" size="30" name="instituicao_municipio" id="instituicao_municipio"></td>
 </tr>
 
@@ -431,12 +431,12 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>O estagiário recebe algum benefício económico (ex. bolsa, vale transporte, etc.): </td>
+<td>O estagi&aacute;rio recebe algum benef&iacute;cio econ&oacute;mico (ex. bolsa, vale transporte, etc.): </td>
 <td><input type="text" maxlength="50" size="50" name="instituicao_beneficio" id="instituicao_beneficio"></td>
 </tr>
 
 <tr>
-<td>Tem estágio no final de semana: </td>
+<td>Tem est&aacute;gio no final de semana: </td>
 <td>
 Não:<input type="radio" name="fim_de_semana" id="fim_de_semana" value="0" checked>
 Sim:<input type="radio" name="fim_de_semana" id="fim_de_semana" value="1">
