@@ -23,6 +23,7 @@ $sql_pommo_fields = "truncate table pommo_fields";
 $res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
 if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
 
+// Insero a informacao dos campos
 $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
 (1, 'on', 0, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
@@ -36,21 +37,26 @@ if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_f
 include("../../setup.php");
 
 // Busco todos os supervisores de todos os periodos para serem inseridos nas tabelas
-$sql  = "select estagiarios.id, id_supervisor, id_instituicao, periodo, nome, email, instituicao, areas_estagio.area from estagiarios";
-$sql .= " left join supervisores on supervisores.id = estagiarios.id_supervisor ";
-$sql .= " left join estagio on estagio.id = estagiarios.id_instituicao ";
-$sql .= " left join areas_estagio on areas_estagio.id = estagio.area ";
-$sql .= " group by estagiarios.id_supervisor, estagiarios.periodo ";
-$sql .= " order by estagiarios.periodo, estagiarios.id_supervisor";
+$sql = "select supervisores.email, supervisores.id, supervisores.nome, max(estagiarios.periodo) as periodo, estagio.instituicao, areas_estagio.area
+from estagiarios
+join supervisores on estagiarios.id_supervisor = supervisores.id
+join estagio on estagiarios.id_instituicao = estagio.id
+join areas_estagio on estagiarios.id_area = areas_estagio.id
+group by estagiarios.id_supervisor
+order by supervisores.nome ";
+
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql); 
 while (!$resultado->EOF) {
-	$id_supervisor = $resultado->fields['id_supervisor'];
-	$nome = $resultado->fields['nome'];
+	$id_supervisor = $resultado->fields['id'];
 	$email = $resultado->fields['email'];
+    $nome = $resultado->fields['nome'];
 	$instituicao = $resultado->fields['instituicao'];
 	$area = $resultado->fields['area'];
 	$periodo = $resultado->fields['periodo'];
+
+    // $i++;
+    // echo $i . " " . $nome . " " . $email . " " . $periodo . " " . $instituicao . " " . $area . "<br>";
 
 	// Somente aqueles que tem e-mail
 	if ($email) {
@@ -71,19 +77,19 @@ while (!$resultado->EOF) {
 		// echo $sql_email_inst . "<br>";
 		$res_email_inst = $db_pommo->Execute($sql_email_inst); 
 
-		$sql_email_periodo = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,'$area',$subscriber_id)";
+ 		$sql_email_periodo = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,'$periodo',$subscriber_id)";
 		// echo $sql_email_periodo . "<br>";
 		$res_email_periodo = $db_pommo->Execute($sql_email_periodo);
 
-		$sql_email_area = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$periodo',$subscriber_id)";
+		$sql_email_area = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$area',$subscriber_id)";
 		// echo $sql_email_area . "<br>";
 		$res_email_area = $db_pommo->Execute($sql_email_area); 
 
 	}
-	
+
 	$resultado->MoveNext();
 }
 
-echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web/intranet.ess.ufrj.br/pommo/'>";
 
 ?>
