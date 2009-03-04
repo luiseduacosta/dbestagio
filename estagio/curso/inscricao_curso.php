@@ -35,67 +35,67 @@ $fim_de_semana  = $_POST['fim_de_semana'];
 // echo  "Id instituicao " . $id_instituicao . "<br>";
 
 if(empty($nome)) {
-	echo "<p>É obrigatário prencher o campo com o nome</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo nome</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($cpf)) {
-	echo "<p>É obrigatário prencher o campo com o CPF</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo CPF</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($endereco)) {
-	echo "<p>É obrigatário prencher o campo com o seu endereco</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo endereco</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($bairro)) {
-	echo "<p>É obrigatário prencher o bairro da sua residencia</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o bairro da sua resid&ecirc;ncia</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($municipio)) {
-	echo "<p>É obrigatário prencher o campo o municipio da sua residencia</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo o munic&iacute;pio da sua resid&ecirc;ncia</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($cep)) {
-	echo "<p>É obrigatário prencher o campo com o o CEP da sua residencia</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo CEP da sua resid&ecirc;ncia</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($email)) {
-	echo "<p>Favor digite um endereço electrónico para nossa comunicação</p>";
+	echo "<p>Favor digite um endere&ccedil;o electrónico para nossa comunica&ccedil;&atilde;o</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($escola)) {
-	echo "<p>É obrigatário prencher o campo com o a Escola na que se formou</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo com o a Escola na que se formou</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($ano_formatura)) {
-	echo "<p>É obrigatário prencher o campo com o ano da sua formatura</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o campo com o ano da sua formatura</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($cress)) {
-	echo "<p>É obrigatário prencher o número de registro no CRESS</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio preencher o n&uacute;mero de registro no CRESS</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
 
 if(empty($instituicao)) {
-	echo "<p>É obrigatário informar a instituição na qual trabalha</p>";
+	echo "<p>&Eacute; obrigat&oacute;rio informar a institui&ccdil;&atilde;o na qual trabalha</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
@@ -104,13 +104,13 @@ if(empty($instituicao)) {
 include_once("../setup.php");
 $turma = TURMA;
 
-// Para nao repetir uma mesma inscricao
+// Para nao repetir uma mesma inscricao - poderia ser tambem com o cpf -
 $sql_verifica = "select id from curso_inscricao_supervisor where cress='$cress' and curso_turma='$turma'";
 // echo $sql_verifica . "<br>";
 $res_verifica = $db->Execute($sql_verifica);
 $id_supervisor = $res_verifica->fields['id'];
 if ($id_supervisor) {
-    echo "<h1>Inscriçao ja foi realizada</h1>";
+    echo "<h1>Inscri&ccedil;&atilde;o ja foi realizada</h1>";
     echo "<meta HTTP-EQUIV='refresh' CONTENT='2; URL=ver_cada_supervisor.php?id_supervisor=$id_supervisor'>";
     exit;
 }
@@ -311,10 +311,10 @@ $headers .= "Replay-To: $email \r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
 // Envio outro e-mail para o supervisor que fez a inscricao
-// mail ($to,$assunto,$mensage_supervisor,$headers);
+mail ($to,$assunto,$mensage_supervisor,$headers);
 
 // header("Location:inscricao_lista.php?num_inscricao=$quantidade");
-echo  "<meta HTTP-EQUIV='refresh' CONTENT='15, URL=inscricao_lista.php?num_inscricao=$quantidade'>";
+echo  "<meta HTTP-EQUIV='refresh' CONTENT='1, URL=inscricao_lista.php?num_inscricao=$quantidade'>";
 // echo "<p>Sua inscricao foi a numero " . $quantidade . "<br>";
 
 ?>

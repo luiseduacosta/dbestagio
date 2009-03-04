@@ -8,7 +8,7 @@
 
 // echo "<h1>Aguarde: preparando a lista dos supervisores para o envio de e-mail.</h1>";
 
-include("../../pommo_config.php");
+include("../pommo_config.php");
 
 // Apago toda a informacao das tabelas
 $sql_subs = "truncate table pommo_subscribers";
@@ -26,36 +26,36 @@ if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fie
 $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
 (1, 'on', 0, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
-(2, 'on', 1, 'instituicao', 'Instituição', '', 'a:0:{}', 'off', 'text'),
-(3, 'on', 2, 'periodo', 'Período', '', 'a:0:{}', 'off', 'text'),
-(4, 'on', 3, 'area', 'Area', '', 'a:0:{}', 'off', 'text');
+(2, 'on', 1, 'cress', 'CRESS', '', 'a:0:{}', 'on', 'text'),
+(3, 'on', 2, 'escola', 'Escola', '', 'a:0:{}', 'on', 'text'),
+(4, 'on', 3, 'ano_formatura', 'Ano formatura', '', 'a:0:{}', 'on', 'text'),
+(5, 'on', 4, 'turma', 'Turma', '', 'a:0:{}', 'on', 'text');
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
 if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
 
-include("../../setup.php");
+include("../setup.php");
 
 // Busco todos os supervisores de todos os periodos para serem inseridos nas tabelas
-$sql  = "select estagiarios.id, id_supervisor, id_instituicao, periodo, nome, email, instituicao, areas_estagio.area from estagiarios";
-$sql .= " left join supervisores on supervisores.id = estagiarios.id_supervisor ";
-$sql .= " left join estagio on estagio.id = estagiarios.id_instituicao ";
-$sql .= " left join areas_estagio on areas_estagio.id = estagio.area ";
-$sql .= " group by estagiarios.id_supervisor, estagiarios.periodo ";
-$sql .= " order by estagiarios.periodo, estagiarios.id_supervisor";
+$sql = "select email, cress, nome, escola, ano_formatura, curso_turma
+from curso_inscricao_supervisor
+group by cress
+order by nome ";
 // echo $sql . "<br>";
+
 $resultado = $db->Execute($sql); 
 while (!$resultado->EOF) {
-	$id_supervisor = $resultado->fields['id_supervisor'];
-	$nome = $resultado->fields['nome'];
 	$email = $resultado->fields['email'];
-	$instituicao = $resultado->fields['instituicao'];
-	$area = $resultado->fields['area'];
-	$periodo = $resultado->fields['periodo'];
+	$nome = $resultado->fields['nome'];
+	$cress = $resultado->fields['cress'];
+	$escola = $resultado->fields['escola'];
+	$ano_formatura = $resultado->fields['ano_formatura'];
+	$turma = $resultado->fields['curso_turma'];
 
-	// Somente aqueles que tem e-mail
+// Somente aqueles que tem e-mail
 	if ($email) {
 		
-		include("../../pommo_config.php");
+		include("../pommo_config.php");
 		
 		$sql_email = "insert into pommo_subscribers (email,status) values ('$email',1)";
 		// echo $sql_email . "<br>";
@@ -67,23 +67,27 @@ while (!$resultado->EOF) {
 		// echo $sql_email_nome . "<br>";
 		$res_email_nome = $db_pommo->Execute($sql_email_nome); 
 		
-		$sql_email_inst = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (2,'$instituicao',$subscriber_id)";
+		$sql_email_cress = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (2,'$cress',$subscriber_id)";
 		// echo $sql_email_inst . "<br>";
-		$res_email_inst = $db_pommo->Execute($sql_email_inst); 
+		$res_email_cress = $db_pommo->Execute($sql_email_cress);
 
-		$sql_email_periodo = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,'$area',$subscriber_id)";
+		$sql_email_escola = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,'$escola',$subscriber_id)";
 		// echo $sql_email_periodo . "<br>";
-		$res_email_periodo = $db_pommo->Execute($sql_email_periodo);
+		$res_email_escola = $db_pommo->Execute($sql_email_escola);
 
-		$sql_email_area = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$periodo',$subscriber_id)";
+		$sql_email_ano_formatura = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$ano_formatura',$subscriber_id)";
 		// echo $sql_email_area . "<br>";
-		$res_email_area = $db_pommo->Execute($sql_email_area); 
+		$res_email_ano_formatura = $db_pommo->Execute($sql_email_ano_formatura);
+
+		$sql_email_turma = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (5,'$turma',$subscriber_id)";
+		// echo $sql_email_area . "<br>";
+		$res_email_turma = $db_pommo->Execute($sql_email_turma);
 
 	}
 	
 	$resultado->MoveNext();
 }
 
-echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://desenvolvimento/pommo/'>";
 
 ?>
