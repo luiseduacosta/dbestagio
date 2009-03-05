@@ -10,6 +10,7 @@ $id_supervisor  = isset($_POST['id_supervisor']) ? $_POST['id_supervisor'] : NUL
 $cress = $_POST['cress'];
 $regiao = $_POST['regiao'];
 $nome  = $_POST['nome'];
+$cpf  = $_POST['cpf'];
 $endereco = $_POST['endereco'];
 $bairro = $_POST['bairro'];
 $municipio = $_POST['municipio'];
@@ -31,8 +32,8 @@ $ano_curso = $_POST['ano_curso'];
 // Se não foi selecionado um supervisor já existente entra nesta rotina
 if (empty($num_supervisor)) {
     echo "Inserindo supervisor<br>";
-    $sql  = "insert into supervisores (nome, endereco, municipio, bairro, cep, cress, regiao, email, codigo_tel, telefone, codigo_cel, celular, escola, ano_formatura, outros_estudos, area_curso, ano_curso) "; 
-    $sql .= " values ('$nome', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
+    $sql  = "insert into supervisores (nome, cpf, endereco, municipio, bairro, cep, cress, regiao, email, codigo_tel, telefone, codigo_cel, celular, escola, ano_formatura, outros_estudos, area_curso, ano_curso) "; 
+    $sql .= " values ('$nome', '$cpf', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
     echo "Insirindo novo supervisor " . $sql . "<br>";
     $resultado = $db->Execute($sql);
     if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
@@ -49,7 +50,7 @@ if (empty($num_supervisor)) {
 } else {
     echo "Atualizando supervisor<br>";
     $sql  = "update supervisores "; 
-    $sql .= " set nome='$nome', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
+    $sql .= " set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
     $sql .= " where id=$_POST[num_supervisor]";
     echo $sql . "<br>";
     $resultado = $db->Execute($sql);
