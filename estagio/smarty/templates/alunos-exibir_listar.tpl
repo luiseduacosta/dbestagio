@@ -42,7 +42,7 @@
                     stripingRowClass: ['resaltado', 'normal'],
                     stripeRowsOnStartUp: true
                 });
-		*/
+				*/
 		
                 $("#alunos tbody tr td.nome").quicksearch({
                     hideElement: 'parent',
@@ -54,12 +54,12 @@
                     labelText: 'Aluno:'
                 });
 		
-/*
+				/*
                  $("#alunos").tablesorterPager({
                  container: $("#pager")
                  });
-*/
-		/*
+				*/
+				/*
                 $(".alterna_cores tr").mouseover(function(){
                     $(this).addClass("over");
                 });
@@ -184,6 +184,12 @@
 <body style="direction: ltr;">
 
 <input type='submit' id='botao' value='Ver resumo' onClick='mostrar()'>
+
+{if $logado == 1}
+<br>
+<a href='email_alunos.php?periodo={$seleciona_periodo}'>E-mail</a>
+<br>
+{/if}
 
 <div id='tabela' style='display:none;'>
 

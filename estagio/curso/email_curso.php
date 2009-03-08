@@ -23,6 +23,7 @@ $sql_pommo_fields = "truncate table pommo_fields";
 $res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
 if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
 
+// Insero os campos na tabela
 $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
 (1, 'on', 0, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
@@ -89,5 +90,6 @@ while (!$resultado->EOF) {
 }
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://desenvolvimento/pommo/'>";
+// echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
 
 ?>
