@@ -293,7 +293,6 @@ $mensage_supervisor .= "Região: $regiao \n";
 $mensage_supervisor .= "Outros estudos: $outros_estudos \n";
 $mensage_supervisor .= "Área do curso: $area_curso \n";
 $mensage_supervisor .= "Ano do curso: $ano_curso \n";
-$mensage_supervisor .= "Cargo: $cargo \n";
 $mensage_supervisor .= "Instituição: $instituicao \n";
 $mensage_supervisor .= "Endereço da instituição: $inst_endereco \n";
 $mensage_supervisor .= "Bairro da instituição: $inst_bairro \n";
