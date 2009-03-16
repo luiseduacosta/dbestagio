@@ -34,6 +34,12 @@ function carrega_tabela() {
 	</select>
 {/if}
 
+{if $sistema_autentica == 1}
+	<br>
+	<a href='email.php?periodo={$turma}'>E-mail</a>
+	<br>
+{/if}
+
 <div id="tabela">
 <table border="1">
 <caption>Tabela de Supervisores</caption>
@@ -44,7 +50,7 @@ function carrega_tabela() {
 <th><a href=?turma={$turma}&ordem=cress>Cress</a></th>
 <th><a href=?turma={$turma}&ordem=nome>Supervisor</a></th>
 <th><a href=?turma={$turma}&ordem=q_periodos>Períodos</a></th>
-{if $logado == 1}
+{if $sistema_autentica == 1}
 	<th><a href=?turma={$turma}&ordem=email>E-mail</a></th>
 	<th><a href=?turma={$turma}&ordem=celular>Celular</a></th>
 	<th><a href=?turma={$turma}&ordem=telefone>Telefone</a></th>
@@ -61,7 +67,7 @@ function carrega_tabela() {
 <td class="coluna_direita">{$supervisores[lista].cress}</td>
 <td><a href="../exibir/ver_cada.php?id_supervisor={$supervisores[lista].id_supervisor}">{$supervisores[lista].nome}</a></td>
 <td class="coluna_direita">{$supervisores[lista].q_periodos}</td>
-{if $logado == 1}
+{if $sistema_autentica == 1}
 	<td><a href="mailto:{$supervisores[lista].email}">{$supervisores[lista].email}</a></td>
 	<td>{$supervisores[lista].celular}</td>
 	<td>{$supervisores[lista].telefone}</td>

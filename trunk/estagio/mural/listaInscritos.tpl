@@ -35,10 +35,16 @@ function confirma() {
 
 {if $mural_autentica == 1}
 	{include file="mural_menu.tpl"}
-	<p><a href="imprime.php?id_instituicao={$id_instituicao}">Imprimir</a></p>
+	<p>
+	<a href="imprime.php?id_instituicao={$id_instituicao}">Imprimir</a>
+	&nbsp;&nbsp;
+	<a href='email_listaInscritos.php?id_instituicao={$id_instituicao}'>Enviar e-mail</a>
+	</p>
+
 {/if}
 
 <p><a href="ver-mural.php">Voltar para mural</a></p>
+
 
 <h1>Lista de inscritos para seleção de estágio na instituição: {$instituicao}</h1>
 

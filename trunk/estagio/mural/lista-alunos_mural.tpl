@@ -27,6 +27,8 @@
 
 {if $mural_autentica == 1}
 	{include file="mural_menu.tpl"}
+	<br>
+	<a href='email_lista-alunos.php'>Enviar e-mail</a>
 {/if}
 
 <h1>Lista de alunos que buscam estágio</h1>
@@ -40,6 +42,7 @@
 	<tr>
 		<th>ID</td>
 		<th><a href='?ordem=inscrito'>TC</a></th>
+		<th><a href='?ordem=nivel'>Nível {$periodo_atual}</a></th>
 		<th><a href='?ordem=registro'>DRE</a></th>
 		<th><a href='?ordem=nome'>Nome</a></th>
 		<th><a href='?ordem=quantidade'>Quantidade</a></th>
@@ -63,12 +66,13 @@
 {/if}
 <td style="text-align:right">{$i++}</td>
 <td style="text-align:right;">{$alunos[i].inscrito}</td>
+<td style="text-align:center">{$alunos[i].nivel}</td>
 <td style="text-align:center">{$alunos[i].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>
 <td style="text-align:center">{$alunos[i].quantidade}</td>
 <td style="text-align:center">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 
-{* Omito os telefones se não está cadastrado *}
+{* Omito os telefones se não está autorizado *}
 {if $mural_autentica == 1}
 	<td style="text-align:center">{$alunos[i].telefone}</td>
 	<td style="text-align:center">{$alunos[i].celular}</td>

@@ -105,7 +105,7 @@ include_once("../setup.php");
 $turma = TURMA;
 
 // Para nao repetir uma mesma inscricao - poderia ser tambem com o cpf -
-$sql_verifica = "select id from curso_inscricao_supervisor where cress='$cress' and curso_turma='$turma'";
+$sql_verifica = "select id from curso_inscricao_supervisor where cpf='$cpf' and curso_turma='$turma'";
 // echo $sql_verifica . "<br>";
 $res_verifica = $db->Execute($sql_verifica);
 $id_supervisor = $res_verifica->fields['id'];
