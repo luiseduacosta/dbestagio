@@ -139,7 +139,6 @@ while (!$resultado->EOF) {
 // Calculo o total de alunos que procuram estagio
 $sql = "SELECT id_aluno FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
-
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possivel consultar a tabela alunosNovos");
 $total = $resultado->RecordCount();
@@ -149,7 +148,7 @@ $conhecidos = 0;
 while (!$resultado->EOF) {
 	$registro = $resultado->fields['id_aluno'];
 	// Conto a quantidade de alunos que ja estao em estagio
-	$sqlVelho = "select registro from alunos where registro='$registro'";
+	$sqlVelho = "select registro from estagiarios where registro='$registro' and nivel != '1' group by registro";
 	// echo $sqlVelho . "<br>";
 	$resultadoVelho = $db->Execute($sqlVelho);
 	while (!$resultadoVelho->EOF) {
@@ -159,9 +158,14 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
+$sql_estagio_um = "select count(*) as estagio_um from estagiarios where periodo ='" . PERIODO_ATUAL . "' and nivel = '1' group by registro";
+// echo $sql_estagio_um . "<br>";
+$res_estagio_um = $db->Execute($sql_estagio_um);
+$estagio_um = $res_estagio_um->fields['estagio_um'];
+
 // echo "Conhecidos " . $conhecido . "<br>";
 // Calculo os novos como diferencia entre o total e os ja conhecidos
-$novos = $total - $conhecidos;
+$novos = ($total - $conhecidos) + $estagio_um;
 // echo "Novos " . $novos . "<br>";
 
 $smarty = new Smarty_estagio;

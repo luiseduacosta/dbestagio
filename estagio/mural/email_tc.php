@@ -33,12 +33,12 @@ if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fie
 // Insero os campos
 $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
-(1, 'on', 1, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
-(2, 'on', 2, 'registro', 'Registro', '', 'a:0:{}', 'on', 'text'),
-(3, 'on', 3, 'tipo', 'Categoria', '', 'a:0:{}', 'off', 'text'),
-(4, 'on', 4, 'tc', 'TC', '', 'a:0:{}', 'off', 'text'),
-(5, 'on', 5, 'periodo', 'Período', '', 'a:0:{}', 'off', 'text'),
-(6, 'on', 6, 'nivel', 'Nivel', '', 'a:0:{}', 'off', 'text');
+(1, 'on', 1, 'Nome', 'nome', '', 'a:0:{}', 'on', 'text'),
+(2, 'on', 2, 'Registro', 'registro', '', 'a:0:{}', 'on', 'text'),
+(3, 'on', 3, 'Tipo', 'categoria', '', 'a:0:{}', 'off', 'text'),
+(4, 'on', 4, 'TC', 'tc', '', 'a:0:{}', 'off', 'text'),
+(5, 'on', 5, 'Periodo', 'periodo', '', 'a:0:{}', 'off', 'text'),
+(6, 'on', 6, 'Nivel', 'nivel', '', 'a:0:{}', 'off', 'text');
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
 if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");

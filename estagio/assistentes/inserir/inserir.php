@@ -29,16 +29,16 @@ $ano_curso = $_POST['ano_curso'];
 // echo "id_instituicao: " . $id_instituicao . "<br>";
 // echo " Num. super " . $num_supervisor = $_REQUEST['num_supervisor'];
 
-// Se não foi selecionado um supervisor já existente entra nesta rotina
+// Se nao foi selecionado um supervisor ja existente entra nesta rotina
 if (empty($num_supervisor)) {
     echo "Inserindo supervisor<br>";
     $sql  = "insert into supervisores (nome, cpf, endereco, municipio, bairro, cep, cress, regiao, email, codigo_tel, telefone, codigo_cel, celular, escola, ano_formatura, outros_estudos, area_curso, ano_curso) "; 
     $sql .= " values ('$nome', '$cpf', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
-    echo "Insirindo novo supervisor " . $sql . "<br>";
+    // echo "Insirindo novo supervisor " . $sql . "<br>";
     $resultado = $db->Execute($sql);
     if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
     // die;
-    // Pego o número de registro de último supervisor ingressado
+    // Pego o numero de registro de ultimo supervisor ingressado
     $res_ultimo = $db->Execute("select max(id) as ultimo_supervisor from supervisores");
     if($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
     $id_supervisor = $res_ultimo->fields['ultimo_supervisor'];
@@ -52,9 +52,9 @@ if (empty($num_supervisor)) {
     $sql  = "update supervisores "; 
     $sql .= " set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
     $sql .= " where id=$_POST[num_supervisor]";
-    echo $sql . "<br>";
+    //echo $sql . "<br>";
     $resultado = $db->Execute($sql);
-    if($resultado === false) die ("Não foi possível atualizar o registro na tabela supervisores");
+    if($resultado === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
     $id_supervisor = $_POST['num_supervisor'];
 
 }

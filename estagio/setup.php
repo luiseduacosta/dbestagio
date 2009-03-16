@@ -54,9 +54,10 @@ if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";
 if ($_periodo_atual[1] == 1) $periodo_anterior = $_periodo_atual[0] - 1 . "-2";
 define("PERIODO_ANTERIOR",$periodo_anterior);
 
-// Para o curso - 2008 = turma 7
-define("TURMA",7);
-define("ENCERRAMENTO",date('d/m/Y',mktime(0,0,0,03,04,2009)));
+// Para o curso - 2009 = turma 8
+define("TURMA",8);
+// Formato USA mes/dia/ano
+define("ENCERRAMENTO",date('m/d/Y',mktime(0,0,0,03,16,2009)));
 
 $debug = 0;
 

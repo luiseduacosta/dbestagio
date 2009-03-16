@@ -358,7 +358,7 @@ if ($sistema_autentica == 1) {
 		<input type='text' name='telefone' id='telefone' value='$telefone' maxlength='9' size='9'>
 		";
 	} else {
-		echo $telefone;
+		echo '(' . $codigo_tel . ')' . $telefone;
 	}
 	?>
 	</td>
@@ -374,7 +374,7 @@ if ($sistema_autentica == 1) {
 		<input type='text' name='celular' id='celular' value='$celular' maxlength='9' size='9'>
 		";
 	} else {
-		echo $celular;
+		echo '(' . $codigo_cel . ')' . $celular;
 	}
 	?>
 	</td>

@@ -2,6 +2,7 @@
 
 include_once("../../db.inc");
 include_once("../../setup.php");
+include_once('../../autoriza.inc');
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "nome";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
@@ -102,8 +103,11 @@ while (!$res_turma->EOF) {
 
 // echo var_dump($periodos);
 
+// echo "Sistema " . $sistema_autentica . "<br>";
+
 $smarty = new Smarty_estagio;
 
+$smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);

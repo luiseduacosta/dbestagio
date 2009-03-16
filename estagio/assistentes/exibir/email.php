@@ -8,6 +8,13 @@
 
 // echo "<h1>Aguarde: preparando a lista dos supervisores para o envio de e-mail.</h1>";
 
+
+$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
+
+if (!$periodo) {
+	die("Selecione período");
+}
+
 include("../../pommo_config.php");
 
 // Apago toda a informacao das tabelas
@@ -27,8 +34,8 @@ $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
 (1, 'on', 0, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
 (2, 'on', 1, 'instituicao', 'Instituição', '', 'a:0:{}', 'off', 'text'),
-(3, 'on', 2, 'periodo', 'Período', '', 'a:0:{}', 'off', 'text'),
-(4, 'on', 3, 'area', 'Area', '', 'a:0:{}', 'off', 'text');
+(3, 'on', 2, 'area', 'Area', '', 'a:0:{}', 'off', 'text'),
+(4, 'on', 3, 'periodo', 'Período', '', 'a:0:{}', 'off', 'text');
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
 if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
@@ -40,8 +47,9 @@ $sql  = "select estagiarios.id, id_supervisor, id_instituicao, periodo, nome, em
 $sql .= " left join supervisores on supervisores.id = estagiarios.id_supervisor ";
 $sql .= " left join estagio on estagio.id = estagiarios.id_instituicao ";
 $sql .= " left join areas_estagio on areas_estagio.id = estagio.area ";
-$sql .= " group by estagiarios.id_supervisor, estagiarios.periodo ";
-$sql .= " order by estagiarios.periodo, estagiarios.id_supervisor";
+$sql .= " where estagiarios.periodo='$periodo' ";
+$sql .= " group by estagiarios.id_supervisor ";
+$sql .= " order by estagiarios.id_supervisor";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql); 
 while (!$resultado->EOF) {
@@ -84,6 +92,7 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
+// echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=../../../pommo/'>";
 echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
 
 ?>
