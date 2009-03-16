@@ -233,8 +233,11 @@ include_once("../setup.php");
 
 $turma = TURMA;
 
+// echo "Hoje " . date('m/d/Y'). "<br>";
+// echo "Encerramento " . ENCERRAMENTO . "<br>";
+// O comando strtotime somente funciona com o formato de data USA
 $data_encerramento = strtotime(ENCERRAMENTO);
-$hoje = strtotime("now");
+$data_hoje = strtotime(date('m/d/Y'));
 
 $sql  = "select count(*) as quantidade ";
 $sql .= " from curso_inscricao_supervisor ";
@@ -245,8 +248,9 @@ if($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao
 $quantidade = $res_sql->fields['quantidade'];
 
 // var_dump($data_encerramento);
-// var_dump($hoje);
-if($hoje > $data_encerramento) {
+// var_dump($data_hoje);
+
+if($data_hoje > $data_encerramento) {
     echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
     // echo "<h2>Inscri&ccedil;&otilde;es para 2009-1 a partir do 02/03/2009</h2>";
     // include("doc/selecionados2008.html");

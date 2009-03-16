@@ -21,7 +21,7 @@ $resultadoInstituicao = $db->Execute($sqlInstituicao);
 if($resultadoInstituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
 $instituicao = $resultadoInstituicao->fields['instituicao'];
 
-$sql = "SELECT id, id_aluno, data FROM `mural_inscricao` WHERE id_instituicao='$id_instituicao' and periodo='". PERIODO_ATUAL . "'";
+$sql = "SELECT id, id_aluno, data FROM mural_inscricao WHERE id_instituicao='$id_instituicao' and periodo='". PERIODO_ATUAL . "'";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);

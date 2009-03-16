@@ -44,6 +44,7 @@ function get_turma() {
 <th>Nome</th>
 <th>Departamento</th>
 <th>Alunos</th>
+<th>Imprime</th>
 </tr>
 
 {assign var="i" value=1}
@@ -53,6 +54,7 @@ function get_turma() {
 <td><a href="ver_cada.php?id_professor={$professores[i].id_professor}">{$professores[i].nome}</a></td>
 <td>{$professores[i].departamento}</td>
 <td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}">{$professores[i].q_alunos}</a></td>
+<td style='text-align:center'><a href="../../imprimir/alunos_por_professor.php?id_professor={$professores[i].id_professor}&periodo={$periodo}">{$professores[i].q_alunos}</a></td>
 </tr>
 {/section}
 <tr>
