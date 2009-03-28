@@ -25,6 +25,7 @@ function get_periodo() {
 
 <body>
 
+
 <select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
 {if !$periodo}
 	<option value='0'>Seleciona periodo</option>

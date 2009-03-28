@@ -43,6 +43,8 @@ function get_turma() {
 <th>Id</th>
 <th>Nome</th>
 <th>Departamento</th>
+<th>Área</th>
+<th>Turno</th>
 <th>Alunos</th>
 <th>Imprime</th>
 </tr>
@@ -53,13 +55,16 @@ function get_turma() {
 <td>{$i++}</td>
 <td><a href="ver_cada.php?id_professor={$professores[i].id_professor}">{$professores[i].nome}</a></td>
 <td>{$professores[i].departamento}</td>
-<td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}">{$professores[i].q_alunos}</a></td>
+<td>{$professores[i].area}</td>
+<td style='text-align:center'>{$professores[i].turno}</td>
+<td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}&seleciona_area={$professores[i].id_area}">{$professores[i].q_alunos}</a></td>
 <td style='text-align:center'><a href="../../imprimir/alunos_por_professor.php?id_professor={$professores[i].id_professor}&periodo={$periodo}">{$professores[i].q_alunos}</a></td>
 </tr>
 {/section}
 <tr>
-<td colspan='3'>&nbsp;</td>
+<td colspan='4'>&nbsp;</td>
 <td style='text-align:center'>{$total_alunos}</td>
+<td>&nbsp;</td>
 </tr>
 
 </tbody>

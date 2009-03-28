@@ -14,9 +14,9 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../../../mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../../../mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../../../mygosumenu/1.0/DropDownMenu1.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
+<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
+<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 {literal}
 <script language="JavaScript" type="text/javascript">
 function confirma() {
@@ -33,7 +33,7 @@ function confirma() {
 
 <body style="direction: ltr;">
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 
@@ -50,12 +50,13 @@ function confirma() {
 <th><a href="?ordem=inscrito">TC</a></th>
 <th><a href="?ordem=registro">Registro</a></th>
 <th><a href="?ordem=nome">Nome</a></th>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<th><a href="?ordem=telefone">Telefone</a></th>
 	<th><a href="?ordem=celular">Celular</a></th>
 	<th><a href="?ordem=email">Email</a></th>
 {/if}
 
+<th><a href="?ordem=estagio_periodo">Período</a></th>
 <th><a href="?ordem=nivel">Nivel</a></th>
 <th><a href="?ordem=instituicao">Instituicao na que está estagiando</a></th>
 </tr>
@@ -74,13 +75,14 @@ function confirma() {
 <td style="text-align:right">{$inscritos[item].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].flag}">{$inscritos[item].nome}</a></td>
 {* Omito os telefones se não está cadastrado *}
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td>{$inscritos[item].telefone}</td>
 	<td>{$inscritos[item].celular}</td>
 	<td>{$inscritos[item].email}</td>
 {/if}
 
-<td style="text-align:right">{$inscritos[item].nivel}</td>
+<td style="text-align:center">{$inscritos[item].estagio_periodo}</td>
+<td style="text-align:center">{$inscritos[item].nivel}</td>
 <td>{$inscritos[item].instituicao}</td>
 </tr>
 {/section}
