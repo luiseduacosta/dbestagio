@@ -29,7 +29,7 @@
 	{/section}
 </select>
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 <br>
 <a href="email_tc.php?periodo={$periodo}">Email</a>
 <br>
@@ -45,7 +45,7 @@
 		<th><a href=?ordem=nivel&periodo={$periodo}>Nivel</a></th>
 		<th><a href=?ordem=tc&periodo={$periodo}>TC</a></th>
 		<th><a href=?ordem=tc_solicitacao&periodo={$periodo}>Data solicitação</a></th>
-		{if $mural_autentica == 1}
+		{if $sistema_autentica == 1}
 			<th><a href=?ordem=telefone&periodo={$periodo}>Telefone</a></th>
 			<th><a href=?ordem=celular&periodo={$periodo}>Celular</a></th>
 			<th><a href=?ordem=email&periodo={$periodo}>Email</a></th>
@@ -66,7 +66,7 @@
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
 			<td style='text-align:center;'>{$alunos[i].tc}</td>
 			<td style='text-align:center;'>{$alunos[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
-			{if $mural_autentica == 1}
+			{if $sistema_autentica == 1}
 				<td style='text-align:center;'>{$alunos[i].telefone}</td>
 				<td style='text-align:center;'>{$alunos[i].celular}</td>			
 				<td>{$alunos[i].email}</td>

@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : '2005-1';
+$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 
 require_once("../../pommo_config.php");
 
@@ -29,7 +29,8 @@ INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field
 (1, 'on', 0, 'nome', 'Nome', '', 'a:0:{}', 'on', 'text'),
 (2, 'on', 1, 'registro', 'Registro', '', 'a:0:{}', 'on', 'text'),
 (3, 'on', 2, 'periodo', 'Período', '', 'a:0:{}', 'off', 'text'),
-(4, 'on', 3, 'nivel', 'Nivel', '', 'a:0:{}', 'off', 'text');
+(4, 'on', 3, 'nivel', 'Nivel', '', 'a:0:{}', 'off', 'text'),
+(5, 'on', 4, 'monografia', 'Monografia', '','a:0:{}', 'off', 'text');
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
 if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
@@ -37,9 +38,11 @@ if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_f
 include("../../setup.php");
 
 $sql  = "select id_aluno, alunos.registro, alunos.nome, alunos.email "; 
-$sql .= " , estagiarios.periodo, estagiarios.nivel  ";
+$sql .= " , estagiarios.periodo, max(estagiarios.nivel) as nivel  ";
+$sql .= " , num_monografia ";
 $sql .= " from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
+$sql .= " left join tcc_alunos on alunos.registro = tcc_alunos.registro ";
 if ($periodo) $sql .= " where periodo = '$periodo' ";
 $sql .= " group by id_aluno";
 // order by $ordem";
@@ -52,6 +55,7 @@ while (!$resultado->EOF) {
 	$registro = $resultado->fields['registro'];
 	$nome = $resultado->fields['nome'];
 	$nivel = $resultado->fields['nivel'];
+	$monografia = $resultado->fields['num_monografia'];
 	$periodo = $resultado->fields['periodo'];
 
 	// echo "$email . ' ' . $registro . ' '. $nome . ' ' . $nivel . ' ' . $periodo . '<br>'";
@@ -83,6 +87,17 @@ while (!$resultado->EOF) {
 		// echo $sql_email_nivel . "<br>";
 		$res_email_nivel = $db_pommo->Execute($sql_email_nivel);
 		if($res_email_nivel === false) die ("6 Não foi possível inserir dados na tabela pommo_subscribers");
+
+		if ($monografia) {
+			$monografia = 1;
+		} else {
+			$monografia = 0;
+		}
+		$sql_email_monografia = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (5,'$monografia',$subscriber_id)";
+		// echo $sql_email_monografia . "<br>";
+		$res_email_monografia = $db_pommo->Execute($sql_email_monografia);
+		if($res_email_monografia === false) die ("6 Não foi possível inserir dados na tabela pommo_subscribers");
+
 	}
 
 	// echo "<br>";

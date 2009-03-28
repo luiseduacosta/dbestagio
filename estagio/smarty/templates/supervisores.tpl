@@ -20,7 +20,7 @@ function carrega_tabela() {
 
 <body>
 
-<a href="javascript:history.back();">Voltar</a>
+<a href="javascript:history.back();">Voltar</a><br>
 
 <input type=hidden name='ordem' id='ordem' value='{$ordem}'>
 
@@ -36,7 +36,11 @@ function carrega_tabela() {
 
 {if $sistema_autentica == 1}
 	<br>
+	{if $turma}
 	<a href='email.php?periodo={$turma}'>E-mail</a>
+	<br>
+	<a href='email_super_alunos.php?periodo={$turma}'>E-mail solicitação de cadastro de supervisor</a>
+	{/if}
 	<br>
 {/if}
 

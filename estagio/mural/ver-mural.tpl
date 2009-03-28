@@ -44,11 +44,11 @@ function janelaInsere() {
 
 <span id="alunoInscrito"></span>
 
-{if $mural_autentica == 0}
+{if $sistema_autentica == 0}
 	<div align="left">
 	<p><a href="login.php">Admin</a></p>
 	</div>
-{elseif $mural_autentica == 1}
+{elseif $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 
@@ -77,7 +77,7 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 <th>Benefícios</th>
 <th><a href=?ordem=dataInscricao>Encerramento</a></th>
 <th><a href=?ordem=dataSelecao>Seleção</a></th>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<th>Email enviado</th>
 {/if}
 </tr>
@@ -99,7 +99,7 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 <td>{$instituicao[item].beneficios}</td>
 <td style="text-align:center">{$instituicao[item].dataInscricao}</td>
 <td>{$instituicao[item].dataSelecao} Horário: {$instituicao[item].horarioSelecao}</td>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td style="text-align:center">{$instituicao[item].datafax}</td>
 {/if}
 </tr>

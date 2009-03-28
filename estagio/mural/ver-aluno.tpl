@@ -14,10 +14,10 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../../../mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../../../mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../../../mygosumenu/1.0/DropDownMenu1.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
 {literal}
+<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
+<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 <script language="JavaScript" type="text/javascript">
 </script>
 {/literal}
@@ -25,13 +25,13 @@
 
 <body style="direction: ltr;">
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 
 <div align="center">
 <h1>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<a href="mural-alunos_modifica.php?id_aluno={$id_aluno}&registro={$registro}&aluno={$aluno}">{$nome_aluno}</a>
 {else}
 	{$nome_aluno}

@@ -35,6 +35,14 @@ function get_turma() {
 {/section}
 </select>
 
+{if $turma}
+{if $autentica == 1}
+	<br>
+	<a href='email_curso.php?turma={$turma}'>E-mail</a>
+	<br>
+{/if}
+{/if}
+
 <form id="inscricaoRealizada" name="inscricaoRealizada" action="#">
 <input type="hidden" name="registroInserido" id="registroInserido" value={$inscricaoRealizada}>
 </form>
@@ -47,6 +55,8 @@ function get_turma() {
 <tbody>
 
 <tr>
+
+<th>Num</th>
 
 <th><a href="inscricao_lista.php?turma={$turma}&ordem=num_inscricao">Ordem</a></th>
 
@@ -71,6 +81,9 @@ function get_turma() {
 {assign var = "i" value = 1}
 {section name=elemento loop=$matriz}
 <tr>
+
+<td class="coluna_centralizada">{$matriz[elemento].num_inscricao}</td>
+
 <td class="coluna_centralizada">{$i++}</td>
 
 {if $autentica == 1}
