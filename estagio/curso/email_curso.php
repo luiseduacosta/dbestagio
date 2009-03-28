@@ -8,6 +8,8 @@
 
 // echo "<h1>Aguarde: preparando a lista dos supervisores para o envio de e-mail.</h1>";
 
+$turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
+
 include("../pommo_config.php");
 
 // Apago toda a informacao das tabelas
@@ -38,10 +40,11 @@ if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_f
 include("../setup.php");
 
 // Busco todos os supervisores de todos os periodos para serem inseridos nas tabelas
-$sql = "select email, cress, nome, escola, ano_formatura, curso_turma
-from curso_inscricao_supervisor
-group by cress
-order by nome ";
+$sql = "select email, cress, nome, escola, ano_formatura, curso_turma ";
+$sql .= "from curso_inscricao_supervisor ";
+if ($turma) $sql .= " where curso_turma = '$turma' ";
+// $sql .= " group by cress ";
+$sql .= " order by nome ";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql); 
@@ -89,7 +92,7 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
-echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://desenvolvimento/pommo/'>";
-// echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
+// echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://desenvolvimento/pommo/'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
 
 ?>

@@ -22,6 +22,7 @@ $municipio       = $_POST['municipio'];
 $bairro          = $_POST['bairro'];
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+
 $sql = "select instituicao from mural_estagio where id='$id_instituicao'";
 // echo $sql. "<br>";
 $resultado = $db->Execute($sql);

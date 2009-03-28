@@ -127,7 +127,7 @@ Bairro:
     <input type="hidden" name="id_aluno" value={$id_aluno}>
     <input type="hidden" name="origem" value={$origem}>
     <input type="hidden" name="valorcadastro" value={$cadastro}>
-    <input type="submit" name="atualiza" value="Clique aqui para atualizar">    
+    <input type="submit" name="atualiza" value="Clique aqui para atualizar">
 {else}
     <input type="hidden" name="origem" value={$origem}>
     <input type="hidden" name="valorcadastro" value={$cadastro}>

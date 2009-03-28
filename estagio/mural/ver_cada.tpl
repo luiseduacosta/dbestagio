@@ -31,14 +31,14 @@ function barra() {
 
 <body>
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 
 <p><a href="javascript:history.back(1)">Voltar</a></p>
 
 <div align="center">
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<span class = "botao">
 	<a href="imprime_cartaz.php?id_instituicao={$id_instituicao}">Imprimir cartaz</a>
 	</span>
@@ -253,7 +253,7 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 <td>{$instituicao[item].contato}</td>
 </tr>
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<tr style="background-color:#e7e1ae;">
 	<td>Email</td>
 	{if $instituicao[item].email == ""}
@@ -295,7 +295,7 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 {/if}
 
 {* Para a administração sempre está aberta a possibilidade de realizar inscrições fora de prazo *}
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 		<span class="botao">
 		{if $id_instituicao == ""}
 		    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">Inscrição para seleção</a>
@@ -325,7 +325,7 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 {/if}
 </span>
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 <span class="botao">
 {if $id_instituicao == ""}
     <a href="excluir.php?id_instituicao={$instituicao[item].id_instituicao}">Excluir</a>

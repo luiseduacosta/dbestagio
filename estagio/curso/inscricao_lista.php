@@ -10,7 +10,7 @@ include_once("../db.inc");
 include_once("../setup.php");
 include_once("../autoriza.inc");
 
-// echo $sistema_autentica;
+// echo "Autentica " . $sistema_autentica;
 
 $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
 
@@ -110,7 +110,7 @@ $smarty->assign("inscricaoRealizada",$inscricaoRealizada);
 $smarty->assign("turma",$turma);
 $smarty->assign("matriz",$matriz);
 $smarty->assign("turmas",$turmas);
-$smarty->display("lista_inscritos.tpl");
+$smarty->display("curso_lista_inscritos.tpl");
 
 exit;
 

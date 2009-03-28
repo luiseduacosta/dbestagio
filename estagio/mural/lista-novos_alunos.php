@@ -5,6 +5,8 @@ include_once("../autoriza.inc");
 include_once("../db.inc");
 include_once("../setup.php");
 
+$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;
+
 $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela alunos");
@@ -35,6 +37,8 @@ while (!$resultado->EOF) {
 						$registro = $resultadoAlunosNovos->fields['registro'];
 						// echo "Novos " . $registro . " " . $nome . "<br>";
 						// $instituicao = $resultadoAlunosNovos->fields['instituicao'];
+
+						$inscritos[$i][$ordem] = $resultadoAlunosNovos->fields[$ordem];
 						$inscritos[$i]['nome'] = $resultadoAlunosNovos->fields['nome'];
 						$inscritos[$i]['registro'] = $resultadoAlunosNovos->fields['registro'];
 						$inscritos[$i]['id'] = $resultadoAlunosNovos->fields['id'];
@@ -95,6 +99,6 @@ $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$inscritos);
-$smarty->display("lista-alunos.tpl");
+$smarty->display("lista-alunos_mural.tpl");
 
 ?>

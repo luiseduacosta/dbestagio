@@ -67,6 +67,8 @@ while (!$resultado_inscritos->EOF) {
 	$inscritos[$i]['celular'] = $celular;
 	$inscritos[$i]['email'] = $email;
 
+	$inscritos[$i]['estagio_periodo'] = $estagio_periodo;
+
 	$inscritos[$i]['data'] = date("d-m-Y",strtotime($resultado->fields['data']));
 	
 	// Capturo o nome da instituicao na qual o aluno fez estagio

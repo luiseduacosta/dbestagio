@@ -9,8 +9,8 @@
 </style>
 
 {literal}
-<script type="text/javascript" src="../lib/jquery.js"></script>
-<script type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script type="text/javascript" src="../../lib/jquery.js"></script>
+<script type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script type="text/javascript">
 $(function() {
 	$("#telefone").mask("9999.9999");
@@ -19,6 +19,17 @@ $(function() {
 	$("#cpf").mask("999999999-99");	
 });
 </script>
+
+<script type="text/javascript">
+
+function get_periodo() {
+	var periodo = document.getElementById('periodo').value;
+	var id_periodo = document.getElementById('id_periodo').value;
+	window.location = 'ver_cada.php?periodo=' + periodo + '&indice=0';
+}
+
+</script>
+
 {/literal}
 
 </head>
@@ -26,6 +37,17 @@ $(function() {
 <body style="direction: ltr;">
 
 {include file='cabecalho.tpl'}
+
+<select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
+{if !$periodo}
+	<option value='0'>Seleciona periodo</option>
+{else}
+	<option value='0'>Período: {$periodo}</option>
+{/if}
+{section name=i loop=$periodos}
+<option value='{$periodos[i]}'>{$periodos[i]}</option>
+{/section}
+</select>
 
 <!-- ###CORPO### -->
 
@@ -40,6 +62,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="primeiro">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value="Primeiro">
 </form>
@@ -49,6 +72,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="menos_10">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value=" - 10 ">
 </form>
@@ -58,6 +82,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="retroceder">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value="Retroceder">
 </form>
@@ -67,6 +92,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="avancar">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value="Avançar">
 </form>
@@ -76,6 +102,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="mais_10">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value=" + 10 ">
 </form>
@@ -85,6 +112,7 @@ $(function() {
 <form action="#" method="post">
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="botao" value="ultimo">
+<input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
 <input type="submit" name="submit" value="Último">
 </form>

@@ -47,12 +47,12 @@
 		<th><a href='?ordem=nome'>Nome</a></th>
 		<th><a href='?ordem=quantidade'>Quantidade</a></th>
 		<th><a href='?ordem=data_ultima'>Última data</a></th>
-		{if $mural_autentica == 1}
+		{if $sistema_autentica == 1}
 			<th>Telefone</th>
 			<th>Celular</th>
 			<th>E-mail</th>
 		{/if}
-		{if $mural_autentica == 1}
+		{if $sistema_autentica == 1}
 			<th>Excluir</th>
 		{/if}
 	</tr>
@@ -73,14 +73,14 @@
 <td style="text-align:center">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 
 {* Omito os telefones se não está autorizado *}
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td style="text-align:center">{$alunos[i].telefone}</td>
 	<td style="text-align:center">{$alunos[i].celular}</td>
 	<td>{$alunos[i].email}</td>
 {/if}
 
 {* Omito os dados de cpf, identidade e data de nascimento se não está cadastrado *}
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td style="text-align:center"><a href="mural-excluir_aluno.php?id_aluno={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
 {/if}
 

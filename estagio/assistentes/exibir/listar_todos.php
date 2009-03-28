@@ -11,7 +11,7 @@ $id_instituicao = isset($_GET['id_instituicao']) ? $_GET['id_instituicao'] : NUL
 // echo $turma . "<br>";
 
 $sql  = "select e.id as estagio_id, e.instituicao ";
-$sql .= ", s.id as supervisor_id, s.cress, s.nome, s.email ";
+$sql .= ", s.id as supervisor_id, s.cress, s.nome, s.telefone, s.celular, s.email ";
 $sql .= ", max(estagiarios.periodo) as turma";
 $sql .= " from supervisores as s ";
 $sql .= " left outer join inst_super as i on s.id = i.id_supervisor ";
@@ -43,6 +43,8 @@ while(!$resultado->EOF) {
 	$turma_periodo          = $resultado->fields['turma'];
 	$nome_supervisor        = $resultado->fields['nome'];
 	$email_supervisor       = $resultado->fields['email'];
+	$tel_supervisor         = $resultado->fields['telefone'];
+	$cel_supervisor         = $resultado->fields['celular'];
 	$estagio_instituicao    = $resultado->fields['instituicao'];
 
 	$matriz[$i][$ordem]           = $$indice;
@@ -50,6 +52,8 @@ while(!$resultado->EOF) {
 	$matriz[$i]['id_supervisor']  = $id_supervisor;
 	$matriz[$i]['turma']  		  = $turma_periodo;
 	$matriz[$i]['nome']           = $nome_supervisor;
+	$matriz[$i]['telefone']       = $tel_supervisor;
+	$matriz[$i]['celular']        = $cel_supervisor;	
 	$matriz[$i]['instituicao']    = $estagio_instituicao;
 	$matriz[$i]['email']    	  = $email_supervisor;
 	$matriz[$i]['id_curso']       = $resultado->fields['id_curso'];

@@ -10,26 +10,22 @@ if(isset($_REQUEST['usuario_senha'])) {
 	$logado = 1;
 }
 
-$ordem = $_REQUEST["ordem"];
-if (empty($ordem))
-    $ordem = "nome";
-
-// $periodo = $_REQUEST['periodo'];
-$seleciona_nivel = $_REQUEST['seleciona_nivel'];
-$seleciona_turno = $_REQUEST['seleciona_turno'];
-$seleciona_instituicao = $_REQUEST['seleciona_instituicao'];
-$seleciona_periodo = $_REQUEST['seleciona_periodo'];
-$seleciona_professor = $_REQUEST['seleciona_professor'];
-
-// echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "<br>";
-
 $sqlUltimoPeriodo = "select max(periodo) as ultimoPeriodo from estagiarios";
 $resultadoMaxPeriodo = $db->Execute($sqlUltimoPeriodo);
 if($resultadoMaxPeriodo === false) die ("Não foi possível consultar a tabela estagiarios");
-while(!$resultadoMaxPeriodo->EOF) {
-	$ultimoPeriodo = $resultadoMaxPeriodo->fields['ultimoPeriodo'];
-	$resultadoMaxPeriodo->MoveNext();
-}
+$ultimoPeriodo = $resultadoMaxPeriodo->fields['ultimoPeriodo'];
+
+$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
+
+// $periodo = $_REQUEST['periodo'];
+$seleciona_nivel = isset($_REQUEST['seleciona_nivel']) ? $_REQUEST['seleciona_nivel'] : '0';
+$seleciona_turno = $_REQUEST['seleciona_turno'];
+$seleciona_area = $_REQUEST['seleciona_area'];
+$seleciona_instituicao = $_REQUEST['seleciona_instituicao'];
+$seleciona_periodo = isset($_REQUEST['seleciona_periodo']) ? $_REQUEST['seleciona_periodo'] : $ultimoPeriodo;
+$seleciona_professor = $_REQUEST['seleciona_professor'];
+
+// echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "<br>";
 
 $sql1 = "select estagiarios.id_aluno, " .
 "alunos.registro, ".
@@ -65,13 +61,31 @@ $sql1 = "select estagiarios.id_aluno, " .
 "on estagiarios.id_professor=professores.id ".
 // Area de estagio
 "left outer join areas_estagio ".
-"on estagiarios.id_area=areas_estagio.id ";
+"on estagiarios.id_area=areas_estagio.id " ;
 // $sql2 = "where estagiarios.periodo='2005-1' ".
 // "order by alunos.nome";
+// " where " ;
+if (!$seleciona_nivel) {
+	$sql3 = " where nivel > '0'";
+} else {
+	$sql3 = " where nivel = '$seleciona_nivel' " ;
+}
 
-// $sql = $sql1 . $sql2;
+if ($seleciona_turno) $sql3 .= " and turno = '$seleciona_turno' " ;
+if ($seleciona_area) $sql3 .= " and id_area = '$seleciona_area' " ;
+if ($seleciona_instituicao) $sql3 .= " and id_instituicao = '$seleciona_instituicao' ";
+if ($seleciona_periodo) $sql3 .= " and periodo = '$seleciona_periodo' ";
+if ($seleciona_professor) $sql3 .= " and id_professor = '$seleciona_professor' ";
+
+$sql3 .= " order by $ordem"; 
+
+$sql = $sql1 . $sql3;
+
+/* 
+ * Tirar todo isto
+ * 
+ * */
 // echo "Lista " . $sql1 . "<br>";
-
 /* Primeira linha */
 // Seleciona turno
 if ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
@@ -264,7 +278,9 @@ elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($sele
     $sqlLista .= "where periodo='$ultimoPeriodo' ";
     $sqlLista .= "order by $ordem";
 }
-$resultadoLista = $db->Execute($sqlLista);
+
+$resultadoLista = $db->Execute($sql);
+// $resultadoLista = $db->Execute($sqlLista);
 // echo $sqlLista . "<br>";
 
 if($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
