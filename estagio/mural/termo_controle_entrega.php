@@ -29,6 +29,7 @@ $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
+
 	$alunos[$i][$ordem] = $resultado->fields['$ordem'];
 	$alunos[$i]['id_aluno'] = $resultado->fields['id_aluno'];
 	$alunos[$i]['registro'] = $resultado->fields['registro'];
@@ -37,13 +38,14 @@ while (!$resultado->EOF) {
 	$alunos[$i]['celular'] = $resultado->fields['celular'];
 	$alunos[$i]['email'] = $resultado->fields['email'];
 	$alunos[$i]['nivel'] = $resultado->fields['nivel'];
+	$alunos[$i]['periodo'] = $resultado->fields['periodo'];	
 	$alunos[$i]['observacoes'] = $resultado->fields['observacoes'];
 	
 	$registro = $resultado->fields['registro'];
 	$sql_tc = "select tc_solicitacao, tc from estagiarios where registro = '$registro' and periodo ='$periodo_proximo'";
 	// echo "$sql_tc <br>";
 	$resultado_tc = $db->Execute($sql_tc);
-	if($resultado_tc === false) die ("Não foi possível consultar a tabela estagiarios");
+	if ($resultado_tc === false) die ("Não foi possível consultar a tabela estagiarios");
 	
 	$tc_solicitacao = $resultado_tc->fields['tc_solicitacao'];
 	// if ($tc_solicitacao == 0) $tc_solicitacao = "";
@@ -53,7 +55,15 @@ while (!$resultado->EOF) {
 	
 	// echo "<br>";
 	
+	$sql_mural = "select id from mural_inscricao where id_aluno='$registro' and periodo='$periodo_proximo'";
+	// echo $sql_mural . "<br>";
+	$res_mural = $db->Execute($sql_mural);
+	if ($res_mural === false) die ("Não foi possível consultar a tabela mural_inscricao");
+	$aluno_mural = $res_mural->fields['id'];
+	$alunos[$i]['mural'] = $aluno_mural;
+		
 	$i++;
+
 	$resultado->MoveNext();
 }
 

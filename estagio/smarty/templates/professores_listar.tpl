@@ -58,7 +58,7 @@ function get_turma() {
 <td>{$professores[i].area}</td>
 <td style='text-align:center'>{$professores[i].turno}</td>
 <td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}&seleciona_area={$professores[i].id_area}">{$professores[i].q_alunos}</a></td>
-<td style='text-align:center'><a href="../../imprimir/alunos_por_professor.php?id_professor={$professores[i].id_professor}&periodo={$periodo}">{$professores[i].q_alunos}</a></td>
+<td style='text-align:center'><a href="../../imprimir/alunos_por_professor.php?id_professor={$professores[i].id_professor}&professor={$professores[i].nome}&id_area={$professores[i].id_area}&periodo={$periodo}">Pauta</a></td>
 </tr>
 {/section}
 <tr>
