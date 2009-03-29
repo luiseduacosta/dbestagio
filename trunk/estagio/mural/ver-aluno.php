@@ -36,6 +36,7 @@ if ($quantidade == 0) {
 		"order by estagiarios.periodo";
 
 		// echo $sql_estagiario . "<br>";
+		
 		$resultado_estagiario = $db->Execute($sql_estagiario);
 		if($resultado_estagiario === false) die ("1 Não foi possível consultar as tabelas estagiarios, estagio, supervisores");
 		$quantidade_estagiario = $resultado_estagiario->RecordCount();
@@ -68,8 +69,10 @@ while (!$resultado_alunos->EOF) {
 $sql  = "select instituicao, data ";
 $sql .= " from mural_inscricao ";
 $sql .= " inner join mural_estagio on mural_inscricao.id_instituicao = mural_estagio.id";
-$sql .= " where mural_inscricao.periodo = '" . PERIODO_ATUAL . "' and mural_inscricao.id_aluno=$registro";
+$sql .= " where mural_inscricao.periodo = '" . PERIODO_ATUAL . "' and mural_inscricao.id_aluno='$registro'";
 $sql .= " order by instituicao";
+// echo $sql . "<br>";
+
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
 $i = 0;

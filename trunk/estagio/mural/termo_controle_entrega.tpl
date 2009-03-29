@@ -43,6 +43,7 @@
 		<th><a href=?ordem=registro&periodo={$periodo}>DRE</a></th>
 		<th><a href=?ordem=nome&periodo={$periodo}>Nome</a></th>
 		<th><a href=?ordem=nivel&periodo={$periodo}>Nivel</a></th>
+		<th><a href=?ordem=periodo&periodo={$periodo}>Período</a></th>
 		<th><a href=?ordem=tc&periodo={$periodo}>TC</a></th>
 		<th><a href=?ordem=tc_solicitacao&periodo={$periodo}>Data solicitação</a></th>
 		{if $sistema_autentica == 1}
@@ -62,8 +63,13 @@
 		<tr>
 			<td style='text-align:right;'>{$i++}</td>
 			<td style='text-align:center;'>{$alunos[i].registro}</td>
-			<td><a href="../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
+			{if $alunos[i].mural}
+				<td><a href="../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}">{$alunos[i].nome}</a>&nbsp;<a href="ver-aluno.php?id_aluno={$alunos[i].registro}">[1]</a></td>
+			{else}
+				<td><a href="../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
+			{/if}
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
+			<td style='text-align:center;'>{$alunos[i].periodo}</td>
 			<td style='text-align:center;'>{$alunos[i].tc}</td>
 			<td style='text-align:center;'>{$alunos[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
 			{if $sistema_autentica == 1}
