@@ -289,7 +289,7 @@ debug
 	{if $modifica}
 		Campo calculado automaticamente
 	{else}
-		<a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$id}&periodo={$turma}">{$turma}</a>
+		<a href="../../alunos/exibir/listar.php?seleciona_instituicao={$id}&periodo={$turma}">{$turma}</a>
 	{/if}
 	</td>
 	</tr>

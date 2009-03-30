@@ -62,7 +62,7 @@ function get_turma() {
 </tr>
 {/section}
 <tr>
-<td colspan='4'>&nbsp;</td>
+<td colspan='5'>&nbsp;</td>
 <td style='text-align:center'>{$total_alunos}</td>
 <td>&nbsp;</td>
 </tr>
