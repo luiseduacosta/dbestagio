@@ -40,7 +40,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setLanguageArray($l);
 
 // set font
-$pdf->SetFont('helvetica', '', 12);
+$pdf->SetFont('times', '', 12);
 
 // add a page
 $pdf->AddPage();
@@ -67,20 +67,22 @@ $sql .= " order by alunos.nome ";
 
 $res = $db->Execute($sql);
 
-$pdf->SetXY(15,25);
+// $pdf->SetXY(15,25);
 
-$titulo = 'Alunos estagiarios periodo ' . $periodo . ' do professor ' . $professor;
-
-$pdf->Cell(0, 10, $titulo, 0, 0, 'C');
-$pdf->Ln();
-
-$pdf->Cell(10, 15, 'X',1, 0, 'C');
-$pdf->Cell(25, 15, 'DRE', 1, 0, 'C');
-$pdf->Cell(60, 15, 'Aluno', 1, 0, 'C');
-$pdf->Cell(10, 15, 'Nivel', 1, 0, 'C');
-$pdf->Cell(100, 15, 'Instituicao', 1, 0, 'C');
-$pdf->Cell(60, 15, 'Supervisor', 1, 0, 'C');
-$pdf->Ln(15);
+$tabela =
+"<p style='font-size:14px'>Alunos estagiarios: periodo $periodo; professor(a) $professor</p>" .
+"<table border='1' cellpadding='3' cellspacing='0'>" .
+"<theader>" .
+"<tr>" .
+"<td width='15px'>X</td>" .
+"<td width='60px' style='text-align:center'>Registro</td>" .
+"<td width='170px'>Aluno</td>" .
+"<td width='35px' style='text-align:center'>Nivel</td>" .
+"<td width='300px'>Instituicao</td>" .
+"<td width='170px'>Supervisor</td>" .
+"</tr>" .
+"</theader>" .
+"<tbody>";
 
 while (!$res->EOF) {
 	$registro = $res->fields['registro'];
@@ -91,45 +93,61 @@ while (!$res->EOF) {
 	$periodo = $res->fields['periodo'];
 	$nivel = $res->fields['nivel'];
 	
-	$pdf->Cell(10, 10, '',1);
-	// $pdf->SetX(20);
-    $pdf->Cell(25, 10, $registro, 1, 0, 'C');
-	// $pdf->SetX(45);
-    $pdf->Cell(60, 10, substr($aluno,0,27), 1);
-	// $pdf->SetX(95);
-    $pdf->Cell(10, 10, $nivel, 1, 0, 'C');
-	// $pdf->SetX(100);
-    $pdf->Cell(100, 10, substr($instituicao,0,37), 1);
-	// $pdf->SetX(180);
-    $pdf->Cell(60, 10, substr($supervisor, 0, 27), 1);
-
-	$pdf->Ln(10);
-	
-	// echo $registro . ' ' , $aluno . ' ' . $id_prof , ' ' . $instituicao . ' ' . $supervisor . ' ' . $periodo . ' ' . $nivel . "<br>";
+	$tabela .= "<tr>" .
+			"<td width='15px'>&nbsp;</td>" .
+			"<td width='60px' style='text-align:center'>$registro</td>" .
+			"<td width='170px'>$aluno</td>" .
+			"<td width='35px' style='text-align:center'>$nivel</td>" .
+			"<td width='300px'>$instituicao</td>" .
+			"<td width='170px'>$supervisor</td>" .
+			"</tr>";
 	$res->MoveNext();
 }
 
-$pdf->Ln(10);
-$pdf->Cell(0, 10, 'Acrescentar aqui novos alunos para incluir na pauta',0, 0, 'C');
-$pdf->Ln(10);
+$tabela .= "</tbody>" .
+		"</table>";
 
-$pdf->Cell(10, 15, 'X',1, 0, 'C');
-$pdf->Cell(25, 15, 'DRE', 1, 0, 'C');
-$pdf->Cell(60, 15, 'Aluno', 1, 0, 'C');
-$pdf->Cell(10, 15, 'Nivel', 1, 0, 'C');
-$pdf->Cell(100, 15, 'Instituicao', 1, 0, 'C');
-$pdf->Cell(60, 15, 'Supervisor', 1, 0, 'C');
-$pdf->Ln(15);
+
+$tabela .= "<br>" .
+		"<p style='font-size:14px'>Acrescentar aqui novos alunos para incluir na pauta</p>";
+
+$tabela .=
+"<table border='1' cellpadding='3' cellspacing='0'>" .
+"<theader>" .
+"<tr>" .
+"<td width='15px'>X</td>" .
+"<td width='60px' style='text-align:center'>Registro</td>" .
+"<td width='170px'>Aluno</td>" .
+"<td width='35px' style='text-align:center'>Nivel</td>" .
+"<td width='300px'>Instituicao</td>" .
+"<td width='170px'>Supervisor</td>" .
+"</tr>" .
+"</theader>" .
+"<tbody>";
 
 for ($i = 0; $i<10; $i++) {
-	$pdf->Cell(10, 10, '',1);
-	$pdf->Cell(25, 10, '', 1, 'C');
-	$pdf->Cell(60, 10, '', 1);
-	$pdf->Cell(10, 10, '', 1, 'C');
-	$pdf->Cell(100, 10, '', 1, 'C');
-	$pdf->Cell(60, 10, '', 1, 'C');
-	$pdf->Ln(10);
+
+	$tabela .= "<tr>" .
+	"<td width='15px'>&nbsp;</td> " .
+	"<td width='60px'>&nbsp;</td> " .
+	"<td width='170px'>&nbsp;</td> " .
+	"<td width='35px'>&nbsp;</td> " .
+	"<td width='300px'>&nbsp;</td> " .
+	"<td width='170px'>&nbsp;</td> " .
+	"</tr>";
 }
+
+$tabela .= "</tbody>" .
+		"</table>";
+
+$data = date('d/m/Y');
+
+$tabela .="<br>" .
+		"<p style='text-align:rigth'>Rio de Janeiro, $data</p>";
+		
+$pdf->SetFont('times', '', 10);
+
+$pdf->writeHTML($tabela, true, 0, true, 0);
 
 //Close and output PDF document
 $pdf->Output('pauta_estagiarios.pdf', 'I'); 
