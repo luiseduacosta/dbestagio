@@ -20,12 +20,19 @@ $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
 // $periodo = $_REQUEST['periodo'];
 $seleciona_nivel = isset($_REQUEST['seleciona_nivel']) ? $_REQUEST['seleciona_nivel'] : '0';
 $seleciona_turno = $_REQUEST['seleciona_turno'];
-$seleciona_area = $_REQUEST['seleciona_area'];
+$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 $seleciona_instituicao = $_REQUEST['seleciona_instituicao'];
 $seleciona_periodo = isset($_REQUEST['seleciona_periodo']) ? $_REQUEST['seleciona_periodo'] : $ultimoPeriodo;
 $seleciona_professor = $_REQUEST['seleciona_professor'];
 
-// echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "<br>";
+// Capturo o nome da area para o cabecalho da tabela
+if ($id_area) {
+	$sql_id_area = "select area from areas_estagio where id = '$id_area'";
+	$res_id_area = $db->Execute($sql_id_area);
+	$area_selecionada = $res_id_area->fields['area'];
+}
+
+// echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "Area " . $id_area . "<br>";
 
 $sql1 = "select estagiarios.id_aluno, " .
 "alunos.registro, ".
@@ -72,7 +79,7 @@ if (!$seleciona_nivel) {
 }
 
 if ($seleciona_turno) $sql3 .= " and turno = '$seleciona_turno' " ;
-if ($seleciona_area) $sql3 .= " and id_area = '$seleciona_area' " ;
+if ($id_area) $sql3 .= " and id_area = '$id_area' " ;
 if ($seleciona_instituicao) $sql3 .= " and id_instituicao = '$seleciona_instituicao' ";
 if ($seleciona_periodo) $sql3 .= " and periodo = '$seleciona_periodo' ";
 if ($seleciona_professor) $sql3 .= " and id_professor = '$seleciona_professor' ";
@@ -80,208 +87,8 @@ if ($seleciona_professor) $sql3 .= " and id_professor = '$seleciona_professor' "
 $sql3 .= " order by $ordem"; 
 
 $sql = $sql1 . $sql3;
-
-/* 
- * Tirar todo isto
- * 
- * */
-// echo "Lista " . $sql1 . "<br>";
-/* Primeira linha */
-// Seleciona turno
-if ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' "; // and nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + instituicao
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_instituicao='$seleciona_instituicao' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + professor
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_professor='$seleciona_professor' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + periodo
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and periodo='$seleciona_periodo' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + instituicao
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + professor
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_professor='$seleciona_professor' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + periodo
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and periodo='$seleciona_periodo' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona instituicao + professor
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona instituicao + periodo
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona professor + periodo
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_professor='$seleciona_professor' and periodo='$seleciona_periodo' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + instituicao
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + professor
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' and id_professor='$seleciona_professor' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + periodo
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' and periodo='$seleciona_periodo' "; // and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + instituicao + professor
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + professor + periodo
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo'"; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + instituicao + periodo
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + instituicao + professor
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_instituicao ='$seleciona_instituicao' and id_professor='$seleciona_professor'"; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + instituicao + periodo
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_instituicao ='$seleciona_instituicao' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + professor + periodo
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_professor ='$seleciona_professor' and periodo='$seleciona_periodo'"; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona instituicao + professor + periodo
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_instituicao='$seleciona_instituicao' and id_professor ='$seleciona_professor' and periodo='$seleciona_periodo'"; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + instituicao + professor
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + instituicao + professor + periodo
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona nivel + instituicao + professor + periodo
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + professor + periodo
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$turno', nivel='$seleciona_nivel' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + instituicao + professor + periodo
-elseif ((!empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$turno', id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' "; // and id_professor='$id_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona turno + nivel + instituicao + professor + periodo
-elseif ((!empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where turno='$seleciona_turno' and nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' and id_professor='$seleciona_professor' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-/* Termina primeira linha */
-// Seleciona nivel
-elseif ((empty($seleciona_turno)) and (!empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where nivel='$seleciona_nivel' "; // and nivel='$seleciona_nivel' and id_instituicao='$seleciona_instituicao' and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona instituicao
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (!empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_instituicao='$seleciona_instituicao' "; // and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona professor
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (!empty($seleciona_professor)) and (empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where id_professor='$seleciona_professor' "; // and periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-}
-// Seleciona periodo
-elseif ((empty($seleciona_turno)) and (empty($seleciona_nivel)) and (empty($seleciona_instituicao)) and (empty($seleciona_professor)) and (!empty($seleciona_periodo))) {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where periodo='$seleciona_periodo' ";
-    $sqlLista .= "order by $ordem";
-} else {
-    $sqlLista  = $sql1;
-    $sqlLista .= "where periodo='$ultimoPeriodo' ";
-    $sqlLista .= "order by $ordem";
-}
-
+// echo $sql . "<br>";
 $resultadoLista = $db->Execute($sql);
-// $resultadoLista = $db->Execute($sqlLista);
-// echo $sqlLista . "<br>";
 
 if($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
 $i=0;
@@ -441,6 +248,17 @@ while(!$res_professor->EOF) {
     $res_professor->MoveNext();
     }
 
+// Areas
+$sql_areas = "select id, area from areas_estagio order by area";
+$res_areas = $db->Execute($sql_areas);
+while (!$res_areas->EOF) {
+	$matriz_areas[$a]['id_area'] = $res_areas->fields['id'];
+	$matriz_areas[$a]['area'] = $res_areas->fields['area'];
+
+	$a++;
+	$res_areas->MoveNext();
+}
+
 // Pego o nome e o numero da instituicao para o cabecalho da tabela
 if(!empty($seleciona_instituicao)) {
     $sql_instituicao = "select id, instituicao from estagio where id=$seleciona_instituicao order by instituicao";
@@ -481,11 +299,13 @@ $smarty = new Smarty_estagio;
 $smarty->assign("logado",$logado);
 $smarty->assign("instituicoes",$instituicoes);
 $smarty->assign("professores",$professores);
+$smarty->assign("areas",$matriz_areas);
 
 $smarty->assign("seleciona_turno",$seleciona_turno);
 $smarty->assign("seleciona_nivel",$seleciona_nivel);
 $smarty->assign("seleciona_instituicao",$seleciona_instituicao);
 $smarty->assign("seleciona_professor",$seleciona_professor);
+$smarty->assign("id_area",$id_area);
 $smarty->assign("seleciona_periodo",$seleciona_periodo);
 
 // $smarty->assign("lista",$lista);
@@ -493,6 +313,7 @@ $smarty->assign("lista",$estagiarios);
 
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->assign("nome_professor",$nome_professor);
+$smarty->assign("area_selecionada",$area_selecionada);
 $smarty->assign("matriz_periodo",$matriz_periodo);
 $smarty->assign("periodo",$periodo);
 

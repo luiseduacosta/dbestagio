@@ -179,6 +179,7 @@ $ano_curso = isset($_REQUEST['ano_curso']) ? $_REQUEST['ano_curso'] : NULL;
 $area_curso = isset($_REQUEST['area_curso']) ? $_REQUEST['area_curso'] : NULL;
 $num_inscricao = isset($_REQUEST['num_inscricao']) ? $_REQUEST['num_inscricao'] : NULL;
 $curso_turma = isset($_REQUEST['curso_turma']) ? $_REQUEST['curso_turma'] : NULL;
+$selecao = isset($_REQUEST['selecao']) ? $_REQUEST['selecao'] : NULL;
 
 // Para alterar entre as diferentes visoes
 $flag++;
@@ -189,17 +190,17 @@ if ($flag == 1) {
 	$botao = "Atualizar";
 } elseif ($flag == 3) {
 
-	$sql = "update curso_inscricao_supervisor set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso' where id='$id_supervisor'";
+	$sql = "update curso_inscricao_supervisor set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso', selecao='$selecao' where id='$id_supervisor'";
 	// echo $sql . "<br>";
 	$res_atualiza = $db->Execute($sql);
 	if($res_atualiza === false) die ("Nao foi possivel atualizar a tabela curso_inscricao_supervisor");
 
 	unset($submit);
-	$flag = 0;
-	$botao = "Modificar";
+	$flag = 1;
+	$botao = "Alterar dados";
 }
 
-$sql  = "select nome, cpf, curso_inscricao_supervisor.endereco, curso_inscricao_supervisor.bairro, curso_inscricao_supervisor.municipio, curso_inscricao_supervisor.cep, codigo_tel, curso_inscricao_supervisor.telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, num_inscricao, curso_turma, ";
+$sql  = "select nome, cpf, curso_inscricao_supervisor.endereco, curso_inscricao_supervisor.bairro, curso_inscricao_supervisor.municipio, curso_inscricao_supervisor.cep, codigo_tel, curso_inscricao_supervisor.telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, num_inscricao, curso_turma, selecao, ";
 $sql .= " id_estagio, curso_inscricao_instituicao.id as instituicao_id, instituicao ";
 $sql .= " from curso_inscricao_supervisor ";
 $sql .= " left join curso_inst_super on curso_inscricao_supervisor.id = curso_inst_super.id_supervisor ";
@@ -231,6 +232,7 @@ while (!$res_sql->EOF) {
 	$ano_curso = $res_sql->fields['ano_curso'];
 	$num_inscricao = $res_sql->fields['num_inscricao'];
 	$curso_turma = $res_sql->fields['curso_turma'];
+	$selecao = $res_sql->fields['selecao'];
 
 	$estagio_id = $res_sql->fields['id_estagio'];
 	$instituicao_id = $res_sql->fields['instituicao_id'];
@@ -530,6 +532,35 @@ if ($submit) {
 <td>
 <?php 
 echo 'Número de inscrição: ' . $num_inscricao . ' Turma: ' . $curso_turma;
+?>
+</td>
+</tr>
+
+<tr>
+<td>Seleção (0 = não; 1 = sim)</td>
+<td>
+<?php 
+// echo $submit ." " . $selecao;
+if ($submit) {
+	if ($selacao == '0') {
+		echo "
+	    <input type='radio' name='selecao' id='selecao' value='0' checked>Não
+		<input type='radio' name='selecao' id='selecao' value='1'>Sim
+		";
+	} elseif ($selecao == '1') {
+		echo "
+		<input type='radio' name='selecao' id='selecao' value='0'>Não
+		<input type='radio' name='selecao' id='selecao' value='1' checked>Sim
+		";
+	} else {
+		echo "
+		<input type='radio' name='selecao' id='selecao' value='0' checked>Não
+		<input type='radio' name='selecao' id='selecao' value='1'>Sim
+		";
+	}
+} else {
+	echo $selecao;
+}
 ?>
 </td>
 </tr>

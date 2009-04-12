@@ -66,7 +66,7 @@ while (!$resultado_alunos->EOF) {
 }
 
 // Dados das inscrições para seleção de estágio
-$sql  = "select instituicao, data ";
+$sql  = "select id_instituicao, instituicao, data ";
 $sql .= " from mural_inscricao ";
 $sql .= " inner join mural_estagio on mural_inscricao.id_instituicao = mural_estagio.id";
 $sql .= " where mural_inscricao.periodo = '" . PERIODO_ATUAL . "' and mural_inscricao.id_aluno='$registro'";
@@ -77,6 +77,7 @@ $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
 $i = 0;
 while (!$resultado->EOF) {
+	$instituicoes[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
 	$instituicoes[$i]['instituicao'] = $resultado->fields['instituicao'];
 	$instituicoes[$i]['data'] = $resultado->fields['data'];
 	$resultado->MoveNext();

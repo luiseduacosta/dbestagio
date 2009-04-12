@@ -9,46 +9,28 @@
 
 <div align="center">
 <table border="1">
-<caption>Tabela de instituições por área</caption>
+<caption>Tabela de professores por área</caption>
 <tbody>
 
 <tr>
 <th>Área</th>
-<th>Quantidade <br> de instituições</th>
-<th>Editar <br> área</th>
+<th>Professor</th>
 </tr>
 
 {section name=elemento loop=$areas}
 <tr>
 <!-- 1a coluna -->
 <td>
-<a href="instituicoes.php?id_area={$areas[elemento].id_area}">{$areas[elemento].area}</a>
+{$areas[elemento].area}
 </td>
 
 <!-- 2a coluna -->
-<td class="coluna_centralizada">
-{$areas[elemento].q_instituicoes}
+<td>
+<a href='../../professores/exibir/ver_cada.php?id_professor={$areas[elemento].id_professor}'>{$areas[elemento].nome}</a>
 </td>
-
-<!-- 3a coluna -->
-<td class="ultima_linha">
-<a href="../atualizar/modifica.php?id_area={$areas[elemento].id_area}">Editar</a>
-</td>
-
-<!--
-<td class="ultima_linha">
-<a href="../cancelar/cancela.php?id_area={$areas[elemento].id_area}" onClick='return elimina()'><button>{$areas[elemento].id_area}</button></a>
-</td>
-//-->
 
 </tr>
 {/section}
-
-<tr class="rodape">
-<td class="coluna_centralizada">TOTAL</td>
-<td class="coluna_centralizada">{$total}</td>
-<td></td>
-</tr>
 
 </tbody>
 </table>
