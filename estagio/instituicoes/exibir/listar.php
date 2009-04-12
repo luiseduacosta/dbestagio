@@ -3,11 +3,17 @@
 include_once("../../db.inc");
 include_once("../../setup.php");
 
+$sql_ultimo_periodo = "select max(periodo) as ultimo_periodo from estagiarios";
+// echo $sql_ultimo_periodo . "<br>";
+$res_ultimo_periodo = $db->Execute($sql_ultimo_periodo);
+$ultimo_periodo = $res_ultimo_periodo->fields['ultimo_periodo'];
+
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
-$turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
+$turma = isset($_GET['turma']) ? $_GET['turma'] : $ultimo_periodo;
 $instituicao = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
 $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
-// echo $instituicao . "<br>";
+$natureza = isset($_GET['natureza']) ? $_GET['natureza'] : NULL;
+// echo "Natureza " . $natureza . "<br>";
 
 // Calculo a quantidade de alunos total e/ou por periodo
 $sql_alunos  = "select count(registro) as total_alunos from estagiarios";
@@ -52,20 +58,21 @@ while (!$res_professor->EOF) {
 }
 // echo "Total de professores: ". $todos_professores . " " . $total_professores . "<br>";
 
-$sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficio ";
+$sql  = "select e.id, e.instituicao, e.convenio, e.natureza, e.area as id_area, e.beneficio ";
 $sql .= " , a.area ";
 $sql .= " , t.id_supervisor ";
 $sql .= " from estagio as e ";
 $sql .= " left join areas_estagio as a on e.area = a.id ";
 $sql .= " left outer join estagiarios t on e.id = t.id_instituicao ";
 
-if (($turma) and ($instituicao)) {
-	$sql .= " where t.periodo = '$turma' and e.instituicao like '%$instituicao%'";
-} elseif ($turma) {
+if ($turma == 0) {
+	$sql .= " where t.periodo > '$turma' ";
+} else {
 	$sql .= " where t.periodo = '$turma' ";
-} elseif ($instituicao) {
-	$sql .= " where e.instituicao like '%$instituicao%' ";
 }
+
+if ($instituicao) $sql .= " and e.instituicao like '%instituicao%' ";
+if ($natureza) $sql .= " and e.natureza =  '$natureza' ";
 
 $sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
 
@@ -82,6 +89,7 @@ while(!$resultado->EOF) {
   	$id_instituicao   = $resultado->fields['id'];
   	$nome_instituicao = $resultado->fields['instituicao'];
   	$id_area          = $resultado->fields['id_area'];
+  	$natureza_inst    = $resultado->fields['natureza'];
   	$area             = $resultado->fields['area'];
 	$beneficio        = $resultado->fields['beneficio'];
   	$convenio         = $resultado->fields['convenio'];
@@ -102,9 +110,9 @@ while(!$resultado->EOF) {
 	// echo " Super " . $id_supervisor . " quantidade: " . $q_supervi .  " acumulado: " . $total_supervi . "<br>";
 	
     // Pego a ultima turma de cada instituicao
-    $sql_turma = "select max(periodo) as turma from estagiarios where id_instituicao=$id_instituicao";
-	// echo $sql_turma . "<br>";
-    $resultado_turma = $db->Execute($sql_turma);
+    $sql_max_turma = "select max(periodo) as turma from estagiarios where id_instituicao=$id_instituicao";
+	// echo $sql_max_turma . "<br>";
+    $resultado_turma = $db->Execute($sql_max_turma);
     if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
     $q_turma = $resultado_turma->RecordCount();
     // echo $q_turma . "<br>";
@@ -158,6 +166,7 @@ while(!$resultado->EOF) {
 	$matriz[$i]['periodos']       = $total_periodos;
   	$matriz[$i]['id_area']        = $id_area;
   	$matriz[$i]['area']           = $area;
+	$matriz[$i]['natureza']       = $natureza_inst;
   	$matriz[$i]['convenio']       = $convenio;
   	$matriz[$i]['beneficio']      = $beneficio;
   	$i++;
@@ -178,13 +187,22 @@ for($i=0;$i<sizeof($matriz);$i++) {
 */
 
 // Pego a informacao sobre as turma de alunos
-$sqlturma = "select id, periodo from estagiarios group by periodo";
-// echo $sqlturma . "<br>";
-$res_turma = $db->Execute($sqlturma);
+$sql_turma = "select id, periodo from estagiarios group by periodo";
+// echo $sql_turma . "<br>";
+$res_turma = $db->Execute($sql_turma);
 if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();
+}
+
+// Pego a natureza das instituicoes
+$sql_natureza = "select natureza from estagio group by natureza order by natureza";
+$res_natureza = $db->Execute($sql_natureza);
+if ($res_natureza === false) die ("Não foi possivel consultar a tabela estagio");
+while (!$res_natureza->EOF) {
+	$naturezas[] = $res_natureza->fields['natureza'];
+	$res_natureza->MoveNext();
 }
 
 $smarty = new Smarty_estagio;
@@ -192,6 +210,8 @@ $smarty = new Smarty_estagio;
 $smarty->assign("turma",$turma);
 $smarty->assign("ordem",$ordem);
 $smarty->assign("periodos",$periodos);
+$smarty->assign("natureza",$natureza);
+$smarty->assign("naturezas",$naturezas);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("instituicoes",$matriz);
 $smarty->assign("total_professores",$todos_professores);

@@ -13,17 +13,18 @@ include_once("../autoriza.inc");
 // echo "Autentica " . $sistema_autentica;
 
 $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
-
 $ordem = isset($_GET['ordem']) ? $ordem = $_REQUEST['ordem'] : ordem;
+$selecao = isset($_GET['selecao']) ? $selecao = $_REQUEST['selecao'] : NULL;
 
 $inscricaoRealizada = $_REQUEST['num_inscricao'];
 
-$sql  = "select s.id, s.num_inscricao, s.cress, s.nome, s.email, i.id as id_instituicao, i.instituicao, i.id_estagio ";
+$sql  = "select s.id, s.num_inscricao, s.cress, s.nome, s.email, s.codigo_tel, s.telefone, s.codigo_cel, s.celular, s.selecao, i.id as id_instituicao, i.instituicao, i.id_estagio ";
 $sql .=	" from curso_inscricao_supervisor as s "; 
 $sql .= " inner join curso_inst_super as j on s.id = j.id_supervisor ";
 $sql .= " inner join curso_inscricao_instituicao as i ";
 $sql .= " on j.id_instituicao = i.id "; 
 if (!empty($turma) or $turma != 0) $sql .= " where s.curso_turma='$turma' ";
+if ($selecao) $sql .= " and selecao = '$selecao' "; 
 $sql .= " order by s.nome";
 
 // echo $sql . "<br>";
@@ -37,9 +38,14 @@ while(!$resultado->EOF) {
     $cress          = $resultado->fields['cress'];
     $nome           = $resultado->fields['nome'];
     $email          = $resultado->fields['email'];
+    $codigo_tel     = $resultado->fields['codigo_tel'];
+    $telefone       = $resultado->fields['telefone'];
+    $codigo_cel     = $resultado->fields['codigo_cel'];
+    $celular        = $resultado->fields['celular'];        
     $id_estagio     = $resultado->fields['id_estagio'];
     $id_instituicao = $resultado->fields['id_instituicao'];
     $instituicao    = $resultado->fields['instituicao'];
+    $curso_selecao  = $resultado->fields['selecao'];
 
 	// Verfico se eh supervisor cadastrado no estagio
 	if ($cress <> 0) {
@@ -64,10 +70,15 @@ while(!$resultado->EOF) {
     $matriz[$i]['cress'] = $cress;
     $matriz[$i]['nome'] = $nome;
     $matriz[$i]['email'] = $email;
+    $matriz[$i]['codigo_tel'] = $codigo_tel;    
+    $matriz[$i]['telefone'] = $telefone;
+    $matriz[$i]['codigo_cel'] = $codigo_cel;    
+    $matriz[$i]['celular'] = $celular;
     $matriz[$i]['id_estagio'] = $id_estagio;
     $matriz[$i]['id_instituicao'] = $id_instituicao;
    	$matriz[$i]['instituicao'] = $instituicao;
     $matriz[$i]['supervisores_id'] = $supervisores_cress_id;
+   	$matriz[$i]['selecao'] = $curso_selecao;
 
 	// Reset destas variaveis
 	unset($supervisores_cress_id);
@@ -82,6 +93,10 @@ while(!$resultado->EOF) {
 
 if(sizeof($matriz) <= 0) {
     echo "Arquivo vazio" . "<br>";
+    if ($selecao == 1) {
+    	echo "<p>Não há inscritos selecionados</p>";
+    	echo "<meta http-equiv='refresh' content='1; URL=inscricao_lista.php?selecao= 0'>";
+    }
     exit;
 } else {
     reset($matriz);
@@ -105,12 +120,13 @@ $pager->Render($rows_per_page='5');
 
 $smarty = new Smarty_estagio;
 
+$smarty->assign("selecao",$selecao);
 $smarty->assign("autentica",$sistema_autentica);
 $smarty->assign("inscricaoRealizada",$inscricaoRealizada);
 $smarty->assign("turma",$turma);
 $smarty->assign("matriz",$matriz);
 $smarty->assign("turmas",$turmas);
-$smarty->display("curso_lista_inscritos.tpl");
+$smarty->display("inscricao_lista.tpl");
 
 exit;
 

@@ -84,24 +84,24 @@
 		<tr>
 			<th>{$professor.id}	
 			</th>
-			<th colspan='3'>{$professor.nome}	
+			<th colspan='4'>{$professor.nome}	
 			</th>
 		</tr>
 
 		{if $instituicoes != ""}
 		<tr>
-			<th colspan='4'>Instituições</th>
+			<th colspan='5'>Instituições</th>
 		</tr>
 		
 		{section name=i loop=$instituicoes}
 		<tr>
 			<td>{$instituicoes[i].id_instituicao}</td>
-			<td colspan='3'><a href='../../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicoes[i].id_instituicao}'>{$instituicoes[i].instituicao}</a></td>
+			<td colspan='4'><a href='../../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicoes[i].id_instituicao}'>{$instituicoes[i].instituicao}</a></td>
 		</tr>
 		{/section}
 
 		<tr>
-			<th colspan='4'>Alunos</th>
+			<th colspan='5'>Alunos</th>
 		</tr>
 		
 		<tr>
@@ -109,6 +109,7 @@
 		<th><a href='?indice={$indice}&ordem=nome'>Nome</a></th>
 		<th><a href='?indice={$indice}&ordem=periodo'>Período</a></th>	
 		<th><a href='?indice={$indice}&ordem=instituicao'>Instituição</a></th>	
+		<th><a href='?indice={$indice}&ordem=area'>Área</a></th>	
 		</tr>
 
 		{section name=j loop=$alunos}
@@ -117,6 +118,7 @@
 			<td><a href="../../alunos/exibir/ver_cada.php?id_aluno={$alunos[j].id_aluno}">{$alunos[j].nome}</a></td>
 			<td style='text-align:center'>{$alunos[j].periodo}</td>
 			<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$alunos[j].id_instituicao}">{$alunos[j].instituicao}</a></td>
+			<td style='text-align:center'>{$alunos[j].area}</td>
 		</tr>
 		{/section}
 		

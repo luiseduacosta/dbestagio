@@ -82,16 +82,18 @@
 		valor_nivel=document.form_nivel.nivel.value;
 		valor_instituicao=document.form_instituicao.instituicao.value;
 		valor_professor=document.form_professor.professor.value;
+		valor_area=document.form_area.id_area.value;
 		valor_periodo=document.form_periodo.periodo.value;
-    	} else {
-        	valor_turno=document.getElementById("turno").value;
+    } else {
+       	valor_turno=document.getElementById("turno").value;
 		valor_nivel=document.getElementById("nivel").value;
 		valor_instituicao=document.getElementById("instituicao").value;
 		valor_professor=document.getElementById("professor").value;
+		valor_area=document.getElementById("id_area").value;
 		valor_periodo=document.getElementById("periodo").value;
 	}
 		// alert("Turno " +valor_turno+ " Nivel " +valor_nivel+ " Inst " +valor_instituicao+  " Professor " +valor_professor+ " Periodo " +valor_periodo);
-		window.location="listar.php?periodo=" +valor_periodo+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel="  +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+ "&seleciona_periodo=" +valor_periodo;
+		window.location="listar.php?periodo=" +valor_periodo+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel="  +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+  "&id_area="+ valor_area + "&seleciona_periodo=" +valor_periodo;
 		return false;
 	}
 
@@ -101,6 +103,7 @@
 		var valor_nivel;
 		var valor_instituicao;
 		var valor_professor;
+		var valor_area;
 		var valor_periodo;
 		var ordem;
 		var valor;
@@ -113,10 +116,11 @@
 		valor_nivel = document.getElementById("nivel").value;
 		valor_instituicao = document.getElementById("instituicao").value;
 		valor_professor = document.getElementById("professor").value;
+		valor_area = document.getElementById("id_area").value;
 		valor_periodo = document.getElementById("periodo").value;
 		ordem = document.getElementById("ordem").value;
 
-		valor = "&ordem=" +ordem+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel=" +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+ "&seleciona_periodo=" +valor_periodo;
+		valor = "&ordem=" +ordem+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel=" +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+ "&id_area="+ valor_area + "&seleciona_periodo=" +valor_periodo;
 		/* alert("Valor " +valor); */
 
 		nota = document.getElementById("nota").value;
@@ -135,6 +139,7 @@
 		var valor_nivel;
 		var valor_instituicao;
 		var valor_professor;
+		var valor_area;
 		var valor_periodo;
 		var ordem;
 		var valor;
@@ -147,10 +152,11 @@
 		valor_nivel = document.getElementById("nivel").value;
 		valor_instituicao = document.getElementById("instituicao").value;
 		valor_professor = document.getElementById("professor").value;
+		valor_area = document.getElementById("id_area").value;
 		valor_periodo = document.getElementById("periodo").value;
 		ordem = document.getElementById("ordem").value;
 
-		valor = "&ordem=" +ordem+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel=" +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+ "&seleciona_periodo=" +valor_periodo;
+		valor = "&ordem=" +ordem+ "&seleciona_turno=" +valor_turno+ "&seleciona_nivel=" +valor_nivel+ "&seleciona_instituicao=" +valor_instituicao+ "&seleciona_professor=" +valor_professor+  "&id_area="+ valor_area + "&seleciona_periodo=" +valor_periodo;
 		/* alert("Valor " +valor); */
 
 		nota = document.getElementById("nota").value;
@@ -279,6 +285,7 @@
         <input type="hidden" name="seleciona_instituicao" value="{$seleciona_instituicao}">
         <input type="hidden" name="seleciona_periodo" value="{$seleciona_periodo}">
         <input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
     </form>
     </td>
 
@@ -324,6 +331,7 @@
         <input type="hidden" name="seleciona_instituicao" value="{$seleciona_instituicao}">
         <input type="hidden" name="seleciona_periodo" value="{$seleciona_periodo}">
         <input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
 	</form>
     </td>
 
@@ -353,6 +361,7 @@
         <input type="hidden" name="seleciona_nivel" value="{$seleciona_nivel}">
         <input type="hidden" name="seleciona_periodo" value="{$seleciona_periodo}">
         <input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
     </form>
     </td>
 
@@ -383,6 +392,35 @@
         <input type="hidden" name="seleciona_nivel" value="{$seleciona_nivel}">
         <input type="hidden" name="seleciona_periodo" value="{$seleciona_periodo}">
         <input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
+    </form>
+    </td>
+
+    <!-- Area //-->
+    <td>
+    <form method="post" action="#" name="form_area">
+        <select name="id_area" size="1" id="id_area" onChange="return get_valor()";>
+
+        {if $id_area eq "0"}
+            <option value='0' selected>Áreas</option>
+            {section name=elemento loop=$areas}
+            <option value="{$areas[elemento].id_area}">{$areas[elemento].area|truncate:30}</option>
+            {/section}
+        {else}
+            <option value='0'>Áreas</option>
+            <option value={$id_area} selected>{$area_selecionada|truncate:30}</option>
+            {section name=elemento loop=$areas}
+            <option value="{$areas[elemento].id_area}">{$areas[elemento].area|truncate:30}</option>
+            {/section}
+        {/if}
+        </select>
+        <!-- input type="hidden" name="seleciona" value="instituicao" //-->
+        <input type="hidden" name="ordem" value="{$ordem}">
+        <input type="hidden" name="seleciona_turno" value="{$seleciona_turno}">
+        <input type="hidden" name="seleciona_nivel" value="{$seleciona_nivel}">
+        <input type="hidden" name="seleciona_periodo" value="{$seleciona_periodo}">
+        <input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
     </form>
     </td>
 
@@ -409,6 +447,7 @@
         <input type="hidden" name="seleciona_nivel" value="{$seleciona_nivel}">
 		<input type="hidden" name="seleciona_instituicao" value="{$seleciona_instituicao}">
 		<input type="hidden" name="seleciona_professor" value="{$seleciona_professor}">
+        <input type="hidden" name="id_area" value="{$id_area}">
     </form>
     </td>
 
@@ -429,9 +468,9 @@ Tabela principal
    	    	<th>Editar</th>
 		{/if}
     	<th>Id</th>
-        <th><a href="?ordem=registro&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Registro</a></th>
-        <th><a href="?ordem=tc&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">TC</a></th>
-        <th><a href="?ordem=nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Nome</a></th>
+        <th><a href="?ordem=registro&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Registro</a></th>
+        <th><a href="?ordem=tc&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">TC</a></th>
+        <th><a href="?ordem=nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Nome</a></th>
 		
 		{if $logado == 1}
 			<th>Email</th>
@@ -439,19 +478,20 @@ Tabela principal
 			<th>Telefone</th>
 		{/if}
 		
-        <th colspan="4">Nível</th>
+        <th style="text-align:center">Nível</th>
+        <th colspan="4">Níveis</th>
 		<th>Cod</th>
 		<th>Mon</th>
-		<th><a href="?ordem=periodo&nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Período</a></th>
-        <th><a href="?ordem=turno&nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Turno</a></th>
-        <th><a href="?ordem=instituicao&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Instituição</a></th>
-        <th><a href="?ordem=nomeSupervisor&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Supervisor</a></th>
-        <th><a href="?ordem=area&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Área</a></th>
-        <th><a href="?ordem=nomeProfessor&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Professor</th>
+		<th><a href="?ordem=periodo&nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Período</a></th>
+        <th><a href="?ordem=turno&nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Turno</a></th>
+        <th><a href="?ordem=instituicao&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Instituição</a></th>
+        <th><a href="?ordem=nomeSupervisor&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Supervisor</a></th>
+        <th><a href="?ordem=area&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Área</a></th>
+        <th><a href="?ordem=nomeProfessor&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Professor</th>
 
 		{if $logado == 1}
-    	    <th><a href="?ordem=nota&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">Nota</a></th>
-    	    <th><a href="?ordem=ch&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}">CH</a></th>
+    	    <th><a href="?ordem=nota&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Nota</a></th>
+    	    <th><a href="?ordem=ch&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">CH</a></th>
 		{/if}
 
     </tr>
@@ -475,6 +515,7 @@ Tabela principal
     	<td style="text-align:right">{$lista[i].celular}</td>        
 	{/if}
     
+    <td style="text-align:center">{$lista[i].nivel}</td>
     <td style="text-align:right">{$lista[i].nivel1}</td>
     <td style="text-align:right">{$lista[i].nivel2}</td>
     <td style="text-align:right">{$lista[i].nivel3}</td>
