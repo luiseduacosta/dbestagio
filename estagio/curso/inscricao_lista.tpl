@@ -35,6 +35,15 @@ function get_turma() {
 {/section}
 </select>
 
+{if $autentica == 1}
+	<br>
+	{if $selecao == 1}
+		<a href='?selecao=&turma={$turma}'>Ver todos</a>
+	{else}
+		<a href='?selecao=1&turma={$turma}'>Somente selecionados</a>
+	{/if}
+{/if}
+
 {if $turma}
 {if $autentica == 1}
 	<br>
@@ -68,11 +77,14 @@ function get_turma() {
 
 {if $autentica == 1}
 	<th><a href="inscricao_lista.php?turma={$turma}&ordem=email">E-mail</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=telefone">Telefone</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=celular">Celular</a></th>	
 {/if}
 
 <th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao">Instituição</a></th>
 
 {if $autentica == 1}
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=selecao">Seleção</a></th>
 	<th>Imprime</th>
 {/if}
 
@@ -101,6 +113,8 @@ function get_turma() {
 
 {if $autentica == 1}
 	<td>{$matriz[elemento].email}</td>
+	<td>({$matriz[elemento].codigo_tel}){$matriz[elemento].telefone}</td>
+	<td>({$matriz[elemento].codigo_cel}){$matriz[elemento].celular}</td>
 {/if}
 
 <td>
@@ -111,6 +125,7 @@ function get_turma() {
 </td>
 
 {if $autentica == 1}
+	<td style='text-align:center'>{$matriz[elemento].selecao}</td>
 	<td><a href="imprime_formulario.php?id_supervisor={$matriz[elemento].id}"><button>Imprime</button></a></td>
 {/if}
 

@@ -33,7 +33,7 @@ function confirma() {
 
 <body style="direction: ltr;">
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 	<p>
 	<a href="imprime.php?id_instituicao={$id_instituicao}">Imprimir</a>
@@ -53,13 +53,13 @@ function confirma() {
 <tr>
 <th>ID</th>
 <th>Nome</th>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<th>Telefone</th>
 	<th>Celular</th>
 	<th>Email</th>
 {/if}
 <th>Data</th>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<th>Excluir</th>
 {/if}
 </tr>
@@ -73,7 +73,7 @@ function confirma() {
 {/if}
 <td style="text-align:right">{$i++}</td>
 <td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].aluno}">{$inscritos[item].nome}</a></td>
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td style='text-align:center;'>{$inscritos[item].telefone}</td>
 	<td style='text-align:center;'>{$inscritos[item].celular}</td>
 	<td>{$inscritos[item].email}</td>
@@ -81,7 +81,7 @@ function confirma() {
 
 <td>{$inscritos[item].data}</td>
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<td>
 	<form name="excluirInscricao" id="excluirInscricao" method="post" action="excluir-inscricao.php" onSubmit="return confirma();">
 	<input type="hidden" name="id" value="{$inscritos[item].id}">

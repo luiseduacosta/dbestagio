@@ -1,6 +1,6 @@
 <?php
 
-include_once("mural-autentica.inc");
+// include_once("mural-autentica.inc");
 include_once("../db.inc");
 
 $id = $_REQUEST['id'];

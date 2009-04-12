@@ -61,7 +61,12 @@ function instituicao($id_professor,$db) {
 
 // Alunos que estagiaram com o professor
 function alunos($id_professor,$db,$ordem="nome") {
-	$sql = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao, estagio.instituicao from alunos inner join estagiarios on alunos.id = estagiarios.id_aluno inner join estagio on estagiarios.id_instituicao = estagio.id where estagiarios.id_professor = $id_professor order by $ordem";
+	$sql = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao, areas_estagio.area, estagio.instituicao " .
+			" from alunos " .
+			" join estagiarios on alunos.id = estagiarios.id_aluno inner " .
+			" join estagio on estagiarios.id_instituicao = estagio.id " .
+			" join areas_estagio on estagiarios.id_area = areas_estagio.id " .
+			" where estagiarios.id_professor = $id_professor order by $ordem";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("alunos: Não foi possível consultar as tabelas alunos, estagiarios e estagio");
@@ -73,6 +78,7 @@ function alunos($id_professor,$db,$ordem="nome") {
 		$alunos[$i]['periodo'] = $resultado->fields['periodo'];
 		$alunos[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
 		$alunos[$i]['instituicao'] = $resultado->fields['instituicao'];
+		$alunos[$i]['area'] = $resultado->fields['area'];
 		
 		$resultado->MoveNext();
 		$i++;
@@ -85,6 +91,7 @@ require_once("../../setup.php");
 
 $id_professor = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
 $ordem  = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
+$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 
 $indice = $_REQUEST['indice'];
 $submit = $_REQUEST['submit'];

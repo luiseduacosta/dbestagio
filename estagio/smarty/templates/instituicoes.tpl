@@ -9,10 +9,11 @@
 <script type="text/javascript">
 function carrega_tabela() {
 	turma=document.getElementById('turma').value;
+	natureza=document.getElementById('natureza').value;
 	ordem=document.getElementById('ordem').value;
 	instituicao=document.getElementById('instituicao').value;
 	// alert(turma);
-	window.location="listar.php?turma=" + turma + "&ordem=" + ordem + "&instituicao=" + instituicao;
+	window.location="listar.php?turma=" + turma + "&ordem=" + ordem + "&instituicao=" + instituicao + "&natureza=" + natureza;
 	return false;
 }
 </script>
@@ -26,10 +27,18 @@ function carrega_tabela() {
 <input type=hidden name='instituicao' id='instituicao' value='{$instituicao}'>
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='0'>Selecione período</option>
+<option value='{$turma}'>Período: {$turma}</option>
 <option value='0'>Todos</option>
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
+{/section}
+</select>
+
+<select name='natureza' id='natureza' onChange="return carrega_tabela();">
+<option value='{$natureza}'>Natureza: {$natureza}</option>
+<option value='0'>Todos</option>
+{section name=i loop=$naturezas}
+<option value='{$naturezas[i]}'>{$naturezas[i]}</option>
 {/section}
 </select>
 
@@ -50,6 +59,7 @@ function carrega_tabela() {
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Períodos</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">Áreas</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=natureza">Natureza</a></th>
 </tr>
 </thead>
 
@@ -106,12 +116,17 @@ function carrega_tabela() {
 {* Area *}
 <td>{$instituicoes[elementos].area}</td>
 
+{* Natureza *}
+<td>{$instituicoes[elementos].natureza}</td>
+
+<!--
 {* Url *}
 {if $instituicoes[elementos].url}
 	<td><a href='{$instituicoes[elementos].url}'></a>{$instituicoes[elementos].url}</td>
 {else}
 	<td>&nbsp;</td>
 {/if}
+//-->
 
 </tr>
 {/section}

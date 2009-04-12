@@ -75,7 +75,13 @@
 {* Inscrições realizadas *}
 {section name=i loop=$instituicoes}
 <tr>
-<td>{$instituicoes[i].instituicao}</td>
+
+{if $sistema_autentica == 1}
+	<td><a href='listaInscritos.php?id_instituicao={$instituicoes[i].id_instituicao}'>{$instituicoes[i].instituicao}</a></td>
+{else}
+	<td>{$instituicoes[i].instituicao}</td>
+{/if}
+
 <td style='text-align:center'>{$instituicoes[i].data|date_format:"%d-%m-%Y"}</td>
 </tr>
 {/section}

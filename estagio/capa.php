@@ -41,8 +41,6 @@ function escolaImagem() {
 </strong>
 <p class="coluna_centralizada">Telefone: 3873 5394 <br />
 Email: estagio@ess.ufrj.br</p>
-
-
  
 <p class="coluna_centralizada">
 <img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de Serviço Social/UFRJ" width="588" height="400">
