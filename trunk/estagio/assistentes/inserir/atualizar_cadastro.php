@@ -28,6 +28,7 @@ $id_instituicao = $_POST['id_instituicao'];
 
 // echo "id_supervisor: " . $id_supervisor . "<br>";
 
+$arquivo = $_SERVER['PHP_SELF'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $data = date('Y-m-d');
 
