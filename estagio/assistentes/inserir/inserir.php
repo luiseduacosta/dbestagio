@@ -59,6 +59,23 @@ if (empty($num_supervisor)) {
 
 }
 
+// Registro das atividades de atualização e inserção na tabela de supervisores
+$arquivo = $_SERVER['PHP_SELF'];
+$ip = $_SERVER['REMOTE_ADDR'];
+$data = date('Y-m-d');
+
+$sql = "select id from log_supervisores where id_supervisor = $id_supervisor";
+$resultado = $db->Execute($sql);
+$quantidade = $resultado->RecordCount();
+if ($quantidade > 0) {
+    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip'  where id_supervisor='$id_supervisor'"; 
+} else {
+    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip) values ('$cress', '$id_supervisor', '$nome', '$ip')";
+}
+// $sql_log . '<br>';
+$resultado_log = $db->Execute($sql_log);
+if($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
+
 echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";
 
 exit;
