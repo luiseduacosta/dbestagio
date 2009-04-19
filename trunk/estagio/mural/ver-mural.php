@@ -7,8 +7,6 @@
  */
 
 include_once("../autoriza.inc");
-
-include_once("../db.inc");
 include_once("../setup.php");
 
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
@@ -158,20 +156,23 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
+/* Nau sei o que quis fazer aqui. Logo vou a deletar
 $sql_estagio_um = "select count(*) as estagio_um from estagiarios where periodo ='" . PERIODO_ATUAL . "' and nivel = '1' group by registro";
 // echo $sql_estagio_um . "<br>";
 $res_estagio_um = $db->Execute($sql_estagio_um);
 $estagio_um = $res_estagio_um->fields['estagio_um'];
+*/
 
-// echo "Conhecidos " . $conhecido . "<br>";
+# echo "Conhecidos " . $conhecidos . "<br>";
+# echo "Total      " . $total . "<br>";
+
 // Calculo os novos como diferencia entre o total e os ja conhecidos
-$novos = ($total - $conhecidos) + $estagio_um;
+$novos = ($total - $conhecidos);
 // echo "Novos " . $novos . "<br>";
 
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("insere",$insere);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("totalVagas",$totalVagas);

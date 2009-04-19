@@ -122,7 +122,7 @@ function confirma() {
 
 <body style="direction: ltr;">
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 

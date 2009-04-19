@@ -4,7 +4,6 @@
 include_once("../autoriza.inc");
 
 // echo "Sistema autentica " . $sistema_autentica;
-// echo "Mural autentica   " . $mural_autentica;
 if($sistema_autentica == 0) {
 	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=http://$url/estagio/login.php'>";
 	exit;

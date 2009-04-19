@@ -1,8 +1,6 @@
 <?php
 
 include_once("../autoriza.inc");
-
-include_once("../db.inc");
 include_once("../setup.php");
 
 $id_aluno = isset($_GET['id_aluno']) ? $_GET['id_aluno'] : NULL ;
@@ -87,7 +85,6 @@ while (!$resultado->EOF) {
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 // Tabela de estagios anteriores
 $smarty->assign("aluno",$aluno);
 $smarty->assign("estagiarios",$estagiarios);

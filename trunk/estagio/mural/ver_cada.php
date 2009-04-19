@@ -1,8 +1,6 @@
 <?php
 
 include_once("../autoriza.inc");
-
-include_once("../db.inc");
 include_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
@@ -216,7 +214,6 @@ $data_hoje = date("Ymd");
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("data_hoje",$data_hoje);

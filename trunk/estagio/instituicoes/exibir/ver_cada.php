@@ -94,10 +94,10 @@ if ($modifica) {
 }
 
 /*
-echo "curso: " . $curso;
-echo " id_instituicao: " . $id_instituicao;
-echo " Indice: " . $indice;
-echo " Submit: " . $submit;
+echo "curso: " . $curso . "<br>";
+echo " id_instituicao: " . $id_instituicao . "<br>";
+echo " Indice: " . $indice . "<br>";
+echo " Submit: " . $submit . "<br>";
 echo " Botao: " . $botao . "<br>";
 */
 
@@ -156,15 +156,15 @@ switch($botao)
 
 // Rotina para acrescentar um supervisor
 if (!empty($id_supervisor)) {
-	// echo "Acrescentar supervisor<br>";
+	echo "Acrescentar supervisor<br>";
 	$sql = "insert into $tabela_inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$id_instituicao')";
-	// echo $sql . "<br>";
+	echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
 } else {
 	NULL; // echo "Nada: " . $_POST[num_instituicao] . "<br>";
 }
-
+// die;
 // Busco o lugar da instituicao na tabela
 if (!empty($id_instituicao)) {
 	$sql_instituicao = "select id from $tabela_instituicao order by instituicao";
