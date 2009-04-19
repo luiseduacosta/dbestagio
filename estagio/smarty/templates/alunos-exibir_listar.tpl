@@ -190,6 +190,7 @@
 <body style="direction: ltr;">
 
 <input type='submit' id='botao' value='Ver resumo' onClick='mostrar()'>
+<input type='submit' id='h_botao' value='Ver histórico' onClick='historico()'>
 
 {if $logado == 1}
 <br>
@@ -479,7 +480,7 @@ Tabela principal
 		{/if}
 		
         <th style="text-align:center">Nível</th>
-        <th colspan="4">Níveis</th>
+
 		<th>Cod</th>
 		<th>Mon</th>
 		<th><a href="?ordem=periodo&nome&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Período</a></th>
@@ -493,6 +494,11 @@ Tabela principal
     	    <th><a href="?ordem=nota&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">Nota</a></th>
     	    <th><a href="?ordem=ch&seleciona_instituicao={$seleciona_instituicao}&seleciona_periodo={$seleciona_periodo}&seleciona_turno={$seleciona_turno}&seleciona_nivel={$seleciona_nivel}&seleciona_professor={$seleciona_professor}&id_area={$id_area}">CH</a></th>
 		{/if}
+
+        <th id='historico20' colspan="3">Nível 1</th>
+        <th id='historico21' colspan="3">Nível 2</th>
+        <th id='historico22' colspan="3">Nível 3</th>
+        <th id='historico23' colspan="3">Nível 4</th>
 
     </tr>
 	</thead>
@@ -516,11 +522,14 @@ Tabela principal
 	{/if}
     
     <td style="text-align:center">{$lista[i].nivel}</td>
+
+{*
     <td style="text-align:right">{$lista[i].nivel1}</td>
     <td style="text-align:right">{$lista[i].nivel2}</td>
     <td style="text-align:right">{$lista[i].nivel3}</td>
     <td style="text-align:right">{$lista[i].nivel4}</td>
-    
+*}
+
     <td style="text-align:center">{$lista[i].codigo}</td>
 
     <td style="text-align:right"><a href='../../../tcc/monografia/visualizar/ver_monografia.php?codigo={$lista[i].num_monografia}'>{$lista[i].num_monografia}</a></td>
@@ -560,6 +569,22 @@ Tabela principal
 		</td>
 
 	{/if}
+
+    <td id='historia1' style="text-align:left;">&nbsp;{$lista[i].instituicao1}</td>
+    <td id='historia2' style="text-align:left;">&nbsp;{$lista[i].area1}</td>
+    <td id='historia3' style="text-align:center;">&nbsp;{$lista[i].periodo1}</td>
+	
+    <td id='historia4' style="text-align:left;">&nbsp;{$lista[i].instituicao2}</td>
+    <td id='historia5' style="text-align:left;">&nbsp;{$lista[i].area2}</td>
+    <td id='historia6' style="text-align:center;">&nbsp;{$lista[i].periodo2}</td>
+	        
+    <td id='historia7' style="text-align:left;">&nbsp;{$lista[i].instituicao3}</td>
+    <td id='historia8' style="text-align:left;">&nbsp;{$lista[i].area3}</td>
+    <td id='historia9' style="text-align:center;">&nbsp;{$lista[i].periodo3}</td>
+	            
+    <td id='historia10' style="text-align:left;">&nbsp;{$lista[i].instituicao4}</td>
+    <td id='historia11' style="text-align:left;">&nbsp;{$lista[i].area4}</td>
+    <td id='historia12' style="text-align:center;">&nbsp;{$lista[i].periodo4}</td>
 
     </tr>
     {/strip}

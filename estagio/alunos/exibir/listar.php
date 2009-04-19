@@ -119,7 +119,10 @@ while(!$resultadoLista->EOF) {
 	$nivel    = $resultadoLista->fields['nivel'];
 
 	// Capturo a informacao para ser exibida nos niveis
-	$sqlNivel = "select nivel, id_instituicao from estagiarios where id_aluno=$id_aluno";
+	$sqlNivel = "select nivel, id_instituicao, instituicao, areas_estagio.area, estagiarios.periodo from estagiarios " .
+			" join estagio on estagio.id = estagiarios.id_instituicao " .
+			" join areas_estagio on areas_estagio.id = estagiarios.id_area " .
+			" where id_aluno=$id_aluno";
 	// echo $sqlNivel . "<br>";
 	$resultadoNivel = $db->Execute($sqlNivel);
 	if($resultadoNivel === false) die ("Nao foi possivel consultar a tabela estagiarios");
@@ -130,28 +133,44 @@ while(!$resultadoLista->EOF) {
 	while(!$resultadoNivel->EOF) {
 		$nivelCadaAluno = $resultadoNivel->fields['nivel'];
 		$id_instituicao = $resultadoNivel->fields['id_instituicao'];
+		$instituicao = $resultadoNivel->fields['instituicao'];		
+		$area = $resultadoNivel->fields['area'];		
+		$periodo = $resultadoNivel->fields['periodo'];		
+
 		// echo $id_aluno . " " .$nivelCadaAluno . "<br>";
 
 		if ($nivelCadaAluno == 1) {
 			$estagiarios[$i]['nivel1'] = $id_instituicao;
+			$estagiarios[$i]['instituicao1'] = $instituicao;
+			$estagiarios[$i]['area1'] = $area;
+			$estagiarios[$i]['periodo1'] = $periodo;
 			$nivel1 = $id_instituicao;
 			// echo $nivel1 . " ";
 		}
 
 		if ($nivelCadaAluno == 2) {
 			$estagiarios[$i]['nivel2'] = $id_instituicao;
+			$estagiarios[$i]['instituicao2'] = $instituicao;
+			$estagiarios[$i]['area2'] = $area;
+			$estagiarios[$i]['periodo2'] = $periodo;
 			$nivel2 = $id_instituicao;
 			// echo $nivel2 . " ";
 		}
 
 		if ($nivelCadaAluno == 3) {
 			$estagiarios[$i]['nivel3'] = $id_instituicao;
+			$estagiarios[$i]['instituicao3'] = $instituicao;
+			$estagiarios[$i]['area3'] = $area;
+			$estagiarios[$i]['periodo3'] = $periodo;
 			$nivel3 = $id_instituicao;
 			// echo $nivel3 . " ";
 		}
 
 		if ($nivelCadaAluno == 4) {
 			$estagiarios[$i]['nivel4'] = $id_instituicao;
+			$estagiarios[$i]['instituicao4'] = $instituicao;
+			$estagiarios[$i]['area4'] = $area;
+			$estagiarios[$i]['periodo4'] = $periodo;
 			$nivel4 = $id_instituicao;
 			// echo $nivel4 . " ";
 		}

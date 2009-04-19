@@ -1,7 +1,6 @@
 <?php
 
 include_once("../autoriza.inc");
-
 require("../setup.php");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
@@ -74,7 +73,6 @@ if ($alunos) {
 
 $smarty = new Smarty_estagio;
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("periodo",$periodo);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("alunos",$alunos);

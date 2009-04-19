@@ -1,8 +1,6 @@
 <?php
 
 include_once("../autoriza.inc");
-
-include_once("../db.inc");
 include_once("../setup.php");
 
 $ordem = $_REQUEST['ordem'];
@@ -162,7 +160,6 @@ $smarty = new Smarty_estagio;
 
 $smarty->assign("periodo_atual",PERIODO_ATUAL);
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$n_inscritos);
 $smarty->display("lista-alunos_mural.tpl");

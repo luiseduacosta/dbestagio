@@ -25,7 +25,7 @@
 
 <body style="direction: ltr;">
 
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 	<br>
 	<a href='email_lista-alunos.php'>Enviar e-mail</a>

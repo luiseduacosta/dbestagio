@@ -284,7 +284,7 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-{if $mural_autentica == 1}
+{if $sistema_autentica == 1}
 	<span class="botao">
 	{if $id_instituicao == ""}
 	    <a href="mural-modifica.php?id_instituicao={$instituicao[item].id_instituicao}">Editar</a>

@@ -7,13 +7,10 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
+include_once("../setup.php");
 include_once("../autoriza.inc");
 
-// include_once("mural-autentica.inc");
 $ordem = $_GET['ordem'];
-
-include_once("../db.inc");
-include_once("../setup.php");
 
 $sql_inscritos  = "select mural_inscricao.id_aluno "; 
 $sql_inscritos .= " , mural_inscricao.periodo as mural_periodo ";
@@ -94,7 +91,6 @@ if (sizeof($inscritos) != 0) {
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("mural_autentica",$mural_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("inscritos",$inscritos);
 $smarty->display("alunosConhecidos.tpl");

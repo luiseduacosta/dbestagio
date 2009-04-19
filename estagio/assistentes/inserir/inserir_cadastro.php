@@ -35,6 +35,7 @@ echo "Inserindo supervisor<br>";
 $sql  = "insert into supervisores (nome, endereco, municipio, bairro, cep, cress, regiao, email, codigo_tel, telefone, codigo_cel, celular, escola, ano_formatura, outros_estudos, area_curso, ano_curso) "; 
 $sql .= " values ('$nome', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
 // echo $sql . "<br>";
+die;
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
 // die;
