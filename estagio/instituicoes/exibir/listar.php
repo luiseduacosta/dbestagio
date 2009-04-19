@@ -71,7 +71,7 @@ if ($turma == 0) {
 	$sql .= " where t.periodo = '$turma' ";
 }
 
-if ($instituicao) $sql .= " and e.instituicao like '%instituicao%' ";
+if ($instituicao) $sql .= " and e.instituicao like '%$instituicao%' ";
 if ($natureza) $sql .= " and e.natureza =  '$natureza' ";
 
 $sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
