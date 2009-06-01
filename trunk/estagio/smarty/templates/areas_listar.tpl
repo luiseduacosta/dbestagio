@@ -13,8 +13,10 @@
 <tbody>
 
 <tr>
-<th>Área</th>
-<th>Professor</th>
+<th><a href=?ordem=areas_estagio.area>Área</a></th>
+<th><a href=?ordem=professores.nome>Professor</a></th>
+<th><a href=?ordem=min(estagiarios.periodo)>Período início</a></th>
+<th><a href=?ordem=max(estagiarios.periodo)>Período último</a></th>
 </tr>
 
 {section name=elemento loop=$areas}
@@ -26,7 +28,17 @@
 
 <!-- 2a coluna -->
 <td>
-<a href='../../professores/exibir/ver_cada.php?id_professor={$areas[elemento].id_professor}'>{$areas[elemento].nome}</a>
+<a href='../../professores/exibir/ver_cada.php?id_professor={$areas[elemento].id_professor}&id_area={$areas[elemento].area_id}'>{$areas[elemento].nome}</a>
+</td>
+
+<!-- 3a coluna -->
+<td style='text-align:center'>
+{$areas[elemento].min_periodo}
+</td>
+
+<!-- 4a coluna -->
+<td style='text-align:center'>
+{$areas[elemento].max_periodo}
 </td>
 
 </tr>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<title>Supervisor</title>
+</head>
+
+<body>
+
+<div align="center">
+<table border="1">
+<caption>Supervisor</caption>
+<tbody>
+
+<tr>
+<td colspan="2">Id: {$id_supervisor}</td>
+</tr>
+
+<tr>
+<td>Cress</td>
+<td>{$cress}</td>
+</tr>
+
+<tr>
+<td>Supervisor</td>
+<td>{$nome}</td>
+</tr>
+
+<td>Email</td>
+<td>{$email}</td>
+</tr>
+
+{section name=elementos loop=$instituicao}
+<tr>
+<td>Instituição</td>
+<td>
+<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicao[elementos].num_instituicao}">{$instituicao[elementos].instituicao|truncate:50}</a>
+</td>
+</tr>
+{/section}
+
+<tr class="rodape">
+<td colspan="2" class="coluna_centralizada">
+<form name="modifica" action="../atualizar/modifica.php" method="post">
+<input type="hidden" name="id_supervisor" value="{$id_supervisor}">
+<input type="submit" name="submit" value="Modifica dados">
+</form>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+</body>
+
+</html>
