@@ -1,0 +1,82 @@
+/*
+* Folha de estilos
+* corpo do texto
+*/
+
+body {
+	color: #000000;
+	background-color: #b0fffb;
+	}
+
+p {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000000;
+	text-align: justify;
+	}
+
+
+h1 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 14pt;
+	color: #000000;
+	text-align: center;
+	}
+h2 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 14pt;
+	color: #000000;
+	text-align: center;
+	}
+
+table {
+	background-color: #D0EFFF;
+	text-align: left;
+	}
+
+caption {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #000000;
+	text-align: center;
+	}
+
+tr {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12pt;
+	color: #000000;
+	text-align: left;
+	}
+
+th {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12pt;
+	color: #000000;
+	background-color: #E7E1AE;
+	text-align: center;
+	}
+
+td {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12pt;
+	color: #000000;
+	background-color: greem;
+	text-align: left;
+	}
+
+.ultima_linha {
+    text-align: center;
+    }
+
+.coluna_centralizada {
+    text-align: center;
+    }
+
+.rodape {
+    font-weight: bold;
+    color: #000000;
+    background-color: #E7E1AE;
+    text-align: center;
+    }

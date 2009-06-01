@@ -66,7 +66,8 @@ function alunos($id_professor,$db,$ordem="nome") {
 			" join estagiarios on alunos.id = estagiarios.id_aluno inner " .
 			" join estagio on estagiarios.id_instituicao = estagio.id " .
 			" join areas_estagio on estagiarios.id_area = areas_estagio.id " .
-			" where estagiarios.id_professor = $id_professor order by $ordem";
+			" where estagiarios.id_professor = $id_professor " .
+			" order by $ordem";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("alunos: Não foi possível consultar as tabelas alunos, estagiarios e estagio");

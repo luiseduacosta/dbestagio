@@ -16,6 +16,9 @@ $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
 $ordem = isset($_GET['ordem']) ? $ordem = $_REQUEST['ordem'] : ordem;
 $selecao = isset($_GET['selecao']) ? $selecao = $_REQUEST['selecao'] : NULL;
 
+// Elimino a variavel se esta em branco
+if ($selecao == '') unset($selecao);
+
 $inscricaoRealizada = $_REQUEST['num_inscricao'];
 
 $sql  = "select s.id, s.num_inscricao, s.cress, s.nome, s.email, s.codigo_tel, s.telefone, s.codigo_cel, s.celular, s.selecao, i.id as id_instituicao, i.instituicao, i.id_estagio ";
@@ -94,8 +97,8 @@ while(!$resultado->EOF) {
 if(sizeof($matriz) <= 0) {
     echo "Arquivo vazio" . "<br>";
     if ($selecao == 1) {
-    	echo "<p>Não há inscritos selecionados</p>";
-    	echo "<meta http-equiv='refresh' content='1; URL=inscricao_lista.php?selecao= 0'>";
+    	echo "<p>Não há inscritos selecionados nesta turma</p>";
+    	echo "<meta http-equiv='refresh' content='1; URL=inscricao_lista.php?selecao=0&turma=$turma'>";
     }
     exit;
 } else {

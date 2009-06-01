@@ -38,9 +38,9 @@ function get_turma() {
 {if $autentica == 1}
 	<br>
 	{if $selecao == 1}
-		<a href='?selecao=&turma={$turma}'>Ver todos</a>
+		<a href='?selecao=0&turma={$turma}&ordem={$ordem}'>Não selecionados</a>
 	{else}
-		<a href='?selecao=1&turma={$turma}'>Somente selecionados</a>
+		<a href='?selecao=1&turma={$turma}&ordem={$ordem}'>Somente selecionados</a>
 	{/if}
 {/if}
 
@@ -67,24 +67,24 @@ function get_turma() {
 
 <th>Num</th>
 
-<th><a href="inscricao_lista.php?turma={$turma}&ordem=num_inscricao">Ordem</a></th>
+<th><a href="inscricao_lista.php?turma={$turma}&ordem=num_inscricao&selecao={$selecao}">Ordem</a></th>
 
 {if $autentica == 1}
-	<th><a href="inscricao_lista.php?turma={$turma}&ordem=cress">CRESS</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=cress&selecao={$selecao}">CRESS</a></th>
 {/if}
 
-<th><a href="inscricao_lista.php?turma={$turma}&ordem=nome">Nome</a></th>
+<th><a href="inscricao_lista.php?turma={$turma}&ordem=nome&selecao={$selecao}">Nome</a></th>
 
 {if $autentica == 1}
-	<th><a href="inscricao_lista.php?turma={$turma}&ordem=email">E-mail</a></th>
-	<th><a href="inscricao_lista.php?turma={$turma}&ordem=telefone">Telefone</a></th>
-	<th><a href="inscricao_lista.php?turma={$turma}&ordem=celular">Celular</a></th>	
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=email&selecao={$selecao}">E-mail</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=telefone&selecao={$selecao}">Telefone</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=celular&selecao={$selecao}">Celular</a></th>	
 {/if}
 
-<th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao">Instituição</a></th>
+<th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao&selecao={$selecao}">Instituição</a></th>
 
 {if $autentica == 1}
-	<th><a href="inscricao_lista.php?turma={$turma}&ordem=selecao">Seleção</a></th>
+	<th><a href="inscricao_lista.php?turma={$turma}&ordem=selecao&selecao={$selecao}">Seleção</a></th>
 	<th>Imprime</th>
 {/if}
 
