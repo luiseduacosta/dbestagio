@@ -71,7 +71,7 @@ function confirma() {
 	{assign var = "color" value = 0}
 {/if}
 <td style="text-align:right">{$i++}</td>
-<td style="text-align:right">{$inscritos[item].inscrito}</td>
+<td style="text-align:center">{$inscritos[item].inscrito}</td>
 <td style="text-align:right">{$inscritos[item].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].flag}">{$inscritos[item].nome}</a></td>
 {* Omito os telefones se não está cadastrado *}

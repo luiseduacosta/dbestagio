@@ -6,7 +6,6 @@ if($debug == 1) {
 
 include_once("../../autentica.inc");
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $cadastro        = $_POST['cadastro'];
@@ -50,11 +49,6 @@ if($cadastro == 0) {
 
     header("Location:../exibir/ver_cada.php?id_aluno=$ultimo_aluno");
     // header("Location:acrescentar_estagio.php?id_aluno=$ultimo_aluno");
-    exit;
-} else {
-    // $smarty = new Smarty_estagio;
-    // $smarty->assign("email",$email);
-    // $smarty->display("alunos_insere.tlp");
     exit;
 }
 

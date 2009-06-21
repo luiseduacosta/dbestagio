@@ -236,7 +236,7 @@ Professor
 Area
 //-->
 <tr>
-<td>Área:</td>
+<td>Área do professor:</td>
 
 <td>
 <select name="id_area" size="1">

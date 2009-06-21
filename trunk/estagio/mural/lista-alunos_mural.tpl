@@ -14,11 +14,19 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../../../mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../../../mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../../../mygosumenu/1.0/DropDownMenu1.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
+<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
+<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
+<script type="text/javascript" src="../lib/jquery.js"></script>
 {literal}
 <script language="JavaScript" type="text/javascript">
+$(function() {
+$("#link").toggle(function() {
+        $(".aluno_novo").css('display','block');
+        }, function() {
+        $(".aluno_novo").css('display','none');
+    });
+});
 </script>
 {/literal}
 </head>
@@ -30,6 +38,10 @@
 	<br>
 	<a href='email_lista-alunos.php'>Enviar e-mail</a>
 {/if}
+
+{*
+<a href="#" id="link">Clica aqui</a>
+*}
 
 <h1>Lista de alunos que buscam estágio</h1>
 
@@ -60,12 +72,12 @@
 {assign var = "i" value = 1}
 {section name=i loop=$alunos}
 {if $alunos[i].aluno eq 1}
-<tr style="background-color:#f6ecec;">
+<tr class="aluno_novo" style="background-color:#f6ecec;">
 {else}
-<tr style="background-color:#add8e6;">
+<tr class="aluno_estagiario" style="background-color:#add8e6;">
 {/if}
 <td style="text-align:right">{$i++}</td>
-<td style="text-align:right;">{$alunos[i].inscrito}</td>
+<td style="text-align:center;">{$alunos[i].inscrito}</td>
 <td style="text-align:center">{$alunos[i].nivel}</td>
 <td style="text-align:center">{$alunos[i].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>

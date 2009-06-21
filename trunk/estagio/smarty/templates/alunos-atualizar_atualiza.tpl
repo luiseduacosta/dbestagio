@@ -317,7 +317,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Area:</td>
+<td>Área do professor:</td>
 <td>
 <select name="id_area" size="1">
 <option value="0">Selecione area</option>
