@@ -2,17 +2,24 @@
 
 // include_once("../../autentica.inc");
 
-$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
-
-$origem = $_SERVER['HTTP_REFERER'];
-// echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
-
 include_once("../../db.inc");
 include_once("../../setup.php");
 
+$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
+
 $botao  = $_POST['botao'];
 $indice = $_REQUEST['indice'];
-$id_aluno = $_REQUEST['id_aluno'];
+$id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
+$registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL; 
+
+if (empty($id_aluno)) {
+	$sql = "select id from alunos where registro=$registro";
+	$resultado = $db->Execute($sql);
+	$id_aluno = $resultado->fields['id'];
+}
+
+$origem = $_SERVER['HTTP_REFERER'];
+// echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 
 // Verifico se o usuario esta logado como administrador
 $usuario_senha = $_REQUEST['usuario_senha'];
@@ -88,7 +95,7 @@ if(!empty($id_aluno)) {
     	$resultado_sql_lugar->MoveNext();
     	$j++;
     }
-    if (!$indice) die("Aluno estagiario sem estágio: excluir o aluno ou inserir um estágio clicando em 'Modificar' e selecionando o aluno.") . "<br>";
+    if (!$indice) die("Aluno estagiario sem estágio: escolha: a) <a href='../cancelar/cancela.php?id_aluno=$id_aluno'>Excluir</a> o aluno ou; b) <a href='../atualizar/atualiza.php?id_aluno=$id_aluno'>Inserir um estágio</a>") . "<br>";
 }
 /*
 $sql  = "SELECT alunos.id, alunos.registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
@@ -125,11 +132,12 @@ while(!$resultado->EOF) {
     // echo $observacoes . "<br>";	
     $resultado->MoveNext();
 
-    $sql_estagiario = "select tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno=$aluno_id order by periodo";
+    $sql_estagiario = "select id, tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno=$aluno_id order by periodo";
     $resultado_estagiario = $db->Execute($sql_estagiario);
     if($resultado_estagiario === false) die ("Nao foi possivel consultar a tabela estagiarios");
     $i = 0;
     while(!$resultado_estagiario->EOF) {
+		$id_estagiario      = $resultado_estagiario->fields['id'];
 		$tc                 = $resultado_estagiario->fields['tc'];
         $nivel              = $resultado_estagiario->fields['nivel'];
         $turno              = $resultado_estagiario->fields['turno'];
@@ -180,6 +188,7 @@ while(!$resultado->EOF) {
 	    $professor_nome = $resultado_professor->fields['nome'];
     	
 		$historico_estagio[$i]['nivel']          = $nivel;
+		$historico_estagio[$i]['id_estagiario']  = $id_estagiario;
 		$historico_estagio[$i]['tc']             = $tc;
 		$historico_estagio[$i]['turno']          = $turno;
 		$historico_estagio[$i]['periodo']        = $estagiario_periodo;

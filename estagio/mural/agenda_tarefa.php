@@ -29,10 +29,10 @@ $instituicao = $resultado->fields['instituicao'];
 $datafax = $resultado->fields['datafax'];
 $email = $resultado->fields['email'];
 		
-// Passo do formato aaaa/mm/dd para dd/mm/aaaa		
+// Passo do formato aaaa/mm/dd para dd/mm/aaaa
 $data_selecao = date('Ymd',strtotime($resultado->fields['dataSelecao']));
 
-// Passo do formato aaaa/mm/dd para dd/mm/aaaa		
+// Passo do formato aaaa/mm/dd para dd/mm/aaaa
 $data_encerramento = date("Ymd",strtotime($resultado->fields['dataInscricao']));
 // echo "Data encerramento: " . $data_encerramento . "<br>";
 

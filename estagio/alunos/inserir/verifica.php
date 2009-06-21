@@ -11,8 +11,6 @@ if(empty($origem)) {
 // echo $origem . "<br>";
 
 include_once("../../autentica.inc");
-
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $registro = $_REQUEST['registro'];
@@ -59,12 +57,16 @@ if ($quantidade == 0) {
 			
 			// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 			// echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
+			/*
 			$nova_data = ereg_replace("-","/",$nascimento);
 			// echo "Nova data: ". $nova_data . "<br>";
 			$dataCorrigida = split("/",$nova_data);
 			$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 			// echo $data_sql . "<br>";
+			*/
 			
+			$data_sql = date('d/m/Y',strtotime($nascimento));
+
 			$endereco = $resultado->fields['endereco'];
 			$cep = $resultado->fields['cep'];
 			$bairro = $resultado->fields['bairro'];
@@ -76,7 +78,8 @@ if ($quantidade == 0) {
 	// Se esta cadastrado na tabela alunos
 } elseif ($quantidade > 0) {
 	// echo "Aluno cadastrado na tabela alunos " . "<br>";
-	header("Location:../exibir/ver_cada.php?id_aluno=$registro");
+	header("Location:../exibir/ver_cada.php?registro=$registro");
+	exit;
 }
 
 $smarty = new Smarty_estagio;
