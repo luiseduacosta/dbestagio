@@ -3,10 +3,11 @@
 include_once("../autoriza.inc");
 include_once("../setup.php");
 
-$ordem = $_REQUEST['ordem'];
-if(empty($ordem)) $ordem = "nome";
+$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 
-$sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
+$sql = "SELECT id_aluno, data " .
+		" FROM mural_inscricao " .
+		" WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela alunos");
@@ -20,37 +21,34 @@ while (!$resultado->EOF) {
 		$inscritos[$i]['data_ultima'] = $resultado_datas->fields['data_ultima'];
 		// echo $sql_datas . "<br>";
 
+		// Calculo a quantidade de inscricoes por aluno
 		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
 		// echo $sqlQuantidade . " "; // . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
 		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
-		$alunos[$i]['quantidade'] = $resultadoQuantidade->fields['quantidade'];
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		// echo $quantidadeInscricoes . "<br>";
-		
+	
+		// Verifico se ha alunos estagiarios inscritos para selecao
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br><br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
 		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . "<br>";
+
 		// Se nao esta como aluno estagiario entao busco em alunosNovos
 		if ($quantidade == 0) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
 				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+
 				while (!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						$registro = $resultadoAlunosNovos->fields['registro'];
 						// echo "Novos " . $registro . " " . $nome . "<br>";
 						// $instituicao = $resultadoAlunosNovos->fields['instituicao'];
-
-						$sql_nivel = "select registro, max(nivel) as nivel from estagiarios where registro = '$registro' and periodo ='" . PERIODO_ATUAL ."' group by id_aluno";
-						// echo $sql_nivel . "<br>";
-						$res_nivel = $db->Execute($sql_nivel);
-						$registro_nivel = $res_nivel->fields['nivel'];
-						// echo 'Nivel ' . $registro_nivel . "<br>";
 
 						$inscritos[$i]['nome'] = $resultadoAlunosNovos->fields['nome'];
 						$inscritos[$i]['registro'] = $resultadoAlunosNovos->fields['registro'];
@@ -71,30 +69,29 @@ while (!$resultado->EOF) {
 						// echo $sql_estagiario . "<br>";
 						$resultado_estagiario = $db->Execute($sql_estagiario);
 						$inscritos[$i]['inscrito'] = $resultado_estagiario->fields['tc'];
-						/*
-						$q_alunos = $resultado_estagiario->RecordCount();
-						if ($q_alunos > 0) {
-							 $inscritos[$i]['inscrito'] = 1; // Ja fez inscricao
-						} else {
-							 $inscritos[$i]['inscrito'] = 0; // Ainda nao
-						}
-						*/
+
+						// Para ordenar a tabela pela variavel ordem
+						$criterio[] = $inscritos[$i][$ordem];
+
 						$i++;
 						$resultadoAlunosNovos->MoveNext();
 				}
+		// Aluno estagiario
 		} else {
 				while(!$resultadoAlunos->EOF) {
 						$nome = $resultadoAlunos->fields['nome'];
 						$registro = $resultadoAlunos->fields['registro'];
 
+						// Busco alunos estagiarios no periodo atual
 						$sql_nivel = "select registro, max(nivel) as nivel from estagiarios where registro = '$registro' and periodo ='" . PERIODO_ATUAL ."' group by id_aluno";
 						// echo $sql_nivel . "<br>";
 						$res_nivel = $db->Execute($sql_nivel);
 						$registro_nivel = $res_nivel->fields['nivel'];
 						// echo 'Nivel ' . $registro_nivel . "<br>";
-						
+
+						// A pesar de ser estagiario eh aluno novo porque esta em estagio I no periodo atual						
 						if ($registro_nivel == '1') {
-							$inscritos[$i]['aluno'] = 0; // Aluno estagiario
+							$inscritos[$i]['aluno'] = 0; // Aluno novo em estagio I
 						} else {
 							$inscritos[$i]['aluno'] = 1; // Aluno estagiario
 						}
@@ -117,16 +114,10 @@ while (!$resultado->EOF) {
 						// echo $sql_estagiario . "<br>";
 						$resultado_estagiario = $db->Execute($sql_estagiario);
 						$inscritos[$i]['inscrito'] = $resultado_estagiario->fields['tc'];
-						/*
-						$q_alunos = $resultado_estagiario->RecordCount();
-						if ($q_alunos > 0) {
-							 $inscritos[$i]['inscrito'] = 1; // Ja fez inscricao
-						} else {
-							 $inscritos[$i]['inscrito'] = 0; // Ainda nao
-						}
-						
-						// echo "<br>";
-						*/						
+
+						// Para ordenar a tabela pela variavel ordem
+						$criterio[] = $inscritos[$i][$ordem];
+
 						$i++;				
 						$resultadoAlunos->MoveNext();
 					}
@@ -135,33 +126,15 @@ while (!$resultado->EOF) {
 		$resultado->MoveNext();
 }
 
-for($i=0;$i<sizeof($inscritos);$i++) {
-	$n_inscritos[$i][$ordem] = $inscritos[$i][$ordem];
-	$n_inscritos[$i]['nome'] = $inscritos[$i]['nome'];
-	$n_inscritos[$i]['nivel'] = $inscritos[$i]['nivel'];
-	$n_inscritos[$i]['registro'] = $inscritos[$i]['registro'];
-	$n_inscritos[$i]['id'] = $inscritos[$i]['id'];
-	$n_inscritos[$i]['telefone'] = $inscritos[$i]['telefone'];
-	$n_inscritos[$i]['celular'] = $inscritos[$i]['celular'];
-	$n_inscritos[$i]['email'] = $inscritos[$i]['email'];
-	$n_inscritos[$i]['instituicao'] = $inscritos[$i]['instituicao'];
-	$n_inscritos[$i]['quantidade'] = $inscritos[$i]['quantidade'];
-	$n_inscritos[$i]['aluno'] = $inscritos[$i]['aluno'];
-	$n_inscritos[$i]['inscrito'] = $inscritos[$i]['inscrito'];
-	$n_inscritos[$i]['data_inicio'] = $inscritos[$i]['data_inicio'];
-	$n_inscritos[$i]['data_ultima'] = $inscritos[$i]['data_ultima'];
-}
-
-if (sizeof($n_inscritos) != 0) {
-	sort($n_inscritos);
-}
+// Ordeno a tabela pela variavel ordem
+if (isset($criterio)) array_multisort($criterio, SORT_ASC, $inscritos);
 
 $smarty = new Smarty_estagio;
 
 $smarty->assign("periodo_atual",PERIODO_ATUAL);
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("totalAlunos",$i);
-$smarty->assign("alunos",$n_inscritos);
+$smarty->assign("alunos",$inscritos);
 $smarty->display("lista-alunos_mural.tpl");
 
 ?>

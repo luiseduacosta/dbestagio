@@ -182,6 +182,7 @@ function get_periodo() {
 <tbody>
 
 <tr>
+<th>Editar</th>
 <th>Período</th>
 <th>TC</th>
 <th>Nivel</th>
@@ -198,6 +199,7 @@ function get_periodo() {
 {section name=estagio loop=$historico_estagio}
 
 <tr>
+<td><a href=../atualizar/atualiza_estagio.php?id_estagiarios={$historico_estagio[estagio].id_estagiario}&id_aluno={$num_aluno}>Editar</a></td>
 <td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
 <td style="text-align:center">{$historico_estagio[estagio].tc}</td>
 <td style="text-align:center">{$historico_estagio[estagio].nivel}</td>

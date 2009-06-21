@@ -143,18 +143,39 @@ $total = $resultado->RecordCount();
 // echo "Total " . $total . "<br>";
 
 $conhecidos = 0;
+$i = 0;
 while (!$resultado->EOF) {
 	$registro = $resultado->fields['id_aluno'];
 	// Conto a quantidade de alunos que ja estao em estagio
-	$sqlVelho = "select registro from estagiarios where registro='$registro' and nivel != '1' group by registro";
+	// $sqlVelho = "select registro from estagiarios where registro='$registro' and nivel != '1' group by registro";
+	
+	$sqlVelho = "select registro from estagiarios where registro='$registro' group by registro";
 	// echo $sqlVelho . "<br>";
 	$resultadoVelho = $db->Execute($sqlVelho);
-	while (!$resultadoVelho->EOF) {
-			$conhecidos++;
-			$resultadoVelho->MoveNext();
+	$numero_aluno = $resultadoVelho->fields['registro'];
+	// echo $i . " " . $conhecidos . " " . $registro . " " .  $numero_aluno . "<br>";
+	if (!empty($numero_aluno)) {
+		// Tenho que incluir na busca os alunos que ja estao em estagio I no periodo atual
+
+		$conhecidos++;
+
+		// Tenho que buscar os alunos novos que ja estao em estagio I no periodo atual
+		$sql_velho = "select registro from estagiarios where registro = '$numero_aluno' and periodo = '" .PERIODO_ATUAL . "' and nivel = 1 group by registro";
+		// echo $sql_velho . "<br>";
+		$res_velho = $db->Execute($sql_velho);
+		$dre_aluno = $res_velho->fields['registro'];
+		// echo $dre_aluno . "<br>";
+		if (!empty($dre_aluno)) {
+			$estagio_um++;
+		}
 	}
+	// echo $conhecidos . " " . $estagio_um . "<br>";
+
+	$i++;
 	$resultado->MoveNext();
 }
+
+// echo $conhecidos . " " . $estagio_um . "<br>";
 
 /* Nau sei o que quis fazer aqui. Logo vou a deletar
 $sql_estagio_um = "select count(*) as estagio_um from estagiarios where periodo ='" . PERIODO_ATUAL . "' and nivel = '1' group by registro";
@@ -168,7 +189,14 @@ $estagio_um = $res_estagio_um->fields['estagio_um'];
 
 // Calculo os novos como diferencia entre o total e os ja conhecidos
 $novos = ($total - $conhecidos);
-// echo "Novos " . $novos . "<br>";
+
+$novo_novo = $novos + $estagio_um;
+$conhecidos_conhecidos = $conhecidos - $estagio_um;
+
+/*
+echo "Novos       " . $novo_novo . "<br>";
+echo "Estagiarios " . $conhecidos_conhecidos . "<br>";
+*/
 
 $smarty = new Smarty_estagio;
 
@@ -177,8 +205,8 @@ $smarty->assign("insere",$insere);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("totalVagas",$totalVagas);
 $smarty->assign("totalAlunos",$total);
-$smarty->assign("alunosNovos",$novos);
-$smarty->assign("alunosVelhos",$conhecidos);
+$smarty->assign("alunosNovos",$novo_novo);
+$smarty->assign("alunosVelhos",$conhecidos_conhecidos);
 $smarty->display("ver-mural.tpl");
 // $smarty->display("listaOfertas.tpl");
 

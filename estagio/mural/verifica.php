@@ -68,7 +68,7 @@ if ($quantidade_estagiarios === 0) {
 	$resultado_periodo = $db->Execute($sql_periodos);
 	$quantidade = $resultado_periodo->RecordCount();
 	// echo $quantidade . "<br>";
-	if ($quantidade === 0) die("Error: Aluno estagiario sem estagios?");
+	if ($quantidade === 0) die("Error: Aluno estagiario sem estágio? Informar para <a href='mailto:estagio@ess.ufrj.br?Subject=Error: estagiario (DRE: $registro) sem estagio '>estagio@ess.ufrj.br</a>");
 	$i = 1;
 	while (!$resultado_periodo->EOF) {
 		$periodo = $resultado_periodo->fields['periodo'];

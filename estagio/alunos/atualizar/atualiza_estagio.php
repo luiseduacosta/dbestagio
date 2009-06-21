@@ -13,8 +13,8 @@ if(empty($origem )) {
 	$origem = $_SERVER['HTTP_REFERER']; // Para poder retornar desde onde foi chamado
 }
 
-$id_estagiarios = $_REQUEST['id_estagiarios'];
-$id_aluno = $_REQUEST['id_aluno'];
+$id_estagiarios = isset($_REQUEST['id_estagiarios']) ? $_REQUEST['id_estagiarios'] : NULL;
+$id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
 
 // Aluno
 /* Seria melhor capturar toda a informacao do aluno */

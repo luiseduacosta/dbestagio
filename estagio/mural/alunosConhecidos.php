@@ -14,7 +14,7 @@ $ordem = $_GET['ordem'];
 
 $sql_inscritos  = "select mural_inscricao.id_aluno "; 
 $sql_inscritos .= " , mural_inscricao.periodo as mural_periodo ";
-$sql_inscritos .= " , max(estagiarios.periodo) as estagio_periodo, max(estagiarios.nivel) as nivel ";
+$sql_inscritos .= " , max(estagiarios.periodo) as estagio_periodo, max(estagiarios.nivel) as nivel, estagiarios.periodo ";
 $sql_inscritos .= " , alunos.nome, alunos.telefone, alunos.celular, alunos.email ";
 $sql_inscritos .= " from mural_inscricao ";
 $sql_inscritos .= " inner join estagiarios on mural_inscricao.id_aluno = estagiarios.registro "; 
@@ -39,6 +39,7 @@ while (!$resultado_inscritos->EOF) {
 	
 	$id_aluno = $resultado_inscritos->fields['id_aluno'];
 	$nivel = $resultado_inscritos->fields['nivel'];
+	$periodo = $resultado_inscritos->fields['periodo'];
 	$id_instituicao = $resultado_inscritos->fields['id_instituicao'];
 	
 	$nome = $resultado_inscritos->fields['nome'];
@@ -58,6 +59,7 @@ while (!$resultado_inscritos->EOF) {
 
 	$inscritos[$i]['registro'] = $id_aluno;
 	$inscritos[$i]['nivel'] = $nivel;
+	$inscritos[$i]['estagio_periodo'] = $periodo;
 
 	$inscritos[$i]['nome'] = $nome;
 	$inscritos[$i]['telefone'] = $telefone;

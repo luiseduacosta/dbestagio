@@ -42,19 +42,21 @@ function aluno()
 <th>ch</th>
 <th>Nota</th>
 <th>Instituição</th>
+<th>Modificar</th>
+<th>Excluir</th>
 </tr>
 
 {section name=elemento loop=$estagiarios}
 <tr>
-<td>{$estagiarios[elemento].periodo}</td>
-<td>{$estagiarios[elemento].tc}</td>
-<td>{$estagiarios[elemento].nivel}</td>
-<td>{$estagiarios[elemento].turno}</td>
-<td>{$estagiarios[elemento].ch}</td>
-<td>{$estagiarios[elemento].nota}</td>
+<td style="text-align:center">{$estagiarios[elemento].periodo}</td>
+<td style="text-align:center">{$estagiarios[elemento].tc}</td>
+<td style="text-align:center">{$estagiarios[elemento].nivel}</td>
+<td style="text-align:center">{$estagiarios[elemento].turno}</td>
+<td style="text-align:center">{$estagiarios[elemento].ch}</td>
+<td style="text-align:center">{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Modifica</a></td>
-<td><a href="../cancelar/cancela_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Canelar</a></td>
+<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Modificar</a></td>
+<td><a href="../cancelar/cancela_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Excluirr</a></td>
 </tr>
 {/section}
 

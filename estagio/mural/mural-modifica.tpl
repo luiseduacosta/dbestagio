@@ -14,9 +14,9 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../../../mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../../../mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../../../mygosumenu/1.0/DropDownMenu1.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
+<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
+<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 </head>
 
 <body>
