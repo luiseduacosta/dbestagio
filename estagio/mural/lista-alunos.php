@@ -21,6 +21,14 @@ while (!$resultado->EOF) {
 		$inscritos[$i]['data_ultima'] = $resultado_datas->fields['data_ultima'];
 		// echo $sql_datas . "<br>";
 
+		// Capturo a data de ingresso na universidade
+		$sql_ingresso = "select periodo, turno from alunos_ingresso where registro='$id_aluno'";
+		// echo $sql_ingresso . "<br>";
+		$res_ingresso = $db->Execute($sql_ingresso);
+		$inscritos[$i]['data_ingresso'] = $periodo_ingresso = $res_ingresso->fields['periodo'];
+		$inscritos[$i]['turno'] = $periodo_ingresso = $res_ingresso->fields['turno'];
+		// echo $periodo_ingresso = $res_ingresso->fields['periodo'] . "<br>";
+
 		// Calculo a quantidade de inscricoes por aluno
 		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
 		// echo $sqlQuantidade . " "; // . "<br>";

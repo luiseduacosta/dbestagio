@@ -102,7 +102,7 @@ if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 // Verifico se o aluno está cadastrado
 $quantidade = $resultado->RecordCount();
 if ($quantidade == 0) {
-	echo "Aluno não cadastrado em estágio <br />";
+	echo "Aluno não cadastrado como estagiário. Tem certeza que está cursando estágio? <br />";
 	echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a>";
 	exit;
 }
