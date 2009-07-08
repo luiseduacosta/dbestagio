@@ -1,18 +1,17 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 /* 
 A partir da tabela estagiarios do jEstagioDb
-Coloco o número de registro na tabela de estagiarios
+Coloco o numero de registro na tabela de estagiarios
 utilizando as tabelas alunos e alunosNovos
 */
 
 /*
 $sql = "update estagiarios set registro = 0";
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possível zerar a tabela estagiarios");
+if($resultado == false) die ("Nao foi possi�vel zerar a tabela estagiarios");
 
 // Primeiro atualizo os alunos
 $sql = "select id, registro from alunos";

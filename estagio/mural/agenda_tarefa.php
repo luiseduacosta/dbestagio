@@ -28,7 +28,7 @@ $id_instituicao = $resultado->fields['id'];
 $instituicao = $resultado->fields['instituicao'];
 $datafax = $resultado->fields['datafax'];
 $email = $resultado->fields['email'];
-		
+
 // Passo do formato aaaa/mm/dd para dd/mm/aaaa
 $data_selecao = date('Ymd',strtotime($resultado->fields['dataSelecao']));
 
@@ -42,10 +42,10 @@ $hoje = date('Y-m-d'); // formato mysql
 
 // Enviar dois emails: para a instituicao e para estagio
 if(empty($email)) $email = "estagio@ess.ufrj.br";
-		
+
 // Enviar email somente se ainda nao foi enviado
 // echo $datafax . "<br>";
-	
+
 if($datafax == 0) {
 	if($data_encerramento < $data_hoje) {
 		$arquivo = "estagio" . $id_instituicao . ".pdf";
@@ -67,12 +67,12 @@ if($datafax == 0) {
 		$mail->ConfirmReadingTo = "estagio@ess.ufrj.br";
 		$mail->AddAttachment("../tmp/$arquivo");
 		if(!$mail->Send()) {
-    			echo "There has been a mail error sending <br>";
+			echo "There has been a mail error sending <br>";
 		} else {
-	    	// echo "Email enviado <br>";
-	    		$sql_datafax = "update mural_estagio set datafax = '$hoje' where id=$id_instituicao";
+		// echo "Email enviado <br>";
+			$sql_datafax = "update mural_estagio set datafax = '$hoje' where id=$id_instituicao";
 			// echo $sql . "<br>";
-	    		$resultado_datafax = $db->Execute($sql_datafax);
+			$resultado_datafax = $db->Execute($sql_datafax);
 			if($resultado_datafax === false) die ("Não foi possível atualizar a tabela mural_estagio");	
 		}
 		// Clear all addresses and attachments for next loop

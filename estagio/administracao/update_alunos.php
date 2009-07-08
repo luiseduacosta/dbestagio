@@ -1,14 +1,12 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 // $sql = "select id, registro from estagiarios where nivel = 1 and periodo = '2007-1'";
 $sql_estagiarios = "select id, registro, nivel, periodo from estagiarios group by registro order by periodo, registro";
 echo $sql_estagiarios . "<br>";
 $estagiarios = $db->Execute($sql_estagiarios);
-while(!$estagiarios->EOF)
-{
+while(!$estagiarios->EOF) {
     $registro = $estagiarios->fields['registro'];
     $id = $estagiarios->fields['id'];
     $nivel = $estagiarios->fields['nivel'];
@@ -29,30 +27,30 @@ while(!$estagiarios->EOF)
 	. "cpf, identidade, nascimento, "
 	. "endereco, cep, municipio, bairro, observacoes "
 	. "from alunosNovos where registro = $registro";
-	echo "Novos: " . $sql_novos . "<br>";
-	$alunosNovos = $db->Execute($sql_novos);
-	if ($alunosNovos == false) die ("N√£o foi poss√≠vel consultar a tabela alunosNovos");
-	$numero_novos = $alunosNovos->RecordCount();
-	echo "Numero novos " . 	$numero_novos . "<br>";
-	// Alunos novos que est√£o na tabela alunosNovos
+	// echo "Novos: " . $sql_novos . "<br>";
+	$alunos_novos = $db->Execute($sql_novos);
+	if ($alunos_novos == false) die ("N„o foi possÌ≠vel consultar a tabela alunosNovos");
+	$numero_novos = $alunos_novos->RecordCount();
+	// echo "Numero novos " . 	$numero_novos . "<br>";
+	// Alunos novos que estao na tabela alunosNovos
 	if ($numero_novos > 0) {
-	    while(!$alunosNovos->EOF) {
-	        $registro_aluno = $alunosNovos->fields['registro'];
-		$nome_aluno = $alunosNovos->fields['nome'];
-	        $codigo_telefone = $alunosNovos->fields['codigo_telefone'];
-	        $telefone = $alunosNovos->fields['telefone'];
-	        $codigo_celular = $alunosNovos->fields['codigo_celular'];
-		$celular = $alunosNovos->fields['celular'];
-	        $email = $alunosNovos->fields['email'];
-		$cpf = $alunosNovos->fields['cpf'];
-	        $identidade = $alunosNovos->fields['identidade'];
-		$nascimento = $alunosNovos->fields['nascimento'];
-		$endereco = $alunosNovos->fields['endereco'];
-		$cep = $alunosNovos->fields['cep'];
-		$municipio = $alunosNovos->fields['municipio'];
-		$bairro = $alunosNovos->fields['bairro'];
-		$observacoes = $alunosNovos->fields['observacoes'];
-		$alunosNovos->MoveNext();
+	    while(!$alunos_novos->EOF) {
+	        $registro_aluno = $alunos_novos->fields['registro'];
+		$nome_aluno = $alunos_novos->fields['nome'];
+	        $codigo_telefone = $alunos_novos->fields['codigo_telefone'];
+	        $telefone = $alunos_novos->fields['telefone'];
+	        $codigo_celular = $alunos_novos->fields['codigo_celular'];
+		$celular = $alunos_novos->fields['celular'];
+	        $email = $alunos_novos->fields['email'];
+		$cpf = $aluno_nNovos->fields['cpf'];
+	        $identidade = $alunos_novos->fields['identidade'];
+		$nascimento = $alunos_novos->fields['nascimento'];
+		$endereco = $alunos_novos->fields['endereco'];
+		$cep = $alunos_novos->fields['cep'];
+		$municipio = $alunos_novos->fields['municipio'];
+		$bairro = $alunos_novos->fields['bairro'];
+		$observacoes = $alunos_novos->fields['observacoes'];
+		$alunos_novos->MoveNext();
 	    }
 	    echo "<p style='background-color:yellow'>" . $id . " " . $quantidade . " " . $registro_aluno . " "  . "Aluno n√£o cadastrado "  . $nivel . " " . $periodo . "</p>";
 	    $sql = "insert into alunos(registro, nome, codigo_telefone, telefone, codigo_celular, celular, "

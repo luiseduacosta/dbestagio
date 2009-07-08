@@ -54,6 +54,8 @@ $("#link").toggle(function() {
 	<tr>
 		<th>ID</td>
 		<th><a href='?ordem=inscrito'>TC</a></th>
+		<th><a href='?ordem=data_ingresso'>Ingresso</a></th>
+		<th><a href='?ordem=turno'>Turno</a></th>
 		<th><a href='?ordem=nivel'>Nível {$periodo_atual}</a></th>
 		<th><a href='?ordem=registro'>DRE</a></th>
 		<th><a href='?ordem=nome'>Nome</a></th>
@@ -78,6 +80,8 @@ $("#link").toggle(function() {
 {/if}
 <td style="text-align:right">{$i++}</td>
 <td style="text-align:center;">{$alunos[i].inscrito}</td>
+<td style="text-align:center;">{$alunos[i].data_ingresso}</td>
+<td style="text-align:center;">{$alunos[i].turno}</td>
 <td style="text-align:center">{$alunos[i].nivel}</td>
 <td style="text-align:center">{$alunos[i].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>
