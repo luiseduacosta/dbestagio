@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 // A entrada ao formulario eh atraves do registro

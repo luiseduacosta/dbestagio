@@ -9,6 +9,8 @@ $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATU
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+
+$i = 0;
 while (!$resultado->EOF) {
 		$id_aluno = $resultado->fields['id_aluno'];
 
@@ -16,28 +18,13 @@ while (!$resultado->EOF) {
 		// echo $sqlQuantidade . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
 		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
-		$alunos[$i]['quantidade'] = $resultadoQuantidade->fields['quantidade'];
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
-		// echo $quantidade . "<br>";
+		//  echo $quantidadeInscricoes . "<br>";
 
 		// Pego todos os alunos estagiarios menos os que ja entregaram o TC		
-		$sqlAlunos = "select alunos.nome, alunos.registro, alunos.id, alunos.telefone, alunos.celular, alunos.email, " .
-				" alunos.cpf, alunos.identidade, alunos.nascimento, estagiarios.nivel " .
-				" from alunos join estagiarios on alunos.id = estagiarios.id_aluno " .
-				" where alunos.registro='$id_aluno' and estagiarios.periodo != '" . PERIODO_ATUAL . "' " .
-				" group by estagiarios.id_aluno ";
-
 		$sqlAlunos = "select alunos.id from alunos join estagiarios on alunos.id = estagiarios.id_aluno " .
 				" where alunos.registro='$id_aluno' and estagiarios.periodo != '" . PERIODO_ATUAL . "' " .
 				" group by estagiarios.id_aluno ";
-
-/*				
-		$sqlAlunos = "select alunos.nome, alunos.registro, alunos.id, alunos.telefone, alunos.celular, alunos.email, " .
-				" alunos.cpf, alunos.identidade, alunos.nascimento, estagiarios.nivel " .
-				" from alunos join estagiarios on alunos.id = estagiarios.id_aluno " .
-				" where alunos.registro='$id_aluno' " .
-				" group by estagiarios.id_aluno ";
-*/
 	
 		// echo $sqlAlunos . "<br>";
 
@@ -47,21 +34,8 @@ while (!$resultado->EOF) {
 
 		if ($quantidade == 0) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email, cpf, identidade, nascimento from alunosNovos where registro='$id_aluno'";
-
-/*
-				$sqlAlunosNovos = "select alunosNovos.nome, alunosNovos.registro, alunosNovos.id, alunosNovos.telefone, alunosNovos.celular, alunosNovos.email, " .
-						" alunosNovos.cpf, alunosNovos.identidade, alunosNovos.nascimento, estagiarios.nivel " .
-						" from alunosNovos join estagiarios on alunosNovos.registro = estagiarios.registro " .
-						" where alunosNovos.registro='$id_aluno' and estagiarios.periodo = '" . PERIODO_ATUAL . "' " .
-						" group by estagiarios.id_aluno ";
-
-				$sqlAlunosNovos = "select alunosNovos.nome, alunosNovos.registro, alunosNovos.id, alunosNovos.telefone, alunosNovos.celular, alunosNovos.email, " .
-						" alunosNovos.cpf, alunosNovos.identidade, alunosNovos.nascimento, estagiarios.nivel " .
-						" from alunosNovos join estagiarios on alunosNovos.registro = estagiarios.registro " .
-						" where alunosNovos.registro='$id_aluno' " .
-						" group by estagiarios.id_aluno ";
-*/
-				// echo $sqlAlunosNovos . "<br>";
+				// echo $i . " " . $sqlAlunosNovos . "<br>";
+				
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
 				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
 				while(!$resultadoAlunosNovos->EOF) {
@@ -70,7 +44,6 @@ while (!$resultado->EOF) {
 						// echo "Novos " . $registro . " " . $nome . "<br>";
 						// $instituicao = $resultadoAlunosNovos->fields['instituicao'];
 
-						$inscritos[$i][$ordem] = $resultadoAlunosNovos->fields[$ordem];
 						$inscritos[$i]['nome'] = $resultadoAlunosNovos->fields['nome'];
 						$inscritos[$i]['registro'] = $resultadoAlunosNovos->fields['registro'];
 						$inscritos[$i]['id'] = $resultadoAlunosNovos->fields['id'];
@@ -97,51 +70,29 @@ while (!$resultado->EOF) {
 						$inscritos[$i]['data_ultima'] = date("d-m-Y",strtotime($res_estagiarios_data->fields['data_ultima']));
 						// $nivel = $res_estagiarios_novos->fields['nivel'];
 						// echo " nivel " . $nivel . "<br>"; 
-/*
-						$dataCorrigida = split("-",$data);
-						$dataSQL = $dataCorrigida[2] . "-" . $dataCorrigida[1] . "-" . $dataCorrigida[0];
-				
-						$dataSQL = date("d-m-Y",strtotime($data));				
-						$inscritos[$i]['data'] = $dataSQL;
-*/	
 						$inscritos[$i]['aluno'] = 0;
+
+						// Capturo a data de ingresso na universidade
+						$sql_ingresso = "select periodo, turno from alunos_ingresso where registro='$id_aluno'";
+						// echo $sql_ingresso . "<br>";
+						$res_ingresso = $db->Execute($sql_ingresso);
+						$inscritos[$i]['data_ingresso'] = $periodo_ingresso = $res_ingresso->fields['periodo'];
+						$inscritos[$i]['turno'] = $periodo_ingresso = $res_ingresso->fields['turno'];
+						// echo $periodo_ingresso = $res_ingresso->fields['periodo'] . "<br>";
+
+						// Para ordernar a tabela
+						$criterio[] = $inscritos[$i][$ordem];
+
 						$i++;
 
 						$resultadoAlunosNovos->MoveNext();
 				}
 		} 
-		/*
-		else {
-				while(!$resultadoAlunos->EOF) {
-						$nome = $resultadoAlunos->fields['nome'];
-						$registro = $resultadoAlunos->fields['registro'];
-						// echo "Velhos: " . $registro . " " . $nome . "<br>";
-						// $instituicao = $resultadoAlunos->fields['instituicao'];
-						$inscritos[$i]['nome'] = $resultadoAlunos->fields['nome'];
-						$inscritos[$i]['registro'] = $resultadoAlunos->fields['registro'];
-						$inscritos[$i]['id'] = $resultadoAlunos->fields['id'];
-						$inscritos[$i]['telefone'] = $resultadoAlunos->fields['telefone'];
-						$inscritos[$i]['celular'] = $resultadoAlunos->fields['celular'];
-						$inscritos[$i]['email'] = $resultadoAlunos->fields['email'];
-						$inscritos[$i]['instituicao'] = $resultadoAlunos->fields['instituicao'];
-						$inscritos[$i]['quantidade'] = $quantidadeInscricoes;
-						
-						$dataCorrigida = split("-",$data);
-						$dataSQL = $dataCorrigida[2] . "-" . $dataCorrigida[1] . "-" . $dataCorrigida[0];
-						$inscritos[$i]['data'] = $dataSQL;
-						
-						$inscritos[$i]['aluno'] = 1;
-						$i++;				
-						$resultadoAlunos->MoveNext();
-					}
-		}
-		*/
 		$resultado->MoveNext();
 }
 
-if (sizeof($inscritos) != 0) {
-	sort($inscritos);
-}
+// Ordeno a tabela pela variavel ordem
+if (isset($criterio)) array_multisort($criterio, SORT_ASC, $inscritos);
 
 $smarty = new Smarty_estagio;
 
