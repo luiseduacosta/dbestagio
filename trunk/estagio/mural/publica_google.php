@@ -1,7 +1,7 @@
 <?php
 
-include_once("../db.inc");
-include_once("../setup.php");
+require_once("../db.inc");
+require_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
 
@@ -136,6 +136,16 @@ $mensage .= "Inscrições: http://www.ess.ufrj.br/estagio";
 // echo $mensage . "<br>";
 
 mail ($to,$assunto,$mensage,$headers);
+
+// Twitter
+require('../libphp/twitterAPI.php');
+$twitter_message = htmlentities($vagas . " vagas de estágio em: " . $instituicao);
+echo $twitter_message . "<br>";
+if(strlen($twitter_message)<1){ 
+	$error=1;
+} else {
+	 $twitter_status=postToTwitter("locuss", "locus$", $twitter_message);
+} 
 
 header("Location: http://groups.google.com.br/group/estagio_ess");
 
