@@ -114,7 +114,8 @@ $to = "estagio_ess@googlegroups.com ";
 // $to = "Coloquio-Brasil-Uruguai-de-Servico-Social-garchive-90715@googlegroups.com";
 
 $assunto = $instituicao;
-$mensage  = "Instituição: $instituicao \n";
+$mensage  = "Receba informaçãoes também através do http://twitter.com/estagio_ess \n\n";
+$mensage .= "Instituição: $instituicao \n";
 $mensage .= "Vagas: $vagas \n";
 $mensage .= "Benefícios: $beneficios \n";
 $mensage .= "Final de semana: $final_de_semana \n";
@@ -140,13 +141,15 @@ mail ($to,$assunto,$mensage,$headers);
 // Twitter
 require('../libphp/twitterAPI.php');
 $twitter_message = htmlentities($vagas . " vagas de estágio em: " . $instituicao);
-echo $twitter_message . "<br>";
+// echo $twitter_message . "<br>";
 if(strlen($twitter_message)<1){ 
 	$error=1;
 } else {
-	 $twitter_status=postToTwitter("locuss", "locus$", $twitter_message);
+	 $twitter_status=postToTwitter("estagio_ess", "e\$tagi0", $twitter_message);
 } 
 
-header("Location: http://groups.google.com.br/group/estagio_ess");
+echo "<meta HTTP-EQUIV='refresh' content='0,URL=http://groups.google.com.br/group/estagio_ess'>";
+
+// header("Location: http://groups.google.com.br/group/estagio_ess");
 
 ?>

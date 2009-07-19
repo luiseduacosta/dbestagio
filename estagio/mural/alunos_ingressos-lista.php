@@ -7,6 +7,12 @@ $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 $turno = isset($_REQUEST['turno']) ? $_REQUEST['turno'] : NULL;
 
+$periodo_atual = isset($_REQUEST['periodo_atual']) ? $_REQUEST['periodo_atual'] : NULL;
+
+if (empty($periodo_atual)) {
+	$periodo_atual = PERIODO_ATUAL;
+}
+
 if (!$turma) {
 	$sql_turma = "select max(periodo) as periodo from alunos_ingresso";
 	$res_turma = $db->Execute($sql_turma);
@@ -83,11 +89,46 @@ while(!$res->EOF) {
 	if ($alunos[$i]['periodo_tcc']) { 
 		$tempo0 = explode("-",$alunos[$i]['intro_seso']);
 		$tempo_inicial = $tempo0[0];
+		$periodo_inicial = $tempo0[1];
 		$tempo1 = explode("-",$alunos[$i]['periodo_tcc']);
 		$tempo_final = $tempo1[0];
+		$periodo_final = $tempo1[1];
 		$tempo_total = $tempo_final-$tempo_inicial;
 		// echo "<br>";
-		// echo $tempo_total*2 . "<br>";
+
+		if ($periodo_inicial < $periodo_final) {
+			$tempo_total = ($tempo_total * 2) + 2;
+		} elseif ($periodo_inicial > $periodo_final) {
+			$tempo_total = ($tempo_total * 2);
+		} elseif ($periodo_inicial === $periodo_final) {
+			$tempo_total = ($tempo_total * 2) + 1;
+		}
+
+		$alunos[$i]['tempo_total'] = $tempo_total;
+		// echo $tempo_total . "<br>";
+	}
+	
+	if ($periodo_atual) {
+		$tempo0 = explode("-",$alunos[$i]['intro_seso']);
+		$tempo_inicial = $tempo0[0];
+		$periodo_inicial = $tempo0[1];
+		$tempo1 = explode("-",$periodo_atual);
+		$tempo_final = $tempo1[0];
+		$periodo_final = $tempo1[1];
+		$tempo_cursado = ($tempo_final - $tempo_inicial);
+
+		// echo $tempo_cursado . "<br>";
+
+		if ($periodo_inicial < $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2) + 2;
+		} elseif ($periodo_inicial > $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2);
+		} elseif ($periodo_inicial === $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2) + 1;
+		}
+
+		// echo "<br>";
+		// echo $tempo_cursado . "<br>";
 	}
 	
 	// echo $registro . " " . $nome . ": Nivel :" . $nivel . ": Id aluno novo :" . $id_registro . "<br>";
@@ -116,6 +157,8 @@ $smarty = new Smarty_estagio;
 $smarty->assign("ordem",$ordem);
 $smarty->assign("turma",$turma);
 $smarty->assign("turno",$turno);
+$smarty->assign("periodo_atual",$periodo_atual);
+$smarty->assign("tempo_cursado",$tempo_cursado);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("alunos",$alunos);
 $smarty->display("alunos_ingressos-lista.tpl");

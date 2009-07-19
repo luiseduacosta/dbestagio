@@ -50,6 +50,8 @@ $dataInscricao = $anoInscricao . "-" . $mesInscricao . "-" . $diaInscricao;
 // echo "Contato " . $contato  . "<br>";
 // echo "Outras " . $outras  . "<br>";
 
+// die("Confirma");
+
 if($confirma == "Confirma") {
 	if($convenio === "1") {
 	    $sql = "select instituicao from estagio where id=$id_estagio";
@@ -103,10 +105,13 @@ if($confirma == "Confirma") {
 	        $confirma = "";
     	        $id_instituicao = $db->Insert_ID();
 	        // echo $id_instituicao . "<br>";
-	        header("Location:ver_cada.php?id_instituicao=$id_instituicao");
+	        // die("Ver cada");
+		echo "<meta HTTP-EQUIV='refresh' content='0,URL=ver_cada.php?id_instituicao=$id_instituicao'>";
+		// header("Location:ver_cada.php?id_instituicao=$id_instituicao");
 		exit;
 	} elseif($convenio === "0") {
-		header("Location:mural_inserir.php?aviso='Instituição NÃO conveniada!'");
+		echo "<meta HTTP-EQUIV='refresh' content='0,URL=mural_inserir.php?aviso='Instituição NÃO conveniada!'>";		
+		// header("Location:mural_inserir.php?aviso='Instituição NÃO conveniada!'");
 		exit;
 	}
 }
@@ -120,10 +125,10 @@ $id_areas[$i] = 0;
 $areas[$i] = "Seleciona área";
 $i++;
 while(!$resultado->EOF) {
-	$id_areas[$i] = $resultado->fields["id"];
-	$areas[$i]    = $resultado->fields["area"];
-	$i++;
-	$resultado->MoveNext();
+	  $id_areas[$i] = $resultado->fields["id"];
+	  $areas[$i]    = $resultado->fields["area"];
+	  $i++;
+	  $resultado->MoveNext();
 }
 
 $sqlProfessores = "select id, nome from professores order by nome";
@@ -134,10 +139,10 @@ $id_professores[$i] = 0;
 $professores[$i]    = "Seleciona professor";
 $i++;
 while(!$resultadoProfessores->EOF) {
-	$id_professores[$i] = $resultadoProfessores->fields["id"];
-	$professores[$i]    = $resultadoProfessores->fields["nome"];
-	$i++;
-	$resultadoProfessores->MoveNext();
+	  $id_professores[$i] = $resultadoProfessores->fields["id"];
+	  $professores[$i]    = $resultadoProfessores->fields["nome"];
+	  $i++;
+	  $resultadoProfessores->MoveNext();
 }
 
 $sql_instituicoes = "select id, instituicao from estagio order by instituicao";
