@@ -2,13 +2,13 @@
 // include_once("superior.html");
 ?>
 
-<h3>Alunos da disciplina ética do curso de Serviço Social</h3>
+<h3>Configuração</h3>
 
 <?php
 
 // MySQL host name, user name, password, database, and table
-include_once("../../database.inc");
-echo $opts['tb'] = 'alunos_etica';
+include_once("../database.inc");
+$opts['tb'] = 'configuracao';
 
 // Name of field which is the unique key
 $opts['key'] = 'id';
@@ -17,7 +17,7 @@ $opts['key'] = 'id';
 $opts['key_type'] = 'int';
 
 // Sorting field(s)
-$opts['sort_field'] = array('nome');
+$opts['sort_field'] = array('id');
 
 // Number of records to display on the screen
 // Value of -1 lists all records in a table
@@ -26,7 +26,7 @@ $opts['inc'] = 10;
 // Options you wish to give the users
 // A - add,  C - change, P - copy, V - view, D - delete,
 // F - filter, I - initial sort suppressed
-$opts['options'] = 'ACVDF';
+$opts['options'] = 'CV';
 
 // Number of lines to display on multiple selection filters
 $opts['multiple'] = '4';
@@ -76,41 +76,53 @@ $opts['fdd']['id'] = array(
   'default'  => '0',
   'sort'     => true
 );
-$opts['fdd']['ordem'] = array(
-  'name'     => 'Ordem',
+$opts['fdd']['mural_periodo_atual'] = array(
+  'name'     => 'Perí­odo atual do mural',
   'select'   => 'T',
-  'maxlen'   => 2,
+  'size'     => 6,
+  'maxlen'   => 6,
+  'colattrs' => 'style="text-align:center"', 
   'sort'     => true
 );
-$opts['fdd']['nome'] = array(
-  'name'     => 'Nome',
+$opts['fdd']['curso_turma_atual'] = array(
+  'name'     => 'Turma atual do curso',
   'select'   => 'T',
-  'size'     => '50',
-  'maxlen'   => '50',
+  'size'     => 1,
+  'maxlen'   => 1,
+  'colattrs' => 'align="center"',
   'sort'     => true
 );
-$opts['fdd']['registro'] = array(
-  'name'     => 'Registro',
+$opts['fdd']['curso_encerramento_inscricoes'] = array(
+  'name'     => 'Data de encerramento das inscrições para o curso',
   'select'   => 'T',
-  'maxlen'   => 9,
-  'default'  => '0',
+  'maxlen'   => 10,
   'sort'     => true
 );
-$opts['fdd']['periodo'] = array(
-  'name'     => 'Período',
+$opts['fdd']['termo_compromisso_periodo'] = array(
+  'name'     => 'Perí­odo do termo de compromisso',
   'select'   => 'T',
   'maxlen'   => 6,
   'sort'     => true
 );
-$opts['fdd']['turno'] = array(
-  'name'     => 'Turno',
+$opts['fdd']['termo_compromisso_inicio'] = array(
+  'name'     => 'Data de iní­cio do termo de compromisso',
   'select'   => 'T',
-  'maxlen'   => 1,
+  'maxlen'   => 10,
+  'sort'     => true
+);
+$opts['fdd']['termo_compromisso_final'] = array(
+  'name'     => 'Data de finalização do termo de compromisso',
+  'select'   => 'T',
+  'maxlen'   => 10,
   'sort'     => true
 );
 
 // Now important call to phpMyEdit
-require_once('../../libphp/phpMyEdit.class.php');
+require_once '../libphp/phpMyEdit.class.php';
 new phpMyEdit($opts);
 
+?>
+
+<?php
+// include_once("inferior.html");
 ?>
