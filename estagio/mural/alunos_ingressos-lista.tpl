@@ -97,7 +97,11 @@ function carrega_tabela() {
 {/if}
 <td style="text-align:right">{$i++}</td>
 <td style="text-align:center">{$alunos[item].registro}</td>
+{if $alunos[item].outro_periodo}
+<td style="text-align:left">{$alunos[item].nome}&nbsp<a href='?turma={$alunos[item].outro_periodo}'><span style='font-size:xx-small;border:solid 1px;vertical-align:super;'>{$alunos[item].outro_periodo}</span></a></td>
+{else}
 <td style="text-align:left">{$alunos[item].nome}</td>
+{/if}
 <td style="text-align:center">{$alunos[item].turno}</td>
 <td style="text-align:center">{$alunos[item].intro_seso}</td>
 <td style="text-align:center">{$alunos[item].etica}</td>

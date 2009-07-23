@@ -26,6 +26,9 @@ if ($turno) $sql .=	" and turno='$turno'";
 // echo $sql . "<br>";
 $res = $db->Execute($sql);
 
+// Pego a variavel periodo_intro_seso para calcular periodo em curso
+$periodo_intro_seso = $res->fields['periodo'];
+
 $i = 0;
 while(!$res->EOF) {
 
@@ -42,6 +45,14 @@ while(!$res->EOF) {
 	// echo $sql_etica . "<br>";
 	$res_etica = $db->Execute($sql_etica);
 	$alunos[$i]['etica'] = $res_etica->fields['periodo'];
+
+	// Verifico se nao fez inscricao em outro periodo
+	$sql_outro = "select nome, registro, min(periodo) as periodo from alunos_ingresso where registro='$registro' and periodo !='$turma' group by periodo";
+	$res_outro = $db->Execute($sql_outro);
+	if ($res_outro == false) die("Nao foi possivel consultar a tabela alunos_ingresso");
+	$alunos[$i]['outro_periodo'] = $res_outro->fields['periodo'];
+	$outro_nome = $res_outro->fields['nome'];
+	// if ($outro_periodo) echo $outro_nome . " " . $outro_periodo . "<br>";
 
 	// Pego os alunos que estao estagiando
 	$sql_estagiarios = "select periodo, registro, nivel as max_nivel from estagiarios " .
@@ -85,9 +96,19 @@ while(!$res->EOF) {
 	$alunos[$i]['tcc'] = $res_tcc->fields['num_monografia'];
 	$alunos[$i]['periodo_tcc'] = $res_tcc->fields['periodo'];
 	
-	// Calculo o temo de demora em realizar o curso
+	// Calculo o tempo de demora em realizar o curso
 	if ($alunos[$i]['periodo_tcc']) { 
-		$tempo0 = explode("-",$alunos[$i]['intro_seso']);
+		// Pego o periodo mais anterior
+		if ($alunos[$i]['outro_periodo']) {
+			if ($alunos[$i]['outro_periodo'] < $alunos[$i]['intro_seso']) {
+				// echo $alunos[$i]['outro_periodo'] . "<br>";
+				$tempo0 = explode("-",$alunos[$i]['outro_periodo']);
+			} else {
+				$tempo0 = explode("-",$alunos[$i]['intro_seso']);
+			}
+		} else {
+			$tempo0 = explode("-",$alunos[$i]['intro_seso']);
+		}
 		$tempo_inicial = $tempo0[0];
 		$periodo_inicial = $tempo0[1];
 		$tempo1 = explode("-",$alunos[$i]['periodo_tcc']);
@@ -108,29 +129,6 @@ while(!$res->EOF) {
 		// echo $tempo_total . "<br>";
 	}
 	
-	if ($periodo_atual) {
-		$tempo0 = explode("-",$alunos[$i]['intro_seso']);
-		$tempo_inicial = $tempo0[0];
-		$periodo_inicial = $tempo0[1];
-		$tempo1 = explode("-",$periodo_atual);
-		$tempo_final = $tempo1[0];
-		$periodo_final = $tempo1[1];
-		$tempo_cursado = ($tempo_final - $tempo_inicial);
-
-		// echo $tempo_cursado . "<br>";
-
-		if ($periodo_inicial < $periodo_final) {
-			$tempo_cursado = ($tempo_cursado * 2) + 2;
-		} elseif ($periodo_inicial > $periodo_final) {
-			$tempo_cursado = ($tempo_cursado * 2);
-		} elseif ($periodo_inicial === $periodo_final) {
-			$tempo_cursado = ($tempo_cursado * 2) + 1;
-		}
-
-		// echo "<br>";
-		// echo $tempo_cursado . "<br>";
-	}
-	
 	// echo $registro . " " . $nome . ": Nivel :" . $nivel . ": Id aluno novo :" . $id_registro . "<br>";
 
 	$criterio[] = $alunos[$i][$ordem];
@@ -141,6 +139,30 @@ while(!$res->EOF) {
 
 // Ordeno a tabela pela variavel ordem
 if (isset($criterio)) array_multisort($criterio, SORT_ASC, $alunos);
+
+// Calculo o periodo atual
+if ($periodo_atual) {
+	$tempo0 = explode("-",$periodo_intro_seso);
+	$tempo_inicial = $tempo0[0];
+	$periodo_inicial = $tempo0[1];
+	$tempo1 = explode("-",$periodo_atual);
+	$tempo_final = $tempo1[0];
+	$periodo_final = $tempo1[1];
+	$tempo_cursado = ($tempo_final - $tempo_inicial);
+
+	// echo $tempo_cursado . "<br>";
+
+	if ($periodo_inicial < $periodo_final) {
+		$tempo_cursado = ($tempo_cursado * 2) + 2;
+	} elseif ($periodo_inicial > $periodo_final) {
+		$tempo_cursado = ($tempo_cursado * 2);
+	} elseif ($periodo_inicial === $periodo_final) {
+		$tempo_cursado = ($tempo_cursado * 2) + 1;
+	}
+
+	// echo "<br>";
+	// echo $tempo_cursado . "<br>";
+}
 
 // Periodos
 $sql_periodo = "select distinct periodo from alunos_ingresso order by periodo";
