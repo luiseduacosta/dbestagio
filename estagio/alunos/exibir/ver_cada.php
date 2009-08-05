@@ -6,7 +6,12 @@ include_once("../../db.inc");
 include_once("../../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
-
+$periodo_atual = isset($_REQUEST['periodo_atual']) ? $_REQUEST['periodo_atual'] : PERIODO_ATUAL;
+/*
+if (empty($periodo_atual)) {
+	$periodo_atual = PERIODO_ATUAL;
+}
+*/
 $botao  = $_POST['botao'];
 $indice = $_REQUEST['indice'];
 $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
@@ -132,6 +137,36 @@ while(!$resultado->EOF) {
     // echo $observacoes . "<br>";	
     $resultado->MoveNext();
 
+    // Pego a informacao sobre o ingresso na escola (introducao ao seso)
+    $sql_intro = "select min(periodo) as periodo from alunos_ingresso where registro='$registro' group by periodo";
+	$res_intro = $db->Execute($sql_intro);
+    $periodo_intro = $res_intro->fields['periodo'];
+    
+	// Calculo o periodo atual
+	if ($periodo_atual) {
+		$tempo0 = explode("-",$periodo_intro);
+		$tempo_inicial = $tempo0[0];
+		$periodo_inicial = $tempo0[1];
+		$tempo1 = explode("-",$periodo_atual);
+		$tempo_final = $tempo1[0];
+		$periodo_final = $tempo1[1];
+		$tempo_cursado = ($tempo_final - $tempo_inicial);
+	
+		// echo $tempo_cursado . "<br>";
+	
+		if ($periodo_inicial < $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2) + 2;
+		} elseif ($periodo_inicial > $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2);
+		} elseif ($periodo_inicial === $periodo_final) {
+			$tempo_cursado = ($tempo_cursado * 2) + 1;
+			}
+	
+		// echo "<br>";
+		// echo $tempo_cursado . "<br>";
+	}
+    
+    // Pego a informacao sobre os estagios cursados
     $sql_estagiario = "select id, tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno=$aluno_id order by periodo";
     $resultado_estagiario = $db->Execute($sql_estagiario);
     if($resultado_estagiario === false) die ("Nao foi possivel consultar a tabela estagiarios");
@@ -269,6 +304,8 @@ $smarty->assign("cep",$cep);
 $smarty->assign("bairro",$bairro);
 $smarty->assign("municipio",$municipio);
 $smarty->assign("observacoes",$observacoes);
+$smarty->assign("periodo_intro",$periodo_intro);
+$smarty->assign("tempo_cursado",$tempo_cursado);
 $smarty->assign("historico_estagio",$historico_estagio);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("tcc",$tcc);

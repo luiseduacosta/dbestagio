@@ -14,7 +14,7 @@ function postToTwitter($username,$password,$message){
     curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
     $result = curl_exec($ch);
     // Look at the returned header

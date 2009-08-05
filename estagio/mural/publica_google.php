@@ -114,7 +114,7 @@ $to = "estagio_ess@googlegroups.com ";
 // $to = "Coloquio-Brasil-Uruguai-de-Servico-Social-garchive-90715@googlegroups.com";
 
 $assunto = $instituicao;
-$mensage  = "Receba informaçãoes também através do http://twitter.com/estagio_ess \n\n";
+$mensage  = "Receba informações também através do http://twitter.com/estagio_ess \n\n";
 $mensage .= "Instituição: $instituicao \n";
 $mensage .= "Vagas: $vagas \n";
 $mensage .= "Benefícios: $beneficios \n";

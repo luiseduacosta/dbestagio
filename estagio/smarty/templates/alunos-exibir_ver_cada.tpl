@@ -147,6 +147,11 @@ function get_periodo() {
 </tr>
 
 <tr>
+<td>Ingresso:</td>
+<td>{$periodo_intro}&nbsp; - Perí­odo atual: {$tempo_cursado}o.</td>
+</tr>
+
+<tr>
 <td>Nome:</td>
 <td>{$nome}</td>
 </tr>
@@ -187,7 +192,7 @@ function get_periodo() {
 {/if}
 <th>Período</th>
 <th>TC</th>
-<th>Nivel</th>
+<th>Nível</th>
 <th>Turno</th>
 <th>Instituição</th>
 <th>Supervisor</th>
@@ -226,13 +231,13 @@ function get_periodo() {
 
 {if $logado == 1}
     <tr>
-    <form action="../atualizar/atualiza.php" method="post">
     <td colspan="8" style="text-align: center">
+    <form action="../atualizar/atualiza.php" method="post">
     <input type="hidden" name="id_aluno" value="{$num_aluno}">
     <input type="hidden" name="origem" value="{$origem}">
     <input type="submit" name="submit" value="Clique aqui para modificar dados do aluno ou atualizar/inserir est&aacute;gios">
-    </td>
     </form>
+	</td>
     </tr>
 {/if}
 
@@ -267,7 +272,6 @@ function get_periodo() {
 <!-- ###CORPO### -->
 
 {include file='rodape.tpl'}
-
 
 </body>
 </html>

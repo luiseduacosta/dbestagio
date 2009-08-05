@@ -204,11 +204,11 @@ Formato hh:mm</td>
 </td>
 </tr>
 
-</form>
-
 </tbody>
 </table>
 </div>
+
+</form>
 
 </body>
 

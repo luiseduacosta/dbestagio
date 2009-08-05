@@ -156,6 +156,8 @@ function confirma() {
 
 <div align="center" id="aluno_atualiza" style="visibility: visible">
 
+<form action="mural-alunos_atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+
 <table border="1" width="80%">
 {if $aluno eq 0}
 	<caption>Atualizar dados do aluno novo</caption>
@@ -163,8 +165,6 @@ function confirma() {
 	<caption>Atualizar dados do aluno estagiário</caption>
 {/if}
 <tbody>
-
-<form action="mural-alunos_atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <tr>
 <td>Nome</td>
@@ -214,7 +214,6 @@ Orgão:
 </td>
 </tr>
 
-
 <tr>
 <td>Nascimento:</td>
 <td><input type="text" name="nascimento" id="nascimento" size="10" maxlenght="10" value="{$nascimento}"></td>
@@ -252,10 +251,10 @@ Município:
 </td>
 </tr>
 
-</form>
-
 </tbody>
 </table>
+
+</form>
 
 </div>
 
