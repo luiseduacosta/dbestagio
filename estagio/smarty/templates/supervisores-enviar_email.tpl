@@ -29,6 +29,9 @@ $("input#main").click(function() {
 <body>
 
 <div id="tabela">
+
+<form name="email" id="email" method="POST" action="enviar_email.php">
+
 <table border="1">
 <caption>Selecionar supervisores para envio de e-mail</caption>
 <tbody>
@@ -40,8 +43,6 @@ $("input#main").click(function() {
 <th><a href="?ordem=instituicao&corpo={$corpo}&assunto={$assunto}">Instituição</a></th>
 <th><a href="?ordem=periodo&corpo={$corpo}&assunto={$assunto}">Período</a></th>
 </tr>
-
-<form name="email" id="email" method="POST" action="enviar_email.php">
 
 <tr>
 	<td>
@@ -84,10 +85,12 @@ $("input#main").click(function() {
 </td>
 
 </tr>
-</form>
 
 </tbody>
 </table>
+
+</form>
+
 </div>
 
 </body>

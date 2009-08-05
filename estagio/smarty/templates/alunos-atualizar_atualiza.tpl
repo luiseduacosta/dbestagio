@@ -2,15 +2,24 @@
 <html lang="pt-br">
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica estágio</title>
+  <title>Aluno modifica estï¿½gio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
 </style>
 {literal}
 
-<script language="JavaScript" type="text/javascript" src="../../lib/jquery.js">
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script language="JavaScript" type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
 </script>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#id_instituicao").change(function() {
@@ -22,17 +31,6 @@ $(document).ready(function() {
 		}
 		);
 	});
-});
-</script>
-
-<script language="JavaScript" type="text/javascript" src="../../lib/jquery.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
-<script language="JavaScript" type="text/javascript">
-$(function() {
-	$("#telefone").mask("9999.9999");
- 	$("#celular").mask("9999.9999");
-	$("#cep").mask("99999-999");
-	$("#cpf").mask("999999999-99");	
 });
 </script>
 
@@ -75,14 +73,14 @@ Modifica dados do aluno
 
 <div align="center" id="formulario_modifica_estagio" style="visibility: visible">
 
+<form action="atualiza.php?acao=1" name="atualiza_aluno" id="atualiza_aluno" method="post">
+
 <table border="1" width="80%">
 <caption>Aluna(o): {$aluno_nome} DRE: {$registro}</caption>
 <!--
 <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 //-->
 <tbody>
-
-<form action="atualiza.php?acao=1" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <tr>
 <td>Registro</td>
@@ -171,15 +169,15 @@ Municipio:
 </td>
 </tr>
 
-</form>
-
 </tbody>
 </table>
+
+</form>
 
 </div>
 
 <!--
-Modifica dados dos campos de estágio
+Modifica dados dos campos de estï¿½gio
 //-->
 
 <div align="center" id="historico_estagios" style="visibility: visible">
@@ -259,18 +257,10 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Avaliacao</td>
-<td>
-Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
-Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
-</td>
-</tr>
-
-<tr>
 <td>Instituição:</td>
 <td>
 <select id="id_instituicao" name="id_instituicao" size="1">
-<option value="0">Selecione instituição</option>
+<option value="0">Selecione instituiï¿½ï¿½o</option>
 {section name=elemento loop=$instituicoes}
 <option value="{$instituicoes[elemento].id_instituicao}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
@@ -326,6 +316,14 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 {$areas[elemento].area|truncate:50}</option>
 {/section}
 </select>
+</td>
+</tr>
+
+<tr>
+<td>Avaliação</td>
+<td>
+Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
+Carga horária (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
 </td>
 </tr>
 

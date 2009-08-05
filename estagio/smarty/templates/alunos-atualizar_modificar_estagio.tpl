@@ -34,11 +34,11 @@ Modifica dados do aluno
 
 <div align="center" id="formulario_modifica_estagio" style="visibility: visible">
 
+<form action="atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+
 <table border="1" width="80%">
 <caption>Modificar dados do aluno <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 <tbody>
-
-<form action="atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <tr>
 <td>Nome</td>
@@ -88,7 +88,7 @@ Carteira de identidade:
 </tr>
 
 <tr>
-<td>Endereço</td>
+<td>Endereï¿½o</td>
 <td>
 <input type="text" maxlength="50" size="30" name="endereco" value='{$endereco}' />
 CEP: <input type="text" maxlength="9" size="9" name="cep" value='{$cep}' />
@@ -112,10 +112,10 @@ Municipio:
 </td>
 </tr>
 
-</form>
-
 </tbody>
 </table>
+
+</form>
 
 </div>
 
@@ -131,13 +131,13 @@ Modifica dados dos campos de estï¿½gio
 <table border="1">
 
 <tr>
-<th>Período</th>
+<th>Perï¿½odo</th>
 <th>TC</th>
-<th>Estágio</th>
+<th>Estï¿½gio</th>
 <th>Turno</th>
 <th>ch</th>
 <th>Nota</th>
-<th>Instituição</th>
+<th>Instituiï¿½ï¿½o</th>
 </tr>
 
 {section name=elemento loop=$estagiarios}
@@ -169,11 +169,11 @@ Inserir novos campos de estagio do aluno
 <div align="center" class="modificar_estagiario" id="modificar_estagiario" style="visibility: visible">
 
 <table border="1" width="80%">
-<caption>Inserir estágio</caption>
+<caption>Inserir estï¿½gio</caption>
 <tbody>
 
 <tr>
-<td>Período</td>
+<td>Perï¿½odo</td>
 <td>
 <input type="text" name="periodo" id="periodo" size="6" maxlength="6" onChange="return verificaPeriodo();">
 Formato: AAAA-1 ou 2
@@ -189,12 +189,12 @@ Nao <input type="radio" name="tc" id="tc" value="0" checked>
 </tr>
 
 <tr>
-<td>Nível:</td>
+<td>Nï¿½vel:</td>
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+Estï¿½gio I   <input type="radio" name="nivel" value="1">
+Estï¿½gio II  <input type="radio" name="nivel" value="2">
+Estï¿½gio III <input type="radio" name="nivel" value="3">
+Estï¿½gio IV  <input type="radio" name="nivel" value="4">
 </td>
 </tr>
 
@@ -207,7 +207,7 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Avaliação</td>
+<td>Avaliaï¿½ï¿½o</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
 Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
@@ -215,7 +215,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>Instituiï¿½ï¿½o:</td>
 <td>
 <select name="id_instituicao" size="1">
 <option value="0">Selecione instituiï¿½ï¿½o</option>

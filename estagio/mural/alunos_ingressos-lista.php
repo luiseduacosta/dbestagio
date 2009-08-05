@@ -183,6 +183,6 @@ $smarty->assign("periodo_atual",$periodo_atual);
 $smarty->assign("tempo_cursado",$tempo_cursado);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("alunos",$alunos);
-$smarty->display("alunos_ingressos-lista.tpl");
+$smarty->display("file:".RAIZ."/estagio/mural/alunos_ingressos-lista.tpl");
 
 ?>
