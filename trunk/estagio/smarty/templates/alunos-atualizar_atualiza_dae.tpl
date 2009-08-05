@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica estágio</title>
+  <title>Aluno modifica estï¿½gio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -16,7 +16,7 @@ function verifica_nome() {
     var nome;
     nome=document.getElementById('nome').value;
     if(nome=="") {
-		alert("Você precisa informar o seu nome");
+		alert("Vocï¿½ precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
     } else {
@@ -28,7 +28,7 @@ function verifica_email() {
     var email;
     email=document.getElementById('email').value;
     if(email=="") {
-		alert("É importante o e-mail para nossa comunicação");
+		alert("ï¿½ importante o e-mail para nossa comunicaï¿½ï¿½o");
 		document.atualiza_aluno.email.focus();
 		return false;
     } else {
@@ -40,7 +40,7 @@ function verifica_cpf() {
     var cpf;
     cpf=document.getElementById('cpf').value;
     if(cpf=="") {
-		alert("Você precisa informar o CPF");
+		alert("Vocï¿½ precisa informar o CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
     } else {
@@ -52,7 +52,7 @@ function verifica_identidade() {
     var identidad;
     identidade=document.getElementById('identidade').value;
     if(identidade=="") {
-		alert("Você precisa informar o RG");
+		alert("Vocï¿½ precisa informar o RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
     } else {
@@ -64,7 +64,7 @@ function verifica_orgao() {
     var orgao;
     orgao=document.getElementById('orgao').value;
     if(orgao=="") {
-		alert("Você precisa informar o orgão da carteira da identidade");
+		alert("Vocï¿½ precisa informar o orgï¿½o da carteira da identidade");
 		document.atualiza_aluno.orgao.focus();
 		return false;
     } else {
@@ -76,7 +76,7 @@ function verifica_nascimento() {
     var nascimento;
     nascimento=document.getElementById('nascimento').value;
     if(nascimento=="") {
-		alert("Você precisa informar a data de nascimento");
+		alert("Vocï¿½ precisa informar a data de nascimento");
 		document.atualiza_aluno.nascimento.focus();
 		return false;
     } else {
@@ -88,7 +88,7 @@ function verifica_endereco() {
     var endereco;
     endereco=document.getElementById('endereco').value;
     if(endereco=="") {
-		alert("Você precisa informar o seu endereço");
+		alert("Vocï¿½ precisa informar o seu endereï¿½o");
 		document.atualiza_aluno.endereco.focus();
 		return false;
     } else {
@@ -100,7 +100,7 @@ function verifica_cep() {
     var cep;
     cep=document.getElementById('cep').value;
     if(cep=="") {
-		alert("Você precisa informar o CEP");
+		alert("Vocï¿½ precisa informar o CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
     } else {
@@ -112,7 +112,7 @@ function verifica_bairro() {
     var bairro;
     bairro=document.getElementById('bairro').value;
     if(bairro=="") {
-		alert("Você precisa informar o seu bairro");
+		alert("Vocï¿½ precisa informar o seu bairro");
 		document.atualiza_aluno.bairro.focus();
 		return false;
     } else {
@@ -124,7 +124,7 @@ function verifica_municipio() {
     var municipio;
     cep=document.getElementById('municipio').value;
     if(municipio=="") {
-		alert("Você precisa informar o seu município");
+		alert("Vocï¿½ precisa informar o seu municï¿½pio");
 		document.atualiza_aluno.municipio.focus();
 		return false;
     } else {
@@ -148,43 +148,43 @@ function confirma() {
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("Vocï¿½ precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("ï¿½ importante o seu e-mail para nossa comunicaï¿½ï¿½o");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+    	alert("Favor informar o nï¿½mero de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
     if(identidade=="") {
-    	alert("Informe o seu número de RG");
+    	alert("Informe o seu nï¿½mero de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
     if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+    	alert("Informe o orgï¿½o expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Informe o seu endereço");
+    	alert("Informe o seu endereï¿½o");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
     if(cep=="") {
-    	alert("Informe o número de CEP");
+    	alert("Informe o nï¿½mero de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
@@ -196,7 +196,7 @@ function confirma() {
 	}
 
     if(municipio=="") {
-    	alert("Informe o múnicipio da sua residência");
+    	alert("Informe o mï¿½nicipio da sua residï¿½ncia");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -242,11 +242,11 @@ Modifica dados do aluno
 
 <div align="center" id="formulario_dae" style="visibility: visible">
 
+<form action="atualiza_dae.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+
 <table border="1" width="80%">
 <caption>Aluna(o): {$aluno_nome} DRE: {$registro}</caption>
 <tbody>
-
-<form action="atualiza_dae.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <tr>
 <td>Registro</td>
@@ -289,7 +289,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" name="identidade" id="identidade" maxlength="15" size="15" value='{$identidade}'  onBlur="return verifica_identidade();"/>
-Orgão:
+Orgï¿½o:
 <input type="text" name="orgao" id="orgao" maxlength="10" size="10" value='{$orgao}' onBlur="return verifica_orgao();"/>
 </td>
 </tr>
@@ -356,10 +356,10 @@ Municipio:
 </td>
 </tr>
 
-</form>
-
 </tbody>
 </table>
+
+</form>
 
 </div>
 

@@ -52,7 +52,7 @@ $("#link").toggle(function() {
 <div align="center">
 <table border="1">
 	<tr>
-		<th>ID</td>
+		<th>ID</th>
 		<th><a href='?ordem=inscrito'>TC</a></th>
 		<th><a href='?ordem=data_ingresso'>Ingresso</a></th>
 		<th><a href='?ordem=turno'>Turno</a></th>

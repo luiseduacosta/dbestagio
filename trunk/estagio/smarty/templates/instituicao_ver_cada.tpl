@@ -439,16 +439,16 @@ debug
 		<tr class="rodape">
 		
 		<td colspan="4" class="coluna_centralizada">
-		<select name='id_supervisor' size='1'>
-		<option value='0'>Selecione supervisor para inserir na instituição</option>
-	
-		{section name=i loop=$supervisores}
-			<option value={$supervisores[i].id}>{$supervisores[i].nome}</option>
-		{/section}
-	
-		</select>
-		<input type="hidden" name="id_instituicao" value="{$id}">
-		<input type="submit" name="submit" id="submit" value="Inserir supervisor">
+			<select name='id_supervisor' size='1'>
+			<option value='0'>Selecione supervisor para inserir na instituição</option>
+		
+			{section name=i loop=$supervisores}
+				<option value={$supervisores[i].id}>{$supervisores[i].nome}</option>
+			{/section}
+		
+			</select>
+			<input type="hidden" name="id_instituicao" value="{$id}">
+			<input type="submit" name="submit" id="submit" value="Inserir supervisor">
 		</td>
 		
 		</tr>

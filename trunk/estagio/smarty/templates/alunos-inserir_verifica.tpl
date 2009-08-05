@@ -8,7 +8,14 @@
 @import url("../../estagio.css");
 </style>
 {literal}
+<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script language="JavaScript" type="text/javascript">
+$(function() {
+	$("#telefone").mask("9999.9999");
+ 	$("#celular").mask("9999.9999");
+	$("#cep").mask("99999-999");
+	$("#cpf").mask("999999999-99");	
+});
 </script>
 {/literal}
 
@@ -62,7 +69,7 @@ window.onload = function() {
 <td>Telefone</td>
 <td>
 <input type="text" maxlength="2" size="2" name="codigo_telefone" value={$codigo_telefone}>
-<input type="text" maxlength="9" size="9" name="telefone" value={$telefone}>
+<input type="text" maxlength="9" size="9" id="telefone" name="telefone" value={$telefone}>
 </td>
 </tr>
 
@@ -70,18 +77,18 @@ window.onload = function() {
 <td>Celular</td>
 <td>
 <input type="text" maxlength="2" size="2" name="codigo_celular" value={$codigo_celular}>
-<input type="text" maxlength="9" size="9" name="celular" value={$celular}></td>
+<input type="text" maxlength="9" size="9" id="celular" name="celular" value={$celular}></td>
 </tr>
 
 <tr>
 <td>E-mail</td>
-<td><input type="text" maxlength="50" size="50" name="email" value='{$email}'></td>
+<td><input type="text" maxlength="50" size="50" id="email" name="email" value='{$email}'></td>
 </tr>
 
 <tr>
 <td>CPF</td>
 <td>
-<input type="text" maxlength="12" size="12" name="cpf" value='{$cpf}' />
+<input type="text" maxlength="12" size="12" id="cpf" name="cpf" value='{$cpf}' />
 </td>
 </tr>
 
@@ -90,9 +97,9 @@ window.onload = function() {
 Carteira de identidade: 
 </td>
 <td>
-<input type="text" maxlength="15" size="15" name="identidade" value='{$identidade}' />
+<input type="text" maxlength="15" size="15" id="identidade" name="identidade" value='{$identidade}' />
 Orgão: 
-<input type="text" maxlength="10" size="10" name="orgao" value='{$orgao}' />
+<input type="text" maxlength="10" size="10" id="orgao" name="orgao" value='{$orgao}' />
 </td>
 </tr>
 
@@ -107,8 +114,8 @@ dd/mm/aaaa
 <tr>
 <td>Endereço</td>
 <td>
-<input type="text" maxlength="50" size="30" name="endereco" value='{$endereco}' />
-CEP: <input type="text" maxlength="9" size="9" name="cep" value='{$cep}' />
+<input type="text" maxlength="50" size="30" id="endereco" name="endereco" value='{$endereco}' />
+CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" value='{$cep}' />
 </td>
 </tr>
 
