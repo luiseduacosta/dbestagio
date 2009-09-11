@@ -92,7 +92,7 @@ function contacarateres() {
 <?php
 
 include_once("../../setup.php");
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../autoriza.inc");
 
 $nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : NULL;
@@ -103,13 +103,18 @@ $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : NULL;
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
 
 if ($cress) {
-	if (ctype_digit($cress) == FALSE) die("Digite somente números.");
+	if (ctype_digit($cress) == FALSE) echo "Digite somente números.";
 }
-	
+
+$sql  = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
+$sql .=	" from supervisores "; 
+$sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
+$sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
+
 if (!empty($id_supervisor)) {
-	$sql = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso from supervisores inner join inst_super on supervisores.id = inst_super.id_supervisor inner join estagio on inst_super.id_instituicao = estagio.id where supervisores.id=$id_supervisor";
+	$sql .= " where supervisores.id='$id_supervisor'";
 } elseif(!empty($cress)) {
-	$sql = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso from supervisores inner join inst_super on supervisores.id = inst_super.id_supervisor inner join estagio on inst_super.id_instituicao = estagio.id where supervisores.cress=$cress";
+	$sql .= " where supervisores.cress='$cress'";
 } else {
 	die("Número de cress não foi digitado");
 }
@@ -118,6 +123,7 @@ if (!empty($id_supervisor)) {
 $resultado = $db->Execute($sql);
 
 $quantidade = $resultado->RecordCount();
+
 // $acao = ($quantidade == 0) ? "inserir.php" : "atualizar.php";
 
 // Se esta sendo utilizada como cadastro entao bloquea caso nao tenha cress
@@ -128,7 +134,7 @@ if ($sistema_autentica == 0) {
 	}
 }
 
-while (!$resultado->EOF) {
+// while (!$resultado->EOF) {
 	$id_inst_super = $resultado->fields['id_inst_super'];
 	$id_instituicao = $resultado->fields['id_instituicao'];
 	$instituicao = $resultado->fields['instituicao'];
@@ -148,10 +154,14 @@ while (!$resultado->EOF) {
     $area_curso = $resultado->fields['area_curso'];
     $ano_curso = $resultado->fields['ano_curso'];
 	
-    $resultado->MoveNext();
-}
+//    $resultado->MoveNext();
+	// die();
+// }
+
+// die();
 
 ?>
+
 
 <form action="atualizar_cadastro.php" name="cadastro" id="cadastro" method="post">
 

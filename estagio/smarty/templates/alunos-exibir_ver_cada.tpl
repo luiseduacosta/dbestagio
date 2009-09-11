@@ -148,7 +148,11 @@ function get_periodo() {
 
 <tr>
 <td>Ingresso:</td>
+{if !$periodo_intro}
+<td>s/d</td>
+{else}
 <td>{$periodo_intro}&nbsp; - Perí­odo atual: {$tempo_cursado}o.</td>
+{/if}
 </tr>
 
 <tr>
