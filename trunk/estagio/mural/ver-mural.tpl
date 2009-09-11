@@ -44,11 +44,7 @@ function janelaInsere() {
 
 <span id="alunoInscrito"></span>
 
-{if $sistema_autentica == 0}
-	<div align="left">
-	<p><a href="login.php">Admin</a></p>
-	</div>
-{elseif $sistema_autentica == 1}
+{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 {/if}
 

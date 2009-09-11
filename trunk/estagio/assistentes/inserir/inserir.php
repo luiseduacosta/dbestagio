@@ -39,20 +39,25 @@ if (empty($num_supervisor)) {
     if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
     // die;
     // Pego o numero de registro de ultimo supervisor ingressado
-    $res_ultimo = $db->Execute("select max(id) as ultimo_supervisor from supervisores");
+    $id_supervisor = $db->Insert_ID();
+	// echo $id_supervisor . "<br>";
+    /*	
+    $res_ultimo = $db->Execute("select insert_id() as ultimo_supervisor from supervisores");
+    echo "select insert_id() as ultimo_supervisor from supervisores";
     if($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
     $id_supervisor = $res_ultimo->fields['ultimo_supervisor'];
+	*/
 
     // Insero supervisor e instituicao em inst_super
     // $sql_inst_super = "insert into inst_super (id_supervisor, id_instituicao) values ('$id_supervisor', '$id_instituicao')";
     // $res_inst_super = $db->Execute($sql_inst_super);
     // if($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
 } else {
-    echo "Atualizando supervisor<br>";
+    echo "Atualizando supervisor <br>";
     $sql  = "update supervisores "; 
     $sql .= " set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
     $sql .= " where id=$_POST[num_supervisor]";
-    //echo $sql . "<br>";
+    // echo $sql . "<br>";
     $resultado = $db->Execute($sql);
     if($resultado === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
     $id_supervisor = $_POST['num_supervisor'];
@@ -64,15 +69,16 @@ $arquivo = $_SERVER['PHP_SELF'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $data = date('Y-m-d');
 
-$sql = "select id from log_supervisores where id_supervisor = $id_supervisor";
+$sql = "select id from log_supervisores where id_supervisor = '$id_supervisor'";
+// echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 $quantidade = $resultado->RecordCount();
 if ($quantidade > 0) {
-    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip'  where id_supervisor='$id_supervisor'"; 
+    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip', data='$data', arquivo='$arquivo' where id_supervisor='$id_supervisor'"; 
 } else {
-    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip) values ('$cress', '$id_supervisor', '$nome', '$ip')";
+    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip, data, arquivo) values ('$cress', '$id_supervisor', '$nome', '$ip', '$data', '$arquivo')";
 }
-// $sql_log . '<br>';
+// echo $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
 if($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
 

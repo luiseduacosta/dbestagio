@@ -28,7 +28,7 @@ function get_periodo() {
 
 <select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
 {if !$periodo}
-	<option value='0'>Seleciona periodo</option>
+	<option value='0'>Seleciona perí­odo</option>
 {else}
 	<option value='0'>Período: {$periodo}</option>
 {/if}
@@ -114,8 +114,12 @@ function get_periodo() {
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $sistema_autentica == 1}
-    <tr><td>Telefone</td><td>{$telefone}</td></tr>
-    <tr><td>Celular</td><td>{$celular}</td></tr>
+	<tr><td>Endereço</td><td>{$endereco}</td></tr>
+	<tr><td>Bairro</td><td>{$bairro}</td></tr>
+	<tr><td>CEP</td><td>{$cep}</td></tr>
+	<tr><td>Município</td><td>{$municipio}</td></tr>
+    <tr><td>Telefone</td><td>({$codigo_tel}){$telefone}</td></tr>
+    <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
 {/if}
 <tr><td>E-mail</td><td>{$email}</td></tr>
 <tr><td>Curso</td><td><a href='../../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}'>{$id_curso}</a></td></tr>
@@ -183,7 +187,7 @@ function get_periodo() {
 <th>Registro</th>
 <th>Nome</th>
 <th>Instituição</th>
-<th>Período</th>
+<th>Perí­odo</th>
 </tr>
 {section name=id loop=$alunos}
 <tr>

@@ -36,7 +36,7 @@ $data = date('Y-m-d');
 echo "Atualizando supervisor<br>";
 $sql  = "update supervisores "; 
 $sql .= " set nome='$nome', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
-$sql .= " where id=$id_supervisor";
+$sql .= " where id='$id_supervisor'";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
@@ -54,9 +54,9 @@ $sql = "select id from log_supervisores where id_supervisor = $id_supervisor";
 $resultado = $db->Execute($sql);
 $quantidade = $resultado->RecordCount();
 if ($quantidade > 0) {
-    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip'  where id_supervisor='$id_supervisor'"; 
+    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip', arquivo='$arquivo' where id_supervisor='$id_supervisor'"; 
 } else {
-    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip) values ('$cress', '$id_supervisor', '$nome', '$ip')";
+    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip, arquivo) values ('$cress', '$id_supervisor', '$nome', '$ip', '$arquivo')";
 }
 // $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);

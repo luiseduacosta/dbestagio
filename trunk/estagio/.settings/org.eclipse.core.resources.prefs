@@ -1,7 +1,10 @@
-#Tue Feb 03 18:11:32 GMT-03:00 2009
+#Thu Aug 13 01:33:33 BRT 2009
 eclipse.preferences.version=1
 encoding//curso/capa.html=ISO-8859-1
 encoding//curso/links.html=ISO-8859-1
+encoding//smarty/templates/alunos-exibir_listar.tpl=ISO-8859-1
+encoding//smarty/templates/alunos-exibir_ver_cada.tpl=ISO-8859-1
 encoding//smarty/templates/links.html=ISO-8859-1
+encoding//smarty/templates/supervisores_ver_cada.tpl=ISO-8859-1
 encoding/<project>=ISO-8859-1
 encoding/links.html=ISO-8859-1

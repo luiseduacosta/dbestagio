@@ -21,20 +21,22 @@
 <body>
 
 <div align="center">
-
 <select name='periodo' id='periodo' size='1' onChange='return periodo();'>
 	<option value=0>Selecione período</option>
 	{section name=i loop=$periodos}
 	<option value={$periodos[i].periodo}>{$periodos[i].periodo}</option>
 	{/section}
 </select>
+</div>
 
 {if $sistema_autentica == 1}
 <br>
-<a href="email_tc.php?periodo={$periodo}">Email</a>
+<a href="email_tc.php?periodo={$periodo}">Email para aluno</a>
 <br>
+<a href="email_tc_super.php?periodo={$periodo}">Email para supervisor</a>
 {/if}
 
+<div align="center">
 <table border="1" summary="Tabela de controle de solicitação do Termo de Compromisso">
 	<caption>Controle de solicitação do termo de compromisso dos alunos que cursaram estágio no período {$periodo}</caption>
 	<thead>

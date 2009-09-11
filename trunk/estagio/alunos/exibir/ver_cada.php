@@ -143,7 +143,7 @@ while(!$resultado->EOF) {
     $periodo_intro = $res_intro->fields['periodo'];
     
 	// Calculo o periodo atual
-	if ($periodo_atual) {
+	if ($periodo_atual and $periodo_intro) {
 		$tempo0 = explode("-",$periodo_intro);
 		$tempo_inicial = $tempo0[0];
 		$periodo_inicial = $tempo0[1];

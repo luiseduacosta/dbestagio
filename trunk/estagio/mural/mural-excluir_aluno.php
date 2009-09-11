@@ -5,6 +5,7 @@ $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro']: NULL;
 
 include_once("../db.inc");
 
+// Excluo o aluno
 $sql = "select id, registro from alunosNovos where id='$id_aluno'";
 // echo $sql . "<br>";
 $res = $db->Execute($sql);
@@ -17,6 +18,7 @@ if ($quantidade_aluno > 0) {
 	if ($resultado === false) die("Não foi possível excluir o registro da tabela alunosNovos");
 }
 
+// Excluo as inscrições
 $sql_inscricao = "select id, id_aluno from mural_inscricao where id_aluno = '$registro'";
 // echo $sql_inscricao . "<br>";
 $res_inscricao = $db->Execute($sql_inscricao);
