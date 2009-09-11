@@ -23,5 +23,5 @@ $db_pommo = NewADOConnection($tipo);
 $db_pommo->Connect($host,$usuario,$senha,$bancodados);
 $db_pommo->debug;
 $db_pommo->SetFetchMode(ADODB_FETCH_ASSOC);
- 
+
 ?>

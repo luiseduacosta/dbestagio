@@ -52,7 +52,7 @@ $("#link").toggle(function() {
 <div align="center">
 <table border="1">
 	<tr>
-		<th>ID</th>
+		<th>Id</th>
 		<th><a href='?ordem=inscrito'>TC</a></th>
 		<th><a href='?ordem=data_ingresso'>Ingresso</a></th>
 		<th><a href='?ordem=turno'>Turno</a></th>
@@ -64,9 +64,7 @@ $("#link").toggle(function() {
 		{if $sistema_autentica == 1}
 			<th>Telefone</th>
 			<th>Celular</th>
-			<th>E-mail</th>
-		{/if}
-		{if $sistema_autentica == 1}
+			<th><a href='?ordem=email'>E-mail</a></th>
 			<th>Excluir</th>
 		{/if}
 	</tr>
@@ -82,22 +80,22 @@ $("#link").toggle(function() {
 <td style="text-align:center;">{$alunos[i].inscrito}</td>
 <td style="text-align:center;">{$alunos[i].data_ingresso}</td>
 <td style="text-align:center;">{$alunos[i].turno}</td>
-<td style="text-align:center">{$alunos[i].nivel}</td>
-<td style="text-align:center">{$alunos[i].registro}</td>
+<td style="text-align:center;">{$alunos[i].nivel}</td>
+<td style="text-align:center;">{$alunos[i].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>
-<td style="text-align:center">{$alunos[i].quantidade}</td>
-<td style="text-align:center">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
+<td style="text-align:center;">{$alunos[i].quantidade}</td>
+<td style="text-align:center;">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 
 {* Omito os telefones se não está autorizado *}
 {if $sistema_autentica == 1}
-	<td style="text-align:center">{$alunos[i].telefone}</td>
-	<td style="text-align:center">{$alunos[i].celular}</td>
+	<td style="text-align:center;">{$alunos[i].telefone}</td>
+	<td style="text-align:center;">{$alunos[i].celular}</td>
 	<td>{$alunos[i].email}</td>
 {/if}
 
 {* Omito os dados de cpf, identidade e data de nascimento se não está cadastrado *}
 {if $sistema_autentica == 1}
-	<td style="text-align:center"><a href="mural-excluir_aluno.php?id_aluno={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
+	<td style="text-align:center;"><a href="mural-excluir_aluno.php?id_aluno={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
 {/if}
 
 </tr>

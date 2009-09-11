@@ -37,13 +37,13 @@ while (!$resultado->EOF) {
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		// echo $quantidadeInscricoes . "<br>";
 	
-		// Verifico se ha alunos estagiarios inscritos para selecao
+		// Verifico se eh um aluno estagiario
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br><br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
 		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
-		// echo $quantidade . "<br>";
+		// echo $id_aluno . " " . $quantidade . "<br>";
 
 		// Se nao esta como aluno estagiario entao busco em alunosNovos
 		if ($quantidade == 0) {
@@ -64,15 +64,15 @@ while (!$resultado->EOF) {
 						$inscritos[$i]['telefone'] = $resultadoAlunosNovos->fields['telefone'];
 						$inscritos[$i]['celular'] = $resultadoAlunosNovos->fields['celular'];
 						$inscritos[$i]['email'] = $resultadoAlunosNovos->fields['email'];
-						$inscritos[$i]['instituicao'] = $resultadoAlunosNovos->fields['instituicao'];
-						$inscritos[$i]['nivel'] = $registro_nivel;
+						// $inscritos[$i]['instituicao'] = $resultadoAlunosNovos->fields['instituicao'];
+						// $inscritos[$i]['nivel'] = $registro_nivel;
 						$inscritos[$i]['quantidade'] = $quantidadeInscricoes;
 						
 						$inscritos[$i]['data'] = date("d-m-Y",strtotime($data));
 						
 						$inscritos[$i]['aluno'] = 0; // Aluno novo
 
-						// Entregou o termo de compromiso?
+						// Solicitou o termo de compromiso?
 						$sql_estagiario = "select id, tc from estagiarios where registro = '$id_aluno' and periodo ='" . PERIODO_ATUAL . "'";
 						// echo $sql_estagiario . "<br>";
 						$resultado_estagiario = $db->Execute($sql_estagiario);

@@ -32,14 +32,13 @@ if (ctype_digit($cress)) {
 		// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
 		// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
 	}
-	echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+	echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
 	die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
 }
 
 $sql = "delete from supervisores where id=$id_supervisor";
 // echo $sql. "<br>";
 // die;
-
 $resultado = $db->Execute($sql);
 if($resultado == false) die ("Não foi possível cancelar o registro da tabela supervisores");
 
@@ -47,6 +46,14 @@ if($resultado == false) die ("Não foi possível cancelar o registro da tabela sup
 $sql_estagio = "select * from inst_super where id_supervisor=$id_supervisor";
 $res_estagio = $db->Execute($sql_estagio);
 if($res_estagio === false) die ("Não foi possível consultar a tabela inst_super");
+$q_inst_super = $res_estagio->RecordCount();
+// echo $q_inst_super . "<br>";
+// Se nao este em nenhuma instituicao sair
+if ($q_inst_super == 0) {
+	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?indice=0'>";
+	exit;
+}
+
 $i = 0;
 while(!$res_estagio->EOF) {
     $id_instituicao[$i] = $res_estagio->fields['id_instituicao'];

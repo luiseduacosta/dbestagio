@@ -7,21 +7,9 @@
  */
 
 require_once("../pommo_config.php");
+require_once("../pommo_tabelas.php");
 
-// Apago toda a informacao das tabelas
-$sql_subs = "truncate table pommo_subscribers";
-$res_subs = $db_pommo->Execute($sql_subs);
-if($res_subs === false) die ("Não foi possível limpar a tabela pommo_subscribers");
-
-$sql_subs_data = "truncate table pommo_subscriber_data";
-$res_subs_data = $db_pommo->Execute($sql_subs_data);
-if($res_subs_data === false) die ("Não foi possível limpar a tabela pommo_subscribers_data");
-
-$sql_pommo_fields = "truncate table pommo_fields";
-$res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
-if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
-
-// Insero os campos
+// Insero os campos na tabela fields
 $sql_pommo_campos = "
 INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field_name`, `field_prompt`, `field_normally`, `field_array`, `field_required`, `field_type`) VALUES
 (1, 'on', 0, 'Nome', 'nome', '', 'a:0:{}', 'on', 'text'),
@@ -45,7 +33,7 @@ while (!$resultado->EOF) {
 
 		include('../db.inc');
 
-		// Primeiro busco nos alunos estagiarios		
+		// Primeiro busco entre os alunos estagiarios
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br><br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
@@ -61,7 +49,7 @@ while (!$resultado->EOF) {
 						$email = $resultadoAlunosNovos->fields['email'];
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						$registro = $resultadoAlunosNovos->fields['registro'];
-						// echo "Novos " . $registro . " " . $nome . "<br>";
+						// echo "Novo " . $registro . " " . $nome . "<br>";
 						
 						$aluno = 'novo'; // Aluno novo
 
@@ -80,7 +68,7 @@ while (!$resultado->EOF) {
 						$email = $resultadoAlunos->fields['email'];
 						$nome = $resultadoAlunos->fields['nome'];
 						$registro = $resultadoAlunos->fields['registro'];
-						// echo "<span style='background-color:green'>Alunos velhos:</span> " . $registro . " " . $nome . "<br>";
+						// echo "<span style='background-color:green'>Aluno estagiário:</span> " . $registro . " " . $nome . "<br>";
 						
 						$aluno = 'estagiario'; // Aluno estagiario
 
@@ -102,7 +90,7 @@ while (!$resultado->EOF) {
 		if ($email) {
 			include("../pommo_config.php");
 			$sql_email = "insert into pommo_subscribers (email,status) values ('$email',1)";
-			// echo $sql_email . "<br>";
+			// echo $n++ . " " . $sql_email . "<br>";
 			$res_email = $db_pommo->Execute($sql_email);
 			if($res_email === false) die ("0 Não foi possível inserir dados na tabela pommo_subscribers");
 			$subscriber_id = $db_pommo->Insert_ID();

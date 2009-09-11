@@ -42,7 +42,6 @@ if ($periodo) {
 	$smarty->assign("historico",$historico);
 	$smarty->display("historico.tpl");
 }
-	
 
 function alunos_periodo($periodo) {
 
@@ -90,7 +89,6 @@ function instituicoes_periodo($selecao) {
 	$smarty->assign("instituicoes",$instituicoes);
 	$smarty->assign("total_vagas",$total_vagas);
 	$smarty->display("historico_instituicoes.tpl");
-
 	
 	return;
 }
@@ -141,6 +139,7 @@ function alunos_por_periodo($periodo) {
 		$alunos[$j]['nivel'] = $resultado_estagiario->fields['nivel'];
 	  	// echo "<br>";
 	  	
+		// Se nao estah em alunos estagiarios entao busco em alunosNovos
 	  	if (empty($nome)) {
 			// echo "Aluno sem estagio<br>";
 	  		$sql_aluno_novo = "select nome from alunosNovos where registro='$id_aluno' order by nome";

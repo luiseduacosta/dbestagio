@@ -44,8 +44,6 @@ $chart->setDataSet($dataSet);
 $chart->setTitle("Alunos em estágio por período - ESS/UFRJ");
 $chart->render("generated/estagio.png");
 
-
-
 echo "
 </tbody>
 </table>
