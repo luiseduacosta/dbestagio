@@ -6,6 +6,6 @@ Add your content here.
 
 = Características =
 
-O programa utiliza várias bibliotecas: [http://adodb.sourceforge.net adodb], [http://jquery.com jquery], [http://www.tcpdf.org tcpdf], [http://www.phpmyedit.org phpMyEdit.class.php]. Também se contecta com o banco de dados tcc (hospedado no Google Code), o [http://pommo.org/Main_Page Pommo] para envio de emails, [http://www.dokuwiki.org dokuwiki] para a página wiki, e há um link para o [http://www.atutor.ca ATutor], um software de e-learning.
+O programa utiliza várias bibliotecas: [http://adodb.sourceforge.net adodb], [http://jquery.com jquery], [http://www.tcpdf.org tcpdf], [http://www.phpmyedit.org phpMyEdit.class.php]. Também se contecta com o banco de dados [http://code.google.com/dbtcc tcc] (hospedado no Google Code) e que está instalado em http://www.ess.ufrj.br/tcc, o [http://pommo.org/Main_Page Pommo] para envio de emails, [http://www.dokuwiki.org dokuwiki] para a página wiki, e há um link para o [http://www.atutor.ca ATutor], um software de e-learning.
 
 Foi construído ao longo de vários anos, iniciado no ano de 2005, e está em permanente desenvolvimento. O propósito é contribuir com a gestão das atividades da Coordenação de Estágio da ESS/UFRJ. 
