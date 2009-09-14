@@ -9,14 +9,12 @@
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
-function verificaPeriodo()
-{
+function verificaPeriodo() {
     var tamanho = document.inserir_aluno.periodo.value.length;
     return;
 }
 
-function aluno()
-{
+function aluno() {
     var id_aluno = document.form_estagiarios.id_aluno.value;
     // alert("Id aluno = " + id_aluno);
     window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;

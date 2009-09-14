@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-require_once("eprofessores_pommo_config.php");
+require_once("../../pommo_config.php");
 
 // Apago toda a informacao das tabelas
 $sql_subs = "truncate table mail_subscribers";
@@ -32,7 +32,7 @@ INSERT INTO `mail_fields` (`field_id`, `field_active`, `field_ordering`, `field_
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
 if($res_pommo_campos === false) die ("Não foi possível inserir na tabela mail_fields");
 
-include("eprofessores_setup.php");
+include("../../pommo_config.php");
 
 $sql  = "select email,nome,departamento,outros from eprofesores order by nome";
 

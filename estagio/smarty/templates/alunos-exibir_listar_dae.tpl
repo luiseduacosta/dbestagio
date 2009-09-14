@@ -32,17 +32,17 @@ Tabela principal
         <th><a href="?ordem=endereco">Endereco</a></th>
         <th><a href="?ordem=bairro">Bairro</a></th>
         <th><a href="?ordem=municipio">Munic&iacute;pio</a></th>
-	<th><a href="?ordem=cep">CEP</a></th>
+        <th><a href="?ordem=cep">CEP</a></th>
         <th><a href="?ordem=identidade">RG</a></th>
-        <th><a href="?ordem=orgao">Orgão</a></th>
-	<th><a href="?ordem=nascimento">Data nascimento</a></th>
+        <th><a href="?ordem=orgao">Orgï¿½o</a></th>
+        <th><a href="?ordem=nascimento">Data nascimento</a></th>
         <th><a href="?ordem=cpf">CPF</a></th>
-        <th><a href="?ordem=codigo_telefone">Código</a></th>
+        <th><a href="?ordem=codigo_telefone">Cï¿½digo</a></th>
         <th><a href="?ordem=telefone">Telefone</a></th>
-        <th><a href="?ordem=codigo_celular">Código</a></th>
+        <th><a href="?ordem=codigo_celular">Cï¿½digo</a></th>
         <th><a href="?ordem=celular">Celular</a></th>
         <th><a href="?ordem=email">E-mail</a></th>
-        <th><a href="?ordem=instituicao">Instituição</a></th>
+        <th><a href="?ordem=instituicao">Instituiï¿½ï¿½o</a></th>
     </tr>
     {assign var = "i" value = 1}
     {section name=i loop=$dae}
@@ -50,7 +50,7 @@ Tabela principal
 	<td style="text-align:right">{$i++}</td>
 	<td style="text-align:center">{$dae[i].registro}</td>
 	<td style="text-align:center">{$dae[i].nivel}</td>
-	<td><a href="ver_cada.php?id_aluno={$dae[i].registro}">{$dae[i].nome}</td>
+    <td><a href="ver_cada.php?id_aluno={$dae[i].registro}">{$dae[i].nome}</a></td>
 	<td>{$dae[i].endereco}</td>
 	<td>{$dae[i].bairro}</td>
 	<td>{$dae[i].municipio}</td>

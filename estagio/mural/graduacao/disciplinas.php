@@ -23,7 +23,7 @@
  */
 
 // MySQL host name, user name, password, database, and table
-include_once("database.inc");
+include_once("../../database.inc");
 $opts['tb'] = 'disciplinas';
 
 // Name of field which is the unique key
