@@ -1,11 +1,13 @@
 <?php
 
-include_once("../autoriza.inc");
+require_once("../autoriza.inc");
 
 require("../setup.php");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : PERIODO_ANTERIOR;
+
+// echo PERIODO_ANTERIOR . "<br>";
 
 // Ajusto os periodos para consultar a tabela de estagiarios
 $periodo_atual = $periodo;
@@ -37,8 +39,9 @@ $i = 0;
 while (!$resultado->EOF) {
 
 	$nivel = $resultado->fields['max_nivel'];
+	$periodo = $resultado->fields['periodo'];
 
-	if ($nivel != '4') {
+	if ($periodo < PERIODO_ANTERIOR and $nivel != '4') {
 		
 		$alunos[$i][$ordem] = $resultado->fields['$ordem'];
 		$alunos[$i]['id_aluno'] = $resultado->fields['id_aluno'];

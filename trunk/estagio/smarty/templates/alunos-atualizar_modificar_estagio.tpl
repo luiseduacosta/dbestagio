@@ -9,12 +9,14 @@
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
-function verificaPeriodo() {
+function verificaPeriodo()
+{
     var tamanho = document.inserir_aluno.periodo.value.length;
     return;
 }
 
-function aluno() {
+function aluno()
+{
     var id_aluno = document.form_estagiarios.id_aluno.value;
     // alert("Id aluno = " + id_aluno);
     window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;
@@ -118,7 +120,7 @@ Municipio:
 </div>
 
 
-<div align="center" style="width: 600px; height: 30px; color: green">
+<div align="center" style="with: 600px; height: 30px; color: green">
 </div>
 
 <!--
@@ -171,7 +173,7 @@ Inserir novos campos de estagio do aluno
 <tbody>
 
 <tr>
-<td>Período</td>
+<td>Perï¿½odo</td>
 <td>
 <input type="text" name="periodo" id="periodo" size="6" maxlength="6" onChange="return verificaPeriodo();">
 Formato: AAAA-1 ou 2
@@ -187,12 +189,12 @@ Nao <input type="radio" name="tc" id="tc" value="0" checked>
 </tr>
 
 <tr>
-<td>Nível:</td>
+<td>Nï¿½vel:</td>
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+Estï¿½gio I   <input type="radio" name="nivel" value="1">
+Estï¿½gio II  <input type="radio" name="nivel" value="2">
+Estï¿½gio III <input type="radio" name="nivel" value="3">
+Estï¿½gio IV  <input type="radio" name="nivel" value="4">
 </td>
 </tr>
 
@@ -205,7 +207,7 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Avaliação</td>
+<td>Avaliaï¿½ï¿½o</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
 Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
@@ -213,10 +215,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>Instituiï¿½ï¿½o:</td>
 <td>
 <select name="id_instituicao" size="1">
-<option value="0">Selecione instituição</option>
+<option value="0">Selecione instituiï¿½ï¿½o</option>
 {section name=elemento loop=$instituicoes}
 <option value="{$instituicoes[elemento].id_instituicao}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>

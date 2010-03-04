@@ -12,7 +12,7 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 // echo "Instituicao: " . $instituicao;
 
 if (!ctype_digit($registro)) {
-	die("Digite somente números");
+    die("Digite somente números ou tente com outro navegador: <a href=\"http://br.mozdev.org\">Firefox</a>");
 }
 
 // Busco o registro entre os alunos estagiarios

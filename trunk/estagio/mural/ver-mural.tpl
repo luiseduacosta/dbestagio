@@ -56,7 +56,7 @@ function janelaInsere() {
 e selecione o curso de Serviço Social para ver as instituições conveniadas com a UFRJ
 </p>
 
-<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunosNovos} novos e {$alunosVelhos} estagiarios) procurando estágio</p>
+<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estágio</p>
 
 <div align="center">
 <form name="inscricao" id="inscricao" action="#" method="post">

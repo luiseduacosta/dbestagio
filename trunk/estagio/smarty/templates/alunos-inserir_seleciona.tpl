@@ -5,7 +5,8 @@
 <title>Seleciona aluno</title>
 {literal}
 <script language="Javascript" type="text/javascript">
-function seleciona() {
+function seleciona() 
+{
     var id_valor = document.seleciona_aluno.id_aluno.value;
     document.location.href="verifica.php?id_aluno=" + id_valor;
     return false;
