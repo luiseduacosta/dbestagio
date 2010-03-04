@@ -6,29 +6,35 @@ include_once("../../autentica.inc");
 
 $origem = $_REQUEST['origem'];
 if(empty($origem))
-    $origem = $_SERVER['HTTP_REFERER'];
+$origem = $_SERVER['HTTP_REFERER'];
 
 // Verifico se o usuario esta logado
 if(isset($_REQUEST['usuario_senha'])) {
-    $usuario = $_REQUEST['usuario_senha'];
-    if ($usuario) 
+	$usuario = $_REQUEST['usuario_senha'];
+	if ($usuario)
 	$logado = 1;
 }
 
 $ordem = @$_REQUEST["ordem"];
 if (empty($ordem))
-    $ordem = "nome";
+$ordem = "nome";
+
+$turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 
 $sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, instituicao ";
 $sql .= " from alunos ";
 $sql .= " inner join estagiarios on alunos.registro = estagiarios.registro ";
 $sql .= " inner join estagio on estagiarios.id_instituicao = estagio.id ";
-$sql .= " where estagiarios.periodo = (select max(estagiarios.periodo) as max_periodo from estagiarios)";
+if ($turma) {
+	$sql .= " where estagiarios.periodo = '$turma' ";
+} else {
+	$sql .= " where estagiarios.periodo = (select max(estagiarios.periodo) as max_periodo from estagiarios)";
+}
 $sql .= " order by $ordem";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possível consultar as tabelas alunos, estagiarios e estagio");
+if($resultado == false) die ("Nï¿½o foi possï¿½vel consultar as tabelas alunos, estagiarios e estagio");
 $i = 0;
 while(!$resultado->EOF) {
 	$dae[$i]['nome'] = $resultado->fields['nome'];
@@ -48,12 +54,24 @@ while(!$resultado->EOF) {
 	$dae[$i]['celular'] = $resultado->fields['celular'];
 	$dae[$i]['email'] = $resultado->fields['email'];
 	$dae[$i]['instituicao'] = $resultado->fields['instituicao'];
-	$resultado->MoveNext();	
+	$resultado->MoveNext();
 	$i++;
+}
+
+// Pego a informacao sobre as turma de alunos
+$sql_turma = "select id, periodo from estagiarios group by periodo";
+// echo $sql_turma . "<br>";
+$res_turma = $db->Execute($sql_turma);
+if ($res_turma === false) die ("Nï¿½o foi possivel consultar a tabela estagiarios");
+while (!$res_turma->EOF) {
+	$periodos[] = $res_turma->fields['periodo'];
+	$res_turma->MoveNext();
 }
 
 $smarty = new Smarty_estagio;
 $smarty->assign("dae",$dae);
+$smarty->assign("turma",$turma);
+$smarty->assign("periodos",$periodos);
 $smarty->display("alunos-exibir_listar_dae.tpl");
 
 ?>
