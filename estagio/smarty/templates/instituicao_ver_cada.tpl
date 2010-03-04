@@ -32,6 +32,8 @@ function elimina() {
 {if $curso} <h1>Curso supervisores</h1>
 {/if}
 
+<div style="text-align: center">{$flash}</div>
+
 {* Barra de navegacao superior *}
 <div align="center">
 <table border="0">
@@ -120,7 +122,11 @@ debug
 		<td style="background-color:red">
 		<form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
 		<input type="hidden" name="botao" value="excluir">
-		<input type="hidden" name="id_instituicao" value="{$id}">
+		{if $id}
+			<input type="hidden" name="id_instituicao" value="{$id}">
+		{else}
+			<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+		{/if}
 		<input type="hidden" name="indice" value="{$indice}">
 		<input type="submit" name="submit" value="Excluir">
 		</form>
@@ -270,7 +276,6 @@ debug
 		<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
 	{/if}
 
-
 {else}
 
 	{if $fim_de_semana eq 0} Não
@@ -289,7 +294,7 @@ debug
 	{if $modifica}
 		Campo calculado automaticamente
 	{else}
-		<a href="../../alunos/exibir/listar.php?seleciona_instituicao={$id}&periodo={$turma}">{$turma}</a>
+		<a href="../../alunos/exibir/listar.php?seleciona_instituicao={$id}&seleciona_periodo={$turma}">{$turma}</a>
 	{/if}
 	</td>
 	</tr>
@@ -351,10 +356,14 @@ debug
 
 {if $sistema_autentica == 1}
 	<tr class="rodape">
-	<td colspan="3" class="rodape">
+	<td colspan="3" class="rodape" style="text-align:center">
 	<input type="hidden" name="flag" value="{$flag}">
 	<input type="hidden" name="indice" value="{$indice}">
-	<input type="hidden" name="id_instituicao" value="{$id}">
+	{if $id}
+		<input type="hidden" name="id_instituicao" value="{$id}">
+	{else}
+		<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+	{/if}
 	<input type="hidden" name="curso" value="{$curso}">
 	<input type="submit" name="modifica" value="Modificar instituição">
 	</td>

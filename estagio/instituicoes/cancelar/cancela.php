@@ -43,8 +43,9 @@ if ($quantidade > 0) {
 	// echo $sql_estagio . "<br>";
 	$resultado_estagio = $db->Execute($sql_estagio);
 	if($resultado_estagio == false) die ("Não foi possível excluir o registro da tabela estagio");
-	echo "<p>Instituição foi excluída</p>";
-	// die;
+	if (!$indice) $indice = 0;
+	// echo "<p>Instituição foi excluída $indice . ' ' . $id_instituicao</p>";	
+	//die();
 	echo "<meta http-equiv='refresh' content='0;../exibir/ver_cada.php?indice=$indice' />";
 }
 

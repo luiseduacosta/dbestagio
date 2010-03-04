@@ -36,11 +36,12 @@ if ($inserir) {
 	$res_insert = $db->Execute($sql_insert);
 	$id_instituicao = $db->Insert_ID();
 	$modifica = "inserir"; // Para poder atualizar
+	$flash = "Registro criado. Preencher o formulário com os dados e logo cliquar em 'Modificar instituicao'.";
 }
 
 // Atualizacao da instituicao
 if ($modifica) {
-
+	// echo $modifica = NULL . "<br>";
 	// Variavel para alternar entre as duas visoes	
 	$flag++;
 	// echo $flag . "<br>";
@@ -51,7 +52,7 @@ if ($modifica) {
 	$res_areas = $db->Execute($sql_areas);
 	if($res_areas === false) die ("Não foi possível consultar a tabela areas_estagio");
 	$i = 0;
-	while(!$res_areas->EOF) {
+	while (!$res_areas->EOF) {
 	    $matriz_areas[$i]["id_area"] = $res_areas->fields['id'];
 	    $matriz_areas[$i]["area"]    = $res_areas->fields['area'];
 	    $i++;
@@ -59,9 +60,11 @@ if ($modifica) {
 	}
 	
 	if ($flag == 1) {
-		echo "Modifica dados";
+		if (!$flash) {
+			$flash='Modifica';
+		}
 	} elseif ($flag == 2) {
-		echo "Atualiza tabela";
+		// echo "<p>Atualiza</p>";
 
 		$area_instituicao      = $_POST['area'];
 		$natureza_instituicao  = $_POST['natureza'];
@@ -77,25 +80,31 @@ if ($modifica) {
 		$fim_de_semana         = $_POST['fim_de_semana'];
 		$convenio              = $_POST['convenio'];
 		$observacoes		   = $_POST['observacoes'];
-		
-		$sql_atualiza  = "update $tabela_instituicao set area='$area_instituicao', natureza='$natureza_instituicao', instituicao='$nome_instituicao', url='$url_instituicao', endereco='$endereco_instituicao', bairro='$bairro_instituicao', municipio='$municipio_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', fax='$fax_instituicao', beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', observacoes='$observacoes' ";
-		// Campos especificos dos supervisores de estagio
-		if (!$curso) $sql_atualiza .= ", convenio='$convenio' ";
-		$sql_atualiza .= " where id='$id_instituicao'";
-		// echo $sql_atualiza . "<br>";
 
-		$res_atualiza = $db->Execute($sql_atualiza);
-		if($res_atualiza === false) die ("Não foi possível atualizar a tabela estagio");
-		
-		$flag = NULL;
-		unset($modifica);
+		if ($nome_instituicao) {
+			$sql_atualiza  = "update $tabela_instituicao set area='$area_instituicao', natureza='$natureza_instituicao', instituicao='$nome_instituicao', url='$url_instituicao', endereco='$endereco_instituicao', bairro='$bairro_instituicao', municipio='$municipio_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', fax='$fax_instituicao', beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', observacoes='$observacoes' ";
+			// Campos especificos dos supervisores de estagio
+			if (!$curso) $sql_atualiza .= ", convenio='$convenio' ";
+			$sql_atualiza .= " where id='$id_instituicao'";
+			// echo $sql_atualiza . "<br>";
+			// die();
+			$res_atualiza = $db->Execute($sql_atualiza);
+			if($res_atualiza === false) die ("Não foi possível atualizar a tabela estagio");
+			
+			$flag = NULL;
+			unset($modifica);
+		} else {
+			die("<p>Error: Faltou inserir nome da instituição. Registro será excluído. <meta http-equiv='refresh' content='2;url=../cancelar/cancela.php?id_instituicao=$id_instituicao'></p>");
+		}
 	}
 
 }
 
 /*
 echo "curso: " . $curso . "<br>";
-echo " id_instituicao: " . $id_instituicao . "<br>";
+*/
+// echo "<p> id_instituicao: " . $id_instituicao . "</p>";
+/*
 echo " Indice: " . $indice . "<br>";
 echo " Submit: " . $submit . "<br>";
 echo " Botao: " . $botao . "<br>";
@@ -148,17 +157,18 @@ switch($botao)
 	break;
 
     case "excluir":
-	// echo "excluir $id_instituicao";
+	echo "<p>Excluir $id_instituicao</p>";
 	echo "<meta http-equiv='refresh' content='0;../cancelar/cancela.php?id_instituicao=$id_instituicao&indice=$indice' />";
+	// die();
 	// include_once("../cancelar/cancela.php");
 	break;
 }
 
 // Rotina para acrescentar um supervisor
 if (!empty($id_supervisor)) {
-	echo "Acrescentar supervisor<br>";
+	echo "<p>Acrescentar supervisor</p>";
 	$sql = "insert into $tabela_inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$id_instituicao')";
-	echo $sql . "<br>";
+	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
 } else {
@@ -182,6 +192,7 @@ if (!empty($id_instituicao)) {
 	}
 }
 
+// echo "Indice: " . $indice . "<br>";
 if (isset($indice)) {
 	$sql_estagio  = "select e.id, e.instituicao, ";
 	$sql_estagio .= " e.endereco, e.cep, e.bairro, e.municipio, ";
@@ -392,6 +403,7 @@ $smarty->assign("inst_professores",$inst_professores);
 $smarty->assign("supervisores",$supervisores);
 $smarty->assign("matriz_areas",$matriz_areas);
 $smarty->assign("flag",$flag);
+$smarty->assign("flash",$flash);
 $smarty->display("instituicao_ver_cada.tpl");
 
 ?>

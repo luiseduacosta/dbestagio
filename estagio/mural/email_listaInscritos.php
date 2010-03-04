@@ -62,16 +62,16 @@ while (!$resultado->EOF) {
 		}
 	} else {
 		// Logo busco na tabela dos aluno novos
-		$sql_alunosNovos = "select registro, nome, email from alunosNovos where registro=$id_aluno";
-		// echo $sql_alunosNovos . '<br>';
-		$res_alunosNovos = $db->Execute($sql_alunosNovos);
-		while (!$res_alunosNovos->EOF) {	
-			$email = $res_alunosNovos->fields['email'];
-			$registro = $res_alunosNovos->fields['registro'];
-			$nome = $res_alunosNovos->fields['nome'];
+		$sql_alunos_novos = "select registro, nome, email from alunosNovos where registro=$id_aluno";
+		// echo $sql_alunos_novos . '<br>';
+		$res_alunos_novos = $db->Execute($sql_alunos_novos);
+		while (!$res_alunos_novos->EOF) {	
+			$email = $res_alunos_novos->fields['email'];
+			$registro = $res_alunos_novos->fields['registro'];
+			$nome = $res_alunos_novos->fields['nome'];
 			// $nivel = $resultado->fields['nivel'];
 			// $periodo = $resultado->fields['periodo'];
-			$res_alunosNovos->MoveNext();
+			$res_alunos_novos->MoveNext();
 		}
 	}
 	// echo "$email . ' ' . $registro . ' '. $nome . ' ' . $nivel . ' ' . $periodo . '<br>'";

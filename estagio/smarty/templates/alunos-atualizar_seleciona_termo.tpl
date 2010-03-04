@@ -17,7 +17,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {
-	var tamanho_registro;
+	var registro;
 	tamanho_registro = document.seleciona_aluno.registro.value.length;
 	if (tamanho_registro < 9) {
 		alert("O registro deve conter 9 dígitos");

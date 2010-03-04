@@ -58,19 +58,22 @@ $res = $db->Execute($sql);
 if ($res === false) die("Nao foi possivel consultar a tabela configuracao");
 
 $mural_periodo_atual = $res->fields['mural_periodo_atual'];
+// echo $mural_periodo_atual . "<br>";
 $curso_turma_atual = $res->fields['curso_turma_atual'];
 $curso_encerramento_inscricoes = $res->fields['curso_encerramento_inscricoes'];
 $termo_compromisso_periodo = $res->fields['termo_compromisso_periodo'];
 $termo_compromisso_inicio = $res->fields['termo_compromisso_inicio'];
 $termo_compromisso_final = $res->fields['termo_compromisso_final'];
 
-
 // Para o mural
 define("PERIODO_ATUAL", $mural_periodo_atual);
 $periodo_atual = PERIODO_ATUAL;
 $_periodo_atual = explode("-",$periodo_atual);
+// echo $_periodo_atual[1] . "<br>";
+// echo $_periodo_atual[0] . "<br>";
 if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";
 if ($_periodo_atual[1] == 1) $periodo_anterior = $_periodo_atual[0] - 1 . "-2";
+// echo $periodo_anterior . "<br>";
 define("PERIODO_ANTERIOR",$periodo_anterior);
 
 // Para o curso - 2009 = turma 8

@@ -138,7 +138,7 @@ while (!$resultado->EOF) {
 $sql = "SELECT id_aluno FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possivel consultar a tabela alunosNovos");
+if ($resultado === false) die ("Não foi possivel consultar a tabela muaral_inscriacao");
 $total = $resultado->RecordCount();
 // echo "Total " . $total . "<br>";
 
@@ -205,7 +205,7 @@ $smarty->assign("insere",$insere);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("totalVagas",$totalVagas);
 $smarty->assign("totalAlunos",$total);
-$smarty->assign("alunosNovos",$novo_novo);
+$smarty->assign("alunos_novos",$novo_novo);
 $smarty->assign("alunosVelhos",$conhecidos_conhecidos);
 $smarty->display("ver-mural.tpl");
 // $smarty->display("listaOfertas.tpl");

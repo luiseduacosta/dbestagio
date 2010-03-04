@@ -7,7 +7,7 @@
 <?php
 
 // MySQL host name, user name, password, database, and table
-include_once("../../database.inc");
+include_once("database.inc");
 echo $opts['tb'] = 'alunos_ingresso';
 
 // Name of field which is the unique key

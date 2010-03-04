@@ -1,6 +1,6 @@
 <?php
 
-include_once("mural-autentica.inc");
+// include_once("mural-autentica.inc");
 
 include_once("../setup.php");
 include_once("../db.inc");

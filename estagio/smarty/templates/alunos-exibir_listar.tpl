@@ -402,6 +402,7 @@ Tabela principal
     	<th>Id</th>
         <th><a href="?ordem=registro{$criterio}">Registro</a></th>
         <th><a href="?ordem=tc{$criterio}">TC</a></th>
+        <th><a href="?ordem=tc_solicitacao{$criterio}">Solicitação</a></th>
         <th><a href="?ordem=nome{$criterio}">Nome</a></th>
 		
 		{if $logado == 1}
@@ -438,6 +439,7 @@ Tabela principal
 	<td style="text-align:right">{$i++}</td>
 	<td style="text-align:right">{$lista[i].registro}</td>
 	<td style="text-align:center">{$lista[i].tc}</td>
+	<td style="text-align:center">{$lista[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
 	<td class="nome"><a href="ver_cada.php?id_aluno={$lista[i].id_aluno}">{$lista[i].nome}</a></td>
 	
 	{if $logado == 1}

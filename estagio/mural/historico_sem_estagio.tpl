@@ -19,15 +19,21 @@
 			<th>Id</th>
 			<th>Registro</th>
 			<th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
 		</tr>
 	</thead>
 	<tbody>
 		{assign var = 'j' value = 1}
 		{section name=i loop=$sem_estagio}
-		<tr'>
+		<tr>
 			<td style='text-align:right;'>{$j++}</td>
 			<td style='text-align:center;'>{$sem_estagio[i].id_aluno}</td>
 			<td>{$sem_estagio[i].nome}</td>
+                        <td>{$sem_estagio[i].email}</td>
+                        <td>{$sem_estagio[i].telefone}</td>
+                        <td>{$sem_estagio[i].celular}</td>
 		</tr>
 		{/section}
 	</tbody>

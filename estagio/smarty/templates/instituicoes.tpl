@@ -3,7 +3,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Lista de instituições</title>
+<title>Lista de instituiï¿½ï¿½es</title>
 
 {literal}
 <script type="text/javascript">
@@ -42,7 +42,7 @@ function carrega_tabela() {
 {/section}
 </select>
 
-<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
+<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituiões: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
 
 <div align="center">
 <table border="1">
@@ -53,12 +53,12 @@ function carrega_tabela() {
 <th>Id</th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=convenio">Convênio</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=instituicao">Instituições</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>fícios</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>fí­cios</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=turma">Turma</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=alunos">Alunos</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Períodos</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Perí­odos</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">Áreas</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">Áeas</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=natureza">Natureza</a></th>
 </tr>
 </thead>
@@ -85,23 +85,23 @@ function carrega_tabela() {
 
 {* Turma *}
 {if $turma}
-	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$turma}</a></td>
+	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].id_instituicao}&seleciona_periodo={$turma}">{$turma}</a></td>
 {else}
-	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
+	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].id_instituicao}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
 {/if}
 
 {* Alunos *}
 {if $turma}
-	<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}&periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
+	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].id_instituicao}&seleciona_periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
 {else}
 	{if $instituicoes[elementos].alunos == 0}
 		<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
 	{else}
-		<td style="text-align:center"><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].alunos}</a></td>
+		<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].id_instituicao}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
 	{/if}
 {/if}
 
-{* Períodos *}
+{* Perí­odos *}
 <td style="text-align:center">{$instituicoes[elementos].periodos}</td>
 
 {* Supervisores *}

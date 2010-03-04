@@ -4,7 +4,7 @@ include_once("../../db.inc");
 include_once("../../setup.php");
 
 // Verifico se o usuario esta logado
-if(isset($_REQUEST['usuario_senha'])) {
+if (isset($_REQUEST['usuario_senha'])) {
     $usuario = $_REQUEST['usuario_senha'];
     if ($usuario) 
 	$logado = 1;
@@ -45,6 +45,7 @@ $sql1 = "select estagiarios.id_aluno, " .
 "estagiarios.id_instituicao, ".
 "estagiarios.id, ".
 "estagiarios.tc, ".
+"estagiarios.tc_solicitacao, ".
 "estagiarios.turno, ".
 "estagiarios.nivel, ".
 "estagiarios.periodo, ".
@@ -95,12 +96,13 @@ $resultadoLista = $db->Execute($sql);
 
 if($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
 $i=0;
-while(!$resultadoLista->EOF) {
+while (!$resultadoLista->EOF) {
 
 	$estagiarios[$i]['id_estagiario']  = $resultadoLista->fields['id'];
 	$estagiarios[$i]['id_aluno']       = $resultadoLista->fields['id_aluno'];
 	$estagiarios[$i]['registro']       = $resultadoLista->fields['registro'];
 	$estagiarios[$i]['tc']             = $resultadoLista->fields['tc'];
+	$estagiarios[$i]['tc_solicitacao'] = $resultadoLista->fields['tc_solicitacao'];
 	$estagiarios[$i]['nome']           = $resultadoLista->fields['nome'];
 	$estagiarios[$i]['email']          = $resultadoLista->fields['email'];
 	$estagiarios[$i]['celular']        = $resultadoLista->fields['celular'];
@@ -134,7 +136,7 @@ while(!$resultadoLista->EOF) {
 	$nivel2 = NULL;
 	$nivel3 = NULL;
 	$nivel4 = NULL;
-	while(!$resultadoNivel->EOF) {
+	while (!$resultadoNivel->EOF) {
 		$nivelCadaAluno = $resultadoNivel->fields['nivel'];
 		$id_instituicao = $resultadoNivel->fields['id_instituicao'];
 		$instituicao = $resultadoNivel->fields['instituicao'];		
@@ -254,13 +256,13 @@ echo "Total " . $total . "<br>";
 if (isset($criterio)) array_multisort($criterio, SORT_ASC, $estagiarios);
 
 // Pego a listagem das instituicoes ativas para formulario de select
-$sqlInstituicao =  "select distinct estagio.id, estagio.instituicao from estagiarios " ;
+$sqlInstituicao  = "select distinct estagio.id, estagio.instituicao from estagiarios " ;
 $sqlInstituicao .= "left outer join estagio on estagiarios.id_instituicao=estagio.id ";
 $sqlInstituicao .= "order by estagio.instituicao";
 $res_estagio = $db->Execute($sqlInstituicao);
-if($res_estagio === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($res_estagio === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 0;
-while(!$res_estagio->EOF) {
+while (!$res_estagio->EOF) {
     $instituicoes[$i]['id_instituicao'] = $res_estagio->fields['id'];
     $instituicoes[$i]['instituicao']    = $res_estagio->fields['instituicao'];
     $i++;
@@ -274,9 +276,9 @@ $sqlProfessor .= " group by estagiarios.id_professor ";
 $sqlProfessor .= " order by professores.nome";
 // echo $sqlProfessor . "<br>";
 $res_professor = $db->Execute($sqlProfessor);
-if($res_professor === false) die ("Nao foi possivel consultar a tabela professores");
+if ($res_professor === false) die ("Nao foi possivel consultar a tabela professores");
 $i = 0;
-while(!$res_professor->EOF) {
+while (!$res_professor->EOF) {
     $professores[$i]['id_professor'] = $res_professor->fields['id'];
     $professores[$i]['nome']         = $res_professor->fields['nome'];
     $i++;
@@ -295,11 +297,11 @@ while (!$res_areas->EOF) {
 }
 
 // Pego o nome e o numero da instituicao para o cabecalho da tabela
-if(!empty($seleciona_instituicao)) {
+if (!empty($seleciona_instituicao)) {
     $sql_instituicao = "select id, instituicao from estagio where id=$seleciona_instituicao order by instituicao";
     $resultado_instituicao = $db->Execute($sql_instituicao);
     if($resultado_instituicao === false) die ("Não foi possível consultar a tabela estagio");
-    while(!$resultado_instituicao->EOF) {
+    while (!$resultado_instituicao->EOF) {
         $num_instituicao  = $resultado_instituicao->fields['id'];
         $nome_instituicao = $resultado_instituicao->fields['instituicao'];
         $resultado_instituicao->MoveNext();
@@ -307,12 +309,12 @@ if(!empty($seleciona_instituicao)) {
 }
 
 // Pego o nome e o numero do professor para o cabecalho da tabela
-if(!empty($seleciona_professor)) {
+if (!empty($seleciona_professor)) {
     $sql_professor = "select id, nome from professores where id=$seleciona_professor order by nome";
     // echo $sql_professor . "<br>";
     $resultado_professor = $db->Execute($sql_professor);
-    if($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
-    while(!$resultado_professor->EOF) {
+    if ($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
+    while (!$resultado_professor->EOF) {
         $num_professor  = $resultado_professor->fields['id'];
         $nome_professor = $resultado_professor->fields['nome'];
         $resultado_professor->MoveNext();
@@ -322,9 +324,9 @@ if(!empty($seleciona_professor)) {
 // Pego os periodos para listar as instituicoes
 $sql_periodo = "select distinct periodo from estagiarios order by periodo";
 $resultado_periodo = $db->Execute($sql_periodo);
-if($resultado_periodo === false) die ("Não foi possível consultar a tabela estagiarios");
+if ($resultado_periodo === false) die ("Não foi possível consultar a tabela estagiarios");
 $i = 0;
-while(!$resultado_periodo->EOF) {
+while (!$resultado_periodo->EOF) {
     $matriz_periodo[$i]['turma'] = $resultado_periodo->fields['periodo'];
     $resultado_periodo->MoveNext();
     $i++;
