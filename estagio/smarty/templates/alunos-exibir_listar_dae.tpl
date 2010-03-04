@@ -9,10 +9,29 @@
   <style type="text/css">
   @import url("../../estagio.css");
   </style>
+
+{literal}
+<script type="text/javascript">
+function carrega_tabela() {
+	turma=document.getElementById('turma').value;
+	// alert(turma);
+	window.location="listar_dae.php?turma=" + turma;
+	return false;
+}
+</script>
+{/literal}
  
 </head>
 
 <body style="direction: ltr;">
+
+<select name='turma' id='turma' onChange="return carrega_tabela();">
+<option value='{$turma}'>Período: {$turma}</option>
+<option value='0'>Todos</option>
+{section name=i loop=$periodos}
+<option value='{$periodos[i]}'>{$periodos[i]}</option>
+{/section}
+</select>
 
 <div class="corpo">
 
