@@ -123,6 +123,7 @@ function get_periodo() {
 </table>
 </div>
 
+
 <div align="center">
 <table border="1" width="98%">
 <tbody>
@@ -135,7 +136,6 @@ function get_periodo() {
 </tr>
 </tbody>
 </table>
-</div>
 
 <div align="center">
 <table border="1" width="98%">
@@ -211,7 +211,7 @@ function get_periodo() {
 
 <tr>
 {if $logado == 1}
-	<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$historico_estagio[estagio].id_estagiario}&id_aluno={$num_aluno}">Editar</a></td>
+	<td><a href=../atualizar/atualiza_estagio.php?id_estagiarios={$historico_estagio[estagio].id_estagiario}&id_aluno={$num_aluno}>Editar</a></td>
 {/if}
 <td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
 <td style="text-align:center">{$historico_estagio[estagio].tc}</td>

@@ -90,6 +90,6 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
-echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web/intranet.ess.ufrj.br/pommo/'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
 
 ?>

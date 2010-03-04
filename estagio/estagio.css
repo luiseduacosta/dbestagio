@@ -80,6 +80,18 @@ td {
 	text-align: left;
 	}
 
+tr.hover {
+	background-color: blue !important; 
+	}
+
+tr.resaltado {
+	background-color: #D0EFFF; 
+	}
+
+tr.normal {
+	background-color: #E7E1AE; 
+	}
+
 #navegacao {
 	font-size: 10%;
 	padding: 3px;

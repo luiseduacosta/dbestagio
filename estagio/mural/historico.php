@@ -4,7 +4,7 @@ require("../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL; 
 $selecao = isset($_REQUEST['selecao']) ? $_REQUEST['selecao'] : NULL; 
-$periodo_sem_estagio = isset($_REQUEST['periodo_sem_estagio']) ? $_REQUEST['periodo_sem_estagio'] : NULL; 
+$periodo_sem_estagio = isset($_REQUEST['periodo_sem_estagio']) ? $_REQUEST['periodo_sem_estagio'] : NULL;
 
 if ($periodo) {
 	alunos_periodo($periodo);
@@ -103,18 +103,18 @@ function alunos_por_periodo($periodo) {
 	where periodo='$periodo' 
 	group by mural_inscricao.id_aluno 
 	order by alunos.nome ";
-	// echo "<br>";
+	// echo $sql_alunos . "<br>";
 
 	if (empty($ordem)) {
 		$ordem = 'nome';
 	} else {
 		$indice = $ordem;
 	}
-		
+	
 	$resultado_alunos = $db->Execute($sql_alunos);
 	$j = 0;
 	$k = 0;	// Sem estagio
-	while(!$resultado_alunos->EOF) {
+	while (!$resultado_alunos->EOF) {
 		
 		$alunos[$j][$ordem] = $$indice;
 		$alunos[$j]['id_aluno'] = $resultado_alunos->fields['id_aluno'];
@@ -124,6 +124,7 @@ function alunos_por_periodo($periodo) {
 	  	$id_aluno = $resultado_alunos->fields['id_aluno'];
 	  	$nome = $resultado_alunos->fields['nome'];
 
+                // Busco se está estagiando
 	  	$sql_estagiario = "select nivel from estagiarios where registro = '$id_aluno' and periodo = '$periodo'";
 		$resultado_estagiario = $db->Execute($sql_estagiario);
 		$nivel = $resultado_estagiario->fields['nivel'];
@@ -142,7 +143,7 @@ function alunos_por_periodo($periodo) {
 		// Se nao estah em alunos estagiarios entao busco em alunosNovos
 	  	if (empty($nome)) {
 			// echo "Aluno sem estagio<br>";
-	  		$sql_aluno_novo = "select nome from alunosNovos where registro='$id_aluno' order by nome";
+	  		$sql_aluno_novo = "select nome, email, telefone, celular from alunosNovos where registro='$id_aluno' order by nome";
 			$resultado_aluno_novo = $db->Execute($sql_aluno_novo);
 			$sem_estagio = $resultado_aluno_novo->RecordCount();
 			$total_sem_estagio = $total_sem_estagio + $sem_estagio;
@@ -155,8 +156,11 @@ function alunos_por_periodo($periodo) {
 				$alunos[$j]['situacao'] = 0; // Sem estagio
 
 	  			$alunos_sem_estagio[$k]['nome'] = $resultado_aluno_novo->fields['nome'];
-				$alunos_sem_estagio[$k]['id_aluno'] = $id_aluno;
-				
+	  			$alunos_sem_estagio[$k]['email'] = $resultado_aluno_novo->fields['email'];
+       	  			$alunos_sem_estagio[$k]['telefone'] = $resultado_aluno_novo->fields['telefone'];
+                                $alunos_sem_estagio[$k]['celular'] = $resultado_aluno_novo->fields['celular'];
+                                $alunos_sem_estagio[$k]['id_aluno'] = $id_aluno;
+
 	  			$k++;
 	  			
 				$resultado_aluno_novo->MoveNext();

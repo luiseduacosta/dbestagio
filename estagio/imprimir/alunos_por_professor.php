@@ -9,11 +9,12 @@
 require_once('../libphp/tcpdf/config/lang/eng.php');
 require_once('../libphp/tcpdf/tcpdf.php'); 
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Coordenacao de Estagio');
+$pdf->SetAuthor('Coordenação de Estágio');
 $pdf->SetTitle('Pauta de alunos estagiarios');
 $pdf->SetSubject('Alunos estagiarios');
 $pdf->SetKeywords('Estagio, Servico Social');
@@ -74,11 +75,11 @@ $tabela =
 "<table border='1' cellpadding='3' cellspacing='0'>" .
 "<theader>" .
 "<tr>" .
-"<td width='15px'>X</td>" .
+"<th width='15px'>X</th>" .
 "<td width='60px' style='text-align:center'>Registro</td>" .
 "<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nivel</td>" .
-"<td width='300px'>Instituicao</td>" .
+"<td width='35px' style='text-align:center'>Nível</td>" .
+"<td width='300px'>Instituição</td>" .
 "<td width='170px'>Supervisor</td>" .
 "</tr>" .
 "</theader>" .
@@ -94,7 +95,7 @@ while (!$res->EOF) {
 	$nivel = $res->fields['nivel'];
 	
 	$tabela .= "<tr>" .
-			"<td width='15px'>&nbsp;</td>" .
+			"<td width='15px'></td>" .
 			"<td width='60px' style='text-align:center'>$registro</td>" .
 			"<td width='170px'>$aluno</td>" .
 			"<td width='35px' style='text-align:center'>$nivel</td>" .
@@ -118,8 +119,8 @@ $tabela .=
 "<td width='15px'>X</td>" .
 "<td width='60px' style='text-align:center'>Registro</td>" .
 "<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nivel</td>" .
-"<td width='300px'>Instituicao</td>" .
+"<td width='35px' style='text-align:center'>Nível</td>" .
+"<td width='300px'>Instituição</td>" .
 "<td width='170px'>Supervisor</td>" .
 "</tr>" .
 "</theader>" .
@@ -128,12 +129,12 @@ $tabela .=
 for ($i = 0; $i<10; $i++) {
 
 	$tabela .= "<tr>" .
-	"<td width='15px'>&nbsp;</td> " .
-	"<td width='60px'>&nbsp;</td> " .
-	"<td width='170px'>&nbsp;</td> " .
-	"<td width='35px'>&nbsp;</td> " .
-	"<td width='300px'>&nbsp;</td> " .
-	"<td width='170px'>&nbsp;</td> " .
+	"<td width='15px'></td> " .
+	"<td width='60px'></td> " .
+	"<td width='170px'></td> " .
+	"<td width='35px'></td> " .
+	"<td width='300px'></td> " .
+	"<td width='170px'></td> " .
 	"</tr>";
 }
 
