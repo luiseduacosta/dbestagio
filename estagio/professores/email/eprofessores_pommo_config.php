@@ -12,7 +12,7 @@ require(ADODB.'adodb.inc.php');
 
 /* */
 $tipo       = "mysql";
-$host       = "localhost";
+$host       = "200.20.112.3";
 $usuario    = "ess";
 $senha      = "ess123";
 $bancodados = "pommo";
