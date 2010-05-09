@@ -48,7 +48,7 @@ function janelaInsere() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-<h1>Mural de estágios</h1>
+<h1>Mural de estágios - Turma {$periodo_atual}</h1>
 
 <!-- {$smarty.now|date_format:"%d-%b-%Y"} -->
 
@@ -60,9 +60,9 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 
 <div align="center">
 <form name="inscricao" id="inscricao" action="#" method="post">
-<div class="tabela">
-<table border="1">
+<table class="tab_mural" border="1">
 
+<thead>
 <tr>
 <!--
 <th>Id</th>
@@ -77,9 +77,11 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 	<th>Email enviado</th>
 {/if}
 </tr>
+</thead>
 
 {section name=item loop=$instituicao}
 
+<tbody>
 <tr>
 {if $instituicao[item].convenio == 0}
 	<tr style="background-color:#fdb9b9">
@@ -99,11 +101,11 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 	<td style="text-align:center">{$instituicao[item].datafax}</td>
 {/if}
 </tr>
+</tbody>
 
 {/section}
 
 </table>
-</div>
 </form>
 </div>
 

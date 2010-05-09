@@ -20,15 +20,6 @@ table {
 	text-align: left;
 	}
 
-.tabela {
-	border-top-width: thick;
-	border-left-width: thick;
-	border-bottom-width: thin;
-	border-right-width: thin;
-	border-style: inset;
-	border-color: red;
-}
-
 caption {
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-weight: bold;

@@ -61,8 +61,9 @@ if ($quantidade_estagiarios === 0) {
 	, instituicao, supervisores.nome
 	from estagiarios
 	inner join estagio on estagiarios.id_instituicao = estagio.id
-	left join supervisores on estagiarios.id_supervisor = supervisores.id
-	where registro = '$registro' and periodo < '" . PERIODO_ATUAL . "' order by periodo desc";
+	left join supervisores on estagiarios.id_supervisor = supervisores.id ";
+	// where registro = '$registro' and periodo < '" . PERIODO_ATUAL . "' order by periodo desc";
+	$sql_periodos .= "where registro = '$registro' order by periodo desc";
 	// echo $sql_periodos . "<br>";
 	
 	$resultado_periodo = $db->Execute($sql_periodos);
@@ -83,7 +84,9 @@ if ($quantidade_estagiarios === 0) {
 
 		$nivel_periodo_anterior = $resultado_periodo->fields['nivel'];
 		$periodo_anterior = $resultado_periodo->fields['periodo'];
-
+		// echo $periodo_anterior . "<br>";
+		// if ($periodo_anterior = PERIODO_ATUAL) echo 'periodo atual';
+		
 		$i++;
 
 		// Somente o primeiro periodo anterior ao PERIODO ATUAL
@@ -97,6 +100,7 @@ if ($quantidade_estagiarios === 0) {
 
 	// var_dump($nivel_periodo_anterior);
 	if ($nivel_periodo_anterior == 1 or $nivel_periodo_anterior == 3) {
+	    if ($periodo_anterior != PERIODO_ATUAL) {
 		echo $texto = "<h2>Atenção: aluno que cursou estágio I ou III no período anterior</h2><p style='text-align:justify; background-color:#e7e1ae'>Prezada(o) aluna(o):<br><br>Clicando no botão embaixo sua solicitação será processada, ainda que, pelas normas vigentes, alunos que cursaram estágio I ou III no último período devem requerer autorização especial na Coordenação de Estágio e Extensão para serem habilitados a trocar de estágio antes do cumprimento de dois períodos consecutivos numa mesma instituição.<br><br>Em caso de dúvida entre em contacto através do e-mail <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a></p>";
 		echo "
 		<form action='mural-alunos_modifica.php' method='post'>
@@ -108,6 +112,10 @@ if ($quantidade_estagiarios === 0) {
 		</form>
 			";
 		die;
+	    } else {
+		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?id_aluno=$id_aluno&registro=$registro&id_instituicao=$id_instituicao&aluno=1'>";
+		die;
+	    }
 	} else {
 		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?id_aluno=$id_aluno&registro=$registro&id_instituicao=$id_instituicao&aluno=1'>";
 		die;

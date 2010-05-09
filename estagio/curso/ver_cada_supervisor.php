@@ -30,11 +30,11 @@
 	$(function() {
          $("#cpf").mask("999999999-99");
          $("#cep").mask("99999-999");
-		 $("#telefone").mask("9999.9999");
- 		 $("#celular").mask("9999.9999");
-		 $("#ano_formatura").mask("9999");
- 		 $("#ano_curso").mask("9999");
-		 $("#instituicao_cep").mask("99999-999");
+	 $("#telefone").mask("9999.9999");
+ 	 $("#celular").mask("9999.9999");
+	 $("#ano_formatura").mask("9999");
+ 	 $("#ano_curso").mask("9999");
+	 $("#instituicao_cep").mask("99999-999");
 	});
 	</script>
 
@@ -407,7 +407,7 @@ if ($sistema_autentica == 1) {
 <?php
 if ($submit) {
 	echo "
-	<input type='text' name='escola' id='escola' value='$escola' maxlength='70' size='30'>
+	<input type='text' name='escola' id='escola' value='$escola' maxlength='70' size='60'>
 	";
 } else {
 	echo $escola;
@@ -537,25 +537,35 @@ echo 'Número de inscrição: ' . $num_inscricao . ' Turma: ' . $curso_turma;
 </tr>
 
 <tr>
-<td>Seleção (0 = não; 1 = sim)</td>
+<td>Seleção (0 = não; 1 = sim; 2 = espera)</td>
 <td>
 <?php 
 // echo $submit ." " . $selecao;
 if ($submit) {
 	if ($selacao == '0') {
 		echo "
-	    <input type='radio' name='selecao' id='selecao' value='0' checked>Não
-		<input type='radio' name='selecao' id='selecao' value='1'>Sim
+	       <input type='radio' name='selecao' id='selecao' value='0' checked>Não
+	       <input type='radio' name='selecao' id='selecao' value='1'>Sim
+               <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";
 	} elseif ($selecao == '1') {
 		echo "
 		<input type='radio' name='selecao' id='selecao' value='0'>Não
 		<input type='radio' name='selecao' id='selecao' value='1' checked>Sim
+                <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";
+	} elseif ($selecao == '2') {
+		echo "
+		<input type='radio' name='selecao' id='selecao' value='0'>Não
+		<input type='radio' name='selecao' id='selecao' value='1'>Sim
+                <input type='radio' name='selecao' id='selecao' value='2' checked>Espera
+		";
+
 	} else {
 		echo "
 		<input type='radio' name='selecao' id='selecao' value='0' checked>Não
 		<input type='radio' name='selecao' id='selecao' value='1'>Sim
+                <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";
 	}
 } else {
