@@ -24,7 +24,7 @@ $bancodados = "locuss_ess";
 */
 
 $tipo       = "mysql";
-$host       = "localhost";
+$host       = "200.20.112.2";
 $usuario    = "ess";
 $senha      = "ess123";
 $bancodados = "ess";

@@ -200,6 +200,7 @@ echo "Estagiarios " . $conhecidos_conhecidos . "<br>";
 
 $smarty = new Smarty_estagio;
 
+$smarty->assign("periodo_atual",PERIODO_ATUAL);
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("insere",$insere);
 $smarty->assign("instituicao",$instituicao);
@@ -208,6 +209,5 @@ $smarty->assign("totalAlunos",$total);
 $smarty->assign("alunos_novos",$novo_novo);
 $smarty->assign("alunosVelhos",$conhecidos_conhecidos);
 $smarty->display("ver-mural.tpl");
-// $smarty->display("listaOfertas.tpl");
 
 ?>
