@@ -54,7 +54,7 @@
 
 <tr>
 <td>Vagas</td>
-<td><input type="text" name="vagas" id="vagas" size="2" maxlength="2" value="{$vagas}">Digite somente números</td>
+<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3" value="{$vagas}">Digite somente números</td>
 </tr>
 
 <tr>

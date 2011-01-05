@@ -1,8 +1,7 @@
 <?php
 
 // include_once("../../autentica.inc");
-
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
@@ -33,6 +32,30 @@ $usuario_senha = $_REQUEST['usuario_senha'];
 if ($usuario_senha) {
 	$logado = 1;
 	// echo "Usuario logado " . "<br>";
+}
+
+// echo "Registro " . $registro . "<br>";
+if ($registro) {
+    $sql_estagiario  = "SELECT id, id_aluno, registro ";
+    $sql_estagiario .= " from estagiarios ";
+    $sql_estagiario .= " where registro = '$registro'";
+    // echo $sql_estagiario . "<br>";
+    $res_estagiario = $db->Execute($sql_estagiario);
+    if ($res_estagiario === false) die ("Não foi possível consultar a tabela estagiarios");
+    $quantidade_estagiarios = $res_estagiario->RecordCount();
+    // echo $quantidade_estagiarios . "<br>";
+    if ($quantidade_estagiarios === 0) {
+	echo "Aluno sem estagio. Registro deve ser excluido." . "<br>";
+	$sql_aluno = "select id from alunos where registro = '$registro'";
+	// echo $sql_aluno . "<br>";
+	$res_aluno = $db->Execute($sql_aluno);
+	if ($res_aluno === false) die ("Não foi possível consultar a tabela alunos");
+	$id_aluno = $res_aluno->fields['id'];
+	// echo $id_aluno . "<br>";
+	// die();	
+	echo "<meta HTTP-EQUIV='refresh' content='2,URL=../cancelar/ver_cancela.php?id_aluno=$id_aluno'>";
+	exit;
+    }
 }
 
 $sql  = "SELECT alunos.id, alunos.registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
@@ -82,8 +105,7 @@ switch ($botao) {
 		break;
 }
 
-if($debug == 1)
-echo $_SERVER['HTTP_REFERER'];
+if($debug == 1) echo $_SERVER['HTTP_REFERER'];
 
 // Se foi chamado desde outro lugar atraves de um id_aluno calculo o inicio da contagem
 if(!empty($id_aluno)) {

@@ -65,7 +65,7 @@ $pdf->Cell($cabecalho3,3,"Termo de Compromisso (Estágio $nivel_romano $classe)",
 $pdf->Ln(2);
 
 $texto0 = "
-O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . strtoupper($nome) . ", instituição ". $instituicao . " e Supervisor(a) AS. ". strtoupper($supervisor) . ", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . utf8_decode(strtoupper($nome)) . ", instituição ". utf8_decode($instituicao) . " e Supervisor(a) AS. ". utf8_decode(strtoupper($supervisor)) . ", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
 ";
 
 $texto1 = "

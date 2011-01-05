@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $smarty = new Smarty_estagio;

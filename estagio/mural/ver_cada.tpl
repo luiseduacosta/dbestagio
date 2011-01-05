@@ -44,7 +44,7 @@ function barra() {
 	</span>
 	
 	<span class = "botao">
-	<a href="publica_google.php?id_instituicao={$id_instituicao}">Publicar no Google</a>
+	<a href="http://200.20.112.2/estagio/mural/publica_google.php?id_instituicao={$id_instituicao}">Publicar no Google</a>
 	</span>
 
 	{* Se as inscricoes estao encerradas *}

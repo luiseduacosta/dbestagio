@@ -129,7 +129,8 @@ function confirma() {
 <form name="form_motivo" id="form_motivo" method="post" action="cancela.php" onSubmit="return confirma();">
 <input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
 <tr>
-<td colspan="2" style="text-align:center"><input type="submit" name="submit" value="Confirma"></td>
+<td colspan="2" style="text-align:center"><input type="submit"
+name="submit" value="Confirma excluir"></td>
 </tr>
 </form>
 

@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 include_once("../../libphp/jpgraph/src/jpgraph.php");
 include_once("../../libphp/jpgraph/src/jpgraph_bar.php");

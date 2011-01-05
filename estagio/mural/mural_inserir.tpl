@@ -98,7 +98,7 @@ function verificaConvenio() {
 
 <tr>
 <td>Vagas:</td>
-<td><input type="text" name="vagas" id="vagas" size="2" maxlength="2">Digitar somente números</td>
+<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3">Digitar somente números</td>
 </tr>
 
 <tr>

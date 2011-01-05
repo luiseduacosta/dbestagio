@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 include_once("../../autentica.inc");
 
@@ -21,7 +21,7 @@ $ordem = "nome";
 
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 
-$sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, instituicao ";
+$sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, estagio.instituicao, estagio.seguro ";
 $sql .= " from alunos ";
 $sql .= " inner join estagiarios on alunos.registro = estagiarios.registro ";
 $sql .= " inner join estagio on estagiarios.id_instituicao = estagio.id ";
@@ -34,7 +34,7 @@ $sql .= " order by $ordem";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Nï¿½o foi possï¿½vel consultar as tabelas alunos, estagiarios e estagio");
+if($resultado == false) die ("Não foi possível consultar as tabelas alunos, estagiarios e estagio");
 $i = 0;
 while(!$resultado->EOF) {
 	$dae[$i]['nome'] = $resultado->fields['nome'];
@@ -54,6 +54,7 @@ while(!$resultado->EOF) {
 	$dae[$i]['celular'] = $resultado->fields['celular'];
 	$dae[$i]['email'] = $resultado->fields['email'];
 	$dae[$i]['instituicao'] = $resultado->fields['instituicao'];
+	$dae[$i]['seguro'] = $resultado->fields['seguro'];
 	$resultado->MoveNext();
 	$i++;
 }
@@ -62,7 +63,7 @@ while(!$resultado->EOF) {
 $sql_turma = "select id, periodo from estagiarios group by periodo";
 // echo $sql_turma . "<br>";
 $res_turma = $db->Execute($sql_turma);
-if ($res_turma === false) die ("Nï¿½o foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();
