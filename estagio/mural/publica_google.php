@@ -132,9 +132,9 @@ $mensage .= "Contatos: $contato \n";
 $mensage .= "Outras informações: $outras \n";
 $mensage .= "Inscrições: http://www.ess.ufrj.br/estagio";
 
-// echo $headers . "<br>";
-// echo $assunto . "<br>";
-// echo $mensage . "<br>";
+echo $headers . "<br>";
+echo $assunto . "<br>";
+echo "Mensage: " . $mensage . "<br>";
 
 mail ($to,$assunto,$mensage,$headers);
 
@@ -148,8 +148,9 @@ if(strlen($twitter_message)<1){
 	 $twitter_status=postToTwitter("estagio_ess", "e\$tagi0", $twitter_message);
 } 
 
-echo "<meta HTTP-EQUIV='refresh' content='0,URL=http://groups.google.com.br/group/estagio_ess'>";
 
-// header("Location: http://groups.google.com.br/group/estagio_ess");
+// echo "<meta HTTP-EQUIV='refresh' content='0,URL=http://groups.google.com.br/group/estagio_ess'>";
+
+header("Location: http://groups.google.com.br/group/estagio_ess");
 
 ?>

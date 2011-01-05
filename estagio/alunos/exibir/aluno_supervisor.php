@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.turno, estagiarios.nivel, estagiarios.id_supervisor, estagiarios.id_instituicao ";

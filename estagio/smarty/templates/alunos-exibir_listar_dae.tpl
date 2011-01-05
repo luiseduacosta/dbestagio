@@ -26,7 +26,7 @@ function carrega_tabela() {
 <body style="direction: ltr;">
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='{$turma}'>Período: {$turma}</option>
+<option value='{$turma}'>Perí­odo: {$turma}</option>
 <option value='0'>Todos</option>
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -53,15 +53,16 @@ Tabela principal
         <th><a href="?ordem=municipio">Munic&iacute;pio</a></th>
         <th><a href="?ordem=cep">CEP</a></th>
         <th><a href="?ordem=identidade">RG</a></th>
-        <th><a href="?ordem=orgao">Orgï¿½o</a></th>
+        <th><a href="?ordem=orgao">Orgão</a></th>
         <th><a href="?ordem=nascimento">Data nascimento</a></th>
         <th><a href="?ordem=cpf">CPF</a></th>
-        <th><a href="?ordem=codigo_telefone">Cï¿½digo</a></th>
+        <th><a href="?ordem=codigo_telefone">Código</a></th>
         <th><a href="?ordem=telefone">Telefone</a></th>
-        <th><a href="?ordem=codigo_celular">Cï¿½digo</a></th>
+        <th><a href="?ordem=codigo_celular">Código</a></th>
         <th><a href="?ordem=celular">Celular</a></th>
         <th><a href="?ordem=email">E-mail</a></th>
-        <th><a href="?ordem=instituicao">Instituiï¿½ï¿½o</a></th>
+        <th><a href="?ordem=instituicao">Instituição</a></th>
+        <th><a href="?ordem=seguro">Seguro</a></th>
     </tr>
     {assign var = "i" value = 1}
     {section name=i loop=$dae}

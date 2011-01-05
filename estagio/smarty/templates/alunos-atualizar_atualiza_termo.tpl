@@ -171,7 +171,7 @@ function confirma() {
 	nascimento=document.getElementById('nascimento').value;
 	endereco=document.getElementById('endereco').value;
 	cep=document.getElementById('cep').value;
- 	bairro=document.getElementById('bairro').value;
+	bairro=document.getElementById('bairro').value;
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
