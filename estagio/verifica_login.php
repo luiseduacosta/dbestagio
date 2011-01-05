@@ -9,7 +9,7 @@ if(empty($usuario_digitado) or (empty($senha_digitada))) {
 	// echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
 // Si existem busco na tabela de usuarios se estão autorizados
 } else {
-    include("db.inc");
+    include("setup.php");
     $sql = "select usuario, senha from usuarios where usuario='$usuario_digitado' and senha='$senha_digitada'";
     $resultado = $db->Execute($sql);
     if($resultado === false) die ("Não foi possível consultar a tabela usuarios");
