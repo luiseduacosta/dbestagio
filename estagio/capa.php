@@ -16,16 +16,16 @@ setcookie("mural_senha","",0,"/estagio/mural/administraco");
 @import url("estagio.css");
 </style>
 <script>
-setTimeout("trocaImagem();",3000);
+// setTimeout("trocaImagem();",3000);
 function trocaImagem() {
     figura = document.getElementById("capa_imagem");
     figura.src="imagens/fachada_redonda.jpg";
-    setTimeout("escolaImagem();",3000);
+    setTimeout("escolaImagem();",1000);
 }
 function escolaImagem() {
     figura = document.getElementById("capa_imagem");
-    figura.src="imagens/fachada_redonda.jpg";
-    setTimeout("trocaImagem();",3000);
+    figura.src="imagens/seminario_estagio.jpg";
+    setTimeout("trocaImagem();",6000);
 }
 
 </script>
@@ -36,14 +36,20 @@ function escolaImagem() {
 <div align="center">
 <strong>
 <font size="+2">Escola de Serviço Social</font>
-<br>
+<br />
 <font size="+2">Coordenação de Estágio e Extens&atilde;o</font>
 </strong>
-<p class="coluna_centralizada">Telefone: 3873 5394 <br />
-Email: estagio@ess.ufrj.br</p>
+
+<br />
+<span style='text-align: center'>
+Telefone: 3873 5394 <br />
+Email: estagio@ess.ufrj.br
+</span>
  
 <p class="coluna_centralizada">
+<a href="http://www.ess.ufrj.br/estagio">
 <img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de Serviço Social/UFRJ" width="588" height="400">
+</a>
 </p>
 
 
