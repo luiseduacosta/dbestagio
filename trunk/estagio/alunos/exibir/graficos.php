@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 include_once("../../libphp/libchart-1.2.1/libchart/classes/libchart.php");
 
