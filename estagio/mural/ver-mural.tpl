@@ -3,8 +3,8 @@
 <html>
 
 <head>
-	<title>Mural de ofertas de estágio</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<title>Mural de ofertas de estÃ¡gio</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -26,7 +26,7 @@ function janelaInsere() {
 		var texto = document.getElementById("alunoInscrito");
 		texto.setAttribute("style","font-weight:bold; background-color=yellow; color: red");
 		texto.style.cssText = "font-weight:bold; background-color:yellow; color:red";
-		texto.innerHTML = "Aluna(o) "+insere+ " inscrita(o) em seleção de estágio";
+		texto.innerHTML = "Aluna(o) "+insere+ " inscrita(o) em seleÃ§Ã£o de estÃ¡gio";
 		insere="";
 	}
 	return true;
@@ -48,15 +48,17 @@ function janelaInsere() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-<h1>Mural de estágios - Turma {$periodo_atual}</h1>
+<h1>Mural de estÃ¡gios - Turma {$periodo_atual}</h1>
 
 <!-- {$smarty.now|date_format:"%d-%b-%Y"} -->
 
 <p style="font-size:100%;background-color:#e7e1ae">Clique <a href="http://www.pr1.ufrj.br/estagios/busca.php">aqui</a>
-e selecione o curso de Serviço Social para ver as instituições conveniadas com a UFRJ
+e selecione o curso de ServiÃ§o Social para ver as instituiÃ§Ãµes conveniadas com a UFRJ
 </p>
 
-<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estágio</p>
+<p>SÃ£o {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estÃ¡gio</p>
+
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.ess.ufrj.br%2Festagio&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
 
 <div align="center">
 <form name="inscricao" id="inscricao" action="#" method="post">
@@ -67,12 +69,12 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 <!--
 <th>Id</th>
 //-->
-<th><a href=?ordem=instituicao>Instituição</a></th>
+<th><a href=?ordem=instituicao>InstituiÃ§ao</a></th>
 <th>Vagas</th>
 <th>Inscritos</th>
-<th>Benefícios</th>
+<th>BenefÃ­cios</th>
 <th><a href=?ordem=dataInscricao>Encerramento</a></th>
-<th><a href=?ordem=dataSelecao>Seleção</a></th>
+<th><a href=?ordem=dataSelecao>SeleÃ§Ã£o</a></th>
 {if $sistema_autentica == 1}
 	<th>Email enviado</th>
 {/if}
@@ -96,7 +98,7 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas com a
 <td class="coluna_centralizada"><a href="listaInscritos.php?id_instituicao={$instituicao[item].id_instituicao}">{$instituicao[item].quantidade_alunos}</a></td>
 <td>{$instituicao[item].beneficios}</td>
 <td style="text-align:center">{$instituicao[item].dataInscricao}</td>
-<td>{$instituicao[item].dataSelecao} Horário: {$instituicao[item].horarioSelecao}</td>
+<td>{$instituicao[item].dataSelecao} HorÃ¡rio: {$instituicao[item].horarioSelecao}</td>
 {if $sistema_autentica == 1}
 	<td style="text-align:center">{$instituicao[item].datafax}</td>
 {/if}

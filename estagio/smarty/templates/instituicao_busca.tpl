@@ -2,13 +2,13 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css"> 
-<title>Busca instituiçoes</title>
+<title>Busca instituiÃ§Ãµes</title>
 </head>
 
 <body>
 
 <form name="busca_instituicao" action="../exibir/listar.php" method="post">
-<h1>Digite uma palavra para iniciar a busca de instituições</h1>
+<h1>Digite uma palavra para iniciar a busca de instituiÃ§Ãµes</h1>
 <input type="text" name="instituicao" size=30>
 <input type="submit" name="submit" value="Confirma">
 </form>

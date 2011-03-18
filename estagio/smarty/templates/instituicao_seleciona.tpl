@@ -15,16 +15,16 @@ function elimina() {
 //-->
 </script>
 {/literal}
-<title>Seleciona instituição</title>
+<title>Seleciona instituiÃ§Ã£o</title>
 </head>
 
 <body>
 
 {if $opcao == "cancela"}
-<h1>Seleciona instituição para excluir</h1>
+<h1>Seleciona instituiÃ§Ã£o para excluir</h1>
 <form name="seleciona_instituicao" action="exibir/ver_cada.php" method="post">
 {else}
-<h1>Seleciona instituição para modificar</h1>
+<h1>Seleciona instituiÃ§Ã£o para modificar</h1>
 <form name="seleciona_instituicao" action="exibir/ver_cada.php" method="post">
 {/if}
 

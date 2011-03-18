@@ -154,12 +154,12 @@
 		if (tabela_principal.style.display == "none") {
 			tabela_principal.style.display = "block";
 			tabela_historico.style.display = "none";
-			botao_historia.value = "Ver histÛrico";
+			botao_historia.value = "Ver hist√≥rico";
     		document.cookie = 'historia_estilo=block';
 		} else {
 			tabela_principal.style.display = "none";
 			tabela_historico.style.display = "block";
-			botao_historia.value = "Ocultar histÛrico";
+			botao_historia.value = "Ocultar hist√≥rico";
 			document.cookie = 'historia_estilo=none';
 		}
 	}
@@ -177,14 +177,14 @@
 {/if}
 
 <input type='submit' name='botao_resumo' id='botao_resumo' value='Ver resumo' onClick='mostrar()'>
-<input type='submit' name='botao_historia' id='botao_historia' value='Ver histÛrico' onClick='historia()'>
+<input type='submit' name='botao_historia' id='botao_historia' value='Ver hist√≥rico' onClick='historia()'>
 
 <input type="hidden" name="ordem" id="ordem" value="{$ordem}">
 
 <div id='tabela_resumo' style='display:none;'>
 
 <table border='1' summary='Alunos que cursaram quatro periodos por quantidade de periodos'>
-<caption>Alunos que completaram quatro perÌ≠odos de est·gio</caption>
+<caption>Alunos que completaram quatro per√≠odos de est√°gio</caption>
 	<colgroup>
 		<col class='coluna_centralizada'>
 		<col>
@@ -193,7 +193,7 @@
 	
 	<thead>
 		<tr>
-			<th>CÛdigo</th>
+			<th>C√≥digo</th>
 			<th>Conceito</th>
 			<th>Alunos</th>
 		</tr>
@@ -202,30 +202,30 @@
 	<tbody>
 
 		<tr>
-			<td class='coluna_centralizada'>0</td><td>Todos os perÌodos no mesmo est·gio</td><td class='coluna_centralizada'>{$codigo_0}</td>
+			<td class='coluna_centralizada'>0</td><td>Todos os per√≠odos no mesmo est√°gio</td><td class='coluna_centralizada'>{$codigo_0}</td>
 		</tr>
 		<tr>
-			<td class='coluna_centralizada'>1</td><td>Todos os perÌ≠odos em diferentes est·gios</td><td class='coluna_centralizada'>{$codigo_1}</td>
+			<td class='coluna_centralizada'>1</td><td>Todos os per√≠odos em diferentes est√°gios</td><td class='coluna_centralizada'>{$codigo_1}</td>
 		</tr>
 		<tr>
-			<td class='coluna_centralizada'>2</td><td>Dois perÌ≠odos e dois perÌodos</td><td class='coluna_centralizada'>{$codigo_2}</td>
-		</tr>
-
-		<tr>
-			<td class='coluna_centralizada'>3</td><td>Dois perÌ≠odos consecutivos no mesmo est·gio (1 e 2)</td><td class='coluna_centralizada'>{$codigo_3}</td>
-		</tr>
-		<tr>
-			<td class='coluna_centralizada'>4</td><td>Dois perÌ≠odos consecutivos no mesmo est·gio (2 e 3)</td><td class='coluna_centralizada'>{$codigo_4}</td>
-		</tr>
-		<tr>
-			<td class='coluna_centralizada'>5</td><td>Dois perÌ≠odos consecutivos no mesmo est·gio (3 e 4)</td><td class='coluna_centralizada'>{$codigo_5}</td>
+			<td class='coluna_centralizada'>2</td><td>Dois per√≠odos e dois per√≠odos</td><td class='coluna_centralizada'>{$codigo_2}</td>
 		</tr>
 
 		<tr>
-			<td class='coluna_centralizada'>6</td><td>TrÍs perÌ≠odos consecutivos no mesmo est·gio (1, 2 e 3)</td><td class='coluna_centralizada'>{$codigo_6}</td>
+			<td class='coluna_centralizada'>3</td><td>Dois per√≠odos consecutivos no mesmo est√°gio (1 e 2)</td><td class='coluna_centralizada'>{$codigo_3}</td>
 		</tr>
 		<tr>
-			<td class='coluna_centralizada'>7</td><td>TrÍs perÌ≠odos consecutivos no mesmo est·gio (2, 3 e 4)</td><td class='coluna_centralizada'>{$codigo_7}</td>
+			<td class='coluna_centralizada'>4</td><td>Dois per√≠odos consecutivos no mesmo est√°gio (2 e 3)</td><td class='coluna_centralizada'>{$codigo_4}</td>
+		</tr>
+		<tr>
+			<td class='coluna_centralizada'>5</td><td>Dois per√≠odos consecutivos no mesmo est√°gio (3 e 4)</td><td class='coluna_centralizada'>{$codigo_5}</td>
+		</tr>
+
+		<tr>
+			<td class='coluna_centralizada'>6</td><td>Tr√™s per√≠odos consecutivos no mesmo est√°gio (1, 2 e 3)</td><td class='coluna_centralizada'>{$codigo_6}</td>
+		</tr>
+		<tr>
+			<td class='coluna_centralizada'>7</td><td>Tr√™s per√≠odos consecutivos no mesmo est√°gio (2, 3 e 4)</td><td class='coluna_centralizada'>{$codigo_7}</td>
 		</tr>
 		<tr>
 			<th class='coluna_centralizada'>TOTAL</th><th>&nbsp;</th><th class='coluna_centralizada'>{$total}</th>
@@ -305,7 +305,7 @@
     <td>
         <select name="seleciona_instituicao" size="1" id="instituicao" onChange="return get_valor();">
         {if $seleciona_instituicao eq "0"}
-            <option value='0' selected>InstituiÁıes</option>
+            <option value='0' selected>Institui√ß√µes</option>
 	    <!--
             <option value={$seleciona_instituicao}>{$nome_instituicao|truncate:30}</option>
 	    //-->
@@ -313,7 +313,7 @@
             <option value="{$instituicoes[elemento].id_instituicao}">{$instituicoes[elemento].instituicao|truncate:30}</option>
             {/section}
         {else}
-            <option value='0'>InstituiÁıes</option>
+            <option value='0'>Institui√ß√µes</option>
             <option value={$seleciona_instituicao} selected>{$nome_instituicao|truncate:30}</option>
             {section name=elemento loop=$instituicoes}
             <option value="{$instituicoes[elemento].id_instituicao}">{$instituicoes[elemento].instituicao|truncate:30}</option>
@@ -347,12 +347,12 @@
     <td>
         <select name="id_area" size="1" id="id_area" onChange="return get_valor();">
         {if $id_area eq "0"}
-            <option value='0' selected>¡reas</option>
+            <option value='0' selected>√Åreas</option>
             {section name=elemento loop=$areas}
             <option value="{$areas[elemento].id_area}">{$areas[elemento].area|truncate:30}</option>
             {/section}
         {else}
-            <option value='0'>¡reas</option>
+            <option value='0'>√Åreas</option>
             <option value={$id_area} selected>{$area_selecionada|truncate:30}</option>
             {section name=elemento loop=$areas}
             <option value="{$areas[elemento].id_area}">{$areas[elemento].area|truncate:30}</option>
@@ -365,12 +365,12 @@
     <td>
         <select name="seleciona_periodo" size="1" id="periodo" onChange="return get_valor();">
 		{if $seleciona_periodo eq "" || $seleciona_periodo eq "0"}
-	    	<option value="0" selected>PerÌ≠odo</option>
+	    	<option value="0" selected>Per√≠odo</option>
     	    {section name=elemento loop=$matriz_periodo}
     	    <option value={$matriz_periodo[elemento].turma}>{$matriz_periodo[elemento].turma}</option>
     	    {/section}
 		{else}
-	    	<option value="0">PerÌ≠odo</option>
+	    	<option value="0">Per√≠odo</option>
     	    <option value={$seleciona_periodo} selected>{$seleciona_periodo}</option>
     	    {section name=elemento loop=$matriz_periodo}
     	    <option value={$matriz_periodo[elemento].turma}>{$matriz_periodo[elemento].turma}</option>
@@ -402,7 +402,7 @@ Tabela principal
     	<th>Id</th>
         <th><a href="?ordem=registro{$criterio}">Registro</a></th>
         <th><a href="?ordem=tc{$criterio}">TC</a></th>
-        <th><a href="?ordem=tc_solicitacao{$criterio}">SolicitaÁ„o</a></th>
+        <th><a href="?ordem=tc_solicitacao{$criterio}">Solicita√ß√£o</a></th>
         <th><a href="?ordem=nome{$criterio}">Nome</a></th>
 		
 		{if $logado == 1}
@@ -411,13 +411,13 @@ Tabela principal
 			<th>Telefone</th>
 		{/if}
 		
-        <th style="text-align:center"><a href="?ordem=nivel{$criterio}">NÌvel</a></th>
+        <th style="text-align:center"><a href="?ordem=nivel{$criterio}">N√≠vel</a></th>
 		<th style="text-align:center"><a href="?ordem=codigo{$criterio}">Cod</a></th>
-		<th><a href="?ordem=periodo{$criterio}">PerÌ≠odo</a></th>
+		<th><a href="?ordem=periodo{$criterio}">Per√≠odo</a></th>
         <th><a href="?ordem=turno{$criterio}">Turno</a></th>
-        <th><a href="?ordem=instituicao{$criterio}">InstituiÁ„o</a></th>
+        <th><a href="?ordem=instituicao{$criterio}">Institui√ß√£o</a></th>
         <th><a href="?ordem=supervisor{$criterio}">Supervisor</a></th>
-        <th><a href="?ordem=area{$criterio}">¡rea</a></th>
+        <th><a href="?ordem=area{$criterio}">√Årea</a></th>
         <th><a href="?ordem=professor{$criterio}">Professor</a></th>
 
 		{if $logado == 1}
@@ -496,11 +496,11 @@ Tabela principal
 			<th>Telefone</th>
 		{/if}
 		
-		<th style="text-align:center"><a href="?ordem=nivel{$criterio}">NÌvel</a></th>
+		<th style="text-align:center"><a href="?ordem=nivel{$criterio}">N√≠vel</a></th>
 
-		<th><a href="?ordem=periodo{$criterio}">PerÌodo</a></th>
+		<th><a href="?ordem=periodo{$criterio}">Per√≠odo</a></th>
 
-		<th colspan='4' style="text-align:center">NÌ≠veis</th>
+		<th colspan='4' style="text-align:center">N√≠veis</th>
 
 		<th>Cod</th>
 
@@ -511,14 +511,14 @@ Tabela principal
 			<th><a href="?ordem=ch{$criterio}">CH</a></th>
 		{/if}
 
-		<th id='historico20' colspan="3">NÌ≠vel 1</th>
-		<th id='historico21' colspan="3">NÌ≠vel 2</th>
-		<th id='historico22' colspan="3">NÌ≠vel 3</th>
-		<th id='historico23' colspan="3">NÌ≠vel 4</th>
+		<th id='historico20' colspan="3">N√≠vel 1</th>
+		<th id='historico21' colspan="3">N√≠vel 2</th>
+		<th id='historico22' colspan="3">N√≠vel 3</th>
+		<th id='historico23' colspan="3">N√≠vel 4</th>
 
-		<th><a href="?ordem=titulo{$criterio}">TÌ≠tulo</a></th>
-		<th><a href="?ordem=mono_area{$criterio}">¡rea</a></th>
-		<th><a href="?ordem=mono_periodo{$criterio}">PerÌ≠odo</a></th>
+		<th><a href="?ordem=titulo{$criterio}">T√≠tulo</a></th>
+		<th><a href="?ordem=mono_area{$criterio}">√Årea</a></th>
+		<th><a href="?ordem=mono_periodo{$criterio}">Per√≠odo</a></th>
 
 	</tr>
 	</thead>

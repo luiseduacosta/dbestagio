@@ -1,15 +1,13 @@
 <?php
 
-include("../../db.inc");
 include("../../setup.php");
 
 $sql = "select * from supervisores order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela novo_supervisores");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela novo_supervisores");
 
 $i = 0;
-while(!$resultado->EOF)
-{
+while (!$resultado->EOF) {
     $id_supervisor[$i] = $resultado->fields['id'];
     $nome[$i] = $resultado->fields['nome'];
     $resultado->MoveNext();

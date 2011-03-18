@@ -5,7 +5,6 @@ if ($debug == 1)
 
 include_once("../../autentica.inc");
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $id_aluno = $_REQUEST['id_aluno'];
@@ -28,9 +27,9 @@ $sql .= "FROM estagiarios, estagio ";
 $sql .= "WHERE estagiarios.id_instituicao = estagio.id AND estagiarios.id_aluno=$id_aluno ";
 $sql .= "ORDER BY estagiarios.periodo";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar as tabelas alunos, estagiarios, estagio");
+if ($resultado === false) die ("Nao foi possivel consultar as tabelas alunos, estagiarios, estagio");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
     $estagiarios[$i]['id']             = $resultado->fields['id'];
     $estagiarios[$i]['periodo']        = $resultado->fields['periodo'];
     $estagiarios[$i]['nivel']          = $resultado->fields['nivel'];   
@@ -39,15 +38,15 @@ while(!$resultado->EOF) {
     $estagiarios[$i]['id_supervisor']  = $resultado->fields['id_supervisor'];
     $estagiarios[$i]['instituicao']    = $resultado->fields['instituicao'];
 
-    if(empty($id_supervisor))
+    if (empty($id_supervisor))
         $id_supervisor = "0";
 
     $sql_supervisor  = "select supervisores.id, supervisores.cress, supervisores.nome, supervisores.email ";
-    $sql_supervisor .= "from supervisores "; 
+    $sql_supervisor .= "from supervisores ";
     $sql_supervisor .= "where supervisores.id=$id_supervisor ";
     $sql_supervisor .= "order by supervisores.nome";
     $resultado_supervisor = $db->Execute($sql_supervisor);
-    while(!$resultado_supervisor->EOF) {
+    while (!$resultado_supervisor->EOF) {
         $estagiarios[$i]['supervisor_nome']  = $resultado_supervisor->fields['nome'];
         $estagiarios[$i]['supervisor_cress'] = $resultado_supervisor->fields['cress'];
         $estagiarios[$i]['supervisor_email'] = $resultado_supervisor->fields['email'];
@@ -60,8 +59,8 @@ while(!$resultado->EOF) {
 // Capturo a informacao sobre os alunos
 $sql_alunos = "select id, registro, nome, telefone, celular, email from alunos where id='$id_aluno'";
 $resultado_alunos = $db->Execute($sql_alunos);
-if($resultado_alunos === false) die ("Nao foi possivel consultar a tabela alunos");
-while(!$resultado_alunos->EOF) {
+if ($resultado_alunos === false) die ("Nao foi possivel consultar a tabela alunos");
+while (!$resultado_alunos->EOF) {
     $aluno_id       = $resultado_alunos->fields['id'];
     $aluno_registro = $resultado_alunos->fields['registro'];
     $aluno_nome     = $resultado_alunos->fields['nome'];
@@ -75,9 +74,9 @@ while(!$resultado_alunos->EOF) {
 // Capturo a informacao sobre as instituicooes
 $sql = "select id, instituicao from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
     $instituicoes[$i]['instituicao']    = $resultado->fields['instituicao'];
     $resultado->MoveNext();
@@ -87,9 +86,9 @@ while(!$resultado->EOF) {
 // Capturo a informacao sobre os supervisores
 $sql_supervisores = "select id, nome from supervisores order by nome";
 $resultado_supervisores = $db->Execute($sql_supervisores);
-if($resultado_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
+if ($resultado_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
 $i = 0;
-while(!$resultado_supervisores->EOF) {
+while (!$resultado_supervisores->EOF) {
     $supervisores[$i]['id_supervisor'] = $resultado_supervisores->fields['id'];
     $supervisores[$i]['supervisor'] = $resultado_supervisores->fields['nome'];
     $resultado_supervisores->MoveNext();

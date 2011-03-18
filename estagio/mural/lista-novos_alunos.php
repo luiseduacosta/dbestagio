@@ -8,7 +8,7 @@ $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;
 $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -17,7 +17,7 @@ while (!$resultado->EOF) {
 		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
 		// echo $sqlQuantidade . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
-		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
+		if ($resultadoQuantidade === false) die ("NÃ£o foi possivel consultar a tabela mural_inscricao");
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		//  echo $quantidadeInscricoes . "<br>";
 
@@ -29,7 +29,7 @@ while (!$resultado->EOF) {
 		// echo $sqlAlunos . "<br>";
 
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 
 		if ($quantidade == 0) {
@@ -37,7 +37,7 @@ while (!$resultado->EOF) {
 				// echo $i . " " . $sqlAlunosNovos . "<br>";
 				
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if($resultadoAlunosNovos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 				while(!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						$registro = $resultadoAlunosNovos->fields['registro'];
@@ -99,6 +99,6 @@ $smarty = new Smarty_estagio;
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$inscritos);
-$smarty->display("lista-alunos_mural.tpl");
+$smarty->display("../../mural/lista-alunos_mural.tpl");
 
 ?>

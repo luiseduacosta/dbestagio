@@ -1,8 +1,6 @@
 <?php
 
 include_once("../../autentica.inc");
-
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $id_aluno = $_GET['id_aluno'];
@@ -13,9 +11,10 @@ $sql .= "FROM alunos ";
 $sql .= "left outer join estagiarios on alunos.id=estagiarios.id_aluno ";
 $sql .= "left outer join estagio on estagiarios.id_instituicao=estagio.id ";
 $sql .= "where alunos.id=$id_aluno";
+// echo $sql . "<br>";
 $resultado =$db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios, estagio");
-while(!$resultado->EOF) {
+if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar as tabelas alunos, estagiarios, estagio");
+while (!$resultado->EOF) {
     $id              = $resultado->fields['id'];
     $registro        = $resultado->fields['registro'];
     $nome            = $resultado->fields['nome'];
@@ -33,7 +32,7 @@ while(!$resultado->EOF) {
     $sql_supervisor .= "WHERE supervisores.id=$id_supervisor";
     // $sql_supervisor .= "ORDER by supervisores.nome";
     $resultado_supervisor = $db->Execute($sql_supervisor);
-    while(!$resultado_supervisor->EOF) {
+    while (!$resultado_supervisor->EOF) {
         $supervisor_nome  = $resultado_supervisor->fields['nome'];
         $supervisor_cress = $resultado_supervisor->fields['cress'];
         $supervisor_email = $resultado_supervisor->fields['email'];

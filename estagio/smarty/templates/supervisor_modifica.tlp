@@ -34,7 +34,7 @@
 
 {section name=elementos loop=$instituicao}
 <tr>
-<td>Instituição</td>
+<td>InstituiÃ§Ã£o</td>
 <td>
 {$instituicao[elementos].instituicao|truncate:50}
 <!--

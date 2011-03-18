@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'areas_estagio.area';
@@ -17,7 +16,7 @@ $sql_professores = "select areas_estagio.id as area_id, areas_estagio.area, nome
 
 $i = 0;
 $res_professores = $db->Execute($sql_professores);
-if ($res_professores === false) die ("Não foi possível consultar as tabelas");  	    
+if ($res_professores === false) die ("Nï¿½o foi possï¿½vel consultar as tabelas");  	    
 while (!$res_professores->EOF) {
 	$matriz[$i]['area_id'] = $res_professores->fields['area_id'];
 	$matriz[$i]['area'] = $res_professores->fields['area'];
@@ -32,17 +31,17 @@ while (!$res_professores->EOF) {
 /*
 $sql = "select * from areas_estagio order by area";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if($resultado === false) die ("Nï¿½o foi possï¿½vel consultar a tabela areas_estagio");
 
 $i = 0;
 while(!$resultado->EOF) {
     $id_area = $resultado->fields["id"];
     $area    = $resultado->fields["area"];
-    // Para cada área conto a quantidade de instituicoes
+    // Para cada ï¿½rea conto a quantidade de instituicoes
     $sql_estagio = "select area from estagio where area=$id_area";
     
     $res_estagio = $db->Execute($sql_estagio);
-    if($res_estagio === false) die ("Não foi possível consultar a tabela estagio");
+    if($res_estagio === false) die ("Nï¿½o foi possï¿½vel consultar a tabela estagio");
     $quantidade = $res_estagio->RecordCount();
     $total = $total + $quantidade;
 

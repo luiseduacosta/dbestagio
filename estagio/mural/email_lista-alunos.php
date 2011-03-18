@@ -19,14 +19,14 @@ INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field
 (5, 'on', 4, 'TC', 'inscrito', '', 'a:0:{}', 'on', 'text')
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
-if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
+if($res_pommo_campos === false) die ("NÃ£o foi possÃ­vel inserir na tabela pommo_fields");
 
 include("../setup.php");
 
 $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 
 while (!$resultado->EOF) {
 		$id_aluno = $resultado->fields['id_aluno'];
@@ -37,14 +37,14 @@ while (!$resultado->EOF) {
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br><br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . "<br>";
 		if ($quantidade == 0) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if($resultadoAlunosNovos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 				while (!$resultadoAlunosNovos->EOF) {
 						$email = $resultadoAlunosNovos->fields['email'];
 						$nome = $resultadoAlunosNovos->fields['nome'];
@@ -68,7 +68,7 @@ while (!$resultado->EOF) {
 						$email = $resultadoAlunos->fields['email'];
 						$nome = $resultadoAlunos->fields['nome'];
 						$registro = $resultadoAlunos->fields['registro'];
-						// echo "<span style='background-color:green'>Aluno estagiário:</span> " . $registro . " " . $nome . "<br>";
+						// echo "<span style='background-color:green'>Aluno estagiï¿½rio:</span> " . $registro . " " . $nome . "<br>";
 						
 						$aluno = 'estagiario'; // Aluno estagiario
 
@@ -92,33 +92,33 @@ while (!$resultado->EOF) {
 			$sql_email = "insert into pommo_subscribers (email,status) values ('$email',1)";
 			// echo $n++ . " " . $sql_email . "<br>";
 			$res_email = $db_pommo->Execute($sql_email);
-			if($res_email === false) die ("0 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email === false) die ("0 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 			$subscriber_id = $db_pommo->Insert_ID();
 
 			$sql_email_nome = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (1,'$nome',$subscriber_id)";
 			// echo $sql_email_nome . "<br>";
 			$res_email_nome = $db_pommo->Execute($sql_email_nome);
-			if($res_email_nome === false) die ("1 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email_nome === false) die ("1 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 
 			$sql_email_registro = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (2,'$registro',$subscriber_id)";
 			// echo $sql_email_registro . "<br>";
 			$res_email_registro = $db_pommo->Execute($sql_email_registro);
-			if($res_email_registro === false) die ("2 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email_registro === false) die ("2 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 
 			$sql_email_instituicao = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,'$instituicao',$subscriber_id)";
 			// echo $sql_email_registro . "<br>";
 			$res_email_instituicao = $db_pommo->Execute($sql_email_instituicao);
-			if($res_email_instituicao === false) die ("3 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email_instituicao === false) die ("3 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 
 			$sql_email_aluno = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$aluno',$subscriber_id)";
 			// echo $sql_email_aluno . "<br>";
 			$res_email_aluno = $db_pommo->Execute($sql_email_aluno);
-			if($res_email_aluno === false) die ("4 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email_aluno === false) die ("4 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 
 			$sql_email_inscrito = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (5,'$tc',$subscriber_id)";
 			// echo $sql_email_inscrito . "<br>";
 			$res_email_inscrito = $db_pommo->Execute($sql_email_inscrito);
-			if($res_email_inscrito === false) die ("5 Não foi possível inserir dados na tabela pommo_subscribers");
+			if($res_email_inscrito === false) die ("5 NÃ£o foi possÃ­vel inserir dados na tabela pommo_subscribers");
 
 		}
 
@@ -126,6 +126,6 @@ while (!$resultado->EOF) {
 }
 
 // echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=../../pommo/'>";
-echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://web.intranet.ess.ufrj.br/pommo/'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=http://novell.ess.ufrj.br/pommo/'>";
 
 ?>

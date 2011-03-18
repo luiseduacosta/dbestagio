@@ -1,6 +1,5 @@
 <?php
 
-require_once("../db.inc");
 require_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
@@ -20,7 +19,7 @@ $sql_estagio .= "and mural_estagio.id = $id_instituicao";
 
 $resultado = $db->Execute($sql_estagio);
 
-if($resultado === false) die ("N„o foi possÌvel consultar a tabela mural_estagio");
+if ($resultado === false) die ("N√£o foi poss√≠vel consultar a tabela mural_estagio");
 $i = 0;
 while (!$resultado->EOF) {
 		$id_instituicao = $resultado->fields['id'];
@@ -32,7 +31,7 @@ while (!$resultado->EOF) {
 		$final_de_semana = $resultado->fields['final_de_semana'];
 		switch($final_de_semana) {
 				case 0;
-				$final_de_semana = "N„o";
+				$final_de_semana = "N√£o";
 				break;
 
 				case 1;
@@ -64,7 +63,7 @@ while (!$resultado->EOF) {
 
 		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
 		$dataSelecao = $resultado->fields['dataSelecao'];
-		$dataCorrigida = split("-",$dataSelecao);
+		$dataCorrigida = explode("-",$dataSelecao);
 		$dataSQL = $dataCorrigida[2] . "-" . $dataCorrigida[1] . "-" . $dataCorrigida[0];
 		$dataSelecao = $dataSQL;
 		$data_selecao = $dataCorrigida[0] . "-" . $dataCorrigida[1] . "-" . $dataCorrigida[2];
@@ -72,7 +71,7 @@ while (!$resultado->EOF) {
 		$horarioSelecao = $resultado->fields['horarioSelecao'];
 
 		$dataInscricaoSelecao = $resultado->fields['dataInscricao'];
-		$dataInscricaoCorrigida = split("-",$dataInscricaoSelecao);
+		$dataInscricaoCorrigida = explode("-",$dataInscricaoSelecao);
 		$dataInscricaoSQL = $dataInscricaoCorrigida[2] . "-" . $dataInscricaoCorrigida[1] . "-" . $dataInscricaoCorrigida[0];
 		$dataInscricao = $dataInscricaoSQL;
 		$data_encerramento = $dataInscricaoCorrigida[0] . "-" . $dataInscricaoCorrigida[1] . "-" . $dataInscricaoCorrigida[2];
@@ -106,7 +105,7 @@ while (!$resultado->EOF) {
 		$i++;
 }
 
-$headers  = "From: CoordenaÁ„o de est·gio <estagio@ess.ufrj.br> \r\n";
+$headers  = "From: Coordena√ß√£o de est√°gio <estagio@ess.ufrj.br> \r\n";
 $headers .= "Replay-To: estagio@ess.ufrj.br \r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
@@ -114,43 +113,42 @@ $to = "estagio_ess@googlegroups.com ";
 // $to = "Coloquio-Brasil-Uruguai-de-Servico-Social-garchive-90715@googlegroups.com";
 
 $assunto = $instituicao;
-$mensage  = "Receba informaÁıes tambÈm atravÈs do http://twitter.com/estagio_ess \n\n";
-$mensage .= "InstituiÁ„o: $instituicao \n";
+$mensage  = "Receba informa√ß√µes tamb√©m atrav√©s do http://twitter.com/estagio_ess \n\n";
+$mensage .= "Institui√ß√£o: $instituicao \n";
 $mensage .= "Vagas: $vagas \n";
-$mensage .= "BenefÌcios: $beneficios \n";
+$mensage .= "Benef√≠cios: $beneficios \n";
 $mensage .= "Final de semana: $final_de_semana \n";
-$mensage .= "Carga hor·ria: $cargaHoraria \n";
+$mensage .= "Carga hor√°ria: $cargaHoraria \n";
 $mensage .= "Requisitos: $requisitos \n";
-$mensage .= "¡rea: $area \n";
+$mensage .= "√Årea: $area \n";
 $mensage .= "Professor: $professor \n";
-$mensage .= "Hor·rio da OTP: $horario \n";
-$mensage .= "InscriÁıes atÈ: $dataInscricao \n";
-$mensage .= "Data da seleÁ„o: $dataSelecao hor·rio: $horarioSelecao \n";
-$mensage .= "Local da seleÁıa: $localSelecao \n";
-$mensage .= "Forma de seleÁ„o: $formaSelecao \n";
+$mensage .= "Hor√°rio da OTP: $horario \n";
+$mensage .= "Inscri√ß√µes at√©: $dataInscricao \n";
+$mensage .= "Data da sele√ß√£o: $dataSelecao hor√°rio: $horarioSelecao \n";
+$mensage .= "Local da sele√ß√£o: $localSelecao \n";
+$mensage .= "Forma de sele√ß√£o: $formaSelecao \n";
 $mensage .= "Contatos: $contato \n";
-$mensage .= "Outras informaÁıes: $outras \n";
-$mensage .= "InscriÁıes: http://www.ess.ufrj.br/estagio";
+$mensage .= "Outras informa√ß√µes: $outras \n";
+$mensage .= "Inscri√ß√µes: http://www.ess.ufrj.br/estagio";
 
-echo $headers . "<br>";
-echo $assunto . "<br>";
-echo "Mensage: " . $mensage . "<br>";
+// echo $headers . "<br>";
+// echo $assunto . "<br>";
+echo utf8_encode($mensage) . "<br>";
 
-mail ($to,$assunto,$mensage,$headers);
+// mail ($to,$assunto,$mensage,$headers);
 
 // Twitter
 require('../libphp/twitterAPI.php');
-$twitter_message = htmlentities($vagas . " vagas de est·gio em: " . $instituicao);
+$twitter_message = htmlentities($vagas . " vagas de est√°gio em: " . $instituicao);
 // echo $twitter_message . "<br>";
 if(strlen($twitter_message)<1){ 
 	$error=1;
 } else {
 	 $twitter_status=postToTwitter("estagio_ess", "e\$tagi0", $twitter_message);
-} 
-
+}
 
 // echo "<meta HTTP-EQUIV='refresh' content='0,URL=http://groups.google.com.br/group/estagio_ess'>";
 
-header("Location: http://groups.google.com.br/group/estagio_ess");
+// header("Location: http://groups.google.com/forum/#!forum/estagio_ess");
 
 ?>

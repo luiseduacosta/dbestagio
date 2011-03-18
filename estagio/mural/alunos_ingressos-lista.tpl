@@ -4,7 +4,7 @@
 
 <head>
 	<title>Lista de alunos</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -36,7 +36,7 @@ function carrega_tabela() {
 {if $turma}
 <option value='{$turma}'>{$turma}</option>
 {else}
-<option value='0'>Seleciona período</option>
+<option value='0'>Seleciona perÃ­odo</option>
 {/if}
 {section name=i loop=$periodos}
 <option value='{$periodos[i].periodo}'>{$periodos[i].periodo}</option>
@@ -59,12 +59,12 @@ function carrega_tabela() {
 </form>
 
 <form action='#' method='POST'>
-<label for='periodo_atual'>Período atual: </label>
+<label for='periodo_atual'>PerÃ­odo atual: </label>
 <input type='text' name='periodo_atual' id='periodo_atual' value='{$periodo_atual}' maxlength='6' size='6'>
 <input type='submit' value='Confirma'>
 </form>
 
-<p style="text-indent:0%; line-height:1px;">{$tempo_cursado}º período</p>
+<p style="text-indent:0%; line-height:1px;">{$tempo_cursado}Âº perÃ­odo</p>
 
 {if $turno == "D" || $turno == "N"}
 <h1>Alunos que ingressaram na ESS em {$turma} turno {$turno}</h1>
@@ -79,8 +79,8 @@ function carrega_tabela() {
 <th><a href="?ordem=nome&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Nome</a></th>
 <th><a href="?ordem=turno&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Turno</a></th>
 <th><a href="?ordem=periodo&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Int. SeSo</a></th>
-<th><a href="?ordem=etica&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Ética</a></th>
-<th><a href="?ordem=periodo_estagio&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Estágio</a></th>
+<th><a href="?ordem=etica&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Ã‰tica</a></th>
+<th><a href="?ordem=periodo_estagio&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">EstÃ¡gio</a></th>
 <th><a href="?ordem=nivel&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Nivel</a></th>
 <th><a href="?ordem=periodo_tcc&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">TCC</a></th> 
 <th><a href="?ordem=tempo_total&turma={$turma}&turno={$turno}&periodo_atual={$periodo_atual}">Tempo</a></th> 

@@ -1,6 +1,5 @@
 <?php
 
-// include_once("../../db.inc");
 include_once("../../setup.php");
 include_once("../../autentica.inc");
 
@@ -21,22 +20,22 @@ $ordem = "nome";
 
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 
-$sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, estagio.instituicao, estagio.seguro ";
+$sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, estagio.id as instituicao_id, estagio.instituicao, estagio.seguro ";
 $sql .= " from alunos ";
 $sql .= " inner join estagiarios on alunos.registro = estagiarios.registro ";
 $sql .= " inner join estagio on estagiarios.id_instituicao = estagio.id ";
 if ($turma) {
 	$sql .= " where estagiarios.periodo = '$turma' ";
 } else {
-	$sql .= " where estagiarios.periodo = (select max(estagiarios.periodo) as max_periodo from estagiarios)";
+	$sql .= " where $estagiarios.periodo = (select max(estagiarios.periodo) as max_periodo from estagiarios)";
 }
 $sql .= " order by $ordem";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possível consultar as tabelas alunos, estagiarios e estagio");
+if ($resultado == false) die ("NÃ£o foi possÃ­vel consultar as tabelas alunos, estagiarios e estagio");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	$dae[$i]['nome'] = $resultado->fields['nome'];
 	$dae[$i]['registro'] = $resultado->fields['registro'];
 	$dae[$i]['nivel'] = $resultado->fields['nivel'];
@@ -53,6 +52,8 @@ while(!$resultado->EOF) {
 	$dae[$i]['codigo_celular'] = $resultado->fields['codigo_celular'];
 	$dae[$i]['celular'] = $resultado->fields['celular'];
 	$dae[$i]['email'] = $resultado->fields['email'];
+	// echo "id " . $resultado->fields['instituicao_id'];
+	$dae[$i]['id_instituicao'] = $resultado->fields['instituicao_id'];
 	$dae[$i]['instituicao'] = $resultado->fields['instituicao'];
 	$dae[$i]['seguro'] = $resultado->fields['seguro'];
 	$resultado->MoveNext();
@@ -63,7 +64,7 @@ while(!$resultado->EOF) {
 $sql_turma = "select id, periodo from estagiarios group by periodo";
 // echo $sql_turma . "<br>";
 $res_turma = $db->Execute($sql_turma);
-if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();

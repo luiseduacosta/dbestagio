@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <title>Cadastro de supervisores</title>
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -14,25 +14,25 @@ function confirma() {
     instituicao=document.inscricao.instituicaoNova.value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("VocÃª precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("Ã‰ importante o seu e-mail para nossa comunicaÃ§Ã£o");
 	document.inscricao.email.focus();
 	return false;
 	}
 
     if(cress=="") {
-    	alert("Favor informar o seu número de registro no CRESS");
+    	alert("Favor informar o seu nÃºmero de registro no CRESS");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
     if(instituicao=="") {
-    	alert("Informe a instituição em que trabalha");
+    	alert("Informe a instituiÃ§Ã£o em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
 	}
@@ -45,7 +45,7 @@ function verifica_nome() {
     nome=document.inscricao.nome.value;
     if(nome=="")
     {
-	alert("Você precisa informar o seu nome");
+	alert("VocÃª precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
     }
@@ -60,7 +60,7 @@ function verifica_email() {
     email=document.inscricao.email.value;
     if(email=="")
     {
-	alert("É importante o e-mail para nossa comunicação");
+	alert("Ã‰ importante o e-mail para nossa comunicaÃ§Ã£o");
 	document.inscricao.email.focus();
 	return false;
     }
@@ -75,7 +75,7 @@ function verifica_cress() {
     cress=document.inscricao.cress.value;
     if(cress=="")
     {
-	alert("Você precisa informar o número de registro no CRESS 7a. região");
+	alert("VocÃª precisa informar o nÃºmero de registro no CRESS 7a. regiÃ£o");
 	document.inscricao.cress.focus();
 	return false;
     }
@@ -89,7 +89,7 @@ function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
     if(instituicao=="") {
-		alert("Você precisa informar a instituição na que trabalha");
+		alert("VocÃª precisa informar a instituiÃ§Ã£o na que trabalha");
 		document.inscricao.instituicaoNova.focus();
 		return false;
     } else {
@@ -109,7 +109,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
     if(quantidade > 9) {
-		alert("O limite do campo é de 9 carateres");
+		alert("O limite do campo Ã© de 9 carateres");
 	}
 }
 //-->
@@ -157,7 +157,7 @@ CPF:
 </tr>
 
 <tr>
-<td>Endereço: </td>
+<td>EndereÃ§o: </td>
 <td><input type="text" name="endereco" id="endereco" maxlength="100" size="50"></td>
 </tr>
 
@@ -167,7 +167,7 @@ CPF:
 </tr>
 
 <tr>
-<td>Município: </td>
+<td>MunicÃ­pio: </td>
 <td><input type="text" name="municipio" id="municipio" maxlength="30" size="30"></td>
 </tr>
 
@@ -180,14 +180,14 @@ CPF:
 <tr>
 <td>Telefone: </td>
 <td>
-Código: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
+CÃ³digo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
 <input type="text" name="telefone" id="telefone" maxlength="9" size="9"></td>
 </tr>
 
 <tr>
 <td>Celular: </td>
 <td>
-Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
+CÃ³digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
 <input type="text" name="celular" id="celular" maxlength="9" size="9"></td>
 </tr>
 
@@ -210,15 +210,15 @@ Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size=
 <td>No. de registro no CRESS</td>
 <td>
 <input type="text" name="cress" id="cress" maxlength="15" size="10" onBlur="return verifica_cress()">
-<span style="text-align:right">Região: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
+<span style="text-align:right">RegiÃ£o: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
 </td>
 </tr>
 
 <tr>
 <td>Outros estudos realizados:</td>
 <td>
-<input type="radio" name="outros_estudos" id="outros_estudos" value="especialização">
-Especialização
+<input type="radio" name="outros_estudos" id="outros_estudos" value="especializaÃ§Ã£o">
+EspecializaÃ§Ã£o
 <input type="radio" name="outros_estudos" id="outros_estudos" value="mestrado">
 Mestrado
 <input type="radio" name="outros_estudos" id="outros_estudos" value="doutorado">
@@ -227,12 +227,12 @@ Doutorado
 </tr>
 
 <tr>
-<td>Área em que foi realizado o curso anteriormente mencionado</td>
+<td>Ãrea em que foi realizado o curso anteriormente mencionado</td>
 <td><input type="text" name="area_curso" id="area_curso" maxlength="40" size="30"></td>
 </tr>
 
 <tr>
-<td>Ano em que foi concluído o curso</td>
+<td>Ano em que foi concluÃ­do o curso</td>
 <td><input type="text" name="ano_curso" id="ano_curso" maxlength="4" size="4"></td>
 </tr>
 

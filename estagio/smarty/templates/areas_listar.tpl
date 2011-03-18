@@ -2,21 +2,21 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css"> 
-<title>Listar áreas</title>
+<title>Listar Ã¡reas</title>
 </head>
 
 <body>
 
 <div align="center">
 <table border="1">
-<caption>Tabela de professores por área</caption>
+<caption>Tabela de professores por Ã¡rea</caption>
 <tbody>
 
 <tr>
-<th><a href=?ordem=areas_estagio.area>Área</a></th>
+<th><a href=?ordem=areas_estagio.area>Ãrea</a></th>
 <th><a href=?ordem=professores.nome>Professor</a></th>
-<th><a href=?ordem=min(estagiarios.periodo)>Período início</a></th>
-<th><a href=?ordem=max(estagiarios.periodo)>Período último</a></th>
+<th><a href=?ordem=min(estagiarios.periodo)>PerÃ­odo inÃ­cio</a></th>
+<th><a href=?ordem=max(estagiarios.periodo)>PerÃ­odo Ãºltimo</a></th>
 </tr>
 
 {section name=elemento loop=$areas}

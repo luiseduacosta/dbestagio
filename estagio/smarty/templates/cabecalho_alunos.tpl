@@ -32,31 +32,31 @@ Turno
     <form method="post" action="{$pagina}" name="form_nivel">
         <select name="seleciona_nivel" size="1" id="nivel" onChange="return get_valor();">
         {if $seleciona_nivel eq "1"}
-            <option value="0">Níveis</option>
+            <option value="0">NÃ­veis</option>
             <option value="1" selected>1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
         {elseif $seleciona_nivel eq "2"}
-            <option value="0">Níveis</option>
+            <option value="0">NÃ­veis</option>
             <option value="1">1</option>
             <option value="2" selected>2</option>
             <option value="3">3</option>
             <option value="4">4</option>
         {elseif $seleciona_nivel eq "3"}
-            <option value="0">Níveis</option>
+            <option value="0">NÃ­veis</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3" selected>3</option>
             <option value="4">4</option>
         {elseif $seleciona_nivel eq "4"}
-            <option value="0">Níveis</option>
+            <option value="0">NÃ­veis</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4" selected>4</option>
         {else}
-            <option value="0" selected>Níveis</option>
+            <option value="0" selected>NÃ­veis</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -78,13 +78,13 @@ Turno
     <form method="post" action="{$pagina}" name="form_instituicao">
         <select name="seleciona_instituicao" size="1" id="instituicao" onChange="return get_valor()";>
         {if $seleciona_instituicao eq "0"}
-            <option value='0' selected>Instituições</option>
+            <option value='0' selected>Instituiï¿½ï¿½es</option>
             <option value={$num_instituicao}>{$nome_instituicao|truncate:30}</option>
             {section name=elemento loop=$instituicoes}
             <option value="{$instituicoes[elemento].id_instituicao}">{$instituicoes[elemento].instituicao|truncate:40}</option>
             {/section}
         {else}
-            <option value='0'>Instituições</option>
+            <option value='0'>InstituiÃ§Ãµes</option>
             <option value={$num_instituicao} selected>{$nome_instituicao|truncate:25}</option>
             {section name=elemento loop=$instituicoes}
             <option value="{$instituicoes[elemento].id_instituicao}">{$instituicoes[elemento].instituicao|truncate:40}</option>
@@ -99,11 +99,11 @@ Turno
     </form>
 </div>
 
-Periodo
+PerÃ­odo
 <div class="coluna4" id="coluna4">
     <form method="post" action="{$pagina}" name="form_periodo">
         <select name="periodo" size="1" id="periodo" onChange="return get_valor();">
-        <option value=0>Período</option>
+        <option value=0>PerÃ­odo</option>
         <option value={$periodo} selected>{$periodo}</option>
         {section name=elemento loop=$matriz_periodo}
             <option value={$matriz_periodo[elemento].turma}>{$matriz_periodo[elemento].turma}</option>

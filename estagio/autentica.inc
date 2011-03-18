@@ -8,10 +8,10 @@ $http_host = $_SERVER['HTTP_HOST'];
 $url = $_SERVER['SERVER_NAME'];
 
 if(empty($usuario_nome) or (empty($usuario_senha))) {
-    $mural_autentica = 0;
+	$mural_autentica = 0;
 	header("Location: http://$url/estagio/login.php");
 } else {
-    $mural_autentica = 1;
+	$mural_autentica = 1;
 }
 
 ?>

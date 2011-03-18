@@ -10,7 +10,7 @@
 
 function confirmaInsere() {
     var confirma = document.getElementById("registroInserido").value;
-    // alert("Número de inscrição "+confirma);
+    // alert("NÃºmero de inscriÃ§Ã£o "+confirma);
     if (confirma != 0) {
 	alert("Inscricao realizada");
     }
@@ -61,7 +61,7 @@ function get_turma() {
 	<th><a href="inscricao_lista.php?turma={$turma}&ordem=email">E-mail</a></th>
 {/if}
 
-<th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao">Instituicao</a></th>
+<th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao">InstituiÃ§Ã£o</a></th>
 
 {if $autentica == 1}
 	<th>Imprime</th>

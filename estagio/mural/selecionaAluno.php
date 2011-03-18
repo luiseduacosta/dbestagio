@@ -4,7 +4,7 @@
 
 <head>
 		<title>Seleciona aluno</title>
-		<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 		<meta http-equiv="Content-Script-Type" content="text/javascript">
 		<meta http-equiv="Content-Style-Type" content="text/css">
 		<meta name="author" content="Luis Acosta">
@@ -19,14 +19,14 @@ function verificaRegistro() {
 	var registro;
 	tamanho_registro = document.selecionaAluno.registro.value.length;
 	if (tamanho_registro < 9) {
-		alert("O registro deve conter 9 dígitos");
+		alert("O registro deve conter 9 dÃ­gitos");
 		document.selecionaAluno.registro.focus();
 		return false;
 		}
 	for (var i=0; i<9; i++) {
 		letra = document.selecionaAluno.registro.value.charAt(i);
 		if (letra != "0" && letra != "1" && letra != "2" && letra != "3" && letra != "4" && letra != "5" && letra != "6" && letra != "7" && letra != "8" && letra != "9") {
-			alert("Digite números e não letras");
+			alert("Digite nÃºmeros e nÃ£o letras");
 			return false;
 			}
 	}
@@ -43,11 +43,11 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 // echo "Id instituicao " . $id_instituicao . "Instituicao " . $instituicao . "<br>";
 ?>
 
-<h1>Inscrição para seleção de estágio na instituição: <?php echo $instituicao; ?></h1>
+<h1>InscriÃ§Ã£o para seleÃ§Ã£o de estÃ¡gio na instituiÃ§Ã£o: <?php echo $instituicao; ?></h1>
 
 <form name="seleciona_aluno" id="seleciona_aluno" method="post" action="verifica.php" enctype="text/html" onSubmit="return verificaRegistro();">
-<p>Digite o seu número de registro (DRE):</p>
-<p>Atenção! utilize o navegador <a href='http://br.mozdev.org'>Firefox</a> ou Internet Explorer, porque não está funcionando com o Google Chrome</p>
+<p>Digite o seu nÃºmero de registro (DRE):</p>
+<p>AtenÃ§Ã£o! utilize o navegador <a href='http://br.mozdev.org'>Firefox</a> ou Internet Explorer, porque nÃ£o estÃ¡ funcionando com o Google Chrome</p>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="hidden" name="id_instituicao" value="<?php echo $id_instituicao; ?>">
 <input type="submit" name="confirma" value="Confirma" size="5">

@@ -14,14 +14,14 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 
 $sqlInstituicao = "select instituicao from mural_estagio where id = $id_instituicao";
 $resultadoInstituicao = $db->Execute($sqlInstituicao);
-if($resultadoInstituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
+if($resultadoInstituicao === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 $instituicao = $resultadoInstituicao->fields['instituicao'];
 
 $sql = "SELECT id, id_aluno, data FROM mural_inscricao WHERE id_instituicao='$id_instituicao' and periodo='". PERIODO_ATUAL . "'";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_inscricao");
 $i = 0;
 while(!$resultado->EOF) {
 		$id = $resultado->fields['id'];
@@ -31,13 +31,13 @@ while(!$resultado->EOF) {
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . " ";
 		if ($quantidade == 0) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if($resultadoAlunosNovos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 				while(!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						// echo "Novos " . $nome . "<br>";
@@ -89,6 +89,6 @@ $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("inscritos",$inscritos);
-$smarty->display("listaInscritos.tpl");
+$smarty->display("../../mural/listaInscritos.tpl");
 
 ?>

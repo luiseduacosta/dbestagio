@@ -1,6 +1,5 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $sql = "select * from curso_inscricao_supervisor";
@@ -35,10 +34,10 @@ while(!$resultado->EOF) {
 	$sql_supervisor .= "values('$nome','$endereco','$bairro','$municipio','$cep','$codigo_tel','$telefone','$codigo_cel','$celular','$email','$escola','$ano_formatura','$cress','$regiao','$outros_estudos','$area_curso','$ano_curso','$cargo','$quantidade','$turma')";
 	echo $sql_supervisor . "<br>";
 	$res_supervisor = $db->Execute($sql_supervisor);
-	if($res_supervisor === false) die ("Não foi possível inserir o registro na tabela supervisores");
+	if($res_supervisor === false) die ("Nï¿½o foi possï¿½vel inserir o registro na tabela supervisores");
 	
 	$res_ultimo_supervisor = $db->Execute("select max(id) as ultimo_registro from supervisores");
-	if($res_ultima_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
+	if($res_ultima_supervisor === false) die ("Nï¿½o foi possï¿½vel consultar a tabela supervisores");
 	$id_supervisor = $res_ultimo_supervisor->fields['ultimo_registro'];
 	
 	$sql_inst_super = "select * from curso_inst_super where id_supervisor=$id_supervisor";
@@ -52,36 +51,36 @@ while(!$resultado->EOF) {
 		 */
 		
 		$sql_instituicao = "select * from curso_inscricao_instituicao where id=$id_instituicao";
-		$resultado_instituicao = $db->Execute($sql_instituicao);
-		while(!$resultado_instituicao->EOF) {
-			$id = $resultado_instituicao->fields['id'];
-			$instituicao = $resultado_instituicao->fields['instituicao'];	
-			$inst_endereco = $resultado_instituicao->fields['endereco'];
-			$inst_bairro = $resultado_instituicao->fields['bairro'];
-			$inst_municipio = $resultado_instituicao->fields['municipio'];
-			$inst_cep = $resultado_instituicao->fields['cep'];
-			$inst_telefone = $resultado_instituicao->fields['telefone'];
-			$inst_fax = $resultado_instituicao->fields['fax'];
-			$beneficio = $resultado_instituicao->fields['beneficio'];
-			$fin_de_semana = $resultado_instituicao->fields['fin_de_semana'];
+		$res_instituicao = $db->Execute($sql_instituicao);
+		while(!$res_instituicao->EOF) {
+			$id = $res_instituicao->fields['id'];
+			$instituicao = $res_instituicao->fields['instituicao'];	
+			$inst_endereco = $res_instituicao->fields['endereco'];
+			$inst_bairro = $res_instituicao->fields['bairro'];
+			$inst_municipio = $res_instituicao->fields['municipio'];
+			$inst_cep = $res_instituicao->fields['cep'];
+			$inst_telefone = $res_instituicao->fields['telefone'];
+			$inst_fax = $res_instituicao->fields['fax'];
+			$beneficio = $res_instituicao->fields['beneficio'];
+			$fin_de_semana = $res_instituicao->fields['fin_de_semana'];
 			
 			$sql_instituicao  = "insert estagio ";
 			$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana) ";
 			$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$inst_fax','$beneficio','$fim_de_semana')";
 			echo $sql_instituicao . "<br>";
 			$res_institucao = $db->Execute($sql_instituicao);
-			if($res_instituicao === false) die ("Não foi possível inserir o registro na tabela curso_incricao_instituicao");
+			if($res_instituicao === false) die ("Nï¿½o foi possï¿½vel inserir o registro na tabela curso_incricao_instituicao");
 
 			$res_ultima_instituicao = $db->Execute("select max(id) as ultimo_registro from estagio");
-			if($res_ultima_instituicao === false) die ("Não foi possível consultar a tabela estagio");
+			if($res_ultima_instituicao === false) die ("Nï¿½o foi possï¿½vel consultar a tabela estagio");
 			$id_instituicao = $res_ultima_instituicao->fields['ultimo_registro'];
 		
 			$sql_inst_sup = "insert into curso_inst_super (id_supervisor, id_instituicao) values('$id_supervisor','$id_instituicao')";
 			$res_inst_sup = $db->Execute($sql_inst_sup);
-			if($res_inst_sup === false) die ("Não foi possível inserir o registro na tabela curso_inst_sup");
+			if($res_inst_sup === false) die ("Nï¿½o foi possï¿½vel inserir o registro na tabela curso_inst_sup");
 			// echo $sql_inst_sup . "<br>";
 		
-			$resultado_instituicao->MoveNext();
+			$res_instituicao->MoveNext();
 		}
 		
 		$resultado_inst_super->MoveNext();

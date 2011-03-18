@@ -1,15 +1,15 @@
 <?php
 
 $palavra = $_POST['palavra'];
-include_once("../../db.inc");
+
 include_once("../../setup.php");
 
 $sql = "select * from supervisores where nome like '%$palavra%'";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel consultar a tabela supervisores");
+if($resultado === false) die ("N√£o foi poss√≠vel consultar a tabela supervisores");
 $quantidade = $resultado->RecordCount();
 if($quantidade === 0) {
-    echo "N„o h· registros com a palavra: $palavra";
+    echo "N√£o h√° registros com a palavra: $palavra";
     exit;
 } else {
     $i = 0;

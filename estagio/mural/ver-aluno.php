@@ -4,24 +4,24 @@ include_once("../autoriza.inc");
 include_once("../setup.php");
 
 $id_aluno = isset($_GET['id_aluno']) ? $_GET['id_aluno'] : NULL ;
-$aluno = $_GET['aluno']; // Para saber se o aluno eh novo ou já conhecido
+$aluno = $_GET['aluno']; // Para saber se o aluno eh novo ou ja conhecido
 $registro = $id_aluno;
 
 echo "
 <p><a href=\"javascript:history.back(1)\">Voltar</a></p>
 ";
 
-// Aluno já cadastrado
+// Aluno jï¿½ cadastrado
 $sql = "select id, registro, nome from alunos where registro='$id_aluno'";
 // echo $sql . "<br>";
 $resultado_aluno = $db->Execute($sql);
-if($resultado_aluno === false) die ("Não foi possível consultar as tabelas estagiarios, estagio, supervisores");
+if($resultado_aluno === false) die ("Nao foi possivel consultar as tabelas estagiarios, estagio, supervisores");
 $quantidade = $resultado_aluno->RecordCount();
 // Aluno novo
 if ($quantidade == 0) {
 		$sql_aluno = "select id, registro, nome from alunosNovos where registro=$id_aluno";
 		$aluno = 0;
-		// Aluno já conhecido
+		// Aluno jï¿½ conhecido
 } else {
 		$sql_aluno = "select id, registro, nome from alunos where registro='$id_aluno'";	
 		$aluno = 1;
@@ -36,7 +36,7 @@ if ($quantidade == 0) {
 		// echo $sql_estagiario . "<br>";
 		
 		$resultado_estagiario = $db->Execute($sql_estagiario);
-		if($resultado_estagiario === false) die ("1 Não foi possível consultar as tabelas estagiarios, estagio, supervisores");
+		if($resultado_estagiario === false) die ("1 NÃ£o foi possÃ­vel consultar as tabelas estagiarios, estagio, supervisores");
 		$quantidade_estagiario = $resultado_estagiario->RecordCount();
 		if ($quantidade_estagiario > 0) {
 			$i = 0;
@@ -55,7 +55,7 @@ if ($quantidade == 0) {
 }
 
 $resultado_alunos = $db->Execute($sql_aluno);
-if($resultado_alunos === false) die ("Não foi possível consultar a tabela alunos ou alunosNovos");
+if($resultado_alunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos ou alunosNovos");
 while (!$resultado_alunos->EOF) {
 	$id_aluno   = $resultado_alunos->fields['id'];
 	$registro = $resultado_alunos->fields['registro'];
@@ -63,7 +63,7 @@ while (!$resultado_alunos->EOF) {
 	$resultado_alunos->MoveNext();
 }
 
-// Dados das inscrições para seleção de estágio
+// Dados das inscriï¿½ï¿½es para seleï¿½ï¿½o de estï¿½gio
 $sql  = "select id_instituicao, instituicao, data ";
 $sql .= " from mural_inscricao ";
 $sql .= " inner join mural_estagio on mural_inscricao.id_instituicao = mural_estagio.id";
@@ -72,7 +72,7 @@ $sql .= " order by instituicao";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_inscricao");
 $i = 0;
 while (!$resultado->EOF) {
 	$instituicoes[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
@@ -93,6 +93,6 @@ $smarty->assign("registro",$registro);
 $smarty->assign("nome_aluno",$nome_aluno);
 $smarty->assign("instituicoes",$instituicoes);
 
-$smarty->display("ver-aluno.tpl");
+$smarty->display("../../mural/ver-aluno.tpl");
 
 ?>

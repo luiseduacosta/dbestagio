@@ -87,8 +87,8 @@ $opts['fdd']['mural_periodo_atual'] = array(
 $opts['fdd']['curso_turma_atual'] = array(
   'name'     => 'Turma atual do curso',
   'select'   => 'T',
-  'size'     => 1,
-  'maxlen'   => 1,
+  'size'     => 2,
+  'maxlen'   => 2,
   'colattrs' => 'align="center"',
   'sort'     => true
 );

@@ -12,7 +12,7 @@ function verInstituicao($id_instituicao) {
     $sql .= " from estagio "; 
     $sql .= " where id=$id_instituicao order by instituicao";
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if($resultado_=== false) die ("NÃ£o foi possÃ­vel consultar a tabela curso_inscricao_instituicao");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];

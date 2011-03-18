@@ -1,7 +1,7 @@
 <?php
 
 // include_once("../../autentica.inc");
-include_once("../../db.inc");
+
 include_once("../../setup.php");
 
 $origem = $_REQUEST['origem'];
@@ -60,7 +60,7 @@ if($debug == 1)
 
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	// $id_aluno = $resultado->fields['id'];
 	$registro = $resultado->fields['registro'];
 	$nome = $resultado->fields['nome'];
@@ -77,7 +77,7 @@ while(!$resultado->EOF) {
 	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 	$nova_data = ereg_replace("-","/",$nascimento);
 	// echo "Nova data: ". $nova_data . "<br>";
-	$dataCorrigida = split("/",$nova_data);
+	$dataCorrigida = explode("/",$nova_data);
 	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 	// echo $data_sql . "<br>";
 	

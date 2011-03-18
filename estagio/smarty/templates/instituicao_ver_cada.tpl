@@ -22,6 +22,7 @@ function elimina() {
     else
 	return false;
 }
+
 </script>
 {/literal}
 
@@ -112,7 +113,7 @@ debug
 <input type="hidden" name="botao" value="ultimo">
 <input type="hidden" name="curso" value="{$curso}">
 <input type="hidden" name="indice" value="{$indice}">
-<input type="submit" name="submit" value="⁄ltimo">
+<input type="submit" name="submit" value="√öltimo">
 </form>
 </td>
 
@@ -152,11 +153,11 @@ debug
 
 <tr>
 {if $modifica}
-	<td width="25%" colspan="1">InstituiÁ„o</td>
+	<td width="25%" colspan="1">Institui√ß√£o</td>
 	<td width="75%" colspan="2">
 	<input type="text" name="instituicao" size="50" maxlength='100' value="{$instituicao}">
 {else}
-	<td width="25%" colspan="1" class="rodape">InstituiÁ„o</td>
+	<td width="25%" colspan="1" class="rodape">Institui√ß√£o</td>
 	<td width="75%" colspan="2" class="rodape">
 	{if $id_curso_instituicao}
 		<a href='ver_cada.php?curso=sem&id_instituicao={$id_curso_instituicao}'>{$instituicao}</a>
@@ -169,7 +170,7 @@ debug
 
 {if !$curso}
 	<tr>
-	<td width="25%" colspan="1">P·gina web</td>
+	<td width="25%" colspan="1">P√°gina web</td>
 	<td colspan="2">
 	{if $modifica}
 		<input type="text" name="url" size="50" maxlength="100" value="{$url}">
@@ -181,7 +182,7 @@ debug
 {/if}
 
 <tr>
-<td colspan="1">EndereÁo</td>
+<td colspan="1">Endere√ßo</td>
 <td colspan="2">
 {if $modifica}
 	<input type="text" name="endereco" size="50" value="{$endereco}">
@@ -214,7 +215,7 @@ debug
 </tr>
 
 <tr>
-<td colspan="1">MunicÌpio</td>
+<td colspan="1">Munic√≠pio</td>
 <td colspan="2">
 {if $modifica}
 	<input type="text" name="municipio" size="30" value="{$municipio}">
@@ -247,7 +248,7 @@ debug
 </tr>
 
 <tr>
-<td colspan="1">BenefÌcios</td>
+<td colspan="1">Benef√≠cios</td>
 <td colspan="2">
 {if $modifica}
 	<input type="text" name="beneficios" size="50" value="{$beneficios}">
@@ -258,27 +259,27 @@ debug
 </tr>
 
 <tr>
-<td colspan="1">Est·gio no final de semana</td>
+<td colspan="1">Est√°gio no final de semana</td>
 <td colspan="2">
 {if $modifica}
 
 	{if $fim_de_semana == 0}
-		<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">N„o
+		<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">N√£o
 		<input type="radio" name="fim_de_semana" value="1">Sim
 		<input type="radio" name="fim_de_semana" value="2">Parcialmente
 	{elseif $fim_de_semana == 1}
-		<input type="radio" name="fim_de_semana" value="0">N„o
+		<input type="radio" name="fim_de_semana" value="0">N√£o
 		<input type="radio" name="fim_de_semana" value="1" checked="{$fim_de_semana}">Sim
 		<input type="radio" name="fim_de_semana" value="2">Parcialmente
 	{elseif $fim_de_semana == 2}
-		<input type="radio" name="fim_de_semana" value="0">N„o
+		<input type="radio" name="fim_de_semana" value="0">N√£o
 		<input type="radio" name="fim_de_semana" value="1">Sim
 		<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
 	{/if}
 
 {else}
 
-	{if $fim_de_semana eq 0} N„o
+	{if $fim_de_semana eq 0} N√£o
 	{elseif $fim_de_semana eq 1} Sim
 	{elseif $fim_de_semana eq 2} Parcialmente
 	{/if}
@@ -301,7 +302,7 @@ debug
 {/if}
 
 <tr>
-<td>¡rea</td>
+<td>√Årea</td>
 <td>
 {if $modifica}
 	<select name="area" size="1">
@@ -326,7 +327,7 @@ debug
 
 {if !$curso}
 	<tr>
-	<td colspan="1">ConvÍnio UFRJ</td>
+	<td colspan="1">Conv√™nio UFRJ</td>
 	<td colspan="2">
 	{if $modifica}
 		<input type="text" name='convenio' id='id_convenio' size='5' value='{$convenio}'>
@@ -341,9 +342,32 @@ debug
 	</tr>
 {/if}
 
+{if !$curso}
+	<tr>
+	<td colspan="1">Seguro</td>
+	<td colspan="2">
+	{if $modifica}
+		{if $seguro eq 0}
+			<input type="radio" name='seguro' id='id_seguro' size='1' value='0' checked>Institui√ß√£o
+			<input type="radio" name='seguro' id='id_seguro' size='1' value='1'>UFRJ
+		{else}
+			<input type="radio" name='seguro' id='id_seguro' size='1' value='0'>Institui√ß√£o
+			<input type="radio" name='seguro' id='id_seguro' size='1' value='1' checked>UFRJ
+		{/if}
+	{else}
+		{if $seguro eq 0}
+			Institui√ß√£o
+		{else}
+			UFRJ
+		{/if}
+	{/if}
+	</td>
+	</tr>
+{/if}
+
 {if $sistema_autentica == 1}
 	<tr>
-	<td colspan="1">ObservaÁıes</td>
+	<td colspan="1">Observa√ß√µes</td>
 	<td colspan="2">
 	{if $modifica}
 		<textarea rows='4' cols='60' name='observacoes'>{$observacoes}</textarea>
@@ -365,7 +389,7 @@ debug
 		<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
 	{/if}
 	<input type="hidden" name="curso" value="{$curso}">
-	<input type="submit" name="modifica" value="Modificar instituiÁ„o">
+	<input type="submit" name="modifica" value="Modificar institui√ß√£o">
 	</td>
 	</tr>
 	</form>
@@ -449,7 +473,7 @@ debug
 		
 		<td colspan="4" class="coluna_centralizada">
 			<select name='id_supervisor' size='1'>
-			<option value='0'>Selecione supervisor para inserir na instituiÁ„o</option>
+			<option value='0'>Selecione supervisor para inserir na institui√ß√£o</option>
 		
 			{section name=i loop=$supervisores}
 				<option value={$supervisores[i].id}>{$supervisores[i].nome}</option>

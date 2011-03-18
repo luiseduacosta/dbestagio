@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-	<title>Ver cada instituição</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<title>{$instituicao[0].instituicao}</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -62,22 +62,23 @@ function barra() {
 	{/if}
 {/if}
 
+
 {if $data_inscricao == 0}
-	<p style="text-align:center">Inscrições diretamente na instituição</p>
+	<p style="text-align:center">InscriÃ§Ãµes diretamente na instituiÃ§Ã£o</p>
 {else}
 	{if $data_hoje > $data_inscricao}
-	    <p style="text-align:center">Inscrições encerradas</p>
+	    <p style="text-align:center">InscriÃ§Ãµes encerradas</p>
 	{else}
-	    <p style="text-align:center">Inscrições abertas</p>
+	    <p style="text-align:center">InscriÃ§Ãµes abertas</p>
 	{/if}
 {/if}
 
 <!--
 {if $data_selecao == "00000000"}
-	<p style="text-align:center">Sem data de seleção</p>
+	<p style="text-align:center">Sem data de seleÃ§Ã£o</p>
 {else}
 	{if $data_hoje > $data_selecao}
-	    <p style="text-align:center">Seleção já realizada ou em processo</p>
+	    <p style="text-align:center">SeleÃ§Ã£o jÃ¡ realizada ou em processo</p>
 	{/if}
 {/if}
 //-->
@@ -145,7 +146,7 @@ function barra() {
 <input type="hidden" name="indice" value="{$indice}">
 <input type="hidden" name="num_instituicao" value="{$id_instituicao}">
 <input type="hidden" name="id_instituicao" value="">
-<input type="submit" name="submit" value="Último">
+<input type="submit" name="submit" value="Ãšltimo">
 </form>
 </td>
 
@@ -165,12 +166,12 @@ function barra() {
 {else}
 <tr style="background-color:#c9f5bf">
 {/if}
-<td>Convênio</td>
+<td>ConvÃªnio</td>
 <td>{$instituicao[item].convenio}</td>
 </tr>
 
 <tr>
-<td width="30%">Instituição</td>
+<td width="30%">InstituiÃ§Ã£o</td>
 {if $instituicao[item].id_estagio == 0}
 	<td>{$instituicao[item].instituicao}</td>
 {else}
@@ -184,7 +185,7 @@ function barra() {
 </tr>
 
 <tr>
-<td>Beneficios</td>
+<td>BenefÃ­cios</td>
 <td>{$instituicao[item].beneficios}</td>
 </tr>
 
@@ -194,7 +195,7 @@ function barra() {
 </tr>
 
 <tr>
-<td>Carga horária</td>
+<td>Carga horÃ¡ria</td>
 <td>{$instituicao[item].cargaHoraria}</td>
 </tr>
 
@@ -204,7 +205,7 @@ function barra() {
 </tr>
 
 <tr>
-<td>Àrea</td>
+<td>Ãrea</td>
 <td>{$instituicao[item].area}</td>
 </tr>
 
@@ -214,42 +215,42 @@ function barra() {
 </tr>
 
 <tr>
-<td>Horário</td>
+<td>HorÃ¡rio</td>
 <td>{$instituicao[item].horario}</td>
 </tr>
 
 {if $data_inscricao == 0}
 	<tr>
-	<td>Inscrições na Coordenação de Estágio até</td>
-	<td>Inscrições diretamente na instituição</td>
+	<td>InscriÃ§Ãµes na CoordenaÃ§Ã£o de EstÃ¡gio atÃ©</td>
+	<td>InscriÃ§Ãµes diretamente na instituiÃ§Ã£o</td>
 	</tr>
 {else}
 	<tr>
-	<td>Inscrições na Coordenação de Estágio até</td>
+	<td>InscriÃ§Ãµes na CoordenaÃ§Ã£o de EstÃ¡gio atÃ©</td>
 	<td>{$instituicao[item].dataInscricao}</td>
 	</tr>
 {/if}
 
 <tr>
-<td>Data e horário da seleção</td>
+<td>Data e horÃ¡rio da seleÃ§Ã£o</td>
 <td>
 {$instituicao[item].dataSelecao}
-Horário: {$instituicao[item].horarioSelecao} hs.
+HorÃ¡rio: {$instituicao[item].horarioSelecao} hs.
 </td>
 </tr>
 
 <tr>
-<td>Local da seleção</td>
+<td>Local da seleÃ§Ã£o</td>
 <td>{$instituicao[item].localSelecao}</td>
 </tr>
 
 <tr>
-<td>Forma de seleção</td>
+<td>Forma de seleÃ§Ã£o</td>
 <td>{$instituicao[item].formaSelecao}</td>
 </tr>
 
 <tr>
-<td>Contatos e/ou informações</td>
+<td>Contatos e/ou informaÃ§Ãµes</td>
 <td>{$instituicao[item].contato}</td>
 </tr>
 
@@ -267,18 +268,18 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 	<td>Email enviado em:</td>
 	{if $data_hoje > $data_inscricao}
 	    {if $instituicao[item].datafax == 0}
-		<td style="background-color:red;">Email ainda nao enviado</td>		
+		<td style="background-color:red;">Email ainda nÃ£o enviado</td>		
 	    {else}
     		<td>{$instituicao[item].datafax|date_format:"%d-%m-%Y"}</td>
 	    {/if}
 	{else}
-	    <td>Inscricoes abertas</td>
+	    <td>InscriÃ§Ãµes abertas</td>
 	{/if}
 	</tr>
 {/if}
 
 <tr>
-<td>Outras informações</td>
+<td>Outras informaÃ§Ãµes</td>
 <td>{$instituicao[item].outras}</td>
 </tr>
 
@@ -294,24 +295,24 @@ Horário: {$instituicao[item].horarioSelecao} hs.
 	</span>
 {/if}
 
-{* Para a administração sempre está aberta a possibilidade de realizar inscrições fora de prazo *}
+{* Para a administraÃ§Ã£o sempre estÃ¡ aberta a possibilidade de realizar inscriÃ§Ãµes fora de prazo *}
 {if $sistema_autentica == 1}
 		<span class="botao">
 		{if $id_instituicao == ""}
-		    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">Inscrição para seleção</a>
+		    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">InscriÃ§Ã£o para seleÃ§Ã£o</a>
 		{else}
-		    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$id_instituicao}">Inscrição para seleção</a>
+		    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$id_instituicao}">InscriÃ§Ã£o para seleÃ§Ã£o</a>
 		{/if}
 		</span>
 {else}
 		{if $data_inscricao == 0}
 				<span class="botao">
-				<a href="#">Inscrições diretamente na instituição</a>
+				<a href="#">InscriÃ§Ãµes diretamente na instituiÃ§Ã£o</a>
 				</span>
 		{else}
 				{if $data_hoje <= $data_inscricao}
 				    <span class="botao">
-				    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">Inscrição para seleção</a>
+				    <a href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">InscriÃ§Ã£o para seleÃ§Ã£o</a>
 				    </span>
 				{/if}
 		{/if}

@@ -25,7 +25,7 @@ $sql_inscritos .= " group by mural_inscricao.id_aluno ";
 // echo $sql_inscritos . "<br>";
 
 $resultado_inscritos = $db->Execute($sql_inscritos);
-if($resultado_inscritos === false) die ("Não foi possível consultar as tabelas");	
+if($resultado_inscritos === false) die ("NÃ£o foi possÃ­vel consultar as tabelas");	
 $i = 1;
 while (!$resultado_inscritos->EOF) {
 
@@ -75,9 +75,9 @@ while (!$resultado_inscritos->EOF) {
 	inner join estagiarios on estagio.id = estagiarios.id_instituicao 
 	where estagiarios.registro = '$id_aluno' and estagiarios.periodo = (select max(periodo) from estagiarios where registro = $id_aluno)";
 	// echo $sql_instituicao . "<br>";
-	$resultado_instituicao = $db->Execute($sql_instituicao);
-	if($resultado_instituicao === false) die ("Não foi possível consultar a tabela estagio");	
-	$instituicao = $resultado_instituicao->fields['instituicao'];
+	$res_instituicao = $db->Execute($sql_instituicao);
+	if($res_instituicao === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");	
+	$instituicao = $res_instituicao->fields['instituicao'];
 
 	$inscritos[$i]['instituicao'] = $instituicao;
 	
@@ -95,6 +95,6 @@ $smarty = new Smarty_estagio;
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("inscritos",$inscritos);
-$smarty->display("alunosConhecidos.tpl");
+$smarty->display("../../mural/alunosConhecidos.tpl");
 
 ?>

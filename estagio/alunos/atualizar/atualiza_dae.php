@@ -3,7 +3,7 @@
 // echo $_SERVER['PHP_SELF'] . "<br>";
 
 // include_once("../../autentica.inc");
-include_once("../../db.inc");
+
 include_once("../../setup.php");
 
 $origem = $_REQUEST['origem'];
@@ -67,7 +67,7 @@ if($debug == 1) {
 if($submit)  {
 
 	// Para salvar tenho que utilizar o formato aaaa/mm/dd/
-	$novoNascimento = split("/",$nascimento);
+	$novoNascimento = explode("/",$nascimento);
 	$data_nascimento = $novoNascimento[2] . "-" . $novoNascimento[1] . "-" . $novoNascimento[0];
 		
 	$sql_alunos  = "update alunos set registro ='$registro', nome ='$nome', codigo_telefone ='$codigo_telefone', ";
@@ -94,20 +94,20 @@ $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celul
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro='$registro'";
 // echo $sql . "<br>";
 
-if($debug == 1)
+if ($debug == 1)
     echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
-// Verifico se o aluno est· cadastrado
+// Verifico se o aluno estÔøΩ cadastrado
 $quantidade = $resultado->RecordCount();
 if ($quantidade == 0) {
-	echo "Aluno n„o cadastrado como estagi·rio. Tem certeza que est· cursando est·gio? <br />";
+	echo "Aluno n√£o cadastrado como estagi√°rio. Tem certeza que est√° cursando est√°gio? <br />";
 	echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a>";
 	exit;
 }
 
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	// $id_aluno = $resultado->fields['id'];
 	$registro = $resultado->fields['registro'];
 	$nome = $resultado->fields['nome'];
@@ -123,7 +123,7 @@ while(!$resultado->EOF) {
 	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 	$nova_data = ereg_replace("-","/",$nascimento);
 	// echo "Nova data: ". $nova_data . "<br>";
-	$dataCorrigida = split("/",$nova_data);
+	$dataCorrigida = explode("/",$nova_data);
 	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 	// echo $data_sql . "<br>";
 	

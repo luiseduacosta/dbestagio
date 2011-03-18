@@ -2,13 +2,13 @@
 //============================================================+
 // File name   : example_045.php
 // Begin       : 2008-03-04
-// Last Update : 2009-01-07
-// 
+// Last Update : 2010-08-08
+//
 // Description : Example 045 for TCPDF class
 //               Bookmarks and Table of Content
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -44,11 +44,14 @@ $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 045', PDF_HEADER_STRING);
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
@@ -59,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -94,6 +97,7 @@ $pdf->AddPage();
 $pdf->Bookmark('Paragraph 1.3', 1, 0);
 $pdf->Cell(0, 10, 'Paragraph 1.3', 0, 1, 'L');
 
+// add some pages and bookmarks
 for ($i = 2; $i < 12; $i++) {
 	$pdf->AddPage();
 	$pdf->Bookmark('Chapter '.$i, 0, 0);
@@ -103,7 +107,7 @@ for ($i = 2; $i < 12; $i++) {
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 // add a new page for TOC
-$pdf->AddPage();
+$pdf->addTOCPage();
 
 // write the TOC title
 $pdf->SetFont('times', 'B', 16);
@@ -112,8 +116,12 @@ $pdf->Ln();
 
 $pdf->SetFont('dejavusans', '', 12);
 
-// add table of content at page 1
-$pdf->addTOC(1, 'courier', '.');
+// add a simple Table Of Content at first page
+// (check the example n. 59 for the HTML version)
+$pdf->addTOC(1, 'courier', '.', 'INDEX');
+
+// end of TOC page
+$pdf->endTOCPage();
 
 // ---------------------------------------------------------
 
@@ -121,6 +129,5 @@ $pdf->addTOC(1, 'courier', '.');
 $pdf->Output('example_045.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE                                                
 //============================================================+
-?>

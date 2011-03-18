@@ -4,7 +4,7 @@
 
 <head>
 	<title>Seleciona</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -31,7 +31,7 @@ function elimina() {
 //-->
 </script>
 {/literal}
-<title>Seleciona instituição</title>
+<title>Seleciona instituiÃ§Ã£o</title>
 </head>
 
 <body>
@@ -39,10 +39,10 @@ function elimina() {
 {include file="mural_menu.tpl"}
 
 {if $opcao === "cancela"}
-	<p>Seleciona instituição para excluir</p>
+	<p>Seleciona instituiÃ§Ã£o para excluir</p>
 	<form name="seleciona_instituicao" action="excluir.php" method="post">
 {else}
-	<p>Seleciona instituição para modificar</p>
+	<p>Seleciona instituiÃ§Ã£o para modificar</p>
 	<form name="seleciona_instituicao" action="mural-modifica.php" method="post">
 {/if}
 

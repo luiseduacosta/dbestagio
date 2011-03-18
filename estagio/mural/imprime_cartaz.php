@@ -1,6 +1,5 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
@@ -24,20 +23,20 @@ $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,9,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
+$cabecalho2 = $pdf->GetStringWidth("Escola de ServiÃ§o Social");
 $pdf->SetX((210-$cabecalho2)/2);
-$pdf->Cell($cabecalho2,9,"Escola de Serviço Social",0,1,'C',0);
+$pdf->Cell($cabecalho2,9,"Escola de ServiÃ§o Social",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio e Extensão");
+$cabecalho3 = $pdf->GetStringWidth("CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,9,"Coordenação de Estágio e Extensão",0,1,'C',0);
+$pdf->Cell($cabecalho3,9,"CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho4 = $pdf->GetStringWidth("Seleção para estágio ");
+$cabecalho4 = $pdf->GetStringWidth("SeleÃ§Ã£o para estÃ¡gio ");
 $pdf->SetX((210-$cabecalho4)/2);
 $pdf->SetFont("Arial","IB","24");
-$pdf->Cell($cabecalho4,9,"Seleção para estágio",0,1,'C',0);
+$pdf->Cell($cabecalho4,9,"SeleÃ§Ã£o para estÃ¡gio",0,1,'C',0);
 $pdf->Ln(2);
 
 $sql_estagio  = "select mural_estagio.id, instituicao, convenio, vagas, beneficios, final_de_semana, ";
@@ -55,7 +54,7 @@ $sql_estagio .= "and mural_estagio.id = $id_instituicao";
 
 $resultado = $db->Execute($sql_estagio);
 
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 $i = 0;
 while (!$resultado->EOF) {
 		$id_instituicao = $resultado->fields['id'];
@@ -67,7 +66,7 @@ while (!$resultado->EOF) {
 		$final_de_semana = $resultado->fields['final_de_semana'];
 		switch($final_de_semana) {
 				case 0;
-				$final_de_semana = "Não";
+				$final_de_semana = "NÃ£o";
 				break;
 
 				case 1;
@@ -135,7 +134,7 @@ while (!$resultado->EOF) {
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-// $pdf->Cell(0,0,"Instituição: ");
+// $pdf->Cell(0,0,"Instituiï¿½ï¿½o: ");
 // $pdf->SetX(70);
 $pdf->SetFont("Arial","B","18");
 $pdf->SetLineWidth(0,5);
@@ -150,7 +149,7 @@ $pdf->Cell(0,0,$vagas);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Benefícios:");
+$pdf->Cell(0,0,"BenefÃ­cios:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$beneficios);
 
@@ -162,7 +161,7 @@ $pdf->Cell(0,0,$final_de_semana);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Carga horária:");
+$pdf->Cell(0,0,"Carga horÃ¡ria:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$cargaHoraria);
 
@@ -180,7 +179,7 @@ if(!empty($requisitos)) {
 $pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Área:");
+$pdf->Cell(0,0,"Ãrea:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$area);
 
@@ -192,35 +191,35 @@ $pdf->Cell(0,0,$professor);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Horário da OTP:");
+$pdf->Cell(0,0,"HorÃ¡rio da OTP:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$horario);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Inscrições até o dia:");
+$pdf->Cell(0,0,"InscriÃ§Ãµes atÃ© o dia:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$data_inscricao);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Data da seleção:");
+$pdf->Cell(0,0,"Data da seleÃ§Ã£o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$data_selecao);
 $pdf->SetX(100);
-$pdf->Cell(0,0,"horário:");
+$pdf->Cell(0,0,"horÃ¡rio:");
 $pdf->SetX(120);
 $pdf->Cell(0,0,$horarioSelecao);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Local da seleção:");
+$pdf->Cell(0,0,"Local da seleÃ§Ã£o:");
 $pdf->SetX(70);
 $pdf->MultiCell(100,5,$localSelecao);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Forma de seleção:");
+$pdf->Cell(0,0,"Forma de seleÃ§Ã£o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$formaSelecao);
 
@@ -238,7 +237,7 @@ if(strlen(trim($outras)) > 250) {
 $pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Outras informações:");
+$pdf->Cell(0,0,"Outras informaÃ§Ãµes:");
 $pdf->Ln(5);
 $pdf->SetX(20);
 $pdf->SetLineWidth(0,5);
@@ -247,7 +246,7 @@ $pdf->MultiCell(160,5,$outras,1);
 $pdf->Ln(8);
 $pdf->SetX(55);
 $pdf->SetFont("Arial","U","16");
-$pdf->Cell(0,0,"http://web.intranet.ess.ufrj.br/estagio");
+$pdf->Cell(0,0,"http://www.ess.ufrj.br/estagio");
 
 $pdf->Output();
 

@@ -42,10 +42,10 @@ function get_turma() {
 	<th><a href="?turma={$turma}&ordem=celular&selecao={$selecao}">Celular</a></th>	
 {/if}
 
-<th><a href="?turma={$turma}&ordem=instituicao&selecao={$selecao}">Instituição</a></th>
+<th><a href="?turma={$turma}&ordem=instituicao&selecao={$selecao}">InstituiÃ§Ã£o</a></th>
 
 {if $autentica == 1}
-	<th><a href="?turma={$turma}&ordem=selecao&selecao={$selecao}">Seleção</a></th>
+	<th><a href="?turma={$turma}&ordem=selecao&selecao={$selecao}">SeleÃ§Ã£o</a></th>
 	<th>Imprime</th>
 {/if}
 

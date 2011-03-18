@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
@@ -29,19 +29,19 @@ function aluno()
 <body style="direction: ltr;">
 
 <div align="center" id="formulario_acrescenta_estagio" style="visibility: visible">
-<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estágio do aluno <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
+<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estï¿½gio do aluno <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
 </div>
 
 <div align="center" id="historico_estagios" style="visibility: visible">
 <table border="1">
 <tr>
-<th>Período</th>
+<th>PerÃ­odo</th>
 <th>TC</th>
-<th>Estágio</th>
+<th>EstÃ¡gio</th>
 <th>Turno</th>
 <th>ch</th>
 <th>Nota</th>
-<th>Instituição</th>
+<th>InstituiÃ§Ã£o</th>
 <th>Modificar</th>
 <th>Excluir</th>
 </tr>
@@ -71,11 +71,11 @@ function aluno()
 <form name="form_acrescentar_estagiarios" id="form_acrescentar_estagiarios" action="acrescentar_estagio.php" method="post">
 
 <table border="1" width="80%">
-<caption>Inserir estágio</caption>
+<caption>Inserir estÃ¡gio</caption>
 <tbody>
 
 <tr>
-<td>Período</td>
+<td>PerÃ­odo</td>
 <td>
 <input type="text" name="periodo" id="periodo" size="6" maxlength="6" onChange="return verificaPeriodo();">
 Formato: AAAA-1 ou 2
@@ -91,12 +91,12 @@ Nao <input type="radio" name="tc" id="tc" value="0" checked>
 </tr>
 
 <tr>
-<td>Nivel:</td>
+<td>NÃ­vel:</td>
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 </tr>
 
@@ -109,7 +109,7 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Avaliação</td>
+<td>AvaliaÃ§Ã£o</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
 Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
@@ -117,10 +117,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>InstituiÃ§Ã£o:</td>
 <td>
 <select name="id_instituicao" size="1">
-<option value="0">Selecione instituição</option>
+<option value="0">Selecione instituiÃ§Ã£o</option>
 {section name=elemento loop=$instituicoes}
 <option value="{$instituicoes[elemento].id_instituicao}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
@@ -156,10 +156,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Area:</td>
+<td>Ãrea:</td>
 <td>
 <select name="id_area" size="1">
-<option value="0">Selecione area</option>
+<option value="0">Selecione Ã¡rea</option>
 {section name=elemento loop=$areas}
 <option value="{$areas[elemento].id_area}">
 {$areas[elemento].area|truncate:50}</option>

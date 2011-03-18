@@ -26,7 +26,7 @@ function carrega_tabela() {
 <body style="direction: ltr;">
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='{$turma}'>PerÌ≠odo: {$turma}</option>
+<option value='{$turma}'>Per√≠odo: {$turma}</option>
 <option value='0'>Todos</option>
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -48,20 +48,20 @@ Tabela principal
         <th><a href="?ordem=registro">Registro</a></th>
         <th><a href="?ordem=nivel">Nivel</a></th>
         <th><a href="?ordem=nome">Nome</a></th>
-        <th><a href="?ordem=endereco">Endereco</a></th>
+        <th><a href="?ordem=endereco">Endere√ßo</a></th>
         <th><a href="?ordem=bairro">Bairro</a></th>
         <th><a href="?ordem=municipio">Munic&iacute;pio</a></th>
         <th><a href="?ordem=cep">CEP</a></th>
         <th><a href="?ordem=identidade">RG</a></th>
-        <th><a href="?ordem=orgao">Org„o</a></th>
+        <th><a href="?ordem=orgao">Org√£o</a></th>
         <th><a href="?ordem=nascimento">Data nascimento</a></th>
         <th><a href="?ordem=cpf">CPF</a></th>
-        <th><a href="?ordem=codigo_telefone">CÛdigo</a></th>
+        <th><a href="?ordem=codigo_telefone">C√≥digo</a></th>
         <th><a href="?ordem=telefone">Telefone</a></th>
-        <th><a href="?ordem=codigo_celular">CÛdigo</a></th>
+        <th><a href="?ordem=codigo_celular">C√≥digo</a></th>
         <th><a href="?ordem=celular">Celular</a></th>
         <th><a href="?ordem=email">E-mail</a></th>
-        <th><a href="?ordem=instituicao">InstituiÁ„o</a></th>
+        <th><a href="?ordem=instituicao">Institui√ß√£o</a></th>
         <th><a href="?ordem=seguro">Seguro</a></th>
     </tr>
     {assign var = "i" value = 1}
@@ -84,7 +84,12 @@ Tabela principal
 	<td style="text-align:right">{$dae[i].codigo_celular}</td>
 	<td style="text-align:right">{$dae[i].celular}</td>	
 	<td>{$dae[i].email}</td>
-	<td>{$dae[i].instituicao}</td>
+	<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$dae[i].id_instituicao}">{$dae[i].instituicao}</a></td>
+	{if $dae[i].seguro eq 0}
+		<td style="text-align:left">Institui√ß√£o</td>
+	{else}
+		<td style="text-align:left">UFRJ</td>
+	{/if}
     </tr>
     {/section}
   </tbody>

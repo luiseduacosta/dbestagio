@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <meta content="Luis Acosta" name="author">
   <title>Insere aluno</title>
 <style type="text/css">
@@ -29,5 +29,5 @@ window.onload = function() {
 <body style="direction: ltr;">
 
 <!-- ###CABECALHO### -->
-<h1>Coordenação de Estágio e Extensão</h1>
+<h1>CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o</h1>
 <!-- ###CABECALHO### -->

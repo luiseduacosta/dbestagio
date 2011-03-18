@@ -14,7 +14,7 @@ if ($_periodo_atual[1] == 1) $periodo_proximo = $_periodo_atual[0] . "-2";
 
 $sql_periodo = "select periodo from estagiarios group by periodo";
 $resultado_periodo = $db->Execute($sql_periodo);
-if($resultado_periodo === false) die ("Não foi possível consultar a tabela estagiarios");
+if($resultado_periodo === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 $i = 0;
 while (!$resultado_periodo->EOF) {
 	$periodos[$i]['periodo'] = $resultado_periodo->fields['periodo'];
@@ -25,7 +25,7 @@ while (!$resultado_periodo->EOF) {
 $sql = "select id_aluno, alunos.registro, alunos.nome, telefone, celular, alunos.email, alunos.observacoes, estagiarios.periodo, estagiarios.nivel, estagiarios.tc_solicitacao from estagiarios inner join alunos on estagiarios.registro = alunos.registro where nivel != 4 and periodo = '$periodo_atual' group by id_aluno order by $ordem";
 // echo "$sql <br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar as tabelas alunos, estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
 
@@ -44,7 +44,7 @@ while (!$resultado->EOF) {
 	$sql_tc = "select tc_solicitacao, tc from estagiarios where registro = '$registro' and periodo ='$periodo_proximo'";
 	// echo "$sql_tc <br>";
 	$resultado_tc = $db->Execute($sql_tc);
-	if ($resultado_tc === false) die ("Não foi possível consultar a tabela estagiarios");
+	if ($resultado_tc === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 	
 	$tc_solicitacao = $resultado_tc->fields['tc_solicitacao'];
 	// if ($tc_solicitacao == 0) $tc_solicitacao = "";
@@ -57,7 +57,7 @@ while (!$resultado->EOF) {
 	$sql_mural = "select id from mural_inscricao where id_aluno='$registro' and periodo='$periodo_proximo'";
 	// echo $sql_mural . "<br>";
 	$res_mural = $db->Execute($sql_mural);
-	if ($res_mural === false) die ("Não foi possível consultar a tabela mural_inscricao");
+	if ($res_mural === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_inscricao");
 	$aluno_mural = $res_mural->fields['id'];
 	$alunos[$i]['mural'] = $aluno_mural;
 		
@@ -76,6 +76,6 @@ $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("periodo",$periodo);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("alunos",$alunos);
-$smarty->display("termo_controle_entrega.tpl");
+$smarty->display("../../mural/termo_controle_entrega.tpl");
 
 ?>

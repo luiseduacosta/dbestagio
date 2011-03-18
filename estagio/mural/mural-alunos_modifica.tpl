@@ -4,7 +4,7 @@
 
 <head>
 	<title>Aluno atualiza mural</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -60,43 +60,43 @@ function confirma() {
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("VocÃª precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("Ã‰ importante o seu e-mail para nossa comunicaÃ§Ã£o");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+    	alert("Favor informar o nÃºmero de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
     if(identidade=="") {
-    	alert("Informe o seu número de RG");
+    	alert("Informe o seu nÃºmero de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
     if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+    	alert("Informe o orgÃ£o expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Informe o seu endereço");
+    	alert("Informe o seu endereÃ§o");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
     if(cep=="") {
-    	alert("Informe o número de CEP");
+    	alert("Informe o nÃºmero de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
@@ -108,7 +108,7 @@ function confirma() {
 	}
 
     if(municipio=="") {
-    	alert("Informe o múnicipio da sua residência");
+    	alert("Informe o municÃ­pio da sua residÃªncia");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -126,18 +126,18 @@ function confirma() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-<h1>Atualiza dados do aluno para inscrição em seleção de estágio na instituição {$instituicao}</h1>
+<h1>Atualiza dados do aluno para inscriÃ§Ã£o em seleÃ§Ã£o de estÃ¡gio na instituiÃ§Ã£o {$instituicao}</h1>
 
-{* O histórico do aluno so aparece se o aluno já eh conhecido *}
+{* O histÃ³rico do aluno so aparece se o aluno jÃ¡ eh conhecido *}
 {if $aluno == 1}
 	<div align="center" id="historico_estagios" style="visibility: visible">
 	<table border="1">
-	<caption>Histórico dos estágios cursados</caption>
+	<caption>HistÃ³rico dos estÃ¡gios cursados</caption>
 	<tr>
-	<th>Período</th>
-	<th>Estágio</th>
+	<th>PerÃ­odo</th>
+	<th>EstÃ¡gio</th>
 	<th>Turno</th>
-	<th>Instituição</th>
+	<th>InstituiÃ§Ã£o</th>
 	<th>Supervisor</th>
 	</tr>
 
@@ -162,13 +162,13 @@ function confirma() {
 {if $aluno eq 0}
 	<caption>Atualizar dados do aluno novo</caption>
 {else}
-	<caption>Atualizar dados do aluno estagiário</caption>
+	<caption>Atualizar dados do aluno estagiÃ¡rio</caption>
 {/if}
 <tbody>
 
 <tr>
 <td>Nome</td>
-<td><input type="text" name="nome" id="nome" size="50" maxlenght="70" value="{$aluno_nome}"></td>
+<td><input type="text" name="nome" id="nome" size="50" maxlength="70" value="{$aluno_nome}"></td>
 </tr>
 
 <tr>
@@ -179,53 +179,53 @@ function confirma() {
 <tr>
 <td>Telefone</td>
 <td>
-Código:
-<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlenght="2" value="{$codigo_telefone}">
+CÃ³digo:
+<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlength="2" value="{$codigo_telefone}">
 Telefone:
-<input type="text" name="telefone" id="telefone" size="9" maxlenght="9" value="{$telefone}">
+<input type="text" name="telefone" id="telefone" size="9" maxlength="9" value="{$telefone}">
 </td>
 </tr>
 
 <tr>
 <td>Celular:</td>
 <td>
-Código:
-<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlenght="2" value="{$codigo_celular}">
+CÃ³digo:
+<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlength="2" value="{$codigo_celular}">
 Celular:
-<input type="text" name="celular" id="celular" size="9" maxlenght="9" value="{$celular}"></td>
+<input type="text" name="celular" id="celular" size="9" maxlength="9" value="{$celular}"></td>
 </tr>
 
 <tr>
 <td>E-mail:</td>
-<td><input type="text" name="email" id="email" size="50" maxlenght="50" value="{$email}"></td>
+<td><input type="text" name="email" id="email" size="50" maxlength="50" value="{$email}"></td>
 </tr>
 
 <tr>
 <td>CPF:</td>
-<td><input type="text" name="cpf" id="cpf" size="11" maxlenght="11" value="{$cpf}"></td>
+<td><input type="text" name="cpf" id="cpf" size="11" maxlength="11" value="{$cpf}"></td>
 </tr>
 
 <tr>
 <td>Identidade:</td>
 <td>
-<input type="text" name="identidade" id="identidade" size="15" maxlenght="15" value="{$identidade}">
-Orgão:
-<input type="text" name="orgao" id="orgao" size="10" maxlenght="10" value="{$orgao}">
+<input type="text" name="identidade" id="identidade" size="15" maxlength="15" value="{$identidade}">
+OrgÃ£o:
+<input type="text" name="orgao" id="orgao" size="10" maxlength="10" value="{$orgao}">
 </td>
 </tr>
 
 <tr>
 <td>Nascimento:</td>
-<td><input type="text" name="nascimento" id="nascimento" size="10" maxlenght="10" value="{$nascimento}"></td>
+<td><input type="text" name="nascimento" id="nascimento" size="10" maxlength="10" value="{$nascimento}"></td>
 </tr>
 
 <tr>
-<td>Endereço:
+<td>EndereÃ§o:
 </td>
 <td>
-<input type="text" name="endereco" id="endereco" size="30" maxlenght="50" value="{$endereco}">
+<input type="text" name="endereco" id="endereco" size="30" maxlength="50" value="{$endereco}">
 CEP:
-<input type="text" name="cep" id="cep" size="9" maxlenght="9" value="{$cep}">
+<input type="text" name="cep" id="cep" size="9" maxlength="9" value="{$cep}">
 </td>
 </tr>
 
@@ -234,9 +234,9 @@ CEP:
 Bairro:
 </td>
 <td>
-<input type="text" name="bairro" id="bairro" size="15" maxlenght="30" value="{$bairro}">
-Município:
-<input type="text" name="municipio" id="municipio" size="15" maxlenght="30" value="{$municipio}">
+<input type="text" name="bairro" id="bairro" size="15" maxlength="30" value="{$bairro}">
+MunicÃ­pio:
+<input type="text" name="municipio" id="municipio" size="15" maxlength="30" value="{$municipio}">
 
 </td>
 </tr>

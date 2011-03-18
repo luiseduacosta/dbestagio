@@ -37,24 +37,24 @@ $sql .= " values ('$nome', '$endereco', '$municipio', '$bairro','$cep','$cress',
 // echo $sql . "<br>";
 die;
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
+if($resultado === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela supervisores");
 // die;
-// Pego o número de registro de último supervisor ingressado
+// Pego o nï¿½mero de registro de ï¿½ltimo supervisor ingressado
 $res_ultimo = $db->Execute("select max(id) as ultimo_supervisor from supervisores");
-if($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
+if($res_ultimo === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
 $id_supervisor = $res_ultimo->fields['ultimo_supervisor'];
 	
 // Insero supervisor e instituicao em inst_super
 if (!empty($id_instituicao)) {
     $sql_inst_super = "insert into inst_super (id_supervisor, id_instituicao) values ('$id_supervisor', '$id_instituicao')";
     $res_inst_super = $db->Execute($sql_inst_super);
-    if($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
+    if($res_inst_super === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela inst_super");
 }
 
 $sql_log = "insert into log_supervisores (id_supervisor, cress, nome, ip) values ('$id_supervisor', '$cress', '$nome', '$ip')";
 // echo $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
-if($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
+if($resultado_log === false) die ("NÃ£o foi possÃ­vel inserir/atualizar registro na tabela log_supervisores");    		  
 
 // die;
 echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";

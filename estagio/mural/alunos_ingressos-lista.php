@@ -167,7 +167,7 @@ if ($periodo_atual) {
 // Periodos
 $sql_periodo = "select distinct periodo from alunos_ingresso order by periodo";
 $resultado_periodo = $db->Execute($sql_periodo);
-if($resultado_periodo === false) die ("Não foi possível consultar a tabela alunos_ingresso");
+if($resultado_periodo === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos_ingresso");
 $i = 0;
 while(!$resultado_periodo->EOF) {
     $periodos[$i]['periodo'] = $resultado_periodo->fields['periodo'];

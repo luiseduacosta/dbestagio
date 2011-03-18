@@ -4,7 +4,7 @@
 
 <head>
 <title>Atualizar dados do aluno</title>
-<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta name="author" content="Luis Acosta">
@@ -20,14 +20,14 @@ function verificaRegistro() {
 	var tamanho_registro;
 	tamanho_registro = document.selecionaAluno.registro.value.length;
 	if (tamanho_registro < 9) {
-		alert("O registro deve conter 9 dígitos");
+		alert("O registro deve conter 9 dÃ­gitos");
 		document.selecionaAluno.registro.focus();
 		return false;
 		}
 	for (var i=0; i<9; i++) {
 		letra = document.selecionaAluno.registro.value.charAt(i);
 		if (letra != "0" && letra != "1" && letra != "2" && letra != "3" && letra != "4" && letra != "5" && letra != "6" && letra != "7" && letra != "8" && letra != "9") {
-			alert("Digite números e não letras");
+			alert("Digite nÃºmeros e nÃ£o letras");
 			return false;
 			}
 	}
@@ -42,8 +42,8 @@ function verificaRegistro() {
 <h1>Atualizar dados do aluno</h1>
 
 <form name="seleciona_aluno" id="seleciona_aluno" method="post" action="atualiza_dae.php" enctype="text/html" onSubmit="return verificaRegistro();">
-<h2>Digite o número de registro (DRE):</h2>
-<p>Somente para alunos que já estão inseridos em estágio curricular. Alunos que estão procurando estágio devem utilizar o "Mural de estágios".</p>
+<h2>Digite o nÃºmero de registro (DRE):</h2>
+<p>Somente para alunos que jÃ¡ estÃ£o inseridos em estÃ¡gio curricular. Alunos que estÃ£o procurando estÃ¡gio devem utilizar o "Mural de estÃ¡gios".</p>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>

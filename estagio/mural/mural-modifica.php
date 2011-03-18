@@ -1,13 +1,13 @@
 <?php
 
 # include_once("mural-autentica.inc");
-include_once("../db.inc");
+
 include_once("../setup.php");
 
-// Pego o numero da instituição
+// Pego o numero da instituiÃ§Ã£o
 $id_instituicao = $_REQUEST['id_instituicao'];
 
-// Busco a instituição, área e professor
+// Busco a instituiÃ§Ã£o, Ã¡rea e professor
 $sql  = "select instituicao, convenio, vagas, beneficios, final_de_semana, ";
 $sql .= "cargaHoraria, requisitos, ";
 $sql .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
@@ -20,7 +20,7 @@ $sql .= "where mural_estagio.id=$id_instituicao";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 
 while (!$resultado->EOF) {
 	$instituicao = $resultado->fields['instituicao'];
@@ -64,7 +64,7 @@ if ($dataInscricao == 0) {
 $sql = "select id, area from areas_estagio order by area";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela areas_estagio");
 $i = 0;
 while(!$resultado->EOF) {
 	$areas[$i]['id_areas'] = $resultado->fields["id"];
@@ -77,7 +77,7 @@ while(!$resultado->EOF) {
 $sqlProfessores = "select id, nome from professores order by nome";
 // echo $sqlProfessores . "<br>";
 $resultadoProfessores = $db->Execute($sqlProfessores);
-if($resultadoProfessores === false) die ("Não foi possível consultar a tabela professores");
+if($resultadoProfessores === false) die ("NÃ£o foi possÃ­vel consultar a tabela professores");
 $i = 0;
 $professores[$i]['id_professores'] = 0;
 $professores[$i]['professores'] = "";
@@ -119,7 +119,7 @@ $smarty->assign("email",$email);
 $smarty->assign("professores",$professores);
 
 // Mostro os resultados
-$smarty->display("mural-modifica.tpl");
+$smarty->display("../../mural/mural-modifica.tpl");
 
 $db->close();
 

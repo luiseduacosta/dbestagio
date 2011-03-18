@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Inscri&ccedil;&atilde;o para curso de supervisores</title>
 	<script type="text/javascript" src="../lib/jquery.js"></script>
 	<script type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
@@ -228,7 +228,6 @@ function verInstituicao() {
 
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $turma = TURMA;
@@ -401,7 +400,8 @@ while (!$resultado->EOF) {
 <td>Nome da institui&ccedil;&atilde;o ou programa*: </td>
 <td>
 <label for="instituicaoNova">Digite "N&atilde;o trabalha" se n&atilde;o est&aacute;a trabalhado</label>
-<input type="text" maxlength="75" size="75" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();">   
+<input type="text" maxlength="75" size="75" name="instituicaoNova" id="instituicaoNova" onBlur="return verifica_instituicao();">
+   
 </td>
 </tr>
 

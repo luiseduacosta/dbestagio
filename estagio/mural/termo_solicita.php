@@ -1,7 +1,7 @@
 <?php
 
 // include_once("../../autentica.inc");
-include_once("../db.inc");
+
 include_once("../setup.php");
 
 // $origem = $_REQUEST['origem'];
@@ -33,7 +33,7 @@ $codigo_celular  = $_REQUEST['codigo_celular'];
 $celular         = $_REQUEST['celular'];
 $email           = $_REQUEST['email'];
 $identidade      = $_REQUEST['identidade'];
-$orgao           = $_REQUEST['orgao'];  
+$orgao           = $_REQUEST['orgao'];
 $cpf             = $_REQUEST['cpf'];
 $nascimento      = $_REQUEST['nascimento'];
 $endereco        = $_REQUEST['endereco'];
@@ -47,7 +47,7 @@ $id_supervisor = $_REQUEST['id_supervisor'];
 // echo $nascimento . "<br>";
 
 
-if($debug == 1) {
+if ($debug == 1) {
     // print_r($_REQUEST) . "<br>";
 	}
 
@@ -55,7 +55,7 @@ $acao     = $_REQUEST['acao'];
 $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
-if($debug == 1) {
+if ($debug == 1) {
     echo "Acao " . $acao . "<br>";
     echo "Cadastro " . $cadastro . "<br>";
     echo "Atualizar estagio ". $atualizar_estagio . "<br>";
@@ -66,9 +66,9 @@ if($debug == 1) {
 // Se ja esta cadastrado
 if($submit) {
 
-	if(empty($nivel)) die ("E obrigatorio preencher o nivel de estagio para o qual esta solicitando o termo de compromisso");
+	if (empty($nivel)) die ("É obrigatório preencher o nivel de estágio para o qual está solicitando o termo de compromisso");
 
-	if(empty($id_instituicao)) die ("E obrigatorio selecionar a instituicao para o qual esta solicitando o termo de compromisso");
+	if (empty($id_instituicao)) die ("É obrigatório selecionar a instituição para o qual está solicitando o termo de compromisso");
 
 	// Para salvar tenho que utilizar o formato aaaa/mm/dd/
 	$data_nascimento = date("Y-m-d",strtotime($nascimento));
@@ -80,12 +80,12 @@ if($submit) {
 	$sql_alunos .= " observacoes='$observacoes' ";
 	$sql_alunos .= " where registro='$registro'";
 	// echo $sql_alunos . "<br>";
-	
+
 	// $resultado_insere = $db->Execute($sql_alunos);
 	// if($resultado_insere === false) die ("Nao foi possivel atualizar o registro na tabela alunos");
 	$sql_instituicao = "select instituicao from estagio where id=$id_instituicao";
-	$resultado_instituicao = $db->Execute($sql_instituicao);
-	$instituicao = $resultado_instituicao->fields['instituicao'];
+	$res_instituicao = $db->Execute($sql_instituicao);
+	$instituicao = $res_instituicao->fields['instituicao'];
 
 	$sql_supervisor = "select nome from supervisores where id=$id_supervisor";
 	$resultado_supervisor = $db->Execute($sql_supervisor);
@@ -97,15 +97,15 @@ if($submit) {
 	$resultado = $db->Execute($sql);
 	$quantidade = $resultado->RecordCount();
 	if($quantidade > 0) echo "Termo de compromisso ja foi solicitado";
-*/	
+*/
 	$sql_termo  = "insert into termo('registro','nivel','id_instituicao','id_supervisor','data') ";
 	$sql_termo .= " values('$registro','$nivel','$id_instituicao','$id_supervisor','$data')";
-	echo $sql_termo . "<br>";
+	// echo $sql_termo . "<br>";
 	// $resultado_termo = $db->Execute($sql_termo);
 	// if($resultado_termo === false) die ("Nao foi possivel inserir o registro na tabela termo");
 	// header("Location: cadastro_termo.php?registro=$registro");
-	die;
-	// exit;    
+	// die;
+	// exit;
 
 }
 
@@ -114,12 +114,13 @@ $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celul
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro='$registro'";
 // echo $sql . "<br>";
 
+
 if($debug == 1)
     echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
 if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
-// Verifico se o aluno est� cadastrado
+// Verifico se o aluno está cadastrado
 $quantidade = $resultado->RecordCount();
 
 if ($quantidade == 0) {
@@ -129,12 +130,12 @@ if ($quantidade == 0) {
 	if($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunosNovos");
 	$quantidade_novo = $resultado_novo->RecordCount();
 	if($quantidade_novo == 0) {
-	    echo "Aluno n�o cadastrado em est�gio <br />";
+	    echo "Aluno não cadastrado em estágio <br />";
 	    echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a>";
 	    exit;
 	}
 
-	while(!$resultado_novo->EOF) {
+	while (!$resultado_novo->EOF) {
 	    // $id_aluno = $resultado->fields['id'];
 	    $registro = $resultado_novo->fields['registro'];
 	    $nome = $resultado_novo->fields['nome'];
@@ -150,10 +151,10 @@ if ($quantidade == 0) {
 	    // Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 	    $nova_data = ereg_replace("-","/",$nascimento);
 	    // echo "Nova data: ". $nova_data . "<br>";
-	    $dataCorrigida = split("/",$nova_data);
+	    $dataCorrigida = explode("/",$nova_data);
 	    $data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 	    // echo $data_sql . "<br>";
-	
+
 	    $endereco = $resultado_novo->fields['endereco'];
 	    $cep = $resultado_novo->fields['cep'];
 	    $bairro = $resultado_novo->fields['bairro'];
@@ -165,7 +166,7 @@ if ($quantidade == 0) {
 	}
 }
 
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	// $id_aluno = $resultado->fields['id'];
 	$registro = $resultado->fields['registro'];
 	$nome = $resultado->fields['nome'];
@@ -181,10 +182,10 @@ while(!$resultado->EOF) {
 	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 	$nova_data = ereg_replace("-","/",$nascimento);
 	// echo "Nova data: ". $nova_data . "<br>";
-	$dataCorrigida = split("/",$nova_data);
+	$dataCorrigida = explode("/",$nova_data);
 	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 	// echo $data_sql . "<br>";
-	
+
 	$endereco = $resultado->fields['endereco'];
 	$cep = $resultado->fields['cep'];
 	$bairro = $resultado->fields['bairro'];
@@ -200,7 +201,7 @@ $sql_instituicoes = "select id, instituicao from estagio order by instituicao";
 $resposta_instituicoes = $db->Execute($sql_instituicoes);
 if($resposta_instituicoes === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 1;
-while(!$resposta_instituicoes->EOF) {
+while (!$resposta_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resposta_instituicoes->fields['id'];
     $instituicoes[$i]['instituicao'] = $resposta_instituicoes->fields['instituicao'];
     $resposta_instituicoes->MoveNext();
@@ -212,7 +213,7 @@ $sql_supervisores = "select id, nome from supervisores order by nome";
 $resposta_supervisores = $db->Execute($sql_supervisores);
 if($resposta_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
 $i = 1;
-while(!$resposta_supervisores->EOF) {
+while (!$resposta_supervisores->EOF) {
     $supervisores[$i]['id']   = $resposta_supervisores->fields['id'];
     $supervisores[$i]['nome'] = $resposta_supervisores->fields['nome'];
     $resposta_supervisores->MoveNext();

@@ -4,7 +4,7 @@
 
 <head>
 	<title>Lista de alunos conhecidos</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -37,10 +37,10 @@ function confirma() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-<h1>Lista de alunos que buscam mudar de estágio</h1>
+<h1>Lista de alunos que buscam mudar de estÃ¡gio</h1>
 
 <div align="center">
-<h1>São {$totalAlunos} alunos que estão buscando mudar de estágio</h1>
+<h1>SÃ£o {$totalAlunos} alunos que estÃ£o buscando mudar de estÃ¡gio</h1>
 </div>
 
 <div align="center">
@@ -56,9 +56,9 @@ function confirma() {
 	<th><a href="?ordem=email">Email</a></th>
 {/if}
 
-<th><a href="?ordem=estagio_periodo">Período</a></th>
-<th><a href="?ordem=nivel">Nivel</a></th>
-<th><a href="?ordem=instituicao">Instituicao na que está estagiando</a></th>
+<th><a href="?ordem=estagio_periodo">PerÃ­odo</a></th>
+<th><a href="?ordem=nivel">NÃ­vel</a></th>
+<th><a href="?ordem=instituicao">InstituiÃ§Ã£o na que estÃ¡ estagiando</a></th>
 </tr>
 
 {assign var = "i" value = 1}
@@ -74,7 +74,7 @@ function confirma() {
 <td style="text-align:center">{$inscritos[item].inscrito}</td>
 <td style="text-align:right">{$inscritos[item].registro}</td>
 <td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].flag}">{$inscritos[item].nome}</a></td>
-{* Omito os telefones se não está cadastrado *}
+{* Omito os telefones se nÃ£o estÃ¡ cadastrado *}
 {if $sistema_autentica == 1}
 	<td>{$inscritos[item].telefone}</td>
 	<td>{$inscritos[item].celular}</td>

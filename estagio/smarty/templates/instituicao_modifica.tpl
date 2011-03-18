@@ -3,7 +3,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Instituição</title>
+<title>InstituiÃ§Ã£o</title>
 </head>
 
 <body>
@@ -17,19 +17,19 @@
 <tbody>
 
 <tr>
-<td>Id instituição</td>
+<td>Id instituiÃ§Ã£o</td>
 <td>{$id_instituicao}</td>
 </tr>
 
 <tr>
-<td>Instituição</td>
+<td>InstituiÃ§Ã£o</td>
 <td>
 <input type="text" name="nome_instituicao" size="50" value="{$nome_instituicao}">
 </td>
 </tr>
 
 <tr>
-<td>Endereço</td>
+<td>EndereÃ§o</td>
 <td>
 <input type="text" name="endereco_instituicao" size="50" value="{$endereco_instituicao}">
 </td>
@@ -57,26 +57,26 @@
 </tr>
 
 <tr>
-<td>Benefícios</td>
+<td>BenefÃ­cios</td>
 <td>
 <input type="text" name="beneficio_instituicao" size="50" value="{$beneficio_instituicao}">
 </td>
 </tr>
 
 <tr>
-<td>Estágio no final de semana</td>
+<td>EstÃ¡gio no final de semana</td>
 
 <td>
 {if $fim_de_semana == 0}
-	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Não
+	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Nï¿½o
 	<input type="radio" name="fim_de_semana" value="1">Sim
 	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 1}
-	<input type="radio" name="fim_de_semana" value="0">Não
+	<input type="radio" name="fim_de_semana" value="0">Nï¿½o
 	<input type="radio" name="fim_de_semana" value="1" checked="{$fim_de_semana}">Sim
 	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 2}
-	<input type="radio" name="fim_de_semana" value="0">Não
+	<input type="radio" name="fim_de_semana" value="0">Nï¿½o
 	<input type="radio" name="fim_de_semana" value="1">Sim
 	<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
 {/if}
@@ -85,7 +85,7 @@
 </tr>
 
 <tr>
-<td>Área</td>
+<td>Ãrea</td>
 
 <td>
 <select name="area_instituicao" size="1">
@@ -99,7 +99,7 @@
 
 <tr>
 <td>
-	Convênio
+	ConvÃªnio
 </td>
 <td>
 	<input type="text" name='convenio' id='id_convenio' size='5' value='{$convenio}'>
@@ -107,7 +107,7 @@
 </tr>
 
 <tr>
-<td>Última turma</td>
+<td>Ãšltima turma</td>
 <td>{$turma}</td>
 </tr>
 

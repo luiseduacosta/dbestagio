@@ -26,7 +26,7 @@ while(!$resultado->EOF)
 	$matriz[$i]['instituicao']    = $resultado->fields['instituicao'];
 	$matriz[$i]['bolsa']          = $resultado->fields['bolsa'];
 	$matriz[$i]['turma'] = $resultado->fields['turma'];
-	
+
 	// Pego a area a partir do id da area
 	$id_area = $resultado->fields['area'];
 	if (empty($id_area)) {

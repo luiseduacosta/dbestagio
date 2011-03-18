@@ -15,7 +15,7 @@ Entrar
 <!-- Inicio de instituicao //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">INSTITUI«’ES
+<a class="box1" href="javascript:void(0)">INSTITUIÔøΩÔøΩES
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -26,15 +26,15 @@ Entrar
     <a class="box2" href="instituicoes/buscar/busca.php" target="_corpo">
     Buscar</a><br>
     <a class="box2" href="instituicoes/exibir/seleciona.php" target="_corpo">
-    Ver instituiÁ„o</a><br>
+    Ver institui√ß√£o</a><br>
     <a class="box2" href="instituicoes/exibir/ver_cada.php?indice=0" target="_corpo">
-    Ver c/instituiÁ„o</a><br>
+    Ver c/institui√ß√£o</a><br>
     <a class="box2" href="instituicoes/exibir/lista_todos.php" target="_corpo">
     Listar todas</a><br>
     <a class="box2" href="instituicoes/exibir/estagio_ativo.php" target="_corpo">
-    Est·gios ativos</a><br>
+    Est√°gios ativos</a><br>
     <a class="box2" href="instituicoes/exibir/estagio_beneficio.php" target="_corpo">
-    Est·gios c/benefÌcios</a><br>
+    Est√°gios c/benef√≠cios</a><br>
     <a class="box2" href="instituicoes/seleciona.php?opcao=cancela" target="_corpo">
     Cancelar</a>
 </div>
@@ -72,7 +72,7 @@ Entrar
 <!-- Areas //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">¡REAS
+<a class="box1" href="javascript:void(0)">√ÅREAS
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -98,7 +98,7 @@ Entrar
     <a class="box2" href="alunos/inserir/insere.php" target="_corpo">
     Inserir aluno novo</a><br>
     <a class="box2" href="alunos/inserir/seleciona.php" target="_corpo">
-    Inserir est·gio</a><br>
+    Inserir est√°gio</a><br>
     <a class="box2" href="alunos/atualizar/seleciona.php" target="_corpo">
     Modificar</a><br>
     <a class="box2" href="alunos/exibir/listar.php" target="_corpo">
@@ -118,12 +118,12 @@ Entrar
 <!-- Imprimir //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">IMPRIMIR CAT¡LOGO
+<a class="box1" href="javascript:void(0)">IMPRIMIR CATÔøΩLOGO
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
     <a class="box2" href="imprimir/listagem.php" target="_corpo">
-    Imprimir cat·logo</a>
+    Imprimir cat√°logo</a>
 </div>
 </td>
 </tr>
@@ -131,7 +131,7 @@ Entrar
 
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">MURAL DE EST¡GIOS
+<a class="box1" href="javascript:void(0)">MURAL DE ESTÔøΩGIOS
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -155,9 +155,9 @@ Entrar
 </a>
 <div class="section">
     <a class="box2" href="curso/capa.html" target="_corpo">
-    ApresentaÁ„o</a><br />
+    Apresenta√ß√£o</a><br />
     <a class="box2" href="curso/inscricao_supervisores.php" target="_corpo">
-    InscriÁ„o</a><br />
+    Inscri√ß√£o</a><br />
     <a class="box2" href="curso/inscricao_lista.php" target="_corpo">
     Lista inscritos</a><br />
     <a class="box2" href="curso/seleciona.php" target="_corpo">
@@ -197,7 +197,7 @@ clickMenu1.init();
 	</tr>
 	<tr>
 	    <td class="coluna_centralizada">
-		<a href="mailto:estagio@ess.ufrj.br?Subject=Cat·logo de instituiÁıes e supervisores">CoordenaÁ„o de est·gio</a>
+		<a href="mailto:estagio@ess.ufrj.br?Subject=CatÔøΩlogo de instituiÔøΩÔøΩes e supervisores">CoordenaÔøΩÔøΩo de estÔøΩgio</a>
 	    </td>
 	</tr>
     </tbody>

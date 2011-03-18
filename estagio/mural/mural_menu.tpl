@@ -6,20 +6,20 @@
 <!-- Inicio de instituicao //-->
 <tr>
 <td>
-<a class="item1 left" href="javascript:void(0)">ADMINISTRA«√O</a>
+<a class="item1 left" href="javascript:void(0)">ADMINISTRA√á√ÉO</a>
 <div class="section">
     <a class="item2" href="mural_inserir.php" target="_corpo">
     Inserir</a>
     <a class="item2" href="seleciona.php?opcao=modificar" target="_corpo">
     Modificar</a>
     <a class="item2" href="ver_cada.php?indice=0" target="_corpo">
-    Ver cada instituiÁ„o</a>
+    Ver cada institui√ß√£o</a>
     <a class="item2" href="ver-mural.php" target="_corpo">
-    Listar todas instituiÁıes</a>
+    Listar todas institui√ß√µes</a>
     <a class="item2" href="lista-alunos.php" target="_corpo">
     Listar alunos</a>
     <a class="item2" href="alunosConhecidos.php" target="_corpo">
-    Alunos mudam de est·gio</a>
+    Alunos mudam de est√°gio</a>
     <a class="item2" href="seleciona.php?opcao=cancela" target="_corpo">
     Excluir</a>
     <a class="item2" href="sair.php" target="_corpo">
@@ -49,7 +49,7 @@
 </a>
 <div class="section">
     <a class="box2" href="imprimir/listagem.php" target="_corpo">
-    Imprimir cat·logo</a>
+    Imprimir cat√°logo</a>
 </div>
 </td>
 </tr>

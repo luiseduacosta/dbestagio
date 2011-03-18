@@ -8,7 +8,7 @@ $registro = isset($_REQUEST['registro']) ? (int)$_REQUEST['registro'] : NULL;
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? (int)$_REQUEST['id_instituicao'] : NULL;
 $aluno = isset($_REQUEST['aluno']) ? $_REQUEST['aluno'] : NULL;
 
-// echo "Dados recebidos para atualização: " . $id_aluno . " " . $registro . " " . $instituicao . " " . $num_instituicao .  " ". $aluno . "<br>";
+// echo "Dados recebidos para atualizaÃ§ao: " . $id_aluno . " " . $registro . " " . $instituicao . " " . $num_instituicao .  " ". $aluno . "<br>";
 // die;
 
 $sql = "select instituicao from mural_estagio where id='$id_instituicao'";
@@ -16,18 +16,18 @@ $sql = "select instituicao from mural_estagio where id='$id_instituicao'";
 $resultado = $db->Execute($sql);
 $instituicao = $resultado->fields['instituicao'];
 
-// Se aluno = 0 aluno eh novo, se aluno = 1 aluno já conhecido
+// Se aluno = 0 aluno eh novo, se aluno = 1 aluno ja conhecido
 /*
 if ($aluno == 0) {
 		echo "Aluno novo";
 } elseif ($aluno == 1) {
-		echo "Aluno já conhecido";
+		echo "Aluno ja conhecido";
 }
 */
 
-// Se não eh um aluno "novo" busco os estágios já cursados
+// Se nao eh um aluno "novo" busco os estagios ja cursados
 if ($aluno == 1) {
-		// Pego esta informação para fazer a tabela dos anteriores estágios
+		// Pego esta informaÃ§ao para fazer a tabela dos anteriores estagios
 		$sql  = "SELECT estagiarios.id, estagiarios.periodo, estagiarios.nivel, estagiarios.turno, " .
 		"estagio.instituicao, supervisores.nome " .
 		"FROM estagiarios " .
@@ -40,7 +40,7 @@ if ($aluno == 1) {
 		"order by estagiarios.periodo";
 		// echo $sql . "<br>";
 		$resultado = $db->Execute($sql);
-		if($resultado === false) die ("Não foi possível consultar as tabelas estagiarios, estagio, supervisores");
+		if($resultado === false) die ("Nao foi possivel consultar as tabelas estagiarios, estagio, supervisores");
 		$i = 0;
 		while(!$resultado->EOF) {
 				$estagiarios[$i]['id']          = $resultado->fields['id'];
@@ -54,7 +54,7 @@ if ($aluno == 1) {
 				$i++;
 		}
 
-		// Capturo a informação sobre o aluno
+		// Capturo a informaÃ§Ã£o sobre o aluno
 		// $sql_alunos = "select id, registro, nome, telefone, celular, email from alunos where registro='$registro'";
 		$sql_alunos = "select id, registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, endereco, cep, municipio, bairro, observacoes from alunos where registro='$registro'";
 } elseif ($aluno == 0) {
@@ -65,8 +65,8 @@ if ($aluno == 1) {
 // echo $sql_alunos . "<br>";
 
 $resultado_alunos = $db->Execute($sql_alunos);
-if($resultado_alunos === false) die ("Não foi possível consultar a tabela alunos ou alunosNovos");
-while(!$resultado_alunos->EOF) {
+if ($resultado_alunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos ou alunosNovos");
+while (!$resultado_alunos->EOF) {
     $aluno_id              = $resultado_alunos->fields['id'];
     $aluno_registro        = $resultado_alunos->fields['registro'];
     $aluno_nome            = $resultado_alunos->fields['nome'];
@@ -104,7 +104,7 @@ $smarty->assign("sistema_autentica",$sistema_autentica);
 
 // Tabela de estagios anteriores
 $smarty->assign("estagiarios",$estagiarios);
-// Tabela inserir novo estágio
+// Tabela inserir novo estï¿½gio
 $smarty->assign("aluno",$aluno);
 
 $smarty->assign("id_aluno",$id_aluno);
@@ -130,7 +130,7 @@ $smarty->assign("observacoes",$aluno_observacoes);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("id_instituicao",$id_instituicao);
 
-$smarty->display("mural-alunos_modifica.tpl");
+$smarty->display("../../mural/mural-alunos_modifica.tpl");
 
 exit;
 

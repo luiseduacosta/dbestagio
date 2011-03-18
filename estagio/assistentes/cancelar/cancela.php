@@ -13,7 +13,7 @@ $resultado = $db->Execute($sql);
 $quantidade = $resultado->RecordCount();
 if($quantidade != 0) {
 	echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
-	die ("Não é possível excluir o supervisor porque orientou $quantidade alunos");
+	die ("NÃ£o Ã© possÃ­vel excluir o supervisor porque orientou $quantidade alunos");
 }
 
 // Nao excluir se realizou o curso para supervisores
@@ -25,27 +25,29 @@ if (ctype_digit($cress)) {
 	$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
 	// echo $sqlcurso . "<br />";
 	$supervisores_curso = $db->Execute($sqlcurso);
-	if($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
+	if($supervisores_curso === false) die ("NÃ£o foi possivel consultar a tabela curso_inscricao_supervisores");
 	$id_curso = $supervisores_curso->fields['id'];
 	if(isset($id_curso)) {
 		// echo "Id curso: " . $id_curso . "<br>";
 		// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
-		// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
+		// die ("NÃ£o Ã© possÃ­vel excluir o supervisor porque realizou inscriÃ§Ã£o para o curso para supervisores");
 	}
-	echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
-	die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
+	if ($cress != 0) {
+		echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+		die ("NÃ£o Ã© possÃ­vel excluir o supervisor porque tem nÃºmero de CRESS cadastrado");
+	}
 }
 
 $sql = "delete from supervisores where id=$id_supervisor";
 // echo $sql. "<br>";
 // die;
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possível cancelar o registro da tabela supervisores");
+if($resultado == false) die ("NÃ£o foi possÃ­vel cancelar o registro da tabela supervisores");
 
 // Obtengo as instituicoes na que trabalha o supervisor
 $sql_estagio = "select * from inst_super where id_supervisor=$id_supervisor";
 $res_estagio = $db->Execute($sql_estagio);
-if($res_estagio === false) die ("Não foi possível consultar a tabela inst_super");
+if($res_estagio === false) die ("NÃ£o foi possÃ­vel consultar a tabela inst_super");
 $q_inst_super = $res_estagio->RecordCount();
 // echo $q_inst_super . "<br>";
 // Se nao este em nenhuma instituicao sair
@@ -72,7 +74,7 @@ for ($i=0; $i<$q_instituicoes; $i++) {
 // Excluo tambem a relacao entre o supervisor e a instituicao
 $sql_inst_super = "delete from inst_super where id_supervisor=$id_supervisor";
 $res_inst_super = $db->Execute($sql_inst_super);
-if($res_inst_super === false) die ("Não foi possível cancelar o registro da tabela inst_super");
+if($res_inst_super === false) die ("NÃ£o foi possÃ­vel cancelar o registro da tabela inst_super");
 
 // echo "<p>Registro cancelado</p>";
 // echo "Indice " . $indice . "<br>";

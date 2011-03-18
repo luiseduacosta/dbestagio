@@ -9,7 +9,7 @@ if(empty($ordem))
 	$ordem = "instituicao";
 else
   	$indice = $ordem;
-	
+
 $smarty = new Smarty_estagio;
 
 $sql_turma = "select max(periodo) as turma from estagiarios";
@@ -37,7 +37,7 @@ while(!$resultado->EOF) {
   	$area           = $resultado->fields['area'];
 	$beneficio      = $resultado->fields['beneficio'];
   	$convenio       = $resultado->fields['convenio'];
-  	
+
   	// echo $convenio . "<br>";
   	$resultado->MoveNext();
 
@@ -59,7 +59,7 @@ while(!$resultado->EOF) {
     if($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
     $q_turma = $resultado_turma->RecordCount();
     // echo $q_turma . "<br>";
-	if ($q_turma != 0) { 
+	if ($q_turma != 0) {
     	while(!$resultado_turma->EOF) {
 			$turma = $resultado_turma->fields['turma'];
     		// echo $turma . "<br>";
@@ -84,11 +84,11 @@ while(!$resultado->EOF) {
 reset($matriz);
 sort($matriz);
 
-/* Debugg 
+/* Debugg
 for($i=0;$i<sizeof($matriz);$i++)
 {
 
- print $matriz[$i]['id'] . " ";      
+ print $matriz[$i]['id'] . " ";
  print $matriz[$i]['nome'] . " ";
  print $matriz[$i]['instituicao'] . "<br>";
 }

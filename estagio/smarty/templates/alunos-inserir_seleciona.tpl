@@ -8,6 +8,8 @@
 function seleciona() 
 {
     var id_valor = document.seleciona_aluno.id_aluno.value;
+    var id_valor = getElementById("id_aluno");
+    /* alert("id_valor"); */
     document.location.href="verifica.php?id_aluno=" + id_valor;
     return false;
 }

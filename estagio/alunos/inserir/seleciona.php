@@ -2,7 +2,6 @@
 
 include_once("../../autentica.inc");
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $origem = $_SERVER['HTTP_REFERER'];
@@ -11,7 +10,7 @@ $smarty = new Smarty_estagio;
 
 $sql = "select * from alunos order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 
 $i = 0;
 while(!$resultado->EOF) {

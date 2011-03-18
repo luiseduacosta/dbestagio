@@ -43,7 +43,7 @@ value={$num_supervisor[elemento]}>{$nome_supervisor[elemento]|truncate:50}</opti
 </tr>
 
 <tr>
-<td>Instituição</td>
+<td>InstituiÃ§Ã£o</td>
 <td>
 <select name="id_instituicao" id="id_instituicao">
 {html_options values=$num_instituicao selected=$id_instituicao output=$instituicao|truncate:50}

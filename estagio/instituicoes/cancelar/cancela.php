@@ -1,7 +1,7 @@
 <?php
 
 include_once("../../autentica.inc");
-include_once("../../db.inc");
+include_once("../../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
 // echo "id " . $id_instituicao . "<br";

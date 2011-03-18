@@ -26,7 +26,7 @@ function carrega_tabela() {
 
 {if empty($id_instituicao)}
 	<select name='turma' id='turma' onChange="return carrega_tabela();">
-	<option value='0'>Selecione período</option>
+	<option value='0'>Selecione perÃ­odo</option>
 	<option value='0'>Todos</option>
 	{section name=i loop=$periodos}
 	<option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -39,7 +39,7 @@ function carrega_tabela() {
 	{if $turma}
 	<a href='email.php?periodo={$turma}'>E-mail</a>
 	<br>
-	<a href='email_super_alunos.php?periodo={$turma}'>E-mail solicitação de cadastro de supervisor</a>
+	<a href='email_super_alunos.php?periodo={$turma}'>E-mail solicitaÃ§Ã£o de cadastro de supervisor</a>
 	{/if}
 	<br>
 {/if}
@@ -53,13 +53,13 @@ function carrega_tabela() {
 <th>Id</th>
 <th><a href=?turma={$turma}&ordem=cress>Cress</a></th>
 <th><a href=?turma={$turma}&ordem=nome>Supervisor</a></th>
-<th><a href=?turma={$turma}&ordem=q_periodos>Períodos</a></th>
+<th><a href=?turma={$turma}&ordem=q_periodos>PerÃ­odos</a></th>
 {if $sistema_autentica == 1}
 	<th><a href=?turma={$turma}&ordem=email>E-mail</a></th>
 	<th><a href=?turma={$turma}&ordem=celular>Celular</a></th>
 	<th><a href=?turma={$turma}&ordem=telefone>Telefone</a></th>
 {/if}
-<th><a href=?turma={$turma}&ordem=instituicao>Instituição</a></th>
+<th><a href=?turma={$turma}&ordem=instituicao>InstituiÃ§Ã£o</a></th>
 <th><a href=?turma={$turma}&ordem=turma>Turma</a></th>
 <th><a href=?turma={$turma}&ordem=id_curso>Curso</a></th>
 </tr>

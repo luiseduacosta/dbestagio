@@ -4,7 +4,7 @@
 function contar($db) {
 	$sql = "select id from professores where dataegresso = '0000-00-00' order by nome";
 	$resultado = $db->Execute($sql);
-	if ($resultado === false) die ("contar: Não foi possível consultar a tabela professores");
+	if ($resultado === false) die ("contar: NÃ£o foi possÃ­vel consultar a tabela professores");
 	$quantidade = $resultado->RecordCount();
 	
 	return $quantidade;
@@ -14,7 +14,7 @@ function contar($db) {
 function lugar($id_professor,$db) {
 	$sql_professor = "select id from professores where dataegresso = '0000-00-00' order by nome";
 	$resultado_professor = $db->Execute($sql_professor);
-	if ($resultado_professor === false) die ("lugar: Não foi possível consultar a tabela professores");
+	if ($resultado_professor === false) die ("lugar: NÃ£o foi possÃ­vel consultar a tabela professores");
 	$lugar = 0;
 	while (!$resultado_professor->EOF)	{
 		$num_professor = $resultado_professor->fields['id'];
@@ -28,9 +28,10 @@ function lugar($id_professor,$db) {
 }
 
 function ver_cada($indice,$db) {
-	$sql = "select id, nome from professores where dataegresso = '0000-00-00' order by nome";
+	$sql = "select id, nome from professores where dataegresso IS NULL order by nome";
+	// echo $sql . "<br>";
 	$resultado = $db->SelectLimit($sql,1,$indice);
-	if ($resultado === false) die ("ver_cada: Não foi possível consultar a tabela professores");	
+	if ($resultado === false) die ("ver_cada: NÃ£o foi possÃ­vel consultar a tabela professores");	
 	while (!$resultado->EOF) {
 		$professor['id'] = $resultado->fields['id'];
 		$professor['nome'] = $resultado->fields['nome'];
@@ -45,7 +46,7 @@ function instituicao($id_professor,$db) {
 	$sql_instituicao = "select estagio.id, estagio.instituicao from estagio inner join estagiarios on estagio.id = estagiarios.id_instituicao where estagiarios.id_professor = $id_professor group by instituicao";	
 	// echo $sql_instituicao . "<br>";
 	$resultado = $db->Execute($sql_instituicao);
-	if ($resultado === false) die ("institucao: Não foi possível consultar as tabelas estagio e estagiarioes");
+	if ($resultado === false) die ("institucao: NÃ£o foi possÃ­vel consultar as tabelas estagio e estagiarios");
 	$i = 0;
 	while (!$resultado->EOF) {
 
@@ -70,7 +71,7 @@ function alunos($id_professor,$db,$ordem="nome") {
 			" order by $ordem";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
-	if ($resultado === false) die ("alunos: Não foi possível consultar as tabelas alunos, estagiarios e estagio");
+	if ($resultado === false) die ("alunos: NÃ£o foi possÃ­vel consultar as tabelas alunos, estagiarios e estagio");
 	$i = 0;
 	while (!$resultado->EOF) {
 		$alunos[$i]['id_aluno'] = $resultado->fields['id'];

@@ -1,14 +1,13 @@
 <?php
 
-// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.turno, estagiarios.nivel, estagiarios.id_supervisor, estagiarios.id_instituicao ";
-$sql .= "from alunos, estagiarios where alunos.id=estagiarios.id_aluno order by nome";
+$sql .= "from alunos, estagiarios where alunos.id = estagiarios.id_aluno order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nâo foi possível consultar a tabela alunos"); 
+if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 $i = 1;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
     $aluno_super[$i]['id_aluno']       = $resultado->fields['id'];
     $aluno_super[$i]['registro']       = $resultado->fileds['registro'];
     $aluno_super[$i]['aluno']          = $resultado->fields['nome'];
@@ -23,8 +22,8 @@ while(!$resultado->EOF) {
 
     $sql_supervisores = "select cress, nome from supervisores where id=$id_supervisor";
     $resultado_supervisores = $db->Execute($sql_supervisores);
-    if($resultado_supervisores === false) die ("Não foi possível consultar a tabela supervisores");
-    while(!$resultado_supervisores->EOF) {
+    if ($resultado_supervisores === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
+    while (!$resultado_supervisores->EOF) {
         $aluno_super[$i]['cress']      = $resultado_supervisores->fields['cress'];
         $aluno_super[$i]['supervisor'] = $resultado_supervisores->fields['nome'];
         $resultado_supervisores->MoveNext();

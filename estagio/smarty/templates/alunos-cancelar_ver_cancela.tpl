@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Ver aluno antes de ser cancelado</title>
   <meta content="author" name="Luis Acosta">
 <style type="text/css">
@@ -16,7 +16,7 @@ function verifica() {
 		// alert("Motivo vazio" + motivo);
 	} else {
 		if (motivo == 0) {
-			alert("Registro não foi excluido por estar relacionadao com estágios. Exclua primeiramente os estágios para logo poder excluir o aluno ");
+			alert("Registro nï¿½o foi excluido por estar relacionadao com estï¿½gios. Exclua primeiramente os estï¿½gios para logo poder excluir o aluno ");
 			} else {
 			// alert("Registro cancelado!! " + motivo);
 			}
@@ -30,7 +30,7 @@ function confirma() {
 	if(resposta) {
 		return true;
 	} else {
-		alert("Ação abortada!");
+		alert("Aï¿½ï¿½o abortada!");
 		return false;
 	}
 }
@@ -45,9 +45,9 @@ function confirma() {
 </form>
 
 {if $nivel eq 4}
-<p>Aluno de Estágio IV</p>
+<p>Aluno de EstÃ¡gio IV</p>
 {else}
-<p>Aluna(o) {$aluno} ainda não finalizou estágio</p>
+<p>Aluna(o) {$aluno} ainda nÃ£o finalizou estÃ¡gio</p>
 {/if}
 
 <div align="center">
@@ -56,7 +56,7 @@ function confirma() {
 
 <tr>
 <td width="20%">{$id_aluno}</td>
-<td widht="80%">Alunos estagiários</td>
+<td widht="80%">Alunos estagiÃ¡rios</td>
 </tr>
 
 <tr>
@@ -73,27 +73,27 @@ function confirma() {
 <td>Nivel: </td>
 <td>
 {if $nivel eq "1"}
-    Estágio I   <input type="radio" name="nivel" value="1" checked>
-    Estágio II  <input type="radio" name="nivel" value="2">
-    Estágio III <input type="radio" name="nivel" value="3">
-    Estágio IV  <input type="radio" name="nivel" value="4">
+    EstÃ¡gio I   <input type="radio" name="nivel" value="1" checked>
+    EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+    EstÃ¡gio III <input type="radio" name="nivel" value="3">
+    EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 {elseif $nivel eq "2"}
-    Estágio I   <input type="radio" name="nivel" value="1">
-    Estágio II  <input type="radio" name="nivel" value="2" checked>
-    Estágio III <input type="radio" name="nivel" value="3">
-    Estágio IV  <input type="radio" name="nivel" value="4">
+    EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+    EstÃ¡gio II  <input type="radio" name="nivel" value="2" checked>
+    EstÃ¡gio III <input type="radio" name="nivel" value="3">
+    Estï¿½gio IV  <input type="radio" name="nivel" value="4">
 {elseif $nivel eq "3"}
-    Estágio I   <input type="radio" name="nivel" value="1">
-    Estágio II  <input type="radio" name="nivel" value="2">
-    Estágio III <input type="radio" name="nivel" value="3" checked>
-    Estágio IV  <input type="radio" name="nivel" value="4">
+    EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+    EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+    EstÃ¡gio III <input type="radio" name="nivel" value="3" checked>
+    EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 {elseif $nivel eq "4"}
-    Estágio I   <input type="radio" name="nivel" value="1">
-    Estágio II  <input type="radio" name="nivel" value="2">
-    Estágio III <input type="radio" name="nivel" value="3">
-    Estágio IV  <input type="radio" name="nivel" value="4" checked>
+    EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+    EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+    EstÃ¡gio III <input type="radio" name="nivel" value="3">
+    EstÃ¡gio IV  <input type="radio" name="nivel" value="4" checked>
 {else}
-    Sem informação
+    Sem informaÃ§Ã£o
 {/if}
 </td>
 </tr>
@@ -108,13 +108,13 @@ function confirma() {
     Diurno:  <input type="radio" name="turno" value="D">
     Noturno: <input type="radio" name="turno" value="N" checked>
 {else}
-    Sem informação
+    Sem informaÃ§Ã£o
 {/if}
 </td>
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>InstituiÃ§Ã£o:</td>
 <td><a href="../../instituicoes/exibir/exibir.php?id_instituicao={$id_instituicao}">{$instituicao}</a></td>
 </tr>
 

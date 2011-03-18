@@ -4,7 +4,7 @@
 
 <head>
 	<title>Lista de alunos inscritos</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -43,10 +43,10 @@ $("#link").toggle(function() {
 <a href="#" id="link">Clica aqui</a>
 *}
 
-<h1>Lista de alunos que buscam estágio</h1>
+<h1>Lista de alunos que buscam estÃ¡gio</h1>
 
 <div align="center">
-<h1>São {$totalAlunos} alunos que estão buscando estágio</h1>
+<h1>SÃ£o {$totalAlunos} alunos que estÃ£o buscando estÃ¡gio</h1>
 </div>
 
 <div align="center">
@@ -56,11 +56,11 @@ $("#link").toggle(function() {
 		<th><a href='?ordem=inscrito'>TC</a></th>
 		<th><a href='?ordem=data_ingresso'>Ingresso</a></th>
 		<th><a href='?ordem=turno'>Turno</a></th>
-		<th><a href='?ordem=nivel'>Nível {$periodo_atual}</a></th>
+		<th><a href='?ordem=nivel'>NÃ­vel {$periodo_atual}</a></th>
 		<th><a href='?ordem=registro'>DRE</a></th>
 		<th><a href='?ordem=nome'>Nome</a></th>
 		<th><a href='?ordem=quantidade'>Quantidade</a></th>
-		<th><a href='?ordem=data_ultima'>Última data</a></th>
+		<th><a href='?ordem=data_ultima'>Ãšltima data</a></th>
 		{if $sistema_autentica == 1}
 			<th>Telefone</th>
 			<th>Celular</th>
@@ -86,14 +86,14 @@ $("#link").toggle(function() {
 <td style="text-align:center;">{$alunos[i].quantidade}</td>
 <td style="text-align:center;">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 
-{* Omito os telefones se não está autorizado *}
+{* Omito os telefones se nÃ£o estÃ¡ autorizado *}
 {if $sistema_autentica == 1}
 	<td style="text-align:center;">{$alunos[i].telefone}</td>
 	<td style="text-align:center;">{$alunos[i].celular}</td>
 	<td>{$alunos[i].email}</td>
 {/if}
 
-{* Omito os dados de cpf, identidade e data de nascimento se não está cadastrado *}
+{* Omito os dados de cpf, identidade e data de nascimento se nao esta cadastrado *}
 {if $sistema_autentica == 1}
 	<td style="text-align:center;"><a href="mural-excluir_aluno.php?id_aluno={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
 {/if}

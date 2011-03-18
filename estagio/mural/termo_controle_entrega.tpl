@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Controle de entrega de termo de compromisso</title>
 <style type="text/css">
 @import url("../estagio.css");
@@ -22,7 +22,7 @@
 
 <div align="center">
 <select name='periodo' id='periodo' size='1' onChange='return periodo();'>
-	<option value=0>Selecione período</option>
+	<option value=0>Selecione perÃ­odo</option>
 	{section name=i loop=$periodos}
 	<option value={$periodos[i].periodo}>{$periodos[i].periodo}</option>
 	{/section}
@@ -37,25 +37,25 @@
 {/if}
 
 <div align="center">
-<table border="1" summary="Tabela de controle de solicitação do Termo de Compromisso">
-	<caption>Controle de solicitação do termo de compromisso dos alunos que cursaram estágio no período {$periodo}</caption>
+<table border="1" summary="Tabela de controle de solicitaÃ§Ã£o do Termo de Compromisso">
+	<caption>Controle de solicitaÃ§Ã£o do termo de compromisso dos alunos que cursaram estÃ¡gio no perÃ­odo {$periodo}</caption>
 	<thead>
 		<tr>
 		<th>ID</th>
 		<th><a href=?ordem=registro&periodo={$periodo}>DRE</a></th>
 		<th><a href=?ordem=nome&periodo={$periodo}>Nome</a></th>
 		<th><a href=?ordem=nivel&periodo={$periodo}>Nivel</a></th>
-		<th><a href=?ordem=periodo&periodo={$periodo}>Período</a></th>
+		<th><a href=?ordem=periodo&periodo={$periodo}>PerÃ­odo</a></th>
 		<th><a href=?ordem=tc&periodo={$periodo}>TC</a></th>
-		<th><a href=?ordem=tc_solicitacao&periodo={$periodo}>Data solicitação</a></th>
+		<th><a href=?ordem=tc_solicitacao&periodo={$periodo}>Data solicitaÃ§Ã£o</a></th>
 		{if $sistema_autentica == 1}
 			<th><a href=?ordem=telefone&periodo={$periodo}>Telefone</a></th>
 			<th><a href=?ordem=celular&periodo={$periodo}>Celular</a></th>
 			<th><a href=?ordem=email&periodo={$periodo}>Email</a></th>
-			<th><a href=?ordem=observacoes&periodo={$periodo}>Observações</a></th>
+			<th><a href=?ordem=observacoes&periodo={$periodo}>ObservaÃ§Ãµes</a></th>
 		{/if}
 		{if $sistema_autentica == 1}
-			<th><a href=?ordem=observacoes&periodo={$periodo}>Observações</a></th>
+			<th><a href=?ordem=observacoes&periodo={$periodo}>ObservaÃ§Ãµes</a></th>
 		{/if}
 		</tr>
 	</thead>

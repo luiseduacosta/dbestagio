@@ -6,7 +6,6 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $id_supervisor = $_REQUEST['id_supervisor'];
@@ -24,7 +23,7 @@ $sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
 $sql .= " where id_supervisor=$id_supervisor order by $ordem";
 // echo $sql . "<br>";
 $alunos = $db->Execute($sql);
-if($alunos === false) die ("Não foi possível consultar a tabela estagiarios, alunos");
+if($alunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios, alunos");
 $i = 0;
 while (!$alunos->EOF) {
 	$estagiario[$i]['registro'] = $alunos->fields['registro'];

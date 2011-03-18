@@ -2,7 +2,6 @@
 
 include_once("../../autentica.inc");
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $smarty = new Smarty_estagio;
@@ -14,10 +13,9 @@ if(empty($id_area))
 $sql = "select * from areas_estagio where id=$id_area";
 $resultado = $db->Execute($sql);
 
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela areas_estagio");
 
-while(!$resultado->EOF)
-{
+while (!$resultado->EOF) {
     $area = $resultado->fields["area"];
     $resultado->MoveNext();
 }

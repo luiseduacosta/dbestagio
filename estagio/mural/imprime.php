@@ -14,11 +14,11 @@ if(!isset($id_instituicao)) {
 
 $sql = "select instituicao from mural_estagio where id=$id_instituicao";
 // echo $sql . "<br>";
-$resultado_instituicao = $db->Execute($sql);
-if($resultado_instituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
-while(!$resultado_instituicao->EOF) {
-    $instituicao = $resultado_instituicao->fields['instituicao'];
-    $resultado_instituicao->MoveNext();
+$res_instituicao = $db->Execute($sql);
+if($res_instituicao === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
+while(!$res_instituicao->EOF) {
+    $instituicao = $res_instituicao->fields['instituicao'];
+    $res_instituicao->MoveNext();
 }
 
 $sql = "SELECT id, id_aluno, data 
@@ -27,7 +27,7 @@ $sql = "SELECT id, id_aluno, data
 //echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_inscricao");
 $i = 0;
 while(!$resultado->EOF) {
 	$id = $resultado->fields['id'];
@@ -42,13 +42,13 @@ while(!$resultado->EOF) {
 	    group by estagiarios.registro";
 		// echo $sqlAlunos . "<br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . " ";
 		if ($quantidade == 0) {
 			$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 			$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-			if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+			if($resultadoAlunosNovos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 				while(!$resultadoAlunosNovos->EOF) {
 					$nome = $resultadoAlunosNovos->fields['nome'];
 					// echo "Novos " . $nome . "<br>";
@@ -99,9 +99,9 @@ if (sizeof($inscritos) != 0) {
 $pdf=new FPDF();
 $pdf->Open();
 
-$titulo = "Alunos inscritos para seleção de estágio";
+$titulo = "Alunos inscritos para seleÃ§Ã£o de estÃ©gio";
 $pdf->SetTitle($titulo);
-$pdf->SetAuthor("Coordenação de Estágio - ESS/UFRJ");
+$pdf->SetAuthor("CoordenaÃ§Ã£o de EstÃ¡gio - ESS/UFRJ");
 
 $pdf->AddPage();
 // $pdf->SetMargins(30,20,30);
@@ -116,22 +116,22 @@ $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,9,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
 $pdf->Ln(25);
 
-$cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
+$cabecalho2 = $pdf->GetStringWidth("Escola de ServiÃ§o Social");
 $pdf->SetX((210-$cabecalho2)/2);
-$pdf->Cell($cabecalho2,9,"Escola de Serviço Social",0,1,'C',0);
+$pdf->Cell($cabecalho2,9,"Escola de ServiÃ§o Social",0,1,'C',0);
 $pdf->Ln(40);
 
 $pdf->SetFont("Arial","","25");
-$cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio e Extensão");
+$cabecalho3 = $pdf->GetStringWidth("CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,9,"Coordenação de Estágio e Extensão",0,1,'C',0);
+$pdf->Cell($cabecalho3,9,"CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o",0,1,'C',0);
 $pdf->Ln(20);
 
 // $pdf->Image("LogoESS.jpg",95,120,20,20,jpg);
 // $pdf->Ln(10);
 
 $pdf->SetFont("Arial","","14");
-$subtitulo = "Alunos inscritos para seleção de estagio: " . $instituicao;
+$subtitulo = "Alunos inscritos para seleÃ§Ã£o de estagio: " . $instituicao;
 $cabecalho4 = $pdf->GetStringWidth($substitulo);
 $pdf->SetX((210-$cabecalho4)/2);
 $pdf->MultiCell(0,15,$subtitulo);
@@ -157,8 +157,8 @@ $pdf->Cell(0,0,$data,0,0,"C");
 
 $pdf->AddPage();
 
-$linha = 20; // Define o inicio da página
-$pagina = 0; // Conta a quantidade de registros. Cada 20 registros avança una página
+$linha = 20; // Define o inicio da pagina
+$pagina = 0; // Conta a quantidade de registros. Cada 20 registros avanÃ§a una pagina
 
 $pdf->SetXY(15,$linha);
 $pdf->Cell(0,5,"Registro");
