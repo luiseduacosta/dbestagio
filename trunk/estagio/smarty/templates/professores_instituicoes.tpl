@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-<title>Solicitação de termo de compromisso</title>
-<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+<title>SolicitaÃ§Ã£o de termo de compromisso</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta name="author" content="Luis Acosta">
@@ -23,7 +23,7 @@
 		<thead>
 			<tr>
 				<th>Professor</th>
-				<th>Instituição</th>
+				<th>InstituiÃ§Ã£o</th>
 			</tr>
 		</thead>
 		<tbody>

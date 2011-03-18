@@ -1,6 +1,5 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
@@ -8,11 +7,11 @@ $instituicao = isset($_REQUEST['instituicao']) ? htmlspecialchars($_REQUEST['ins
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 
 // echo "Registro: " . $registro . "<br>";
-// echo "Id instituiÁ„o : " . $id_instituicao . "<br>";
+// echo "Id instituicao : " . $id_instituicao . "<br>";
 // echo "Instituicao: " . $instituicao;
 
 if (!ctype_digit($registro)) {
-    die("Digite somente n˙meros ou tente com outro navegador: <a href=\"http://br.mozdev.org\">Firefox</a>");
+    die("Digite somente n√∫meros ou tente com outro navegador: <a href=\"http://br.mozdev.org\">Firefox</a>");
 }
 
 // Busco o registro entre os alunos estagiarios
@@ -21,16 +20,18 @@ $sql_estagiarios .= " where registro='$registro'";
 // echo $sql_estagiarios . "<br>";
 
 $resultado_estagiarios = $db->Execute($sql_estagiarios);
-if ($resultado_estagiarios === false) die ("N„o foi possÌvel consultar a tabela alunos");
+if ($resultado_estagiarios === false) die ("N√£o foi poss√≠vel consultar a tabela alunos");
 $quantidade_estagiarios = $resultado_estagiarios->RecordCount();
 // echo "Alunos estagiarios: " . $quantidade_estagiarios . "<br>";
 
+// Aluno cadastrado como novo
 if ($quantidade_estagiarios === 0) {
 	$sql = "select id from alunosNovos where registro='$registro'";
 	$resultado = $db->Execute($sql);
 	$quantidade = $resultado->RecordCount();
 	if ($quantidade > 0) {
-		// die("Aluno novo j· cadastrado como aluno novo");
+		// die("Aluno novo ja cadastrado como aluno novo");
+		// Solicitar senha aqui
 		echo "<meta http-equiv='refresh' content='1; URL=mural-alunos_modifica.php?registro=$registro&id_aluno=$id_aluno&id_instituicao=$id_instituicao&aluno=0'>";
 		exit;
 	} else {
@@ -41,9 +42,10 @@ if ($quantidade_estagiarios === 0) {
 		echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&id_instituicao=$id_instituicao'>";
 		die;
 	}
-	// Se est· cadastrado busco se j· est· estagiando
+// Aluno cadastrado como estagiario. Busco os estagios realizados
 } elseif ($quantidade_estagiarios > 0) {
-	// die("Aluno j· cadastrado como estagiario");
+	// die("Aluno ja cadastrado como estagiario. Solicitar senha");
+	// echo "Aluno ja cadastrado";
 	$periodo_atual = PERIODO_ATUAL;
 	$periodo_anterior = explode("-",$periodo_atual);
 	// print_r($periodo_anterior);
@@ -65,11 +67,11 @@ if ($quantidade_estagiarios === 0) {
 	// where registro = '$registro' and periodo < '" . PERIODO_ATUAL . "' order by periodo desc";
 	$sql_periodos .= "where registro = '$registro' order by periodo desc";
 	// echo $sql_periodos . "<br>";
-	
+
 	$resultado_periodo = $db->Execute($sql_periodos);
 	$quantidade = $resultado_periodo->RecordCount();
 	// echo $quantidade . "<br>";
-	if ($quantidade === 0) die("Error: Aluno estagiario sem est·gio? Informar para <a href='mailto:estagio@ess.ufrj.br?Subject=Error: estagiario (DRE: $registro) sem estagio '>estagio@ess.ufrj.br</a>");
+	if ($quantidade === 0) die("Error: Aluno estagiario sem est√°gio? Informar para <a href='mailto:estagio@ess.ufrj.br?Subject=Error: estagiario (DRE: $registro) sem estagio '>estagio@ess.ufrj.br</a>");
 	$i = 1;
 	while (!$resultado_periodo->EOF) {
 		$periodo = $resultado_periodo->fields['periodo'];
@@ -86,7 +88,7 @@ if ($quantidade_estagiarios === 0) {
 		$periodo_anterior = $resultado_periodo->fields['periodo'];
 		// echo $periodo_anterior . "<br>";
 		// if ($periodo_anterior = PERIODO_ATUAL) echo 'periodo atual';
-		
+
 		$i++;
 
 		// Somente o primeiro periodo anterior ao PERIODO ATUAL
@@ -94,17 +96,17 @@ if ($quantidade_estagiarios === 0) {
 			break;
 			// die("Registros capturados");
 		}
-			
+
 		$resultado_periodo->MoveNext();
 	}
 
 	// var_dump($nivel_periodo_anterior);
 	if ($nivel_periodo_anterior == 1 or $nivel_periodo_anterior == 3) {
 	    if ($periodo_anterior != PERIODO_ATUAL) {
-		echo $texto = "<h2>AtenÁ„o: aluno que cursou est·gio I ou III no perÌodo anterior</h2><p style='text-align:justify; background-color:#e7e1ae'>Prezada(o) aluna(o):<br><br>Clicando no bot„o embaixo sua solicitaÁ„o ser· processada, ainda que, pelas normas vigentes, alunos que cursaram est·gio I ou III no ˙ltimo perÌodo devem requerer autorizaÁ„o especial na CoordenaÁ„o de Est·gio e Extens„o para serem habilitados a trocar de est·gio antes do cumprimento de dois perÌodos consecutivos numa mesma instituiÁ„o.<br><br>Em caso de d˙vida entre em contacto atravÈs do e-mail <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a></p>";
+		echo $texto = "<h2>Aten√ß√£o: aluno que cursou est√°gio I ou III no per√≠odo anterior</h2><p style='text-align:justify; background-color:#e7e1ae'>Prezada(o) aluna(o):<br><br>Clicando no bot√£o embaixo sua solicita√ß√£o ser√° processada, ainda que, pelas normas vigentes, alunos que cursaram est√°gio I ou III no √∫ltimo per√≠odo devem requerer autoriza√ß√£o especial na Coordena√ß√£o de Est√°gio e Extens√£o para serem habilitados a trocar de est√°gio antes do cumprimento de dois per√≠odos consecutivos numa mesma institui√ß√£o.<br><br>Em caso de d√∫vida entre em contacto atrav√©s do e-mail <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a></p>";
 		echo "
 		<form action='mural-alunos_modifica.php' method='post'>
-		<input type='submit' name='submit' value='Confirmar inscriÁ„o'>
+		<input type='submit' name='submit' value='Confirmar inscri√ß√£o'>
 		<input type='hidden' name='registro' value='$registro'>
 		<input type='hidden' name='id_aluno' value='$id_aluno'>
 		<input type='hidden' name='aluno' value='1'>

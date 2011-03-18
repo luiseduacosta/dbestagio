@@ -4,7 +4,7 @@
 
 <head>
 	<title>Aluno atualiza mural</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -42,16 +42,16 @@
 {if $aluno == 1}
 	<div align="center" id="historico_estagios" style="visibility: visible">
 	<table border="1">
-	<caption>Histórico dos estágios cursados</caption>
+	<caption>HistÃ³rico dos estÃ¡gios cursados</caption>
 	<tr>
-	<th>Período</th>
-	<th>Estágio</th>
+	<th>PerÃ­odo</th>
+	<th>EstÃ¡gio</th>
 	<th>Turno</th>
-	<th>Instituição</th>
+	<th>InstituiÃ§Ã£o</th>
 	<th>Supervisor</th>
 	</tr>
 
-	{* Estágios cursados *}
+	{* EstÃ¡gios cursados *}
 	{section name=item loop=$estagiarios}
 	<tr>
 	<td style='text-align:center;'>{$estagiarios[item].periodo}</td>
@@ -69,10 +69,10 @@
 <div align="center" id="aluno_atualiza" style="visibility: visible">
 
 <table border="1" width="80%">
-<caption>Inscrições para seleção de estágio</caption>
+<caption>InscriÃ§Ãµes para seleÃ§Ã£o de estÃ¡gio</caption>
 <tbody>
 
-{* Inscrições realizadas *}
+{* InscriÃ§Ãµes realizadas *}
 {section name=i loop=$instituicoes}
 <tr>
 

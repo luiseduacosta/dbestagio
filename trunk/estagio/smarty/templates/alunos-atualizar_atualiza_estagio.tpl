@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Atualiza estagio</title>
   <meta content="author" name="Luis Acosta">
 <style type="text/css">
@@ -85,7 +85,7 @@ Termo de compromisso
 Periodo
 //-->
 <tr>
-<td>Período</td>
+<td>PerÃ­odo</td>
 <td>
 <input type="text" maxlength="6" size="6" name="periodo" value="{$periodo}">
 </td>
@@ -98,38 +98,38 @@ Nivel de estagio
 <td>Nivel:</td>
 {if $nivel eq 1}
 <td>
-Estágio I   <input type="radio" name="nivel" value="1" checked>
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1" checked>
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 {elseif $nivel eq 2}
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2" checked>
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+EstÃ¡gio II  <input type="radio" name="nivel" value="2" checked>
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 {elseif $nivel eq 3}
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3" checked>
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3" checked>
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 {elseif $nivel eq 4}
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4" checked>
+EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4" checked>
 </td>
 {else}
 <td>
-Estágio I   <input type="radio" name="nivel" value="1" checked>
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1" checked>
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 {/if}
 </tr>
@@ -161,7 +161,7 @@ Noturno <input type="radio" name="turno" value="N">
 Avaliacao
 //-->
 <tr>
-<td>Avaliacao</td>
+<td>AvaliaÃ§Ã£o</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="{$nota}">
 Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="{$ch}">
@@ -169,10 +169,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <!--
-Instituicao
+InstituiÃ§Ã£o
 //-->
 <tr>
-<td>Instituição:</td>
+<td>InstituiÃ§Ã£o:</td>
 
 <td>
 <select id="id_instituicao" name="id_instituicao" size="1" return onchange="seleciona_supervisor();">
@@ -236,7 +236,7 @@ Professor
 Area
 //-->
 <tr>
-<td>Área do professor:</td>
+<td>Ãrea do professor:</td>
 
 <td>
 <select name="id_area" size="1">

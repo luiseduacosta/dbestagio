@@ -35,9 +35,9 @@ function escolaImagem() {
 
 <div align="center">
 <strong>
-<font size="+2">Escola de ServiÁo Social</font>
+<font size="+2">Escola de Servi√ßo Social</font>
 <br />
-<font size="+2">CoordenaÁ„o de Est·gio e Extens&atilde;o</font>
+<font size="+2">Coordena√ß√£o de Est√°gio e Extens&atilde;o</font>
 </strong>
 
 <br />
@@ -47,11 +47,10 @@ Email: estagio@ess.ufrj.br
 </span>
  
 <p class="coluna_centralizada">
-<a href="http://www.ess.ufrj.br/estagio">
-<img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de ServiÁo Social/UFRJ" width="588" height="400">
+<a href="http://web.intranet.ess.ufrj.br/ocs/index.php/estagio/">
+<img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de Servi√ßo Social/UFRJ" width="588" height="400">
 </a>
 </p>
-
 
 </div>
 

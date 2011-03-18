@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-<title>Solicitação de termo de compromisso</title>
-<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+<title>SolicitaÃ§Ã£o de termo de compromisso</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta name="author" content="Luis Acosta">
@@ -18,16 +18,19 @@
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {
 	var registro;
-	tamanho_registro = document.seleciona_aluno.registro.value.length;
+	registro = document.getElementById("registro").value;
+	tamanho_registro = registro.length;
+	/* alert(tamanho_registro); */
 	if (tamanho_registro < 9) {
-		alert("O registro deve conter 9 dígitos");
+		alert("O registro deve conter 9 dÃ­gitos");
 		document.seleciona_aluno.registro.focus();
 		return false;
 		}
 	for (var i=0; i<9; i++) {
-		letra = document.seleciona_aluno.registro.value.charAt(i);
+		letra = document.getElementById("registro").value.charAt(i);
+		/* alert(letra); */
 		if (letra != "0" && letra != "1" && letra != "2" && letra != "3" && letra != "4" && letra != "5" && letra != "6" && letra != "7" && letra != "8" && letra != "9") {
-			alert("Digite números e não letras");
+			alert("Digite nÃºmeros e nÃ£o letras");
 			return false;
 			}
 	}
@@ -39,12 +42,12 @@ function verificaRegistro() {
 
 <body>
 
-<h1>Solicitação de termo de compromisso</h1>
+<h1>SolicitaÃ§Ã£o de termo de compromisso</h1>
 
-<p>O termo de compromisso somente pode ser solicitado pelos alunos que estão em condições regimentais de cursar Estágio e OTP.</p>
+<p>O termo de compromisso somente pode ser solicitado pelos alunos que estÃ£o em condiÃ§Ãµes regimentais de cursar EstÃ¡gio e OTP.</p>
 
-<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="atualiza_termo.php" enctype="text/html" onSubmit="return verificaRegistro();">
-<h2>Digite o número de registro (DRE):</h2>
+<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="atualiza_termo.php" onSubmit="return verificaRegistro();">
+<h2>Digite o nÃºmero de registro (DRE):</h2>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>

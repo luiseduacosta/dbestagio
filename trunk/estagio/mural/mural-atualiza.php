@@ -1,6 +1,6 @@
 <?php
 
-include_once("../db.inc");
+include_once("../setup.php");
 
 $id_instituicao = $_POST['id_instituicao'];
 $instituicao = $_POST['instituicao'];
@@ -35,7 +35,7 @@ $data_inscricao = date("Y-m-d",strtotime($dataInscricao));
 // echo "Id professor " . $id_professor  . "<br>";
 // echo "Horario " . $horario  . "<br>";
 // echo "Data selecao " . $dataSelecao  . "<br>";
-// echo "Horário selecao " . $horarioSelecao  . "<br>";
+// echo "HorArio selecao " . $horarioSelecao  . "<br>";
 // echo "Local selecao " . $localSelecao  . "<br>";
 // echo "Forma selecao " . $formaSelecao  . "<br>";
 // echo "Contato " . $contato  . "<br>";
@@ -66,7 +66,7 @@ $sql .= "where id='$id_instituicao'";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível atualizar a tabela mural_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel atualizar a tabela mural_estagio");
 
 header("Location: ver_cada.php?id_instituicao=$id_instituicao");
 

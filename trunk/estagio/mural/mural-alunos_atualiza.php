@@ -6,10 +6,9 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../db.inc");
 include_once("../setup.php");
 
-$aluno = $_REQUEST['aluno']; // Novo ou já conhecido
+$aluno = $_REQUEST['aluno']; // Novo ou ja conhecido
 $id_aluno = $_REQUEST['id_aluno'];
 $id_instituicao = $_REQUEST['id_instituicao'];
 
@@ -43,14 +42,14 @@ if (empty($codigo_celular)) {
 // echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
 // $nova_data = ereg_replace("-","/",$nascimento);
 // echo "Nova data: ". $nova_data . "<br>";
-// $dataCorrigida = split("/",$nova_data);
+// $dataCorrigida = explode("/",$nova_data);
 // $dataSQL = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 if (empty($nascimento))
 	$dataSQL = "";
 else
 	$dataSQL = date("Y-m-d",strtotime($nascimento));
 
-// Se não eh "novo" atualiza a tabela alunos
+// Se nï¿½o eh "novo" atualiza a tabela alunos
 if ($aluno == 1) {
 		$dbase = " alunos ";
 } elseif( $aluno == 0) {
@@ -77,7 +76,7 @@ $sql = "update " . $dbase . " set " .
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
+if($resultado === false) die ("NÃ£o foi possÃ­vel atualizar a tabela alunos ou a tabela alunosNovos");
 
 // Insere
 if(!empty($id_instituicao)) {
@@ -86,7 +85,7 @@ if(!empty($id_instituicao)) {
 		// Capturo o valor do PERIODO_ATUAL
 		$periodo = PERIODO_ATUAL;
 
-		// Teria que verificar aqui se o aluno já não fez inscricao nesta seleção
+		// Teria que verificar aqui se o aluno jï¿½ nï¿½o fez inscricao nesta seleï¿½ï¿½o
 		$sql = "select id from mural_inscricao where id_aluno='$registro' and id_instituicao='$id_instituicao' and periodo='$periodo'";
 		// echo $sql . "<br>";
 		$resultado = $db->Execute($sql);
@@ -101,7 +100,7 @@ if(!empty($id_instituicao)) {
 		// echo $sql_inserir . "<br>";
 		$resultadoInserir = $db->Execute($sql_inserir);
 
-		if($resultadoInserir === false) die ("Não foi possível inserir o registro na tabela mural_inscricao");
+		if($resultadoInserir === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela mural_inscricao");
 
 		header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
 

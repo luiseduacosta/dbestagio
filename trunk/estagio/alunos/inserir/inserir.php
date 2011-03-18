@@ -28,7 +28,7 @@ $municipio       = $_POST['municipio'];
 // echo "Cadastro " . $cadastro . "<br>";
 
 // Para salvar tenho que utilizar o formato aaaa/mm/dd/
-$novoNascimento = split("/",$nascimento);
+$novoNascimento = explode("/",$nascimento);
 $data_nascimento = $novoNascimento[2] . "-" . $novoNascimento[1] . "-" . $novoNascimento[0];
 
 if($cadastro == 0) {

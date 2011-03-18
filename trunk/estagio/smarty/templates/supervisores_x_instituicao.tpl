@@ -2,7 +2,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Supervisores por instituição</title>
+<title>Supervisores por instituiÃ§Ã£o</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 
 <div align="center">
 <table border="1">
-<caption>Supervisores da instituição: <a href="ver_cada.php?id_instituicao={$id_instituicao}">{$instituicao}</a></caption>
+<caption>Supervisores da instituiÃ§Ã£o: <a href="ver_cada.php?id_instituicao={$id_instituicao}">{$instituicao}</a></caption>
 <tbody>
 
 <tr>

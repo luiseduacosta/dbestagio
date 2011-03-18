@@ -1,6 +1,6 @@
 <?php
 
-// Apago os cookies que j· possam existir enviando um cookie sem valor
+// Apago os cookies que ja possam existir enviando um cookie sem valor
 setcookie("mural_usuario","");
 setcookie("mural_senha","");
 
@@ -25,7 +25,7 @@ setcookie("mural_senha","");
 
 <div align="center">
 <strong>
-<font size="+1">ESCOLA DE SERVI«O SOCIAL</font>
+<font size="+1">ESCOLA DE SERVI√áO SOCIAL</font>
 </strong>
 </div>
 
@@ -33,7 +33,7 @@ setcookie("mural_senha","");
 
 <div align="center">
 <strong>
-<font size="+1">CoordenaÁ„o de est·gio</font>
+<font size="+1">Coordena√ß√£o de est√°gio</font>
 </strong>
 </div>
 
@@ -43,7 +43,7 @@ setcookie("mural_senha","");
 <table align="center">
 
 <tr>
-<td>Usu·rio</td>
+<td>Usu√°rio</td>
 <td><input type="text" name="usuario_nome" id="nome_usuario" size="15"></td>
 </tr>
 

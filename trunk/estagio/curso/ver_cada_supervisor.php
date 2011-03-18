@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Dados de inscri&ccedil;&atilde;o para curso de supervisores</title>
 	<!-- Autocompletar //-->
 	<script type="text/javascript" src="../lib/jquery.js"></script>
@@ -49,25 +49,25 @@ function confirma() {
     instituicao=document.inscricao.instituicaoNova.value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("VocÃª precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("Ã‰ importante o seu e-mail para nossa comunicaÃ§Ã£o");
 	document.inscricao.email.focus();
 	return false;
 	}
 
     if(cress=="") {
-    	alert("Favor informar o seu número de registro no CRESS 7a. região");
+    	alert("Favor informar o seu nÃºmero de registro no CRESS 7a. regiÃ£o");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
     if(instituicao=="") {
-    	alert("Informe a instituição em que trabalha");
+    	alert("Informe a instituiÃ§Ã£o em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
 	}
@@ -79,7 +79,7 @@ function verifica_nome() {
     var nome;
     nome=document.inscricao.nome.value;
     if(nome=="") {
-	alert("Você precisa informar o seu nome");
+	alert("VocÃª precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 } else {
@@ -91,7 +91,7 @@ function verifica_email() {
     var email;
     email=document.inscricao.email.value;
     if(email=="") {
-	alert("É importante o e-mail para nossa comunicação");
+	alert("Ã‰ importante o e-mail para nossa comunicaÃ§Ã£o");
 	document.inscricao.email.focus();
 	return false;
 } else {
@@ -103,7 +103,7 @@ function verifica_cress() {
     var cress;
     cress=document.inscricao.cress.value;
     if(cress=="") {
-	alert("Você precisa informar o número de registro no CRESS 7a. região");
+	alert("VocÃª precisa informar o nÃºmero de registro no CRESS 7a. regiÃ£o");
 	document.inscricao.cress.focus();
 	return false;
 } else {
@@ -115,7 +115,7 @@ function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
     if(instituicao=="") {
-		alert("Você precisa informar a instituição na que trabalha");
+		alert("VocÃª precisa informar a instituiÃ§Ã£o na que trabalha");
 		document.inscricao.instituicaoNova.focus();
 		return false;
     } else {
@@ -135,7 +135,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
     if(quantidade > 9) {
-		alert("O limite do campo é de 9 carateres");
+		alert("O limite do campo Ã© de 9 carateres");
 	}
 }
 
@@ -151,7 +151,6 @@ function contacarateres() {
 
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 include_once("../autoriza.inc");
 
@@ -209,12 +208,12 @@ $sql .= " where curso_inscricao_supervisor.id='$id_supervisor'";
 // echo $sql . "<br>";
 
 $res_sql = $db->Execute($sql);
-if($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao_supervisor");
+if ($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao_supervisor");
 
 while (!$res_sql->EOF) {
 	$nome = $res_sql->fields['nome'];
 	$cpf = $res_sql->fields['cpf'];
-    $endereco = $res_sql->fields['endereco'];
+        $endereco = $res_sql->fields['endereco'];
 	$bairro = $res_sql->fields['bairro'];
 	$municipio = $res_sql->fields['municipio'];
 	$cep = $res_sql->fields['cep'];
@@ -251,7 +250,7 @@ while (!$res_sql->EOF) {
 
 <tr>
 <td colspan="2" class="rodape">
-<b>Dados de inscrição para o curso de supervisores</b>
+<b>Dados de inscriÃ§Ã£o para o curso de supervisores</b>
 </td>
 </tr>
 
@@ -289,7 +288,7 @@ if ($sistema_autentica == 1) {
     </tr>
 
 	<tr>
-	<td>Endereço: </td>
+	<td>EndereÃ§o: </td>
 	<td>
 	<?php
 	if ($submit) {
@@ -320,7 +319,7 @@ if ($sistema_autentica == 1) {
 	</tr>
 	
 	<tr>
-	<td>Município: </td>
+	<td>MunicÃ­pio: </td>
 	<td>
 	<?php
 	if ($submit) {
@@ -356,7 +355,7 @@ if ($sistema_autentica == 1) {
 	<?php
 	if ($submit) {
 		echo "
-		Código: <input type='text' name='codigo_tel' id='codigo_tel' maxlength='2' size='2' value='$codigo_tel'>
+		CÃƒÂ³digo: <input type='text' name='codigo_tel' id='codigo_tel' maxlength='2' size='2' value='$codigo_tel'>
 		<input type='text' name='telefone' id='telefone' value='$telefone' maxlength='9' size='9'>
 		";
 	} else {
@@ -372,7 +371,7 @@ if ($sistema_autentica == 1) {
 	<?php
 	if ($submit) {
 		echo "
-		Código: <input type='text' name='codigo_cel' id='codigo_cel' maxlength='2' size='2' value='$codigo_cel'>
+		CÃƒÂ³digo: <input type='text' name='codigo_cel' id='codigo_cel' maxlength='2' size='2' value='$codigo_cel'>
 		<input type='text' name='celular' id='celular' value='$celular' maxlength='9' size='9'>
 		";
 	} else {
@@ -438,7 +437,7 @@ if ($submit) {
 if ($submit) {
 	echo "
 	<input type='text' name='cress' id='cress' value='$cress' maxlength='6' size='6' onBlur='return verifica_cress();'>
-	<span style='text-align:right'>Região: </span><input type='text' name='regiao' id='regiao' maxlength='2' size='1' value='$regiao'>
+	<span style='text-align:right'>RegiÃ£o: </span><input type='text' name='regiao' id='regiao' maxlength='2' size='1' value='$regiao'>
 	";
 } else {
 	echo $cress;
@@ -451,10 +450,10 @@ if ($submit) {
 <td>Outros estudos realizados:</td>
 
 <?php
-if ($outros_estudos == 'especialização') {
+if ($outros_estudos == 'especializaÃ§Ã£o') {
 	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\" checked>
+		<td>EspecializaÃ§Ã£o:
+		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especializaÃ§Ã£o\" checked>
 		Mestrado:
 		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
 		Doutorado
@@ -463,8 +462,8 @@ if ($outros_estudos == 'especialização') {
 		";
 } elseif ($outros_estudos == 'mestrado') {
 	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+		<td>EspecializaÃ§Ã£o:
+		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especializaÃ§Ã£o\">
 		Mestrado:
 		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\" checked>
 		Doutorado
@@ -473,8 +472,8 @@ if ($outros_estudos == 'especialização') {
 		";
 } elseif ($outros_estudos == 'doutorado') {
 	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+		<td>EspecializaÃ§Ã£o:
+		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especializaÃ§Ã£o\">
 		Mestrado:
 		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
 		Doutorado
@@ -483,8 +482,8 @@ if ($outros_estudos == 'especialização') {
 		";
 } else {
 	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+		<td>EspecializaÃ§Ã£o:
+		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especializaÃ§Ã£o\">
 		Mestrado:
 		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
 		Doutorado
@@ -498,7 +497,7 @@ if ($outros_estudos == 'especialização') {
 </tr>
 
 <tr>
-<td>Área em que foi realizado o curso anteriormente mencionado</td>
+<td>Ãrea em que foi realizado o curso anteriormente mencionado</td>
 <td>
 <?php
 if ($submit) {
@@ -513,7 +512,7 @@ if ($submit) {
 </tr>
 
 <tr>
-<td>Ano em que foi concluí­do o curso</td>
+<td>Ano em que foi concluÃ­do o curso</td>
 <td>
 <?php
 if ($submit) {
@@ -531,39 +530,39 @@ if ($submit) {
 <td>Dados do curso:</td>
 <td>
 <?php 
-echo 'Número de inscrição: ' . $num_inscricao . ' Turma: ' . $curso_turma;
+echo 'NÃºmero de inscriÃ§Ã£o: ' . $num_inscricao . ' Turma: ' . $curso_turma;
 ?>
 </td>
 </tr>
 
 <tr>
-<td>Seleção (0 = não; 1 = sim; 2 = espera)</td>
+<td>SeleÃ§Ã£o (0 = nÃ£o; 1 = sim; 2 = espera)</td>
 <td>
 <?php 
 // echo $submit ." " . $selecao;
 if ($submit) {
 	if ($selacao == '0') {
 		echo "
-	       <input type='radio' name='selecao' id='selecao' value='0' checked>Não
+	       <input type='radio' name='selecao' id='selecao' value='0' checked>NÃ£o
 	       <input type='radio' name='selecao' id='selecao' value='1'>Sim
                <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";
 	} elseif ($selecao == '1') {
 		echo "
-		<input type='radio' name='selecao' id='selecao' value='0'>Não
+		<input type='radio' name='selecao' id='selecao' value='0'>NÃ£o
 		<input type='radio' name='selecao' id='selecao' value='1' checked>Sim
                 <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";
 	} elseif ($selecao == '2') {
 		echo "
-		<input type='radio' name='selecao' id='selecao' value='0'>Não
+		<input type='radio' name='selecao' id='selecao' value='0'>NÃ£o
 		<input type='radio' name='selecao' id='selecao' value='1'>Sim
                 <input type='radio' name='selecao' id='selecao' value='2' checked>Espera
 		";
 
 	} else {
 		echo "
-		<input type='radio' name='selecao' id='selecao' value='0' checked>Não
+		<input type='radio' name='selecao' id='selecao' value='0' checked>NÃ£o
 		<input type='radio' name='selecao' id='selecao' value='1'>Sim
                 <input type='radio' name='selecao' id='selecao' value='2'>Espera
 		";

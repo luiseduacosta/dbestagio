@@ -2,7 +2,7 @@
 // include_once("superior.html");
 ?>
 
-<h3>Alunos do curso de Serviço Social</h3>
+<h3>Alunos do curso de ServiÃ§o Social</h3>
 
 <?php
 
@@ -97,7 +97,7 @@ $opts['fdd']['registro'] = array(
   'sort'     => true
 );
 $opts['fdd']['periodo'] = array(
-  'name'     => 'Período',
+  'name'     => 'PerÃ­odo',
   'select'   => 'T',
   'maxlen'   => 6,
   'sort'     => true
@@ -109,7 +109,7 @@ $opts['fdd']['turno'] = array(
   'sort'     => true
 );
 $opts['fdd']['etica'] = array(
-  'name'     => 'Ética',
+  'name'     => 'Ã‰tica',
   'select'   => 'T',
   'maxlen'   => 6,
   'sort'     => true

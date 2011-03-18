@@ -1,15 +1,14 @@
 <?php
 
-if($debug == 1)
+if ($debug == 1)
 	echo $_SERVER['PHP_SELF'];
 
 include_once("../../autentica.inc");
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $origem = $_REQUEST['origem'];
-if(empty($origem )) {
+if (empty($origem )) {
 	$origem = $_SERVER['HTTP_REFERER']; // Para poder retornar desde onde foi chamado
 }
 
@@ -21,7 +20,7 @@ $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
 $sql_aluno = "select nome, registro from alunos where id='$id_aluno'";
 $resultado_aluno = $db->Execute($sql_aluno);
 if($resultado_aluno === false) die ("Nao foi possivel consultar a tabela alunos");
-while(!$resultado_aluno->EOF) {
+while (!$resultado_aluno->EOF) {
 	$nome_aluno = $resultado_aluno->fields['nome'];
 	$registro   = $resultado_aluno->fields['registro'];
 	$resultado_aluno->MoveNext();
@@ -31,11 +30,11 @@ while(!$resultado_aluno->EOF) {
 $sql_estagiarios = "select * from estagiarios where id=$id_estagiarios";
 // echo $sql_estagiarios . "<br>";
 $estagiarios = $db->Execute($sql_estagiarios);
-if($estagiarios === false) die ("Nao foi possivel consultar a tabela estagiarios");
+if ($estagiarios === false) die ("Nao foi possivel consultar a tabela estagiarios");
 $i = 0;
-while(!$estagiarios->EOF) {
+while (!$estagiarios->EOF) {
 	$periodo        = $estagiarios->fields["periodo"];
-	$tc	            = $estagiarios->fields["tc"];
+	$tc	        	= $estagiarios->fields["tc"];
 	$turno          = $estagiarios->fields["turno"];
 	$nivel          = $estagiarios->fields["nivel"];
 	$id_instituicao = $estagiarios->fields["id_instituicao"];
@@ -46,13 +45,13 @@ while(!$estagiarios->EOF) {
 	$ch             = $estagiarios->fields["ch"];
 
 	// Nome da Instituicao
-	if(!empty($id_instituicao)) {
+	if (!empty($id_instituicao)) {
 		$sql_instituicao = "select id, instituicao from estagio where id=$id_instituicao";
-		$resultado_instituicao = $db->Execute($sql_instituicao);
-		if($resultado_instituicao === false) die ("Nao foi possivel consultar a tabela estagio");
-		while(!$resultado_instituicao->EOF) {
-			$instituicao = $resultado_instituicao->fields["instituicao"];
-			$resultado_instituicao->MoveNext();
+		$res_instituicao = $db->Execute($sql_instituicao);
+		if ($res_instituicao === false) die ("Nao foi possivel consultar a tabela estagio");
+		while (!$res_instituicao->EOF) {
+			$instituicao = $res_instituicao->fields["instituicao"];
+			$res_instituicao->MoveNext();
 		}
 	} else {
 		$id_instituicao = 0;
@@ -60,11 +59,11 @@ while(!$estagiarios->EOF) {
 	}
 
 	// Nome do Supervisor
-	if(!empty($id_supervisor)) {
+	if (!empty($id_supervisor)) {
 		$sql_nome_supervisor = "select nome from supervisores where id=$id_supervisor";
 		$resultado_nome_supervisor = $db->Execute($sql_nome_supervisor);
-		if($resultado_nome_supervisor === false) die ("Nao foi possivel consultar a tabela supervisores");
-		while(!$resultado_nome_supervisor->EOF)	{
+		if ($resultado_nome_supervisor === false) die ("Nao foi possivel consultar a tabela supervisores");
+		while (!$resultado_nome_supervisor->EOF)	{
 			$supervisor = $resultado_nome_supervisor->fields["nome"];
 			$resultado_nome_supervisor->MoveNext();
 		}
@@ -74,11 +73,11 @@ while(!$estagiarios->EOF) {
 	}
 
 	// Nome do Professor
-	if(!empty($id_professor)) {
+	if (!empty($id_professor)) {
 		$sql_nome_professor = "select nome from professores where id=$id_professor";
 		$resultado_nome_professor = $db->Execute($sql_nome_professor);
-		if($resultado_nome_professor === false) die ("Nao foi possivel consultar a tabela professores");
-		while(!$resultado_nome_professor->EOF) {
+		if ($resultado_nome_professor === false) die ("Nao foi possivel consultar a tabela professores");
+		while (!$resultado_nome_professor->EOF) {
 			$professor = $resultado_nome_professor->fields["nome"];
 			$resultado_nome_professor->MoveNext();
 		}
@@ -88,11 +87,11 @@ while(!$estagiarios->EOF) {
 	}
 
 	// Nome do area
-	if(!empty($id_area)) {
+	if (!empty($id_area)) {
 		$sql_nome_area = "select area from areas_estagio where id=$id_area";
 		$resultado_nome_area = $db->Execute($sql_nome_area);
-		if($resultado_nome_area === false) die ("Nao foi possivel consultar a tabela areas_estagio");
-		while(!$resultado_nome_area->EOF) {
+		if ($resultado_nome_area === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+		while (!$resultado_nome_area->EOF) {
 			$nome_area = $resultado_nome_area->fields["area"];
 			$resultado_nome_area->MoveNext();
 		}
@@ -108,12 +107,12 @@ while(!$estagiarios->EOF) {
 // Capturo a informacao sobre as instituicoes
 $sql = "select id, instituicao from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 0;
 $instituicoes[$i]['id_instituicao'] = "0";
 $instituicoes[$i]['instituicao'] = "Sem dados";
 $i++;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	$instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
 	$instituicoes[$i]['instituicao']    = $resultado->fields['instituicao'];
 	$resultado->MoveNext();
@@ -128,7 +127,7 @@ $i = 0;
 $supervisores[$i]['id_supervisor'] = "0";
 $supervisores[$i]['supervisor'] = "Sem dados";
 $i++;
-while(!$resultado_supervisores->EOF) {
+while (!$resultado_supervisores->EOF) {
 	$supervisores[$i]['id_supervisor'] = $resultado_supervisores->fields['id'];
 	$supervisores[$i]['supervisor']    = $resultado_supervisores->fields['nome'];
 	$resultado_supervisores->MoveNext();
@@ -143,7 +142,7 @@ $i = 0;
 $professores[$i]['id_professor'] = "0";
 $professores[$i]['professor'] = "Sem dados";
 $i++;
-while(!$resultado_professores->EOF) {
+while (!$resultado_professores->EOF) {
 	$professores[$i]['id_professor'] = $resultado_professores->fields['id'];
 	$professores[$i]['professor']    = $resultado_professores->fields['nome'];
 	$resultado_professores->MoveNext();
@@ -158,7 +157,7 @@ $i = 0;
 $areas[$i]['id_area'] = "0";
 $areas[$i]['area'] = "Sem dados";
 $i++;
-while(!$resultado_areas->EOF) {
+while (!$resultado_areas->EOF) {
 	$areas[$i]['id_area'] = $resultado_areas->fields['id'];
 	$areas[$i]['area']    = $resultado_areas->fields['area'];
 	$resultado_areas->MoveNext();

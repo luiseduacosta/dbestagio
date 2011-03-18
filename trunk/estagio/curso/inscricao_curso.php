@@ -3,7 +3,7 @@
 $quantidade     = $_POST['quantidade'];
 // Dados do supervisor
 $nome           = $_POST['nome'];
-$cpf			= $_POST['cpf'];
+$cpf		= $_POST['cpf'];
 $endereco       = $_POST['endereco'];
 $bairro         = $_POST['bairro'];
 $municipio      = $_POST['municipio'];
@@ -16,7 +16,7 @@ $email          = strtolower($_POST['email']);
 $escola         = $_POST['escola'];
 $ano_formatura  = $_POST['ano_formatura'];
 $cress          = $_POST['cress'];
-$regiao		    = $_POST['regiao'];
+$regiao	        = $_POST['regiao'];
 $outros_estudos = $_POST['outros_estudos'];
 $area_curso     = $_POST['area_curso'];
 $ano_curso      = $_POST['ano_curso'];
@@ -71,7 +71,7 @@ if(empty($cep)) {
 }
 
 if(empty($email)) {
-	echo "<p>Favor digite um endere&ccedil;o electrónico para nossa comunica&ccedil;&atilde;o</p>";
+	echo "<p>Favor digite um endere&ccedil;o electrÃ³nico para nossa comunica&ccedil;&atilde;o</p>";
 	echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
 	exit;
 }
@@ -243,33 +243,33 @@ if($res_inst_sup === false) die ("Nao foi possivel inserir o registro na tabela 
 // echo $sql_inst_sup . "<br>";
 
 // Envio um e-mail para a coordenacao de Estagio
-$mensage_supervisor  = "Solicitação de inscrição $num_inscricao para o curso de $nome, \n";
-$mensage_supervisor .= "registro no CRESS (7a. região) $cress \n\n";
+$mensage_supervisor  = "SolicitaÃ§Ã£o de inscriÃ§Ã£o $num_inscricao para o curso de $nome, \n";
+$mensage_supervisor .= "registro no CRESS (7a. regiÃ£o) $cress \n\n";
 $mensage_supervisor .= "Nome: $nome \n";
 $mensage_supervisor .= "CPF: $cpf \n";
-$mensage_supervisor .= "Endereço: $endereco \n";
+$mensage_supervisor .= "EndereÃ§o: $endereco \n";
 $mensage_supervisor .= "Bairro $bairro \n";
-$mensage_supervisor .= "Município: $municipio \n";
+$mensage_supervisor .= "MunicÃ­pio: $municipio \n";
 $mensage_supervisor .= "CEP: $cep \n";
 $mensage_supervisor .= "Telefone: $telefone \n";
 $mensage_supervisor .= "Email: $email \n";
 $mensage_supervisor .= "Escola: $escola \n";
 $mensage_supervisor .= "Formatura: $ano_formatura \n";
 $mensage_supervisor .= "CRESS: $cress \n";
-$mensage_supervisor .= "Região: $regiao \n";
+$mensage_supervisor .= "RegiÃ£o: $regiao \n";
 $mensage_supervisor .= "Outros estudos: $outros_estudos \n";
 $mensage_supervisor .= "Area do curso: $area_curso \n";
 $mensage_supervisor .= "Ano do curso: $ano_curso \n";
 $mensage_supervisor .= "Cargo: $cargo \n";
-$mensage_supervisor .= "Instituição: $instituicao \n";
-$mensage_supervisor .= "Endereço da instituição: $inst_endereco \n";
-$mensage_supervisor .= "Bairro da instituição: $inst_bairro \n";
-$mensage_supervisor .= "Município da instituição: $inst_municipio \n";
-$mensage_supervisor .= "Telefone da instituição: $inst_telefone \n";
-$mensage_supervisor .= "Fax da instituição: $inst_fax \n\n";
+$mensage_supervisor .= "InstituiÃ§Ã£o: $instituicao \n";
+$mensage_supervisor .= "EndereÃ§o da instituiÃ§Ã£o: $inst_endereco \n";
+$mensage_supervisor .= "Bairro da instituiÃ§Ã£o: $inst_bairro \n";
+$mensage_supervisor .= "MunicÃ­pio da instituiÃ§Ã£o: $inst_municipio \n";
+$mensage_supervisor .= "Telefone da instituiÃ§Ã£o: $inst_telefone \n";
+$mensage_supervisor .= "Fax da instituiÃ§Ã£o: $inst_fax \n\n";
 
-$to = "Coordenação de Estágio <estagio@ess.ufrj.br>";
-$assunto  = "Solicitação de inscrição para o curso de atualização de supervisores: $nome";
+$to = "CoordenaÃ§Ã£o de EstÃ¡gio <estagio@ess.ufrj.br>";
+$assunto  = "SolicitaÃ§Ã£o de inscriÃ§Ã£o para o curso de atualizaÃ§Ã£o de supervisores: $nome";
 $headers  = "From: $nome <$email> \r\n";
 $headers .= "Replay-To: estagio@ess.ufrj.br \r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
@@ -277,35 +277,35 @@ $headers .= "X-Mailer: PHP/" . phpversion();
 // mail ($to,$assunto,$mensage_supervisor,$headers);
 
 // Envio outro e-mail para o supervisor que fez a inscricao
-$mensage_supervisor  = "Sua solicitação de inscrição foi realizada com os seguintes dados \n\n";
+$mensage_supervisor  = "Sua solicitaÃ§Ã£o de inscriÃ§Ã£o foi realizada com os seguintes dados \n\n";
 $mensage_supervisor .= "Nome: $nome \n";
 $mensage_supervisor .= "CPF: $cpf \n";
-$mensage_supervisor .= "Endereço: $endereco \n";
+$mensage_supervisor .= "EndereÃ§o: $endereco \n";
 $mensage_supervisor .= "Bairro $bairro \n";
-$mensage_supervisor .= "Município: $municipio \n";
+$mensage_supervisor .= "MunicÃ­pio: $municipio \n";
 $mensage_supervisor .= "CEP: $cep \n";
 $mensage_supervisor .= "Telefone: $telefone \n";
 $mensage_supervisor .= "Email: $email \n";
 $mensage_supervisor .= "Escola: $escola \n";
 $mensage_supervisor .= "Formatura: $ano_formatura \n";
 $mensage_supervisor .= "CRESS: $cress \n";
-$mensage_supervisor .= "Região: $regiao \n";
+$mensage_supervisor .= "RegiÃ£o: $regiao \n";
 $mensage_supervisor .= "Outros estudos: $outros_estudos \n";
-$mensage_supervisor .= "Área do curso: $area_curso \n";
+$mensage_supervisor .= "Ãrea do curso: $area_curso \n";
 $mensage_supervisor .= "Ano do curso: $ano_curso \n";
-$mensage_supervisor .= "Instituição: $instituicao \n";
-$mensage_supervisor .= "Endereço da instituição: $inst_endereco \n";
-$mensage_supervisor .= "Bairro da instituição: $inst_bairro \n";
-$mensage_supervisor .= "Município da instituição: $inst_municipio \n";
-$mensage_supervisor .= "Telefone da instituição: $inst_telefone \n";
-$mensage_supervisor .= "Fax da instituiição: $inst_fax \n\n";
+$mensage_supervisor .= "InstituiÃ§Ã£o: $instituicao \n";
+$mensage_supervisor .= "EndereÃ§o da instituiÃ§Ã£o: $inst_endereco \n";
+$mensage_supervisor .= "Bairro da instituiÃ§Ã£o: $inst_bairro \n";
+$mensage_supervisor .= "MunicÃ­pio da instituiÃ§Ã£o: $inst_municipio \n";
+$mensage_supervisor .= "Telefone da instituiÃ§Ã£o: $inst_telefone \n";
+$mensage_supervisor .= "Fax da instituiÃ§Ã£o: $inst_fax \n\n";
 $mensage_supervisor .= "                        Atenciosamente, \n";
-$mensage_supervisor .= "                        Coordenação de estágio \n";
+$mensage_supervisor .= "                        CoordenaÃ§Ã£o de estÃ¡gio \n";
 
 $to = $nome . "<" . $email . ">";
 // $to = "Luis Acosta <luis@localhost>"; // Para testes
-$assunto  = "Inscrição no curso de extensão para supervisores";
-$headers  = "From: Coordenação de Estágio <estagio@ess.ufrj.br> \r\n";
+$assunto  = "InscriÃ§Ã£o no curso de extensÃ£o para supervisores";
+$headers  = "From: CoordenaÃ§Ã£o de EstÃ¡gio <estagio@ess.ufrj.br> \r\n";
 $headers .= "Replay-To: $email \r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 

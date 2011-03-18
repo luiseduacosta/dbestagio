@@ -6,7 +6,6 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../db.inc");
 include_once("../setup.php");
 include_once("../autoriza.inc");
 
@@ -33,7 +32,7 @@ $sql .= " order by s.nome";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel consultar as tabelas de inscricao");
+if($resultado === false) die ("N√£o foi poss√≠vel consultar as tabelas de inscricao");
 $i = 0;
 while(!$resultado->EOF) {
 	$id             = $resultado->fields['id'];
@@ -55,7 +54,7 @@ while(!$resultado->EOF) {
 		$sql_cress = "select id from supervisores where cress='$cress'";
 		// echo $nome . " " . $sql_cress . "<br>";
 		$res_cress = $db->Execute($sql_cress);
-		if($res_cress === false) die ("N„o foi possÌvel consultar a tabela supervisores");
+		if($res_cress === false) die ("N√£o foi poss√≠vel consultar a tabela supervisores");
 		$supervisores_cress_id = $res_cress->fields['id'];
 		// echo $cress . " " . $supervisores_cress_id .  " " . $nome . "<br>";
 	}
@@ -113,7 +112,7 @@ while(!$resultado->EOF) {
 if(sizeof($matriz) <= 0) {
 	echo "Arquivo vazio" . "<br>";
 	if ($selecao == 1) {
-		echo "<p>Ainda n„o h· selecionados nesta turma</p>";
+		echo "<p>Ainda n√£o h√° selecionados nesta turma</p>";
 		echo "<meta http-equiv='refresh' content='1; URL=inscricao_lista.php?selecao=0&turma=$turma'>";
 	}
 	exit;
@@ -125,7 +124,7 @@ if(sizeof($matriz) <= 0) {
 $sql_turma = "select curso_turma from curso_inscricao_supervisor group by curso_turma";
 // echo $sql_turma . "<br>";
 $res_turma = $db->Execute($sql_turma);
-if($res_turma == false) die ("N„o foi possÌvel consultar a tabela de curso_inscricao_supervisor");
+if($res_turma == false) die ("N√£o foi poss√≠vel consultar a tabela de curso_inscricao_supervisor");
 while (!$res_turma->EOF) {
 	$turmas[] = $res_turma->fields['curso_turma'];
 	$res_turma->MoveNext();

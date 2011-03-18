@@ -6,9 +6,9 @@ $ano = date("Y");
 
 $texto = "
 UNIVERSIDADE FEDERAL DO RIO DE JANEIRO - UFRJ
-ESCOLA DE SERVI�O SOCIAL -ESS
+ESCOLA DE SERVIÇO SOCIAL -ESS
 TERMO DE COMPROMISSO
-O presente TERMO DE COMPROMISSO DE EST�GIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . $nome .", instituição ". $instituicao . " e Supervisor(a) AS. ". $supervisor .", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . $nome .", instituição ". $instituicao . " e Supervisor(a) AS. ". $supervisor .", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
 Das Partes
 Art. 01. As atividades a serem desenvolvidas pelo estagiário, deverão ser compatíveis com o curso de Serviço Social, envolvem observação, estudos, elaboração de projetos e realização de leituras e atividades práticas.
 Art. 02. A permanência em cada campo de estágio deverá ser de no mínimo dois semestres letivos consecutivos. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer da supervisora e do professor de OTP.
@@ -51,3 +51,5 @@ $pdf->SetFont("Arial","","8");
 $pdf->MultiCell(0,5,$texto);
 
 $pdf->Output();
+
+?>

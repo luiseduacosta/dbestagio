@@ -1,6 +1,5 @@
 <?php
 
-// include_once("../../db.inc");
 include_once("../../setup.php");
 include_once("../../libphp/libchart-1.2.1/libchart/classes/libchart.php");
 
@@ -8,10 +7,10 @@ echo "
 <html>
 <head></head>
 <body>
-<img alt='Alunos por período' src='generated/estagio.png' style='border: 1px solid gray;'/>
+<img alt='Alunos por perÃ­odo' src='generated/estagio.png' style='border: 1px solid gray;'/>
 <table border='1'>
 <thead>
-<tr><th>Período</th><th>Alunos</th></tr>
+<tr><th>PerÃ­odo</th><th>Alunos</th></tr>
 </thead>
 <tbody>
 ";
@@ -22,7 +21,7 @@ $dataSet = new XYDataSet();
 $sql_periodo = "select periodo from estagiarios group by periodo order by periodo";
 // echo $sql_periodo . "<br>";
 $resultado_periodo = $db->Execute($sql_periodo);
-while(!$resultado_periodo->EOF) {
+while (!$resultado_periodo->EOF) {
 
 	$periodo = $resultado_periodo->fields['periodo'];
 	$sql = "select id from estagiarios where periodo='$periodo'";
@@ -44,7 +43,7 @@ while(!$resultado_periodo->EOF) {
 
 $chart->setDataSet($dataSet);
 
-$chart->setTitle("Alunos em estágio por período - ESS/UFRJ");
+$chart->setTitle("Alunos em estÃ¡gio por perÃ­odo - ESS/UFRJ");
 $chart->render("generated/estagio.png");
 
 echo "

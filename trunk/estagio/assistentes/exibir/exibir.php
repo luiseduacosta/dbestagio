@@ -12,10 +12,10 @@ $sql_instituicao .= "where i.id_instituicao=e.id and id_supervisor=$id_superviso
 // echo $sql_instituicao . "<br />";
 
 $res_instituicao = $db->Execute($sql_instituicao);
-if($res_instituicao === false) die ("Não foi possível consultar as tabelas");
+if($res_instituicao === false) die ("NÃ£o foi possÃ­vel consultar as tabelas");
 
 $i = 0;
-while(!$res_instituicao->EOF) {
+while (!$res_instituicao->EOF) {
     $instituicao[$i]["id"]          = $res_instituicao->fields['id'];
     $instituicao[$i]["instituicao"] = $res_instituicao->fields['instituicao'];
     $i++;
@@ -28,7 +28,7 @@ $sql .= "from supervisores ";
 $sql .= "where id=$id_supervisor";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela supervisores");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
 
 while (!$resultado->EOF) {
 	$nome_supervisor  = $resultado->fields['nome'];
@@ -37,13 +37,13 @@ while (!$resultado->EOF) {
 	$resultado->MoveNext();
 }
 
-// Esta consulta eh para construir a caixa de seleção de instituicoes
+// Esta consulta eh para construir a caixa de seleÃ§ao de instituicoes
 $sql_estagio = "select * from estagio order by instituicao";
 $res_estagio = $db->Execute($sql_estagio);
-if($res_estagio == false) die ("Não foi possível consultar a tabela estagio");
+if($res_estagio == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 
 $i = 0;
-while(!$res_estagio->EOF) {
+while (!$res_estagio->EOF) {
 	$num_id_instituicao = $res_estagio->fields['num_id_instituicao'];
 	$instituicoes = $res_estagio->fields['instituicao'];
 	$matriz_instituicoes[$i]['id'] = $num_id_instituicao;

@@ -4,7 +4,7 @@
 
 <head>
 	<title>Lista de alunos inscritos</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
 <script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
 <script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
+
 {literal}
 <script language="JavaScript" type="text/javascript">
 function confirma() {
@@ -29,6 +30,7 @@ function confirma() {
 	}
 </script>
 {/literal}
+
 </head>
 
 <body style="direction: ltr;">
@@ -46,7 +48,7 @@ function confirma() {
 <p><a href="ver-mural.php">Voltar para mural</a></p>
 
 
-<h1>Lista de inscritos para seleção de estágio na instituição: {$instituicao}</h1>
+<h1>Lista de inscritos para seleÃ§Ã£o de estÃ¡gio na instituiÃ§Ã£o: {$instituicao}</h1>
 
 <div align="center">
 <table>

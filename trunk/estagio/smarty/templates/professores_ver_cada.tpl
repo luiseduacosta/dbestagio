@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link href="../../estagio.css" rel="stylesheet" type="text/css">
 		<title>Ver cada professor</title>
 	</head>
@@ -68,7 +68,7 @@
 <form name="cabacalho" action="#" method="post">
 <input type="hidden" name="botao" value="ultimo">
 <input type="hidden" name="indice" value="{$indice}">
-<input type="submit" name="submit" value="Último">
+<input type="submit" name="submit" value="Ãšltimo">
 </form>
 </td>
 
@@ -90,7 +90,7 @@
 
 		{if $instituicoes != ""}
 		<tr>
-			<th colspan='5'>Instituições</th>
+			<th colspan='5'>InstituiÃ§Ãµes</th>
 		</tr>
 		
 		{section name=i loop=$instituicoes}
@@ -107,9 +107,9 @@
 		<tr>
 		<th><a href='?indice={$indice}&ordem=registro'>Registro</a></th>	
 		<th><a href='?indice={$indice}&ordem=nome'>Nome</a></th>
-		<th><a href='?indice={$indice}&ordem=periodo'>Período</a></th>	
-		<th><a href='?indice={$indice}&ordem=instituicao'>Instituição</a></th>	
-		<th><a href='?indice={$indice}&ordem=area'>Área</a></th>	
+		<th><a href='?indice={$indice}&ordem=periodo'>PerÃ­odo</a></th>	
+		<th><a href='?indice={$indice}&ordem=instituicao'>InstituiÃ§Ã£o</a></th>	
+		<th><a href='?indice={$indice}&ordem=area'>Ãrea</a></th>	
 		</tr>
 
 		{section name=j loop=$alunos}

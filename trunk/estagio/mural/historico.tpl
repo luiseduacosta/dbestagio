@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Histórico</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HistÃ³rico</title>
 <style type="text/css">
 @import url("../estagio.css");
 </style>
@@ -10,14 +10,14 @@
 <body>
 
 <div align='center'>
-<table border='1' summary='Histórico das seleções de estágio'>
-	<caption>Histórico das seleções de estágio</caption>
+<table border='1' summary='HistÃ³rico das seleÃ§Ãµes de estÃ¡gio'>
+	<caption>HistÃ³rico das seleÃ§Ãµes de estÃ¡gio</caption>
 <thead>
 	<tr>
-		<th>Período</th>
+		<th>PerÃ­odo</th>
 		<th>Alunos</th>
 		<th>Vagas</th>
-		<th>Sem estágio</th>
+		<th>Sem estÃ¡gio</th>
 	</tr>
 </thead>
 <tbody>

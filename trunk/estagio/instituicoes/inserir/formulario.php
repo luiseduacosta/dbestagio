@@ -1,18 +1,15 @@
 <?php
 
 include_once("../../autentica.inc");
-
 include_once("../../setup.php");
-include_once("../../db.inc");
 
 $sql = "select * from areas_estagio order by area";
 $resultado = $db->Execute($sql);
 
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela areas_estagio");
 
 $i = 0;
-while(!$resultado->EOF)
-{
+while (!$resultado->EOF) {
   $id_area[$i] = $resultado->fields["id"];
   $areas[$i]   = $resultado->fields["area"];
   $i++;

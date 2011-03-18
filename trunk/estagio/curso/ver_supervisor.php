@@ -18,7 +18,7 @@ function ver_supervisor($id_supervisor) {
 	$sql .= " from curso_inscricao_supervisor "; 
     $sql .= " where id=$id_supervisor";
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
+    if($resultado_=== false) die ("NÃ£o foi possÃ­vel consultar a tabela curso_inscricao_supervisor");
 
     while (!$resultado->EOF) {
 			$nome = $resultado->fields['nome'];
@@ -52,7 +52,7 @@ function ver_instituicao($id_instituicao) {
 	$sql .= " from curso_inscricao_instituicao "; 
     $sql .= " where id=$id_instituicao order by instituicao";
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if($resultado_=== false) die ("NÃ£o foi possÃ­vel consultar a tabela curso_inscricao_instituicao");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];

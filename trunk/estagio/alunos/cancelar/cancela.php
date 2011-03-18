@@ -20,19 +20,20 @@ if ($id_aluno) {
 }
 
 $resultado_sql_estagiario = $db->Execute($sql_estagiario);
-if($resultado_sql_estagiario === false) die ("N„o foi possÌvel consultar a tabela estagiarios");
+if($resultado_sql_estagiario === false) die ("N√£o foi poss√≠vel consultar a tabela estagiarios");
 $quantidade = $resultado_sql_estagiario->RecordCount();
 
 if($quantidade === 0) {
-		$sql_cancela_aluno = "delete from alunos where id='$id_aluno'";
-		// echo $sql_cancela_aluno . "<br>";
+	// die("Registro sera excluido");
+	$sql_cancela_aluno = "delete from alunos where id='$id_aluno'";
+	// echo $sql_cancela_aluno . "<br>";
 
-		$resultado_cancela_aluno = $db->Execute($sql_cancela_aluno);
-		if($resultado_cancela_aluno === false) die ("N„o foi possÌvel cancelar o registro do aluno");
-		header("Location:../exibir/listar.php");
+	$resultado_cancela_aluno = $db->Execute($sql_cancela_aluno);
+	if($resultado_cancela_aluno === false) die ("N√£o foi poss√≠vel cancelar o registro do aluno");
+	header("Location:../exibir/listar.php");
 } else {
-		// echo "Existem est·gios relacionados com este aluno. <br>Exclua primeiro os est·gios para logo poder excluir o aluno";
-		header("Location:ver_cancela.php?id_aluno=$id_aluno&erro=0");
+	// echo "Existem estagios relacionados com este aluno. <br>Exclua primeiro os estagios para logo poder excluir o aluno";
+	header("Location:ver_cancela.php?id_aluno=$id_aluno&erro=0");
 }
 
 exit;

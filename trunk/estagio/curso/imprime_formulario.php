@@ -2,8 +2,7 @@
 
 $id_supervisor = $_REQUEST['id_supervisor'];
 
-include_once("../db.inc");
-include_once("setup.php");
+include_once("../setup.php");
 $turma = TURMA;
 
 // define("FPDF_FONTPATH","/var/www/fpdf151/font/");
@@ -31,19 +30,19 @@ $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,9,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
+$cabecalho2 = $pdf->GetStringWidth("Escola de ServiÃ§o Social");
 $pdf->SetX((210-$cabecalho2)/2);
-$pdf->Cell($cabecalho2,9,"Escola de Serviço Social",0,1,'C',0);
+$pdf->Cell($cabecalho2,9,"Escola de ServiÃ§o Social",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio");
+$cabecalho3 = $pdf->GetStringWidth("CoordenaÃ§Ã£o de EstÃ¡gio");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,9,"Coordenação de Estágio",0,1,'C',0);
+$pdf->Cell($cabecalho3,9,"CoordenaÃ§Ã£o de EstÃ¡gio",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho4 = $pdf->GetStringWidth("Inscrição para o $turma curso atualização de supervisores ");
+$cabecalho4 = $pdf->GetStringWidth("InscriÃ§Ã£o para o $turma curso atualizaÃ§Ã£o de supervisores ");
 $pdf->SetX((210-$cabecalho4)/2);
-$pdf->Cell($cabecalho4,9,"Inscricao para o $turma º curso atualização de supervisores",0,1,'C',0);
+$pdf->Cell($cabecalho4,9,"Inscricao para o $turma Âº curso atualizaÃ§Ã£o de supervisores",0,1,'C',0);
 $pdf->Ln(2);
 
 $sql = "select " .
@@ -56,7 +55,7 @@ $sql = "select " .
 " and s.curso_turma=$turma";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas de inscricao");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar as tabelas de inscricao");
 while(!$resultado->EOF)
 {
   $num_inscricao  = $resultado->fields['num_inscricao'];
@@ -87,7 +86,7 @@ while(!$resultado->EOF)
 }
 
 if($fim_de_semana == 0)
-    $fim_de_semana = "Não";
+    $fim_de_semana = "NÃ£o";
 elseif($fim_de_semana == 1)
     $fim_de_semana = "Sim";
 elseif($fim_de_semana == 2)
@@ -97,7 +96,7 @@ else
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"No. de inscrição:");
+$pdf->Cell(0,0,"No. de inscriÃ§Ã£o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$num_inscricao);
 
@@ -109,7 +108,7 @@ $pdf->Cell(0,0,$nome);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Endereço:");
+$pdf->Cell(0,0,"EndereÃ§o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$endereco);
 
@@ -121,7 +120,7 @@ $pdf->Cell(0,0,$bairro);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Muncípio:");
+$pdf->Cell(0,0,"MuncÃ­pio:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$municipio);
 
@@ -170,32 +169,32 @@ $pdf->Cell(0,0,$outros_estudos);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Área:");
+$pdf->Cell(0,0,"Ãrea:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$area_curso);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Ano em que foi concluído:");
+$pdf->Cell(0,0,"Ano em que foi concluÃ­do:");
 $pdf->SetX(80);
 $pdf->Cell(0,0,$ano_curso);
 
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Cargo que ocupa na instituição:");
+$pdf->Cell(0,0,"Cargo que ocupa na instituiÃ§Ã£o:");
 $pdf->SetX(80);
 $pdf->Cell(0,0,$cargo);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Instituição:");
+$pdf->Cell(0,0,"InstituiÃ§Ã£o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$instituicao);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Endereço:");
+$pdf->Cell(0,0,"EndereÃ§o:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$inst_endereco);
 
@@ -207,7 +206,7 @@ $pdf->Cell(0,0,$inst_bairro);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Município:");
+$pdf->Cell(0,0,"MunicÃ­pio:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$inst_municipio);
 
@@ -232,13 +231,13 @@ $pdf->Cell(0,0,$inst_fax);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Benefícios:");
+$pdf->Cell(0,0,"BenefÃ­cios:");
 $pdf->SetX(70);
 $pdf->Cell(0,0,$beneficio);
 
 $pdf->Ln(7);
 $pdf->SetX(20);
-$pdf->Cell(0,0,"Estágio no final de semana:");
+$pdf->Cell(0,0,"EstÃ¡gio no final de semana:");
 $pdf->SetX(80);
 $pdf->Cell(0,0,$fim_de_semana);
 

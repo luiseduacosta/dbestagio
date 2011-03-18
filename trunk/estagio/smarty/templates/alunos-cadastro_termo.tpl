@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica estágio</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Aluno modifica estÃ¡gio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -83,7 +83,7 @@ Celular:
 
 <tr>
 <td>Carteira de identidade:</td>
-<td>{$identidade} Orgão: {$orgao}</td>
+<td>{$identidade} OrgÃ£o: {$orgao}</td>
 </tr>
 
 <tr>
@@ -95,7 +95,7 @@ dd/mm/aaaa
 </tr>
 
 <tr>
-<td>Endereco</td>
+<td>EndereÃ§o</td>
 <td>{$endereco} CEP: {$cep}</td>
 </tr>
 

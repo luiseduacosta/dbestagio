@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 include_once('../../autoriza.inc');
 
@@ -34,8 +33,8 @@ else
 	$indice = $ordem;
 
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possivel consultar as tabelas");
-while(!$resultado->EOF) {
+if($resultado == false) die ("NÃ£o foi possivel consultar as tabelas");
+while (!$resultado->EOF) {
 
 	$estagio_id_instituicao = $resultado->fields['estagio_id'];
 	$id_supervisor          = $resultado->fields['supervisor_id'];
@@ -53,7 +52,7 @@ while(!$resultado->EOF) {
 	$matriz[$i]['turma']  		  = $turma_periodo;
 	$matriz[$i]['nome']           = $nome_supervisor;
 	$matriz[$i]['telefone']       = $tel_supervisor;
-	$matriz[$i]['celular']        = $cel_supervisor;	
+	$matriz[$i]['celular']        = $cel_supervisor;
 	$matriz[$i]['instituicao']    = $estagio_instituicao;
 	$matriz[$i]['email']    	  = $email_supervisor;
 	$matriz[$i]['id_curso']       = $resultado->fields['id_curso'];
@@ -62,7 +61,7 @@ while(!$resultado->EOF) {
 	$sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where id_supervisor=$id_supervisor";
 	// echo $sql_periodos . "<br>";	
 	$res_periodos = $db->Execute($sql_periodos);
-	if($res_periodos === false) die ("Não foi possivel consultar a tabela estagiarios");
+	if ($res_periodos === false) die ("NÃ£o foi possivel consultar a tabela estagiarios");
 	$q_periodos = $res_periodos->fields['q_periodos'];	
 	$matriz[$i]['q_periodos'] = $q_periodos;
 	
@@ -72,7 +71,7 @@ while(!$resultado->EOF) {
 			$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
 			// echo $sqlcurso . "<br />";
 			$supervisores_curso = $db->Execute($sqlcurso);
-			if($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
+			if ($supervisores_curso === false) die ("NÃ£o foi possivel consultar a tabela curso_inscricao_supervisores");
 			$matriz[$i]['id_curso'] = $supervisores_curso->fields['id'];
 			$id_curso = $supervisores_curso->fields['id'];
 			// echo $id_curso . "<br>";
@@ -99,7 +98,7 @@ for($i=0;$i<sizeof($matriz);$i++) {
 $sqlturma = "select id, periodo from estagiarios group by periodo";
 // echo $sqlturma . "<br>";
 $res_turma = $db->Execute($sqlturma);
-if($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die ("NÃ£o foi possivel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();

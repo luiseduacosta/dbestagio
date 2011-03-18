@@ -1,21 +1,21 @@
 <?php
 
-include("../db.inc");
+include("../setup.php");
 // Pego o nume do usuario e a senha enviado pelo login.php
 $usuario_digitado = $_POST['usuario_nome'];
 $senha_digitada   = $_POST['usuario_senha'];
 // echo $usuario_digitado . " " . $senha_digitada . "<br>";
-// Si não existe va para o login.php
+// Si nï¿½o existe va para o login.php
 if(empty($usuario_digitado) or (empty($senha_digitada))) {
     header("Location: login.php");
 }
-// Si existem busco na tabela de usuarios se estão autorizados
+// Si existem busco na tabela de usuarios se estï¿½o autorizados
 else
 {
     // include("../db.inc");
     $sql = "select usuario, senha from usuarios where usuario='$usuario_digitado' and senha='$senha_digitada'";
     $resultado = $db->Execute($sql);
-    if($resultado === false) die ("Não foi possível consultar a tabela usuarios");
+    if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela usuarios");
     $quantidade = $resultado->RecordCount();
 
     while(!$resultado->EOF) {
@@ -35,7 +35,7 @@ else
 	// header("Location: http://www.locuss.org/estagio/capa_logado.php?usuario_nome=$usuario_digitado");
 	header("Location: ver-mural.php");
     }
-    // Caso contrário retorna para o login.php
+    // Caso contrï¿½rio retorna para o login.php
     else
     {
 	header("Location: login.php");

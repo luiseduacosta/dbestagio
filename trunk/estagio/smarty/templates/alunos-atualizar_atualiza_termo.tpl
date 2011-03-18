@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica estágio</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Aluno modifica estÃ¡gio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -43,7 +43,7 @@ function verifica_nome() {
     var nome;
     nome=document.getElementById('nome').value;
     if(nome=="") {
-		alert("Você precisa informar o seu nome");
+		alert("VocÃª precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
     } else {
@@ -55,7 +55,7 @@ function verifica_email() {
     var email;
     email=document.getElementById('email').value;
     if(email=="") {
-		alert("É importante o e-mail para nossa comunicação");
+		alert("Ã‰ importante o e-mail para nossa comunicaÃ§Ã£o");
 		document.atualiza_aluno.email.focus();
 		return false;
     } else {
@@ -67,7 +67,7 @@ function verifica_cpf() {
     var cpf;
     cpf=document.getElementById('cpf').value;
     if(cpf=="") {
-		alert("Você precisa informar o CPF");
+		alert("VocÃª precisa informar o CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
     } else {
@@ -79,7 +79,7 @@ function verifica_identidade() {
     var identidad;
     identidade=document.getElementById('identidade').value;
     if(identidade=="") {
-		alert("Você precisa informar o RG");
+		alert("VocÃª precisa informar o RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
     } else {
@@ -91,7 +91,7 @@ function verifica_orgao() {
     var orgao;
     orgao=document.getElementById('orgao').value;
     if(orgao=="") {
-		alert("Você precisa informar o orgão da carteira da identidade");
+		alert("VocÃª precisa informar o orgÃ£o da carteira da identidade");
 		document.atualiza_aluno.orgao.focus();
 		return false;
     } else {
@@ -103,7 +103,7 @@ function verifica_nascimento() {
     var nascimento;
     nascimento=document.getElementById('nascimento').value;
     if(nascimento=="") {
-		alert("Você precisa informar a data de nascimento");
+		alert("VocÃª precisa informar a data de nascimento");
 		document.atualiza_aluno.nascimento.focus();
 		return false;
     } else {
@@ -115,7 +115,7 @@ function verifica_endereco() {
     var endereco;
     endereco=document.getElementById('endereco').value;
     if(endereco=="") {
-		alert("Você precisa informar o seu endereço");
+		alert("VocÃª precisa informar o seu endereÃ§o");
 		document.atualiza_aluno.endereco.focus();
 		return false;
     } else {
@@ -127,7 +127,7 @@ function verifica_cep() {
     var cep;
     cep=document.getElementById('cep').value;
     if(cep=="") {
-		alert("Você precisa informar o CEP");
+		alert("VocÃª precisa informar o CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
     } else {
@@ -139,7 +139,7 @@ function verifica_bairro() {
     var bairro;
     bairro=document.getElementById('bairro').value;
     if(bairro=="") {
-		alert("Você precisa informar o seu bairro");
+		alert("VocÃª precisa informar o seu bairro");
 		document.atualiza_aluno.bairro.focus();
 		return false;
     } else {
@@ -151,7 +151,7 @@ function verifica_municipio() {
     var municipio;
     cep=document.getElementById('municipio').value;
     if(municipio=="") {
-		alert("Você precisa informar o seu município");
+		alert("VocÃª precisa informar o seu municÃ­pio");
 		document.atualiza_aluno.municipio.focus();
 		return false;
     } else {
@@ -171,47 +171,47 @@ function confirma() {
 	nascimento=document.getElementById('nascimento').value;
 	endereco=document.getElementById('endereco').value;
 	cep=document.getElementById('cep').value;
-	bairro=document.getElementById('bairro').value;
+ 	bairro=document.getElementById('bairro').value;
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("VocÃª precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("Ã‰ importante o seu e-mail para nossa comunicaÃ§Ã£o");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+    	alert("Favor informar o nÃºmero de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
     if(identidade=="") {
-    	alert("Informe o seu número de RG");
+    	alert("Informe o seu nÃºmero de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
     if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+    	alert("Informe o orgÃ£o expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Informe o seu endereço");
+    	alert("Informe o seu endereÃ§o");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
     if(cep=="") {
-    	alert("Informe o número de CEP");
+    	alert("Informe o nÃºmero de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
@@ -223,7 +223,7 @@ function confirma() {
 	}
 
     if(municipio=="") {
-    	alert("Informe o múnicipio da sua residência");
+    	alert("Informe o municÃ­pio da sua residÃªncia");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -263,16 +263,16 @@ Modifica dados do aluno
 	<h1>Aluno novo</h1>
 {* Aluno com estagio cadastrado no periodo atual * }
 {elseif $aluno eq 1}
-	<h1>Atualizando cadastro do aluno estagiário: nivel {$nivel_romano}</h1>
+	<h1>Atualizando cadastro do aluno estagiÃ¡rio: nivel {$nivel_romano}</h1>
 {* Aluno sem estagio cadastrado no periodo atual * }
 {elseif $aluno eq 2}
-	<h1>Cadastrando aluno estagiário: nivel {$nivel_romano}</h1>
+	<h1>Cadastrando aluno estagiÃ¡rio: nivel {$nivel_romano}</h1>
 {/if}
 
 <form action="atualiza_termo.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table width='90%' border='1' summary='Tabela'>
-<caption>Solicitação de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>
+<caption>SolicitaÃ§Ã£o de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>
 <tbody>
 
 <tr>
@@ -316,7 +316,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" name="identidade" id="identidade" maxlength="15" size="15" value='{$identidade}'  onBlur="return verifica_identidade();"/>
-Orgão:
+OrgÃ£o:
 <input type="text" name="orgao" id="orgao" maxlength="10" size="10" value='{$orgao}' onBlur="return verifica_orgao();"/>
 </td>
 </tr>
@@ -330,7 +330,7 @@ dd/mm/aaaa
 </tr>
 
 <tr>
-<td>Endereco</td>
+<td>EndereÃ§o</td>
 <td>
 <input type="text" name="endereco" id="endereco" maxlength="50" size="30" value='{$endereco}' onBlur="return verifica_endereco();"/>
 CEP:
@@ -342,7 +342,7 @@ CEP:
 <td>Bairro</td>
 <td>
 <input type="text" name="bairro" id="bairro" maxlength="30" size="15" value='{$bairro}' onBlur="return verifica_bairro();"/>
-Municipio:
+MunicÃ­pio:
 <input type="text" name="municipio" id="municipio" maxlength="30" size="20" value='{$municipio}' onBlur="return verifica_municipio();"/>
 </td>
 </tr>
@@ -354,20 +354,20 @@ Municipio:
 <tbody>
 
 <tr style='background-color:yellow'>
-<td colspan='2' style='text-align:center'>Selecione a instituicao e, caso conheça, o supervisor para qual solicita o termo de compromisso.</td>
+<td colspan='2' style='text-align:center'>Selecione a instituicao e, caso conheÃ§a, o supervisor para qual solicita o termo de compromisso.</td>
 </tr>
 
 <tr>
-<td>Nivel</td>
+<td>NÃ­vel</td>
 <td>{$nivel}</td>
 </tr>
 
 <tr>
-<td>Institucao</td>
+<td>InstituiÃ§Ã£o</td>
 <td>
 <select id='id_estagio' name='id_estagio' size=1>
 {if $id_instituicao eq ""}
-<option value=0>Selecione instituição
+<option value=0>Selecione instituiÃ§Ã£o
 {else}
 <option value={$id_instituicao}>{$instituicao}
 {/if}
@@ -394,7 +394,7 @@ Municipio:
 	<select id='id_supervisor' name='id_supervisor' size=1>
 	<option id ='opcoes' value='{$id_supervisor}'>{$supervisor}</option>
 	</select>
-	Para mudar o supervisor pré-selecionado selecione novamente a instituição.
+	Para mudar o supervisor prÃ©-selecionado selecione novamente a instituiÃ§Ã£o.
 	</td>
 	</tr>
 {else}

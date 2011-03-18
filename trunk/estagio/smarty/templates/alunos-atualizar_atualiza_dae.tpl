@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica est�gio</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Aluno modifica estágio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -16,7 +16,7 @@ function verifica_nome() {
     var nome;
     nome=document.getElementById('nome').value;
     if(nome=="") {
-		alert("Voc� precisa informar o seu nome");
+		alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
     } else {
@@ -28,7 +28,7 @@ function verifica_email() {
     var email;
     email=document.getElementById('email').value;
     if(email=="") {
-		alert("� importante o e-mail para nossa comunica��o");
+		alert("É importante o e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
     } else {
@@ -40,7 +40,7 @@ function verifica_cpf() {
     var cpf;
     cpf=document.getElementById('cpf').value;
     if(cpf=="") {
-		alert("Voc� precisa informar o CPF");
+		alert("Você precisa informar o CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
     } else {
@@ -52,7 +52,7 @@ function verifica_identidade() {
     var identidad;
     identidade=document.getElementById('identidade').value;
     if(identidade=="") {
-		alert("Voc� precisa informar o RG");
+		alert("Você precisa informar o RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
     } else {
@@ -64,7 +64,7 @@ function verifica_orgao() {
     var orgao;
     orgao=document.getElementById('orgao').value;
     if(orgao=="") {
-		alert("Voc� precisa informar o org�o da carteira da identidade");
+		alert("Você precisa informar o orgão da carteira da identidade");
 		document.atualiza_aluno.orgao.focus();
 		return false;
     } else {
@@ -76,7 +76,7 @@ function verifica_nascimento() {
     var nascimento;
     nascimento=document.getElementById('nascimento').value;
     if(nascimento=="") {
-		alert("Voc� precisa informar a data de nascimento");
+		alert("Você precisa informar a data de nascimento");
 		document.atualiza_aluno.nascimento.focus();
 		return false;
     } else {
@@ -88,7 +88,7 @@ function verifica_endereco() {
     var endereco;
     endereco=document.getElementById('endereco').value;
     if(endereco=="") {
-		alert("Voc� precisa informar o seu endere�o");
+		alert("Você precisa informar o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
     } else {
@@ -100,7 +100,7 @@ function verifica_cep() {
     var cep;
     cep=document.getElementById('cep').value;
     if(cep=="") {
-		alert("Voc� precisa informar o CEP");
+		alert("Você precisa informar o CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
     } else {
@@ -112,7 +112,7 @@ function verifica_bairro() {
     var bairro;
     bairro=document.getElementById('bairro').value;
     if(bairro=="") {
-		alert("Voc� precisa informar o seu bairro");
+		alert("Você precisa informar o seu bairro");
 		document.atualiza_aluno.bairro.focus();
 		return false;
     } else {
@@ -124,7 +124,7 @@ function verifica_municipio() {
     var municipio;
     cep=document.getElementById('municipio').value;
     if(municipio=="") {
-		alert("Voc� precisa informar o seu munic�pio");
+		alert("Você precisa informar o seu município");
 		document.atualiza_aluno.municipio.focus();
 		return false;
     } else {
@@ -148,43 +148,43 @@ function confirma() {
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
-    	alert("Voc� precisa informar o seu nome");
+    	alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("� importante o seu e-mail para nossa comunica��o");
+    	alert("É importante o seu e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Favor informar o n�mero de CPF");
+    	alert("Favor informar o número de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
     if(identidade=="") {
-    	alert("Informe o seu n�mero de RG");
+    	alert("Informe o seu número de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
     if(orgao=="") {
-    	alert("Informe o org�o expedidor do RG");
+    	alert("Informe o orgão expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Informe o seu endere�o");
+    	alert("Informe o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
     if(cep=="") {
-    	alert("Informe o n�mero de CEP");
+    	alert("Informe o número de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
@@ -196,7 +196,7 @@ function confirma() {
 	}
 
     if(municipio=="") {
-    	alert("Informe o m�nicipio da sua resid�ncia");
+    	alert("Informe o munícipio da sua residência");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -215,7 +215,7 @@ function confirma() {
 var calendar1;
 window.onload = function() {
 	calendar1 = new Epoch('nascimento', 'popup', document.getElementById('nascimento'),false);
-}
+};
 
 </script>
 
@@ -250,29 +250,29 @@ Modifica dados do aluno
 
 <tr>
 <td>Registro</td>
-<td><input type="text" name="registro" id="registro" size="10" maxlenght="10" value="{$registro}"></td>
+<td><input type="text" name="registro" id="registro" size="10" maxlength="10" value="{$registro}"></td>
 </tr>
 
 <tr>
 <td>Nome</td>
-<td><input type="text" name="nome" id="nome" size="30" maxlenght="50" value="{$aluno_nome}" onBlur="return verifica_nome();"></td>
+<td><input type="text" name="nome" id="nome" size="30" maxlength="50" value="{$aluno_nome}" onBlur="return verifica_nome();"></td>
 </tr>
 
 <tr>
 <td>Telefone:</td>
 <td>
-<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlenght="2" value="{$codigo_telefone}">
-<input type="text" name="telefone" id="telefone" size="9" maxlenght="9" value="{$telefone}">
+<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlength="2" value="{$codigo_telefone}">
+<input type="text" name="telefone" id="telefone" size="9" maxlength="9" value="{$telefone}">
 Celular:
-<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlenght="2" value="{$codigo_celular}">
-<input type="text" name="celular" id="celular" size="9" maxlenght="9" value="{$celular}">
+<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlength="2" value="{$codigo_celular}">
+<input type="text" name="celular" id="celular" size="9" maxlength="9" value="{$celular}">
 </td>
 </tr>
 
 <tr>
 <td>E-mail:</td>
 <td>
-<input type="text" name="email" id="email" size="30" maxlenght="50" value="{$email}" onBlur="return verifica_email();">
+<input type="text" name="email" id="email" size="30" maxlength="50" value="{$email}" onBlur="return verifica_email();">
 </td>
 </tr>
 
@@ -289,7 +289,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" name="identidade" id="identidade" maxlength="15" size="15" value='{$identidade}'  onBlur="return verifica_identidade();"/>
-Org�o:
+Orgão:
 <input type="text" name="orgao" id="orgao" maxlength="10" size="10" value='{$orgao}' onBlur="return verifica_orgao();"/>
 </td>
 </tr>
@@ -303,7 +303,7 @@ dd/mm/aaaa
 </tr>
 
 <tr>
-<td>Endereco</td>
+<td>Endereço</td>
 <td>
 <input type="text" name="endereco" id="endereco" maxlength="50" size="30" value='{$endereco}' onBlur="return verifica_endereco();"/>
 CEP:
@@ -315,7 +315,7 @@ CEP:
 <td>Bairro</td>
 <td>
 <input type="text" name="bairro" id="bairro" maxlength="30" size="15" value='{$bairro}' onBlur="return verifica_bairro();"/>
-Municipio:
+Munícipio:
 <input type="text" name="municipio" id="municipio" maxlength="30" size="20" value='{$municipio}' onBlur="return verifica_municipio();"/>
 </td>
 </tr>
@@ -337,7 +337,7 @@ Municipio:
 </tr>
 
 <tr>
-<td>Institucao</td>
+<td>Instituição</td>
 <td>
 <select name='id_instituicao' size=1>
 {section name=i loop=$instituicoes}

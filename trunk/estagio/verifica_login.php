@@ -22,11 +22,11 @@ if(empty($usuario_digitado) or (empty($senha_digitada))) {
     $usuario_senha_passw = crypt(chop($db_senha),post);
     $usuario_senha_passw = substr($usuario_senha_passw,4);
     // echo "Senha digitada= " . $senha_digitada . " Dbase senha= ". $db_senha . "<br>";
-    // Si a senha digitada conicide com a senha da tabela envio o cookie 
+    // Si a senha digitada conicide com a senha da tabela envio o cookie
     // e abro a capa_logado.php
     if($senha_digitada == $db_senha) {
 		setcookie("usuario_nome",$usuario_digitado);
-		setcookie("usuario_senha",$usuario_senha_passw);	    
+		setcookie("usuario_senha",$usuario_senha_passw);
 		// header("Location: capa_logado.php?usuario_nome=$usuario_digitado");
 		// header("Location: capa_logado.php");
 		// header("Location: index1.html");

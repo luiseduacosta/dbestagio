@@ -22,7 +22,7 @@ $sql_estagio .= " order by instituicao, id";
 
 $resultado = $db->Execute($sql_estagio);
 
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 
 $id_instituicao = $resultado->fields['id'];
 $instituicao = $resultado->fields['instituicao'];
@@ -54,13 +54,13 @@ if($datafax == 0) {
 		$anexo = 1; // flag para o arquivo imprime
 		require("imprime.php");
 		$mail->From     = "estagio@ess.ufrj.br";
-		$mail->FromName = "Coordenação de Estágio e Extensão da ESS/UFRJ";
+		$mail->FromName = "CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o da ESS/UFRJ";
 		$mail->Host     = "localhost";
 		$mail->Mailer   = "smtp";
 		$mail->CharSet  = "iso8859-1";
 		$mail->IsHTML(true);
-		$mail->Subject   = "ESS/UFRJ: Inscrições para estágio em $instituicao";
-		$mail->Body      = "Anexo lista de alunos inscritos para seleção de estágio. Favor, confirmar recebimento.";
+		$mail->Subject   = "ESS/UFRJ: InscriÃ§Ãµes para estÃ¡gio em $instituicao";
+		$mail->Body      = "Anexo lista de alunos inscritos para seleÃ§Ã£o de estÃ¡gio. Favor, confirmar recebimento.";
 		$mail->AddAddress($email, $instituicao);
 		// $mail->AddAddress('uy_luis@hotmail.com', $instituicao);
 		$mail->AddBCC('estagio@ess.ufrj.br');
@@ -73,7 +73,7 @@ if($datafax == 0) {
 			$sql_datafax = "update mural_estagio set datafax = '$hoje' where id=$id_instituicao";
 			// echo $sql . "<br>";
 			$resultado_datafax = $db->Execute($sql_datafax);
-			if($resultado_datafax === false) die ("Não foi possível atualizar a tabela mural_estagio");	
+			if($resultado_datafax === false) die ("NÃ£o foi possÃ­vel atualizar a tabela mural_estagio");	
 		}
 		// Clear all addresses and attachments for next loop
 		$mail->ClearAddresses();

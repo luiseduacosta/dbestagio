@@ -25,7 +25,7 @@ if ($classificacao == 0) {
 } elseif ($classificacao == 2) {
 	$classe = ""; // Poderia mudar e nao muda
 } elseif ($classificacao == 3) {
-	$classe = "renovação"; // Nao muda e nao tinha que mudar
+	$classe = "renovaÃ§Ã£o"; // Nao muda e nao tinha que mudar
 }
 // echo $classe . "<br>";
 // die;
@@ -33,15 +33,16 @@ if ($classificacao == 0) {
 
 // die;
 
-require(FPDF."fpdf.php");
+require_once('../libphp/tcpdf/config/lang/eng.php');
+require_once('../libphp/tcpdf/tcpdf.php');
 
-$pdf = new FPDF("P","mm","A4");
+$pdf = new TCPDF('P', 'mm', 'A4', TRUE, 'UTF-8', FALSE);
 
 $pdf->Open();
 
 $pdf->AddPage();
 $pdf->SetMargins(15,15,15);
-$pdf->SetFont("Arial","B","12");
+$pdf->SetFont("Helvetica","B","12");
 // $pdf->Image("minerva.jpg",100,20,20,20,jpg);
 // $pdf->Ln(2);
 $cabecalho1 = $pdf->GetStringWidth("UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
@@ -49,106 +50,106 @@ $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,3,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
+$cabecalho2 = $pdf->GetStringWidth("Escola de ServiÃ§o Social");
 $pdf->SetX((210-$cabecalho2)/2);
-$pdf->Cell($cabecalho2,3,"Escola de Serviço Social",0,1,'C',0);
+$pdf->Cell($cabecalho2,3,"Escola de ServiÃ§o Social",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio");
+$cabecalho3 = $pdf->GetStringWidth("CoordenaÃ§Ã£o de EstÃ¡gio");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,3,"Coordenação de Estágio",0,1,'C',0);
+$pdf->Cell($cabecalho3,3,"CoordenaÃ§Ã£o de EstÃ¡gio",0,1,'C',0);
 $pdf->Ln(2);
 
 $cabecalho3 = $pdf->GetStringWidth("Termo de compromisso (estagio:  )");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,3,"Termo de Compromisso (Estágio $nivel_romano $classe)",0,1,'C',0);
+$pdf->Cell($cabecalho3,3,"Termo de Compromisso (EstÃ¡gio $nivel_romano $classe)",0,1,'C',0);
 $pdf->Ln(2);
 
 $texto0 = "
-O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . utf8_decode(strtoupper($nome)) . ", instituição ". utf8_decode($instituicao) . " e Supervisor(a) AS. ". utf8_decode(strtoupper($supervisor)) . ", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+O presente TERMO DE COMPROMISSO DE ESTÃGIO que entre si assinam CoordenaÃ§Ã£o de EstÃ¡gio da Escola de ServiÃ§o Social/UFRJ/Estudante " . strtoupper($nome) . ", instituiÃ§Ã£o ". $instituicao . " e Supervisor(a) AS. ". strtoupper($supervisor) . ", visa estabelecer condiÃ§Ãµes gerais que regulam a realizaÃ§Ã£o de ESTÃGIO CURRICULAR. Atividade obrigatÃ³ria para a conclusÃ£o da GraduaÃ§Ã£o em ServiÃ§o Social. Ficam estabelecidas entre as partes as seguintes condiÃ§Ãµes bÃ¡sicas para a realizaÃ§Ã£o do estÃ¡gio:
 ";
 
 $texto1 = "
-Art. 01. As atividades a serem desenvolvidas pelo estagiário, deverão ser compatíveis com o curso de Serviço Social, envolvem observação, estudos, elaboração de projetos e realização de leituras e atividades práticas.
-Art. 02. A permanência em cada campo de estágio deverá ser de no mínimo dois semestres letivos consecutivos. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer da supervisora e do professor de OTP.
-Art. 03. Em caso de demissão do supervisor, ou a ocorrência de férias deste profissional ao longo do período letivo, outro assistente social deverá ser imediatamente indicado para supervisão técnica do estagiário.
+Art. 01. As atividades a serem desenvolvidas pelo estagiÃ¡rio, deverÃ£o ser compatÃ­veis com o curso de ServiÃ§o Social, envolvem observaÃ§Ã£o, estudos, elaboraÃ§Ã£o de projetos e realizaÃ§Ã£o de leituras e atividades prÃ¡ticas.
+Art. 02. A permanÃªncia em cada campo de estÃ¡gio deverÃ¡ ser de no mÃ­nimo dois semestres letivos consecutivos. A quebra deste contrato, deverÃ¡ ser precedida de apresentaÃ§Ã£o de solicitaÃ§Ã£o formal Ã  CoordenaÃ§Ã£o de EstÃ¡gio, com no mÃ­nimo 1 mÃªs de antes do tÃ©rmino do perÃ­odo letivo em curso. Contendo parecer da supervisora e do professor de OTP.
+Art. 03. Em caso de demissÃ£o do supervisor, ou a ocorrÃªncia de fÃ©rias deste profissional ao longo do perÃ­odo letivo, outro assistente social deverÃ¡ ser imediatamente indicado para supervisÃ£o tÃ©cnica do estagiÃ¡rio.
 ";
 
 $texto2 = "
-Art. 04. De acordo com a orientação geral da Universidade do Rio de Janeiro, no que concerne à estágios, e o currículo da Escola de Serviço Social, implantado em 2001. O estágio será realizado por um período de, no mínimo 120 horas/semestre, não podendo ultrapassar 20h semanais.
-Art. 05. Será indicado pelos Departamentos da ESS, um professor para acompanhamento acadêmico referente a área temática da instituição que o aluno realizará o seu estágio.
-Art. 06. A Escola de Serviço Social fornecerá à Instituição informações e declarações solicitadas, consideradas necessárias ao bom andamento do estágio curricular.
+Art. 04. De acordo com a orientaÃ§Ã£o geral da Universidade do Rio de Janeiro, no que concerne Ã  estÃ¡gios, e o currÃ­culo da Escola de ServiÃ§o Social, implantado em 2001. O estÃ¡gio serÃ¡ realizado por um perÃ­odo de, no mÃ­nimo 120 horas/semestre, nÃ£o podendo ultrapassar 20h semanais.
+Art. 05. SerÃ¡ indicado pelos Departamentos da ESS, um professor para acompanhamento acadÃªmico referente a Ã rea temÃ¡tica da instituiÃ§Ã£o que o aluno realizarÃ¡ o seu estÃ¡gio.
+Art. 06. A Escola de ServiÃ§o Social fornecerÃ¡ Ã  InstituiÃ§Ã£o informaÃ§Ãµes e declaraÃ§Ãµes solicitadas, consideradas necessÃ¡rias ao bom andamento do estÃ¡gio curricular.
 ";
 
 $texto3 = "
-Art. 07. O estágio será realizado no âmbito da unidade concedente onde deve existir um Assistente Social responsável pelo projeto desenvolvido pelo Serviço Social. As atividades de estágio serão realizadas em horário compatível com as atividades escolares do estagiário e com as normas vigentes no âmbito da unidade concedente.
-Art. 08. A Coordenação de Estágio/ESS deve ser informada com prazo de 01 (um) mês de antecedência o afastamento do supervisor do campo de estágio e a indicação do seu substituto.
+Art. 07. O estÃ¡gio serÃ¡ realizado no Ã¢mbito da unidade concedente onde deve existir um Assistente Social responsÃ¡vel pelo projeto desenvolvido pelo ServiÃ§o Social. As atividades de estÃ¡gio serÃ£o realizadas em horÃ¡rio compatÃ­vel com as atividades escolares do estagiÃ¡rio e com as normas vigentes no Ã¢mbito da unidade concedente.
+Art. 08. A CoordenaÃ§Ã£o de EstÃ¡gio/ESS deve ser informada com prazo de 01 (um) mÃªs de antecedÃªncia o afastamento do supervisor do campo de estÃ¡gio e a indicaÃ§Ã£o do seu substituto.
 ";
 
 $texto4 = "
-Art. 09. É de responsabilidade do Assistente Social supervisor o acompanhamento e supervisão sistemática do processo vivenciado pelo aluno durante o período de estágio.
-Art. 10. No final de cada mês o supervisor atestará á unidade de ensino, em formulário próprio, a carga horária cumprida pelo estagiário.
-Art. 11. No final de cada período letivo o supervisor encaminhará, ao professor da disciplina de Orientação e Treinamento Profissional, avaliação do processo vivenciado pelo aluno durante o semestre. Instrumento este utilizado pelo professor na avaliação final do aluno.
+Art. 09. Ã‰ de responsabilidade do Assistente Social supervisor o acompanhamento e supervisÃ£o sistemÃ¡tica do processo vivenciado pelo aluno durante o perÃ­odo de estÃ¡gio.
+Art. 10. No final de cada mÃªs o supervisor atestarÃ¡ Ã  unidade de ensino, em formulÃ¡rio prÃ³prio, a carga horÃ¡ria cumprida pelo estagiÃ¡rio.
+Art. 11. No final de cada perÃ­odo letivo o supervisor encaminharÃ¡, ao professor da disciplina de OrientaÃ§Ã£o e Treinamento Profissional, avaliaÃ§Ã£o do processo vivenciado pelo aluno durante o semestre. Instrumento este utilizado pelo professor na avaliaÃ§Ã£o final do aluno.
 ";
 
 $texto5 = "
-Art. 12. Cabe ao estagiário cumprir o horário acordado com a unidade para o desempenho das atividades definidas no Plano de Estágio, observando os princípios éticos que rege o Serviço Social. São considerados motivos justos ao não cumprimento da programação, as obrigações escolares do estagiário que devem ser comunicadas, ao supervisor, em tempo hábil.
-Art. 13. 0 aluno se compromete a cuidar e manter sigilo em relação à documentação, da unidade campo de estágio, mesmo após o seu desligamento.
-Art. 14. O aluno deverá cumprir com responsabilidade e assiduidade os compromisso assumidos junto ao acampo de estágio, independente do calendário e férias acadêmicas.
-Art. 15. O período de permanência do aluno no campo de estágio se dará de acordo com o contrato formal ou informal assumido com o supervisor.
-Art. 16. O presente Termo de Compromisso terá validade de $validade1 a $validade2, correspondente ao Estagio ". $nivel_romano .". Sua interrupção antes do período previsto, acarretará prejuízo para o aluno na sua avaliação acadêmica.
-Art. 17. Os casos omissos serão encaminhados à Coordenação de Estágio para serem dirimidos.
+Art. 12. Cabe ao estagiÃ¡rio cumprir o horÃ¡rio acordado com a unidade para o desempenho das atividades definidas no Plano de EstÃ¡gio, observando os princÃ­pios Ã©ticos que rege o ServiÃ§o Social. SÃ£o considerados motivos justos ao nÃ£o cumprimento da programaÃ§Ã£o, as obrigaÃ§Ãµes escolares do estagiÃ¡rio que devem ser comunicadas, ao supervisor, em tempo hÃ¡bil.
+Art. 13. 0 aluno se compromete a cuidar e manter sigilo em relaÃ§Ã£o Ã  documentaÃ§Ã£o, da unidade campo de estÃ¡gio, mesmo apÃ³s o seu desligamento.
+Art. 14. O aluno deverÃ¡ cumprir com responsabilidade e assiduidade os compromisso assumidos junto ao acampo de estÃ¡gio, independente do calendÃ¡rio e fÃ©rias acadÃªmicas.
+Art. 15. O perÃ­odo de permanÃªncia do aluno no campo de estÃ¡gio se darÃ¡ de acordo com o contrato formal ou informal assumido com o supervisor.
+Art. 16. O presente Termo de Compromisso terÃ¡ validade de $validade1 a $validade2, correspondente ao EstÃ¡gio ". $nivel_romano .". Sua interrupÃ§Ã£o antes do perÃ­odo previsto, acarretarÃ¡ prejuÃ­zo para o aluno na sua avaliaÃ§Ã£o acadÃªmica.
+Art. 17. Os casos omissos serÃ£o encaminhados Ã  CoordenaÃ§Ã£o de EstÃ¡gio para serem dirimidos.
 ";
 
-$pdf->SetFont("Arial","","10");
+$pdf->SetFont("Helvetica", "", "9");
 $pdf->Multicell(0,4,$texto0);
 
 $pdf->Ln(1);
-$pdf->SetFont("Arial","B","9");
-$pdf->Cell(0,5,"Das Partes");
+$pdf->SetFont("Helvetica", "B", "9");
+$pdf->Cell(0, 5, "Das Partes");
 $pdf->Ln(1);
-$pdf->SetFont("Arial","","10");
-$pdf->MultiCell(0,4,$texto1);
+$pdf->SetFont("Helvetica", "", "9");
+$pdf->MultiCell(0, 4, $texto1);
 
 $pdf->Ln(1);
-$pdf->SetFont("Arial","B","9");
+$pdf->SetFont("Helvetica", "B", "9");
 $pdf->Cell(0,5,"Da ESS");
 $pdf->Ln(1);
-$pdf->SetFont("Arial","","10");
-$pdf->MultiCell(0,4,$texto2);
+$pdf->SetFont("Helvetica", "", "9");
+$pdf->MultiCell(0, 4, $texto2);
 
 $pdf->Ln(1);
-$pdf->SetFont("Arial","B","9");
-$pdf->Cell(0,5,"Da Instituição");
+$pdf->SetFont("Helvetica", "B", "9");
+$pdf->Cell(0,5,"Da InstituiÃ§Ã£o");
 $pdf->Ln(1);
-$pdf->SetFont("Arial","","10");
-$pdf->MultiCell(0,4,$texto3);
+$pdf->SetFont("Helvetica", "", "9");
+$pdf->MultiCell(0, 4, $texto3);
 
 $pdf->Ln(1);
-$pdf->SetFont("Arial","B","9");
+$pdf->SetFont("Helvetica", "B", "9");
 $pdf->Cell(0,5,"Do Supervisor");
 $pdf->Ln(1);
-$pdf->SetFont("Arial","","10");
-$pdf->MultiCell(0,4,$texto4);
+$pdf->SetFont("Helvetica", "", "9");
+$pdf->MultiCell(0, 4, $texto4);
 
 $pdf->Ln(1);
-$pdf->SetFont("Arial","B","9");
+$pdf->SetFont("Helvetica", "B", "9");
 $pdf->Cell(0,5,"Do Aluno");
 $pdf->Ln(1);
-$pdf->SetFont("Arial","","10");
-$pdf->MultiCell(0,4,$texto5);
+$pdf->SetFont("Helvetica", "", "9");
+$pdf->MultiCell(0, 4, $texto5);
 
 $final = "Rio de Janeiro, " . $dia . " do " . $mes . " de " . $ano . ".";
 
 $pdf->Ln(5);
-$pdf->Cell(0,5,$final,0,0,"R");
+$pdf->Cell(0, 5, $final, 0, 0, "R");
 
 $pdf->Ln(10);
-$pdf->Cell(0,5,"Coordenação de Estágio",0,0,"L");
+$pdf->Cell(0, 5,"CoordenaÃ§Ã£o de EstÃ¡gio", 0, 0, "L");
 $pdf->SetX(20);
-$pdf->Cell(0,5,"Supervisor / CRESS: $cress",0,0,"C");
+$pdf->Cell(0, 5,"Supervisor / CRESS: $cress", 0, 0, "C");
 $pdf->SetX(30);
-$pdf->Cell(0,5,"Aluno / DRE: $registro",0,0,"R");
+$pdf->Cell(0, 5,"Aluno / DRE: $registro", 0, 0, "R");
 
 $pdf->Output('/usr/local/htdocs/html/estagio/tmp/termo'.$registro.'.pdf');
 $file = "/tmp/termo" .$registro . ".pdf";

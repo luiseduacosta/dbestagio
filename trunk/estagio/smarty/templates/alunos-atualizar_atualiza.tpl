@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Aluno modifica estï¿½gio</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Aluno modifica estÃ¡gio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -84,28 +84,28 @@ Modifica dados do aluno
 
 <tr>
 <td>Registro</td>
-<td><input type="text" name="registro" id="registro" size="10" maxlenght="10" value="{$registro}"></td>
+<td><input type="text" name="registro" id="registro" size="10" maxlength="10" value="{$registro}"></td>
 </tr>
 
 <tr>
 <td>Nome</td>
-<td><input type="text" name="nome" id="nome" size="30" maxlenght="50" value="{$aluno_nome}"></td>
+<td><input type="text" name="nome" id="nome" size="30" maxlength="50" value="{$aluno_nome}"></td>
 </tr>
 
 <tr>
 <td>Telefone:</td>
 <td>
-<input type="text" name="codigo_telefone" size="2" maxlenght="2" value="{$codigo_telefone}">
-<input type="text" name="telefone" id="telefone" size="9" maxlenght="9" value="{$telefone}">
+<input type="text" name="codigo_telefone" size="2" maxlength="2" value="{$codigo_telefone}">
+<input type="text" name="telefone" id="telefone" size="9" maxlength="9" value="{$telefone}">
 Celular:
-<input type="text" name="codigo_celular" size="2" maxlenght="2" value="{$codigo_celular}">
-<input type="text" name="celular" id="celular" size="9" maxlenght="9" value="{$celular}">
+<input type="text" name="codigo_celular" size="2" maxlength="2" value="{$codigo_celular}">
+<input type="text" name="celular" id="celular" size="9" maxlength="9" value="{$celular}">
 </td>
 </tr>
 
 <tr>
 <td>E-mail:</td>
-<td colspan="3"><input type="text" name="email" id="email" size="30" maxlenght="50" value="{$email}"></td>
+<td colspan="3"><input type="text" name="email" id="email" size="30" maxlength="50" value="{$email}"></td>
 </tr>
 
 <tr>
@@ -121,7 +121,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" maxlength="15" size="15" name="identidade" id="identidade" value='{$identidade}' />
-Orgão:
+OrgÃ£o:
 <input type="text" maxlength="10" size="10" name="orgao" id="orgao" value='{$orgao}' />
 </td>
 </tr>
@@ -135,7 +135,7 @@ dd/mm/aaaa
 </tr>
 
 <tr>
-<td>Endereco</td>
+<td>EndereÃ§o</td>
 <td>
 <input type="text" maxlength="50" size="30" name="endereco" id="endereco" value='{$endereco}' />
 CEP: <input type="text" maxlength="9" size="9" name="cep" id="cep" value='{$cep}' />
@@ -146,7 +146,7 @@ CEP: <input type="text" maxlength="9" size="9" name="cep" id="cep" value='{$cep}
 <td>Bairro</td>
 <td>
 <input type="text" maxlength="30" size="15" name="bairro" id="bairro" value='{$bairro}' />
-Municipio:
+MunicÃ­pio:
 <input type="text" maxlength="30" size="20" name="municipio" id="municipio" value='{$municipio}' />
 </td>
 </tr>
@@ -177,20 +177,20 @@ Municipio:
 </div>
 
 <!--
-Modifica dados dos campos de estï¿½gio
+Modifica dados dos campos de estÃ¡gio
 //-->
 
 <div align="center" id="historico_estagios" style="visibility: visible">
 <table border="1">
 
 <tr>
-<th>Período</th>
+<th>PerÃ­odo</th>
 <th>TC</th>
-<th>Estágio</th>
+<th>EstÃ¡gio</th>
 <th>Turno</th>
 <th>ch</th>
 <th>Nota</th>
-<th>Instituição</th>
+<th>InstituiÃ§Ã£o</th>
 </tr>
 
 {section name=elemento loop=$estagiarios}
@@ -219,11 +219,11 @@ Inserir novos campos de estagio do aluno
 <div align="center" class="modificar_estagiario" id="modificar_estagiario" style="visibility: visible">
 
 <table border="1" width="80%">
-<caption>Inserir estágio</caption>
+<caption>Inserir estÃ¡gio</caption>
 <tbody>
 
 <tr>
-<td>Período</td>
+<td>PerÃ­odo</td>
 <td>
 <input type="text" name="periodo" id="periodo" size="6" maxlength="6" onChange="return verificaPeriodo();">
 Formato: AAAA-1 ou 2
@@ -241,10 +241,10 @@ Nao <input type="radio" name="tc" id="tc" value="0" checked>
 <tr>
 <td>Nivel:</td>
 <td>
-Estágio I   <input type="radio" name="nivel" value="1">
-Estágio II  <input type="radio" name="nivel" value="2">
-Estágio III <input type="radio" name="nivel" value="3">
-Estágio IV  <input type="radio" name="nivel" value="4">
+EstÃ¡gio I   <input type="radio" name="nivel" value="1">
+EstÃ¡gio II  <input type="radio" name="nivel" value="2">
+EstÃ¡gio III <input type="radio" name="nivel" value="3">
+EstÃ¡gio IV  <input type="radio" name="nivel" value="4">
 </td>
 </tr>
 
@@ -257,10 +257,10 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>InstituiÃ§Ã£o:</td>
 <td>
 <select id="id_instituicao" name="id_instituicao" size="1">
-<option value="0">Selecione instituiï¿½ï¿½o</option>
+<option value="0">Selecione instituiÃ§Ã£o</option>
 {section name=elemento loop=$instituicoes}
 <option value="{$instituicoes[elemento].id_instituicao}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
@@ -307,7 +307,7 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Área do professor:</td>
+<td>Ãrea do professor:</td>
 <td>
 <select name="id_area" size="1">
 <option value="0">Selecione area</option>
@@ -320,10 +320,10 @@ Noturno <input type="radio" name="turno" value="N">
 </tr>
 
 <tr>
-<td>Avaliação</td>
+<td>AvaliaÃ§Ã£o</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
-Carga horária (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
+Carga horÃ¡ria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="0">
 </td>
 </tr>
 
