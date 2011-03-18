@@ -5,7 +5,6 @@ $ordem = $_GET['ordem'];
 if(empty($ordem))
     $ordem="supervisor";
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
@@ -16,7 +15,7 @@ $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela supervisores e inst_super");
+if($resultado === false) die ("Nao foi possivel consultar a tabela supervisores e inst_super");
 $i = 0;
 while(!$resultado->EOF) {
     $supervisores[$i]['cress']         = $resultado->fields['cress'];
@@ -30,9 +29,9 @@ while(!$resultado->EOF) {
 
 // Busco o nome da instituicao
 $sql_instituicao = "select instituicao from estagio where id=$id_instituicao";
-$resultado_instituicao = $db->Execute($sql_instituicao);
-if($resultado_instituicao === false) die ("Não foi possivel consutar a tabela estagio");
-$instituicao = $resultado_instituicao->fields['instituicao'];
+$res_instituicao = $db->Execute($sql_instituicao);
+if($res_instituicao === false) die ("Nao foi possivel consutar a tabela estagio");
+$instituicao = $res_instituicao->fields['instituicao'];
 
 $smarty = new Smarty_estagio;
 $smarty->assign("id_instituicao",$id_instituicao);

@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../db.inc");
+// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql_ultimo_periodo = "select max(periodo) as ultimo_periodo from estagiarios";
@@ -22,7 +22,7 @@ $sql_alunos .= " group by registro";
 // echo $sql_alunos . "<br>";
 
 $res_alunos = $db->Execute($sql_alunos);
-if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");
+if ($res_alunos == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_alunos->EOF) {
 	$total_alunos = $res_alunos->fields['total_alunos'];
 	$todos_alunos++;
@@ -36,7 +36,7 @@ if ($turma) $sql_instituicoes .= " where periodo='$turma' ";
 $sql_instituicoes .= " group by id_instituicao";
 // echo $sql_instituicoes . "<br>";
 $res_instituicoes = $db->Execute($sql_instituicoes);
-if ($res_instituicoes == false) die ("Não foi possível consultar a tabela estagiarios");
+if ($res_instituicoes == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_instituicoes->EOF) {
 	$total_instituicoes = $res_instituicoes->fields['total_instituicoes'];
 	$todas_instituicoes++;
@@ -50,7 +50,7 @@ if ($turma) $sql_professor .= " where periodo='$turma' ";
 $sql_professor .= " group by id_professor";
 // echo $sql_professor . "<br>";
 $res_professor = $db->Execute($sql_professor);
-if ($res_professor == false) die ("Não foi possível consultar a tabela estagiarios");
+if ($res_professor == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_professor->EOF) {
 	$total_professores = $res_professor->fields['total_professores'];
 	$todos_professores++;
@@ -58,7 +58,7 @@ while (!$res_professor->EOF) {
 }
 // echo "Total de professores: ". $todos_professores . " " . $total_professores . "<br>";
 
-$sql  = "select e.id, e.instituicao, e.convenio, e.natureza, e.area as id_area, e.beneficio ";
+$sql  = "select e.id, e.instituicao, e.seguro, e.convenio, e.natureza, e.area as id_area, e.beneficio ";
 $sql .= " , a.area ";
 $sql .= " , t.id_supervisor ";
 $sql .= " from estagio as e ";
@@ -82,7 +82,7 @@ $resultado = $db->Execute($sql);
 
 $quantidade_alunos = $resultado->RecordCount();
 
-if ($resultado == false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 
 $i = 0;
 while(!$resultado->EOF) {
@@ -93,10 +93,11 @@ while(!$resultado->EOF) {
   	$area             = $resultado->fields['area'];
 	$beneficio        = $resultado->fields['beneficio'];
   	$convenio         = $resultado->fields['convenio'];
+	$seguro           = $resultado->fields['seguro'];
 	$id_supervisor	  = $resultado->fields['id_supervisor'];
-  	
+
   	$resultado->MoveNext();
-	
+
 	// Quantidade de supervisores por periodo e instituicao
 	$sql_supervi  = "select id_supervisor from estagiarios where id_instituicao='$id_instituicao' ";
 	if ($turma)$sql_supervi .= " and periodo = '$turma' ";
@@ -108,15 +109,15 @@ while(!$resultado->EOF) {
 	// echo $i . " " .  $supervisor_id . "<br>";
 	$total_supervi = $total_supervi + $q_supervi;
 	// echo " Super " . $id_supervisor . " quantidade: " . $q_supervi .  " acumulado: " . $total_supervi . "<br>";
-	
+
     // Pego a ultima turma de cada instituicao
     $sql_max_turma = "select max(periodo) as turma from estagiarios where id_instituicao=$id_instituicao";
 	// echo $sql_max_turma . "<br>";
     $resultado_turma = $db->Execute($sql_max_turma);
-    if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
+    if ($resultado_turma === false) die ("NÃ£o foi possÃ­vel consultar a tabela turma_estagio");
     $q_turma = $resultado_turma->RecordCount();
     // echo $q_turma . "<br>";
-	if ($q_turma != 0) { 
+	if ($q_turma != 0) {
 		$turma_estagiarios = $resultado_turma->fields['turma'];
 	} else {
 		$turma_estagiarios = "";
@@ -139,21 +140,21 @@ while(!$resultado->EOF) {
 	}
 	$todos_periodos = $todos_periodos + $total_periodos;
 	// echo "Todos periodos: " . $todos_periodos . "<br>";
-	
+
 	// Pego o mural da instituicao (por enquanto nao tem utilidade)
 	$sql_mural = "select id, periodo from mural_estagio where id_estagio=$id_instituicao";
 	// echo $sql_mural . "<br>";
 	$resultado_mural = $db->Execute($sql_mural);
-    if ($resultado_mural === false) die ("Não foi possível consultar a tabela mural_estagio");	
+    if ($resultado_mural === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 
 	while(!$resultado_mural->EOF) {
 		$id_mural = $resultado_mural->fields['id'];
 		$periodo_mural = $resultado_mural->fields['periodo'];
 		$resultado_mural->MoveNext();
 	}
-	
+
 	if(empty($ordem))
-   	    $ordem = "instituicao"; 
+   	    $ordem = "instituicao";
   	else
     	$indice = $ordem;
 
@@ -168,6 +169,7 @@ while(!$resultado->EOF) {
   	$matriz[$i]['area']           = $area;
 	$matriz[$i]['natureza']       = $natureza_inst;
   	$matriz[$i]['convenio']       = $convenio;
+ 	$matriz[$i]['seguro']         = $seguro;
   	$matriz[$i]['beneficio']      = $beneficio;
   	$i++;
 }
@@ -177,10 +179,10 @@ if (!empty($matriz)) {
 	sort($matriz);
 }
 
-/* Debugg 
+/* Debugg
 for($i=0;$i<sizeof($matriz);$i++) {
 
- print $matriz[$i]['id'] . " ";      
+ print $matriz[$i]['id'] . " ";
  print $matriz[$i]['nome'] . " ";
  print $matriz[$i]['instituicao'] . "<br>";
 }
@@ -190,7 +192,7 @@ for($i=0;$i<sizeof($matriz);$i++) {
 $sql_turma = "select id, periodo from estagiarios group by periodo";
 // echo $sql_turma . "<br>";
 $res_turma = $db->Execute($sql_turma);
-if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die ("NÃ£o foi possivel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();
@@ -199,7 +201,7 @@ while (!$res_turma->EOF) {
 // Pego a natureza das instituicoes
 $sql_natureza = "select natureza from estagio group by natureza order by natureza";
 $res_natureza = $db->Execute($sql_natureza);
-if ($res_natureza === false) die ("Não foi possivel consultar a tabela estagio");
+if ($res_natureza === false) die ("NÃ£o foi possivel consultar a tabela estagio");
 while (!$res_natureza->EOF) {
 	$naturezas[] = $res_natureza->fields['natureza'];
 	$res_natureza->MoveNext();

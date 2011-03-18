@@ -1,6 +1,6 @@
 
 <!-- ###RODAPE### -->
-<h1>Escola de Serviço Social da UFRJ</h1>
+<h1>Escola de ServiÃ§o Social da UFRJ</h1>
 <!-- ###RODAPE### -->
 
 </body>

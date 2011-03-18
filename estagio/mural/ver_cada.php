@@ -18,12 +18,12 @@ echo " Botao: " . $botao  . "<br/>";
 // Calculo a quantidade de registros
 $sql = "select id from mural_estagio where periodo = '" . PERIODO_ATUAL . "'";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 $num_linhas = $resultado->RecordCount();
 // echo $num_linhas . "<br>";
 $ultimo_registro = $num_linhas - 1;
 
-switch($botao)
+switch($botao) 
 {
     case "primeiro":
 	$indice = 0;
@@ -58,26 +58,26 @@ switch($botao)
 	break;
 }
 
-// Quando não tenho o indice, o calculo a partir do id_instituicao
-if(!empty($id_instituicao)) {
+// Quando nao tenho o indice, o calculo a partir do id_instituicao
+if (!empty($id_instituicao)) {
 	// Pode ter mais de uma instituicao por periodo por isso tem que ordenar por instituicao e id
 	$sql_instituicao  = "select id, instituicao from mural_estagio ";
 	$sql_instituicao .= " where periodo = '" . PERIODO_ATUAL . "' ";
 	$sql_instituicao .= " order by instituicao, id";
 	// echo $sql_instituicao . "<br>";
-	$resultado_instituicao = $db->Execute($sql_instituicao);
-	if($resultado_instituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
+	$res_instituicao = $db->Execute($sql_instituicao);
+	if ($res_instituicao === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 	$lugar = 0;
-	while(!$resultado_instituicao->EOF)	{
-		$num_instituicao = $resultado_instituicao->fields['id'];
-		if($num_instituicao === $id_instituicao) {
+	while (!$res_instituicao->EOF)	{
+		$num_instituicao = $res_instituicao->fields['id'];
+		if ($num_instituicao === $id_instituicao) {
 			// echo $indice . " " . $num_instituicao . " " . $id_instituicao . "<br>";
 			$indice = $lugar;
 			// break;
 		}
 		// echo "indice -> " . $indice . " lugar -> " . $lugar .  "<br />";
 		$lugar++;
-		$resultado_instituicao->MoveNext();
+		$res_instituicao->MoveNext();
 	}
 }
 
@@ -96,7 +96,7 @@ $sql_estagio .= "order by instituicao, id";
 
 $resultado = $db->SelectLimit($sql_estagio,1,$indice);
 
-if($resultado === false) die ("3 Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("3 NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 $i = 0;
 while (!$resultado->EOF) {
 		$instituicao[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -110,7 +110,7 @@ while (!$resultado->EOF) {
 		$final_de_semana = $resultado->fields['final_de_semana'];
 		switch($final_de_semana) {
 				case 0;
-				$final_de_semana = "Não";
+				$final_de_semana = "NÃ£o";
 				break;
 
 				case 1;
@@ -146,7 +146,7 @@ while (!$resultado->EOF) {
 		// Transformo a data de aaaa-mm-dd para dd-mm-aaaa
 		if ($dataSelecao == 0) {
 			$data_selecao = "00-00-0000";
-			// echo "Inscrição diretamente na instituição";
+			// echo "InscriÃ§Ã£o diretamente na instituiÃ§Ã£o";
 		} else {
 			$data_selecao = date("Ymd",strtotime($dataSelecao));
 		}
@@ -222,7 +222,7 @@ $smarty->assign("data_selecao",$data_selecao);
 $smarty->assign("data_fax",$data_fax);
 $smarty->assign("indice",$indice);
 // $smarty->assign("opcao",$opcao);
-$smarty->display("ver_cada.tpl");
+$smarty->display("../../mural/ver_cada.tpl");
 
 exit;
 

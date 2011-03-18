@@ -6,7 +6,7 @@ require(ADODB.'adodb.inc.php');
 
 /* */
 $tipo       = "mysql";
-$host       = "200.20.112.2";
+$host       = "localhost";
 $usuario    = "ess";
 $senha      = "ess123";
 $bancodados = "ess";
@@ -14,30 +14,33 @@ $bancodados = "ess";
 
 $db = NewADOConnection($tipo);
 $db->Connect($host,$usuario,$senha,$bancodados);
+$db->Execute("set names 'utf8'");
 $db->debug;
 $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 // carrega Smarty library files
-define("RAIZ","/usr/local/htdocs/html/");
+define("RAIZ","/usr/local/htdocs/html");
 define("SMARTY_DIR","/usr/local/htdocs/html/Smarty/libs/");
 
 require(SMARTY_DIR.'Smarty.class.php');
 
 class Smarty_estagio extends Smarty {
 
-    function Smarty_estagio() {
-	$this->Smarty();
+	function Smarty_estagio() {
 
-	$this->cache_dir    = RAIZ.'estagio/smarty/cache/';
-	$this->config_dir   = RAIZ.'estagio/smarty/configs/';
-	$this->template_dir = RAIZ.'estagio/smarty/templates/';
-	$this->compile_dir  = RAIZ.'estagio/smarty/templates_c/';
+		$this->Smarty();
 
-	$this->caching = true;
-	$this->compile_check = true;
-	$this->clear_all_cache();
-	$this->assign('app_name','estagio');
-    }
+		$this->cache_dir    = RAIZ.'/estagio/smarty/cache/';
+		$this->config_dir   = RAIZ.'/estagio/smarty/configs/';
+		$this->template_dir = RAIZ.'/estagio/smarty/templates/';
+		$this->compile_dir  = RAIZ.'/estagio/smarty/templates_c/';
+
+		$this->debugging = false;
+		$this->caching = true;
+		$this->compile_check = true; // Em producao tem que ser false
+		$this->clear_all_cache();
+		$this->assign('app_name','estagio');
+	}
 }
 
 define("ESTAGIO","/estagio/");

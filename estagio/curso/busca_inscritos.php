@@ -20,10 +20,10 @@ $sql = "select curso_inscricao_supervisor.id, curso_inscricao_supervisor.num_ins
 		" order by $ordem";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel consultar a tabela curso_inscricao_supervisor");
+if($resultado === false) die ("N√£o foi poss√≠vel consultar a tabela curso_inscricao_supervisor");
 $quantidade = $resultado->RecordCount();
 if($quantidade === 0) {
-    echo "N„o h· registros com a palavra: $palavra";
+    echo "N√£o h√° registros com a palavra: $palavra";
     exit;
 } else {
     $i = 0;

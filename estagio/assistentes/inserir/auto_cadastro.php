@@ -26,25 +26,25 @@ function confirma() {
     id_instituicao=document.getElementById('id_instituicao').value;
 
     if(nome=="") {
-    	alert("VocÍ precisa informar o seu nome");
+    	alert("Voc√™ precisa informar o seu nome");
 		document.cadastro.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("… importante o seu e-mail para nossa comunicaÁ„o");
+    	alert("√â importante o seu e-mail para nossa comunica√ß√£o");
 		document.cadastro.email.focus();
 		return false;
 	}
 
     if(cress=="") {
-    	alert("Favor informar o seu n˙mero de registro no CRESS");
+    	alert("Favor informar o seu n√∫mero de registro no CRESS");
 		document.cadastro.cress.focus();
 		return false;
 	}
 
     if(escola=="") {
-    	alert("Em qual escola fez a sua graduaÁ„o");
+    	alert("Em qual escola fez a sua gradua√ß√£o");
 		document.cadastro.escola.focus();
 		return false;
 	}
@@ -56,7 +56,7 @@ function confirma() {
 	}
 
     if(id_instituicao=="") {
-    	alert("Informe a instituiÁ„o em que trabalha");
+    	alert("Informe a institui√ß√£o em que trabalha");
 		document.cadastro.id_instituicao.focus();
 		return false;
 	}
@@ -76,7 +76,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
 	if(quantidade > 9) {
-		alert("O limite do campo È de 9 carateres");
+		alert("O limite do campo √© de 9 carateres");
 	}
 }
 //-->
@@ -103,7 +103,7 @@ $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : NULL;
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
 
 if ($cress) {
-	if (ctype_digit($cress) == FALSE) echo "Digite somente n˙meros.";
+	if (ctype_digit($cress) == FALSE) echo "Digite somente n√∫meros.";
 }
 
 $sql  = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
@@ -116,7 +116,7 @@ if (!empty($id_supervisor)) {
 } elseif(!empty($cress)) {
 	$sql .= " where supervisores.cress='$cress'";
 } else {
-	die("N˙mero de cress n„o foi digitado");
+	die("N√∫mero de Cress n√£o foi digitado");
 }
 // echo $sql . "<br>";
 
@@ -129,7 +129,7 @@ $quantidade = $resultado->RecordCount();
 // Se esta sendo utilizada como cadastro entao bloquea caso nao tenha cress
 if ($sistema_autentica == 0) {
 	if ($quantidade == 0) {
-		echo "<p>Disculpe, supervisor n„o cadastrado. Favor, enviar um email para <a href mailto:estagio@ess.ufrj.br>estagio@ess.ufrj.br</a> para que possamos corrigir este problema. Se for possÌvel, acrescente um telefone para contato.<p>";
+		echo "<p>Disculpe, supervisor n√£o cadastrado. Favor, enviar um email para <a href mailto:estagio@ess.ufrj.br>estagio@ess.ufrj.br</a> para que possamos corrigir este problema. Se for poss√≠vel, acrescente um telefone para contato.<p>";
 		exit;
 	}
 }
@@ -181,7 +181,7 @@ if ($sistema_autentica == 0) {
 </tr>
 
 <tr>
-<td>EndereÁo: </td>
+<td>Endere√ßo: </td>
 <td><input type="text" name="endereco" id="endereco" maxlength="100" size="50" value="<?php echo $endereco; ?>"></td>
 </tr>
 
@@ -191,7 +191,7 @@ if ($sistema_autentica == 0) {
 </tr>
 
 <tr>
-<td>MunicÌpio: </td>
+<td>Munic√≠pio: </td>
 <td><input type="text" name="municipio" id="municipio" maxlength="30" size="30" value="<?php echo $municipio; ?>"></td>
 </tr>
 
@@ -204,14 +204,14 @@ if ($sistema_autentica == 0) {
 <tr>
 <td>Telefone: </td>
 <td>
-CÛdigo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
+C√≥digo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
 <input type="text" name="telefone" id="telefone" maxlength="9" size="9"  value="<?php echo $telefone; ?>"></td>
 </tr>
 
 <tr>
 <td>Celular: </td>
 <td>
-CÛdigo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
+C√≥digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
 <input type="text" name="celular" id="celular" maxlength="9" size="9" value="<?php echo $celular; ?>"></td>
 </tr>
 
@@ -234,7 +234,7 @@ CÛdigo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size=
 <td>No. de registro no CRESS</td>
 <td>
 <input type="text" name="cress" id="cress" maxlength="15" size="10" value="<?php echo $cress; ?>">
-<span style="text-align:right">Regi„o: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
+<span style="text-align:right">Regi√£o: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
 </td>
 </tr>
 
@@ -242,11 +242,11 @@ CÛdigo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size=
 <td>Outros estudos realizados:</td>
 
 <?php
-if ($outros_estudos == 'especializaÁ„o') {
+if ($outros_estudos == 'especializa√ß√£o') {
 echo "
 	<td>
-	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializaÁ„o' checked>
-	EspecializaÁ„o
+	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializa√ß√£o' checked>
+	Especializa√ß√£o
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='mestrado'>
 	Mestrado
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='doutorado'>
@@ -260,8 +260,8 @@ echo "
 if ($outros_estudos == 'mestrado') {
 echo "
 	<td>
-	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializaÁ„o'>
-	EspecializaÁ„o
+	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializa√ß√£o'>
+	Especializa√ß√£o
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='mestrado' checked>
 	Mestrado
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='doutorado'>
@@ -275,8 +275,8 @@ echo "
 if ($outros_estudos == 'doutorado') {
 echo "
 	<td>
-	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializaÁ„o'>
-	EspecializaÁ„o
+	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializa√ß√£o'>
+	Especializa√ß√£o
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='mestrado'>
 	Mestrado
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='doutorado' checked>
@@ -290,8 +290,8 @@ echo "
 if (empty($outros_estudos)) {
 echo "
 	<td>
-	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializaÁ„o'>
-	EspecializaÁ„o
+	<input type='radio' name='outros_estudos' id='outros_estudos' value='especializa√ß√£o'>
+	Especializa√ß√£o
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='mestrado'>
 	Mestrado
 	<input type='radio' name='outros_estudos' id='outros_estudos' value='doutorado'>
@@ -304,17 +304,17 @@ echo "
 </tr>
 
 <tr>
-<td>¡rea do curso anteriormente mencionado</td>
+<td>√Årea do curso anteriormente mencionado</td>
 <td><input type="text" name="area_curso" id="area_curso" maxlength="40" size="30" value="<?php echo $area_curso; ?>"></td>
 </tr>
 
 <tr>
-<td>Ano de conclus„o do curso (deixar em branco se ainda n„o foi concluÌdo)</td>
+<td>Ano de conclus√£o do curso (deixar em branco se ainda n√£o foi conclu√≠do)</td>
 <td><input type="text" name="ano_curso" id="ano_curso" maxlength="4" size="4" value="<?php echo $ano_curso; ?>"></td>
 </tr>
 
 <tr>
-<td>Selecione instituiÁ„o</td>
+<td>Selecione institui√ß√£o</td>
 <td>
 <select name='id_instituicao' id='id_instituicao'>
 <option value='<?php echo $id_instituicao; ?>'><?php echo $instituicao; ?></option>

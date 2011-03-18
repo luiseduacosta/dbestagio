@@ -26,9 +26,9 @@ $(document).ready(function() {
 
 <div align="center">
 <strong>
-<font size="+2">Escola de ServiÁo Social</font>
+<font size="+2">Escola de Servi√ßo Social</font>
 <br>
-<font size="+2">CoordenaÁ„o de Est·gio</font>
+<font size="+2">Coordena√ß√£o de Est√°gio</font>
 </strong>
 <p>
 <br>
@@ -37,7 +37,7 @@ $(document).ready(function() {
 <table>
 
 <tr>
-<td>Usu·rio <b><?php echo $usuario_nome; ?></b> autorizado</td>
+<td>Usu√°rio <b><?php echo $usuario_nome; ?></b> autorizado</td>
 </tr>
 
 </table>

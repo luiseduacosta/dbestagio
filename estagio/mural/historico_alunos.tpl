@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Histórico alunos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HistÃ³rico alunos</title>
 <style type="text/css">
 @import url("../estagio.css");
 </style>
@@ -13,21 +13,21 @@
 
 <div align='center'>
 
-<table width='40%' border='1' summary="Resumo da selelção de estágio">
-<caption>Resumo da seleção de estágio {$periodo}</caption>
+<table width='40%' border='1' summary="Resumo da seleÃ§Ã£o de estÃ¡gio">
+<caption>Resumo da seleÃ§Ã£o de estÃ¡gio {$periodo}</caption>
 <tbody>
-	<tr><td>Continuam sem estágio</td><td style='text-align:center;'>{$sem_estagio}</td></tr>
-	<tr><td>Não iniciaram estágio</td><td style='text-align:center;'>{$niveis.0}</td></tr>
-	<tr><td>Iniciaram estágio I</td>  <td style='text-align:center;'>{$niveis.1}</td></tr>
-	<tr><td>Iniciaram estágio II</td> <td style='text-align:center;'>{$niveis.2}</td></tr>
-	<tr><td>Iniciaram estágio III</td><td style='text-align:center;'>{$niveis.3}</td></tr>
-	<tr><td>Iniciaram estágio IV</td> <td style='text-align:center;'>{$niveis.4}</td></tr>
+	<tr><td>Continuam sem estÃ¡gio</td><td style='text-align:center;'>{$sem_estagio}</td></tr>
+	<tr><td>NÃ£o iniciaram estÃ¡gio</td><td style='text-align:center;'>{$niveis.0}</td></tr>
+	<tr><td>Iniciaram estÃ¡gio I</td>  <td style='text-align:center;'>{$niveis.1}</td></tr>
+	<tr><td>Iniciaram estÃ¡gio II</td> <td style='text-align:center;'>{$niveis.2}</td></tr>
+	<tr><td>Iniciaram estÃ¡gio III</td><td style='text-align:center;'>{$niveis.3}</td></tr>
+	<tr><td>Iniciaram estÃ¡gio IV</td> <td style='text-align:center;'>{$niveis.4}</td></tr>
 	<tr><th>TOTAL</th>                <th style='text-align:center;'>{$niveis.5}</th></tr>
 </tbody>
 </table>
 	
-<table border='1' summary="Alunos por periodo de seleção de estágio">
-	<caption>Alunos seleção de estágio período {$periodo}</caption>
+<table border='1' summary="Alunos por periodo de seleÃ§Ã£o de estÃ¡gio">
+	<caption>Alunos seleÃ§Ã£o de estÃ¡gio perÃ­odo {$periodo}</caption>
 	<thead>
 		<tr>
 			<th>Id</th>

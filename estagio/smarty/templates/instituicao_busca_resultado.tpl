@@ -2,14 +2,14 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css"> 
-<title>Resultado da busca de instituições</title>
+<title>Resultado da busca de instituiÃ§Ã£es</title>
 </head>
 
 <body>
 
 <div align="center">
 <table border="1">
-<caption>Instituições</caption>
+<caption>InstituiÃ§Ãµes</caption>
 <tbody>
 
 {section name=elemento loop=$instituicao}

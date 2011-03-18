@@ -1,18 +1,17 @@
 <?php
 
-// include_once("../../db.inc");
-include_once("../../setup.php");
+require_once("../../setup.php");
 
 // Verifico se o usuario esta logado
 if (isset($_REQUEST['usuario_senha'])) {
-    $usuario = $_REQUEST['usuario_senha'];
-    if ($usuario) 
+	$usuario = $_REQUEST['usuario_senha'];
+	if ($usuario)
 	$logado = 1;
 }
 
 $sqlUltimoPeriodo = "select max(periodo) as ultimoPeriodo from estagiarios";
 $resultadoMaxPeriodo = $db->Execute($sqlUltimoPeriodo);
-if($resultadoMaxPeriodo === false) die ("Não foi possível consultar a tabela estagiarios");
+if ($resultadoMaxPeriodo === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 $ultimoPeriodo = $resultadoMaxPeriodo->fields['ultimoPeriodo'];
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
@@ -33,8 +32,8 @@ if ($id_area) {
 }
 
 /*
-echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "Area " . $id_area . "<br>";
-*/
+ echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "Area " . $id_area . "<br>";
+ */
 
 $sql1 = "select estagiarios.id_aluno, " .
 "alunos.registro, ".
@@ -88,7 +87,7 @@ if ($seleciona_periodo) $sql3 .= " and periodo = '$seleciona_periodo' ";
 if ($seleciona_professor) $sql3 .= " and id_professor = '$seleciona_professor' ";
 
 // Ordeno a tabela utilizando uma funcao do php
-// $sql3 .= " order by $ordem"; 
+// $sql3 .= " order by $ordem";
 
 $sql = $sql1 . $sql3;
 // echo $sql . "<br>";
@@ -107,13 +106,14 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['email']          = $resultadoLista->fields['email'];
 	$estagiarios[$i]['celular']        = $resultadoLista->fields['celular'];
 	$estagiarios[$i]['telefone']       = $resultadoLista->fields['telefone'];
-	$estagiarios[$i]['nivel'] 	   	   = $resultadoLista->fields['nivel'];
+	$estagiarios[$i]['nivel'] 	   = $resultadoLista->fields['nivel'];
 	$estagiarios[$i]['turno']          = $resultadoLista->fields['turno'];
 	$estagiarios[$i]['periodo']        = $resultadoLista->fields['periodo'];
 	$estagiarios[$i]['nota']           = $resultadoLista->fields['nota'];
 	$estagiarios[$i]['ch']             = $resultadoLista->fields['ch'];
 	$estagiarios[$i]['id_instituicao'] = $resultadoLista->fields['id_instituicao'];
 	$estagiarios[$i]['instituicao']    = $resultadoLista->fields['instituicao'];
+	$estagiarios[$i]['seguro']         = $resultadoLista->fields['seguro'];
 	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['id_supervisor'];
 	$estagiarios[$i]['supervisor']     = $resultadoLista->fields['nomeSupervisor'];
 	$estagiarios[$i]['area']           = $resultadoLista->fields['area'];
@@ -139,9 +139,9 @@ while (!$resultadoLista->EOF) {
 	while (!$resultadoNivel->EOF) {
 		$nivelCadaAluno = $resultadoNivel->fields['nivel'];
 		$id_instituicao = $resultadoNivel->fields['id_instituicao'];
-		$instituicao = $resultadoNivel->fields['instituicao'];		
-		$area = $resultadoNivel->fields['area'];		
-		$periodo = $resultadoNivel->fields['periodo'];		
+		$instituicao = $resultadoNivel->fields['instituicao'];
+		$area = $resultadoNivel->fields['area'];
+		$periodo = $resultadoNivel->fields['periodo'];
 
 		// echo $id_aluno . " " .$nivelCadaAluno . "<br>";
 
@@ -187,30 +187,30 @@ while (!$resultadoLista->EOF) {
 
 	// Se os quatro niveis de estagio estao preenchidos
 	if ((!empty($nivel1)) and (!empty($nivel2)) and (!empty($nivel3)) and (!empty($nivel4))) {
-	    // echo "aluno cursou 4 niveis de estagio <br>";
-	    if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 0;
-	    if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 1;
-	    // Padrao
-	    if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 2;
-	    // Dois consecutivos
-	    if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 3;
-	    if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 4;
-	    if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 5;
-	    // Tres consecutivos
-	    if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 6;
-	    if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 7;
-	    // echo "$nome cursou 4 niveis de estagio: $codigo <br>";
-	
-	    if ($codigo == 0) $codigo_0++;
-	    if ($codigo == 1) $codigo_1++;	
-	    if ($codigo == 2) $codigo_2++;
-	    if ($codigo == 3) $codigo_3++;
-	    if ($codigo == 4) $codigo_4++;
-	    if ($codigo == 5) $codigo_5++;
-	    if ($codigo == 6) $codigo_6++;		
-	    if ($codigo == 7) $codigo_7++;		
+		// echo "aluno cursou 4 niveis de estagio <br>";
+		if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 0;
+		if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 1;
+		// Padrao
+		if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 2;
+		// Dois consecutivos
+		if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 3;
+		if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 4;
+		if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 5;
+		// Tres consecutivos
+		if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 6;
+		if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 7;
+		// echo "$nome cursou 4 niveis de estagio: $codigo <br>";
 
-	    $estagiarios[$i]['codigo'] = $codigo;
+		if ($codigo == 0) $codigo_0++;
+		if ($codigo == 1) $codigo_1++;
+		if ($codigo == 2) $codigo_2++;
+		if ($codigo == 3) $codigo_3++;
+		if ($codigo == 4) $codigo_4++;
+		if ($codigo == 5) $codigo_5++;
+		if ($codigo == 6) $codigo_6++;
+		if ($codigo == 7) $codigo_7++;
+
+		$estagiarios[$i]['codigo'] = $codigo;
 	}
 
 	// TCC
@@ -229,9 +229,9 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['mono_periodo']   = $resultado_tcc->fields['periodo'];
 	// echo $num_monografia . "<br>";
 
-	// Array para ordenar a tabela	
+	// Array para ordenar a tabela
 	$criterio[] = $estagiarios[$i][$ordem];
-	
+
 	$i++;
 	$resultadoLista->MoveNext();
 }
@@ -240,17 +240,17 @@ while (!$resultadoLista->EOF) {
 $total = $codigo_0 + $codigo_1 + $codigo_2 + $codigo_3 + $codigo_4 + $codigo_5 + $codigo_6 + $codigo_7;
 
 /*
-echo "Cod   " . "Quant. " . "<br>";
-echo "0     " . $codigo_0 . "<br>";
-echo "1     " . $codigo_1 . "<br>";
-echo "2     " . $codigo_2 . "<br>";
-echo "3     " . $codigo_3 . "<br>";
-echo "4     " . $codigo_4 . "<br>";
-echo "5     " . $codigo_5 . "<br>";
-echo "6     " . $codigo_6 . "<br>";
-echo "7     " . $codigo_7 . "<br>";
-echo "Total " . $total . "<br>";
-*/
+ echo "Cod   " . "Quant. " . "<br>";
+ echo "0     " . $codigo_0 . "<br>";
+ echo "1     " . $codigo_1 . "<br>";
+ echo "2     " . $codigo_2 . "<br>";
+ echo "3     " . $codigo_3 . "<br>";
+ echo "4     " . $codigo_4 . "<br>";
+ echo "5     " . $codigo_5 . "<br>";
+ echo "6     " . $codigo_6 . "<br>";
+ echo "7     " . $codigo_7 . "<br>";
+ echo "Total " . $total . "<br>";
+ */
 
 // Ordeno a tabela. A variavel $criterio tem que ter algum valor
 if (isset($criterio)) array_multisort($criterio, SORT_ASC, $estagiarios);
@@ -263,10 +263,10 @@ $res_estagio = $db->Execute($sqlInstituicao);
 if ($res_estagio === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 0;
 while (!$res_estagio->EOF) {
-    $instituicoes[$i]['id_instituicao'] = $res_estagio->fields['id'];
-    $instituicoes[$i]['instituicao']    = $res_estagio->fields['instituicao'];
-    $i++;
-    $res_estagio->MoveNext();
+	$instituicoes[$i]['id_instituicao'] = $res_estagio->fields['id'];
+	$instituicoes[$i]['instituicao']    = $res_estagio->fields['instituicao'];
+	$i++;
+	$res_estagio->MoveNext();
 }
 
 // Pego a lista dos professores
@@ -279,11 +279,11 @@ $res_professor = $db->Execute($sqlProfessor);
 if ($res_professor === false) die ("Nao foi possivel consultar a tabela professores");
 $i = 0;
 while (!$res_professor->EOF) {
-    $professores[$i]['id_professor'] = $res_professor->fields['id'];
-    $professores[$i]['nome']         = $res_professor->fields['nome'];
-    $i++;
-    $res_professor->MoveNext();
-    }
+	$professores[$i]['id_professor'] = $res_professor->fields['id'];
+	$professores[$i]['nome']         = $res_professor->fields['nome'];
+	$i++;
+	$res_professor->MoveNext();
+}
 
 // Areas
 $sql_areas = "select id, area from areas_estagio order by area";
@@ -298,41 +298,43 @@ while (!$res_areas->EOF) {
 
 // Pego o nome e o numero da instituicao para o cabecalho da tabela
 if (!empty($seleciona_instituicao)) {
-    $sql_instituicao = "select id, instituicao from estagio where id=$seleciona_instituicao order by instituicao";
-    $resultado_instituicao = $db->Execute($sql_instituicao);
-    if($resultado_instituicao === false) die ("Não foi possível consultar a tabela estagio");
-    while (!$resultado_instituicao->EOF) {
-        $num_instituicao  = $resultado_instituicao->fields['id'];
-        $nome_instituicao = $resultado_instituicao->fields['instituicao'];
-        $resultado_instituicao->MoveNext();
-    }
+	$sql_instituicao = "select id, instituicao from estagio where id = $seleciona_instituicao order by instituicao";
+	$res_instituicao = $db->Execute($sql_instituicao);
+	if($res_instituicao === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
+	while (!$res_instituicao->EOF) {
+		$num_instituicao  = $res_instituicao->fields['id'];
+		$nome_instituicao = $res_instituicao->fields['instituicao'];
+		$res_instituicao->MoveNext();
+	}
 }
 
 // Pego o nome e o numero do professor para o cabecalho da tabela
 if (!empty($seleciona_professor)) {
-    $sql_professor = "select id, nome from professores where id=$seleciona_professor order by nome";
-    // echo $sql_professor . "<br>";
-    $resultado_professor = $db->Execute($sql_professor);
-    if ($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
-    while (!$resultado_professor->EOF) {
-        $num_professor  = $resultado_professor->fields['id'];
-        $nome_professor = $resultado_professor->fields['nome'];
-        $resultado_professor->MoveNext();
-    }
+	$sql_professor = "select id, nome from professores where id = $seleciona_professor order by nome";
+	// echo $sql_professor . "<br>";
+	$resultado_professor = $db->Execute($sql_professor);
+	if ($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
+	while (!$resultado_professor->EOF) {
+		$num_professor  = $resultado_professor->fields['id'];
+		$nome_professor = $resultado_professor->fields['nome'];
+		$resultado_professor->MoveNext();
+	}
 }
 
 // Pego os periodos para listar as instituicoes
 $sql_periodo = "select distinct periodo from estagiarios order by periodo";
+// echo $sql_periodo . "<br>";
 $resultado_periodo = $db->Execute($sql_periodo);
-if ($resultado_periodo === false) die ("Não foi possível consultar a tabela estagiarios");
+if ($resultado_periodo === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 $i = 0;
 while (!$resultado_periodo->EOF) {
-    $matriz_periodo[$i]['turma'] = $resultado_periodo->fields['periodo'];
-    $resultado_periodo->MoveNext();
-    $i++;
+	$matriz_periodo[$i]['turma'] = $resultado_periodo->fields['periodo'];
+	$resultado_periodo->MoveNext();
+	$i++;
 }
 
 $smarty = new Smarty_estagio;
+
 $smarty->assign("ordem",$ordem);
 $smarty->assign("logado",$logado);
 $smarty->assign("instituicoes",$instituicoes);

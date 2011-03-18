@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
@@ -98,7 +98,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" maxlength="15" size="15" id="identidade" name="identidade" value='{$identidade}' />
-Orgão: 
+OrgÃ£o: 
 <input type="text" maxlength="10" size="10" id="orgao" name="orgao" value='{$orgao}' />
 </td>
 </tr>
@@ -112,7 +112,7 @@ dd/mm/aaaa
 </tr>
 
 <tr>
-<td>Endereço</td>
+<td>EndereÃ§o</td>
 <td>
 <input type="text" maxlength="50" size="30" id="endereco" name="endereco" value='{$endereco}' />
 CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" value='{$cep}' />
@@ -120,7 +120,7 @@ CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" value='{$cep}
 </tr>
 
 <tr>
-<td>Município</td>
+<td>MunicÃ­pio</td>
 <td>
 <input type="text" maxlength="30" size="20" name="municipio" value='{$municipio}' />
 Bairro:

@@ -2,7 +2,6 @@
 
 include_once("../autentica.inc");
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $opcao = $_GET['opcao'];
@@ -11,7 +10,7 @@ $smarty = new Smarty_estagio;
 
 $sql = "select * from areas_estagio order by area";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if($resultado === false) die ("Nao foi possivel consultar a tabela areas_estagio");
 
 $i = 0;
 while(!$resultado->EOF)

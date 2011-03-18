@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-	<title>Insere aluno para seleção de estágio</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<title>Insere aluno para seleÃ§Ã£o de estÃ¡gio</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -33,43 +33,43 @@ function confirma() {
 	municipio=document.getElementById('municipio').value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("VocÃª precisa informar o seu nome");
 		document.inserir_aluno.nome.focus();
 		return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("Ã‰ importante o seu e-mail para nossa comunicaÃ§Ã£o");
 		document.inserir_aluno.email.focus();
 		return false;
 	}
 
     if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+    	alert("Favor informar o nÃºmero de CPF");
 		document.inserir_aluno.cpf.focus();
 		return false;
 	}
 
     if(identidade=="") {
-    	alert("Informe o seu número de RG");
+    	alert("Informe o seu nÃºmero de RG");
 		document.inserir_aluno.identidade.focus();
 		return false;
 	}
 
     if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+    	alert("Informe o orgÃ£o expedidor do RG");
 		document.inserir_aluno.orgao.focus();
 		return false;
 	}
 
     if(endereco=="") {
-    	alert("Informe o seu endereço");
+    	alert("Informe o seu endereÃ§o");
 		document.inserir_aluno.endereco.focus();
 		return false;
 	}
 
     if(cep=="") {
-    	alert("Informe o número de CEP");
+    	alert("Informe o nÃºmero de CEP");
 		document.inserir_aluno.cep.focus();
 		return false;
 	}
@@ -81,7 +81,7 @@ function confirma() {
 	}
 
     if(municipio=="") {
-    	alert("Informe o múnicipio da sua residência");
+    	alert("Informe o municÃ­pio da sua residÃªncia");
 		document.inserir_aluno.municipio.focus();
 		return false;
 	}
@@ -125,7 +125,7 @@ $(function() {
 <form method="post" action="cadastro.php" name="inserir_aluno" id="inserir_aluno">
 
 <table border="1">
-<caption>Inserir aluno novo para seleção de estágio em {$instituicao}</caption>
+<caption>Inserir aluno novo para seleÃ§Ã£o de estÃ¡gio em {$instituicao}</caption>
 <tbody>
 
 <tr>
@@ -141,11 +141,11 @@ $(function() {
 <tr>
 <td>Telefone</td>
 <td>
-Código:
+CÃ³digo:
 <input type="text" maxlength="2" size="2" name="codigo_telefone" value="21" />
 <input type="text" maxlength="9" size="9" id="telefone" name="telefone" />
 <b>Celular</b>
-Código:
+CÃ³digo:
 <input type="text" maxlength="2" size="2" name="codigo_celular" value="21" />
 <input type="text" maxlength="9" size="9" id="celular" name="celular" />
 </td>
@@ -169,7 +169,7 @@ Carteira de identidade:
 </td>
 <td>
 <input type="text" maxlength="15" size="15" id="identidade" name="identidade" />
-Orgão:
+OrgÃ£o:
 <input type="text" maxlength="10" size="10" id="orgao" name="orgao" />
 </td>
 </tr>
@@ -182,7 +182,7 @@ Orgão:
 </tr>
 
 <tr>
-<td>Endereço</td>
+<td>EndereÃ§o</td>
 <td>
 <input type="text" maxlength="50" size="50" id="endereco" name="endereco" />
 CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" />
@@ -193,7 +193,7 @@ CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" />
 <td>Bairro</td>
 <td>
 <input type="text" maxlength="30" size="20" id="bairro" name="bairro" />
-Município: 
+MunicÃ­pio: 
 <input type="text" maxlength="30" size="20" id="municipio" name="municipio" />
 </td>
 </tr>

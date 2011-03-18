@@ -1,7 +1,6 @@
 <?php
 
 // include_once("../../autentica.inc");
-// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
@@ -19,7 +18,7 @@ $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 // echo $id_aluno . "<br>";
 
 if (empty($id_aluno)) {
-	$sql = "select id from alunos where registro=$registro";
+	$sql = "select id from alunos where registro = $registro";
 	$resultado = $db->Execute($sql);
 	$id_aluno = $resultado->fields['id'];
 }
@@ -41,7 +40,7 @@ if ($registro) {
     $sql_estagiario .= " where registro = '$registro'";
     // echo $sql_estagiario . "<br>";
     $res_estagiario = $db->Execute($sql_estagiario);
-    if ($res_estagiario === false) die ("Não foi possível consultar a tabela estagiarios");
+    if ($res_estagiario === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
     $quantidade_estagiarios = $res_estagiario->RecordCount();
     // echo $quantidade_estagiarios . "<br>";
     if ($quantidade_estagiarios === 0) {
@@ -49,7 +48,7 @@ if ($registro) {
 	$sql_aluno = "select id from alunos where registro = '$registro'";
 	// echo $sql_aluno . "<br>";
 	$res_aluno = $db->Execute($sql_aluno);
-	if ($res_aluno === false) die ("Não foi possível consultar a tabela alunos");
+	if ($res_aluno === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 	$id_aluno = $res_aluno->fields['id'];
 	// echo $id_aluno . "<br>";
 	// die();	
@@ -69,7 +68,7 @@ $sql .= " order by nome ";
 
 // Calculo a quantidade de registros
 $resultado_total = $db->Execute($sql);
-if($resultado_total === false) die ("Não foi possível consultar a tabela alunos");
+if($resultado_total === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 $ultimo = $resultado_total->RecordCount();
 
 // Barra de navegacao superior
@@ -111,7 +110,7 @@ if($debug == 1) echo $_SERVER['HTTP_REFERER'];
 if(!empty($id_aluno)) {
 	// echo "Id aluno " . $id_aluno . "<br>";
 	$resultado_sql_lugar = $db->Execute($sql);
-	if($resultado_sql_lugar === false) die ("Não foi possível consultar a tabela alunos");
+	if($resultado_sql_lugar === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 	$j = 0;
 	while(!$resultado_sql_lugar->EOF) {
 		$lugar_aluno = $resultado_sql_lugar->fields['id'];
@@ -126,7 +125,7 @@ if(!empty($id_aluno)) {
 		$resultado_sql_lugar->MoveNext();
 		$j++;
 	}
-	// if ($indice) die("Aluno estagiario sem estágio: escolha: a) <a href='../cancelar/cancela.php?id_aluno=$id_aluno'>Excluir</a> o aluno ou; b) <a href='../atualizar/atualiza.php?id_aluno=$id_aluno'>Inserir um estágio</a>") . "<br>";
+	// if ($indice) die("Aluno estagiario sem estagio: escolha: a) <a href='../cancelar/cancela.php?id_aluno=$id_aluno'>Excluir</a> o aluno ou; b) <a href='../atualizar/atualiza.php?id_aluno=$id_aluno'>Inserir um estï¿½gio</a>") . "<br>";
 }
 
 // echo $sql . "<br>";
@@ -134,7 +133,7 @@ if(!empty($id_aluno)) {
 
 $resultado = $db->SelectLimit($sql,1,$indice);
 if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	$aluno_id        = $resultado->fields['id'];
 	$registro        = $resultado->fields['registro'];
 	$nome            = $resultado->fields['nome'];
@@ -185,7 +184,7 @@ while(!$resultado->EOF) {
 	}
 
 	// Pego a informacao sobre os estagios cursados
-	$sql_estagiario = "select id, tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno=$aluno_id order by periodo";
+	$sql_estagiario = "select id, tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno = $aluno_id order by periodo";
 	$resultado_estagiario = $db->Execute($sql_estagiario);
 	if($resultado_estagiario === false) die ("Nao foi possivel consultar a tabela estagiarios");
 	$i = 0;
@@ -207,9 +206,9 @@ while(!$resultado->EOF) {
 			$id_instituicao = "0";
 			$instituicao = "Sem dados";
 		} else {
-			$sql_estagio = "select id, instituicao from estagio where id=$id_instituicao";
+			$sql_estagio = "select id, instituicao from estagio where id = $id_instituicao";
 			$resposta_estagio = $db->Execute($sql_estagio);
-			while(!$resposta_estagio->EOF) {
+			while (!$resposta_estagio->EOF) {
 				$id          = $resposta_estagio->fields['id'];
 				$instituicao = $resposta_estagio->fields['instituicao'];
 
@@ -223,9 +222,9 @@ while(!$resultado->EOF) {
 		} else {
 			$sql_supervisor  = "select id, cress, nome, email ";
 			$sql_supervisor .= "from supervisores ";
-			$sql_supervisor .= "where supervisores.id=$id_supervisor";
+			$sql_supervisor .= "where supervisores.id = $id_supervisor";
 			$resultado_supervisor = $db->Execute($sql_supervisor);
-			while(!$resultado_supervisor->EOF) {
+			while (!$resultado_supervisor->EOF) {
 				$supervisor_nome  = $resultado_supervisor->fields['nome'];
 				$supervisor_cress = $resultado_supervisor->fields['cress'];
 				$supervisor_email = $resultado_supervisor->fields['email'];
@@ -235,7 +234,7 @@ while(!$resultado->EOF) {
 		}
 
 		// Professor
-		$sql_professor = "select nome from professores where id=$id_professor";
+		$sql_professor = "select nome from professores where id = $id_professor";
 		$resultado_professor = $db->Execute($sql_professor);
 		if($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
 		$professor_nome = $resultado_professor->fields['nome'];
@@ -293,7 +292,7 @@ while(!$resultado->EOF) {
 $sqlturma = "select id, periodo from estagiarios group by periodo";
 // echo $sqlturma . "<br>";
 $res_turma = $db->Execute($sqlturma);
-if($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+if($res_turma === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();

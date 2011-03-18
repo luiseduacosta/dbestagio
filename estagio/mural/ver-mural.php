@@ -16,7 +16,7 @@ if(empty($ordem)) {
 		$ordem = "dataInscricao desc";
 }
 
-// Pego os estágios do PERIODO_ATUAL
+// Pego os estï¿½gios do PERIODO_ATUAL
 $sql  = "select mural_estagio.id, id_estagio, instituicao, convenio, vagas, beneficios, final_de_semana, ";
 $sql .= "cargaHoraria, requisitos, ";
 $sql .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
@@ -30,7 +30,7 @@ $sql .= "order by $ordem";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela mural_estagio");
 $i = 0;
 while (!$resultado->EOF) {
 		$instituicao[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -45,7 +45,7 @@ while (!$resultado->EOF) {
 		$final_de_semana = $resultado->fields['final_de_semana'];
 		switch($final_de_semana) {
 				case 0;
-				$final_de_semana = "Não";
+				$final_de_semana = "NÃ£o";
 				break;
 
 				case 1;
@@ -138,7 +138,7 @@ while (!$resultado->EOF) {
 $sql = "SELECT id_aluno FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possivel consultar a tabela muaral_inscriacao");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela muaral_inscriacao");
 $total = $resultado->RecordCount();
 // echo "Total " . $total . "<br>";
 
@@ -208,6 +208,6 @@ $smarty->assign("totalVagas",$totalVagas);
 $smarty->assign("totalAlunos",$total);
 $smarty->assign("alunos_novos",$novo_novo);
 $smarty->assign("alunosVelhos",$conhecidos_conhecidos);
-$smarty->display("ver-mural.tpl");
+$smarty->display("../../mural/ver-mural.tpl");
 
 ?>

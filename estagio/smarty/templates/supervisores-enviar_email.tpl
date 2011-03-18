@@ -40,8 +40,8 @@ $("input#main").click(function() {
 <th></th>
 <th><a href="?ordem=email&corpo={$corpo}&assunto={$assunto}">E-mail</a></th>
 <th><a href="?ordem=nome&corpo={$corpo}&assunto={$assunto}">Supervisor</a></th>
-<th><a href="?ordem=instituicao&corpo={$corpo}&assunto={$assunto}">Instituição</a></th>
-<th><a href="?ordem=periodo&corpo={$corpo}&assunto={$assunto}">Período</a></th>
+<th><a href="?ordem=instituicao&corpo={$corpo}&assunto={$assunto}">InstituiÃ§Ã£o</a></th>
+<th><a href="?ordem=periodo&corpo={$corpo}&assunto={$assunto}">PerÃ­odo</a></th>
 </tr>
 
 <tr>

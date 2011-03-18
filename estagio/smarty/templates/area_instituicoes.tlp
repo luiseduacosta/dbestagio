@@ -2,21 +2,21 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Instituiçoes por área</title>
+<title>InstituiÃ§oes por Ã¡rea</title>
 </head>
 
 <body>
 
 <div aling="center">
 <table border="1">
-<caption>Instituições da área: {$nome_area}</caption>
+<caption>InstituiÃ§Ãµes da Ã¡rea: {$nome_area}</caption>
 <tbody>
 
 <tr>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=instituicao">Instituição</a></th>
+<th><a href="{$pagina}?id_area={$id_area}&ordem=instituicao">Instituiï¿½ï¿½o</a></th>
 <th><a href="{$pagina}?id_area={$id_area}&ordem=turma">Turma</a></th>
 <th>Super- <br> visores</th>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=endereco">Endereço</a></th>
+<th><a href="{$pagina}?id_area={$id_area}&ordem=endereco">Endereï¿½o</a></th>
 <th><a href="{$pagina}?id_area={$id_area}&ordem=telefone">Telefone</a></th>
 </tr>
 

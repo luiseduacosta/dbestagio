@@ -18,6 +18,7 @@ $registro = $_REQUEST['registro'];
 // Busco o registro entre os alunos
 $sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where registro='$registro'";
+// echo $sqlAlunos . "<br>";
 
 // $resultado0 = $db->Execute($sql0);
 $resultado0 = $db->Execute($sqlAlunos);
@@ -56,15 +57,6 @@ if ($quantidade == 0) {
 			$nascimento = $resultado->fields['nascimento'];
 			
 			// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-			// echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
-			/*
-			$nova_data = ereg_replace("-","/",$nascimento);
-			// echo "Nova data: ". $nova_data . "<br>";
-			$dataCorrigida = split("/",$nova_data);
-			$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
-			// echo $data_sql . "<br>";
-			*/
-			
 			$data_sql = date('d/m/Y',strtotime($nascimento));
 
 			$endereco = $resultado->fields['endereco'];

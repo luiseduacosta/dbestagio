@@ -10,7 +10,7 @@ $sql = "SELECT id_aluno, data " .
 		" WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 $i = 0;	// Contador para a matriz inscricoes
 while (!$resultado->EOF) {
 		$id_aluno = $resultado->fields['id_aluno'];
@@ -33,7 +33,7 @@ while (!$resultado->EOF) {
 		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
 		// echo $sqlQuantidade . " "; // . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
-		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
+		if ($resultadoQuantidade === false) die ("NÃ£o foi possivel consultar a tabela mural_inscricao");
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		// echo $quantidadeInscricoes . "<br>";
 	
@@ -41,7 +41,7 @@ while (!$resultado->EOF) {
 		$sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 		// echo $sqlAlunos . "<br><br>";
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $id_aluno . " " . $quantidade . "<br>";
 
@@ -50,7 +50,7 @@ while (!$resultado->EOF) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if($resultadoAlunosNovos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 
 				while (!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
@@ -143,6 +143,6 @@ $smarty->assign("periodo_atual",PERIODO_ATUAL);
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$inscritos);
-$smarty->display("lista-alunos_mural.tpl");
+$smarty->display("../../mural/lista-alunos_mural.tpl");
 
 ?>

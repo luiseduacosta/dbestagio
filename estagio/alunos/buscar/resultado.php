@@ -1,15 +1,15 @@
 <?php
 
 $palavra = $_POST['palavra'];
-include_once("../../db.inc");
+
 include_once("../../setup.php");
 
 $sql = "select * from alunos where nome like '%$palavra%' order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel consultar a tabela alunos");
+if($resultado === false) die ("N√£o foi poss√≠vel consultar a tabela alunos");
 $quantidade = $resultado->RecordCount();
 if($quantidade === 0) {
-    echo "N„o h· registros com a palavra: $palavra";
+    echo "N√£o h√° registros com a palavra: $palavra";
     exit;
 } else {
     $i = 0;

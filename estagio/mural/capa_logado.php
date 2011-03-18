@@ -7,7 +7,7 @@ $mural_usuario = $_COOKIE['mural_usuario'];
 <html>
 <head>
 <title>Menu lateral</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="Luis Acosta" content="author">
@@ -32,14 +32,14 @@ $mural_usuario = $_COOKIE['mural_usuario'];
 <!-- Inicio de instituicao //-->
 <tr>
 <td>
-<a class="item1" href="javascript:void(0)">INSTITUIÇÕES</a>
+<a class="item1" href="javascript:void(0)">INSTITUIÃ‡Ã•ES</a>
 <div class="section">
     <a class="item2" href="mural_inserir.php" target="_corpo">
     Inserir</a>
     <a class="item2" href="seleciona.php?opcao=modifcar" target="_corpo">
     Modificar</a>
     <a class="item2" href="ver_cada.php?indice=0" target="_corpo">
-    Ver c/instituição</a>
+    Ver c/instituiÃ§Ã£o</a>
     <a class="item2" href="ver-mural.php" target="_corpo">
     Listar todas</a>
     <a class="item2" href="seleciona.php?opcao=cancela" target="_corpo">
@@ -61,7 +61,7 @@ $mural_usuario = $_COOKIE['mural_usuario'];
     <a class="box2" href="alunos/inserir/insere.php" target="_corpo">
     Inserir aluno novo</a><br>
     <a class="box2" href="alunos/inserir/seleciona.php" target="_corpo">
-    Inserir estágio</a><br>
+    Inserir estÃ¡gio</a><br>
     <a class="box2" href="alunos/atualizar/seleciona.php" target="_corpo">
     Modificar</a><br>
     <a class="box2" href="alunos/exibir/listar.php" target="_corpo">
@@ -87,7 +87,7 @@ $mural_usuario = $_COOKIE['mural_usuario'];
 </a>
 <div class="section">
     <a class="box2" href="imprimir/listagem.php" target="_corpo">
-    Imprimir catálogo</a>
+    Imprimir catÃ¡logo</a>
 </div>
 </td>
 </tr>
@@ -104,9 +104,9 @@ ddm1.init();
 </script>
 <div align="center">
 <strong>
-<font size="+2">Escola de Serviço Social</font>
+<font size="+2">Escola de ServiÃ§o Social</font>
 <br>
-<font size="+2">Coordenação de Estágio</font>
+<font size="+2">CoordenaÃ§Ã£o de EstÃ¡gio</font>
 </strong>
 <p>
 <br>
@@ -115,7 +115,7 @@ ddm1.init();
 <table>
 
 <tr>
-<td>Usuário <b><?php echo $mural_usuario; ?></b> autorizado</td>
+<td>UsuÃ¡rio <b><?php echo $mural_usuario; ?></b> autorizado</td>
 </tr>
 
 </table>

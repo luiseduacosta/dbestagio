@@ -4,7 +4,7 @@
 
 <head>
 <title>Atualizar dados do supervisor</title>
-<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta name="author" content="Luis Acosta">
@@ -32,8 +32,8 @@ $(document).ready(function() {
 <h1>Atualizar dados do supervisor</h1>
 
 <form name="seleciona_supervisor" id="seleciona_supervisor" method="post" action="../inserir/auto_cadastro.php" enctype="text/html">
-<h2>Digite o número do CRESS (7a. região):</h2>
-<p>Digite somente números. Não utilize barra, ponto, traço ou qualquer outro símbolo.</p>
+<h2>Digite o nÃºmero do CRESS (7a. regiÃ£o):</h2>
+<p>Digite somente nÃºmeros. NÃ£o utilize barra, ponto, traÃ§o ou qualquer outro sÃ­mbolo.</p>
 <input type="text" name="cress" id="cress" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>

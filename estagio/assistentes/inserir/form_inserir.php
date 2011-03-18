@@ -9,7 +9,7 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 
 $sql = "select * from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 
 $i = 0;
 while(!$resultado->EOF) {
@@ -22,7 +22,7 @@ while(!$resultado->EOF) {
 // Pego a listagem de todos os supervisores
 $sql_supervisores = "select id, nome from supervisores order by nome";
 $res_supervisores = $db->Execute($sql_supervisores);
-if($res_supervisores === false) die ("Não foi possível consultar a tabela supervisores");
+if($res_supervisores === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
 $i = 0;
 while(!$res_supervisores->EOF) {
     $num_supervisor[$i] = $res_supervisores->fields['id'];

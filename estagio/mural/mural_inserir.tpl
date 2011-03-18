@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-	<title>Cadastro de instituições de estágio</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<title>Cadastro de instituiÃ§Ãµes de estÃ¡gio</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -27,7 +27,7 @@ function janelaAviso() {
 		var texto = document.getElementById("aviso");
 		texto.setAttribute("style","font-weight:bold; background-color=yellow; color: red");
 		texto.style.cssText = "font-weight:bold; background-color:yellow; color:red";
-		texto.innerHTML = "Verifique se a instituição está conveniada com a UFRJ";
+		texto.innerHTML = "Verifique se a instituiÃ§Ã£o estÃ¡ conveniada com a UFRJ";
 		insere="";
 		}
 	return true;
@@ -38,7 +38,7 @@ function verificaConvenio() {
    		// alert("convenio" +i);
    		if (document.getElementById("convenio"+i).checked) {
    			if (i==0) {
-   				alert("Instituição não conveniada?");
+   				alert("InstituiÃ§Ã£o nÃ£o conveniada?");
    				return false;
    				} // Fecha if
    			} // Fecha if
@@ -47,7 +47,7 @@ function verificaConvenio() {
 	var email = document.getElementById("email").value;
 	alert(email);
 	if(email == "") {
-		alert("Sem o e-mail não será possível enviar e-mail para a instituicao");
+		alert("Sem o e-mail nÃ£o serÃ¡ possÃ­vel enviar e-mail para a instituicao");
 	}
 		
 	return true;
@@ -74,19 +74,19 @@ function verificaConvenio() {
 
 <div align="center">
 <table border="1">
-<caption>Oferta de vagas de Estágio {$periodo_atual}</caption>
+<caption>Oferta de vagas de EstÃ¡gio {$periodo_atual}</caption>
 <tbody>
 
 <tr>
-<td>Convênio:</td>
+<td>ConvÃªnio:</td>
 <td>
-<input type="radio" name="convenio" id="convenio0" value="0" checked>Não
+<input type="radio" name="convenio" id="convenio0" value="0" checked>NÃ£o
 <input type="radio" name="convenio" id="convenio1" value="1">Sim
 </td>
 </tr>
 
 <tr>
-<td>Instituição:</td>
+<td>InstituiÃ§Ã£o:</td>
 <td>
 <select name='id_estagio' size='1'>
 {section name=i loop=$instituicoes}
@@ -98,26 +98,26 @@ function verificaConvenio() {
 
 <tr>
 <td>Vagas:</td>
-<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3">Digitar somente números</td>
+<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3">Digitar somente nï¿½meros</td>
 </tr>
 
 <tr>
-<td>Benefícios:</td>
+<td>BenefÃ­cios:</td>
 <td><input type="text" name="beneficios" id="beneficios" size="50" maxlength="50"></td>
 </tr>
 
 <tr>
-<td>Estágio no final de semana:</td>
+<td>EstÃ¡gio no final de semana:</td>
 <td>
-<input type="radio" name="final_de_semana" id="final_de_semana0" value="0" checked>Não
+<input type="radio" name="final_de_semana" id="final_de_semana0" value="0" checked>NÃ£o
 <input type="radio" name="final_de_semana" id="final_de_semana1" value="1">Sim
 <input type="radio" name="final_de_semana" id="final_de_semana2" value="2">Parcialmente
 </td>
 </tr>
 
 <tr>
-<td>Carga horária semanal</td>
-<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2">Digitar somente números</td>
+<td>Carga horÃ¡ria semanal</td>
+<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2">Digitar somente nÃºmeros</td>
 </tr>
 
 <tr>
@@ -126,7 +126,7 @@ function verificaConvenio() {
 </tr>
 
 <tr>
-<td>Área da disciplina:</td>
+<td>Ãrea da disciplina:</td>
 <td>
 <select name="id_area" id="id_area">
 {html_options values=$id_areas output=$areas}
@@ -135,7 +135,7 @@ function verificaConvenio() {
 </tr>
 
 <tr>
-<td>Horário da disciplina</td>
+<td>HorÃ¡rio da disciplina</td>
 <td>
 <input type="radio" name="horario" id="horarioD" value="D" checked>Diurno
 <input type="radio" name="horario" id="horarioN" value="N">Noturno
@@ -153,7 +153,7 @@ function verificaConvenio() {
 </tr>
 
 <tr>
-<td>Inscrições na Coordenação de Estágio até:</td>
+<td>InscriÃ§Ãµes na CoordenaÃ§Ã£o de EstÃ¡gio atÃ©:</td>
 <td>Dia:
 <select name="diaInscricao">
 <option value="1">1</option>
@@ -188,11 +188,11 @@ function verificaConvenio() {
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-Mês:
+MÃªs:
 <select name="mesInscricao">
 <option value="1">Janeiro</option>
 <option value="2">Fevereiro</option>
-<option value="3">Março</option>
+<option value="3">MarÃ§o</option>
 <option value="4">Abril</option>
 <option value="5">Maio</option>
 <option value="6">Junho</option>
@@ -209,12 +209,17 @@ Ano:
 <option value="2008">2008</option>
 <option value="2009">2009</option>
 <option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
 </select>
 </td>
 </tr>
 
 <tr>
-<td>Data da seleção</td>
+<td>Data da seleÃ§Ã£o</td>
 <td>Dia:
 <select name="dia">
 <option value="1">1</option>
@@ -249,11 +254,11 @@ Ano:
 <option value="30">30</option>
 <option value="31">31</option>
 </select>
-Mês:
+MÃªs:
 <select name="mes">
 <option value="1">Janeiro</option>
 <option value="2">Fevereiro</option>
-<option value="3">Março</option>
+<option value="3">MarÃ§o</option>
 <option value="4">Abril</option>
 <option value="5">Maio</option>
 <option value="6">Junho</option>
@@ -276,28 +281,28 @@ Ano:
 <option value="2014">2014</option>
 <option value="2015">2015</option>
 </select>
-Horário:
+HorÃ¡rio:
 <input type="text" name="horarioSelecao" id="horarioSelecao" size="5" value="00:00">
 </td>
 </tr>
 
 <tr>
-<td>Local da seleção</td>
+<td>Local da seleÃ§Ã£o</td>
 <td><input type="text" name="localSelecao" id="localSelecao" size="50" maxlength="70"></td>
 </tr>
 
 <tr>
-<td>Forma de seleção</td>
+<td>Forma de seleÃ§Ã£o</td>
 <td>
 <input type="radio" name="formaSelecao" id="formaSelecao0" value="0" checked>Entrevista
 <input type="radio" name="formaSelecao" id="formaSelecao1" value="1">CR
 <input type="radio" name="formaSelecao" id="formaSelecao2" value="2">Prova
-<input type="radio" name="formaSelecao" id="formaSelecao3" value="3">Outras (especificar em outras informações)
+<input type="radio" name="formaSelecao" id="formaSelecao3" value="3">Outras (especificar em outras informaï¿½ï¿½es)
 </td>
 </tr>
 
 <tr>
-<td>Contato e/ou informações</td>
+<td>Contato e/ou informaÃ§Ãµes</td>
 <td><input type="text" name="contato" id="contato" size="50" maxlength="70"></td>
 </tr>
 
@@ -307,7 +312,7 @@ Horário:
 </tr>
 
 <tr>
-<td>Outras informações</td>
+<td>Outras informaÃ§Ãµes</td>
 <td>
 <textarea name="outras" id="outras" rows="5" cols="70"></textarea>
 </td>

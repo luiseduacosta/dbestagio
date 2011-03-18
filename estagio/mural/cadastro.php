@@ -1,6 +1,5 @@
 <?php
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 $submit = isset($_POST['submit']) ? $_POST['submit'] : NULL;
@@ -33,9 +32,9 @@ $instituicao = $resultado->fields['instituicao'];
 
 // die;
 
-if (empty($nascimento)) 
+if (empty($nascimento))
 	$dataNascimento = "";
-else 
+else
 	$dataNascimento = date("Y-m-d",strtotime($nascimento));
 
 if($submit) {
@@ -44,7 +43,7 @@ if($submit) {
 	$resultado_sql_verifica = $db->Execute($sql_verifica);
 	$quantidade = $resultado_sql_verifica->RecordCount();
 	if ($quantidade > 0) {
-		// echo "Já há um aluno com esse número de <a href='ver-aluno.php?id_aluno=$registro'>DRE</a>";
+		// echo "Jï¿½ hï¿½ um aluno com esse nï¿½mero de <a href='ver-aluno.php?id_aluno=$registro'>DRE</a>";
 		header("Location:mural-alunos_modifica.php?registro=$registro");
 		exit;
 	}
@@ -57,15 +56,15 @@ if($submit) {
 	// echo $sql_alunos . "<br>";
 
 	$resultado_insere = $db->Execute($sql_alunos);
-    if($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunosNovos");
+    if($resultado_insere === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela alunosNovos");
 
-	// Pego o id do último registro inserido.
+	// Pego o id do ï¿½ltimo registro inserido.
 /*
     $res_ultimo = $db->Execute("select max(id) as ultimo_aluno from alunosNovos");
-    if($res_ultimo === false) die ("Não foi possível consultar a seqüência alunosNovos");
+    if($res_ultimo === false) die ("Nao foi possivel consultar a sequencia alunosNovos");
     $ultimo_aluno = $res_ultimo->fields['ultimo_aluno'];
-*/	
-	// Parece que já não é mais necessário
+*/
+	// Parece que ja nao e mais necessario
 
 	// A data de hoje
 	$data = date("Y-m-d");
@@ -79,7 +78,7 @@ if($submit) {
 		"values('$registro','$id_instituicao','$data','$periodo')";
 	// echo $sql_inserir . "<br>";
 	$resultado_inscricao = $db->Execute($sql_inserir);
-    if($resultado_inscricao === false) die ("Não foi possível inserir o registro na tabela mural_inscricao");
+    if($resultado_inscricao === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela mural_inscricao");
 
 	header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
 	// header("Location:ver-mural.php?insere=$nome");
@@ -93,7 +92,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("registro",$registro);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("id_instituicao",$id_instituicao);
-$smarty->display("alunos-mural_insere.tpl");
+$smarty->display("../../mural/alunos-mural_insere.tpl");
 
 exit;
 

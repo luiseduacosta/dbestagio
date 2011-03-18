@@ -1,7 +1,6 @@
 <?php
 
 include_once("../../autoriza.inc");
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $indice = $_REQUEST['indice'];
@@ -23,12 +22,12 @@ $resultado_total = $db->Execute($sql);
 $ultimo = $resultado_total->RecordCount();
 // echo $ultimo . "<br>";
 
-// Se estou no final o proximo registro é o primeiro
+// Se estou no final o proximo registro e o primeiro
 if ($indice >= $ultimo) {
 	$indice = 0;
 }
 
-// Se estou no primerio registro o registro anterior é o último
+// Se estou no primerio registro o registro anterior e o ultimo
 if ($indice < 0) {
 	$indice = $ultimo-1;
 }
@@ -67,12 +66,12 @@ if (!empty($id_supervisor)) {
 }
 
 // Rotina para acrescentar uma instituicao
-if(!empty($_POST['num_instituicao'])) {
+if (!empty($_POST['num_instituicao'])) {
 	// echo "Acrescentar instituicao<br>";
 	$sql = "insert into inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$_POST[num_instituicao]')";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
-	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
+	if ($resultado === false) die ("NÃ£o foi possÃ­vel inserir dados na tabela inst_super");	
 } else {
 	// echo "Nada: " . $_POST[num_instituicao] . "<br>";
 }
@@ -89,12 +88,12 @@ $sql .= " order by nome, id_supervisor";
 // echo "Indice: " . $indice . "<br>";
 if(!isset($indice)) {
 	echo "<meta http-equiv='refresh' content='1;url=listar_todos.php?ordem=instituicao' />";
-	die ("Nao foi encontrado o índice");
+	die ("Nao foi encontrado o Ã­ndice");
 }
 
 $resultado = $db->SelectLimit($sql,1,$indice);
-if($resultado === false) die ("1 Não foi possível consultar a tabela supervisores");
-while(!$resultado->EOF) {
+if ($resultado === false) die ("1 NÃ£o foi possÃ­vel consultar a tabela supervisores");
+while (!$resultado->EOF) {
 	$id_supervisor = $resultado->fields['id'];
 	// echo "id " . $id_supervisor = $resultado->fields['id'];
 	$cress = $resultado->fields['cress'];
@@ -112,7 +111,7 @@ while(!$resultado->EOF) {
 	$sql_instituicoes .= "where inst_super.id_supervisor='$id_supervisor'";
 	// echo $sql_instituicoes . "<br>";
 	$resultado = $db->Execute($sql_instituicoes);
-	if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+	if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 	$i = 0;
 	while(!$resultado->EOF) {
 		$inst_emprego[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -130,9 +129,9 @@ while(!$resultado->EOF) {
 	// echo "Alunos: " . $sqlalunos . "<br>";
 
 	$res_alunos = $db->Execute($sqlalunos);
-	if($res_alunos === false) die ("Não foi possível consultar a tabela alunos");
+	if($res_alunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 	$i = 0;
-	while(!$res_alunos->EOF) {
+	while (!$res_alunos->EOF) {
 		$alunos[$i]['id_aluno'] = $res_alunos->fields['id'];
 		$alunos[$i]['registro'] = $res_alunos->fields['registro'];
 		$alunos[$i]['nome'] = $res_alunos->fields['nome'];
@@ -156,7 +155,7 @@ while(!$resultado->EOF) {
 		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
 		echo $sqlcurso . "<br />";
 		$supervisores_curso = $db->Execute($sqlcurso);
-		if($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
+		if($supervisores_curso === false) die ("NÃ£o foi possÃ­vel consultar a tabela curso_inscricao_supervisores");
 		$id_curso = $supervisores_curso->fields['id'];
 		// echo "Id curso: " . $id_curso . "<br>";
 	}
@@ -167,7 +166,7 @@ while(!$resultado->EOF) {
 // Instituicoes
 $sql = "select id, instituicao from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 $i = 0;
 while(!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];

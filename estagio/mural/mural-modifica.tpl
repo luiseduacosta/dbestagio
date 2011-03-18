@@ -3,8 +3,8 @@
 <html lang="pt-br">
 
 <head>
-	<title>Instituição</title>
-	<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+	<title>InstituiÃ§Ã£o</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="author" content="Luis Acosta">
@@ -30,35 +30,35 @@
 <tbody>
 
 <tr>
-<td>Id instituição</td>
+<td>Id instituiÃ§Ã£o</td>
 <td>{$id_instituicao}</td>
 </tr>
 
 <tr>
-<td>Convênio</td>
+<td>ConvÃªnio</td>
 <td>
 {if $convenio == 0}
-    <input type="radio" name="convenio" id="convenio" value="0" checked="{$convenio}">Não
+    <input type="radio" name="convenio" id="convenio" value="0" checked="{$convenio}">NÃ£o
     <input type="radio" name="convenio" id="convenio" value="1">Sim
 {elseif $convenio == 1}
-    <input type="radio" name="convenio" id="convenio" value="0">Não
+    <input type="radio" name="convenio" id="convenio" value="0">NÃ£o
     <input type="radio" name="convenio" id="convenio" value="1" checked="{$convenio}">Sim
 {/if}
 </td>
 </tr>
 
 <tr>
-<td>Instituição</td>
+<td>InstituiÃ§Ã£o</td>
 <td><input type="text" name="instituicao" id="instituicao" size="50" maxlength="100" value="{$instituicao}"></td>
 </tr>
 
 <tr>
 <td>Vagas</td>
-<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3" value="{$vagas}">Digite somente números</td>
+<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3" value="{$vagas}">Digite somente nÃºmeros</td>
 </tr>
 
 <tr>
-<td>Beneficios</td>
+<td>BenefÃ­cios</td>
 <td><input type="text" name="beneficios" id="beneficios" size="50"  maxlength="50" value="{$beneficios}"></td>
 </tr>
 
@@ -66,15 +66,15 @@
 <td>Final de semana</td>
 <td>
 {if $final_de_semana == 0}
-	<input type="radio" name="final_de_semana" id="final_de_semana" value="0" checked="{$fianl_de_semana}">Não
+	<input type="radio" name="final_de_semana" id="final_de_semana" value="0" checked="{$fianl_de_semana}">NÃ£o
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="1">Sim
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="2">Parcialmente
 {elseif $final_de_semana == 1}
-	<input type="radio" name="final_de_semana" id="final_de_semana" value="0">Não
+	<input type="radio" name="final_de_semana" id="final_de_semana" value="0">NÃ£o
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="1" checked="{$final_de_semana}">Sim
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="2">Parcialmente
 {elseif $final_de_semana == 2}
-	<input type="radio" name="final_de_semana" id="final_de_semana" value="0">Não
+	<input type="radio" name="final_de_semana" id="final_de_semana" value="0">NÃ£o
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="1">Sim
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="2" checked="{$final_de_semana}">Parcialmente
 {/if}
@@ -82,8 +82,8 @@
 </tr>
 
 <tr>
-<td>Carga horária</td>
-<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2" value="{$cargaHoraria}">Digite somente números</td>
+<td>Carga horÃ¡ria</td>
+<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2" value="{$cargaHoraria}">Digite somente nÃºmeros</td>
 </tr>
 
 <tr>
@@ -92,7 +92,7 @@
 </tr>
 
 <tr>
-<td>Área da disciplina</td>
+<td>Ãrea da disciplina</td>
 <td>
 <select name="id_area" id="id_area" size="1">
 <option value={$id_area}>{$area}<option>
@@ -116,7 +116,7 @@
 </tr>
 
 <tr>
-<td>Horário da disciplina</td>
+<td>HorÃ¡rio da disciplina</td>
 <td>
 {if $horario == "D"}
 	<input type="radio" name="horario" id="horario" value="D" checked="{$horario}">Diurno
@@ -135,27 +135,27 @@
 </tr>
 
 <tr>
-<td>Inscrições na Coordenação de Estágio até:</td>
-<td><input type="text" name="dataInscricao" id="dataInscricao" size="15" maxlenght="15" value="{$dataInscricao}">
+<td>InscriÃ§Ãµes na CoordenaÃ§Ã£o de EstÃ¡gio atÃ¡:</td>
+<td><input type="text" name="dataInscricao" id="dataInscricao" size="15" maxlength="15" value="{$dataInscricao}">
 Formato: dd-mm-aaaa</td>
 </tr>
 
 <tr>
-<td>Data da seleção</td>
+<td>Data da seleÃ§Ã£o</td>
 <td>
-<input type="text" name="dataSelecao" id="dataSelecao" size="15" maxlenght="15" value="{$dataSelecao}">
-Horário:
-<input type="text" name="horarioSelecao" id="horarioSelecao" size="5" maxlenght="5" value="{$horarioSelecao}">
+<input type="text" name="dataSelecao" id="dataSelecao" size="15" maxlength="15" value="{$dataSelecao}">
+HorÃ¡rio:
+<input type="text" name="horarioSelecao" id="horarioSelecao" size="5" maxlength="5" value="{$horarioSelecao}">
 Formato hh:mm</td>
 </tr>
 
 <tr>
-<td>Local da seleção</td>
+<td>Local da seleÃ§Ã£o</td>
 <td><input type="text" name="localSelecao" id="localSelecao" size="50" maxleghth="70" value="{$localSelecao}"></td>
 </tr>
 
 <tr>
-<td>Forma de seleção</td>
+<td>Forma de seleÃ§Ã£o</td>
 <td>
 {if $formaSelecao == 0}
 	<input type="radio" name="formaSelecao" id="formaSelecao" value="0" checked="{$formaSelecao}">Entrevista
@@ -192,7 +192,7 @@ Formato hh:mm</td>
 </tr>
 
 <tr>
-<td>Outras informações</td>
+<td>Outras informaÃ§Ãµes</td>
 <td><textarea name="outras" id="outra" rows="5" cols="70">{$outras}</textarea></td>
 </tr>
 

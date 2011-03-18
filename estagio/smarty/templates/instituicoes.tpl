@@ -3,7 +3,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Lista de instituiÔøΩÔøΩes</title>
+<title>Lista de institui√ß√µes</title>
 
 {literal}
 <script type="text/javascript">
@@ -27,7 +27,7 @@ function carrega_tabela() {
 <input type=hidden name='instituicao' id='instituicao' value='{$instituicao}'>
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='{$turma}'>PerÌodo: {$turma}</option>
+<option value='{$turma}'>Per√≠odo: {$turma}</option>
 <option value='0'>Todos</option>
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -42,23 +42,24 @@ function carrega_tabela() {
 {/section}
 </select>
 
-<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituiıes: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, perÌodos: {$total_periodos}</p>
+<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, institui√ß√µes: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, per√≠odos: {$total_periodos}</p>
 
 <div align="center">
 <table border="1">
-<caption>Tabela de instituiÁıes {$turma}</caption>
+<caption>Tabela de institui√ß√µes {$turma}</caption>
 
 <thead>
 <tr>
 <th>Id</th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=convenio">ConvÍnio</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=instituicao">InstituiÁıes</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>fÌ≠cios</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=convenio">Conv√™nio</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=instituicao">Institui√ß√µes</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=seguro">Seguro</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>f√≠cios</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=turma">Turma</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=alunos">Alunos</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">PerÌ≠odos</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Per√≠odos</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">¡eas</a></th>
+<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">√Åreas</a></th>
 <th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=natureza">Natureza</a></th>
 </tr>
 </thead>
@@ -79,6 +80,13 @@ function carrega_tabela() {
 
 {* Instituicoes *}
 <td><a href="../exibir/ver_cada.php?id_instituicao={$instituicoes[elementos].id_instituicao}">{$instituicoes[elementos].instituicao}</a></td>
+
+{* Seguro *}
+{if $instituicoes[elementos].seguro eq 0}
+	<td>Institui√ß√£o</td>
+{else}
+	<td>UFRJ</td>
+{/if}
 
 {* Beneficios *}
 <td>{$instituicoes[elementos].beneficio}</td>
@@ -101,7 +109,7 @@ function carrega_tabela() {
 	{/if}
 {/if}
 
-{* PerÌ≠odos *}
+{* Periodos *}
 <td style="text-align:center">{$instituicoes[elementos].periodos}</td>
 
 {* Supervisores *}

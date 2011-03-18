@@ -17,14 +17,14 @@ $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,9,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
+$cabecalho2 = $pdf->GetStringWidth("Escola de ServiÃ§o Social");
 $pdf->SetX((210-$cabecalho2)/2);
-$pdf->Cell($cabecalho2,9,"Escola de Serviço Social",0,1,'C',0);
+$pdf->Cell($cabecalho2,9,"Escola de ServiÃ§o Social",0,1,'C',0);
 $pdf->Ln(2);
 
-$cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio e Extensão");
+$cabecalho3 = $pdf->GetStringWidth("CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o");
 $pdf->SetX((210-$cabecalho3)/2);
-$pdf->Cell($cabecalho3,9,"Coordenação de Estágio e Extensão",0,1,'C',0);
+$pdf->Cell($cabecalho3,9,"CoordenaÃ§Ã£o de EstÃ¡gio e ExtensÃ£o",0,1,'C',0);
 $pdf->Ln(2);
 
 $pdf->SetFont("Arial","","14");

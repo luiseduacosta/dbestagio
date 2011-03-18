@@ -36,7 +36,7 @@ if (empty($num_supervisor)) {
     $sql .= " values ('$nome', '$cpf', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
     // echo "Insirindo novo supervisor " . $sql . "<br>";
     $resultado = $db->Execute($sql);
-    if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
+    if($resultado === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela supervisores");
     // die;
     // Pego o numero de registro de ultimo supervisor ingressado
     $id_supervisor = $db->Insert_ID();
@@ -44,14 +44,14 @@ if (empty($num_supervisor)) {
     /*	
     $res_ultimo = $db->Execute("select insert_id() as ultimo_supervisor from supervisores");
     echo "select insert_id() as ultimo_supervisor from supervisores";
-    if($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
+    if($res_ultimo === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
     $id_supervisor = $res_ultimo->fields['ultimo_supervisor'];
 	*/
 
     // Insero supervisor e instituicao em inst_super
     // $sql_inst_super = "insert into inst_super (id_supervisor, id_instituicao) values ('$id_supervisor', '$id_instituicao')";
     // $res_inst_super = $db->Execute($sql_inst_super);
-    // if($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
+    // if($res_inst_super === false) die ("NÃ£o foi possÃ­vel inserir o registro na tabela inst_super");
 } else {
     echo "Atualizando supervisor <br>";
     $sql  = "update supervisores "; 
@@ -64,7 +64,7 @@ if (empty($num_supervisor)) {
 
 }
 
-// Registro das atividades de atualização e inserção na tabela de supervisores
+// Registro das atividades de atualizaÃ§Ã£o e inserÃ§Ã£o na tabela de supervisores
 $arquivo = $_SERVER['PHP_SELF'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $data = date('Y-m-d');
@@ -80,7 +80,7 @@ if ($quantidade > 0) {
 }
 // echo $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
-if($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
+if($resultado_log === false) die ("NÃ£o foi possÃ­vel inserir/atualizar registro na tabela log_supervisores");    		  
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";
 

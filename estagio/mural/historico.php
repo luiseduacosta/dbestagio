@@ -40,7 +40,7 @@ if ($periodo) {
 	
 	$smarty = new Smarty_estagio;
 	$smarty->assign("historico",$historico);
-	$smarty->display("historico.tpl");
+	$smarty->display("../../mural/historico.tpl");
 }
 
 function alunos_periodo($periodo) {
@@ -61,7 +61,7 @@ function alunos_periodo($periodo) {
 	$smarty->assign("sem_estagio",$total_sem_estagio);
 	$smarty->assign("niveis",$niveis);
 	$smarty->assign("alunos",$alunos);
-	$smarty->display("historico_alunos.tpl");
+	$smarty->display("../../mural/historico_alunos.tpl");
 	
 	return;
 }
@@ -88,7 +88,7 @@ function instituicoes_periodo($selecao) {
 	$smarty->assign("periodo",$selecao);
 	$smarty->assign("instituicoes",$instituicoes);
 	$smarty->assign("total_vagas",$total_vagas);
-	$smarty->display("historico_instituicoes.tpl");
+	$smarty->display("../../mural/historico_instituicoes.tpl");
 	
 	return;
 }
@@ -131,7 +131,7 @@ function alunos_por_periodo($periodo) {
 		if (empty($nivel)) $nivel0++;
 		if ($nivel == 1) $nivel1++;
 		if ($nivel == 2) $nivel2++;
-		if ($nivel == 3) $nivel3++;		 
+		if ($nivel == 3) $nivel3++;
 		if ($nivel == 4) $nivel4++;
 
 		// echo $nivel0 . " " . $nivel1 . " " . $nivel2 . " " . $nivel3 . " " . $nivel4;
@@ -193,8 +193,8 @@ function alunos_sem_estagio($periodo_sem_estagio) {
 	$smarty = new Smarty_estagio;
 	$smarty->assign("periodo",$periodo_sem_estagio);
 	$smarty->assign("sem_estagio",$sem_estagio);
-	$smarty->display("historico_sem_estagio.tpl");
-		
+	$smarty->display("../../mural/historico_sem_estagio.tpl");
+
 }
 
 ?>

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Ver cada aluno</title>
   <meta content="author" name="Luis Acosta">
 <style type="text/css">
@@ -40,9 +40,9 @@ function get_periodo() {
 
 <select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
 {if !$periodo}
-	<option value='0'>Seleciona periodo</option>
+	<option value='0'>Seleciona perÃ­odo</option>
 {else}
-	<option value='0'>Período: {$periodo}</option>
+	<option value='0'>PerÃ­odo: {$periodo}</option>
 {/if}
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -94,7 +94,7 @@ function get_periodo() {
 <input type="hidden" name="botao" value="avancar">
 <input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
-<input type="submit" name="submit" value="Avançar">
+<input type="submit" name="submit" value="AvanÃ§ar">
 </form>
 </td>
 
@@ -114,7 +114,7 @@ function get_periodo() {
 <input type="hidden" name="botao" value="ultimo">
 <input type="hidden" name="periodo" id="id_periodo" value='{$periodo}'>
 <input type="hidden" name="id_aluno" value="">
-<input type="submit" name="submit" value="Último">
+<input type="submit" name="submit" value="Ãšltimo">
 </form>
 </td>
 
@@ -129,7 +129,7 @@ function get_periodo() {
 <tbody>
 
 <tr>
-<th width='80%'>Aluno estagiário {* $num_aluno *}</th>
+<th width='80%'>Aluno estagiÃ¡rio {* $num_aluno *}</th>
 {if $logado == 1}
 	<th width='20%'><a href='../cancelar/ver_cancela.php?id_aluno={$num_aluno}'>Excluir registro</a></th>
 {/if}
@@ -151,7 +151,7 @@ function get_periodo() {
 {if !$periodo_intro}
 <td>s/d</td>
 {else}
-<td>{$periodo_intro}&nbsp; - Perí­odo atual: {$tempo_cursado}o.</td>
+<td>{$periodo_intro}&nbsp; - PerÃ­odo atual: {$tempo_cursado}o.</td>
 {/if}
 </tr>
 
@@ -194,11 +194,11 @@ function get_periodo() {
 {if $logado == 1}
 	<th>Editar</th>
 {/if}
-<th>Período</th>
+<th>PerÃ­odo</th>
 <th>TC</th>
-<th>Nível</th>
+<th>NÃ­vel</th>
 <th>Turno</th>
-<th>Instituição</th>
+<th>InstituiÃ§Ã£o</th>
 <th>Supervisor</th>
 <th>Professor</th>
 {if $logado == 1}

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="pt-br">
 <head>
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Supervisores</title>
   <meta content="author" name="Luis Acosta" >
   
@@ -28,9 +28,9 @@ function get_periodo() {
 
 <select name='periodo' id='periodo' size=1 onChange='get_periodo();'>
 {if !$periodo}
-	<option value='0'>Seleciona perí­odo</option>
+	<option value='0'>Seleciona perÃ­odo</option>
 {else}
-	<option value='0'>Período: {$periodo}</option>
+	<option value='0'>PerÃ­odo: {$periodo}</option>
 {/if}
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -72,7 +72,7 @@ function get_periodo() {
 <form action=? method="POST">
 <input type="hidden" name=indice value={$indice+1}>
 <input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
-<input type="submit" name=submit value="Avança">
+<input type="submit" name=submit value="AvanÃ§a">
 </form>
 </td>
 
@@ -88,7 +88,7 @@ function get_periodo() {
 <form action=? method="POST">
 <input type="hidden" name=indice value={$ultimo}>
 <input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
-<input type="submit" name=submit value="Último">
+<input type="submit" name=submit value="Ãšltimo">
 </form>
 </td>
 
@@ -114,10 +114,10 @@ function get_periodo() {
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $sistema_autentica == 1}
-	<tr><td>Endereço</td><td>{$endereco}</td></tr>
+	<tr><td>EndereÃ§o</td><td>{$endereco}</td></tr>
 	<tr><td>Bairro</td><td>{$bairro}</td></tr>
 	<tr><td>CEP</td><td>{$cep}</td></tr>
-	<tr><td>Município</td><td>{$municipio}</td></tr>
+	<tr><td>MunicÃ­pio</td><td>{$municipio}</td></tr>
     <tr><td>Telefone</td><td>({$codigo_tel}){$telefone}</td></tr>
     <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
 {/if}
@@ -126,7 +126,7 @@ function get_periodo() {
 
 {section name=i loop=$emprego}
 <tr>
-	<td>Instituição</td>
+	<td>InstituiÃ§Ã£o</td>
 	<td>
 		<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$emprego[i].id_instituicao}">{$emprego[i].instituicao}</a>
 	</td>
@@ -135,7 +135,7 @@ function get_periodo() {
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $sistema_autentica == 1}
-    <tr><td>Observações</td><td>{$observacoes}</td></tr>
+    <tr><td>ObservaÃ§Ãµes</td><td>{$observacoes}</td></tr>
 {/if}
 
 </tbody>
@@ -171,7 +171,7 @@ function get_periodo() {
 				{/section}
 			</select>
 			<input type='hidden' name='id_supervisor' value='{$id_supervisor}'>
-			<input type='submit' name='submit' value='Acrescentar instituição'>
+			<input type='submit' name='submit' value='Acrescentar instituiÃ§Ã£o'>
 		</form>
 	</td>
 </tr>
@@ -186,8 +186,8 @@ function get_periodo() {
 <tr>
 <th>Registro</th>
 <th>Nome</th>
-<th>Instituição</th>
-<th>Perí­odo</th>
+<th>InstituiÃ§Ã£o</th>
+<th>PerÃ­odo</th>
 </tr>
 {section name=id loop=$alunos}
 <tr>
