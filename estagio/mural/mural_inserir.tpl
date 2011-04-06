@@ -98,7 +98,7 @@ function verificaConvenio() {
 
 <tr>
 <td>Vagas:</td>
-<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3">Digitar somente n�meros</td>
+<td><input type="text" name="vagas" id="vagas" size="3" maxlength="3">Digitar somente números</td>
 </tr>
 
 <tr>
@@ -297,7 +297,7 @@ Horário:
 <input type="radio" name="formaSelecao" id="formaSelecao0" value="0" checked>Entrevista
 <input type="radio" name="formaSelecao" id="formaSelecao1" value="1">CR
 <input type="radio" name="formaSelecao" id="formaSelecao2" value="2">Prova
-<input type="radio" name="formaSelecao" id="formaSelecao3" value="3">Outras (especificar em outras informa��es)
+<input type="radio" name="formaSelecao" id="formaSelecao3" value="3">Outras (especificar em outras informações)
 </td>
 </tr>
 

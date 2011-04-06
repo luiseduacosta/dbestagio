@@ -1,6 +1,6 @@
 <?php
 
-// Usuário autenticado no sistema?
+// Usuario autenticado no sistema?
 $usuario_nome  = $_COOKIE['usuario_nome'];
 $usuario_senha = $_COOKIE['usuario_senha'];
 
@@ -14,9 +14,9 @@ if(empty($usuario_nome) or (empty($usuario_senha))) {
 } else {
     $sistema_autentica = 1;
 }
-// echo "Usuário autenticado no sistema? " . $sistema_autentica . "<br>";
+// echo "Usuario autenticado no sistema? " . $sistema_autentica . "<br>";
 
-// Usuário está autenticado no mural?
+// Usuario esta autenticado no mural?
 $usuario_mural = $_COOKIE['mural_usuario'];
 $senha_mural   = $_COOKIE['mural_senha'];
 if(empty($usuario_mural) or (empty($senha_mural))) {
@@ -25,6 +25,6 @@ if(empty($usuario_mural) or (empty($senha_mural))) {
     $mural_autentica = 1;
 }
 
-// echo "Usuário autenticado no mural? " . $mural_autentica . "<br>";
+// echo "Usuario autenticado no mural? " . $mural_autentica . "<br>";
 
 ?>

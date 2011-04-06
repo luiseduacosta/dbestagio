@@ -126,7 +126,7 @@ function contacarateres() {
 
 include_once("../../setup.php");
 include_once("../../db.inc");
-include_once("../../autoriza.inc");
+include_once("../../autentica.inc");
 
 if($sistema_autentica == 0) {
 	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=http://$url/estagio/login.php'>";

@@ -45,7 +45,7 @@ function janelaInsere() {
 <span id="alunoInscrito"></span>
 
 {if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="/usr/local/htdocs/html/estagio/mural/mural_menu.tpl"}
 {/if}
 
 <h1>Mural de estágios - Turma {$periodo_atual}</h1>
@@ -97,8 +97,27 @@ e selecione o curso de Serviço Social para ver as instituições conveniadas co
 <td class="coluna_centralizada">{$instituicao[item].vagas}</td>
 <td class="coluna_centralizada"><a href="listaInscritos.php?id_instituicao={$instituicao[item].id_instituicao}">{$instituicao[item].quantidade_alunos}</a></td>
 <td>{$instituicao[item].beneficios}</td>
-<td style="text-align:center">{$instituicao[item].dataInscricao}</td>
-<td>{$instituicao[item].dataSelecao} Horário: {$instituicao[item].horarioSelecao}</td>
+
+{if $instituicao[item].dataInscricao == 0}
+    <td style="text-align:center">
+    Sem data
+    </td>
+{else}
+    <td style="text-align:center">
+    {$instituicao[item].dataInscricao}
+    </td>
+{/if}
+
+{if $instituicao[item].dataSelecao == 0}
+    <td style="text-align:center">
+    Sem data
+    </td>
+{else}
+    <td style="text-align:center">
+    {$instituicao[item].dataSelecao} Horário: {$instituicao[item].horarioSelecao}
+    </td>
+{/if}
+
 {if $sistema_autentica == 1}
 	<td style="text-align:center">{$instituicao[item].datafax}</td>
 {/if}

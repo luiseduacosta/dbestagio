@@ -234,8 +234,11 @@ function barra() {
 <tr>
 <td>Data e horário da seleção</td>
 <td>
-{$instituicao[item].dataSelecao}
-Horário: {$instituicao[item].horarioSelecao} hs.
+{if $dataSelecao == 0}
+    Sem data de seleção
+{else}
+    {$instituicao[item].dataSelecao}: Horário: {$instituicao[item].horarioSelecao} hs.
+{/if}
 </td>
 </tr>
 

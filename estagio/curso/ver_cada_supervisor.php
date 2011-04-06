@@ -152,7 +152,7 @@ function contacarateres() {
 <?php
 
 include_once("../setup.php");
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
 $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;

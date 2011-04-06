@@ -1,6 +1,6 @@
 <?php
 
-include_once("../../autoriza.inc");
+include_once("../../autentica.inc");
 include_once("../../setup.php");
 
 $indice = $_REQUEST['indice'];

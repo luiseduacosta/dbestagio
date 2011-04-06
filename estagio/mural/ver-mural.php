@@ -6,7 +6,6 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../autoriza.inc");
 include_once("../setup.php");
 
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
@@ -16,7 +15,7 @@ if(empty($ordem)) {
 		$ordem = "dataInscricao desc";
 }
 
-// Pego os est�gios do PERIODO_ATUAL
+// Pego os estagios do PERIODO_ATUAL
 $sql  = "select mural_estagio.id, id_estagio, instituicao, convenio, vagas, beneficios, final_de_semana, ";
 $sql .= "cargaHoraria, requisitos, ";
 $sql .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
@@ -198,16 +197,19 @@ echo "Novos       " . $novo_novo . "<br>";
 echo "Estagiarios " . $conhecidos_conhecidos . "<br>";
 */
 
+// echo "Usuário: " . $_COOKIE['usuario_nome'];
+if ($_COOKIE['usuario_nome']) $sistema_autentica = 1;
+
 $smarty = new Smarty_estagio;
 
-$smarty->assign("periodo_atual",PERIODO_ATUAL);
-$smarty->assign("sistema_autentica",$sistema_autentica);
-$smarty->assign("insere",$insere);
-$smarty->assign("instituicao",$instituicao);
-$smarty->assign("totalVagas",$totalVagas);
-$smarty->assign("totalAlunos",$total);
-$smarty->assign("alunos_novos",$novo_novo);
-$smarty->assign("alunosVelhos",$conhecidos_conhecidos);
+$smarty->assign("periodo_atual", PERIODO_ATUAL);
+$smarty->assign("sistema_autentica", $sistema_autentica);
+$smarty->assign("insere", $insere);
+$smarty->assign("instituicao", $instituicao);
+$smarty->assign("totalVagas", $totalVagas);
+$smarty->assign("totalAlunos", $total);
+$smarty->assign("alunos_novos", $novo_novo);
+$smarty->assign("alunosVelhos", $conhecidos_conhecidos);
 $smarty->display("../../mural/ver-mural.tpl");
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require_once("../autoriza.inc");
+require_once("../autentica.inc");
 
 require("../setup.php");
 

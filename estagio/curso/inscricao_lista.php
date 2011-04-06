@@ -7,7 +7,7 @@
  */
 
 include_once("../setup.php");
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 
 // echo "Autentica " . $sistema_autentica;
 

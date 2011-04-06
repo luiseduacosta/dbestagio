@@ -1,6 +1,5 @@
 <?php
 
-include_once("../autoriza.inc");
 include_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
@@ -210,6 +209,9 @@ while (!$resultado->EOF) {
 // echo "Indice " . $indice . "<br>";
 $data_hoje = date("Ymd");
 // echo "Data hoje: " . date("Ymd") . "<br>";
+
+// echo "Usuário: " . $_COOKIE['usuario_nome'];
+if ($_COOKIE['usuario_nome']) $sistema_autentica = 1;
 
 $smarty = new Smarty_estagio;
 
