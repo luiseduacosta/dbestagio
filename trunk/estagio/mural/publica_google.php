@@ -149,6 +149,6 @@ if(strlen($twitter_message)<1){
 
 // echo "<meta HTTP-EQUIV='refresh' content='0,URL=http://groups.google.com.br/group/estagio_ess'>";
 
-// header("Location: http://groups.google.com/forum/#!forum/estagio_ess");
+header("Location: http://groups.google.com/forum/#!forum/estagio_ess");
 
 ?>

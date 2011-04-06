@@ -1,6 +1,6 @@
 <?php
 
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 include_once("../setup.php");
 
 $id_aluno = isset($_GET['id_aluno']) ? $_GET['id_aluno'] : NULL ;
@@ -11,17 +11,17 @@ echo "
 <p><a href=\"javascript:history.back(1)\">Voltar</a></p>
 ";
 
-// Aluno j� cadastrado
+// Aluno ja cadastrado
 $sql = "select id, registro, nome from alunos where registro='$id_aluno'";
 // echo $sql . "<br>";
 $resultado_aluno = $db->Execute($sql);
-if($resultado_aluno === false) die ("Nao foi possivel consultar as tabelas estagiarios, estagio, supervisores");
+if ($resultado_aluno === false) die ("Nao foi possivel consultar as tabelas estagiarios, estagio, supervisores");
 $quantidade = $resultado_aluno->RecordCount();
 // Aluno novo
 if ($quantidade == 0) {
 		$sql_aluno = "select id, registro, nome from alunosNovos where registro=$id_aluno";
 		$aluno = 0;
-		// Aluno j� conhecido
+		// Aluno ja conhecido
 } else {
 		$sql_aluno = "select id, registro, nome from alunos where registro='$id_aluno'";	
 		$aluno = 1;
@@ -63,7 +63,7 @@ while (!$resultado_alunos->EOF) {
 	$resultado_alunos->MoveNext();
 }
 
-// Dados das inscri��es para sele��o de est�gio
+// Dados das inscricoes para seleçao de estagio
 $sql  = "select id_instituicao, instituicao, data ";
 $sql .= " from mural_inscricao ";
 $sql .= " inner join mural_estagio on mural_inscricao.id_instituicao = mural_estagio.id";

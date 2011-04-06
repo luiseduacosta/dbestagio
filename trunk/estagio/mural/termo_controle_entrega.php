@@ -1,6 +1,6 @@
 <?php
 
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 require("../setup.php");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';

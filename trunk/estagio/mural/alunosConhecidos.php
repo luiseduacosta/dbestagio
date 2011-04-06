@@ -8,7 +8,7 @@
  */
 
 include_once("../setup.php");
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 
 $ordem = $_GET['ordem'];
 

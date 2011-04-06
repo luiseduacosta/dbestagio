@@ -93,7 +93,7 @@ function contacarateres() {
 
 include_once("../../setup.php");
 // include_once("../../db.inc");
-include_once("../../autoriza.inc");
+include_once("../../autentica.inc");
 
 $nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : NULL;
 $cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : NULL;

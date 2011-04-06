@@ -15,7 +15,7 @@
     var domTT_closeLink = '<img src="close.gif" style="vertical-align: bottom;" width="16" height="14" />';
     onload = function(in_event)
     {
-    // domTT_addPredefined('popup', 'caption', 'Coordenação de estágio', 'content', '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF;"><span style="font-weight: bold;">Inscrições para o curso de extensão para atualização profissional de supervisores a partir do dia 4 de abril</span><br /></div>', 'type', 'sticky');
+    // domTT_addPredefined('popup', 'caption', 'Coordenaï¿½ï¿½o de estï¿½gio', 'content', '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF;"><span style="font-weight: bold;">Inscriï¿½ï¿½es para o curso de extensï¿½o para atualizaï¿½ï¿½o profissional de supervisores a partir do dia 4 de abril</span><br /></div>', 'type', 'sticky');
     // domTT_activate('popup1', in_event, 'predefined', 'popup', 'x', 230, 'y', 50, 'width', 260, 'delay', 1000);
     // domTT_activate('popup2', in_event, 'caption', 'Hello There!', 'content', '<div style="background-color: #FFFFFF; font-size: 13px; padding: 2px; font-family: Arial;">This is an example of a second popup tooltip onload.  It has a delay twice as long as the first popup.</div>', 'x', 100, 'y', 100, 'width', 150, 'delay', 2000, 'type', 'sticky');
     }
@@ -34,25 +34,25 @@ function confirma() {
     instituicao=document.inscricao.instituicaoNova.value;
 
     if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+    	alert("Vocï¿½ precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
     if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	alert("ï¿½ importante o seu e-mail para nossa comunicaï¿½ï¿½o");
 	document.inscricao.email.focus();
 	return false;
 	}
 
     if(cress=="") {
-    	alert("Favor informar o seu número de registro no CRESS");
+    	alert("Favor informar o seu nï¿½mero de registro no CRESS");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
     if(instituicao=="") {
-    	alert("Informe a instituição em que trabalha");
+    	alert("Informe a instituiï¿½ï¿½o em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
 	}
@@ -65,7 +65,7 @@ function verifica_nome() {
     nome=document.inscricao.nome.value;
     if(nome=="")
     {
-	alert("Você precisa informar o seu nome");
+	alert("Vocï¿½ precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
     }
@@ -80,7 +80,7 @@ function verifica_email() {
     email=document.inscricao.email.value;
     if(email=="")
     {
-	alert("É importante o e-mail para nossa comunicação");
+	alert("ï¿½ importante o e-mail para nossa comunicaï¿½ï¿½o");
 	document.inscricao.email.focus();
 	return false;
     }
@@ -95,7 +95,7 @@ function verifica_cress() {
     cress=document.inscricao.cress.value;
     if(cress=="")
     {
-	alert("Você precisa informar o número de registro no CRESS 7a. região");
+	alert("Vocï¿½ precisa informar o nï¿½mero de registro no CRESS 7a. regiï¿½o");
 	document.inscricao.cress.focus();
 	return false;
     }
@@ -109,7 +109,7 @@ function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
     if(instituicao=="") {
-		alert("Você precisa informar a instituição na que trabalha");
+		alert("Vocï¿½ precisa informar a instituiï¿½ï¿½o na que trabalha");
 		document.inscricao.instituicaoNova.focus();
 		return false;
     } else {
@@ -129,7 +129,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
     if(quantidade > 9) {
-		alert("O limite do campo é de 9 carateres");
+		alert("O limite do campo ï¿½ de 9 carateres");
 	}
 }
 
@@ -250,7 +250,7 @@ function ver_Supervisor() {
 
 include_once("../../setup.php");
 // include_once("../../db.inc");
-include_once("../../autoriza.inc");
+include_once("../../autentica.inc");
 
 if($sistema_autentica == 0) {
 	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=http://$url/estagio/login.php'>";
@@ -276,14 +276,14 @@ $sql  = "select id, nome ";
 $sql .= " from supervisores ";
 $sql .= " order by nome";
 $resultado = $db->Execute($sql);
-if($resultado_=== false) die ("Não foi possível consultar a tabela supervisores");
+if($resultado_=== false) die ("Nï¿½o foi possï¿½vel consultar a tabela supervisores");
 ?>
 
 <tr>
 <td>Selecione o nome do Assistente Social: </td>
 <td>
 <select nome="id_supervisor" id="id_supervisor" size="1" onChange="return ver_Supervisor();">
-<option value=0>Se já está cadastrado selecione aqui, caso contrário digite a informação</option>
+<option value=0>Se jï¿½ estï¿½ cadastrado selecione aqui, caso contrï¿½rio digite a informaï¿½ï¿½o</option>
 <?php
 while (!$resultado->EOF) {
     $id_supervisor = $resultado->fields['id'];
@@ -310,7 +310,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>Endereço: </td>
+<td>Endereï¿½o: </td>
 <td><input type="text" name="endereco" id="endereco" maxlength="100" size="50"></td>
 </tr>
 
@@ -320,7 +320,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>Município: </td>
+<td>Municï¿½pio: </td>
 <td><input type="text" name="municipio" id="municipio" maxlength="30" size="30"></td>
 </tr>
 
@@ -333,14 +333,14 @@ while (!$resultado->EOF) {
 <tr>
 <td>Telefone: </td>
 <td>
-Código: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
+Cï¿½digo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
 <input type="text" name="telefone" id="telefone" maxlength="9" size="9"></td>
 </tr>
 
 <tr>
 <td>Celular: </td>
 <td>
-Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
+Cï¿½digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
 <input type="text" name="celular" id="celular" maxlength="9" size="9"></td>
 </tr>
 
@@ -363,15 +363,15 @@ Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size=
 <td>No. de registro no CRESS</td>
 <td>
 <input type="text" name="cress" id="cress" maxlength="15" size="10" onBlur="return verifica_cress()">
-<span style="text-align:right">Região: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
+<span style="text-align:right">Regiï¿½o: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
 </td>
 </tr>
 
 <tr>
 <td>Outros estudos realizados:</td>
 <td>
-<input type="radio" name="outros_estudos" id="outros_estudos" value="especialização">
-Especialização
+<input type="radio" name="outros_estudos" id="outros_estudos" value="especializaï¿½ï¿½o">
+Especializaï¿½ï¿½o
 <input type="radio" name="outros_estudos" id="outros_estudos" value="mestrado">
 Mestrado
 <input type="radio" name="outros_estudos" id="outros_estudos" value="doutorado">
@@ -380,12 +380,12 @@ Doutorado
 </tr>
 
 <tr>
-<td>Área em que foi realizado o curso anteriormente mencionado</td>
+<td>ï¿½rea em que foi realizado o curso anteriormente mencionado</td>
 <td><input type="text" name="area_curso" id="area_curso" maxlength="40" size="30"></td>
 </tr>
 
 <tr>
-<td>Ano em que foi concluído o curso</td>
+<td>Ano em que foi concluï¿½do o curso</td>
 <td><input type="text" name="ano_curso" id="ano_curso" maxlength="4" size="4"></td>
 </tr>
 

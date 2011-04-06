@@ -10,7 +10,7 @@ $palavra = isset($_REQUEST['palavra']) ? $_REQUEST['palavra'] : NULL;
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 
 include_once("../setup.php");
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 
 $sql = "select curso_inscricao_supervisor.id, curso_inscricao_supervisor.num_inscricao,curso_inscricao_supervisor.nome, curso_inscricao_supervisor.cress,curso_inscricao_supervisor.email,curso_inscricao_supervisor.codigo_tel,curso_inscricao_supervisor.telefone,curso_inscricao_supervisor.codigo_cel,curso_inscricao_supervisor.celular,curso_inscricao_supervisor.curso_turma, curso_inscricao_instituicao.instituicao, curso_inscricao_instituicao.id as id_instituicao " .
 		" from curso_inscricao_supervisor " .

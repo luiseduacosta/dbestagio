@@ -1,6 +1,6 @@
 <?php
 
-// include_once("../autoriza.inc");
+// include_once("../autentica.inc");
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 

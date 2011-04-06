@@ -1,7 +1,7 @@
 <?php
 
 include_once("../../setup.php");
-include_once('../../autoriza.inc');
+include_once('../../autentica.inc');
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "nome";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
