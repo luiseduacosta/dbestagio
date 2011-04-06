@@ -6,7 +6,7 @@ $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 $instituicao = isset($_REQUEST['instituicao']) ? htmlspecialchars($_REQUEST['instituicao']) : NULL;
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 
-// echo "Registro: " . $registro . "<br>";
+echo "Registro: " . $registro . "<br>";
 // echo "Id instituicao : " . $id_instituicao . "<br>";
 // echo "Instituicao: " . $instituicao;
 

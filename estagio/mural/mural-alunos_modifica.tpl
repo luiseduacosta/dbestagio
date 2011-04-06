@@ -202,7 +202,7 @@ Celular:
 
 <tr>
 <td>CPF:</td>
-<td><input type="text" name="cpf" id="cpf" size="11" maxlength="11" value="{$cpf}"></td>
+<td><input type="text" name="cpf" id="cpf" size="12" maxlength="12" value="{$cpf}"></td>
 </tr>
 
 <tr>

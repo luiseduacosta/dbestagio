@@ -1,7 +1,7 @@
 <?php
 
 // include_once("../autentica.inc");
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 
 // echo "Sistema autentica " . $sistema_autentica;
 if($sistema_autentica == 0) {
@@ -17,7 +17,7 @@ $opcao = $_GET['opcao'];
 
 $sql = "select * from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if($resultado === false) die ("Nï¿½o foi possï¿½vel consultar a tabela estagio");
 
 $i = 0;
 while(!$resultado->EOF) {

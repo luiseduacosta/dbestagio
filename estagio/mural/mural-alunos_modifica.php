@@ -1,6 +1,6 @@
 <?php
 
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 include_once("../setup.php");
 
 $id_aluno = isset($_REQUEST['id_aluno']) ? (int)$_REQUEST['id_aluno'] : NULL;

@@ -7,11 +7,13 @@ $http_host = $_SERVER['HTTP_HOST'];
 // echo "Servidor " . $http_host;
 $url = $_SERVER['SERVER_NAME'];
 
-if(empty($usuario_nome) or (empty($usuario_senha))) {
+if (empty($usuario_nome) or (empty($usuario_senha))) {
 	$mural_autentica = 0;
+        $sistema_autentica = 0;
 	header("Location: http://$url/estagio/login.php");
 } else {
 	$mural_autentica = 1;
+        $sistema_autentica = 1;
 }
 
 ?>

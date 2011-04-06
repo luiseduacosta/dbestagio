@@ -1,7 +1,6 @@
 <?php
 
-// include_once("mural-autentica.inc");
-
+include_once("../autentica.inc");
 include_once("../setup.php");
 
 $confirma   = isset($_POST['inserir']) ? $_POST['inserir'] : NULL;

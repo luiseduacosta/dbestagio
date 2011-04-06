@@ -7,7 +7,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../autoriza.inc");
+include_once("../autentica.inc");
 include_once("../setup.php");
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;

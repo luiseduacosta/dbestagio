@@ -45,9 +45,8 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 
 <h1>Inscrição para seleção de estágio na instituição: <?php echo $instituicao; ?></h1>
 
-<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="verifica.php" enctype="text/html" onSubmit="return verificaRegistro();">
+<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="verifica.php" onSubmit="return verificaRegistro();">
 <p>Digite o seu número de registro (DRE):</p>
-<p>Atenção! utilize o navegador <a href='http://br.mozdev.org'>Firefox</a> ou Internet Explorer, porque não está funcionando com o Google Chrome</p>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="hidden" name="id_instituicao" value="<?php echo $id_instituicao; ?>">
 <input type="submit" name="confirma" value="Confirma" size="5">
