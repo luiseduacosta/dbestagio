@@ -126,7 +126,6 @@ function confirma() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-
 <h1>Inscrição em seleção de estágio na instituição {$instituicao}</h1>
 
 {* O histórico do aluno so aparece se o aluno já eh conhecido *}
@@ -160,7 +159,8 @@ function confirma() {
 
 <form action="mural-alunos_atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
-<!--
+{if $sistema_autentica == 1}
+
 <table border="1" width="80%">
 {if $aluno eq 0}
 	<caption>Atualizar dados do aluno novo</caption>
@@ -247,7 +247,8 @@ Município:
 </tbody>
 </table>
 
-//-->
+{/if}
+
 
 <table border="1" width="80%">
 <tbody>
@@ -267,11 +268,12 @@ Registro: {$registro}
 </tbody>
 </table>
 
+<input type="hidden" name="sistema_autentica" id="sistema_autentica" value="{$sistema_autentica}">
 <input type="hidden" name="aluno" id="aluno" value="{$aluno}">
 <input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">
 <input type="hidden" name="id_instituicao" id="id_instituicao" value="{$id_instituicao}">
-<input type="submit" name="submit" id="submit" value="Confirma inscrição">
+<input type="submit" name="submit" id="submit" value="Confirma">
 
 </form>
 

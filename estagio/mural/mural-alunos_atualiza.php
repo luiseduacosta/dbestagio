@@ -9,6 +9,7 @@
 
 include_once("../setup.php");
 
+$sistema_autentica = $_REQUEST['sistema_autentica'];
 $aluno = $_REQUEST['aluno']; // Novo ou ja conhecido
 $id_aluno = $_REQUEST['id_aluno'];
 $id_instituicao = $_REQUEST['id_instituicao'];
@@ -31,20 +32,24 @@ $bairro = $_REQUEST['bairro'];
 
 $instituicao = $_REQUEST['instituicao'];
 
-if (empty($codigo_telefone)) {
-    $codigo_telefone = 21;
-}
+// echo "Sistema autentica " . $sistema_autentica . "<br>";
 
-if (empty($codigo_celular)) {
-    $codigo_celular = 21;
-}
+if ($sistema_autentica == 1) {
 
-/*
-  echo "Tipo: " . $aluno . "<br>";
-  echo "Id Aluno: " . $id_aluno . "<br>";
-  echo "Id Instituição: " . $id_instituicao . "<br>";
-  echo "Registro: " . $registro . "<br>";
- */
+    if (empty($codigo_telefone)) {
+        $codigo_telefone = 21;
+    }
+
+    if (empty($codigo_celular)) {
+        $codigo_celular = 21;
+    }
+
+    /*
+      echo "Tipo: " . $aluno . "<br>";
+      echo "Id Aluno: " . $id_aluno . "<br>";
+      echo "Id Instituição: " . $id_instituicao . "<br>";
+      echo "Registro: " . $registro . "<br>";
+     */
 
 // Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 // echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
@@ -53,41 +58,44 @@ if (empty($codigo_celular)) {
 // $dataCorrigida = explode("/",$nova_data);
 // $dataSQL = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 
-if (empty($nascimento))
-    $dataSQL = "";
-else
-    $dataSQL = date("Y-m-d", strtotime($nascimento));
+    if (empty($nascimento))
+        $dataSQL = "";
+    else
+        $dataSQL = date("Y-m-d", strtotime($nascimento));
 
-// Se n�o eh "novo" atualiza a tabela alunos
-if ($aluno == 1) {
-    $dbase = " alunos ";
-} elseif ($aluno == 0) {
-    $dbase = " alunosNovos ";
-}
+// Se não eh "novo" atualiza a tabela alunos
+    if ($aluno == 1) {
+        $dbase = " alunos ";
+    } elseif ($aluno == 0) {
+        $dbase = " alunosNovos ";
+    }
 
-$sql = "update " . $dbase . " set " .
-        "nome='$nome', " .
-        "codigo_telefone ='$codigo_telefone', " .
-        "telefone='$telefone', " .
-        "codigo_celular='$codigo_celular', " .
-        "celular='$celular', " .
-        "email='$email', " .
-        "cpf='$cpf', " .
-        "identidade='$identidade', " .
-        "orgao='$orgao', " .
-        "nascimento='$dataSQL', " .
-        "endereco='$endereco', " .
-        "cep='$cep', " .
-        "municipio='$municipio', " .
-        "bairro='$bairro' " .
+    $sql = "update " . $dbase . " set " .
+            "nome='$nome', " .
+            "codigo_telefone ='$codigo_telefone', " .
+            "telefone='$telefone', " .
+            "codigo_celular='$codigo_celular', " .
+            "celular='$celular', " .
+            "email='$email', " .
+            "cpf='$cpf', " .
+            "identidade='$identidade', " .
+            "orgao='$orgao', " .
+            "nascimento='$dataSQL', " .
+            "endereco='$endereco', " .
+            "cep='$cep', " .
+            "municipio='$municipio', " .
+            "bairro='$bairro' " .
 // "where id='$id_aluno'";
-        "where registro='$registro'";
-
+            "where registro='$registro'";
 
 // echo $sql . "<br>";
-// $resultado = $db->Execute($sql);
-// if ($resultado === false) die ("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
-// Insere
+// die();
+
+    $resultado = $db->Execute($sql);
+    if ($resultado === false) die("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
+}
+
+// Insere inscricao para selecao de estagio
 if (!empty($id_instituicao)) {
     $data = date("Y-m-j");
 
@@ -120,7 +128,8 @@ if (!empty($id_instituicao)) {
     exit;
 }
 
-header("Location:mural-alunos_modifica.php?id_aluno={$id_aluno}&registro={$registro}&aluno={$aluno}");
+header("Location:ver-aluno.php?id_aluno={$registro}&aluno={$aluno}");
 
 exit;
+
 ?>
