@@ -355,7 +355,7 @@ if ($sistema_autentica == 1) {
 	<?php
 	if ($submit) {
 		echo "
-		CÃ³digo: <input type='text' name='codigo_tel' id='codigo_tel' maxlength='2' size='2' value='$codigo_tel'>
+		Código: <input type='text' name='codigo_tel' id='codigo_tel' maxlength='2' size='2' value='$codigo_tel'>
 		<input type='text' name='telefone' id='telefone' value='$telefone' maxlength='9' size='9'>
 		";
 	} else {
@@ -371,7 +371,7 @@ if ($sistema_autentica == 1) {
 	<?php
 	if ($submit) {
 		echo "
-		CÃ³digo: <input type='text' name='codigo_cel' id='codigo_cel' maxlength='2' size='2' value='$codigo_cel'>
+		Código: <input type='text' name='codigo_cel' id='codigo_cel' maxlength='2' size='2' value='$codigo_cel'>
 		<input type='text' name='celular' id='celular' value='$celular' maxlength='9' size='9'>
 		";
 	} else {

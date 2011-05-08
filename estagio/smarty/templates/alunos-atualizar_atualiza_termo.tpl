@@ -161,11 +161,11 @@ function verifica_municipio() {
 
 function confirma() {
 
-    var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
+	var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
 
-    nome=document.getElementById('nome').value;
-    email=document.getElementById('email').value;
-    cpf=document.getElementById('cpf').value;
+	nome=document.getElementById('nome').value;
+	email=document.getElementById('email').value;
+	cpf=document.getElementById('cpf').value;
 	identidade=document.getElementById('identidade').value;
 	orgao=document.getElementById('orgao').value;
 	nascimento=document.getElementById('nascimento').value;
@@ -174,56 +174,56 @@ function confirma() {
  	bairro=document.getElementById('bairro').value;
 	municipio=document.getElementById('municipio').value;
 
-    if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+	if (nome=="") {
+    		alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
-    if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+	if (email=="") {
+    		alert("É importante o seu e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
-    if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+	if (cpf=="") {
+		alert("Favor informar o número de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
-    if(identidade=="") {
-    	alert("Informe o seu número de RG");
+	if (identidade=="") {
+    		alert("Informe o seu número de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
-    if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+	if (orgao=="") {
+    		alert("Informe o orgão expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
-    if(endereco=="") {
-    	alert("Informe o seu endereço");
+	if (endereco=="") {
+    		alert("Informe o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
-    if(cep=="") {
-    	alert("Informe o número de CEP");
+	if (cep=="") {
+    		alert("Informe o número de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
 
-    if(bairro=="") {
-    	alert("Informe o bairro onde mora");
+	if (bairro=="") {
+    		alert("Informe o bairro onde mora");
 		document.atualiza_aluno.bairro.focus();
 		return false;
 	}
 
-    if(municipio=="") {
-    	alert("Informe o município da sua residência");
+	if (municipio=="") {
+    		alert("Informe o município da sua residência");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -271,7 +271,8 @@ Modifica dados do aluno
 
 <form action="atualiza_termo.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
-<table width='90%' border='1' summary='Tabela'>
+<!--
+<table width='90%' border='0' summary='Tabela'>
 <caption>Solicitação de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>
 <tbody>
 
@@ -350,8 +351,15 @@ Município:
 </tbody>
 </table>
 
+//-->
+
 <table border='1' summary='Tabela'>
 <tbody>
+
+<tr>
+<td>Estudante</td>
+<td>{$aluno_nome}</td>
+</tr>
 
 <tr style='background-color:yellow'>
 <td colspan='2' style='text-align:center'>Selecione a instituicao e, caso conheça, o supervisor para qual solicita o termo de compromisso.</td>
@@ -378,14 +386,6 @@ Município:
 </td>
 </tr>
 
-<!--
-<tr>
-<td>Supervisor</td>
-	<td>
-	{$supervisor}
-	</td>
-</tr>
--->
 
 {if $supervisor}
 	<tr>
@@ -394,6 +394,12 @@ Município:
 	<select id='id_supervisor' name='id_supervisor' size=1>
 	<option id ='opcoes' value='{$id_supervisor}'>{$supervisor}</option>
 	</select>
+	</td>
+	</tr>
+
+	<tr>
+	<td></td>
+	<td>
 	Para mudar o supervisor pré-selecionado selecione novamente a instituição.
 	</td>
 	</tr>
@@ -426,6 +432,7 @@ Município:
 
 </tbody>
 </table>
+
 
 </form>
 </div>

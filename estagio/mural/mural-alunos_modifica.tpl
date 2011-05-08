@@ -46,11 +46,11 @@ $(function() {
 <script language="JavaScript" type="text/javascript">
 function confirma() {
 
-    var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
+	var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
 
-    nome=document.getElementById('nome').value;
-    email=document.getElementById('email').value;
-    cpf=document.getElementById('cpf').value;
+	nome=document.getElementById('nome').value;
+	email=document.getElementById('email').value;
+	cpf=document.getElementById('cpf').value;
 	identidade=document.getElementById('identidade').value;
 	orgao=document.getElementById('orgao').value;
 	nascimento=document.getElementById('nascimento').value;
@@ -59,56 +59,56 @@ function confirma() {
  	bairro=document.getElementById('bairro').value;
 	municipio=document.getElementById('municipio').value;
 
-    if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+	if (nome=="") {
+    		alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
-    if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+    	if (email=="") {
+    		alert("É importante o seu e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
-    if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+	if (cpf=="") {
+    		alert("Favor informar o número de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
-    if(identidade=="") {
-    	alert("Informe o seu número de RG");
+	if (identidade=="") {
+    		alert("Informe o seu número de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
-    if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+	if (orgao=="") {
+    		alert("Informe o orgão expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
-    if(endereco=="") {
-    	alert("Informe o seu endereço");
+	if (endereco=="") {
+    		alert("Informe o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
-    if(cep=="") {
-    	alert("Informe o número de CEP");
+	if (cep=="") {
+    		alert("Informe o número de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
 
-    if(bairro=="") {
-    	alert("Informe o bairro onde mora");
+	if (bairro=="") {
+    		alert("Informe o bairro onde mora");
 		document.atualiza_aluno.bairro.focus();
 		return false;
 	}
 
-    if(municipio=="") {
-    	alert("Informe o município da sua residência");
+	if (municipio=="") {
+    		alert("Informe o município da sua residência");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -126,7 +126,8 @@ function confirma() {
 	{include file="mural_menu.tpl"}
 {/if}
 
-<h1>Atualiza dados do aluno para inscrição em seleção de estágio na instituição {$instituicao}</h1>
+
+<h1>Inscrição em seleção de estágio na instituição {$instituicao}</h1>
 
 {* O histórico do aluno so aparece se o aluno já eh conhecido *}
 {if $aluno == 1}
@@ -152,12 +153,14 @@ function confirma() {
 	{/section}
 	</table>
 	</div>
+	<br />
 {/if}
 
 <div align="center" id="aluno_atualiza" style="visibility: visible">
 
 <form action="mural-alunos_atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
+<!--
 <table border="1" width="80%">
 {if $aluno eq 0}
 	<caption>Atualizar dados do aluno novo</caption>
@@ -241,18 +244,34 @@ Município:
 </td>
 </tr>
 
+</tbody>
+</table>
+
+//-->
+
+<table border="1" width="80%">
+<tbody>
+
 <tr>
-<td colspan="2" style="text-align: center">
-<input type="hidden" name="aluno" id="aluno" value="{$aluno}">
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
-<input type="hidden" name="registro" id="registro" value="{$registro}">
-<input type="hidden" name="id_instituicao" id="id_instituicao" value="{$id_instituicao}">
-<input type="submit" name="submit" id="submit" value="Confirma" onClick="return confirma();" />
+<td>
+Nome: {$aluno_nome}
+</td>
+</tr>
+
+<tr>
+<td>
+Registro: {$registro}
 </td>
 </tr>
 
 </tbody>
 </table>
+
+<input type="hidden" name="aluno" id="aluno" value="{$aluno}">
+<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="registro" id="registro" value="{$registro}">
+<input type="hidden" name="id_instituicao" id="id_instituicao" value="{$id_instituicao}">
+<input type="submit" name="submit" id="submit" value="Confirma inscrição">
 
 </form>
 

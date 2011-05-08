@@ -19,11 +19,11 @@
 
 function confirma() {
 
-    var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
+	var nome, email, cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio;
 
-    nome=document.getElementById('nome').value;
-    email=document.getElementById('email').value;
-    cpf=document.getElementById('cpf').value;
+	nome=document.getElementById('nome').value;
+	email=document.getElementById('email').value;
+	cpf=document.getElementById('cpf').value;
 	identidade=document.getElementById('identidade').value;
 	orgao=document.getElementById('orgao').value;
 	nascimento=document.getElementById('nascimento').value;
@@ -32,56 +32,56 @@ function confirma() {
  	bairro=document.getElementById('bairro').value;
 	municipio=document.getElementById('municipio').value;
 
-    if(nome=="") {
-    	alert("Você precisa informar o seu nome");
+	if (nome=="") {
+    		alert("Você precisa informar o seu nome");
 		document.inserir_aluno.nome.focus();
 		return false;
 	}
 
-    if(email=="") {
-    	alert("É importante o seu e-mail para nossa comunicação");
+	if (email=="") {
+    		alert("É importante o seu e-mail para nossa comunicação");
 		document.inserir_aluno.email.focus();
 		return false;
 	}
 
-    if(cpf=="") {
-    	alert("Favor informar o número de CPF");
+	if (cpf=="") {
+    		alert("Favor informar o número de CPF");
 		document.inserir_aluno.cpf.focus();
 		return false;
 	}
 
-    if(identidade=="") {
-    	alert("Informe o seu número de RG");
+	if (identidade=="") {
+    		alert("Informe o seu número de RG");
 		document.inserir_aluno.identidade.focus();
 		return false;
 	}
 
-    if(orgao=="") {
-    	alert("Informe o orgão expedidor do RG");
+	if (orgao=="") {
+    		alert("Informe o orgão expedidor do RG");
 		document.inserir_aluno.orgao.focus();
 		return false;
 	}
 
-    if(endereco=="") {
-    	alert("Informe o seu endereço");
+	if(endereco=="") {
+    		alert("Informe o seu endereço");
 		document.inserir_aluno.endereco.focus();
 		return false;
 	}
 
-    if(cep=="") {
-    	alert("Informe o número de CEP");
+	if (cep=="") {
+    		alert("Informe o número de CEP");
 		document.inserir_aluno.cep.focus();
 		return false;
 	}
 
-    if(bairro=="") {
-    	alert("Informe o bairro onde mora");
+	if (bairro=="") {
+    		alert("Informe o bairro onde mora");
 		document.inserir_aluno.bairro.focus();
 		return false;
 	}
 
-    if(municipio=="") {
-    	alert("Informe o município da sua residência");
+	if (municipio=="") {
+    		alert("Informe o município da sua residência");
 		document.inserir_aluno.municipio.focus();
 		return false;
 	}
