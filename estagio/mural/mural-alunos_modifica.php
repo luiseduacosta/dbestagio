@@ -1,7 +1,16 @@
 <?php
 
-// include_once("../autentica.inc");
 include_once("../setup.php");
+/* Autentica */
+$usuario_nome  = $_COOKIE['usuario_nome'];
+$usuario_senha = $_COOKIE['usuario_senha'];
+if (empty($usuario_nome) or (empty($usuario_senha))) {
+	$mural_autentica = 0;
+        $sistema_autentica = 0;
+} else {
+	$mural_autentica = 1;
+        $sistema_autentica = 1;
+}
 
 $id_aluno = isset($_REQUEST['id_aluno']) ? (int) $_REQUEST['id_aluno'] : NULL;
 $registro = isset($_REQUEST['registro']) ? (int) $_REQUEST['registro'] : NULL;
@@ -64,10 +73,10 @@ if ($aluno == 1) {
 }
 
 // echo $sql_alunos . "<br>";
+// die();
 
 $resultado_alunos = $db->Execute($sql_alunos);
-if ($resultado_alunos === false)
-    die("Não foi possível consultar a tabela alunos ou alunosNovos");
+if ($resultado_alunos === false) die("Não foi possível consultar a tabela alunos ou alunosNovos");
 while (!$resultado_alunos->EOF) {
     $aluno_id = $resultado_alunos->fields['id'];
     $aluno_registro = $resultado_alunos->fields['registro'];
@@ -101,6 +110,7 @@ while (!$resultado_alunos->EOF) {
 }
 
 // var_dump($estagiarios);
+// echo "Id instituição: " . $id_instituicao . "<br>";
 
 $smarty = new Smarty_estagio;
 
@@ -137,4 +147,5 @@ $smarty->assign("id_instituicao", $id_instituicao);
 $smarty->display("../../mural/mural-alunos_modifica.tpl");
 
 exit;
+
 ?>
