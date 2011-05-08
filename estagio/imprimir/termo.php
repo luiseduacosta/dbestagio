@@ -38,27 +38,29 @@ require_once('../libphp/tcpdf/tcpdf.php');
 
 $pdf = new TCPDF('P', 'mm', 'A4', TRUE, 'UTF-8', FALSE);
 
+$pdf->SetPrintHeader(false);
+
 $pdf->Open();
 
 $pdf->AddPage();
 $pdf->SetMargins(15,15,15);
+$pdf->Image("minerva.jpg", 90, 10, 20, 20, jpg);
 $pdf->SetFont("Helvetica","B","10");
-// $pdf->Image("minerva.jpg",100,20,20,20,jpg);
-// $pdf->Ln(2);
+// $pdf->Ln();
 $cabecalho1 = $pdf->GetStringWidth("UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
 $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell($cabecalho1,3,"UNIVERSIDADE FEDERAL DO RIO DE JANEIRO",0,1,'C',0);
-$pdf->Ln(2);
+$pdf->Ln(1);
 
 $cabecalho2 = $pdf->GetStringWidth("Escola de Serviço Social");
 $pdf->SetX((210-$cabecalho2)/2);
 $pdf->Cell($cabecalho2,3,"Escola de Serviço Social",0,1,'C',0);
-$pdf->Ln(2);
+$pdf->Ln(1);
 
 $cabecalho3 = $pdf->GetStringWidth("Coordenação de Estágio");
 $pdf->SetX((210-$cabecalho3)/2);
 $pdf->Cell($cabecalho3,3,"Coordenação de Estágio",0,1,'C',0);
-$pdf->Ln(2);
+$pdf->Ln(1);
 
 $cabecalho3 = $pdf->GetStringWidth("Termo de compromisso (estagio:  )");
 $pdf->SetX((210-$cabecalho3)/2);
@@ -147,13 +149,23 @@ $pdf->Cell(0, 5, $final, 0, 0, "R");
 
 $pdf->Ln(10);
 $pdf->Cell(0, 5,"Coordenação de Estágio", 0, 0, "L");
-$pdf->SetX(20);
-$pdf->Cell(0, 5,"Supervisor / CRESS: $cress", 0, 0, "C");
-$pdf->SetX(30);
-$pdf->Cell(0, 5,"Aluno / DRE: $registro", 0, 0, "R");
 
-$pdf->Output('/usr/local/htdocs/html/estagio/tmp/termo'.$registro.'.pdf');
-$file = "/tmp/termo" .$registro . ".pdf";
+$pdf->SetX(10);
+$pdf->Cell(0, 5,"Supervisor", 0, 0, "C");
+$pdf->Ln(3);
+$pdf->Cell(0, 5, $supervisor, 0, 0, "C");
+$pdf->Ln(3);
+$pdf->Cell(0, 5, "CRESS: $cress", 0, 0, "C");
+
+$pdf->SetXY(10, 255);
+$pdf->Cell(0, 5, "Estudante", 0, 0, "R");
+$pdf->Ln(3);
+$pdf->Cell(0, 5, $nome, 0, 0, "R");
+$pdf->Ln(3);
+$pdf->Cell(0, 5, "DRE: $registro", 0, 0, "R");
+
+$pdf->Output('/usr/local/htdocs/html/estagio/tmp/termo'. $registro.'. pdf');
+$file = "/tmp/termo" . $registro . ".pdf";
 
 echo "<html><head>
 <meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_aluno=$id_aluno'>

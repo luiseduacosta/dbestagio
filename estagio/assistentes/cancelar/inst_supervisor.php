@@ -1,11 +1,10 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../setup.php");
 
 $id_supervisor  = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
-
-require_once("../../db.inc");
 
 $sql_inst_super = "delete from inst_super where id_supervisor=$id_supervisor and id_instituicao=$id_instituicao";
 // echo $sql_inst_super . "<br>";

@@ -35,15 +35,15 @@ $instituicao = $resultado->fields['instituicao'];
 if (empty($nascimento))
 	$dataNascimento = "";
 else
-	$dataNascimento = date("Y-m-d",strtotime($nascimento));
+	$dataNascimento = date("Y-m-d", strtotime($nascimento));
 
-if($submit) {
+if ($submit) {
 	// Verifico se ja existe um aluno com esse DRE
 	$sql_verifica = "select nome from alunosNovos where registro = $registro";
 	$resultado_sql_verifica = $db->Execute($sql_verifica);
 	$quantidade = $resultado_sql_verifica->RecordCount();
 	if ($quantidade > 0) {
-		// echo "J� h� um aluno com esse n�mero de <a href='ver-aluno.php?id_aluno=$registro'>DRE</a>";
+		// echo "Já há um aluno com esse número de <a href='ver-aluno.php?id_aluno=$registro'>DRE</a>";
 		header("Location:mural-alunos_modifica.php?registro=$registro");
 		exit;
 	}
@@ -56,9 +56,9 @@ if($submit) {
 	// echo $sql_alunos . "<br>";
 
 	$resultado_insere = $db->Execute($sql_alunos);
-    if($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunosNovos");
+    	if ($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunosNovos");
 
-	// Pego o id do �ltimo registro inserido.
+	// Pego o id do último registro inserido.
 /*
     $res_ultimo = $db->Execute("select max(id) as ultimo_aluno from alunosNovos");
     if($res_ultimo === false) die ("Nao foi possivel consultar a sequencia alunosNovos");
@@ -78,7 +78,7 @@ if($submit) {
 		"values('$registro','$id_instituicao','$data','$periodo')";
 	// echo $sql_inserir . "<br>";
 	$resultado_inscricao = $db->Execute($sql_inserir);
-    if($resultado_inscricao === false) die ("Não foi possível inserir o registro na tabela mural_inscricao");
+	if ($resultado_inscricao === false) die ("Não foi possível inserir o registro na tabela mural_inscricao");
 
 	header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
 	// header("Location:ver-mural.php?insere=$nome");

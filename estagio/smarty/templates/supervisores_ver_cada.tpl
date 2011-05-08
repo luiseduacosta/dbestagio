@@ -122,7 +122,17 @@ function get_periodo() {
     <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
 {/if}
 <tr><td>E-mail</td><td>{$email}</td></tr>
-<tr><td>Curso</td><td><a href='../../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}'>{$id_curso}</a></td></tr>
+<tr>
+<td>Curso</td>
+<td>
+
+{if $id_curso}
+    <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}'>{$id_curso}</a>
+    <a href="../../curso/atualiza_supervisor_estagio.php?id_supervisor_curso={$id_curso}&indice={$indice}">Sincroniza</a>
+{/if}
+
+</td>
+</tr>
 
 {section name=i loop=$emprego}
 <tr>

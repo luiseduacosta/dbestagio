@@ -6,7 +6,7 @@ $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 $instituicao = isset($_REQUEST['instituicao']) ? htmlspecialchars($_REQUEST['instituicao']) : NULL;
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 
-echo "Registro: " . $registro . "<br>";
+// echo "Registro: " . $registro . "<br>";
 // echo "Id instituicao : " . $id_instituicao . "<br>";
 // echo "Instituicao: " . $instituicao;
 
@@ -22,7 +22,7 @@ $sql_estagiarios .= " where registro='$registro'";
 $resultado_estagiarios = $db->Execute($sql_estagiarios);
 if ($resultado_estagiarios === false) die ("Não foi possível consultar a tabela alunos");
 $quantidade_estagiarios = $resultado_estagiarios->RecordCount();
-// echo "Alunos estagiarios: " . $quantidade_estagiarios . "<br>";
+// echo "Aluno estagiario: " . $quantidade_estagiarios . "<br>";
 
 // Aluno cadastrado como novo
 if ($quantidade_estagiarios === 0) {

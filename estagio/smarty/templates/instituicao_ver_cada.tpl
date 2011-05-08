@@ -121,7 +121,7 @@ debug
 {if !$curso}
 	{if $sistema_autentica == 1}
 		<td style="background-color:red">
-		<form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
+		<form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
 		<input type="hidden" name="botao" value="excluir">
 		{if $id}
 			<input type="hidden" name="id_instituicao" value="{$id}">

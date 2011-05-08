@@ -18,23 +18,23 @@ if ($id_instituicao) {
 	$sql_super .= "and i.id_instituicao=$id_instituicao";
 	// echo $sql_super . "<br>";
 	$res_sql_super = $db->Execute($sql_super);
-	if($res_sql_super === false) die ("N„o foi possÌvel consultar as tabelas supervisores/inst_super");
+	if ($res_sql_super === false) die ("N√£o foi poss√≠vel consultar as tabelas supervisores/inst_super");
 	$quantidade = $res_sql_super->RecordCount();
 
 	// Obtengo a quantidade de alunos que estagiaram nessa instituicao
 	$sqlAlunos = "select id_aluno from estagiarios where id_instituicao=$id_instituicao";
 	$resultadoAluno = $db->Execute($sqlAlunos);
 	// echo $sqlAlunos . "<br>";
-	if($resultadoAluno === false) die ("N„o foi possÌvel consultar a tabela estagiarios");
+	if($resultadoAluno === false) die ("N√£o foi poss√≠vel consultar a tabela estagiarios");
 	$quantidadeAluno = $resultadoAluno->RecordCount();
 }
 
 if ($quantidade > 0) {
-	echo "OperaÁ„o abortada. … necess·rio primeiramente excluir os supervisores que trabalham nessa instituiÁ„o";
+	echo "Opera√ß√£o abortada. √â necess√°rio primeiramente excluir os supervisores que trabalham nessa institui√ß√£o";
 	echo "<meta http-equiv='refresh' content='2;../exibir/ver_cada.php?indice=$indice' />";
 	exit;
 } elseif ($quantidadeAluno > 0) {
-	echo "OperaÁ„o abortada. … necess·rio primeiramente excluir os alunos que realizaram est·gio nesta instituiÁ„o";
+	echo "Opera√ß√£o abortada. √â necess√°rio primeiramente excluir os alunos que realizaram est√°gio nesta institui√ß√£o";
 	echo "<meta http-equiv='refresh' content='2;../exibir/ver_cada.php?indice=$indice' />";
 	exit;
 } else {
@@ -42,9 +42,9 @@ if ($quantidade > 0) {
 	$sql_estagio = "delete from estagio where id='$id_instituicao'";
 	// echo $sql_estagio . "<br>";
 	$resultado_estagio = $db->Execute($sql_estagio);
-	if($resultado_estagio == false) die ("N„o foi possÌvel excluir o registro da tabela estagio");
+	if ($resultado_estagio == false) die ("N√£o foi poss√≠vel excluir o registro da tabela estagio");
 	if (!$indice) $indice = 0;
-	// echo "<p>InstituiÁ„o foi excluÌda $indice . ' ' . $id_instituicao</p>";	
+	// echo "<p>Institui√ß√£o foi exclu√≠da $indice . ' ' . $id_instituicao</p>";
 	//die();
 	echo "<meta http-equiv='refresh' content='0;../exibir/ver_cada.php?indice=$indice' />";
 }
