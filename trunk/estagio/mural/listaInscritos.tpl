@@ -52,27 +52,34 @@ function confirma() {
 
 <div align="center">
 <table>
+
 <tr>
 <th>ID</th>
 <th>Nome</th>
+
 {if $sistema_autentica == 1}
 	<th>Telefone</th>
 	<th>Celular</th>
 	<th>Email</th>
 {/if}
+
 <th>Data</th>
+
 {if $sistema_autentica == 1}
 	<th>Excluir</th>
 {/if}
+
 </tr>
 
 {assign var = "i" value = 1}
 {section name=item loop=$inscritos}
+
 {if $inscritos[item].aluno == 0}
 <tr style="background-color:#f6ecec">
 {else}
 <tr style="background-color:#add8e6">
 {/if}
+
 <td style="text-align:right">{$i++}</td>
 <td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].aluno}">{$inscritos[item].nome}</a></td>
 {if $sistema_autentica == 1}

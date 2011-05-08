@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Created on 13/06/2006
  *
@@ -31,12 +32,19 @@ $bairro = $_REQUEST['bairro'];
 $instituicao = $_REQUEST['instituicao'];
 
 if (empty($codigo_telefone)) {
-		$codigo_telefone = 21;
+    $codigo_telefone = 21;
 }
 
 if (empty($codigo_celular)) {
-		$codigo_celular = 21;
+    $codigo_celular = 21;
 }
+
+/*
+  echo "Tipo: " . $aluno . "<br>";
+  echo "Id Aluno: " . $id_aluno . "<br>";
+  echo "Id Instituição: " . $id_instituicao . "<br>";
+  echo "Registro: " . $registro . "<br>";
+ */
 
 // Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 // echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
@@ -44,71 +52,75 @@ if (empty($codigo_celular)) {
 // echo "Nova data: ". $nova_data . "<br>";
 // $dataCorrigida = explode("/",$nova_data);
 // $dataSQL = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
+
 if (empty($nascimento))
-	$dataSQL = "";
+    $dataSQL = "";
 else
-	$dataSQL = date("Y-m-d",strtotime($nascimento));
+    $dataSQL = date("Y-m-d", strtotime($nascimento));
 
 // Se n�o eh "novo" atualiza a tabela alunos
 if ($aluno == 1) {
-		$dbase = " alunos ";
-} elseif( $aluno == 0) {
-		$dbase = " alunosNovos ";
+    $dbase = " alunos ";
+} elseif ($aluno == 0) {
+    $dbase = " alunosNovos ";
 }
+
 $sql = "update " . $dbase . " set " .
-"nome='$nome', " .
-"codigo_telefone ='$codigo_telefone', " .
-"telefone='$telefone', " .
-"codigo_celular='$codigo_celular', " .
-"celular='$celular', " .
-"email='$email', " .
-"cpf='$cpf', ".
-"identidade='$identidade', ".
-"orgao='$orgao', ".
-"nascimento='$dataSQL', ".
-"endereco='$endereco', ".
-"cep='$cep', ".
-"municipio='$municipio', ".
-"bairro='$bairro' ".
+        "nome='$nome', " .
+        "codigo_telefone ='$codigo_telefone', " .
+        "telefone='$telefone', " .
+        "codigo_celular='$codigo_celular', " .
+        "celular='$celular', " .
+        "email='$email', " .
+        "cpf='$cpf', " .
+        "identidade='$identidade', " .
+        "orgao='$orgao', " .
+        "nascimento='$dataSQL', " .
+        "endereco='$endereco', " .
+        "cep='$cep', " .
+        "municipio='$municipio', " .
+        "bairro='$bairro' " .
 // "where id='$id_aluno'";
-"where registro='$registro'";
+        "where registro='$registro'";
+
 
 // echo $sql . "<br>";
-
-$resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
-
+// $resultado = $db->Execute($sql);
+// if ($resultado === false) die ("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
 // Insere
-if(!empty($id_instituicao)) {
-		$data = date("Y-m-j");
+if (!empty($id_instituicao)) {
+    $data = date("Y-m-j");
 
-		// Capturo o valor do PERIODO_ATUAL
-		$periodo = PERIODO_ATUAL;
+    // Capturo o valor do PERIODO_ATUAL
+    $periodo = PERIODO_ATUAL;
 
-		// Teria que verificar aqui se o aluno j� n�o fez inscricao nesta sele��o
-		$sql = "select id from mural_inscricao where id_aluno='$registro' and id_instituicao='$id_instituicao' and periodo='$periodo'";
-		// echo $sql . "<br>";
-		$resultado = $db->Execute($sql);
-		$quantidade = $resultado->RecordCount($ql);			
-		if ($quantidade > 0) {
-			header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
-			die("Inscricao ja realizada!");
-		} 
-		
-		$sql_inserir = "insert into mural_inscricao (id_aluno,id_instituicao,data,periodo) " .
-				"values('$registro','$id_instituicao','$data','$periodo')";
-		// echo $sql_inserir . "<br>";
-		$resultadoInserir = $db->Execute($sql_inserir);
+    // Verifico se o aluno já fez inscricao nesta seleção
+    $sql = "select id from mural_inscricao where id_aluno='$registro' and id_instituicao='$id_instituicao' and periodo='$periodo'";
+    // echo $sql . "<br>";
+    // die("Verifico se ja fez inscricao");
+    $resultado = $db->Execute($sql);
+    $quantidade = $resultado->RecordCount($ql);
+    if ($quantidade > 0) {
+        echo "Inscrição já realizada" . "<br>";
+        header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
+        die("Inscricao ja realizada!");
+    }
 
-		if($resultadoInserir === false) die ("Não foi possível inserir o registro na tabela mural_inscricao");
+    $sql_inserir = "insert into mural_inscricao (id_aluno,id_instituicao,data,periodo) " .
+            "values('$registro','$id_instituicao','$data','$periodo')";
+    // echo $sql_inserir . "<br>";
+    // die("Inserir inscrição para estágio");
+    $resultadoInserir = $db->Execute($sql_inserir);
 
-		header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
+    if ($resultadoInserir === false)
+        die("Não foi possível inserir o registro na tabela mural_inscricao");
 
-		exit;
+    header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
+
+    exit;
 }
 
 header("Location:mural-alunos_modifica.php?id_aluno={$id_aluno}&registro={$registro}&aluno={$aluno}");
 
 exit;
-
 ?>
