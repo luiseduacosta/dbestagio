@@ -7,11 +7,11 @@ include_once("../../setup.php");
 $origem = $_REQUEST['origem'];
 // echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 
-if(empty($origem))
+if (empty($origem))
     $origem = $_SERVER['HTTP_REFERER'];
 
 
-if($debug == 1) {
+if ($debug == 1) {
     echo $origem . "<br>";
     echo $_SERVER['PHP_SELF'] . "<br>";
 }
@@ -37,7 +37,7 @@ $municipio       = $_REQUEST['municipio'];
 
 // echo $nascimento . "<br>";
 
-if($debug == 1) {
+if ($debug == 1) {
     // print_r($_REQUEST) . "<br>";
 	}
 
@@ -45,7 +45,7 @@ $acao     = $_REQUEST['acao'];
 $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
-if($debug == 1) {
+if ($debug == 1) {
     echo "Acao " . $acao . "<br>";
     echo "Cadastro " . $cadastro . "<br>";
     echo "Atualizar estagio ". $atualizar_estagio . "<br>";
@@ -55,11 +55,11 @@ if($debug == 1) {
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro='$registro'";
 
-if($debug == 1)
+if ($debug == 1)
     echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 while (!$resultado->EOF) {
 	// $id_aluno = $resultado->fields['id'];
 	$registro = $resultado->fields['registro'];

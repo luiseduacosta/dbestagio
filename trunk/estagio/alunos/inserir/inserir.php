@@ -1,12 +1,11 @@
 <?php
 
-if($debug == 1) {
+if ($debug == 1) {
   echo $_SERVER['PHP_SELF'];
 }
 
-include_once("../../autentica.inc");
-
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $cadastro        = $_POST['cadastro'];
 $registro        = $_POST['registro'];
@@ -31,7 +30,7 @@ $municipio       = $_POST['municipio'];
 $novoNascimento = explode("/",$nascimento);
 $data_nascimento = $novoNascimento[2] . "-" . $novoNascimento[1] . "-" . $novoNascimento[0];
 
-if($cadastro == 0) {
+if ($cadastro == 0) {
 
     $sql_alunos  = "insert into alunos(registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
     $sql_alunos .= "cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio) ";
@@ -41,10 +40,10 @@ if($cadastro == 0) {
 
     $resultado_insere = $db->Execute($sql_alunos);
 
-    if($resultado_insere === false) die ("Nao foi possi�vel inserir o registro na tabela alunos");
+    if ($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunos");
 
     $res_ultimo = $db->Execute("select max(id) as ultimo_aluno from alunos");
-    if($res_ultimo === false) die ("Nao foi possivel consultar a sequencia alunos");
+    if ($res_ultimo === false) die ("Não foi possível consultar a sequencia alunos");
     $ultimo_aluno = $res_ultimo->fields['ultimo_aluno'];
 
     header("Location:../exibir/ver_cada.php?id_aluno=$ultimo_aluno");

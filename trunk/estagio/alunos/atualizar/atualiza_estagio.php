@@ -3,9 +3,8 @@
 if ($debug == 1)
 	echo $_SERVER['PHP_SELF'];
 
-include_once("../../autentica.inc");
-
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $origem = $_REQUEST['origem'];
 if (empty($origem )) {
@@ -19,7 +18,7 @@ $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
 /* Seria melhor capturar toda a informacao do aluno */
 $sql_aluno = "select nome, registro from alunos where id='$id_aluno'";
 $resultado_aluno = $db->Execute($sql_aluno);
-if($resultado_aluno === false) die ("Nao foi possivel consultar a tabela alunos");
+if ($resultado_aluno === false) die ("Nao foi possivel consultar a tabela alunos");
 while (!$resultado_aluno->EOF) {
 	$nome_aluno = $resultado_aluno->fields['nome'];
 	$registro   = $resultado_aluno->fields['registro'];
@@ -34,7 +33,7 @@ if ($estagiarios === false) die ("Nao foi possivel consultar a tabela estagiario
 $i = 0;
 while (!$estagiarios->EOF) {
 	$periodo        = $estagiarios->fields["periodo"];
-	$tc	        	= $estagiarios->fields["tc"];
+	$tc	        = $estagiarios->fields["tc"];
 	$turno          = $estagiarios->fields["turno"];
 	$nivel          = $estagiarios->fields["nivel"];
 	$id_instituicao = $estagiarios->fields["id_instituicao"];
@@ -122,7 +121,7 @@ while (!$resultado->EOF) {
 // Capturo a informacao sobre os supervisores
 $sql_supervisores = "select id, nome from supervisores order by nome";
 $resultado_supervisores = $db->Execute($sql_supervisores);
-if($resultado_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
+if ($resultado_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
 $i = 0;
 $supervisores[$i]['id_supervisor'] = "0";
 $supervisores[$i]['supervisor'] = "Sem dados";
@@ -137,7 +136,7 @@ while (!$resultado_supervisores->EOF) {
 // Capturo a informacao sobre os professores
 $sql_professores = "select id, nome from professores order by nome";
 $resultado_professores = $db->Execute($sql_professores);
-if($resultado_professores === false) die ("Nao foi possivel consultar a tabela professores");
+if ($resultado_professores === false) die ("Nao foi possivel consultar a tabela professores");
 $i = 0;
 $professores[$i]['id_professor'] = "0";
 $professores[$i]['professor'] = "Sem dados";
@@ -152,7 +151,7 @@ while (!$resultado_professores->EOF) {
 // Capturo a informacao sobre as areas
 $sql_areas = "select id, area from areas_estagio order by area";
 $resultado_areas = $db->Execute($sql_areas);
-if($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas_estagio");
 $i = 0;
 $areas[$i]['id_area'] = "0";
 $areas[$i]['area'] = "Sem dados";

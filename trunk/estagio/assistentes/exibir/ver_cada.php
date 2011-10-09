@@ -1,7 +1,8 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+$senha = $_COOKIE['usuario_senha'];
+if ($senha) $logado = 1;
 
 $indice = $_REQUEST['indice'];
 $id_supervisor = $_REQUEST['id_supervisor'];
@@ -175,15 +176,14 @@ while (!$resultado->EOF) {
 $sqlturma = "select id, periodo from estagiarios group by periodo";
 // echo $sqlturma . "<br>";
 $res_turma = $db->Execute($sqlturma);
-if ($res_turma === false)
-    die("Não foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die("Não foi possivel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
     $periodos[] = $res_turma->fields['periodo'];
     $res_turma->MoveNext();
 }
 
 $smarty = new Smarty_estagio;
-$smarty->assign("sistema_autentica", $sistema_autentica);
+$smarty->assign("sistema_autentica", $logado);
 $smarty->assign("ultimo", $ultimo - 1);
 $smarty->assign("indice", $indice);
 $smarty->assign("id_supervisor", $id_supervisor);

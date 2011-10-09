@@ -11,7 +11,7 @@ include_once("../../setup.php");
 $id_supervisor = $_REQUEST['id_supervisor'];
 $nome_supervisor = $_REQUEST['nome_supervisor'];
 $ordem = $_REQUEST['ordem'];
-if(empty($ordem))
+if (empty($ordem))
 	$ordem = " periodo, nome";
 
 $sql  = "select estagiarios.id, estagiarios.id_aluno, estagiarios.registro, estagiarios.periodo, estagiarios.id_instituicao, ";
@@ -23,7 +23,7 @@ $sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
 $sql .= " where id_supervisor=$id_supervisor order by $ordem";
 // echo $sql . "<br>";
 $alunos = $db->Execute($sql);
-if($alunos === false) die ("Não foi possível consultar a tabela estagiarios, alunos");
+if ($alunos === false) die ("Não foi possível consultar a tabela estagiarios, alunos");
 $i = 0;
 while (!$alunos->EOF) {
 	$estagiario[$i]['registro'] = $alunos->fields['registro'];

@@ -78,7 +78,7 @@ Turno
     <form method="post" action="{$pagina}" name="form_instituicao">
         <select name="seleciona_instituicao" size="1" id="instituicao" onChange="return get_valor()";>
         {if $seleciona_instituicao eq "0"}
-            <option value='0' selected>Institui��es</option>
+            <option value='0' selected>Instituições</option>
             <option value={$num_instituicao}>{$nome_instituicao|truncate:30}</option>
             {section name=elemento loop=$instituicoes}
             <option value="{$instituicoes[elemento].id_instituicao}">{$instituicoes[elemento].instituicao|truncate:40}</option>

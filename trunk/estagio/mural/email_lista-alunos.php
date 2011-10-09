@@ -19,14 +19,14 @@ INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field
 (5, 'on', 4, 'TC', 'inscrito', '', 'a:0:{}', 'on', 'text')
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
-if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
+if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
 
 include("../setup.php");
 
 $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 
 while (!$resultado->EOF) {
 		$id_aluno = $resultado->fields['id_aluno'];
@@ -44,7 +44,7 @@ while (!$resultado->EOF) {
 				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
 				while (!$resultadoAlunosNovos->EOF) {
 						$email = $resultadoAlunosNovos->fields['email'];
 						$nome = $resultadoAlunosNovos->fields['nome'];
@@ -64,7 +64,7 @@ while (!$resultado->EOF) {
 						$resultadoAlunosNovos->MoveNext();
 				}
 		} else {
-				while(!$resultadoAlunos->EOF) {
+				while (!$resultadoAlunos->EOF) {
 						$email = $resultadoAlunos->fields['email'];
 						$nome = $resultadoAlunos->fields['nome'];
 						$registro = $resultadoAlunos->fields['registro'];

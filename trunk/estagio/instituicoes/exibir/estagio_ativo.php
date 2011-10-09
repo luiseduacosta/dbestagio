@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;
@@ -14,7 +13,7 @@ $smarty = new Smarty_estagio;
 
 $sql_turma = "select max(periodo) as turma from estagiarios";
 $resultado_turma = $db->Execute($sql_turma);
-if($resultado_turma === false) die ("Não foi possivel consultar a tabela turma_estagio");
+if ($resultado_turma === false) die ("NÃ£o foi possivel consultar a tabela turma_estagio");
 $turma = $resultado_turma->fields['turma'];
 
 $sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficio ";
@@ -27,10 +26,10 @@ $sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
   	$id_instituicao = $resultado->fields['id'];
   	$instituicao    = $resultado->fields['instituicao'];
   	$id_area        = $resultado->fields['id_area'];
@@ -48,7 +47,7 @@ while(!$resultado->EOF) {
     $sql_supervisores .= " where i.id_supervisor=s.id and i.id_instituicao=$id_instituicao";
 	// echo $sql_supervisores . "<br>";
     $res_supervisores = $db->Execute($sql_supervisores);
-    if($res_supervisores === false) die ("Não foi possível consultar as tabelas supervisores/inst_super");
+    if ($res_supervisores === false) die ("NÃ£o foi possÃ­vel consultar as tabelas supervisores/inst_super");
     $q_supervisores = $res_supervisores->RecordCount();
 	// echo $q_supervisores . "<br>";
 
@@ -56,7 +55,7 @@ while(!$resultado->EOF) {
     $sql_turma = "select periodo as turma from estagiarios where id_instituicao=$id_instituicao order by periodo";
 	// echo $sql_turma . "<br>";
     $resultado_turma = $db->Execute($sql_turma);
-    if($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
+    if ($resultado_turma === false) die ("NÃ£o foi possÃ­vel consultar a tabela turma_estagio");
     $q_turma = $resultado_turma->RecordCount();
     // echo $q_turma . "<br>";
 	if ($q_turma != 0) {

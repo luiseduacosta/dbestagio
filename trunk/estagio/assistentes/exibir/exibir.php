@@ -3,7 +3,7 @@
 // Pego o numero do supervisor
 $id_supervisor = $_REQUEST['id_supervisor'];
 
-include_once("../../db.inc");
+include_once("../../setup.php");
 
 // Pego as instituicoes na que o supervisor trabalha
 $sql_instituicao  = "select e.id, e.instituicao ";
@@ -12,7 +12,7 @@ $sql_instituicao .= "where i.id_instituicao=e.id and id_supervisor=$id_superviso
 // echo $sql_instituicao . "<br />";
 
 $res_instituicao = $db->Execute($sql_instituicao);
-if($res_instituicao === false) die ("Não foi possível consultar as tabelas");
+if ($res_instituicao === false) die ("Não foi possível consultar as tabelas");
 
 $i = 0;
 while (!$res_instituicao->EOF) {
@@ -28,7 +28,7 @@ $sql .= "from supervisores ";
 $sql .= "where id=$id_supervisor";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela supervisores");
+if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
 
 while (!$resultado->EOF) {
 	$nome_supervisor  = $resultado->fields['nome'];
@@ -40,7 +40,7 @@ while (!$resultado->EOF) {
 // Esta consulta eh para construir a caixa de seleçao de instituicoes
 $sql_estagio = "select * from estagio order by instituicao";
 $res_estagio = $db->Execute($sql_estagio);
-if($res_estagio == false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio == false) die ("Não foi possível consultar a tabela estagio");
 
 $i = 0;
 while (!$res_estagio->EOF) {

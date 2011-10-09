@@ -1,6 +1,5 @@
 <?php
 
-// include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql_ultimo_periodo = "select max(periodo) as ultimo_periodo from estagiarios";
@@ -85,7 +84,7 @@ $quantidade_alunos = $resultado->RecordCount();
 if ($resultado == false) die ("Não foi possível consultar a tabela estagio");
 
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
   	$id_instituicao   = $resultado->fields['id'];
   	$nome_instituicao = $resultado->fields['instituicao'];
   	$id_area          = $resultado->fields['id_area'];
@@ -147,13 +146,13 @@ while(!$resultado->EOF) {
 	$resultado_mural = $db->Execute($sql_mural);
     if ($resultado_mural === false) die ("Não foi possível consultar a tabela mural_estagio");
 
-	while(!$resultado_mural->EOF) {
+	while (!$resultado_mural->EOF) {
 		$id_mural = $resultado_mural->fields['id'];
 		$periodo_mural = $resultado_mural->fields['periodo'];
 		$resultado_mural->MoveNext();
 	}
 
-	if(empty($ordem))
+	if (empty($ordem))
    	    $ordem = "instituicao";
   	else
     	$indice = $ordem;

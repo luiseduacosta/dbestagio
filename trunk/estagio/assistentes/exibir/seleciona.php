@@ -4,7 +4,7 @@ include("../../setup.php");
 
 $sql = "select * from supervisores order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela novo_supervisores");
+if ($resultado === false) die ("Não foi possível consultar a tabela novo_supervisores");
 
 $i = 0;
 while (!$resultado->EOF) {

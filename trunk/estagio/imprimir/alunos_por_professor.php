@@ -14,10 +14,10 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8'
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Coordenação de Estágio');
-$pdf->SetTitle('Pauta de alunos estagiarios');
+$pdf->SetAuthor('CoordenaÃ§Ã£o de EstÃ¡gio');
+$pdf->SetTitle('Pauta de alunos estagiÃ¡rios');
 $pdf->SetSubject('Alunos estagiarios');
-$pdf->SetKeywords('Estagio, Servico Social');
+$pdf->SetKeywords('EstÃ¡gio, ServiÃ§o Social');
 
 // set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
@@ -78,8 +78,8 @@ $tabela =
 "<th width='15px'>X</th>" .
 "<td width='60px' style='text-align:center'>Registro</td>" .
 "<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nível</td>" .
-"<td width='300px'>Instituição</td>" .
+"<td width='35px' style='text-align:center'>NÃ­vel</td>" .
+"<td width='300px'>InstituiÃ§Ã£o</td>" .
 "<td width='170px'>Supervisor</td>" .
 "</tr>" .
 "</theader>" .
@@ -119,8 +119,8 @@ $tabela .=
 "<td width='15px'>X</td>" .
 "<td width='60px' style='text-align:center'>Registro</td>" .
 "<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nível</td>" .
-"<td width='300px'>Instituição</td>" .
+"<td width='35px' style='text-align:center'>NÃ­vel</td>" .
+"<td width='300px'>InstituiÃ§Ã£o</td>" .
 "<td width='170px'>Supervisor</td>" .
 "</tr>" .
 "</theader>" .

@@ -1,7 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
 // echo "id " . $id_instituicao . "<br";
@@ -25,7 +25,7 @@ if ($id_instituicao) {
 	$sqlAlunos = "select id_aluno from estagiarios where id_instituicao=$id_instituicao";
 	$resultadoAluno = $db->Execute($sqlAlunos);
 	// echo $sqlAlunos . "<br>";
-	if($resultadoAluno === false) die ("Não foi possível consultar a tabela estagiarios");
+	if ($resultadoAluno === false) die ("Não foi possível consultar a tabela estagiarios");
 	$quantidadeAluno = $resultadoAluno->RecordCount();
 }
 

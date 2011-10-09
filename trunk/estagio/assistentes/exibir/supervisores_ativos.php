@@ -3,7 +3,7 @@
 include_once("../../setup.php");
 
 // Verifico se o usuario esta logado
-if(isset($_REQUEST['usuario_senha'])) {
+if (isset($_REQUEST['usuario_senha'])) {
     $usuario = $_REQUEST['usuario_senha'];
     if ($usuario) 
 	$logado = 1;
@@ -59,13 +59,17 @@ while (!$resultado->EOF) {
 
 	// Verifico que seja numeros
 	if (ctype_digit($cress)) {
+            // O numero tem que ser diferente de 0
+            if ($cress <> 0) {
 			$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
 			// echo $sqlcurso . "<br />";
 			$supervisores_curso = $db->Execute($sqlcurso);
 			if ($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
 			$matriz[$i]['id_curso'] = $supervisores_curso->fields['id'];
+                        // echo $cress . " " . $supervisores_curso->fields['id'] . "<br>";
 			$id_curso = $supervisores_curso->fields['id'];
 			// echo $id_curso . "<br>";
+            }
 	}
 
 	$resultado->MoveNext();

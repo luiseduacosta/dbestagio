@@ -42,7 +42,7 @@ $(function() {
 function verifica_nome() {
     var nome;
     nome=document.getElementById('nome').value;
-    if(nome=="") {
+    if (nome=="") {
 		alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
@@ -54,7 +54,7 @@ function verifica_nome() {
 function verifica_email() {
     var email;
     email=document.getElementById('email').value;
-    if(email=="") {
+    if (email=="") {
 		alert("É importante o e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
@@ -66,7 +66,7 @@ function verifica_email() {
 function verifica_cpf() {
     var cpf;
     cpf=document.getElementById('cpf').value;
-    if(cpf=="") {
+    if (cpf=="") {
 		alert("Você precisa informar o CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
@@ -78,7 +78,7 @@ function verifica_cpf() {
 function verifica_identidade() {
     var identidad;
     identidade=document.getElementById('identidade').value;
-    if(identidade=="") {
+    if (identidade=="") {
 		alert("Você precisa informar o RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
@@ -90,7 +90,7 @@ function verifica_identidade() {
 function verifica_orgao() {
     var orgao;
     orgao=document.getElementById('orgao').value;
-    if(orgao=="") {
+    if (orgao=="") {
 		alert("Você precisa informar o orgão da carteira da identidade");
 		document.atualiza_aluno.orgao.focus();
 		return false;
@@ -102,7 +102,7 @@ function verifica_orgao() {
 function verifica_nascimento() {
     var nascimento;
     nascimento=document.getElementById('nascimento').value;
-    if(nascimento=="") {
+    if (nascimento=="") {
 		alert("Você precisa informar a data de nascimento");
 		document.atualiza_aluno.nascimento.focus();
 		return false;
@@ -114,7 +114,7 @@ function verifica_nascimento() {
 function verifica_endereco() {
     var endereco;
     endereco=document.getElementById('endereco').value;
-    if(endereco=="") {
+    if (endereco=="") {
 		alert("Você precisa informar o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
@@ -126,7 +126,7 @@ function verifica_endereco() {
 function verifica_cep() {
     var cep;
     cep=document.getElementById('cep').value;
-    if(cep=="") {
+    if (cep=="") {
 		alert("Você precisa informar o CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
@@ -138,7 +138,7 @@ function verifica_cep() {
 function verifica_bairro() {
     var bairro;
     bairro=document.getElementById('bairro').value;
-    if(bairro=="") {
+    if (bairro=="") {
 		alert("Você precisa informar o seu bairro");
 		document.atualiza_aluno.bairro.focus();
 		return false;
@@ -150,7 +150,7 @@ function verifica_bairro() {
 function verifica_municipio() {
     var municipio;
     cep=document.getElementById('municipio').value;
-    if(municipio=="") {
+    if (municipio=="") {
 		alert("Você precisa informar o seu município");
 		document.atualiza_aluno.municipio.focus();
 		return false;

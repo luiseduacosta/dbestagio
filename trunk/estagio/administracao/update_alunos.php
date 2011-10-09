@@ -6,7 +6,7 @@ include_once("../setup.php");
 $sql_estagiarios = "select id, registro, nivel, periodo from estagiarios group by registro order by periodo, registro";
 echo $sql_estagiarios . "<br>";
 $estagiarios = $db->Execute($sql_estagiarios);
-while(!$estagiarios->EOF) {
+while (!$estagiarios->EOF) {
 	$registro = $estagiarios->fields['registro'];
 	$id = $estagiarios->fields['id'];
 	$nivel = $estagiarios->fields['nivel'];
@@ -29,12 +29,12 @@ while(!$estagiarios->EOF) {
 		. "from alunosNovos where registro = $registro";
 		// echo "Novos: " . $sql_novos . "<br>";
 		$alunos_novos = $db->Execute($sql_novos);
-		if ($alunos_novos == false) die ("N�o foi poss�vel consultar a tabela alunosNovos");
+		if ($alunos_novos == false) die ("Não foi possível consultar a tabela alunosNovos");
 		$numero_novos = $alunos_novos->RecordCount();
 		// echo "Numero novos " . 	$numero_novos . "<br>";
 		// Alunos novos que estao na tabela alunosNovos
 		if ($numero_novos > 0) {
-			while(!$alunos_novos->EOF) {
+			while (!$alunos_novos->EOF) {
 				$registro_aluno = $alunos_novos->fields['registro'];
 				$nome_aluno = $alunos_novos->fields['nome'];
 				$codigo_telefone = $alunos_novos->fields['codigo_telefone'];

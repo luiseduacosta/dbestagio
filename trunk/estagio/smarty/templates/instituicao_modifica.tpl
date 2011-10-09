@@ -68,15 +68,15 @@
 
 <td>
 {if $fim_de_semana == 0}
-	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">N�o
+	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Não
 	<input type="radio" name="fim_de_semana" value="1">Sim
 	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 1}
-	<input type="radio" name="fim_de_semana" value="0">N�o
+	<input type="radio" name="fim_de_semana" value="0">Não
 	<input type="radio" name="fim_de_semana" value="1" checked="{$fim_de_semana}">Sim
 	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 2}
-	<input type="radio" name="fim_de_semana" value="0">N�o
+	<input type="radio" name="fim_de_semana" value="0">Não
 	<input type="radio" name="fim_de_semana" value="1">Sim
 	<input type="radio" name="fim_de_semana" value="2" checked="{$fim_de_semana}">Parcialmente
 {/if}
