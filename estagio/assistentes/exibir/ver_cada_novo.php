@@ -1,7 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $indice = $_REQUEST['indice'];
 $id_supervisor = $_REQUEST['id_supervisor'];
@@ -49,7 +49,7 @@ if (!empty($id_supervisor)) {
 		// echo "Empty " . "<br>" ;
 		$i = 0;
 		// echo $i . "<br />";
-		while(!$resultado->EOF) {
+		while (!$resultado->EOF) {
 			$num_supervisor  = $resultado->fields['id'];
 			$nome_supervisor = $resultado->fields['nome'];
 			$id_instituicao  = $resultado->fields['id_estagio'];
@@ -86,7 +86,7 @@ $sql .= " order by nome, id_supervisor";
 
 // echo $sql . "<br>";
 // echo "Indice: " . $indice . "<br>";
-if(!isset($indice)) {
+if (!isset($indice)) {
 	echo "<meta http-equiv='refresh' content='1;url=listar_todos.php?ordem=instituicao' />";
 	die ("Nao foi encontrado o índice");
 }
@@ -113,7 +113,7 @@ while (!$resultado->EOF) {
 	$resultado = $db->Execute($sql_instituicoes);
 	if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
 	$i = 0;
-	while(!$resultado->EOF) {
+	while (!$resultado->EOF) {
 		$inst_emprego[$i]['id_instituicao'] = $resultado->fields['id'];
 		$inst_emprego[$i]['instituicao'] = $resultado->fields['instituicao'];
 		// echo "Instituicao: " . $inst_estagio[$i]['instituicao'] . "<br>";
@@ -129,7 +129,7 @@ while (!$resultado->EOF) {
 	// echo "Alunos: " . $sqlalunos . "<br>";
 
 	$res_alunos = $db->Execute($sqlalunos);
-	if($res_alunos === false) die ("Não foi possível consultar a tabela alunos");
+	if ($res_alunos === false) die ("Não foi possível consultar a tabela alunos");
 	$i = 0;
 	while (!$res_alunos->EOF) {
 		$alunos[$i]['id_aluno'] = $res_alunos->fields['id'];
@@ -151,11 +151,11 @@ while (!$resultado->EOF) {
 		$res_alunos->MoveNext();
 	}
 
-	if(!empty($cress)) {
+	if (!empty($cress)) {
 		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
-		echo $sqlcurso . "<br />";
+		// echo $sqlcurso . "<br />";
 		$supervisores_curso = $db->Execute($sqlcurso);
-		if($supervisores_curso === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisores");
+		if ($supervisores_curso === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisores");
 		$id_curso = $supervisores_curso->fields['id'];
 		// echo "Id curso: " . $id_curso . "<br>";
 	}
@@ -166,9 +166,9 @@ while (!$resultado->EOF) {
 // Instituicoes
 $sql = "select id, instituicao from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
     $instituicoes[$i]['instituicao'] = $resultado->fields['instituicao'];
     $resultado->MoveNext();

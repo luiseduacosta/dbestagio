@@ -1,11 +1,11 @@
 <?php
 
+include_once("../../setup.php");
+
 $id_instituicao = $_GET['id_instituicao'];
 $ordem = $_GET['ordem'];
-if(empty($ordem))
+if (empty($ordem))
     $ordem="supervisor";
-
-include_once("../../setup.php");
 
 $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 . " from supervisores s, inst_super j "
@@ -15,9 +15,9 @@ $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela supervisores e inst_super");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela supervisores e inst_super");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
     $supervisores[$i]['cress']         = $resultado->fields['cress'];
     $supervisores[$i]['nome']          = $resultado->fields['nome'];
     $supervisores[$i]['email']         = $resultado->fields['email'];
@@ -30,7 +30,7 @@ while(!$resultado->EOF) {
 // Busco o nome da instituicao
 $sql_instituicao = "select instituicao from estagio where id=$id_instituicao";
 $res_instituicao = $db->Execute($sql_instituicao);
-if($res_instituicao === false) die ("Nao foi possivel consutar a tabela estagio");
+if ($res_instituicao === false) die ("Nao foi possivel consutar a tabela estagio");
 $instituicao = $res_instituicao->fields['instituicao'];
 
 $smarty = new Smarty_estagio;

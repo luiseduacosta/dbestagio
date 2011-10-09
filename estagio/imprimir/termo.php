@@ -148,23 +148,24 @@ $pdf->Ln(5);
 $pdf->Cell(0, 5, $final, 0, 0, "R");
 
 $pdf->Ln(10);
+$pdf->SetY(255);
 $pdf->Cell(0, 5,"Coordenação de Estágio", 0, 0, "L");
 
-$pdf->SetX(10);
+$pdf->SetXY(10, 255);
 $pdf->Cell(0, 5,"Supervisor", 0, 0, "C");
 $pdf->Ln(3);
 $pdf->Cell(0, 5, $supervisor, 0, 0, "C");
 $pdf->Ln(3);
 $pdf->Cell(0, 5, "CRESS: $cress", 0, 0, "C");
 
-$pdf->SetXY(10, 255);
-$pdf->Cell(0, 5, "Estudante", 0, 0, "R");
+$pdf->SetXY(0, 255);
+$pdf->Cell(0, 5, "Aluno", 0, 0, "R");
 $pdf->Ln(3);
 $pdf->Cell(0, 5, $nome, 0, 0, "R");
 $pdf->Ln(3);
 $pdf->Cell(0, 5, "DRE: $registro", 0, 0, "R");
 
-$pdf->Output('/usr/local/htdocs/html/estagio/tmp/termo'. $registro.'. pdf');
+$pdf->Output("/usr/local/htdocs/html/estagio/tmp/termo". $registro . ".pdf");
 $file = "/tmp/termo" . $registro . ".pdf";
 
 echo "<html><head>

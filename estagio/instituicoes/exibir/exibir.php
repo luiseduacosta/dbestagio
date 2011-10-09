@@ -8,10 +8,9 @@ $id_instituicao = $_REQUEST['id_instituicao'];
 $sql_estagio = "select e.id, e.instituicao, e.endereco, e.cep, e.telefone, e.fax, e.beneficio, e.fim_de_semana, a.area from estagio as e, areas_estagio as a where e.area=a.id and e.id=$id_instituicao";
 $res_estagio = $db->Execute($sql_estagio);
 // echo $sql_estagio . "<br>";
-if($res_estagio === false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagio");
 
-while(!$res_estagio->EOF)
-{
+while (!$res_estagio->EOF) {
 	$id_instituicao = $res_estagio->fields['id'];
 	$instituicao    = $res_estagio->fields['instituicao'];
 	$endereco       = $res_estagio->fields['endereco'];
@@ -27,10 +26,9 @@ while(!$res_estagio->EOF)
 	$sql .= "where j.id_supervisor=s.id and j.id_instituicao=$id_instituicao ";
 	$sql .= "order by nome";
 	$resultado = $db->Execute($sql);
-	if($resultado === false) die ("Não foi possível consultar a tabela supervisores");
+	if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela supervisores");
 	$i = 0;
-	while(!$resultado->EOF)
-	{
+	while (!$resultado->EOF) {
 	    $supervisores[$i]['id']    = $resultado->fields['id'];
 	    $supervisores[$i]['cress'] = $resultado->fields['cress'];
 	    $supervisores[$i]['nome']  = $resultado->fields['nome'];
@@ -43,8 +41,8 @@ while(!$res_estagio->EOF)
 	$sql_turma = "select max(turma) as turma from turma_estagio where instituicao=$id_instituicao";
 	echo $sql_turma . "<br>";
 	$resultado = $db->Execute($sql_turma);
-	if($resultado === false) die ("Não foi possível consultar a tabela turma_estagio");
-	while(!$resultado->EOF)	{
+	if ($resultado === false) die ("NÃ£o foi possÃ­vel consultar a tabela turma_estagio");
+	while (!$resultado->EOF) {
 	    $turma = $resultado->fields['turma'];
 	    $resultado->MoveNext();
 	}

@@ -16,11 +16,11 @@ if (substr_count($origem,"seleciona.php") == 1) {
 	$origem = "http://$url/estagio/alunos/exibir/listar_dae.php";
 }
 
-if(empty($origem))
+if (empty($origem))
     $origem = $_SERVER['HTTP_REFERER'];
 
 
-if($debug == 1) {
+if ($debug == 1) {
     echo $origem . "<br>";
     echo $_SERVER['PHP_SELF'] . "<br>";
 }
@@ -47,7 +47,7 @@ $municipio       = $_REQUEST['municipio'];
 
 // echo $nascimento . "<br>";
 
-if($debug == 1) {
+if ($debug == 1) {
     // print_r($_REQUEST) . "<br>";
 	}
 
@@ -55,7 +55,7 @@ $acao     = $_REQUEST['acao'];
 $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
-if($debug == 1) {
+if ($debug == 1) {
     echo "Acao " . $acao . "<br>";
     echo "Cadastro " . $cadastro . "<br>";
     echo "Atualizar estagio ". $atualizar_estagio . "<br>";
@@ -64,7 +64,7 @@ if($debug == 1) {
 // echo "Id estagiario " . $id_estagiarios . " - " . $_REQUEST['id_estagiarios'] . "<br>";
 
 // Se ja esta cadastrado
-if($submit)  {
+if ($submit)  {
 
 	// Para salvar tenho que utilizar o formato aaaa/mm/dd/
 	$novoNascimento = explode("/",$nascimento);
@@ -79,7 +79,7 @@ if($submit)  {
 	// echo $sql_alunos . "<br>";
 	
 	$resultado_insere = $db->Execute($sql_alunos);
-	if($resultado_insere === false) die ("Nao foi possivel atualizar o registro na tabela alunos");
+	if ($resultado_insere === false) die ("Nao foi possivel atualizar o registro na tabela alunos");
 
 	// echo "ORIGEM: " . $origem . "<br>";
 	/* Quando atualiza volta para ver_cada.php menos no caso de ter sido chamado desde listar.php */
@@ -98,7 +98,7 @@ if ($debug == 1)
     echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 // Verifico se o aluno est� cadastrado
 $quantidade = $resultado->RecordCount();
 if ($quantidade == 0) {

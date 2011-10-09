@@ -16,7 +16,7 @@ function verifica() {
 		// alert("Motivo vazio" + motivo);
 	} else {
 		if (motivo == 0) {
-			alert("Registro n�o foi excluido por estar relacionadao com est�gios. Exclua primeiramente os est�gios para logo poder excluir o aluno ");
+			alert("Registro não foi excluido por estar relacionadao com estágios. Exclua primeiramente os estágios para logo poder excluir o aluno ");
 			} else {
 			// alert("Registro cancelado!! " + motivo);
 			}
@@ -30,7 +30,7 @@ function confirma() {
 	if(resposta) {
 		return true;
 	} else {
-		alert("A��o abortada!");
+		alert("Ação abortada!");
 		return false;
 	}
 }
@@ -81,7 +81,7 @@ function confirma() {
     Estágio I   <input type="radio" name="nivel" value="1">
     Estágio II  <input type="radio" name="nivel" value="2" checked>
     Estágio III <input type="radio" name="nivel" value="3">
-    Est�gio IV  <input type="radio" name="nivel" value="4">
+    Estágio IV  <input type="radio" name="nivel" value="4">
 {elseif $nivel eq "3"}
     Estágio I   <input type="radio" name="nivel" value="1">
     Estágio II  <input type="radio" name="nivel" value="2">

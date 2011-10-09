@@ -9,13 +9,13 @@ $nome  = $_POST['nome'];
 $email = $_POST['email'];
 $cress = $_POST['cress'];
 
-include_once("../../db.inc");
+include_once("../../setup.php");
 
 $sql = "update supervisores set nome='$nome', email='$email', cress='$cress' where id=$id_supervisor";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 
-if($resultado === false) die ("Não foi possível atualizar a tabela supervisores");
+if ($resultado === false) die ("NÃ£o foi possÃ­vel atualizar a tabela supervisores");
 
 /*
 if(!empty($id_instituicao)) {

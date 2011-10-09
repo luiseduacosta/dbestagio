@@ -1,7 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $sql = "select * from areas_estagio order by area";
 $resultado = $db->Execute($sql);

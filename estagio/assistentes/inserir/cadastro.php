@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
 
     <style>
     @import url(domTT.css);
@@ -33,26 +33,26 @@ function confirma() {
     cress=document.inscricao.cress.value;
     instituicao=document.inscricao.instituicaoNova.value;
 
-    if(nome=="") {
-    	alert("Voc� precisa informar o seu nome");
+    if (nome=="") {
+    	alert("Vocẽ precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
-    if(email=="") {
-    	alert("� importante o seu e-mail para nossa comunica��o");
+    if (email=="") {
+    	alert("É importante o seu e-mail para nossa comunicação");
 	document.inscricao.email.focus();
 	return false;
 	}
 
-    if(cress=="") {
-    	alert("Favor informar o seu n�mero de registro no CRESS");
+    if (cress=="") {
+    	alert("Favor informar o seu número de registro no CRESS");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
-    if(instituicao=="") {
-    	alert("Informe a institui��o em que trabalha");
+    if (instituicao=="") {
+    	alert("Informe a instituição em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
 	}
@@ -63,9 +63,8 @@ function confirma() {
 function verifica_nome() {
     var nome;
     nome=document.inscricao.nome.value;
-    if(nome=="")
-    {
-	alert("Voc� precisa informar o seu nome");
+    if(nome=="") {
+	alert("Você precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
     }
@@ -80,7 +79,7 @@ function verifica_email() {
     email=document.inscricao.email.value;
     if(email=="")
     {
-	alert("� importante o e-mail para nossa comunica��o");
+	alert("É importante o e-mail para nossa comunicação");
 	document.inscricao.email.focus();
 	return false;
     }
@@ -95,7 +94,7 @@ function verifica_cress() {
     cress=document.inscricao.cress.value;
     if(cress=="")
     {
-	alert("Voc� precisa informar o n�mero de registro no CRESS 7a. regi�o");
+	alert("Você precisa informar o número de registro no CRESS 7a. região");
 	document.inscricao.cress.focus();
 	return false;
     }
@@ -109,7 +108,7 @@ function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
     if(instituicao=="") {
-		alert("Voc� precisa informar a institui��o na que trabalha");
+		alert("Você precisa informar a instituição na que trabalha");
 		document.inscricao.instituicaoNova.focus();
 		return false;
     } else {
@@ -129,7 +128,7 @@ function contacarateres() {
 	var cep = document.getElementById("cep");
 	cep.value = caraterDigitado;
     if(quantidade > 9) {
-		alert("O limite do campo � de 9 carateres");
+		alert("O limite do campo é de 9 carateres");
 	}
 }
 
@@ -249,7 +248,6 @@ function ver_Supervisor() {
 <?php
 
 include_once("../../setup.php");
-// include_once("../../db.inc");
 include_once("../../autentica.inc");
 
 if($sistema_autentica == 0) {
@@ -276,14 +274,14 @@ $sql  = "select id, nome ";
 $sql .= " from supervisores ";
 $sql .= " order by nome";
 $resultado = $db->Execute($sql);
-if($resultado_=== false) die ("N�o foi poss�vel consultar a tabela supervisores");
+if ($resultado_=== false) die ("Não foi possível consultar a tabela supervisores");
 ?>
 
 <tr>
 <td>Selecione o nome do Assistente Social: </td>
 <td>
 <select nome="id_supervisor" id="id_supervisor" size="1" onChange="return ver_Supervisor();">
-<option value=0>Se j� est� cadastrado selecione aqui, caso contr�rio digite a informa��o</option>
+<option value=0>Se já está cadastrado selecione aqui, caso contrário digite a informação</option>
 <?php
 while (!$resultado->EOF) {
     $id_supervisor = $resultado->fields['id'];
@@ -310,7 +308,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>Endere�o: </td>
+<td>Endereço: </td>
 <td><input type="text" name="endereco" id="endereco" maxlength="100" size="50"></td>
 </tr>
 
@@ -320,7 +318,7 @@ while (!$resultado->EOF) {
 </tr>
 
 <tr>
-<td>Munic�pio: </td>
+<td>Município: </td>
 <td><input type="text" name="municipio" id="municipio" maxlength="30" size="30"></td>
 </tr>
 
@@ -333,14 +331,14 @@ while (!$resultado->EOF) {
 <tr>
 <td>Telefone: </td>
 <td>
-C�digo: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
+Código: <input type="text" name="codigo_tel" id="codigo_tel" maxlength="2" size="2" value="21">
 <input type="text" name="telefone" id="telefone" maxlength="9" size="9"></td>
 </tr>
 
 <tr>
 <td>Celular: </td>
 <td>
-C�digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
+Código: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" size="2" value="21">
 <input type="text" name="celular" id="celular" maxlength="9" size="9"></td>
 </tr>
 
@@ -363,7 +361,7 @@ C�digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" siz
 <td>No. de registro no CRESS</td>
 <td>
 <input type="text" name="cress" id="cress" maxlength="15" size="10" onBlur="return verifica_cress()">
-<span style="text-align:right">Regi�o: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
+<span style="text-align:right">Região: </span><input type="text" name="regiao" id="regiao" maxlength="2" size="1" value="7">
 </td>
 </tr>
 
@@ -371,7 +369,7 @@ C�digo: <input type="text" name="codigo_cel" id="codigo_cel" maxlength="2" siz
 <td>Outros estudos realizados:</td>
 <td>
 <input type="radio" name="outros_estudos" id="outros_estudos" value="especializa��o">
-Especializa��o
+Especialização
 <input type="radio" name="outros_estudos" id="outros_estudos" value="mestrado">
 Mestrado
 <input type="radio" name="outros_estudos" id="outros_estudos" value="doutorado">
@@ -380,12 +378,12 @@ Doutorado
 </tr>
 
 <tr>
-<td>�rea em que foi realizado o curso anteriormente mencionado</td>
+<td>Área em que foi realizado o curso anteriormente mencionado</td>
 <td><input type="text" name="area_curso" id="area_curso" maxlength="40" size="30"></td>
 </tr>
 
 <tr>
-<td>Ano em que foi conclu�do o curso</td>
+<td>Ano em que foi concluído o curso</td>
 <td><input type="text" name="ano_curso" id="ano_curso" maxlength="4" size="4"></td>
 </tr>
 

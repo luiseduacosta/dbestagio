@@ -70,7 +70,7 @@ Tabela principal
 	<td style="text-align:right">{$i++}</td>
 	<td style="text-align:center">{$dae[i].registro}</td>
 	<td style="text-align:center">{$dae[i].nivel}</td>
-    <td><a href="ver_cada.php?id_aluno={$dae[i].registro}">{$dae[i].nome}</a></td>
+        <td><a href="ver_cada.php?id_aluno={$dae[i].registro}">{$dae[i].nome}</a></td>
 	<td>{$dae[i].endereco}</td>
 	<td>{$dae[i].bairro}</td>
 	<td>{$dae[i].municipio}</td>

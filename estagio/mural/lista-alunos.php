@@ -1,7 +1,7 @@
 <?php
 
-include_once("../autentica.inc");
 include_once("../setup.php");
+include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 
@@ -10,7 +10,7 @@ $sql = "SELECT id_aluno, data " .
 		" WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 $i = 0;	// Contador para a matriz inscricoes
 while (!$resultado->EOF) {
 		$id_aluno = $resultado->fields['id_aluno'];

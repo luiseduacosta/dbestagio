@@ -18,7 +18,7 @@ if ($quantidade_aluno > 0) {
 	if ($resultado === false) die("Não foi possível excluir o registro da tabela alunosNovos");
 }
 
-// Excluo as inscri��es
+// Excluo as inscrições
 $sql_inscricao = "select id, id_aluno from mural_inscricao where id_aluno = '$registro'";
 // echo $sql_inscricao . "<br>";
 $res_inscricao = $db->Execute($sql_inscricao);

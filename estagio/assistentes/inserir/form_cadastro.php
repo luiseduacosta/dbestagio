@@ -13,25 +13,25 @@ function confirma() {
     cress=document.inscricao.cress.value;
     instituicao=document.inscricao.instituicaoNova.value;
 
-    if(nome=="") {
+    if (nome=="") {
     	alert("Você precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
-    if(email=="") {
+    if (email=="") {
     	alert("É importante o seu e-mail para nossa comunicação");
 	document.inscricao.email.focus();
 	return false;
 	}
 
-    if(cress=="") {
+    if (cress=="") {
     	alert("Favor informar o seu número de registro no CRESS");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
-    if(instituicao=="") {
+    if (instituicao=="") {
     	alert("Informe a instituição em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
@@ -43,7 +43,7 @@ function confirma() {
 function verifica_nome() {
     var nome;
     nome=document.inscricao.nome.value;
-    if(nome=="")
+    if (nome=="")
     {
 	alert("Você precisa informar o seu nome");
 	document.inscricao.nome.focus();
@@ -58,7 +58,7 @@ function verifica_nome() {
 function verifica_email() {
     var email;
     email=document.inscricao.email.value;
-    if(email=="")
+    if (email=="")
     {
 	alert("É importante o e-mail para nossa comunicação");
 	document.inscricao.email.focus();
@@ -73,7 +73,7 @@ function verifica_email() {
 function verifica_cress() {
     var cress;
     cress=document.inscricao.cress.value;
-    if(cress=="")
+    if (cress=="")
     {
 	alert("Você precisa informar o número de registro no CRESS 7a. região");
 	document.inscricao.cress.focus();
@@ -88,7 +88,7 @@ function verifica_cress() {
 function verifica_instituicao() {
     var instituicao;
     instituicao=document.inscricao.instituicaoNova.value;
-    if(instituicao=="") {
+    if (instituicao=="") {
 		alert("Você precisa informar a instituição na que trabalha");
 		document.inscricao.instituicaoNova.focus();
 		return false;
@@ -125,10 +125,9 @@ function contacarateres() {
 <?php
 
 include_once("../../setup.php");
-include_once("../../db.inc");
 include_once("../../autentica.inc");
 
-if($sistema_autentica == 0) {
+if ($sistema_autentica == 0) {
 	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=http://$url/estagio/login.php'>";
 	exit;
 }

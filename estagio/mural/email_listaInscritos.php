@@ -13,15 +13,15 @@ require_once("../pommo_config.php");
 // Apago toda a informacao das tabelas
 $sql_subs = "truncate table pommo_subscribers";
 $res_subs = $db_pommo->Execute($sql_subs);
-if($res_subs === false) die ("Não foi possível limpar a tabela pommo_subscribers");
+if ($res_subs === false) die ("Não foi possível limpar a tabela pommo_subscribers");
 
 $sql_subs_data = "truncate table pommo_subscriber_data";
 $res_subs_data = $db_pommo->Execute($sql_subs_data);
-if($res_subs_data === false) die ("Não foi possível limpar a tabela pommo_subscribers_data");
+if ($res_subs_data === false) die ("Não foi possível limpar a tabela pommo_subscribers_data");
 
 $sql_pommo_fields = "truncate table pommo_fields";
 $res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
-if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
+if ($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
 
 // Insero os campos
 $sql_pommo_campos = "

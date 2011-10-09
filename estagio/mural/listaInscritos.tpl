@@ -81,7 +81,15 @@ function confirma() {
 {/if}
 
 <td style="text-align:right">{$i++}</td>
-<td><a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].aluno}">{$inscritos[item].nome}</a></td>
+
+<td>
+{if $sistema_autentica == 1}
+<a href="ver-aluno.php?id_aluno={$inscritos[item].registro}&aluno={$inscritos[item].aluno}">{$inscritos[item].nome}</a>
+{else}
+{$inscritos[item].nome}
+{/if}
+</td>
+
 {if $sistema_autentica == 1}
 	<td style='text-align:center;'>{$inscritos[item].telefone}</td>
 	<td style='text-align:center;'>{$inscritos[item].celular}</td>

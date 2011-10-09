@@ -14,7 +14,7 @@ Entrar
 <!-- Inicio de instituicao //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">INSTITUI��ES
+<a class="box1" href="javascript:void(0)">INSTITUIÇÕES
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -130,7 +130,7 @@ Entrar
 <!-- Mural //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">MURAL DE EST�GIOS
+<a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">

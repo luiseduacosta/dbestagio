@@ -11,7 +11,7 @@ include_once("../setup.php");
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
 $insere = $_GET['insere'];
 $ordem = $_GET['ordem'];
-if(empty($ordem)) {
+if (empty($ordem)) {
 		$ordem = "dataInscricao desc";
 }
 
@@ -29,7 +29,7 @@ $sql .= "order by $ordem";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
 $i = 0;
 while (!$resultado->EOF) {
 		$instituicao[$i]['id_instituicao'] = $resultado->fields['id'];

@@ -2,7 +2,7 @@
 
 // Conto a quantidade de registros
 function contar($db) {
-	$sql = "select id from professores where dataegresso = '0000-00-00' order by nome";
+	$sql = "select id from professores where dataegresso IS NULL order by nome";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("contar: Não foi possível consultar a tabela professores");
 	$quantidade = $resultado->RecordCount();
@@ -11,38 +11,43 @@ function contar($db) {
 }
 
 // Busco o lugar do professor na tabela
-function lugar($id_professor,$db) {
-	$sql_professor = "select id from professores where dataegresso = '0000-00-00' order by nome";
-	$resultado_professor = $db->Execute($sql_professor);
+function lugar($id_professor, $db) {
+	// $sql_professor = "select id from professores where dataegresso = '0000-00-00' order by nome";
+        $sql_professor = "select id from professores where dataegresso IS NULL order by nome";
+        // echo $sql_professor . "<br>";
+        $resultado_professor = $db->Execute($sql_professor);
+        
 	if ($resultado_professor === false) die ("lugar: Não foi possível consultar a tabela professores");
 	$lugar = 0;
 	while (!$resultado_professor->EOF)	{
 		$num_professor = $resultado_professor->fields['id'];
+                // echo "Lugar " . $lugar . " Numero " . $num_professor . " Id professor " . $id_professor . "<br>";
 		if ($num_professor === $id_professor) {
-			$indice = $lugar;
+                        // echo "Lugar " . $lugar . " Numero " . $num_professor . " Id professor " . $id_professor . "<br>";
+        		$indice = $lugar;
+                        break;
 		}
 		$lugar++;
 		$resultado_professor->MoveNext();
 	}
+        // echo "Indice: " . $indice . "<br>";
 	return $indice;
 }
 
-function ver_cada($indice,$db) {
+function ver_cada($indice, $db) {
 	$sql = "select id, nome from professores where dataegresso IS NULL order by nome";
-	// echo $sql . "<br>";
+	//echo $sql . "<br>";
+        // echo "Indice: " . $indice . "<br>";        
 	$resultado = $db->SelectLimit($sql,1,$indice);
-	if ($resultado === false) die ("ver_cada: Não foi possível consultar a tabela professores");	
-	while (!$resultado->EOF) {
-		$professor['id'] = $resultado->fields['id'];
-		$professor['nome'] = $resultado->fields['nome'];
+	if ($resultado === false) die ("ver_cada: Não foi possível consultar a tabela professores");
+	$professor['id'] = $resultado->fields['id'];
+	$professor['nome'] = $resultado->fields['nome'];
 
-		$resultado->MoveNext();
-	}
 	return $professor;
 }
 
 // Busco as instituicoes com as quais o professor trabalha
-function instituicao($id_professor,$db) {
+function instituicao($id_professor, $db) {
 	$sql_instituicao = "select estagio.id, estagio.instituicao from estagio inner join estagiarios on estagio.id = estagiarios.id_instituicao where estagiarios.id_professor = $id_professor group by instituicao";	
 	// echo $sql_instituicao . "<br>";
 	$resultado = $db->Execute($sql_instituicao);
@@ -114,19 +119,19 @@ switch($botao)
 
     case "menos_1";
 	$indice--;
-	if($indice < 0)
-	    $indice = $num_linhas - 1;
+	if ($indice < 0)
+            $indice = $num_linhas - 1;
 	break;
 
     case "menos_10":
 	$indice = $indice - 10;
-	if($indice < 0)
+	if ($indice < 0)
 	    $indice = ($num_linhas-1) - abs($indice);
 	break;
 
     case "mais_1":
 	$indice++;
-	if($indice > ($num_linhas-1))
+	if ($indice > ($num_linhas-1))
 	    $indice = 0;
 	break;
 
@@ -142,13 +147,17 @@ switch($botao)
 }
 
 if (!empty($id_professor)) {
-	$indice = lugar($id_professor,$db);
+	$indice = lugar($id_professor, $db);
 }
 
-$professor = ver_cada($indice,$db);
-$id_professor = $professor['id'];
-$instituicoes = instituicao($id_professor,$db);
-$alunos = alunos($id_professor,$db,$ordem);
+$professor = ver_cada($indice, $db);
+// var_dump($professor);
+// echo "Id professor: " . $id_professor . "<br>";
+// echo "Professor id: " . $professor['id'] . "<br>";
+
+if (empty($id_professor)) $id_professor = $professor['id'];
+$instituicoes = instituicao($id_professor, $db);
+$alunos = alunos($id_professor,$db, $ordem);
 
 $smarty = new Smarty_estagio;
 $smarty->assign("professor",$professor);

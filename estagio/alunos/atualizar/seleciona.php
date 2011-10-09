@@ -1,8 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
-
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $smarty = new Smarty_estagio;
 

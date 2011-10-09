@@ -24,7 +24,7 @@ $sql .= " order by professores.nome ";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado == false) die ("Não foi possível consultar a tabela estagiarios");
+if ($resultado == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
 	$professores[$i]['id_professor'] = $resultado->fields['professores_id'];
@@ -44,7 +44,7 @@ while (!$resultado->EOF) {
 	$sql_alunos .= " group by id_aluno ";
 	// echo $sql_alunos . "<br>";
 	$res_alunos = $db->Execute($sql_alunos);
-	if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");	
+	if ($res_alunos == false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 	$q_alunos = $res_alunos->RecordCount();
 
 	$professores[$i]['q_alunos'] = $q_alunos;
@@ -73,7 +73,7 @@ for($i=0;$i<sizeof($matriz);$i++) {
 $sqlturma = "select id, periodo from estagiarios group by periodo";
 // echo $sqlturma . "<br>";
 $res_turma = $db->Execute($sqlturma);
-if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
+if ($res_turma === false) die ("NÃ£o foi possÃ­vel consultar a tabela estagiarios");
 while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();

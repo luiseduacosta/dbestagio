@@ -20,9 +20,9 @@ $sql = "select curso_inscricao_supervisor.id, curso_inscricao_supervisor.num_ins
 		" order by $ordem";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
+if ($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
 $quantidade = $resultado->RecordCount();
-if($quantidade === 0) {
+if ($quantidade === 0) {
     echo "Não há registros com a palavra: $palavra";
     exit;
 } else {

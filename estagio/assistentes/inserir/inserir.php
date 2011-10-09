@@ -1,8 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
-// require_once("../../db.inc");
 require_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $num_instituicao = isset($_POST['num_instituicao']) ? $_POST['num_instituicao'] : NULL;
 $id_supervisor  = isset($_POST['id_supervisor']) ? $_POST['id_supervisor'] : NULL;
@@ -36,7 +35,7 @@ if (empty($num_supervisor)) {
     $sql .= " values ('$nome', '$cpf', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
     // echo "Insirindo novo supervisor " . $sql . "<br>";
     $resultado = $db->Execute($sql);
-    if($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
+    if ($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
     // die;
     // Pego o numero de registro de ultimo supervisor ingressado
     $id_supervisor = $db->Insert_ID();
@@ -59,7 +58,7 @@ if (empty($num_supervisor)) {
     $sql .= " where id=$_POST[num_supervisor]";
     // echo $sql . "<br>";
     $resultado = $db->Execute($sql);
-    if($resultado === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
+    if ($resultado === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
     $id_supervisor = $_POST['num_supervisor'];
 
 }
@@ -80,7 +79,7 @@ if ($quantidade > 0) {
 }
 // echo $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
-if($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
+if ($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";
 

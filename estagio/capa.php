@@ -41,6 +41,23 @@ function escolaImagem() {
 </strong>
 
 <br />
+
+<iframe src="http://www.facebook.com/plugins/registration.php?
+client_id=194966950523996&
+redirect_uri=http://locuss.org/joomlalocuss/&
+fields=name,birthday,gender,location,email"
+scrolling="auto"
+frameborder="no"
+style="border:none"
+allowTransparency="true"
+width="100%"
+height="330">
+</iframe>
+
+<fb:login-button
+registration-url="http://developers.facebook.com/docs/plugins
+/registration" />
+
 <span style='text-align: center'>
 Telefone: 3873 5394 <br />
 Email: estagio@ess.ufrj.br
