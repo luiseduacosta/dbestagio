@@ -21,15 +21,15 @@ require_once("../pommo_tabelas.php");
 // Apago toda a informacao das tabelas
 $sql_subs = "truncate table pommo_subscribers";
 $res_subs = $db_pommo->Execute($sql_subs);
-if($res_subs === false) die ("Não foi possível limpar a tabela pommo_subscribers");
+if ($res_subs === false) die ("Não foi possível limpar a tabela pommo_subscribers");
 
 $sql_subs_data = "truncate table pommo_subscriber_data";
 $res_subs_data = $db_pommo->Execute($sql_subs_data);
-if($res_subs_data === false) die ("Não foi possível limpar a tabela pommo_subscribers_data");
+if ($res_subs_data === false) die ("Não foi possível limpar a tabela pommo_subscribers_data");
 
 $sql_pommo_fields = "truncate table pommo_fields";
 $res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
-if($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
+if ($res_pommo_fields === false) die ("Não foi possível limpar a tabela pommo_fields");
 
 // Insero os campos
 $sql_pommo_campos = "
@@ -42,7 +42,7 @@ INSERT INTO `pommo_fields` (`field_id`, `field_active`, `field_ordering`, `field
 (6, 'on', 6, 'Nivel', 'nivel', '', 'a:0:{}', 'off', 'text');
 ";
 $res_pommo_campos = $db_pommo->Execute($sql_pommo_campos);
-if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
+if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo_fields");
 
 include("../setup.php");
 
@@ -58,7 +58,7 @@ group by id_aluno";
 // order by $ordem";
 // echo $sql ."<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
+if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
 	$id_aluno = $resultado->fields['id_aluno'];

@@ -4,11 +4,11 @@ include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $origem = $_REQUEST['origem'];
-if(empty($origem))
+if (empty($origem))
 $origem = $_SERVER['HTTP_REFERER'];
 
 // Verifico se o usuario esta logado
-if(isset($_REQUEST['usuario_senha'])) {
+if (isset($_REQUEST['usuario_senha'])) {
 	$usuario = $_REQUEST['usuario_senha'];
 	if ($usuario)
 	$logado = 1;

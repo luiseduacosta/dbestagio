@@ -2,7 +2,7 @@
 // include_once("superior.html");
 ?>
 
-<h3>Configuração</h3>
+<h3>ConfiguraÃ§Ã£o</h3>
 
 <?php
 
@@ -77,7 +77,7 @@ $opts['fdd']['id'] = array(
   'sort'     => true
 );
 $opts['fdd']['mural_periodo_atual'] = array(
-  'name'     => 'Perí­odo atual do mural',
+  'name'     => 'PerÃ­odo atual do mural',
   'select'   => 'T',
   'size'     => 6,
   'maxlen'   => 6,
@@ -93,25 +93,25 @@ $opts['fdd']['curso_turma_atual'] = array(
   'sort'     => true
 );
 $opts['fdd']['curso_encerramento_inscricoes'] = array(
-  'name'     => 'Data de encerramento das inscrições para o curso',
+  'name'     => 'Data de encerramento das inscriÃ§Ãµes para o curso',
   'select'   => 'T',
   'maxlen'   => 10,
   'sort'     => true
 );
 $opts['fdd']['termo_compromisso_periodo'] = array(
-  'name'     => 'Perí­odo do termo de compromisso',
+  'name'     => 'PerÃ­odo do termo de compromisso',
   'select'   => 'T',
   'maxlen'   => 6,
   'sort'     => true
 );
 $opts['fdd']['termo_compromisso_inicio'] = array(
-  'name'     => 'Data de iní­cio do termo de compromisso',
+  'name'     => 'Data de inÃ­cio do termo de compromisso',
   'select'   => 'T',
   'maxlen'   => 10,
   'sort'     => true
 );
 $opts['fdd']['termo_compromisso_final'] = array(
-  'name'     => 'Data de finalização do termo de compromisso',
+  'name'     => 'Data de finalizaÃ§Ã£o do termo de compromisso',
   'select'   => 'T',
   'maxlen'   => 10,
   'sort'     => true

@@ -1,7 +1,8 @@
 <?php
 
-// include_once("../../autentica.inc");
 include_once("../../setup.php");
+$senha = $_COOKIE['usuario_senha'];
+if ($senha) $logado = 1;
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 $periodo_atual = isset($_REQUEST['periodo_atual']) ? $_REQUEST['periodo_atual'] : PERIODO_ATUAL;
@@ -14,6 +15,7 @@ $botao  = $_POST['botao'];
 $indice = $_REQUEST['indice'];
 $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
+// echo $registro . "<br>";
 
 // echo $id_aluno . "<br>";
 
@@ -298,6 +300,7 @@ while (!$res_turma->EOF) {
 }
 
 $smarty = new Smarty_estagio;
+$smarty->assign("logado", $logado);
 $smarty->assign("periodo",$periodo);
 $smarty->assign("origem",$origem);
 $smarty->assign("indice",$indice);
@@ -325,7 +328,7 @@ $smarty->assign("tempo_cursado",$tempo_cursado);
 $smarty->assign("historico_estagio",$historico_estagio);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("tcc",$tcc);
-$smarty->assign("logado",$logado);
+$logado;
 
 $smarty->display("alunos-exibir_ver_cada.tpl");
 

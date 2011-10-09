@@ -130,7 +130,7 @@ function get_periodo() {
 
 <tr>
 <th width='80%'>Aluno estagiário {* $num_aluno *}</th>
-{if $logado == 1}
+{if $sistema_autentida == 1}
 	<th width='20%'><a href='../cancelar/ver_cancela.php?id_aluno={$num_aluno}'>Excluir registro</a></th>
 {/if}
 </tr>

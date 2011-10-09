@@ -3,11 +3,12 @@
 require_once("../../setup.php");
 
 // Verifico se o usuario esta logado
-if (isset($_REQUEST['usuario_senha'])) {
-	$usuario = $_REQUEST['usuario_senha'];
+if (isset($_COOKIE["usuario_senha"])) {
+	$usuario = $_COOKIE["usuario_nome"];
 	if ($usuario)
 	$logado = 1;
 }
+// echo "Autenticado: " . $logado . "<br>"; 
 
 $sqlUltimoPeriodo = "select max(periodo) as ultimoPeriodo from estagiarios";
 $resultadoMaxPeriodo = $db->Execute($sqlUltimoPeriodo);
@@ -55,6 +56,7 @@ $sql1 = "select estagiarios.id_aluno, " .
 "supervisores.id as id_supervisor, ".
 "supervisores.nome as nomeSupervisor, ".
 "professores.nome as nomeProfessor, ".
+"professores.id as idProfessor, " .        
 "areas_estagio.area ".
 // Aluno
 "from estagiarios inner join alunos ".
@@ -93,7 +95,7 @@ $sql = $sql1 . $sql3;
 // echo $sql . "<br>";
 $resultadoLista = $db->Execute($sql);
 
-if($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
+if ($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
 $i=0;
 while (!$resultadoLista->EOF) {
 
@@ -117,7 +119,8 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['id_supervisor'];
 	$estagiarios[$i]['supervisor']     = $resultadoLista->fields['nomeSupervisor'];
 	$estagiarios[$i]['area']           = $resultadoLista->fields['area'];
-	$estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
+        $estagiarios[$i]['id_professor']      = $resultadoLista->fields['idProfessor'];
+        $estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
 
 	$id_aluno = $resultadoLista->fields['id_aluno'];
 	$registro = $resultadoLista->fields['registro'];
@@ -131,7 +134,7 @@ while (!$resultadoLista->EOF) {
 			" where id_aluno=$id_aluno";
 	// echo $sqlNivel . "<br>";
 	$resultadoNivel = $db->Execute($sqlNivel);
-	if($resultadoNivel === false) die ("Nao foi possivel consultar a tabela estagiarios");
+	if ($resultadoNivel === false) die ("Nao foi possivel consultar a tabela estagiarios");
 	$nivel1 = NULL;
 	$nivel2 = NULL;
 	$nivel3 = NULL;
@@ -221,7 +224,7 @@ while (!$resultadoLista->EOF) {
 			" where registro='$registro'";
 	// echo $sql_tcc . "<br>";
 	$resultado_tcc = $db->Execute($sql_tcc);
-	if($resultado_tcc === false) die ("Nao foi possivel consultar a tabela tcc_alunos");
+	if ($resultado_tcc === false) die ("Nao foi possivel consultar a tabela tcc_alunos");
 
 	$estagiarios[$i]['titulo'] = $resultado_tcc->fields['titulo'];
 	$estagiarios[$i]['mono_area']   = $resultado_tcc->fields['area'];
@@ -300,7 +303,7 @@ while (!$res_areas->EOF) {
 if (!empty($seleciona_instituicao)) {
 	$sql_instituicao = "select id, instituicao from estagio where id = $seleciona_instituicao order by instituicao";
 	$res_instituicao = $db->Execute($sql_instituicao);
-	if($res_instituicao === false) die ("Não foi possível consultar a tabela estagio");
+	if ($res_instituicao === false) die ("Não foi possível consultar a tabela estagio");
 	while (!$res_instituicao->EOF) {
 		$num_instituicao  = $res_instituicao->fields['id'];
 		$nome_instituicao = $res_instituicao->fields['instituicao'];

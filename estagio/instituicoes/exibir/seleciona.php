@@ -1,15 +1,13 @@
 <?php
 
-include("../../db.inc");
 include("../../setup.php");
 
 $sql = "select * from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
 
 $i = 0;
-while(!$resultado->EOF)
-{
+while(!$resultado->EOF) {
     $id_instituicao[$i] = $resultado->fields['id'];
     $instituicoes[$i]    = $resultado->fields['instituicao'];
     $resultado->MoveNext();

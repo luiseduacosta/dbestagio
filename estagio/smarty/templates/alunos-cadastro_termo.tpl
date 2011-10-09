@@ -101,7 +101,7 @@ dd/mm/aaaa
 
 <tr>
 <td>Bairro</td>
-<td>{$bairro} Municipio:{$municipio}
+<td>{$bairro} Município:{$municipio}
 </td>
 </tr>
 

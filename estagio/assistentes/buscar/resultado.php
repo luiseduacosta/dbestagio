@@ -1,14 +1,14 @@
 <?php
 
-$palavra = $_POST['palavra'];
-
 include_once("../../setup.php");
+
+$palavra = $_POST['palavra'];
 
 $sql = "select * from supervisores where nome like '%$palavra%'";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela supervisores");
+if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
 $quantidade = $resultado->RecordCount();
-if($quantidade === 0) {
+if ($quantidade === 0) {
     echo "Não há registros com a palavra: $palavra";
     exit;
 } else {

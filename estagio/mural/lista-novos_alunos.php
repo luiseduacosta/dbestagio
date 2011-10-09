@@ -1,14 +1,14 @@
 <?php
 
-include_once("../autentica.inc");
 include_once("../setup.php");
+include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;
 
 $sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -29,7 +29,7 @@ while (!$resultado->EOF) {
 		// echo $sqlAlunos . "<br>";
 
 		$resultadoAlunos = $db->Execute($sqlAlunos);
-		if($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
+		if ($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
 		$quantidade = $resultadoAlunos->RecordCount();
 
 		if ($quantidade == 0) {
@@ -37,8 +37,8 @@ while (!$resultado->EOF) {
 				// echo $i . " " . $sqlAlunosNovos . "<br>";
 				
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
-				while(!$resultadoAlunosNovos->EOF) {
+				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				while (!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						$registro = $resultadoAlunosNovos->fields['registro'];
 						// echo "Novos " . $registro . " " . $nome . "<br>";

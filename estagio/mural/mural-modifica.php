@@ -20,7 +20,7 @@ $sql .= "where mural_estagio.id=$id_instituicao";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
 
 while (!$resultado->EOF) {
 	$instituicao = $resultado->fields['instituicao'];
@@ -64,9 +64,9 @@ if ($dataInscricao == 0) {
 $sql = "select id, area from areas_estagio order by area";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	$areas[$i]['id_areas'] = $resultado->fields["id"];
 	$areas[$i]['areas'] = $resultado->fields["area"];
 	$i++;
@@ -77,12 +77,12 @@ while(!$resultado->EOF) {
 $sqlProfessores = "select id, nome from professores order by nome";
 // echo $sqlProfessores . "<br>";
 $resultadoProfessores = $db->Execute($sqlProfessores);
-if($resultadoProfessores === false) die ("Não foi possível consultar a tabela professores");
+if ($resultadoProfessores === false) die ("Não foi possível consultar a tabela professores");
 $i = 0;
 $professores[$i]['id_professores'] = 0;
 $professores[$i]['professores'] = "";
 $i++;
-while(!$resultadoProfessores->EOF) {
+while (!$resultadoProfessores->EOF) {
 	$professores[$i]['id_professores'] = $resultadoProfessores->fields["id"];
 	$professores[$i]['professores'] = $resultadoProfessores->fields["nome"];
 	$i++;

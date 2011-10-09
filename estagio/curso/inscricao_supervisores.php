@@ -36,67 +36,67 @@ function confirma() {
     cress=document.getElementById('cress').cress.value;
     instituicao=document.getElementById('instituicaoNova').value;
 
-    if(nome=="") {
+    if (nome=="") {
     	alert("Informe o seu nome");
         document.getElementById('nome').focus();
 		return false;
 	}
 
-    if(cpf=="") {
+    if (cpf=="") {
     	alert("Informe o seu CPF");
 		document.inscricao.cpf.focus();
 		return false;
 	}
 
-    if(endereco=="") {
+    if (endereco=="") {
     	alert("Informe o seu endereço");
         document.getElementById('endereco').focus();
 		return false;
 	}
 
-    if(bairro=="") {
+    if (bairro=="") {
     	alert("Informe o bairro da sua residencia");
         document.getElementById('bairro').focus();
 		return false;
 	}
 
-    if(municipio=="") {
+    if (municipio=="") {
     	alert("Informe o municipio da sua residencia");
         document.getElementById('municipio').focus();
 	return false;
 	}
 
-    if(cep=="") {
+    if (cep=="") {
     	alert("Informe o CEP do seu endereço");
         document.getElementById('cep').focus();
 	return false;
 	}
 
-    if(email=="") {
+    if (email=="") {
     	alert("Favor informe o seu e-mail");
         document.getElementById('email').focus();
 	return false;
 	}
 
-    if(escola=="") {
+    if (escola=="") {
     	alert("Favor informe a escola na que se formou");
         document.getElementById('escola').focus();
 	return false;
 	}
 
-    if(ano_formatura=="") {
+    if (ano_formatura=="") {
     	alert("Favor informe o ano da sua formatura");
         document.getElementById('ano_formatura').focus();
 	return false;
 	}
 
-    if(cress=="") {
+    if (cress=="") {
     	alert("Favor informe o seu número de registro no CRESS 7a. região");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
-    if(instituicao=="") {
+    if (instituicao=="") {
     	alert("Informe a instituição em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
@@ -243,13 +243,13 @@ $sql .= " from curso_inscricao_supervisor ";
 $sql .= " where curso_turma=$turma";
 // echo $sql . "<br>";
 $res_sql = $db->Execute($sql);
-if($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao_supervisor");
+if ($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao_supervisor");
 $quantidade = $res_sql->fields['quantidade'];
 
 // var_dump($data_encerramento);
 // var_dump($data_hoje);
 
-if($data_hoje > $data_encerramento) {
+if ($data_hoje > $data_encerramento) {
     echo "<h2>Inscri&ccedil;&otilde;es encerradas</h2>";
     // echo "<h2>Inscri&ccedil;&otilde;es para 2009-1 a partir do 02/03/2009</h2>";
     // include("doc/selecionados2008.html");

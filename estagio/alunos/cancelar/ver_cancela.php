@@ -24,7 +24,7 @@ while (!$resultado->EOF) {
     $id_supervisor   = $resultado->fields['id_supervisor'];
     $instituicao     = $resultado->fields['instituicao'];
 
-    if(empty($id_supervisor))
+    if (empty($id_supervisor))
         $id_supervisor = "0";
 
     $sql_supervisor  = "SELECT supervisores.id, supervisores.cress, supervisores.nome, supervisores.email ";

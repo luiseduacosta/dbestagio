@@ -176,7 +176,7 @@ if ($submit) {
         $res_ultimo = $db->Execute("select last_insert_id() as id_aluno");
         if ($res_ultimo === false) die("Nao foi possivel consultar a sequencia alunos");
         $id_aluno = $res_ultimo->fields['id_aluno'];
-	// echo "Id aluno " . $id_aluno . "<br>";
+		// echo "Id aluno " . $id_aluno . "<br>";
         // Inserir estagiario
         $sql_estagiarios  = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, tc_solicitacao, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
         $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "','$id_area')";

@@ -17,7 +17,7 @@ while (!$resultado->EOF) {
     $id_supervisor = $resultado->fields['id_supervisor'];
     $resultado->MoveNext();
 
-    if(empty($id_supervisor))
+    if (empty($id_supervisor))
         $id_supervisor = "0";
 
     $sql_supervisores = "select cress, nome from supervisores where id=$id_supervisor";

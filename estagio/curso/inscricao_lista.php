@@ -9,8 +9,6 @@
 include_once("../setup.php");
 include_once("../autentica.inc");
 
-// echo "Autentica " . $sistema_autentica;
-
 $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
 $ordem = isset($_GET['ordem']) ? $ordem = $_REQUEST['ordem'] : ordem;
 $selecao = isset($_GET['selecao']) ? $selecao = $_REQUEST['selecao'] : NULL;
@@ -32,9 +30,9 @@ $sql .= " order by s.nome";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas de inscricao");
+if ($resultado === false) die ("Não foi possível consultar as tabelas de inscricao");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	$id             = $resultado->fields['id'];
 	$num_inscricao  = $resultado->fields['num_inscricao'];
 	$cress          = $resultado->fields['cress'];
@@ -109,7 +107,7 @@ while(!$resultado->EOF) {
 	$i++;
 }
 
-if(sizeof($matriz) <= 0) {
+if (sizeof($matriz) <= 0) {
 	echo "Arquivo vazio" . "<br>";
 	if ($selecao == 1) {
 		echo "<p>Ainda não há selecionados nesta turma</p>";
@@ -124,7 +122,7 @@ if(sizeof($matriz) <= 0) {
 $sql_turma = "select curso_turma from curso_inscricao_supervisor group by curso_turma";
 // echo $sql_turma . "<br>";
 $res_turma = $db->Execute($sql_turma);
-if($res_turma == false) die ("Não foi possível consultar a tabela de curso_inscricao_supervisor");
+if ($res_turma == false) die ("Não foi possível consultar a tabela de curso_inscricao_supervisor");
 while (!$res_turma->EOF) {
 	$turmas[] = $res_turma->fields['curso_turma'];
 	$res_turma->MoveNext();

@@ -1,7 +1,7 @@
 <?php
 
-include_once("../autentica.inc");
 include_once("../setup.php");
+include_once("../autentica.inc");
 
 $confirma   = isset($_POST['inserir']) ? $_POST['inserir'] : NULL;
 $aviso      = isset($_GET['aviso']) ? $_GET['aviso'] : NULL;
@@ -50,8 +50,8 @@ $dataInscricao = $anoInscricao . "-" . $mesInscricao . "-" . $diaInscricao;
 
 // die("Confirma");
 
-if($confirma == "Confirma") {
-	if($convenio === "1") {
+if ($confirma == "Confirma") {
+	if ($convenio === "1") {
 	    $sql = "select instituicao from estagio where id=$id_estagio";
 	    $resultado = $db->Execute($sql);
 	    $instituicao = $resultado->fields['instituicao'];
@@ -99,7 +99,7 @@ if($confirma == "Confirma") {
 
 	        // echo $sql . "<br>";
 	        $resultado = $db->Execute($sql);
-	        if($resultado === false) die ("Não foi possível inserir o registro na tabela mural_estagio");
+	        if ($resultado === false) die ("Não foi possível inserir o registro na tabela mural_estagio");
 	        $confirma = "";
     	        $id_instituicao = $db->Insert_ID();
 	        // echo $id_instituicao . "<br>";
@@ -107,7 +107,7 @@ if($confirma == "Confirma") {
 		echo "<meta HTTP-EQUIV='refresh' content='0,URL=ver_cada.php?id_instituicao=$id_instituicao'>";
 		// header("Location:ver_cada.php?id_instituicao=$id_instituicao");
 		exit;
-	} elseif($convenio === "0") {
+	} elseif ($convenio === "0") {
 		echo "<meta HTTP-EQUIV='refresh' content='0,URL=mural_inserir.php?aviso='Instituição NÃO conveniada!'>";		
 		// header("Location:mural_inserir.php?aviso='Instituição NÃO conveniada!'");
 		exit;
@@ -116,13 +116,13 @@ if($confirma == "Confirma") {
 
 $sql = "select id, area from areas_estagio order by area";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
 
 $i = 0;
 $id_areas[$i] = 0;
 $areas[$i] = "Seleciona área";
 $i++;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 	  $id_areas[$i] = $resultado->fields["id"];
 	  $areas[$i]    = $resultado->fields["area"];
 	  $i++;
@@ -131,12 +131,12 @@ while(!$resultado->EOF) {
 
 $sqlProfessores = "select id, nome from professores order by nome";
 $resultadoProfessores = $db->Execute($sqlProfessores);
-if($resultadoProfessores === false) die ("Não foi possível consultar a tabela professores");
+if ($resultadoProfessores === false) die ("Não foi possível consultar a tabela professores");
 $i = 0;
 $id_professores[$i] = 0;
 $professores[$i]    = "Seleciona professor";
 $i++;
-while(!$resultadoProfessores->EOF) {
+while (!$resultadoProfessores->EOF) {
 	  $id_professores[$i] = $resultadoProfessores->fields["id"];
 	  $professores[$i]    = $resultadoProfessores->fields["nome"];
 	  $i++;
@@ -146,9 +146,9 @@ while(!$resultadoProfessores->EOF) {
 $sql_instituicoes = "select id, instituicao from estagio order by instituicao";
 // echo $sql_instituicoes . "<br>";
 $resultado_instituicoes = $db->Execute($sql_instituicoes);
-if($resultado_instituicoes === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado_instituicoes === false) die ("Não foi possível consultar a tabela estagio");
 $i = 1;
-while(!$resultado_instituicoes->EOF) {
+while (!$resultado_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resultado_instituicoes->fields['id'];
     $instituicoes[$i]['instituicao'] = $resultado_instituicoes->fields['instituicao'];
     $i++;

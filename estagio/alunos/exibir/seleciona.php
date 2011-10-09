@@ -2,11 +2,9 @@
 
 include_once("../../setup.php");
 
-$smarty = new Smarty_estagio;
-
 $sql = "select * from alunos order by nome";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela alunos");
+if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -17,6 +15,7 @@ while (!$resultado->EOF) {
     $resultado->MoveNext();
 }
 
+$smarty = new Smarty_estagio;
 $smarty->assign("alunos",$alunos);
 $smarty->display("alunos-exibir_seleciona.tpl");
 

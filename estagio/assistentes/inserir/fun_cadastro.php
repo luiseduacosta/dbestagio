@@ -6,7 +6,7 @@ require_once("ajaxInstituicao.php");
 
 function ver_Instituicao($id_instituicao) {
 
-    include_once("../../db.inc");
+    include_once("../../setup.php");
     $respostaXajax = new xajaxResponse();
 
     $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana ";
@@ -46,7 +46,7 @@ function ver_Instituicao($id_instituicao) {
 
 function ver_Supervisor($id_supervisor) {
 
-    include_once("../../db.inc");
+    include_once("../../setup.php");
     $respostaXajax = new xajaxResponse();
 
     $sql  = "select supervisores.nome, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, supervisores.codigo_tel, supervisores.telefone, supervisores.codigo_cel, supervisores.celular, supervisores.email";

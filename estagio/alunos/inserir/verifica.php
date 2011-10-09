@@ -1,17 +1,17 @@
 <?php
 
-if($debug == 1) {
+if ($debug == 1) {
 	echo $_SERVER['PHP_SELF'] . "<br>";
 }
 
-if(empty($origem)) {
+if (empty($origem)) {
     $origem = $_SERVER['HTTP_REFERER'];
 }
 
 // echo $origem . "<br>";
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $registro = $_REQUEST['registro'];
 
@@ -22,7 +22,7 @@ $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where registro='$reg
 
 // $resultado0 = $db->Execute($sql0);
 $resultado0 = $db->Execute($sqlAlunos);
-if ($resultado0 === false) die ("Não foi possível consultar a tabela alunos");
+if ($resultado0 === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunos");
 $quantidade = $resultado0->RecordCount();
 
 // echo "Quantidade de alunos na tabela alunos: " . $quantidade . "<br>";
@@ -34,7 +34,7 @@ if ($quantidade == 0) {
 	$sqlAlunos .= "endereco, cep, bairro, municipio from alunosNovos where registro='$registro'";
 	// echo $sqlAlunos . "<br>";
 	$resultadoAlunos = $db->Execute($sqlAlunos);
-	if ($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunosNovos");
+	if ($resultadoAlunos === false) die ("NÃ£o foi possÃ­vel consultar a tabela alunosNovos");
 	$quantidadeAlunos = $resultadoAlunos->RecordCount();
 	// echo "Quantidade de alunos na tabela alunosNovos: " . $quantidadeAlunos  . "<br>";
 	if ($quantidadeAlunos == 0) {
@@ -44,7 +44,7 @@ if ($quantidade == 0) {
 		// $sqlAlunos  = "select nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, nascimento, ";
 		// $sqlAlunos .= "endereco, cep, bairro, municipio from alunosNovos where registro='$registro'";
 		$resultado = $db->Execute($sqlAlunos);
-		while(!$resultado->EOF) {
+		while (!$resultado->EOF) {
 			$nome = $resultado->fields['nome'];
 			$codigo_telefone = $resultado->fields['codigo_telefone'];
 			$telefone = $resultado->fields['telefone'];
@@ -57,7 +57,7 @@ if ($quantidade == 0) {
 			$nascimento = $resultado->fields['nascimento'];
 			
 			// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-			$data_sql = date('d/m/Y',strtotime($nascimento));
+			$data_sql = date('d/m/Y', strtotime($nascimento));
 
 			$endereco = $resultado->fields['endereco'];
 			$cep = $resultado->fields['cep'];

@@ -55,7 +55,7 @@ if ($quantidade == 0) {
 }
 
 $resultado_alunos = $db->Execute($sql_aluno);
-if($resultado_alunos === false) die ("Não foi possível consultar a tabela alunos ou alunosNovos");
+if ($resultado_alunos === false) die ("Não foi possível consultar a tabela alunos ou alunosNovos");
 while (!$resultado_alunos->EOF) {
 	$id_aluno   = $resultado_alunos->fields['id'];
 	$registro = $resultado_alunos->fields['registro'];

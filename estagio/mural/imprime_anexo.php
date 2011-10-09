@@ -5,15 +5,16 @@ define("FPDF","/usr/local/htdocs/html/fpdf151/");
 
 require(FPDF."fpdf.php");
 
-include_once("../db.inc");
 include_once("../setup.php");
-if(!isset($id_instituicao)) {
+
+if (!isset($id_instituicao)) {
 	$id_instituicao = $_REQUEST['id_instituicao'];
 }
+
 $sql = "select instituicao from mural_estagio where id=$id_instituicao";
 $res_instituicao = $db->Execute($sql);
-if($res_instituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
-while(!$res_instituicao->EOF) {
+if ($res_instituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
+while (!$res_instituicao->EOF) {
     $instituicao = $res_instituicao->fields['instituicao'];
     $res_instituicao->MoveNext();
 }
@@ -22,9 +23,9 @@ $sql = "SELECT id, id_aluno, data FROM `mural_inscricao` WHERE id_instituicao='$
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if ($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
 $i = 0;
-while(!$resultado->EOF) {
+while (!$resultado->EOF) {
 		$id = $resultado->fields['id'];
 		$id_aluno = $resultado->fields['id_aluno'];
 		$data = date("d-m-Y",strtotime($resultado->fields['data']));
@@ -58,7 +59,7 @@ while(!$resultado->EOF) {
 							$resultadoAlunosNovos->MoveNext();
 					}
 		} else {
-		while(!$resultadoAlunos->EOF) {
+		while (!$resultadoAlunos->EOF) {
 				$nome = $resultadoAlunos->fields['nome'];
 				// echo "Velhos: " . $nome . "<br>";
 				// $instituicao = $resultadoAlunos->fields['instituicao'];

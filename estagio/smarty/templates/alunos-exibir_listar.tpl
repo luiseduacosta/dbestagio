@@ -396,34 +396,39 @@ Tabela principal
 <table id="alunos" border="1" summary="Lista de alunos">
 	<thead>
     <tr>
-		{if $logado == 1}
-   	    	<th>Editar</th>
-		{/if}
+	{if $logado == 1}
+   	    <th>Editar</th>
+
+	{/if}
     	<th>Id</th>
-        <th><a href="?ordem=registro{$criterio}">Registro</a></th>
+
+	{if $logado == 1}
+            <th><a href="?ordem=registro{$criterio}">Registro</a></th>
+	{/if}
+
         <th><a href="?ordem=tc{$criterio}">TC</a></th>
         <th><a href="?ordem=tc_solicitacao{$criterio}">Solicitação</a></th>
         <th><a href="?ordem=nome{$criterio}">Nome</a></th>
 		
-		{if $logado == 1}
-			<th>Email</th>
-			<th>Celular</th>
-			<th>Telefone</th>
-		{/if}
+	{if $logado == 1}
+            <th>Email</th>
+            <th>Celular</th>
+            <th>Telefone</th>
+	{/if}
 		
         <th style="text-align:center"><a href="?ordem=nivel{$criterio}">Nível</a></th>
-		<th style="text-align:center"><a href="?ordem=codigo{$criterio}">Cod</a></th>
-		<th><a href="?ordem=periodo{$criterio}">Período</a></th>
+	<th style="text-align:center"><a href="?ordem=codigo{$criterio}">Cod</a></th>
+	<th><a href="?ordem=periodo{$criterio}">Período</a></th>
         <th><a href="?ordem=turno{$criterio}">Turno</a></th>
         <th><a href="?ordem=instituicao{$criterio}">Instituição</a></th>
         <th><a href="?ordem=supervisor{$criterio}">Supervisor</a></th>
         <th><a href="?ordem=area{$criterio}">Área</a></th>
         <th><a href="?ordem=professor{$criterio}">Professor</a></th>
 
-		{if $logado == 1}
+	{if $logado == 1}
     	    <th><a href="?ordem=nota{$criterio}">Nota</a></th>
     	    <th><a href="?ordem=ch{$criterio}">CH</a></th>
-		{/if}
+	{/if}
 
     </tr>
 	</thead>
@@ -433,14 +438,27 @@ Tabela principal
 	{section name=i loop=$lista}
 	{strip}
 	<tr>
+
 	{if $logado == 1}
 		<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$lista[i].id_estagiario}&id_aluno={$lista[i].id_aluno}">Editar</a></td>
 	{/if}
+
 	<td style="text-align:right">{$i++}</td>
-	<td style="text-align:right">{$lista[i].registro}</td>
+
+        {if $logado == 1}
+            <td style="text-align:right">{$lista[i].registro}</td>
+	{/if}
+
 	<td style="text-align:center">{$lista[i].tc}</td>
 	<td style="text-align:center">{$lista[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
-	<td class="nome"><a href="ver_cada.php?id_aluno={$lista[i].id_aluno}">{$lista[i].nome}</a></td>
+
+	<td class="nome">
+        {if $logado == 1}
+            <a href="ver_cada.php?id_aluno={$lista[i].id_aluno}">{$lista[i].nome}</a>
+        {else}
+            {$lista[i].nome}
+	{/if}        
+        </td>
 	
 	{if $logado == 1}
 		<td>{$lista[i].email}</td>
@@ -452,12 +470,33 @@ Tabela principal
 
 	<td style="text-align:center">{$lista[i].codigo}</td>
 
-    <td style="text-align:center">{$lista[i].periodo}</td>
-    <td style="text-align:center">{$lista[i].turno}</td>
-    <td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$lista[i].id_instituicao}">{$lista[i].instituicao}</a></td>
-    <td><a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$lista[i].id_supervisor}">{$lista[i].supervisor}</a></td>
-    <td>{$lista[i].area}</td>
-    <td>{$lista[i].professor}</td>
+        <td style="text-align:center">{$lista[i].periodo}</td>
+        <td style="text-align:center">{$lista[i].turno}</td>
+
+        <td>
+        {if $logado == 1}
+            <a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$lista[i].id_instituicao}">{$lista[i].instituicao}</a>
+        {else}
+            {$lista[i].instituicao}
+	{/if}
+        </td>
+
+        <td>
+	{if $logado == 1}
+            <a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$lista[i].id_supervisor}">{$lista[i].supervisor}</a>
+        {else}
+            {$lista[i].supervisor}
+	{/if}
+        </td>
+
+        <td>{$lista[i].area}</td>
+        <td>
+	{if $logado == 1}
+            <a href="../../professores/exibir/ver_cada.php?id_professor={$lista[i].id_professor}">{$lista[i].professor}</a>
+        {else}
+            {$lista[i].professor}
+	{/if}
+</td>
 
 	{if $logado == 1}
 	    <td style="text-align:center">
@@ -467,7 +506,6 @@ Tabela principal
 		<td style="text-align:right">
 		{$lista[i].ch}
 		</td>
-
 	{/if}
 
 	</tr>

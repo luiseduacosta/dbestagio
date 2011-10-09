@@ -4,7 +4,6 @@
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 
-include_once("../db.inc");
 include_once("../setup.php");
 
 require(MAILER."class.phpmailer.php");
@@ -22,7 +21,7 @@ $sql_estagio .= " order by instituicao, id";
 
 $resultado = $db->Execute($sql_estagio);
 
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
 
 $id_instituicao = $resultado->fields['id'];
 $instituicao = $resultado->fields['instituicao'];
@@ -41,12 +40,12 @@ $hoje = date('Y-m-d'); // formato mysql
 // echo "Data hoje: " . date("Ymd") . "<br>";
 
 // Enviar dois emails: para a instituicao e para estagio
-if(empty($email)) $email = "estagio@ess.ufrj.br";
+if (empty($email)) $email = "estagio@ess.ufrj.br";
 
 // Enviar email somente se ainda nao foi enviado
 // echo $datafax . "<br>";
 
-if($datafax == 0) {
+if ($datafax == 0) {
 	if($data_encerramento < $data_hoje) {
 		$arquivo = "estagio" . $id_instituicao . ".pdf";
 		$camino = TMP.$arquivo;

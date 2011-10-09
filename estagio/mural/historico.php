@@ -124,7 +124,7 @@ function alunos_por_periodo($periodo) {
 	  	$id_aluno = $resultado_alunos->fields['id_aluno'];
 	  	$nome = $resultado_alunos->fields['nome'];
 
-                // Busco se está estagiando
+        // Busco se estÃ¡ estagiando
 	  	$sql_estagiario = "select nivel from estagiarios where registro = '$id_aluno' and periodo = '$periodo'";
 		$resultado_estagiario = $db->Execute($sql_estagiario);
 		$nivel = $resultado_estagiario->fields['nivel'];

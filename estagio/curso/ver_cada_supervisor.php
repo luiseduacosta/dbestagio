@@ -48,25 +48,25 @@ function confirma() {
     cress=document.inscricao.cress.value;
     instituicao=document.inscricao.instituicaoNova.value;
 
-    if(nome=="") {
+    if (nome=="") {
     	alert("Você precisa informar o seu nome");
 	document.inscricao.nome.focus();
 	return false;
 	}
 
-    if(email=="") {
+    if (email=="") {
     	alert("É importante o seu e-mail para nossa comunicação");
 	document.inscricao.email.focus();
 	return false;
 	}
 
-    if(cress=="") {
+    if (cress=="") {
     	alert("Favor informar o seu número de registro no CRESS 7a. região");
 	document.inscricao.cress.focus();
 	return false;
 	}
 
-    if(instituicao=="") {
+    if (instituicao=="") {
     	alert("Informe a instituição em que trabalha");
 	document.inscricao.instituicao.focus();
 	return false;
@@ -192,7 +192,7 @@ if ($flag == 1) {
 	$sql = "update curso_inscricao_supervisor set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso', selecao='$selecao' where id='$id_supervisor'";
 	// echo $sql . "<br>";
 	$res_atualiza = $db->Execute($sql);
-	if($res_atualiza === false) die ("Nao foi possivel atualizar a tabela curso_inscricao_supervisor");
+	if ($res_atualiza === false) die ("Nao foi possivel atualizar a tabela curso_inscricao_supervisor");
 
 	unset($submit);
 	$flag = 1;

@@ -17,7 +17,7 @@ include_once("../setup.php");
 // if(empty($origem))
 //    $origem = $_SERVER['HTTP_REFERER'];
 
-if($debug == 1) {
+if ($debug == 1) {
     echo $origem . "<br>";
     echo $_SERVER['PHP_SELF'] . "<br>";
 }
@@ -64,7 +64,7 @@ if ($debug == 1) {
 // echo "Id estagiario " . $id_estagiarios . " - " . $_REQUEST['id_estagiarios'] . "<br>";
 
 // Se ja esta cadastrado
-if($submit) {
+if ($submit) {
 
 	if (empty($nivel)) die ("É obrigatório preencher o nivel de estágio para o qual está solicitando o termo de compromisso");
 
@@ -115,11 +115,11 @@ $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registr
 // echo $sql . "<br>";
 
 
-if($debug == 1)
+if ($debug == 1)
     echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 // Verifico se o aluno está cadastrado
 $quantidade = $resultado->RecordCount();
 
@@ -127,9 +127,9 @@ if ($quantidade == 0) {
 
 	$sql_novo = "select * from alunosNovos";
 	$resultado_novo = $db->Execute($sql_novo);
-	if($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunosNovos");
+	if ($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunosNovos");
 	$quantidade_novo = $resultado_novo->RecordCount();
-	if($quantidade_novo == 0) {
+	if ($quantidade_novo == 0) {
 	    echo "Aluno não cadastrado em estágio <br />";
 	    echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a>";
 	    exit;
@@ -199,7 +199,7 @@ while (!$resultado->EOF) {
 // Capturo as instituicoes
 $sql_instituicoes = "select id, instituicao from estagio order by instituicao";
 $resposta_instituicoes = $db->Execute($sql_instituicoes);
-if($resposta_instituicoes === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resposta_instituicoes === false) die ("Nao foi possivel consultar a tabela estagio");
 $i = 1;
 while (!$resposta_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resposta_instituicoes->fields['id'];
@@ -211,7 +211,7 @@ while (!$resposta_instituicoes->EOF) {
 // Capturo os supervisores
 $sql_supervisores = "select id, nome from supervisores order by nome";
 $resposta_supervisores = $db->Execute($sql_supervisores);
-if($resposta_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
+if ($resposta_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
 $i = 1;
 while (!$resposta_supervisores->EOF) {
     $supervisores[$i]['id']   = $resposta_supervisores->fields['id'];

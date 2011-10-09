@@ -1,8 +1,7 @@
 <?php
 
-require_once("../autentica.inc");
-
 require("../setup.php");
+require_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : PERIODO_ANTERIOR;
@@ -34,7 +33,7 @@ $sql .= " order by alunos.nome, $ordem ";
 // $sql = "select id_aluno, alunos.registro, alunos.nome, telefone, celular, alunos.email, alunos.observacoes, estagiarios.periodo, estagiarios.nivel, estagiarios.tc_solicitacao from estagiarios inner join alunos on estagiarios.registro = alunos.registro where nivel != 4 and periodo = '$periodo_atual' group by id_aluno order by $ordem";
 // echo "$sql <br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
+if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
 

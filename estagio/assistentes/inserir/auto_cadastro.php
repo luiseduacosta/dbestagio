@@ -25,37 +25,37 @@ function confirma() {
     ano_formatura=document.getElementById('ano_formatura').value;
     id_instituicao=document.getElementById('id_instituicao').value;
 
-    if(nome=="") {
+    if (nome=="") {
     	alert("Você precisa informar o seu nome");
 		document.cadastro.nome.focus();
 		return false;
 	}
 
-    if(email=="") {
+    if (email=="") {
     	alert("É importante o seu e-mail para nossa comunicação");
 		document.cadastro.email.focus();
 		return false;
 	}
 
-    if(cress=="") {
+    if (cress=="") {
     	alert("Favor informar o seu número de registro no CRESS");
 		document.cadastro.cress.focus();
 		return false;
 	}
 
-    if(escola=="") {
+    if (escola=="") {
     	alert("Em qual escola fez a sua graduação");
 		document.cadastro.escola.focus();
 		return false;
 	}
     
-    if(ano_formatura=="") {
+    if (ano_formatura=="") {
     	alert("Quando se formou");
 		document.cadastro.ano_formatura.focus();
 		return false;
 	}
 
-    if(id_instituicao=="") {
+    if (id_instituicao=="") {
     	alert("Informe a instituição em que trabalha");
 		document.cadastro.id_instituicao.focus();
 		return false;

@@ -25,7 +25,7 @@ $sql_inscritos .= " group by mural_inscricao.id_aluno ";
 // echo $sql_inscritos . "<br>";
 
 $resultado_inscritos = $db->Execute($sql_inscritos);
-if($resultado_inscritos === false) die ("Não foi possível consultar as tabelas");	
+if ($resultado_inscritos === false) die ("Não foi possível consultar as tabelas");	
 $i = 1;
 while (!$resultado_inscritos->EOF) {
 

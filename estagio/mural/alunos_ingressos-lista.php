@@ -1,7 +1,7 @@
 <?php
 
-include_once("../autentica.inc");
 include_once("../setup.php");
+// include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
@@ -19,18 +19,18 @@ if (!$turma) {
 	$turma = $res_turma->fields['periodo'];
 }
 
-$sql = "select periodo, turno, registro, nome, etica from alunos_ingresso " .
+$sql = "select periodo, turno, registro, nome from alunos_ingresso " .
 		" where periodo='$turma'"; 
+
 if ($turno) $sql .=	" and turno='$turno'";
 
-// echo $sql . "<br>";
 $res = $db->Execute($sql);
 
 // Pego a variavel periodo_intro_seso para calcular periodo em curso
 $periodo_intro_seso = $res->fields['periodo'];
 
 $i = 0;
-while(!$res->EOF) {
+while (!$res->EOF) {
 
 	$registro = $res->fields['registro'];
 

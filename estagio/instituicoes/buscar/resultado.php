@@ -8,10 +8,10 @@ include_once("../../setup.php");
 
 $sql = "select * from estagio where instituicao like '%$palavra%' order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel consultar a tabela estagio");
+if ($resultado === false) die ("N√£o foi poss√≠vel consultar a tabela estagio");
 $quantidade = $resultado->RecordCount();
-if($quantidade === 0) {
-    echo "N„o h· registros com a palavra: $palavra";
+if ($quantidade === 0) {
+    echo "N√£o h√° registros com a palavra: $palavra";
     exit;
 } else {
     $i = 0;

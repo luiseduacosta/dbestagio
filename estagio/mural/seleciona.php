@@ -8,11 +8,10 @@ $opcao = $_GET['opcao'];
 
 $sql = "select * from mural_estagio where periodo = '" . PERIODO_ATUAL . "' order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
 
 $i = 0;
-while(!$resultado->EOF)
-{
+while (!$resultado->EOF) {
 	$id_instituicao[$i]   = $resultado->fields['id'];
     $instituicao[$i] = $resultado->fields['instituicao'];
     $resultado->MoveNext();

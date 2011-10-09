@@ -15,7 +15,7 @@ Entrar
 <!-- Inicio de instituicao //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">INSTITUI��ES
+<a class="box1" href="javascript:void(0)">INSTITUIÇÕES
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -118,7 +118,7 @@ Entrar
 <!-- Imprimir //-->
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">IMPRIMIR CAT�LOGO
+<a class="box1" href="javascript:void(0)">IMPRIMIR CATÁLOGO
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -128,10 +128,9 @@ Entrar
 </td>
 </tr>
 
-
 <tr>
 <td>
-<a class="box1" href="javascript:void(0)">MURAL DE EST�GIOS
+<a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
@@ -197,7 +196,7 @@ clickMenu1.init();
 	</tr>
 	<tr>
 	    <td class="coluna_centralizada">
-		<a href="mailto:estagio@ess.ufrj.br?Subject=Cat�logo de institui��es e supervisores">Coordena��o de est�gio</a>
+		<a href="mailto:estagio@ess.ufrj.br?Subject=Catálogo de instituições e supervisores">Coordenação de estágio</a>
 	    </td>
 	</tr>
     </tbody>

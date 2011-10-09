@@ -32,7 +32,7 @@ $arquivo = $_SERVER['PHP_SELF'];
 $ip = $_SERVER['REMOTE_ADDR'];
 $data = date('Y-m-d');
 
-// Se n„o foi selecionado um supervisor j· existente entra nesta rotina
+// Se n√£o foi selecionado um supervisor j√° existente entra nesta rotina
 echo "Atualizando supervisor<br>";
 $sql  = "update supervisores "; 
 $sql .= " set nome='$nome', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
@@ -40,14 +40,14 @@ $sql .= " where id='$id_supervisor'";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N„o foi possÌvel atualizar o registro na tabela supervisores");
+if ($resultado === false) die ("N√£o foi poss√≠vel atualizar o registro na tabela supervisores");
 
 // Atualizo instituicao em inst_super
 if ((!empty($id_instituicao)) and (!empty($id_inst_super))) {
 	$sql_atualiza = "update inst_super set id_instituicao='$id_instituicao'	where id='$id_inst_super'";
 	// echo $sql_atualiza . "<br>";
 	$res_atualiza = $db->Execute($sql_atualiza);
-	if($res_atualiza === false) die ("N„o foi possÌvel atualizar o registro na tabela inst_super");
+	if ($res_atualiza === false) die ("N√£o foi poss√≠vel atualizar o registro na tabela inst_super");
 }
 // die;
 $sql = "select id from log_supervisores where id_supervisor = $id_supervisor";
@@ -60,7 +60,7 @@ if ($quantidade > 0) {
 }
 // $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
-if($resultado_log === false) die ("N„o foi possÌvel inserir/atualizar registro na tabela log_supervisores");    		  
+if ($resultado_log === false) die ("N√£o foi poss√≠vel inserir/atualizar registro na tabela log_supervisores");    		  
 
 // die;
 echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";

@@ -108,12 +108,6 @@ $opts['fdd']['turno'] = array(
   'maxlen'   => 1,
   'sort'     => true
 );
-$opts['fdd']['etica'] = array(
-  'name'     => 'Ética',
-  'select'   => 'T',
-  'maxlen'   => 6,
-  'sort'     => true
-);
 
 // Now important call to phpMyEdit
 require_once('../../libphp/phpMyEdit.class.php');
