@@ -5,8 +5,14 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-
 include_once("../../setup.php");
+
+// Verifico se o usuario esta logado
+if (isset($_COOKIE['usuario_senha'])) {
+    $usuario = $_COOKIE['usuario_nome'];
+    if ($usuario) 
+	$logado = 1;
+}
 
 $id_supervisor = $_REQUEST['id_supervisor'];
 $nome_supervisor = $_REQUEST['nome_supervisor'];
@@ -39,9 +45,14 @@ while (!$alunos->EOF) {
 }
 
 $smarty = new Smarty_estagio;
+$smarty->assign("logado",$logado);
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("nome_supervisor",$nome_supervisor);
 $smarty->assign("estagiario",$estagiario);
 $smarty->display('alunos_supervisor.tpl');
+
+$db->Close();
+
+exit;
 
 ?>

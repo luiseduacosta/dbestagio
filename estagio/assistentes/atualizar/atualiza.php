@@ -14,7 +14,6 @@ include_once("../../setup.php");
 $sql = "update supervisores set nome='$nome', email='$email', cress='$cress' where id=$id_supervisor";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-
 if ($resultado === false) die ("Não foi possível atualizar a tabela supervisores");
 
 /*

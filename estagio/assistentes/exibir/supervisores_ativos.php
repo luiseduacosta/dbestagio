@@ -3,8 +3,8 @@
 include_once("../../setup.php");
 
 // Verifico se o usuario esta logado
-if (isset($_REQUEST['usuario_senha'])) {
-    $usuario = $_REQUEST['usuario_senha'];
+if (isset($_COOKIE['usuario_senha'])) {
+    $usuario = $_COOKIE['usuario_nome'];
     if ($usuario) 
 	$logado = 1;
 }

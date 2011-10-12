@@ -29,22 +29,24 @@ $cress = $resultado_cress->fields['cress'];
 // die();
 // if(!empty($cress)) {
 if (ctype_digit($cress)) {
-	$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
-	// echo $sqlcurso . "<br />";
-        // die();
-	$supervisores_curso = $db->Execute($sqlcurso);
-	if ($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
-	$id_curso = $supervisores_curso->fields['id'];
-        // echo $id_curso . "<br>";
-        // die();
-	if (isset($id_curso)) {
-		// echo "Id curso: " . $id_curso . "<br>";
-		// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
-		// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
-	}
 	if ($cress != 0) {
-		echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
-		die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
+		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
+		// echo $sqlcurso . "<br />";
+		// die();
+		$supervisores_curso = $db->Execute($sqlcurso);
+		if ($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
+		$id_curso = $supervisores_curso->fields['id'];
+		// echo $id_curso . "<br>";
+		// die();
+		if (isset($id_curso)) {
+			// echo "Id curso: " . $id_curso . "<br>";
+			// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+			// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
+		}
+		if ($cress != 0) {
+			echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+			die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
+		}
 	}
 }
 
@@ -68,17 +70,17 @@ if ($q_inst_super == 0) {
 
 $i = 0;
 while (!$res_estagio->EOF) {
-    $id_instituicao[$i] = $res_estagio->fields['id_instituicao'];
-    $res_estagio->MoveNext();
-    $i++;
+	$id_instituicao[$i] = $res_estagio->fields['id_instituicao'];
+	$res_estagio->MoveNext();
+	$i++;
 }
 
 // Busco em inst_super si outros supervisores trabalham em essa instituicao
 $q_instituicoes = sizeof($id_instituicao);
 // echo "Quantidade de instituicoes " . $q_instituicoes . "<br>";
 for ($i=0; $i<$q_instituicoes; $i++) {
-    $num_instituicao = $id_instituicao[$i];
-    $sql_inst_super_outros = "select * from inst_super where id_instituicao=$num_instituicao";
+	$num_instituicao = $id_instituicao[$i];
+	$sql_inst_super_outros = "select * from inst_super where id_instituicao=$num_instituicao";
 }
 
 // Excluo tambem a relacao entre o supervisor e a instituicao

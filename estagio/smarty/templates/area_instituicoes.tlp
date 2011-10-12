@@ -13,11 +13,11 @@
 <tbody>
 
 <tr>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=instituicao">Instituição</a></th>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=turma">Turma</a></th>
+<th><a href="?id_area={$id_area}&ordem=instituicao">Instituição</a></th>
+<th><a href="?id_area={$id_area}&ordem=turma">Turma</a></th>
 <th>Super- <br> visores</th>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=endereco">Endereço</a></th>
-<th><a href="{$pagina}?id_area={$id_area}&ordem=telefone">Telefone</a></th>
+<th><a href="?id_area={$id_area}&ordem=endereco">Endereço</a></th>
+<th><a href="?id_area={$id_area}&ordem=telefone">Telefone</a></th>
 </tr>
 
 <tr>
@@ -26,8 +26,8 @@
 {section name=elemento loop=$instituicoes}
 <tr>
 <td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicoes[elemento].id}">{$instituicoes[elemento].instituicao}</a></td>
-<td><a href="../../alunos/exibir/alunos_instituicao.php?id_instituicao={$instituicoes[elemento].id}&periodo={$instituicoes[elemento].turma}">{$instituicoes[elemento].turma}</a></td>
-<td class="coluna_centralizada"><a href="../../instituicoes/exibir/supervisores.php?id_instituicao={$instituicoes[elemento].id}">{$instituicoes[elemento].q_supervisores}</a></td>
+<td><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elemento].id}&seleciona_periodo={$instituicoes[elemento].turma}">{$instituicoes[elemento].turma}</a></td>
+<td class="coluna_centralizada"><a href="../../assistentes/exibir/listar_todos.php?id_instituicao={$instituicoes[elemento].id}">{$instituicoes[elemento].q_supervisores}</a></td>
 <td>{$instituicoes[elemento].endereco}</td>
 <td>{$instituicoes[elemento].telefone}</td>
 </tr>

@@ -5,7 +5,6 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-
 $palavra = isset($_REQUEST['palavra']) ? $_REQUEST['palavra'] : NULL;
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 
@@ -46,7 +45,7 @@ if ($quantidade === 0) {
     $smarty = new Smarty_estagio;
     $smarty->assign("matriz",$curso_super);
     $smarty->assign("palavra",$palavra);
-	$smarty->assign("autentica",$sistema_autentica);
+    $smarty->assign("autentica",$sistema_autentica);
     $smarty->display("busca_inscritos.tpl");
 }
 
