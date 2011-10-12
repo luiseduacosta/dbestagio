@@ -1,7 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;

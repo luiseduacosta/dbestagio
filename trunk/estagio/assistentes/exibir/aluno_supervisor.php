@@ -3,12 +3,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 include_once("../../setup.php");
 
 // Verifico se o usuario esta logado
-if (isset($_REQUEST['usuario_senha'])) {
-    $usuario = $_REQUEST['usuario_senha'];
+if (isset($_COOKIE['usuario_senha'])) {
+    $usuario = $_COOKIE['usuario_nome'];
     if ($usuario) 
 	$logado = 1;
 }
@@ -17,6 +16,7 @@ $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : 'super_email';
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 if (!$periodo) $periodo = PERIODO_ATUAL;
 
+// Consulto a view: supervisor_aluno
 $sql = "select * from supervisor_aluno where periodo = '$periodo' order by $ordem";
 // echo $sql . "<br>";
 $res_sql = $db->Execute($sql);
@@ -45,8 +45,6 @@ while (!$res_sql->EOF) {
     
     $i++;
     
-    // echo $alunosupervisor['aluno'] . "<br>";
-    
     $res_sql->MoveNext();
     
 }
@@ -60,7 +58,6 @@ while (!$res_turma->EOF) {
 	$periodos[] = $res_turma->fields['periodo'];
 	$res_turma->MoveNext();
 }
-
 
 $smarty = new Smarty_estagio;
 $smarty->assign("logado",$logado);

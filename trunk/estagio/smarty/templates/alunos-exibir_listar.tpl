@@ -177,7 +177,10 @@
 {/if}
 
 <input type='submit' name='botao_resumo' id='botao_resumo' value='Ver resumo' onClick='mostrar()'>
-<input type='submit' name='botao_historia' id='botao_historia' value='Ver histórico' onClick='historia()'>
+
+{if $smarty.cookies.usuario_senha}
+    <input type='submit' name='botao_historia' id='botao_historia' value='Ver histórico' onClick='historia()'>
+{/if}
 
 <input type="hidden" name="ordem" id="ordem" value="{$ordem}">
 
@@ -395,19 +398,19 @@ Tabela principal
 <div id='tabela_principal' style='display:block;'>
 <table id="alunos" border="1" summary="Lista de alunos">
 	<thead>
-    <tr>
+        <tr>
 	{if $logado == 1}
    	    <th>Editar</th>
-
 	{/if}
+
     	<th>Id</th>
 
 	{if $logado == 1}
             <th><a href="?ordem=registro{$criterio}">Registro</a></th>
+            <th><a href="?ordem=tc{$criterio}">TC</a></th>
+            <th><a href="?ordem=tc_solicitacao{$criterio}">Solicitação</a></th>
 	{/if}
 
-        <th><a href="?ordem=tc{$criterio}">TC</a></th>
-        <th><a href="?ordem=tc_solicitacao{$criterio}">Solicitação</a></th>
         <th><a href="?ordem=nome{$criterio}">Nome</a></th>
 		
 	{if $logado == 1}
@@ -447,10 +450,9 @@ Tabela principal
 
         {if $logado == 1}
             <td style="text-align:right">{$lista[i].registro}</td>
+            <td style="text-align:center">{$lista[i].tc}</td>
+            <td style="text-align:center">{$lista[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
 	{/if}
-
-	<td style="text-align:center">{$lista[i].tc}</td>
-	<td style="text-align:center">{$lista[i].tc_solicitacao|date_format:"%d-%m-%Y"}</td>
 
 	<td class="nome">
         {if $logado == 1}
@@ -500,12 +502,12 @@ Tabela principal
 
 	{if $logado == 1}
 	    <td style="text-align:center">
-		{$lista[i].nota}
-		</td>
+            {$lista[i].nota}
+            </td>
 
-		<td style="text-align:right">
-		{$lista[i].ch}
-		</td>
+            <td style="text-align:right">
+            {$lista[i].ch}
+            </td>
 	{/if}
 
 	</tr>
@@ -522,7 +524,8 @@ Tabela principal
 		{if $logado == 1}
 			<th>Editar</th>
 		{/if}
-		<th>Id</th>
+
+	<th>Id</th>
 
         <th><a href="?ordem=registro{$criterio}">Registro</a></th>
         <th><a href="?ordem=tc{$criterio}">TC</a></th>
@@ -566,9 +569,11 @@ Tabela principal
 	{section name=i loop=$lista}
 	{strip}
 	<tr>
+
 	{if $logado == 1}
 		<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$lista[i].id_estagiario}&id_aluno={$lista[i].id_aluno}">Editar</a></td>
 	{/if}
+
 	<td style="text-align:right">{$i++}</td>
 	<td style="text-align:right">{$lista[i].registro}</td>
 	<td style="text-align:center">{$lista[i].tc}</td>
@@ -630,6 +635,7 @@ Tabela principal
 	</tbody>
 </table>
 </div>
+
 
 </div>
 

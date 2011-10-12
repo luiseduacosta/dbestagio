@@ -152,14 +152,16 @@ while (!$resultado->EOF) {
 	}
 
 	if (!empty($cress)) {
-		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
-		// echo $sqlcurso . "<br />";
-		$supervisores_curso = $db->Execute($sqlcurso);
-		if ($supervisores_curso === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisores");
-		$id_curso = $supervisores_curso->fields['id'];
-		// echo "Id curso: " . $id_curso . "<br>";
+		if ($cress != 0) {
+			$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
+			// echo $sqlcurso . "<br />";
+			$supervisores_curso = $db->Execute($sqlcurso);
+			if ($supervisores_curso === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisores");
+			$id_curso = $supervisores_curso->fields['id'];
+			// echo "Id curso: " . $id_curso . "<br>";
+		}
 	}
-	
+
 	$resultado->MoveNext();
 }
 

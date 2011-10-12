@@ -1,7 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
 include_once("../../setup.php");
+include_once("../../autentica.inc");
 
 $id_aluno = $_GET['id_aluno'];
 $erro = $_GET['erro'];

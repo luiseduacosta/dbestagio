@@ -10,7 +10,6 @@ $sql_instituicao  = "select e.id, e.instituicao ";
 $sql_instituicao .= "from inst_super as i, estagio as e ";
 $sql_instituicao .= "where i.id_instituicao=e.id and id_supervisor=$id_supervisor";
 // echo $sql_instituicao . "<br />";
-
 $res_instituicao = $db->Execute($sql_instituicao);
 if ($res_instituicao === false) die ("Não foi possível consultar as tabelas");
 
@@ -53,9 +52,7 @@ while (!$res_estagio->EOF) {
 }
 
 // Envio os resultados
-include_once("../../setup.php");
 $smarty = new Smarty_estagio;
-
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("cress",$cress);
 $smarty->assign("nome_supervisor",$nome_supervisor);
@@ -68,7 +65,7 @@ $smarty->assign("matriz_instituicoes",$matriz_instituicoes);
 // Mostro os resultados
 $smarty->display("supervisor_exibir.tlp");
 
-$db->close();
+$db->Close();
 
 exit;
 
