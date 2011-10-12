@@ -1,7 +1,8 @@
 <?php
 
+// echo "ver_cada.php" . " " . "<br>";
 include_once("../../setup.php");
-include_once("../../autentica.inc");
+// include_once("../../autentica.inc");
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
@@ -195,7 +196,7 @@ if (!empty($id_instituicao)) {
 	}
 }
 
-// echo "Indice: " . $indice . "<br>";
+echo "Indice: " . $indice . "<br>";
 if (isset($indice)) {
 	$sql_estagio  = "select e.id, e.instituicao, ";
 	$sql_estagio .= " e.endereco, e.cep, e.bairro, e.municipio, ";
@@ -378,6 +379,8 @@ while (!$res_supervisores->EOF) {
     $i++;
     $res_supervisores->MoveNext();
 }
+
+print_r($modifica);
 
 $smarty = new Smarty_estagio;
 

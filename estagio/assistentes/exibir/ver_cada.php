@@ -1,6 +1,8 @@
 <?php
 
 include_once("../../setup.php");
+// include_once("../../autentica.inc");
+
 $senha = $_COOKIE['usuario_senha'];
 if ($senha) $logado = 1;
 
@@ -18,8 +20,7 @@ $sql .= " from supervisores ";
 $sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
 $sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
 $sql .= " left join estagiarios on supervisores.id = estagiarios.id_supervisor ";
-if ($periodo)
-    $sql .= " where estagiarios.periodo = '$periodo' ";
+if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
 $sql .= " group by supervisores.id ";
 $sql .= " order by nome, inst_super.id_supervisor ";
 
@@ -76,8 +77,7 @@ if (!empty($_POST['num_instituicao'])) {
 
 // echo $indice . " " . $sql . "<br>";
 $resultado = $db->SelectLimit($sql, 1, $indice);
-if ($resultado === false)
-    die("1 Não foi possível consultar a tabela supervisores");
+if ($resultado === false) die("1 Não foi possível consultar a tabela supervisores");
 while (!$resultado->EOF) {
     $id_supervisor = $resultado->fields['num_supervisor'];
     $cress = $resultado->fields['cress'];
@@ -101,8 +101,7 @@ while (!$resultado->EOF) {
     $sql_instituicoes .= "where inst_super.id_supervisor='$id_supervisor'";
     // echo $sql_instituicoes . "<br>";
     $resultado = $db->Execute($sql_instituicoes);
-    if ($resultado === false)
-        die("Não foi possível consultar a tabela estagio");
+    if ($resultado === false) die("Não foi possível consultar a tabela estagio");
     $i = 0;
     while (!$resultado->EOF) {
         $inst_emprego[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -133,8 +132,7 @@ while (!$resultado->EOF) {
     // echo $sqlalunos . "<br>";
 
     $res_alunos = $db->Execute($sqlalunos);
-    if ($res_alunos === false)
-        die("Não foi possível consultar a tabela alunos");
+    if ($res_alunos === false) die("Não foi possível consultar a tabela alunos");
     $i = 0;
     while (!$res_alunos->EOF) {
         $alunos[$i]['id_aluno'] = $res_alunos->fields['id'];
@@ -162,8 +160,7 @@ while (!$resultado->EOF) {
 // Instituicoes
 $sql = "select id, instituicao from estagio order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false)
-    die("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die("Não foi possível consultar a tabela estagio");
 $i = 0;
 while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -211,4 +208,5 @@ $smarty->display("supervisores_ver_cada.tpl");
 $db->Close();
 
 exit;
+
 ?>

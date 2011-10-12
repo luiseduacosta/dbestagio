@@ -2,8 +2,16 @@
 
 include_once("../../setup.php");
 
+// Verifico se o usuario esta logado
+if (isset($_COOKIE['usuario_senha'])) {
+    $usuario = $_COOKIE['usuario_nome'];
+    if ($usuario) 
+	$logado = 1;
+}
+
 $sql  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.turno, estagiarios.nivel, estagiarios.id_supervisor, estagiarios.id_instituicao ";
 $sql .= "from alunos, estagiarios where alunos.id = estagiarios.id_aluno order by nome";
+// echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 $i = 1;
@@ -33,6 +41,7 @@ while (!$resultado->EOF) {
 
 $smarty = new Smarty_estagio;
 $smarty->assign("pagina",$PHP_SELF);
+$smarty->assign("logado",$logado);
 $smarty->assign("alunos_supervisor",$aluno_super);
 $smarty->display("alunos-exibir_aluno_supervisor.tpl");
 

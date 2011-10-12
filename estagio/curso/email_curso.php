@@ -5,7 +5,6 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-
 // echo "<h1>Aguarde: preparando a lista dos supervisores para o envio de e-mail.</h1>";
 
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;

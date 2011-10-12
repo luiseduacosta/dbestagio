@@ -2,13 +2,13 @@
 
 function ver_supervisor() {
 
-	include_once("../setup.php");
+    include_once("../setup.php");
 
     $sql  = "select id, nome, endereco, bairro, municipio, cep, telefone ";
-	$sql .= " from curso_inscricao_supervisor "; 
+    $sql .= " from curso_inscricao_supervisor "; 
     $sql .= " order by nome";
     $resultado = $db->Execute($sql);
-    if ($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
+    if ($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
 
     while (!$resultado->EOF) {
 			$id = $resultado->fields['id'];

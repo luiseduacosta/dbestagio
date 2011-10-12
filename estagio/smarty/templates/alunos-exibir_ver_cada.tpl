@@ -123,14 +123,13 @@ function get_periodo() {
 </table>
 </div>
 
-
 <div align="center">
 <table border="1" width="98%">
 <tbody>
 
 <tr>
 <th width='80%'>Aluno estagiário {* $num_aluno *}</th>
-{if $sistema_autentida == 1}
+{if $smarty.cookies.usuario_senha}
 	<th width='20%'><a href='../cancelar/ver_cancela.php?id_aluno={$num_aluno}'>Excluir registro</a></th>
 {/if}
 </tr>
@@ -141,9 +140,16 @@ function get_periodo() {
 <table border="1" width="98%">
 <tbody>
 
+{if $smarty.cookies.usuario_senha}
 <tr>
 <td width='20%'>Registro:</td>
 <td width='80%'>{$registro}</td>
+</tr>
+{/if}
+
+<tr>
+<td width='20%'>Nome:</td>
+<td>{$nome}</td>
 </tr>
 
 <tr>
@@ -155,17 +161,14 @@ function get_periodo() {
 {/if}
 </tr>
 
-<tr>
-<td>Nome:</td>
-<td>{$nome}</td>
-</tr>
-
+{if $smarty.cookies.usuario_senha}
 <tr>
 <td>E-mail</td>
 <td>{$email}</td>
 </tr>
+{/if}
 
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
     <tr>
     <td>Telefone</td>
     <td>({$codigo_telefone}){$telefone}</td>
@@ -191,7 +194,7 @@ function get_periodo() {
 <tbody>
 
 <tr>
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
 	<th>Editar</th>
 {/if}
 <th>Período</th>
@@ -201,7 +204,7 @@ function get_periodo() {
 <th>Instituição</th>
 <th>Supervisor</th>
 <th>Professor</th>
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
     <th>Nota</th>
     <th>ch</th>
 {/if}
@@ -210,21 +213,35 @@ function get_periodo() {
 {section name=estagio loop=$historico_estagio}
 
 <tr>
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
 	<td><a href=../atualizar/atualiza_estagio.php?id_estagiarios={$historico_estagio[estagio].id_estagiario}&id_aluno={$num_aluno}>Editar</a></td>
 {/if}
 <td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
 <td style="text-align:center">{$historico_estagio[estagio].tc}</td>
 <td style="text-align:center">{$historico_estagio[estagio].nivel}</td>
 <td style="text-align:center">{$historico_estagio[estagio].turno}</td>
-<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$historico_estagio[estagio].id_instituicao}">{$historico_estagio[estagio].instituicao}</a></td>
+<td>
+{if $smarty.cookies.usuario_senha}
+<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$historico_estagio[estagio].id_instituicao}">{$historico_estagio[estagio].instituicao}</a>
+{else}
+{$historico_estagio[estagio].instituicao}
+{/if}
+</td>
+
 {if $historico_estagio[estagio].id_supervisor eq 0}
 	<td>&nbsp;</td>
 {else}
-	<td><a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$historico_estagio[estagio].id_supervisor}">{$historico_estagio[estagio].supervisor}</a></td>
+	<td>
+        {if $smarty.cookies.usuario_senha}
+        <a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$historico_estagio[estagio].id_supervisor}">{$historico_estagio[estagio].supervisor}</a>
+        {else}
+        {$historico_estagio[estagio].supervisor}
+        {/if}
+        </td>
 {/if}
+
 <td>{$historico_estagio[estagio].professor}</td>
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
     <td style="text-align:center">{$historico_estagio[estagio].nota}</td>
     <td style="text-align:center">{$historico_estagio[estagio].ch}</td>
 {/if}
@@ -232,8 +249,7 @@ function get_periodo() {
 
 {/section}
 
-
-{if $logado == 1}
+{if $smarty.cookies.usuario_senha}
     <tr>
     <td colspan="8" style="text-align: center">
     <form action="../atualizar/atualiza.php" method="post">
@@ -264,7 +280,7 @@ function get_periodo() {
 
     <tr>
     <td style="text-align: center;">{$tcc.periodo}</td>
-	<td><a href="../../../tcc/monografia/visualizar/ver_monografia.php?codigo={$tcc.id}">{$tcc.titulo}</a></td>
+    <td><a href="../../../tcc/monografia/visualizar/ver_monografia.php?codigo={$tcc.id}">{$tcc.titulo}</a></td>
     <td style="text-align: center;">{$tcc.catalogo}</td>
     <td>{$tcc.professor}</td>
     </tr>

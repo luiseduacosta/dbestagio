@@ -15,10 +15,11 @@ while (!$resultado->EOF) {
 }
 
 $smarty = new Smarty_estagio;
-
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("nome",$nome);
 $smarty->display("supervisor_exibir_seleciona.tlp");
+
+$db->Close();
 
 exit;
 

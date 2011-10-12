@@ -10,7 +10,7 @@
 
 function confirmaInsere() {
     var confirma = document.getElementById("registroInserido").value;
-    // alert("N�mero de inscri��o "+confirma);
+    // alert("Número de inscrição "+confirma);
     if (confirma != 0) {
 	alert("Inscricao realizada");
     }
@@ -73,34 +73,25 @@ para participar da lista de discuss&atilde;o no Google</h1>
 	<thead>
 		<tr>
 			<th>Num</th>
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=num_inscricao&selecao={$selecao}">Ordem</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=num_inscricao&selecao={$selecao}">Ordem</a></th>
 
 			{if $autentica == 1}
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=inscricao_anterior&selecao={$selecao}">Anterior</a></th>
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=cress&selecao={$selecao}">CRESS</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=inscricao_anterior&selecao={$selecao}">Anterior</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=cress&selecao={$selecao}">CRESS</a></th>
 			{/if}
 
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=nome&selecao={$selecao}">Nome</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=nome&selecao={$selecao}">Nome</a></th>
 
 			{if $autentica == 1}
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=email&selecao={$selecao}">E-mail</a></th>
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=telefone&selecao={$selecao}">Telefone</a></th>
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=celular&selecao={$selecao}">Celular</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=email&selecao={$selecao}">E-mail</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=telefone&selecao={$selecao}">Telefone</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=celular&selecao={$selecao}">Celular</a></th>
 			{/if}
 
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=instituicao&selecao={$selecao}">Institui&ccedil;&atilde;o</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=instituicao&selecao={$selecao}">Institui&ccedil;&atilde;o</a></th>
 
 			{if $autentica == 1}
-			<th><a
-				href="inscricao_lista.php?turma={$turma}&ordem=selecao&selecao={$selecao}">Sele&ccedil;&atilde;o</a></th>
+			<th><a href="inscricao_lista.php?turma={$turma}&ordem=selecao&selecao={$selecao}">Sele&ccedil;&atilde;o</a></th>
 			<th>Imprime</th>
 			{/if}
 

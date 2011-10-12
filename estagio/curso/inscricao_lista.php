@@ -7,7 +7,7 @@
  */
 
 include_once("../setup.php");
-include_once("../autentica.inc");
+// include_once("../autentica.inc");
 
 $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
 $ordem = isset($_GET['ordem']) ? $ordem = $_REQUEST['ordem'] : ordem;
@@ -107,6 +107,8 @@ while (!$resultado->EOF) {
 	$i++;
 }
 
+// var_dump($matriz);
+
 if (sizeof($matriz) <= 0) {
 	echo "Arquivo vazio" . "<br>";
 	if ($selecao == 1) {
@@ -128,21 +130,23 @@ while (!$res_turma->EOF) {
 	$res_turma->MoveNext();
 }
 
-/*
- require("../../adodb/adodb-pager.inc.php");
- $pager = new ADODB_Pager($db,$sql);
- $pager->Render($rows_per_page='5');
- */
+// print_r($matriz);
 
 $smarty = new Smarty_estagio;
-
+$smarty->template_dir = "/curso/"; 
 $smarty->assign("selecao",$selecao);
 $smarty->assign("autentica",$sistema_autentica);
 $smarty->assign("inscricaoRealizada",$inscricaoRealizada);
 $smarty->assign("turma",$turma);
 $smarty->assign("matriz",$matriz);
 $smarty->assign("turmas",$turmas);
-$smarty->display("inscricao_lista.tpl");
+
+$myfile = RAIZ . $smarty->template_dir . "inscricao_lista.tpl";
+// echo "Meu arquivo " . $myfile . "<br>";
+$smarty->display("file:$myfile");
+
+// $output = $smarty->fetch("file:$myfile");
+// echo $output;
 
 exit;
 

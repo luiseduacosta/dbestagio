@@ -3,7 +3,7 @@
 <html>
 <head>
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Ver cada</title>
+<title>Ver cada instituição</title>
 
 {literal}
 <script>
@@ -30,7 +30,8 @@ function elimina() {
 
 <body>
 
-{if $curso} <h1>Curso supervisores</h1>
+{if $curso} 
+    <h1>Curso supervisores</h1>
 {/if}
 
 <div style="text-align: center">{$flash}</div>
@@ -52,7 +53,7 @@ debug
 
 {* Inserir *}
 {if !$curso}
-	{if $sistema_autentica == 1}
+	{if $smarty.cookies.usuario_senha}
 		<td style="background-color:red">
 		<form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
 		<input type="hidden" name="botao" value="inserir">
@@ -119,7 +120,7 @@ debug
 
 {* Excluir registro *}
 {if !$curso}
-	{if $sistema_autentica == 1}
+	{if $smarty.cookies.usuario_senha}
 		<td style="background-color:red">
 		<form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
 		<input type="hidden" name="botao" value="excluir">
@@ -147,7 +148,7 @@ debug
 <table border="1" width="95%">
 <tbody>
 
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 	<form name="modifica_instituicao" action="?id_instituicao={$id_instituicao}" method="post">
 {/if}
 
@@ -365,7 +366,7 @@ debug
 	</tr>
 {/if}
 
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 	<tr>
 	<td colspan="1">Observações</td>
 	<td colspan="2">
@@ -378,7 +379,7 @@ debug
 	</tr>
 {/if}
 
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 	<tr class="rodape">
 	<td colspan="3" class="rodape" style="text-align:center">
 	<input type="hidden" name="flag" value="{$flag}">
@@ -463,7 +464,7 @@ debug
 
 {* Inserir supervisor somente para os supervisores de estagio *}
 {if !$curso}
-	{if $sistema_autentica == 1}
+	{if $smarty.cookies.usuario_senha}
 		<div align="center">
 		<table border='1'>
 		<tbody>

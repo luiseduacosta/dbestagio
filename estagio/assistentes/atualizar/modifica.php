@@ -10,7 +10,7 @@ $id_supervisor = $_REQUEST['id_supervisor'];
 $sql_supervisor = "select cress, nome, email from supervisores where id=$id_supervisor";
 // echo $sql_supervisor . "<br>";
 $res_supervisor = $db->Execute($sql_supervisor);
-if($res_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
+if ($res_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
 while (!$res_supervisor->EOF) {
 	$nome  = $res_supervisor->fields['nome'];
 	$email = $res_supervisor->fields['email'];
@@ -51,7 +51,6 @@ while (!$res_estagio->EOF) {
 
 // Envio os resultados
 $smarty = new Smarty_estagio;
-
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("nome",$nome);
 $smarty->assign("email",$email);

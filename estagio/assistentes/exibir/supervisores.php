@@ -4,8 +4,7 @@ include_once("../../setup.php");
 
 $id_instituicao = $_GET['id_instituicao'];
 $ordem = $_GET['ordem'];
-if (empty($ordem))
-    $ordem="supervisor";
+if (empty($ordem)) $ordem="supervisor";
 
 $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 . " from supervisores s, inst_super j "
@@ -38,5 +37,9 @@ $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("supervisores",$supervisores);
 $smarty->display("supervisores_x_instituicao.tpl");
+
+$db->Close();
+
+exit;
 
 ?>

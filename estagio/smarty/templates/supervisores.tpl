@@ -69,18 +69,47 @@ function carrega_tabela() {
 <tr>
 <td class="coluna_direita">{$i++}</td>
 <td class="coluna_direita">{$supervisores[lista].cress}</td>
-<td><a href="../exibir/ver_cada.php?id_supervisor={$supervisores[lista].id_supervisor}">{$supervisores[lista].nome}</a></td>
+
+<td>
+{if $smarty.cookies.usuario_senha}
+<a href="../exibir/ver_cada.php?id_supervisor={$supervisores[lista].id_supervisor}">{$supervisores[lista].nome}</a>
+{else}
+{$supervisores[lista].nome}
+{/if}
+</td>
+
 <td class="coluna_direita">{$supervisores[lista].q_periodos}</td>
+
 {if $sistema_autentica == 1}
 	<td><a href="mailto:{$supervisores[lista].email}">{$supervisores[lista].email}</a></td>
 	<td>{$supervisores[lista].celular}</td>
 	<td>{$supervisores[lista].telefone}</td>
 {/if}
-<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$supervisores[lista].id_instituicao}">{$supervisores[lista].instituicao}</a></td>
-<td class="coluna_direita"><a href="alunos_supervisor.php?id_supervisor={$supervisores[lista].id_supervisor}&nome_supervisor={$supervisores[lista].nome}">{$supervisores[lista].turma}</a></td>
-<td class="coluna_direita">
-	<a href="../../curso/ver_cada_supervisor.php?id_supervisor={$supervisores[lista].id_curso}">{$supervisores[lista].id_curso}</a>
+
+<td>
+{if $smarty.cookies.usuario_senha}
+<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$supervisores[lista].id_instituicao}">{$supervisores[lista].instituicao}</a>
+{else}
+{$supervisores[lista].instituicao}
+{/if}
 </td>
+
+<td class="coluna_direita">
+{if $smarty.cookies.usuario_senha}
+<a href="alunos_supervisor.php?id_supervisor={$supervisores[lista].id_supervisor}&nome_supervisor={$supervisores[lista].nome}">{$supervisores[lista].turma}</a>
+{else}
+{$supervisores[lista].turma}
+{/if}
+</td>
+
+<td class="coluna_direita">
+{if $smarty.cookies.usuario_senha}
+<a href="../../curso/ver_cada_supervisor.php?id_supervisor={$supervisores[lista].id_curso}">{$supervisores[lista].id_curso}</a>
+{else}
+{$supervisores[lista].id_curso}
+{/if}
+</td>
+
 </tr>
 {/section}
 

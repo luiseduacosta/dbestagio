@@ -7,11 +7,11 @@ $ordem = $_GET['ordem'];
 
 if (empty($ordem)) $ordem="instituicao";
 
-// Pego o nome da área
+// Pego o nome da ï¿½rea
 $sql_areas_estagio = "select area from areas_estagio where id=$id_area";
 $res_areas_estagio = $db->Execute($sql_areas_estagio);
 if ($res_areas_estagio === false) die ("Nao foi possivel consultar a tabela areas_estagio");
-while(!$res_areas_estagio->EOF) {
+while (!$res_areas_estagio->EOF) {
     $nome_area = $res_areas_estagio->fields['area'];
     $res_areas_estagio->MoveNext();
 }

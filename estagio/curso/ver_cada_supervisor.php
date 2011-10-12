@@ -153,6 +153,7 @@ function contacarateres() {
 
 include_once("../setup.php");
 include_once("../autentica.inc");
+// echo "Autentica: " . $sistema_autentica . "<br>";
 
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
 $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;
@@ -396,135 +397,143 @@ if ($sistema_autentica == 1) {
 	</td>
 	</tr>
 
+    <tr>
+    <td>Escola na qual se formou: </td>
+    <td>
+    
+    <?php
+    if ($submit) {
+            echo "
+            <input type='text' name='escola' id='escola' value='$escola' maxlength='70' size='60'>
+            ";
+    } else {
+            echo $escola;
+    }
+    ?>
+
+    </td>
+    </tr>
+
+
+    <tr>
+    <td>Ano em que se formou: </td>
+    <td>
+    
+    <?php
+    if ($submit) {
+            echo "
+            <input type='text' name='ano_formatura' id='ano_formatura' value='$ano_formatura' maxlength='4' size='4'>
+            ";
+    } else {
+            echo $ano_formatura;
+    }
+    ?>
+    
+    </td>
+    </tr>
+
+    <tr>
+    <td>No. de registro no CRESS</td>
+    <td>
+
+    <?php
+    if ($submit) {
+            echo "
+            <input type='text' name='cress' id='cress' value='$cress' maxlength='6' size='6' onBlur='return verifica_cress();'>
+            <span style='text-align:right'>Região: </span><input type='text' name='regiao' id='regiao' maxlength='2' size='1' value='$regiao'>
+            ";
+    } else {
+            echo $cress;
+    }
+    ?>
+    
+    </td>
+    </tr>
+
+    <tr>
+    <td>Outros estudos realizados:</td>
+
+    <?php
+    if ($outros_estudos == 'especialização') {
+            echo "
+                    <td>Especialização:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\" checked>
+                    Mestrado:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
+                    Doutorado
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
+                    </td>
+                    ";
+    } elseif ($outros_estudos == 'mestrado') {
+            echo "
+                    <td>Especialização:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+                    Mestrado:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\" checked>
+                    Doutorado
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
+                    </td>
+                    ";
+    } elseif ($outros_estudos == 'doutorado') {
+            echo "
+                    <td>Especialização:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+                    Mestrado:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
+                    Doutorado
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\" checked>
+                    </td>
+                    ";
+    } else {
+            echo "
+                    <td>Especialização:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
+                    Mestrado:
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
+                    Doutorado
+                    <input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
+                    </td>
+                    ";
+    };
+
+    ?>
+
+    </tr>
+
+    <tr>
+    <td>Área em que foi realizado o curso anteriormente mencionado</td>
+    <td>
+    
+    <?php
+    if ($submit) {
+            echo "
+            <input type='text' name='area_curso' id='area_curso' value='$area_curso' maxlength='40' size='40'>
+            ";
+    } else {
+            echo $area_curso;
+    }
+    ?>
+    </td>
+    </tr>
+
+    <tr>
+    <td>Ano em que foi concluído o curso</td>
+    <td>
+    <?php
+    if ($submit) {
+            echo "
+            <input type='text' name='ano_curso' id='ano_curso' value='$ano_curso' maxlength='4' size='4'>
+            ";
+    } else {
+            echo $ano_curso;
+    }
+    ?>
+    </td>
+    </tr>
+
 <?php
 }
 ?>
-
-<tr>
-<td>Escola na qual se formou: </td>
-<td>
-<?php
-if ($submit) {
-	echo "
-	<input type='text' name='escola' id='escola' value='$escola' maxlength='70' size='60'>
-	";
-} else {
-	echo $escola;
-}
-?>
-</td>
-</tr>
-
-<tr>
-<td>Ano em que se formou: </td>
-<td>
-<?php
-if ($submit) {
-	echo "
-	<input type='text' name='ano_formatura' id='ano_formatura' value='$ano_formatura' maxlength='4' size='4'>
-	";
-} else {
-	echo $ano_formatura;
-}
-?>
-</td>
-</tr>
-
-<tr>
-<td>No. de registro no CRESS</td>
-<td>
-<?php
-if ($submit) {
-	echo "
-	<input type='text' name='cress' id='cress' value='$cress' maxlength='6' size='6' onBlur='return verifica_cress();'>
-	<span style='text-align:right'>Região: </span><input type='text' name='regiao' id='regiao' maxlength='2' size='1' value='$regiao'>
-	";
-} else {
-	echo $cress;
-}
-?>
-</td>
-</tr>
-
-<tr>
-<td>Outros estudos realizados:</td>
-
-<?php
-if ($outros_estudos == 'especialização') {
-	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\" checked>
-		Mestrado:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
-		Doutorado
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
-		</td>
-		";
-} elseif ($outros_estudos == 'mestrado') {
-	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
-		Mestrado:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\" checked>
-		Doutorado
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
-		</td>
-		";
-} elseif ($outros_estudos == 'doutorado') {
-	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
-		Mestrado:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
-		Doutorado
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\" checked>
-		</td>
-		";
-} else {
-	echo "
-		<td>Especialização:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"especialização\">
-		Mestrado:
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"mestrado\">
-		Doutorado
-		<input type=\"radio\" name=\"outros_estudos\" id=\"outros_estudos\" value=\"doutorado\">
-		</td>
-		";
-};
-
-?>
-
-</tr>
-
-<tr>
-<td>Área em que foi realizado o curso anteriormente mencionado</td>
-<td>
-<?php
-if ($submit) {
-	echo "
-	<input type='text' name='area_curso' id='area_curso' value='$area_curso' maxlength='40' size='40'>
-	";
-} else {
-	echo $area_curso;
-}
-?>
-</td>
-</tr>
-
-<tr>
-<td>Ano em que foi concluído o curso</td>
-<td>
-<?php
-if ($submit) {
-	echo "
-	<input type='text' name='ano_curso' id='ano_curso' value='$ano_curso' maxlength='4' size='4'>
-	";
-} else {
-	echo $ano_curso;
-}
-?>
-</td>
-</tr>
 
 <tr>
 <td>Dados do curso:</td>
@@ -535,54 +544,64 @@ echo 'Número de inscrição: ' . $num_inscricao . ' Turma: ' . $curso_turma;
 </td>
 </tr>
 
-<tr>
-<td>Seleção (0 = não; 1 = sim; 2 = espera)</td>
-<td>
-<?php 
-// echo $submit ." " . $selecao;
-if ($submit) {
-	if ($selacao == '0') {
-		echo "
-	       <input type='radio' name='selecao' id='selecao' value='0' checked>Não
-	       <input type='radio' name='selecao' id='selecao' value='1'>Sim
-               <input type='radio' name='selecao' id='selecao' value='2'>Espera
-		";
-	} elseif ($selecao == '1') {
-		echo "
-		<input type='radio' name='selecao' id='selecao' value='0'>Não
-		<input type='radio' name='selecao' id='selecao' value='1' checked>Sim
-                <input type='radio' name='selecao' id='selecao' value='2'>Espera
-		";
-	} elseif ($selecao == '2') {
-		echo "
-		<input type='radio' name='selecao' id='selecao' value='0'>Não
-		<input type='radio' name='selecao' id='selecao' value='1'>Sim
-                <input type='radio' name='selecao' id='selecao' value='2' checked>Espera
-		";
+<?php
+if ($sistema_autentica == 1) {
+?>
 
-	} else {
-		echo "
-		<input type='radio' name='selecao' id='selecao' value='0' checked>Não
-		<input type='radio' name='selecao' id='selecao' value='1'>Sim
-                <input type='radio' name='selecao' id='selecao' value='2'>Espera
-		";
-	}
-} else {
-	echo $selecao;
+    <tr>
+    <td>Seleção (0 = não; 1 = sim; 2 = espera)</td>
+    <td>
+        
+    <?php 
+    // echo $submit ." " . $selecao;
+    if ($submit) {
+            if ($selacao == '0') {
+                    echo "
+                   <input type='radio' name='selecao' id='selecao' value='0' checked>Não
+                   <input type='radio' name='selecao' id='selecao' value='1'>Sim
+                   <input type='radio' name='selecao' id='selecao' value='2'>Espera
+                    ";
+            } elseif ($selecao == '1') {
+                    echo "
+                    <input type='radio' name='selecao' id='selecao' value='0'>Não
+                    <input type='radio' name='selecao' id='selecao' value='1' checked>Sim
+                    <input type='radio' name='selecao' id='selecao' value='2'>Espera
+                    ";
+            } elseif ($selecao == '2') {
+                    echo "
+                    <input type='radio' name='selecao' id='selecao' value='0'>Não
+                    <input type='radio' name='selecao' id='selecao' value='1'>Sim
+                    <input type='radio' name='selecao' id='selecao' value='2' checked>Espera
+                    ";
+
+            } else {
+                    echo "
+                    <input type='radio' name='selecao' id='selecao' value='0' checked>Não
+                    <input type='radio' name='selecao' id='selecao' value='1'>Sim
+                    <input type='radio' name='selecao' id='selecao' value='2'>Espera
+                    ";
+            }
+    } else {
+            echo $selecao;
+    }
+    ?>
+        
+    </td>
+    </tr>
+
+    <tr>
+    <td>Trabalho:</td>
+    <td>
+    <?php if ($estagio_id <> 0) {; ?>
+    <a href="../instituicoes/exibir/ver_cada.php?id_instituicao=<?php echo $estagio_id; ?>"><?php echo $instituicao; ?></a>
+    <?php } else { 
+    echo $instituicao; } ?>
+    </td>
+    </tr>
+
+<?php
 }
 ?>
-</td>
-</tr>
-
-<tr>
-<td>Trabalho:</td>
-<td>
-<?php if ($estagio_id <> 0) {; ?>
-<a href="../instituicoes/exibir/ver_cada.php?id_instituicao=<?php echo $estagio_id; ?>"><?php echo $instituicao; ?></a>
-<?php } else { 
-echo $instituicao; } ?>
-</td>
-</tr>
 
 <?php
 if ($sistema_autentica == 1) {

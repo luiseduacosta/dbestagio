@@ -8,7 +8,6 @@
 
 // echo "<h1>Aguarde: preparando a lista dos supervisores para o envio de e-mail.</h1>";
 
-
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 
 if (!$periodo) {

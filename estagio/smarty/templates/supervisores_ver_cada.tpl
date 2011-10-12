@@ -92,7 +92,7 @@ function get_periodo() {
 </form>
 </td>
 
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 	<td style="background-color:red">
 	<form action="../cancelar/cancela.php" method="POST">
 	<input type="hidden" name=id_supervisor value={$id_supervisor}>
@@ -113,22 +113,29 @@ function get_periodo() {
 <tr><td>Cress</td><td>{$cress}</td></tr>
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 	<tr><td>Endereço</td><td>{$endereco}</td></tr>
 	<tr><td>Bairro</td><td>{$bairro}</td></tr>
 	<tr><td>CEP</td><td>{$cep}</td></tr>
 	<tr><td>Município</td><td>{$municipio}</td></tr>
-    <tr><td>Telefone</td><td>({$codigo_tel}){$telefone}</td></tr>
-    <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
+        <tr><td>Telefone</td><td>({$codigo_tel}){$telefone}</td></tr>
+        <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
+        <tr><td>E-mail</td><td>{$email}</td></tr>
 {/if}
-<tr><td>E-mail</td><td>{$email}</td></tr>
+
 <tr>
 <td>Curso</td>
 <td>
 
 {if $id_curso}
+{if $smarty.cookies.usuario_senha}
     <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}'>{$id_curso}</a>
+{else}
+    {$id_curso}
+{/if}
+{if $smarty.cookies.usuario_senha}
     <a href="../../curso/atualiza_supervisor_estagio.php?id_supervisor_curso={$id_curso}&indice={$indice}">Sincroniza</a>
+{/if}
 {/if}
 
 </td>
@@ -144,7 +151,7 @@ function get_periodo() {
 {/section}
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
     <tr><td>Observações</td><td>{$observacoes}</td></tr>
 {/if}
 
@@ -152,7 +159,7 @@ function get_periodo() {
 </table>
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $sistema_autentica == 1}
+{if $smarty.cookies.usuario_senha}
 <table>
 <tbody>
 <tr>
@@ -194,14 +201,22 @@ function get_periodo() {
 <caption>Alunos</caption>
 <tbody>
 <tr>
+
+{if $smarty.cookies.usuario_senha}
 <th>Registro</th>
+{/if}
+
 <th>Nome</th>
 <th>Instituição</th>
 <th>Período</th>
 </tr>
 {section name=id loop=$alunos}
 <tr>
-<td>{$alunos[id].registro}</td>
+
+{if $smarty.cookies.usuario_senha}
+    <td>{$alunos[id].registro}</td>
+{/if}
+
 <td><a href="../../alunos/exibir/ver_cada.php?id_aluno={$alunos[id].id_aluno}">{$alunos[id].nome}</a></td>
 <td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$alunos[id].id_instituicao}">{$alunos[id].instituicao}</a></td>
 <td style="text-align:center">{$alunos[id].periodo}</td>

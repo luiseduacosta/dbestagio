@@ -8,7 +8,7 @@ if (isset($_COOKIE["usuario_senha"])) {
 	if ($usuario)
 	$logado = 1;
 }
-// echo "Autenticado: " . $logado . "<br>"; 
+
 
 $sqlUltimoPeriodo = "select max(periodo) as ultimoPeriodo from estagiarios";
 $resultadoMaxPeriodo = $db->Execute($sqlUltimoPeriodo);
@@ -108,7 +108,7 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['email']          = $resultadoLista->fields['email'];
 	$estagiarios[$i]['celular']        = $resultadoLista->fields['celular'];
 	$estagiarios[$i]['telefone']       = $resultadoLista->fields['telefone'];
-	$estagiarios[$i]['nivel'] 	   = $resultadoLista->fields['nivel'];
+	$estagiarios[$i]['nivel'] 	       = $resultadoLista->fields['nivel'];
 	$estagiarios[$i]['turno']          = $resultadoLista->fields['turno'];
 	$estagiarios[$i]['periodo']        = $resultadoLista->fields['periodo'];
 	$estagiarios[$i]['nota']           = $resultadoLista->fields['nota'];
@@ -119,8 +119,8 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['id_supervisor'];
 	$estagiarios[$i]['supervisor']     = $resultadoLista->fields['nomeSupervisor'];
 	$estagiarios[$i]['area']           = $resultadoLista->fields['area'];
-        $estagiarios[$i]['id_professor']      = $resultadoLista->fields['idProfessor'];
-        $estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
+    $estagiarios[$i]['id_professor']   = $resultadoLista->fields['idProfessor'];
+    $estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
 
 	$id_aluno = $resultadoLista->fields['id_aluno'];
 	$registro = $resultadoLista->fields['registro'];

@@ -1,8 +1,13 @@
 <?php
 
 include_once("../../setup.php");
-$senha = $_COOKIE['usuario_senha'];
-if ($senha) $logado = 1;
+
+// Verifico se o usuario esta logado
+if (isset($_COOKIE['usuario_senha'])) {
+    $usuario = $_COOKIE['usuario_nome'];
+    if ($usuario) 
+	$logado = 1;
+}
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 $periodo_atual = isset($_REQUEST['periodo_atual']) ? $_REQUEST['periodo_atual'] : PERIODO_ATUAL;
