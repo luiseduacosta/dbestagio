@@ -380,7 +380,7 @@ while (!$res_supervisores->EOF) {
     $res_supervisores->MoveNext();
 }
 
-print_r($modifica);
+// echo "Modifica: " . $modifica . "<br>";
 
 $smarty = new Smarty_estagio;
 
