@@ -36,7 +36,7 @@
                 <caption>Supervisores e alunos</caption>
                 <thead>
                 <tr>
-
+                <th>Id</th>    
                 <th><a href='?periodo={$periodo}&ordem=Supervisor'>Supervisor</a></th>
                 <th><a href='?periodo={$periodo}&ordem=Cress'>Cress</a></th>
                 <th><a href='?periodo={$periodo}&ordem=Super_Email'>Email</a></th>
@@ -57,6 +57,7 @@
                 {section name=lista loop=$alunosupervisor}
                     <tr>
 
+                    <td>{i++}</td>    
                     <td>
                     {if $alunosupervisor[lista].supervisor} 
                         <a href='../exibir/ver_cada.php?id_supervisor={$alunosupervisor[lista].id_supervisor}'>{$alunosupervisor[lista].supervisor}</a>

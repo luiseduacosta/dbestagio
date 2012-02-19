@@ -52,6 +52,7 @@ if ($submit) {
     // echo "Tipo de aluno: " . $aluno . "<br>";
     // echo "Nivel: ". $nivel . " Estagio solicitado: " . $id_estagio . " Estagio anterior: " . $id_instituicao_periodo_anterior;
     // echo " Estagio atual: " . $id_instituicao_periodo_atual . "<br>";
+
     /* Classifica a mudança de estágio */
     if ($nivel == 1) {
         echo "Aluno novo<br>";
@@ -108,23 +109,23 @@ if ($submit) {
     $resultado_mural = $db->Execute($sql_mural);
     $quantidade = $resultado_mural->RecordCount();
     // Logo busco na tabela de estagios
+    // echo $quantidade . "<br>";
     if ($quantidade == 0) {
-        // echo "Campo de estágio não fez seleção neste período<br>";
+        echo "Campo de estágio não abriu seleção neste período<br>";
         // Calculo em base ao professor que trabalhou com essa instituicao
         $sql_ultimo_estagio = "select id_professor, turno, id_area from estagiarios where id_instituicao = '$id_estagio' order by periodo desc";
+        // echo $sql_ultimo_estagio . "<br>";
         $resultado_ultimo_estagio = $db->Execute($sql_ultimo_estagio);
         $id_professor = $resultado_ultimo_estagio->fields['id_professor'];
         $id_area = $resultado_ultimo_estagio->fields['id_area'];
         $turno = $resultado_ultimo_estagio->fields['turno'];
         // echo "<br>";
-        // die;
+        // die($sql_ultimo_estagio);
     } else {
-        while (!$resultado_mural->EOF) {
-            $id_professor = $resultado_mural->fields['id_professor'];
-            $id_area = $resultado_mural->fields['id_area'];
-            $turno = $resultado_mural->fields['horario'];
-            $resultado_mural->MoveNext();
-        }
+        $id_professor = $resultado_mural->fields['id_professor'];
+        $id_area = $resultado_mural->fields['id_area'];
+        $turno = $resultado_mural->fields['horario'];
+        // die("Estagio");
     } // Agora ja estou com a informacao para ser inserida na tabela estagiarios
 
     $sql_instituicao = "select instituicao from estagio where id=$id_estagio";
@@ -144,8 +145,9 @@ if ($submit) {
         // Inserir aluno
         $sql_alunonovo = "select * from alunosNovos where registro = $registro";
         $res_alunonovo = $db->Execute($sql_alunonovo);
-        if ($res_alunonovo === false) die("Não foi possivel consultar a tabela alunosNovos");
-        
+        if ($res_alunonovo === false)
+            die("Não foi possivel consultar a tabela alunosNovos");
+
         $nome = $res_alunonovo->fields['nome'];
         $codigo_telefone = $res_alunonovo->fields['codigo_telefone'];
         $telefone = $res_alunonovo->fields['telefone'];
@@ -160,7 +162,7 @@ if ($submit) {
         $cep = $res_alunonovo->fields['cep'];
         $bairro = $res_alunonovo->fields['bairro'];
         $municipio = $res_alunonovo->fields['municipio'];
-        
+
         echo "Insere aluno e estágio. <br>";
         $sql_alunos = "insert into alunos(registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
         $sql_alunos .= "cpf, identidade, orgao, nascimento, endereco, cep, bairro, municipio) ";
@@ -169,16 +171,18 @@ if ($submit) {
         // echo $sql_alunos . "<br>";
         // die();
         $resultado_insere = $db->Execute($sql_alunos);
-        if ($resultado_insere === false) die("0 Nao foi possível inserir o registro na tabela alunos");
+        if ($resultado_insere === false)
+            die("0 Nao foi possível inserir o registro na tabela alunos");
         // Calculo o id do ultimo aluno inserido
         // $id_aluno = $db->lnsert_ID();
 
         $res_ultimo = $db->Execute("select last_insert_id() as id_aluno");
-        if ($res_ultimo === false) die("Nao foi possivel consultar a sequencia alunos");
+        if ($res_ultimo === false)
+            die("Nao foi possivel consultar a sequencia alunos");
         $id_aluno = $res_ultimo->fields['id_aluno'];
-		// echo "Id aluno " . $id_aluno . "<br>";
+        // echo "Id aluno " . $id_aluno . "<br>";
         // Inserir estagiario
-        $sql_estagiarios  = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, tc_solicitacao, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
+        $sql_estagiarios = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, tc_solicitacao, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
         $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "','$id_area')";
         // echo $sql_estagiarios . "<br>";
         // die("Insere estagiario");
@@ -192,7 +196,8 @@ if ($submit) {
 
         $sql_alunocadastrado = "select * from alunos where registro = $registro";
         $res_alunocadastrado = $db->Execute($sql_alunocadastrado);
-        if ($res_alunocadastrado === false) die("Não foi possivel consultar a tabela alunos");
+        if ($res_alunocadastrado === false)
+            die("Não foi possivel consultar a tabela alunos");
         $nome = $res_alunocadastrado->fields['nome'];
 
         echo "Atualiza aluno e estágio. <br>";
@@ -203,7 +208,6 @@ if ($submit) {
         $sql_alunos .= " observacoes='$observacoes' ";
         $sql_alunos .= " where registro='$registro'";
         // echo $sql_alunos . "<br>";
-
         // $resultado_insere = $db->Execute($sql_alunos);
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
@@ -212,7 +216,8 @@ if ($submit) {
         $sql_estagiarios .= " where id_aluno='$id_aluno' and periodo= '" . TC_PERIODO_ATUAL . "'";
         // echo $sql_estagiarios . "<br>";
         $resultado_atualiza = $db->Execute($sql_estagiarios);
-        if ($resultado_atualiza === false) die("1 Não foi possível inserir o registro na tabela estagiarios");
+        if ($resultado_atualiza === false)
+            die("1 Não foi possível inserir o registro na tabela estagiarios");
         // echo $sql_estagiarios . "<br>";
         // Atualizar alunos e inserir estagiario
     } elseif ($aluno == 2) {
@@ -220,7 +225,8 @@ if ($submit) {
 
         $sql_alunocadastrado = "select * from alunos where registro = $registro";
         $res_alunocadastrado = $db->Execute($sql_alunocadastrado);
-        if ($res_alunocadastrado === false) die("Não foi possivel consultar a tabela alunos");
+        if ($res_alunocadastrado === false)
+            die("Não foi possivel consultar a tabela alunos");
         $nome = $res_alunocadastrado->fields['nome'];
 
         echo "Atualiza aluno e insere estágio. <br>";
@@ -231,7 +237,6 @@ if ($submit) {
         $sql_alunos .= " observacoes='$observacoes' ";
         $sql_alunos .= " where registro='$registro'";
         // echo $sql_alunos . "<br>";
-
         // $resultado_insere = $db->Execute($sql_alunos);
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
@@ -239,7 +244,8 @@ if ($submit) {
         $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "','$id_area')";
         // echo $sql_estagiarios . "<br>";
         $resultado_insere = $db->Execute($sql_estagiarios);
-        if ($resultado_insere === false) die("Não foi possível inserir o registro na tabela estagiarios");
+        if ($resultado_insere === false)
+            die("Não foi possível inserir o registro na tabela estagiarios");
     }
 
     echo "<meta http-equiv='refresh' content='0;url=../../imprimir/termo.php?registro=$registro&nome=$nome&nivel_romano=$nivel_romano&instituicao=$instituicao&supervisor=$supervisor&cress=$cress&classificacao=$classificacao'>";
@@ -260,7 +266,6 @@ if ($resultado === false)
 $quantidade = $resultado->RecordCount();
 // echo $quantidade . "<br>";
 // die("Quantidade");
-
 // Aluno nao cadastrado entre os estagiarios portanto, aluno = novo
 if ($quantidade == 0) {
 

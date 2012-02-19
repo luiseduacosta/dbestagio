@@ -52,20 +52,23 @@ echo "
 ";
 // print_r($alunos);
 
-for ($i=0;$i<sizeof($alunos);$i++) {
+for ($i=0; $i<sizeof($alunos); $i++) {
 	if ($i > 0) {
 		$variavel .= "," . $alunos[$i];
 	} else {
 		$variavel = $alunos[$i];
 	}
+        // echo $variavel;
 }
 
-for ($i=0;$i<sizeof($periodos);$i++) {
+var_dump($periodos);
+for ($i=0; $i<sizeof($periodos); $i++) {
 	if ($i > 0) {
 		$var_periodo .= "|" . $periodos[$i];
 	} else {
 		$var_periodo = $periodos[$i];
 	}
+        echo $var_periodo;
 }
 
 echo "
