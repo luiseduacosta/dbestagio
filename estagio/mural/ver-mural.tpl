@@ -32,6 +32,20 @@ function janelaInsere() {
 	return true;
 }
 </script>
+    
+<!-- Place this tag in the <head> of your document -->
+<link href="https://plus.google.com/109318628092764151295" rel="publisher" />
+
+<script type="text/javascript">
+window.___gcfg = {lang: 'pt-BR'};
+(function() 
+{var po = document.createElement("script");
+po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(po, s);
+})();
+</script>
+        
 {/literal}
 
 </head>
@@ -56,9 +70,12 @@ function janelaInsere() {
 e selecione o curso de Serviço Social para ver as instituições conveniadas com a UFRJ
 </p>
 
-<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estágio</p>
+<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estágio
+</p>
 
 <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.ess.ufrj.br%2Festagio&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
+<!-- Place this tag where you want the badge to render -->
+<div class="g-plus" data-href="https://plus.google.com/109318628092764151295" data-size="badge">Estágio</div>
 
 <div align="center">
 <form name="inscricao" id="inscricao" action="#" method="post">

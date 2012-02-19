@@ -22,7 +22,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("opcao",$opcao);
 $smarty->assign("id_supervisor",$id_supervisor);
 $smarty->assign("nome",$nome);
-$smarty->display("supervisor_seleciona.tlp");
+$smarty->display("supervisor_seleciona.tpl");
 
 exit;
 

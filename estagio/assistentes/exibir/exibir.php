@@ -63,7 +63,7 @@ $smarty->assign("matriz_instituicoes",$matriz_instituicoes);
 // $smarty->assign("matriz_areas",$matriz_areas);
 
 // Mostro os resultados
-$smarty->display("supervisor_exibir.tlp");
+$smarty->display("supervisor_exibir.tpl");
 
 $db->Close();
 

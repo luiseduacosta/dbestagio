@@ -42,29 +42,27 @@ function escolaImagem() {
 
 <br />
 
-<iframe src="http://www.facebook.com/plugins/registration.php?
-client_id=194966950523996&
-redirect_uri=http://locuss.org/joomlalocuss/&
-fields=name,birthday,gender,location,email"
-scrolling="auto"
-frameborder="no"
-style="border:none"
-allowTransparency="true"
-width="100%"
-height="330">
-</iframe>
+<iframe src="http://www.google.com/talk/service/badge/Show?tk=z01q6amlqp78ptnr0nagvm9j3d0hn2octg360qk9mo74siivjba96gckl5d06fj3blih5hfhspl96rq57lvo4d5pfjg3p4gssibebq3qqi5mlceijcs9rksrlt7e0suh4i4e56avl9ma64asbscfk09l4gckvqofcmqsod6blcqlkll0hnosd4g8hhm456bpdoo&amp;w=200&amp;h=60" frameborder="0" allowtransparency="true" width="300" height="60"></iframe>
 
-<fb:login-button
-registration-url="http://developers.facebook.com/docs/plugins
-/registration" />
+<br />
 
 <span style='text-align: center'>
 Telefone: 3873 5394 <br />
 Email: estagio@ess.ufrj.br
 </span>
- 
+
+<!--
+<p style='text-align: center'>
+    <span style='text-align: center'>
+    <a rel="author" href="https://profiles.google.com/u/0/115567722862878215603">
+    <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">  
+    </a>
+    </span>
+</p>
+//-->
+
 <p class="coluna_centralizada">
-<a href="http://web.intranet.ess.ufrj.br/ocs/index.php/estagio/">
+<a href="http://200.20.112.2/estagio/">
 <img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de Serviço Social/UFRJ" width="588" height="400">
 </a>
 </p>
