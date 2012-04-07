@@ -129,7 +129,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * header description string
 	 */
-	define ('PDF_HEADER_STRING', 'Coordenacao de Estágio e Extensão');
+	define ('PDF_HEADER_STRING', 'Coordenação de Estágio e Extensão');
 
 	/**
 	 * image logo

@@ -135,40 +135,6 @@ Estágio IV  <input type="radio" name="nivel" value="4">
 </tr>
 
 <!--
-Turno
-//-->
-<tr>
-<td>Turno:</td>
-{if $turno eq "D"}
-<td>
-Diurno  <input type="radio" name="turno" value="D" checked>
-Noturno <input type="radio" name="turno" value="N">
-</td>
-{elseif $turno eq "N"}
-<td>
-Diurno  <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N" checked>
-</td>
-{else}
-<td>
-Diurno  <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N">
-</td>
-</tr>
-{/if}
-
-<!--
-Avaliacao
-//-->
-<tr>
-<td>Avaliação</td>
-<td>
-Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="{$nota}">
-Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="{$ch}">
-</td>
-</tr>
-
-<!--
 Instituição
 //-->
 <tr>
@@ -233,6 +199,29 @@ Professor
 </tr>
 
 <!--
+Turno
+//-->
+<tr>
+<td>Turno:</td>
+{if $turno eq "D"}
+<td>
+Diurno  <input type="radio" name="turno" value="D" checked>
+Noturno <input type="radio" name="turno" value="N">
+</td>
+{elseif $turno eq "N"}
+<td>
+Diurno  <input type="radio" name="turno" value="D">
+Noturno <input type="radio" name="turno" value="N" checked>
+</td>
+{else}
+<td>
+Diurno  <input type="radio" name="turno" value="D">
+Noturno <input type="radio" name="turno" value="N">
+</td>
+</tr>
+{/if}
+
+<!--
 Area
 //-->
 <tr>
@@ -249,14 +238,24 @@ Area
 </td>
 </tr>
 
+<!--
+Avaliacao
+//-->
+<tr>
+<td>Avaliação</td>
+<td>
+Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="{$nota}">
+Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength="5" value="{$ch}">
+</td>
+</tr>
+
+<tr>
+<td colspan="2" class="coluna_centralizada">
 <input type="hidden" name="id_estagiarios" value="{$id_estagiarios}">
 <input type="hidden" name="atualizar_estagio" value=1>
 <input type="hidden" name="origem" value="{$origem}">
 <input type="hidden" name="id_aluno" value="{$id_aluno}">
 <input type="hidden" name="acao" value="1">
-
-<tr>
-<td colspan="2" class="coluna_centralizada">
 <input type="submit" name="submit" value="Confirma">
 </td>
 </tr>
