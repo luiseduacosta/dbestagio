@@ -2,6 +2,7 @@
 
 include_once("../../setup.php");
 include_once("../../autentica.inc");
+// echo "Origem: " .  $url . "<br>";
 
 $url = $_SERVER['SERVER_NAME'];
 $origem = $_REQUEST['origem'];
@@ -16,7 +17,7 @@ if (substr_count($origem, "seleciona.php") == 1) {
 if (empty($origem))
     $origem = $_SERVER['HTTP_REFERER'];
 
-
+// echo "Origem: " . $origem . "<br>";
 if ($debug == 1) {
     echo $origem . "<br>";
     echo $_SERVER['PHP_SELF'] . "<br>";
@@ -42,10 +43,6 @@ $municipio = $_REQUEST['municipio'];
 $observacoes = $_REQUEST['observacoes'];
 
 // echo $nascimento . "<br>";
-
-if ($debug == 1) {
-    // print_r($_REQUEST) . "<br>";
-}
 
 // Estagiarios
 $id_estagiarios = $_POST['id_estagiarios'];
@@ -73,6 +70,8 @@ if ($debug == 1) {
 // echo "Id estagiario " . $id_estagiarios . " - " . $_REQUEST['id_estagiarios'] . "<br>";
 // Se ja esta cadastrado
 if (($acao == 1) || ($cadastro == 1)) {
+    // echo "Acao ou cadastro" . "<br>";
+    // die();
     // Atualiza somente tabela estagiarios
     if (!empty($id_estagiarios)) {
         $sql_estagiarios = "update estagiarios set id_aluno='$id_aluno', registro='$registro', ";
@@ -108,12 +107,19 @@ if (($acao == 1) || ($cadastro == 1)) {
     }
 
     // echo "ORIGEM: " . $origem . "<br>";
-    /* Quando atualiza volta para ver_cada.php menos no caso de ter sido chamado desde listar.php */
+    /* Quando atualiza volta para ver_cada.php menos no caso de ter sido chamado desde listar.php */   
     $buscastring = substr_count($origem, "listar.php");
+    // echo "Busca string: " .  $buscastring . " Origem: " . $origem . "<br>";
+    // echo "Location: $origem";
     if (substr_count($origem, "listar.php") == 1) {
-        header("Location: $origem");
+        // echo "Listar " . "<br>";
+        header('Location:'. $origem);
+        // header('Location: ../exibir/listar.php');
+        exit;
     } else {
+        // echo "Exibir " . "<br>";
         header("Location: ../exibir/ver_cada.php?id_aluno=$id_aluno");
+        exit;
     }
     exit;
 }
@@ -121,6 +127,7 @@ if (($acao == 1) || ($cadastro == 1)) {
 // Aluno
 $sql = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where id='$id_aluno'";
+// echo $sql . "<br>";
 
 if ($debug == 1)
     echo $sql . "<br>";
