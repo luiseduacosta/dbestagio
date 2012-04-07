@@ -9,14 +9,14 @@
 require_once('../libphp/tcpdf/config/lang/eng.php');
 require_once('../libphp/tcpdf/tcpdf.php'); 
 
-// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
-
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
+// 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Coordenação de Estágio');
 $pdf->SetTitle('Pauta de alunos estagiários');
-$pdf->SetSubject('Alunos estagiarios');
+$pdf->SetSubject('Alunos estagiários');
 $pdf->SetKeywords('Estágio, Serviço Social');
 
 // set default header data
@@ -71,7 +71,7 @@ $res = $db->Execute($sql);
 // $pdf->SetXY(15,25);
 
 $tabela =
-"<p style='font-size:14px'>Alunos estagiarios: periodo $periodo; professor(a) $professor</p>" .
+"<p style='font-size:14px'>Alunos estagiários: período $periodo; professor(a) $professor</p>" .
 "<table border='1' cellpadding='3' cellspacing='0'>" .
 "<theader>" .
 "<tr>" .

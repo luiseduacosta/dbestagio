@@ -10,6 +10,7 @@ $origem = $_REQUEST['origem'];
 if (empty($origem )) {
 	$origem = $_SERVER['HTTP_REFERER']; // Para poder retornar desde onde foi chamado
 }
+// echo "Origem: " . $origem . "<br>";
 
 $id_estagiarios = isset($_REQUEST['id_estagiarios']) ? $_REQUEST['id_estagiarios'] : NULL;
 $id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
