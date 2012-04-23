@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : example_038.php
 // Begin       : 2008-09-15
-// Last Update : 2010-08-08
+// Last Update : 2011-10-01
 //
 // Description : Example 038 for TCPDF class
 //               CID-0 CJK unembedded font
@@ -11,10 +11,10 @@
 //
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
+//               Manor Coach House, Church Hill
+//               Aldershot, Hants, GU12 4RQ
+//               UK
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -24,9 +24,6 @@
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: CID-0 CJK unembedded font
  * @author Nicola Asuni
- * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2008-09-15
  */
 
@@ -70,7 +67,7 @@ $pdf->setLanguageArray($l);
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('arialunicid0', '', 20);
+$pdf->SetFont('cid0jp', '', 20);
 
 // add a page
 $pdf->AddPage();
@@ -86,5 +83,5 @@ $pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
 $pdf->Output('example_038.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                
+// END OF FILE
 //============================================================+

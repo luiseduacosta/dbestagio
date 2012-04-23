@@ -5,11 +5,10 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-
 require_once('../libphp/tcpdf/config/lang/eng.php');
 require_once('../libphp/tcpdf/tcpdf.php'); 
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false); 
 // $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
 // 
 // set document information
@@ -54,8 +53,43 @@ $professor = isset($_REQUEST['professor']) ? $_REQUEST['professor'] : NULL;
 $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 
 // echo $periodo . " " . $prof_id . "<br>";
+/* Capturo os valores para área e turno */
+$sql  = "select estagiarios.turno, areas_estagio.area from estagiarios ";
+$sql .= " join areas_estagio on estagiarios.id_area = areas_estagio.id ";
+$sql .=	" where periodo = '$periodo' "; 
+$sql .= " and id_area = $id_area ";
+$sql .=	" and id_professor = '$prof_id' ";
+// echo $sql . "<br>";
 
-$sql  = "select alunos.registro, alunos.nome as aluno, nivel, id_professor, instituicao, supervisores.nome as supervisor, periodo from estagiarios ";
+$res = $db->Execute($sql);
+$area = $res->fields['area'];
+$turno = $res->fields['turno'];
+
+// $pdf->SetXY(15,25);
+
+$titulo = <<<EOD
+<p style="font-family:arial; color:red; font-size:16;">
+Período: $periodo - Professor(a): $professor - Área: $area - Turno: $turno
+</p>
+EOD;
+
+$pdf->writeHTML($titulo, true, false, false, false, '');
+
+$tbl = <<<EOD
+<table border="1" cellpadding="3" cellspacing="1">
+<theader>
+<tr>
+<td width="10%" style="font-weight:bold; text-align:center;"><strong>Registro</strong></td>
+<td width="20%"  style="font-weight:bold; text-align:center;"><strong>Estudante</strong></td>
+<td width="5%"  style="font-weight:bold; text-align:center;"><strong>Nível</strong></td>
+<td width="35%"  style="font-weight:bold; text-align:center;"><strong>Instituição</strong></td>
+<td width="30%"  style="font-weight:bold; text-align:center;"><strong>Supervisor</strong></td>
+</tr>
+</theader>
+<tbody>
+EOD;
+
+$sql  = "select alunos.registro, alunos.nome as aluno, estagiarios.nivel, estagiarios.id_professor, estagio.instituicao, supervisores.nome as supervisor, estagiarios.periodo from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
 $sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
 $sql .= " left join supervisores on estagiarios.id_supervisor = supervisores.id ";
@@ -63,27 +97,9 @@ $sql .=	" where periodo = '$periodo' ";
 $sql .= " and id_area = $id_area ";
 $sql .=	" and id_professor = '$prof_id' ";
 $sql .= " order by alunos.nome ";
-
 // echo $sql . "<br>";
 
 $res = $db->Execute($sql);
-
-// $pdf->SetXY(15,25);
-
-$tabela =
-"<p style='font-size:14px'>Alunos estagiários: período $periodo; professor(a) $professor</p>" .
-"<table border='1' cellpadding='3' cellspacing='0'>" .
-"<theader>" .
-"<tr>" .
-"<th width='15px'>X</th>" .
-"<td width='60px' style='text-align:center'>Registro</td>" .
-"<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nível</td>" .
-"<td width='300px'>Instituição</td>" .
-"<td width='170px'>Supervisor</td>" .
-"</tr>" .
-"</theader>" .
-"<tbody>";
 
 while (!$res->EOF) {
 	$registro = $res->fields['registro'];
@@ -93,63 +109,72 @@ while (!$res->EOF) {
 	$instituicao = $res->fields['instituicao'];
 	$periodo = $res->fields['periodo'];
 	$nivel = $res->fields['nivel'];
-	
-	$tabela .= "<tr>" .
-			"<td width='15px'></td>" .
-			"<td width='60px' style='text-align:center'>$registro</td>" .
-			"<td width='170px'>$aluno</td>" .
-			"<td width='35px' style='text-align:center'>$nivel</td>" .
-			"<td width='300px'>$instituicao</td>" .
-			"<td width='170px'>$supervisor</td>" .
-			"</tr>";
-	$res->MoveNext();
+
+$tbl .= <<<EOD
+<tr>
+<td style="text-align:center">$registro</td>
+<td>$aluno</td>
+<td style="text-align:center">$nivel</td>
+<td>$instituicao</td>
+<td>$supervisor</td>
+</tr>
+EOD;
+        
+        $res->MoveNext();
+
 }
 
-$tabela .= "</tbody>" .
-		"</table>";
+$tbl .= <<<EOD
+</tbody>
+</table>
+EOD;
 
+$pdf->writeHTML($tbl, true, false, false, false, '');
 
-$tabela .= "<br>" .
-		"<p style='font-size:14px'>Acrescentar aqui novos alunos para incluir na pauta</p>";
-
-$tabela .=
-"<table border='1' cellpadding='3' cellspacing='0'>" .
-"<theader>" .
-"<tr>" .
-"<td width='15px'>X</td>" .
-"<td width='60px' style='text-align:center'>Registro</td>" .
-"<td width='170px'>Aluno</td>" .
-"<td width='35px' style='text-align:center'>Nível</td>" .
-"<td width='300px'>Instituição</td>" .
-"<td width='170px'>Supervisor</td>" .
-"</tr>" .
-"</theader>" .
-"<tbody>";
+$tabela = <<<EOD
+<p style="font-size:16">Acrescentar aqui novos alunos para incluir na pauta</p>
+<br>
+<table border="1" cellpadding="3" cellspacing="1">
+<theader>
+<tr>
+<td width="10%" style="font-weight:bold; text-align:center">Registro</td>
+<td width="20%" style="font-weight:bold; text-align:center">Aluno</td>
+<td width="5%" style="font-weight:bold; text-align:center">Nível</td>
+<td width="35%" style="font-weight:bold; text-align:center">Instituição</td>
+<td width="30%" style="font-weight:bold; text-align:center">Supervisor</td>
+</tr>
+</theader>
+<tbody>
+EOD;
 
 for ($i = 0; $i<10; $i++) {
 
-	$tabela .= "<tr>" .
-	"<td width='15px'></td> " .
-	"<td width='60px'></td> " .
-	"<td width='170px'></td> " .
-	"<td width='35px'></td> " .
-	"<td width='300px'></td> " .
-	"<td width='170px'></td> " .
-	"</tr>";
-}
+	$tabela .= <<<EOD
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+EOD;
 
-$tabela .= "</tbody>" .
-		"</table>";
+    }
+
+$tabela .= <<<EOD
+</tbody>
+</table>
+EOD;
 
 $data = date('d/m/Y');
 
-$tabela .="<br>" .
-		"<p style='text-align:rigth'>Rio de Janeiro, $data</p>";
-		
-$pdf->SetFont('times', '', 10);
+$tabela .= <<<EOD
+<br>
+<p style="text-align:rigth">Rio de Janeiro, $data</p>
+EOD;
 
-$pdf->writeHTML($tabela, true, 0, true, 0);
-
+$pdf->writeHTML($tabela, true, false, true, false, '');
+// echo $tabela;
 //Close and output PDF document
 $pdf->Output('pauta_estagiarios.pdf', 'I'); 
 
