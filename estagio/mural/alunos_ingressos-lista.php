@@ -2,7 +2,7 @@
 
 include_once("../setup.php");
 // include_once("../autentica.inc");
-
+// echo "Alunos ingressos" . "<br>";
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 $turno = isset($_REQUEST['turno']) ? $_REQUEST['turno'] : NULL;
@@ -20,8 +20,8 @@ if (!$turma) {
 }
 
 $sql = "select periodo, turno, registro, nome from alunos_ingresso " .
-		" where periodo='$turma'"; 
-
+		" where periodo='$turma'";
+// echo $sql . "<br>";
 if ($turno) $sql .=	" and turno='$turno'";
 
 $res = $db->Execute($sql);
@@ -40,7 +40,7 @@ while (!$res->EOF) {
 	$alunos[$i]['nome'] = $res->fields['nome'];
 	// $alunos[$i]['etica'] = $res->fields['etica'];
 
-	// Pego os alunos que cursaram etica	
+	// Pego os alunos que cursaram etica
 	$sql_etica = "select periodo from alunos_etica where registro='$registro' order by periodo";
 	// echo $sql_etica . "<br>";
 	$res_etica = $db->Execute($sql_etica);
@@ -56,7 +56,7 @@ while (!$res->EOF) {
 
 	// Pego os alunos que estao estagiando
 	$sql_estagiarios = "select periodo, registro, nivel as max_nivel from estagiarios " .
-			" where registro='$registro' " .
+			" where registro='$registro' and nota != 0.00" .
 			" order by periodo ";
 	// echo $sql_estagiarios . "<br>";
 	$res_estagiarios = $db->Execute($sql_estagiarios);
@@ -95,9 +95,9 @@ while (!$res->EOF) {
 	$res_tcc = $db->Execute($sql_tcc);
 	$alunos[$i]['tcc'] = $res_tcc->fields['num_monografia'];
 	$alunos[$i]['periodo_tcc'] = $res_tcc->fields['periodo'];
-	
+
 	// Calculo o tempo de demora em realizar o curso
-	if ($alunos[$i]['periodo_tcc']) { 
+	if ($alunos[$i]['periodo_tcc']) {
 		// Pego o periodo mais anterior
 		if ($alunos[$i]['outro_periodo']) {
 			if ($alunos[$i]['outro_periodo'] < $alunos[$i]['intro_seso']) {
@@ -128,7 +128,7 @@ while (!$res->EOF) {
 		$alunos[$i]['tempo_total'] = $tempo_total;
 		// echo $tempo_total . "<br>";
 	}
-	
+
 	// echo $registro . " " . $nome . ": Nivel :" . $nivel . ": Id aluno novo :" . $id_registro . "<br>";
 
 	$criterio[] = $alunos[$i][$ordem];
@@ -183,6 +183,6 @@ $smarty->assign("periodo_atual",$periodo_atual);
 $smarty->assign("tempo_cursado",$tempo_cursado);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("alunos",$alunos);
-$smarty->display("file:".RAIZ."/estagio/mural/alunos_ingressos-lista.tpl");
+$smarty->display("file:". RAIZ . "/mural/alunos_ingressos-lista.tpl");
 
 ?>

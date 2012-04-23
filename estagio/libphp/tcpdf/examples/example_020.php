@@ -12,10 +12,10 @@
 //
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
+//               Manor Coach House, Church Hill
+//               Aldershot, Hants, GU12 4RQ
+//               UK
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -25,9 +25,6 @@
 * @package com.tecnick.tcpdf
 * @abstract TCPDF - Example: Two columns composed by MultiCell of different heights
 * @author Nicola Asuni
-* @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
-* @link http://tcpdf.org
-* @license http://www.gnu.org/copyleft/lesser.html LGPL
 * @since 2008-03-04
 */
 

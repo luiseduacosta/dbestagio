@@ -20,7 +20,8 @@ $(document).ready(function() {
 	var autentica = $.cookie("usuario_nome");
 	// alert("Autentica: ");
 	if(autentica) {
-		$("#instituicoes").css("display","block");
+                $("#administracao").css("display","block");
+                $("#instituicoes").css("display","block");
 		$("#supervisores").css("display","block");
 		$("#areas").css("display","block");
 		$("#alunos").css("display","block");
@@ -66,6 +67,13 @@ Manual do aluno</a>
 <!-- 
 <iframe src='http://docs.google.com/EmbedSlideshow?id=dhd8s6wp_379hdjfqjgg' frameborder='0' width='120' height='100'></iframe>
 // -->
+</td>
+</tr>
+
+<tr>
+<td id="administracao" style="display:none">
+        <a href="administracao/controle_db.php" target="_corpo">
+            Controle administrativo</a><br>
 </td>
 </tr>
 
