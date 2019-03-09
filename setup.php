@@ -1,15 +1,15 @@
 <?php
 
 // Banco de dados
-define("ADODB","/usr/local/htdocs/html/adodb/");
+define("ADODB","/home/luis/html/adodb5/");
 require(ADODB.'adodb.inc.php');
 
 /* */
 $tipo       = "mysql";
 $host       = "localhost";
-$usuario    = "ess";
-$senha      = "ess123";
-$bancodados = "ess";
+$usuario    = "root";
+$senha      = "root";
+$bancodados = "ess_app";
 /* */
 
 $db = NewADOConnection($tipo);
@@ -19,8 +19,8 @@ $db->debug;
 $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 // carrega Smarty library files
-define("RAIZ","/usr/local/htdocs/html");
-define("SMARTY_DIR","/usr/local/htdocs/html/Smarty/libs/");
+define("RAIZ","/home/luis/html");
+define("SMARTY_DIR","/home/luis/html/Smarty/libs/");
 
 require(SMARTY_DIR.'Smarty.class.php');
 
