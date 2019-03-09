@@ -1,8 +1,8 @@
 <?php
 
 $opts['hn'] = 'localhost';
-$opts['un'] = 'ess';
+$opts['un'] = 'root';
 $opts['pw'] = '';
-$opts['db'] = 'ess';
+$opts['db'] = 'ess_app';
 
 ?>
