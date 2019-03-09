@@ -1,15 +1,15 @@
 <?php
 
-define("ADODB","/usr/local/htdocs/html/adodb/");
+define("ADODB","/home/luis/html/adodb5/");
 require_once(ADODB.'adodb.inc.php');
 
 /* */ 
 $tipo       = "mysql";
 $host       = "localhost";
 /* $host       = "200.20.112.2"; */
-$usuario    = "ess";
+$usuario    = "root";
 $senha = "";
-$bancodados = "ess";
+$bancodados = "ess_app";
 /* */
 /* 
 $tipo       = "pgsql";
