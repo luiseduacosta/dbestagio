@@ -6,7 +6,6 @@ require_once(ADODB.'adodb.inc.php');
 /* */ 
 $tipo       = "mysql";
 $host       = "localhost";
-/* $host       = "200.20.112.2"; */
 $usuario    = "root";
 $senha      = "root";
 $bancodados = "ess_app";
