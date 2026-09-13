@@ -9,7 +9,7 @@ $area    = $_POST["area"];
 $sql = "update areas_estagio set area='$area' where id=$id_area";
 $resultado = $db->Execute($sql);
 
-if ($resultado === false) die ("Nao foi possivel atualizar a tabela areas_estagio"); 
+if ($resultado === false) die ("Não foi possivel atualizar a tabela areas_estagio"); 
 
 header("Location:../exibir/listar.php");
 // echo "<p>Registro atualizadao</p>";

@@ -114,4 +114,3 @@ require_once('../../libphp/phpMyEdit.class.php');
 new phpMyEdit($opts);
 
 ?>
-
