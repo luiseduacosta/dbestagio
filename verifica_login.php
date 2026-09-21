@@ -1,5 +1,7 @@
 <?php
 
+require_once "setup.php";
+
 // Pego o nume do usuario e a senha enviado pelo login.php
 $usuario_digitado = $_POST['usuario_nome'];
 $senha_digitada   = $_POST['usuario_senha'];
@@ -9,7 +11,6 @@ if(empty($usuario_digitado) or (empty($senha_digitada))) {
 	// echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
 // Si existem busco na tabela de usuarios se estao autorizados
 } else {
-    include("setup.php");
     $sql = "select usuario, senha from usuarios where usuario='$usuario_digitado' and senha='$senha_digitada'";
     $resultado = $db->Execute($sql);
     if ($resultado === false) die ("Nao foi possivel consultar a tabela usuarios");
