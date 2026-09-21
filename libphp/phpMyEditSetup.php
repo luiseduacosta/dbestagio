@@ -325,7 +325,7 @@ if ((!$dbl) or empty($submit)) {
 // MySQL host name, user name, password, database, and table
 \$opts['hn'] = '$hn';
 \$opts['un'] = '$un';
-\$opts['pw'] = '$pw';
+\$opts['pw'] = '';
 \$opts['db'] = '$db';
 \$opts['tb'] = '$tb';
 

@@ -141,7 +141,7 @@ $smarty->assign("turma",$turma);
 $smarty->assign("matriz",$matriz);
 $smarty->assign("turmas",$turmas);
 
-$myfile = RAIZ . $smarty->template_dir . "inscricao_lista.tpl";
+$myfile = RAIZ . "/smarty/templates/inscricao_lista.tpl";
 // echo "Meu arquivo " . $myfile . "<br>";
 $smarty->display("file:$myfile");
 

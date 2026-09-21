@@ -1,6 +1,6 @@
 <?php
 
-define("XAJAX","/usr/local/htdocs/html/xajax/");
+define("XAJAX", dirname(__DIR__) . "/lib/xajax/");
 require_once(XAJAX."xajax.inc.php");
 $xajax = new xajax("ver_supervisor.php");
 $xajax->registerFunction("ver_supervisor");

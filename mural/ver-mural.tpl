@@ -59,7 +59,7 @@ s.parentNode.insertBefore(po, s);
 <span id="alunoInscrito"></span>
 
 {if $sistema_autentica == 1}
-	{include file="/usr/local/htdocs/html/estagio/mural/mural_menu.tpl"}
+	{include file="mural_menu.tpl"}
 {/if}
 
 <h1>Mural de estágios - Turma {$periodo_atual}</h1>
