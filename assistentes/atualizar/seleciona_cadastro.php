@@ -1,9 +1,7 @@
 <?php
 
-// include_once("../../autentica.inc");
-// echo $_SERVER['PHP_SELF'] . "<br>";
-
-include_once("../../setup.php");
+require_once("../setup.php");
+require_once("../autentica.inc");
 
 $smarty = new Smarty_estagio;
 

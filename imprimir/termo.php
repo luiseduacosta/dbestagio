@@ -33,8 +33,8 @@ if ($classificacao == 0) {
 
 // die;
 
-require_once('../libphp/tcpdf/config/lang/eng.php');
-require_once('../libphp/tcpdf/tcpdf.php');
+// TCPDF loaded via Composer autoloader in setup.php
+
 
 $pdf = new TCPDF('P', 'mm', 'A4', TRUE, 'UTF-8', FALSE);
 

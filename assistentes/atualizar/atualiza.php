@@ -1,6 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
+require_once("../../autentica.inc");
+require_once("../../setup.php");
 
 $id_instituicao   = isset($_POST['id_instituicao']) ? $_POST['id_instituicao'] : NULL;
 $id_supervisor    = isset($_POST['id_supervisor']) ? $_POST['id_supervisor']: NULL;
@@ -8,8 +9,6 @@ $id_supervisor    = isset($_POST['id_supervisor']) ? $_POST['id_supervisor']: NU
 $nome  = $_POST['nome'];
 $email = $_POST['email'];
 $cress = $_POST['cress'];
-
-include_once("../../setup.php");
 
 $sql = "update supervisores set nome='$nome', email='$email', cress='$cress' where id=$id_supervisor";
 // echo $sql . "<br>";

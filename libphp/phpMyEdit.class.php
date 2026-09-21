@@ -456,7 +456,7 @@ class phpMyEdit
 						$qparts['select'] .= ',';
 					}
 				}
-				$qparts['select']{strlen($qparts['select']) - 1} = ')';
+				$qparts['select'][strlen($qparts['select']) - 1] = ')';
 				$qparts['select'] .= ' AS '.$this->sd.'PMEalias'.$field_num.$this->ed;
 				$qparts['orderby'] = $this->sd.'PMEalias'.$field_num.$this->ed;
 			} else if ($desc && is_array($desc)) {
@@ -520,7 +520,7 @@ class phpMyEdit
 							$ret .= ',';
 						}
 					}
-					$ret{strlen($ret) - 1} = ')';
+					$ret[strlen($ret) - 1] = ')';
 				} else if (is_array($desc)) {
 					// TODO
 				} else {
@@ -544,8 +544,6 @@ class phpMyEdit
  		return $this->get_SQL_query($qparts);
  	} /* }}} */
  
-
-
 	function get_SQL_query($parts) /* {{{ */
 	{
 		foreach ($parts as $k => $v) {

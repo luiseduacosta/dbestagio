@@ -1,8 +1,9 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Banco de dados
-define("ADODB", __DIR__ . "/lib/adodb5/");
-require(ADODB.'adodb.inc.php');
+define("ADODB", __DIR__ . "/vendor/adodb/adodb-php/");
 
 /* */
 $tipo       = "mysqli";
@@ -20,9 +21,8 @@ $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 // carrega Smarty library files
 define("RAIZ", __DIR__);
-define("SMARTY_DIR", __DIR__ . "/lib/smarty/");
+define("SMARTY_DIR", __DIR__ . "/vendor/smarty/smarty/libs/");
 
-require(SMARTY_DIR.'SmartyBC.class.php');
 
 class Smarty_estagio extends SmartyBC {
 
