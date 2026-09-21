@@ -14,15 +14,13 @@ $bancodados = "ess_app";
 /* */
 
 $db = NewADOConnection($tipo);
-$db->Connect($host,$usuario,$senha,$bancodados);
+$db->Connect($host, $usuario, $senha, $bancodados);
 $db->Execute("set names 'utf8'");
-$db->debug;
 $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 // carrega Smarty library files
 define("RAIZ", __DIR__);
 define("SMARTY_DIR", __DIR__ . "/vendor/smarty/smarty/libs/");
-
 
 class Smarty_estagio extends SmartyBC {
 
