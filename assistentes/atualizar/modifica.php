@@ -57,12 +57,11 @@ $smarty->assign("email",$email);
 $smarty->assign("cress",$cress);
 $smarty->assign("instituicao",$instituicao); // instituicoes do supervisor
 $smarty->assign("matriz_instituicoes",$matriz_instituicoes);
-// $smarty->assign("matriz_areas",$matriz_areas);
 
 // Mostro os resultados
 $smarty->display("supervisor_modifica.tlp");
 
-$db->close();
+// $db->close();
 
 exit;
 

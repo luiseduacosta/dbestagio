@@ -5,8 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require_once('../libphp/tcpdf/config/lang/eng.php');
-require_once('../libphp/tcpdf/tcpdf.php'); 
+require_once('../setup.php');
+
 
 $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false); 
 // $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
@@ -45,7 +45,6 @@ $pdf->SetFont('times', '', 12);
 // add a page
 $pdf->AddPage();
 
-include("../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 $prof_id = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;

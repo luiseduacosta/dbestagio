@@ -1,7 +1,9 @@
 <?php
 
-define("ADODB", __DIR__ . "/lib/adodb5/");
-require_once(ADODB.'adodb.inc.php');
+require_once __DIR__ . '/vendor/autoload.php';
+
+define("ADODB", __DIR__ . "/vendor/adodb/adodb-php/");
+
 
 /* */ 
 $tipo       = "mysqli";
