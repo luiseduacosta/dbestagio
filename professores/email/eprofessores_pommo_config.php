@@ -7,11 +7,11 @@
  */
 
 // Banco de dados
-define("ADODB","/usr/local/htdocs/html/adodb/");
+define("ADODB", dirname(__DIR__, 2) . "/lib/adodb5/");
 require(ADODB.'adodb.inc.php');
 
 /* */
-$tipo       = "mysql";
+$tipo       = "mysqli";
 $host       = "200.20.112.3";
 $usuario    = "ess";
 $senha = "";

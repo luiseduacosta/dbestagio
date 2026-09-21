@@ -37,8 +37,8 @@ Rio de Janeiro, ". $dia ." de ". $mes ." de ". $ano. ".
 Coordenação de Estágio Supervisor (N° do CRESS) Aluno
 ";
 
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf151/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf151/");
+define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
+define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
 

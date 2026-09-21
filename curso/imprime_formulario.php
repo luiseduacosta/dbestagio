@@ -11,8 +11,8 @@ $turma = TURMA;
 // define("FPDF_FONTPATH","/home2/locuss/public_html/fpdf151/font/");
 // define("FPDF","/home2/locuss/public_html/fpdf151/");
 
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf151/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf151/");
+define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
+define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
 

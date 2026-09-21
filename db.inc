@@ -1,10 +1,10 @@
 <?php
 
-define("ADODB","/home/luis/html/adodb5/");
+define("ADODB", __DIR__ . "/lib/adodb5/");
 require_once(ADODB.'adodb.inc.php');
 
 /* */ 
-$tipo       = "mysql";
+$tipo       = "mysqli";
 $host       = "localhost";
 /* $host       = "200.20.112.2"; */
 $usuario    = "root";

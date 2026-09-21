@@ -1,11 +1,11 @@
 <?php
 
 // Banco de dados
-define("ADODB","/home/luis/html/adodb5/");
+define("ADODB", __DIR__ . "/lib/adodb5/");
 require(ADODB.'adodb.inc.php');
 
 /* */
-$tipo       = "mysql";
+$tipo       = "mysqli";
 $host       = "localhost";
 $usuario    = "root";
 $senha = "";
@@ -19,21 +19,21 @@ $db->debug;
 $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 // carrega Smarty library files
-define("RAIZ","/home/luis/html");
-define("SMARTY_DIR","/home/luis/html/Smarty/libs/");
+define("RAIZ", __DIR__);
+define("SMARTY_DIR", __DIR__ . "/lib/smarty/");
 
-require(SMARTY_DIR.'Smarty.class.php');
+require(SMARTY_DIR.'SmartyBC.class.php');
 
-class Smarty_estagio extends Smarty {
+class Smarty_estagio extends SmartyBC {
 
-	function Smarty_estagio() {
+	function __construct() {
 
-		$this->Smarty();
+		parent::__construct();
 
-		$this->cache_dir    = RAIZ.'/estagio/smarty/cache/';
-		$this->config_dir   = RAIZ.'/estagio/smarty/configs/';
-		$this->template_dir = RAIZ.'/estagio/smarty/templates/';
-		$this->compile_dir  = RAIZ.'/estagio/smarty/templates_c/';
+		$this->cache_dir    = RAIZ.'/smarty/cache/';
+		$this->config_dir   = RAIZ.'/smarty/configs/';
+		$this->template_dir = RAIZ.'/smarty/templates/';
+		$this->compile_dir  = RAIZ.'/smarty/templates_c/';
 
 		$this->debugging = false;
 		$this->caching = true;
@@ -46,8 +46,8 @@ class Smarty_estagio extends Smarty {
 define("ESTAGIO","/estagio/");
 
 /* Para produzir documentos PDF */
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf153/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf153/");
+define("FPDF_FONTPATH", __DIR__ . "/lib/fpdf/font/");
+define("FPDF", __DIR__ . "/lib/fpdf/");
 
 $sql = "select mural_periodo_atual," .
 		" curso_turma_atual, " .
@@ -88,10 +88,10 @@ define("ENCERRAMENTO",date('m/d/Y',strtotime($curso_encerramento_inscricoes)));
 $debug = 0;
 
 // Mailer
-define("MAILER","/usr/local/htdocs/html/PHPMailer/");
+define("MAILER", __DIR__ . "/lib/phpmailer/");
 
 // tmp
-define("TMP","/usr/local/htdocs/html/estagio/tmp/");
+define("TMP", __DIR__ . "/tmp/");
 
 /* Para o termo de compromisso */
 define("TC_PERIODO_ATUAL", $termo_compromisso_periodo);
@@ -111,6 +111,6 @@ $validade2 = date('d/m/Y',strtotime($termo_compromisso_final));
 // echo $validade1 . " " . $validade2 . "<br>";
 
 // Servidor onde esta sendo executado o programa
-$servidor = $_SERVER[SERVER_NAME];
+$servidor = $_SERVER['SERVER_NAME'];
 
 ?>
