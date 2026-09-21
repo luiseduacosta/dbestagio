@@ -1,5 +1,3 @@
-database.inc
-db.inc
-setup.php
-# Metadados da IDE NetBeans (nao fazem parte do projeto)
-nbproject/
+smarty/cache/*
+smarty/templates_c/*
+tmp/*

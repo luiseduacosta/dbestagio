@@ -4,8 +4,8 @@ include_once("../setup.php");
 
 $id_instituicao = $_REQUEST['id_instituicao'];
 
-define("FPDF_FONTPATH","/usr/local/htdocs/html/fpdf151/font/");
-define("FPDF","/usr/local/htdocs/html/fpdf151/");
+define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
+define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
 

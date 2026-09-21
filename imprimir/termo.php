@@ -165,7 +165,7 @@ $pdf->Cell(0, 5, $nome, 0, 0, "R");
 $pdf->Ln(3);
 $pdf->Cell(0, 5, "DRE: $registro", 0, 0, "R");
 
-$pdf->Output("/usr/local/htdocs/html/estagio/tmp/termo". $registro . ".pdf");
+$pdf->Output(dirname(__DIR__) . "/tmp/termo". $registro . ".pdf");
 $file = "/tmp/termo" . $registro . ".pdf";
 
 echo "<html><head>
