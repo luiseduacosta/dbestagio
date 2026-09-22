@@ -8,7 +8,7 @@
 
 // MySQL host name, user name, password, database, and table
 include_once("../database.inc");
-$opts['tb'] = 'configuracao';
+$opts['tb'] = 'configuracoes';
 
 // Name of field which is the unique key
 $opts['key'] = 'id';

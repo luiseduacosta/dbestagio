@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $submit   = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;

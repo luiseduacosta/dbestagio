@@ -10,7 +10,6 @@ if (empty($origem)) {
 
 // echo $origem . "<br>";
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $registro = $_REQUEST['registro'];

@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;

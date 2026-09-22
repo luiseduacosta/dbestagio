@@ -1,7 +1,6 @@
 <?php
 
 require_once("../../autentica.inc");
-require_once("../../setup.php");
 // include_once("../../autentica.inc");
 // Pego o numero da instituição
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;

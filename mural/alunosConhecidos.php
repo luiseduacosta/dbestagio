@@ -7,7 +7,6 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $ordem = $_GET['ordem'];

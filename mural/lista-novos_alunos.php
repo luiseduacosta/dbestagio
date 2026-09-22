@@ -1,6 +1,5 @@
 <?php
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;

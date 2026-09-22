@@ -21,7 +21,7 @@ echo "<h3>Migração de passwords para bcrypt</h3>";
 echo "<pre>";
 
 $tabelas = array(
-    'user' => array(
+    'users' => array(
         'email_col'    => 'email',
         'password_col' => 'password',
         'senhas' => array(

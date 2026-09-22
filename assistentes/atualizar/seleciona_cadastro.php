@@ -1,6 +1,5 @@
 <?php
 
-require_once("../setup.php");
 require_once("../autentica.inc");
 
 $smarty = new Smarty_estagio;

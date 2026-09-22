@@ -1,9 +1,9 @@
 <?php
 
-echo "<h3>Usuários do sistema (tabela: user)</h3>";
+echo "<h3>Usuários do sistema (tabela: users)</h3>";
 
 include_once("../database.inc");
-$opts['tb'] = 'user';
+$opts['tb'] = 'users';
 
 $opts['key'] = 'id';
 $opts['key_type'] = 'int';

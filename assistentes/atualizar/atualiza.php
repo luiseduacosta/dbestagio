@@ -1,7 +1,6 @@
 <?php
 
 require_once("../../autentica.inc");
-require_once("../../setup.php");
 
 $id_instituicao   = isset($_POST['id_instituicao']) ? $_POST['id_instituicao'] : NULL;
 $id_supervisor    = isset($_POST['id_supervisor']) ? $_POST['id_supervisor']: NULL;

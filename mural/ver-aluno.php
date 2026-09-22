@@ -1,6 +1,5 @@
 <?php
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $id_aluno = isset($_GET['id_aluno']) ? $_GET['id_aluno'] : NULL ;

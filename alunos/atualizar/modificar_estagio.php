@@ -3,7 +3,6 @@
 if ($debug == 1)
 	echo $_SERVER['PHP_SELF'] . "<br>";
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $id_aluno = $_REQUEST['id_aluno'];

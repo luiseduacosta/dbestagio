@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $id_instituicao        = $_POST['id_instituicao'];
