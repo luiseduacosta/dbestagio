@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
@@ -11,141 +10,132 @@
 	<meta name="generator" content="screem 0.12.1">
 	<meta name="description" content="">
 	<meta name="keywords" content="">
-<style type="text/css">
-@import url("mural.css");
-</style>
-<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
+	<style type="text/css">
+		@import url("mural.css");
+	</style>
+	<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
+	<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
+	<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 
-{literal}
-<script language="JavaScript" type="text/javascript">
-function janelaInsere() {
-	var insere = document.getElementById("registroInserido").value;
-	if (insere != "") {
-		var texto = document.getElementById("alunoInscrito");
-		texto.setAttribute("style","font-weight:bold; background-color=yellow; color: red");
-		texto.style.cssText = "font-weight:bold; background-color:yellow; color:red";
-		texto.innerHTML = "Aluna(o) "+insere+ " inscrita(o) em seleção de estágio";
-		insere="";
-	}
-	return true;
-}
-</script>
-    
-<!-- Place this tag in the <head> of your document -->
-<link href="https://plus.google.com/109318628092764151295" rel="publisher" />
+	{literal}
+	<script language="JavaScript" type="text/javascript">
+		function janelaInsere() {
+			var insere = document.getElementById("registroInserido").value;
+			if (insere != "") {
+				var texto = document.getElementById("alunoInscrito");
+				texto.setAttribute("style", "font-weight:bold; background-color=yellow; color: red");
+				texto.style.cssText = "font-weight:bold; background-color:yellow; color:red";
+				texto.innerHTML = "Aluna(o) " + insere + " inscrita(o) em seleção de estágio";
+				insere = "";
+			}
+			return true;
+		}
+	</script>
 
-<script type="text/javascript">
-window.___gcfg = {lang: 'pt-BR'};
-(function() 
-{var po = document.createElement("script");
-po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
-var s = document.getElementsByTagName("script")[0];
-s.parentNode.insertBefore(po, s);
-})();
-</script>
-        
-{/literal}
+	<!-- Place this tag in the <head> of your document -->
+	<link href="https://plus.google.com/109318628092764151295" rel="publisher" />
+
+	<script type="text/javascript">
+		window.___gcfg = { lang: 'pt-BR' };
+		(function () {
+			var po = document.createElement("script");
+			po.type = "text/javascript"; po.async = true; po.src = "https://apis.google.com/js/plusone.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+	</script>
+
+	{/literal}
 
 </head>
 
 <body id="corpo" onLoad="return janelaInsere();">
 
-<form name="confirmaInscricao" id="confirmaInscricao" action="#" method="post" enctype="text/plain">
-<input type="hidden" name="registroInserido" id="registroInserido" value="{$insere}">
-</form>
+	<form name="confirmaInscricao" id="confirmaInscricao" action="#" method="post" enctype="text/plain">
+		<input type="hidden" name="registroInserido" id="registroInserido" value="{$insere}">
+	</form>
 
-<span id="alunoInscrito"></span>
+	<span id="alunoInscrito"></span>
 
-{if $sistema_autentica == 1}
+	{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
-{/if}
+	{/if}
 
-<h1>Mural de estágios - Turma {$periodo_atual}</h1>
+	<h1>Mural de estágios - Turma {$periodo_atual}</h1>
 
-<!-- {$smarty.now|date_format:"%d-%b-%Y"} -->
+	<p style="font-size:100%;background-color:#e7e1ae">Clique <a
+			href="http://www.pr1.ufrj.br/estagios/busca.php">aqui</a>
+		e selecione o curso de Serviço Social para ver as instituições conveniadas com a UFRJ
+	</p>
 
-<p style="font-size:100%;background-color:#e7e1ae">Clique <a href="http://www.pr1.ufrj.br/estagios/busca.php">aqui</a>
-e selecione o curso de Serviço Social para ver as instituições conveniadas com a UFRJ
-</p>
+	<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando
+		estágio
+	</p>
 
-<p>São {$totalVagas} vagas e {$totalAlunos} alunos ({$alunos_novos} novos e {$alunosVelhos} estagiarios) procurando estágio
-</p>
+	<div align="center">
+		<form name="inscricao" id="inscricao" action="#" method="post">
+			<table class="tab_mural" border="1">
 
-<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.ess.ufrj.br%2Festagio&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
-<!-- Place this tag where you want the badge to render -->
-<div class="g-plus" data-href="https://plus.google.com/109318628092764151295" data-size="badge">Estágio</div>
+				<thead>
+					<tr>
+						<th><a href=?ordem=instituicao>Instituiçao</a></th>
+						<th>Vagas</th>
+						<th>Inscritos</th>
+						<th>Benefícios</th>
+						<th><a href=?ordem=data_inscricao>Encerramento</a></th>
+						<th><a href=?ordem=data_selecao>Seleção</a></th>
+						{if $sistema_autentica == 1}
+						<th>Email enviado</th>
+						{/if}
+					</tr>
+				</thead>
 
-<div align="center">
-<form name="inscricao" id="inscricao" action="#" method="post">
-<table class="tab_mural" border="1">
+				{section name=item loop=$instituicao}
 
-<thead>
-<tr>
-<!--
-<th>Id</th>
-//-->
-<th><a href=?ordem=instituicao>Instituiçao</a></th>
-<th>Vagas</th>
-<th>Inscritos</th>
-<th>Benefícios</th>
-<th><a href=?ordem=dataInscricao>Encerramento</a></th>
-<th><a href=?ordem=dataSelecao>Seleção</a></th>
-{if $sistema_autentica == 1}
-	<th>Email enviado</th>
-{/if}
-</tr>
-</thead>
+				<tbody>
+					<tr>
+						{if $instituicao[item].convenio == 0}
+					<tr style="background-color:#fdb9b9">
+						{else}
+					<tr style="background-color:#c9f5bf">
+						{/if}
+						<td><a
+								href="ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
+						</td>
+						<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
+						<td class="coluna_centralizada"><a
+								href="listaInscritos.php?muralestagio_id={$instituicao[item].mural_estagio_id}">{$instituicao[item].quantidade_alunos}</a>
+						</td>
+						<td>{$instituicao[item].beneficios}</td>
 
-{section name=item loop=$instituicao}
+						{if $instituicao[item].data_inscricao == 0}
+						<td style="text-align:center">
+							Sem data
+						</td>
+						{else}
+						<td style="text-align:center">
+							{$instituicao[item].data_inscricao}
+						</td>
+						{/if}
 
-<tbody>
-<tr>
-{if $instituicao[item].convenio == 0}
-	<tr style="background-color:#fdb9b9">
-{else}
-	<tr style="background-color:#c9f5bf">
-{/if}
-<!--
-<td><a href="../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicao[item].id_estagio}">{$instituicao[item].id_estagio}</a></td>
-//-->
-<td><a href="ver_cada.php?id_instituicao={$instituicao[item].id_instituicao}">{$instituicao[item].instituicao}</a></td>
-<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
-<td class="coluna_centralizada"><a href="listaInscritos.php?id_instituicao={$instituicao[item].id_instituicao}">{$instituicao[item].quantidade_alunos}</a></td>
-<td>{$instituicao[item].beneficios}</td>
+						{if $instituicao[item].data_selecao == 0}
+						<td style="text-align:center">
+							Sem data
+						</td>
+						{else}
+						<td style="text-align:center">
+							{$instituicao[item].data_selecao} Horário: {$instituicao[item].horario_selecao}
+						</td>
+						{/if}
+					</tr>
+				</tbody>
 
-{if $instituicao[item].dataInscricao == 0}
-    <td style="text-align:center">
-    Sem data
-    </td>
-{else}
-    <td style="text-align:center">
-    {$instituicao[item].dataInscricao}
-    </td>
-{/if}
+				{/section}
 
-{if $instituicao[item].dataSelecao == 0}
-    <td style="text-align:center">
-    Sem data
-    </td>
-{else}
-    <td style="text-align:center">
-    {$instituicao[item].dataSelecao} Horário: {$instituicao[item].horarioSelecao}
-    </td>
-{/if}
-
-{if $sistema_autentica == 1}
-	<td style="text-align:center">{$instituicao[item].datafax}</td>
-{/if}
-</tr>
-</tbody>
-
-{/section}
-
-</table>
-</form>
-</div>
+			</table>
+		</form>
+	</div>
 
 </body>
+
 </html>

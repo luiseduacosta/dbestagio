@@ -1,10 +1,8 @@
 <?php
 
 // Apago os cookies que ja possam existir enviando um cookie sem valor
-setcookie("usuario_nome");
-setcookie("usuario_senha");
-setcookie("mural_usuario","",0,"/estagio/mural/administraco");
-setcookie("mural_senha","",0,"/estagio/mural/administraco");
+setcookie("email");
+setcookie("password");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -42,15 +40,14 @@ setcookie("mural_senha","",0,"/estagio/mural/administraco");
 
 <form name="login" id="login" action="verifica_login.php?opcao=capa" method="post">
 <table align="center">
-
 <tr>
-<td>Usuário</td>
-<td><input type="text" name="usuario_nome" id="nome_usuario" size="15"></td>
+<td>Email</td>
+<td><input type="text" name="email" id="email" size="15"></td>
 </tr>
 
 <tr>
 <td>Senha</td>
-<td><input type="password" name="usuario_senha" id="usuario_senha" size="15"></td>
+<td><input type="password" name="password" id="password" size="15"></td>
 </tr>
 
 <tr>
