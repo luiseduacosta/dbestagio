@@ -1,44 +1,86 @@
 <?php
 
-require_once "setup.php";
+include_once "setup.php";
 
-// Pego o nume do usuario e a senha enviado pelo login.php
-$usuario_digitado = $_POST['usuario_nome'];
-$senha_digitada   = $_POST['usuario_senha'];
-// Si nao existe va para o login.php
-if(empty($usuario_digitado) or (empty($senha_digitada))) {
+$email_digitado = isset($_POST['email']) ? trim($_POST['email']) : '';
+$password_digitada = isset($_POST['password']) ? $_POST['password'] : '';
+
+if (empty($email_digitado) || empty($password_digitada)) {
     header("Location: login.php");
-	// echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
-// Si existem busco na tabela de usuarios se estao autorizados
+    exit;
+}
+
+// Consultar usuarios
+$sql = "SELECT email, password FROM users WHERE email = '$email_digitado'";
+
+$resultado = $db->Execute($sql);
+if ($resultado === false) die ("Nao foi possivel consultar a tabela user");
+
+if ($resultado->RecordCount() === 0) {
+    echo("<script language='javascript'>parent.window.location.href='login.php?email=$email_digitado&password=$password_digitada&opcao=login&msg=Email ou senha inválidos'</script>");
+    exit;
+}
+
+$db_email = $resultado->fields["email"];
+$db_password_hash = $resultado->fields["password"];
+
+function verificar_senha($senha_digitada, $hash_armazenado) {
+    if (function_exists('password_verify') && strlen($hash_armazenado) > 50) {
+        if (password_verify($senha_digitada, $hash_armazenado)) {
+            return true;
+        }
+    }
+
+    if (crypt($senha_digitada, $hash_armazenado) === $hash_armazenado) {
+        return true;
+    }
+
+    if (preg_match('/^[a-f0-9]{32}$/i', $hash_armazenado)) {
+        if (md5($senha_digitada) === strtolower($hash_armazenado)) {
+            return true;
+        }
+    }
+
+    if (preg_match('/^[a-f0-9]{40}$/i', $hash_armazenado)) {
+        if (sha1($senha_digitada) === strtolower($hash_armazenado)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function converter_hash_para_bcrypt($senha_digitada, $hash_armazenado, $db, $email) {
+    if (strlen($hash_armazenado) > 50 && strpos($hash_armazenado, '$2y$') === 0) {
+        return false;
+    }
+    if (function_exists('password_verify')) {
+        $novo_hash = password_hash($senha_digitada, PASSWORD_DEFAULT);
+        if ($novo_hash) {
+            $update_sql = "UPDATE user SET password = ? WHERE email = ?";
+            $db->Execute($update_sql, array($novo_hash, $email));
+            return true;
+        }
+    }
+    return false;
+}
+
+$senha_ok = verificar_senha($password_digitada, $db_password_hash);
+
+// echo "Digitada: " . htmlspecialchars($password_digitada) . "<br>";
+// echo "Hash DB: " . htmlspecialchars($db_password_hash) . "<br>";
+// echo "MD5(digitada): " . md5($password_digitada) . "<br>";
+// echo "SHA1(digitada): " . sha1($password_digitada) . "<br>";
+// echo "crypt(digitada, hashDB): " . crypt($password_digitada, $db_password_hash) . "<br>";
+// echo "OK? " . ($senha_ok ? "SIM" : "NAO") . "<br>";
+// exit;
+
+if ($senha_ok) {
+    converter_hash_para_bcrypt($password_digitada, $db_password_hash, $db, $db_email);
+    setcookie("email", $db_email);
+    echo("<script language='javascript'>parent.window.location.href='mural/ver-mural.php'</script>");
 } else {
-    $sql = "select usuario, senha from usuarios where usuario='$usuario_digitado' and senha='$senha_digitada'";
-    $resultado = $db->Execute($sql);
-    if ($resultado === false) die ("Nao foi possivel consultar a tabela usuarios");
-    $quantidade = $resultado->RecordCount();
-    while (!$resultado->EOF) {
-		$db_usuario = $resultado->fields["usuario"];
-		$db_senha   = $resultado->fields["senha"];
-		$resultado->MoveNext();
-    }
-    $usuario_senha_passw = crypt(chop($db_senha),post);
-    $usuario_senha_passw = substr($usuario_senha_passw,4);
-    // echo "Senha digitada= " . $senha_digitada . " Dbase senha= ". $db_senha . "<br>";
-    // Si a senha digitada conicide com a senha da tabela envio o cookie
-    // e abro a capa_logado.php
-    if ($senha_digitada == $db_senha) {
-		setcookie("usuario_nome",$usuario_digitado);
-		setcookie("usuario_senha",$usuario_senha_passw);
-		// header("Location: capa_logado.php?usuario_nome=$usuario_digitado");
-		// header("Location: capa_logado.php");
-		// header("Location: index1.html");
-		echo("<script language='javascript'>parent.window.location.href='index1.html'</script>");
-    }
-    // Caso contrario retorna para o login.php
-    else {
-		echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
-		// header("Location: login.php");
-		// echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
-    }
+    echo("<script language='javascript'>parent.window.location.href='login.html'</script>");
 }
 
 ?>

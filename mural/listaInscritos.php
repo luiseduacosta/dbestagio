@@ -1,108 +1,60 @@
 <?php
 
-/*
- * Created on 13/06/2006
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
-
 include_once("../setup.php");
-$usuario_nome = $_COOKIE['usuario_nome'];
-$usuario_senha = $_COOKIE['usuario_senha'];
-if (empty($usuario_nome) or (empty($usuario_senha))) {
-    $sistema_autentica = 0;
-} else {
-    $sistema_autentica = 1;
-}
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$usuario_nome = isset($_COOKIE['usuario_nome']) ? $_COOKIE['usuario_nome'] : '';
+$sistema_autentica = !empty($usuario_nome) ? 1 : 0;
 
-$sqlInstituicao = "select instituicao from mural_estagio where id = $id_instituicao";
-//echo $sqlInstituicao . "<br>";
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+
+$sqlInstituicao = "select instituicao from mural_estagios where id = $muralestagio_id";
+
 $resultadoInstituicao = $db->Execute($sqlInstituicao);
 if ($resultadoInstituicao === false)
-    die("Não foi possível consultar a tabela mural_estagio");
-$instituicao = $resultadoInstituicao->fields['instituicao'];
+    die("Não foi possível consultar a tabela mural_estagios");
+$instituicao = $resultadoInstituicao ? $resultadoInstituicao->fields['instituicao'] : '';
 
-$sql = "SELECT id, id_aluno, data FROM mural_inscricao WHERE id_instituicao='$id_instituicao' and periodo='" . PERIODO_ATUAL . "'";
-// echo $sql . "<br>";
+$sql = "SELECT id, registro, data FROM inscricoes WHERE muralestagio_id='$muralestagio_id' and periodo='" . PERIODO_ATUAL . "'";
 $resultado = $db->Execute($sql);
 if ($resultado === false)
-    die("Não foi possível consultar a tabela mural_inscricao");
+    die("Não foi possível consultar a tabela inscricoes");
+
+$inscritos = array();
 $i = 0;
-while (!$resultado->EOF) {
+while ($resultado && !$resultado->EOF) {
     $id = $resultado->fields['id'];
-    $id_aluno = $resultado->fields['id_aluno'];
-    // $registro = $resultado->fields['registro'];
+    $registro = $resultado->fields['registro'];
     $data = date("d-m-Y", strtotime($resultado->fields['data']));
-    $sqlAlunos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
-    // echo $sqlAlunos . "<br>";
+    $sqlAlunos = "select id, nome, registro, telefone, celular, email from alunos where registro= '$registro'";
     $resultadoAlunos = $db->Execute($sqlAlunos);
     if ($resultadoAlunos === false)
         die("Não foi possível consultar a tabela alunos");
-    $quantidade = $resultadoAlunos->RecordCount();
-    // echo $quantidade . " ";
-    // die();
-    if ($quantidade == 0) {
-        $sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
-        // echo $sqlAlunosNovos . "<br>";
-        $resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-        if ($resultadoAlunosNovos === false)
-            die("Não foi possível consultar a tabela alunosNovos");
-        while (!$resultadoAlunosNovos->EOF) {
-            $nome = $resultadoAlunosNovos->fields['nome'];
-            // echo "Novos " . $nome . "<br>";
-            // $instituicao = $resultadoAlunosNovos->fields['instituicao'];
-            $inscritos[$i]['nome'] = $resultadoAlunosNovos->fields['nome'];
-            $inscritos[$i]['id'] = $id;
-            $inscritos[$i]['registro'] = $resultadoAlunosNovos->fields['registro'];
-            // $inscritos[$i]['id'] = $resultadoAlunosNovos->fields['id'];
-            $inscritos[$i]['telefone'] = $resultadoAlunosNovos->fields['telefone'];
-            $inscritos[$i]['celular'] = $resultadoAlunosNovos->fields['celular'];
-            $inscritos[$i]['email'] = $resultadoAlunosNovos->fields['email'];
-            $inscritos[$i]['instituicao'] = $resultadoAlunosNovos->fields['instituicao'];
-            $inscritos[$i]['data'] = $data;
-
-            $inscritos[$i]['aluno'] = 0;
-            $i++;
-            $resultadoAlunosNovos->MoveNext();
-        }
-    } else {
-        while (!$resultadoAlunos->EOF) {
-            $nome = $resultadoAlunos->fields['nome'];
-            // echo "Velhos: " . $nome . "<br>";
-            // $instituicao = $resultadoAlunos->fields['instituicao'];
-            $inscritos[$i]['nome'] = $resultadoAlunos->fields['nome'];
-            $inscritos[$i]['id'] = $id;
-            $inscritos[$i]['registro'] = $resultadoAlunos->fields['registro'];
-            // $inscritos[$i]['id'] = $resultadoAlunos->fields['id'];
-            $inscritos[$i]['telefone'] = $resultadoAlunos->fields['telefone'];
-            $inscritos[$i]['celular'] = $resultadoAlunos->fields['celular'];
-            $inscritos[$i]['email'] = $resultadoAlunos->fields['email'];
-            $inscritos[$i]['instituicao'] = $resultadoAlunos->fields['instituicao'];
-            $inscritos[$i]['data'] = $data;
-
-            $inscritos[$i]['aluno'] = 1;
-            $i++;
-            $resultadoAlunos->MoveNext();
-        }
+    while ($resultadoAlunos && !$resultadoAlunos->EOF) {
+        $inscritos[$i]['id'] = $id;
+        $inscritos[$i]['nome'] = $resultadoAlunos->fields['nome'];
+        $inscritos[$i]['registro'] = $resultadoAlunos->fields['registro'];
+        $inscritos[$i]['telefone'] = $resultadoAlunos->fields['telefone'];
+        $inscritos[$i]['celular'] = $resultadoAlunos->fields['celular'];
+        $inscritos[$i]['email'] = $resultadoAlunos->fields['email'];
+        $inscritos[$i]['data'] = $data;
+        $inscritos[$i]['aluno'] = 1;
+        $i++;
+        $resultadoAlunos->MoveNext();
     }
     $resultado->MoveNext();
 }
 
-// var_dump($inscritos);
-// die();
-
-if (sizeof($inscritos) != 0) {
+if (!empty($inscritos)) {
     sort($inscritos);
 }
 
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica", $sistema_autentica);
-$smarty->assign("id_instituicao", $id_instituicao);
+$smarty->assign("muralestagio_id", $muralestagio_id);
+$smarty->assign("id_instituicao", $muralestagio_id);
 $smarty->assign("instituicao", $instituicao);
 $smarty->assign("inscritos", $inscritos);
 $smarty->display("../../mural/listaInscritos.tpl");
+
 ?>

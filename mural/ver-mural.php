@@ -1,39 +1,34 @@
 <?php
-/*
- * Created on 12/06/2006
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
 
 include_once("../setup.php");
 
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
-$insere = $_GET['insere'];
-$ordem = $_GET['ordem'];
+$insere = isset($_GET['insere']) ? $_GET['insere'] : '';
+$ordem = isset($_GET['ordem']) ? $_GET['ordem'] : '';
 if (empty($ordem)) {
-		$ordem = "dataInscricao desc";
+	$ordem = "data_inscricao desc";
 }
 
 // Pego os estagios do PERIODO_ATUAL
-$sql  = "select mural_estagio.id, id_estagio, instituicao, convenio, vagas, beneficios, final_de_semana, ";
-$sql .= "cargaHoraria, requisitos, ";
-$sql .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
-$sql .= "localSelecao, formaSelecao, contato, datafax, outras ";
-$sql .= "from mural_estagio ";
-$sql .= "left outer join areas_estagio on mural_estagio.id_area = areas_estagio.id ";
-$sql .= "left outer join professores on mural_estagio.id_professor = professores.id ";
-$sql .= "where mural_estagio.periodo = '" . PERIODO_ATUAL . "' ";
+$sql  = "select id, instituicao_id, instituicao, convenio, vagas, beneficios, final_de_semana, ";
+$sql .= "carga_horaria, requisitos, ";
+$sql .= "horario, data_selecao, horario_selecao, data_inscricao, ";
+$sql .= "local_selecao, forma_selecao, contato, outras ";
+$sql .= "from mural_estagios ";
+$sql .= "where periodo = '" . PERIODO_ATUAL . "' ";
 $sql .= "order by $ordem";
 
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
+
+if ($resultado === false) die("Não foi possível consultar a tabela mural_estagios");
 $i = 0;
+$totalVagas = 0;
+$instituicao = array();
 while (!$resultado->EOF) {
-		$instituicao[$i]['id_instituicao'] = $resultado->fields['id'];
-		$instituicao[$i]['id_estagio'] = $resultado->fields['id_estagio'];
+		$instituicao[$i]['mural_estagio_id'] = $resultado->fields['id'];
+		$instituicao[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
 		$instituicao[$i]['instituicao'] = $resultado->fields['instituicao'];
 		$instituicao[$i]['convenio'] = $resultado->fields['convenio'];
 		$instituicao[$i]['vagas'] = $resultado->fields['vagas'];
@@ -56,13 +51,8 @@ while (!$resultado->EOF) {
 				break;
 		}
 		$instituicao[$i]['final_de_semana'] = $final_de_semana;
-
-		$instituicao[$i]['cargaHoraria'] = $resultado->fields['cargaHoraria'];
+		$instituicao[$i]['carga_horaria'] = $resultado->fields['carga_horaria'];
 		$instituicao[$i]['requisitos'] = $resultado->fields['requisitos'];
-		$instituicao[$i]['id_area'] = $resultado->fields['id_area'];
-		$instituicao[$i]['area'] = $resultado->fields['area'];
-		$instituicao[$i]['id_professor'] = $resultado->fields['id_professor'];
-		$instituicao[$i]['professor'] = $resultado->fields['nome'];
 
 		$horario  = $resultado->fields['horario'];
 		if ($horario === "D")
@@ -75,130 +65,93 @@ while (!$resultado->EOF) {
 		$instituicao[$i]['horario'] = $horario;
 
 		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
-		if ($resultado->fields['dataSelecao'] == 0) {
+		if ($resultado->fields['data_selecao'] == 0) {
 			$data_selecao = "00-00-0000";
 		} else {
-			$data_selecao = date("d-m-Y",strtotime($resultado->fields['dataSelecao']));
+			$data_selecao = date("d-m-Y",strtotime($resultado->fields['data_selecao']));
 		}
-		$instituicao[$i]['dataSelecao'] = $data_selecao;
+		$instituicao[$i]['data_selecao'] = $data_selecao;
 
-		$instituicao[$i]['horarioSelecao'] = $resultado->fields['horarioSelecao'];
+		$instituicao[$i]['horario_selecao'] = $resultado->fields['horario_selecao'];
 		
 		// Passo do formato aaaa/mm/dd para dd/mm/aaaa		
-		if ($resultado->fields['dataInscricao'] == 0) {
+		if ($resultado->fields['data_inscricao'] == 0) {
 			$data_inscricao = "00-00-0000";
 		} else {
-			$data_inscricao = date("d-m-Y",strtotime($resultado->fields['dataInscricao']));
+			$data_inscricao = date("d-m-Y",strtotime($resultado->fields['data_inscricao']));
 		}
-		$instituicao[$i]['dataInscricao'] = $data_inscricao;
-
-		$instituicao[$i]['localSelecao'] = $resultado->fields['localSelecao'];
-
-		$formaSelecao = $resultado->fields['formaSelecao'];
-		switch($formaSelecao) {
+		$instituicao[$i]['data_inscricao'] = $data_inscricao;
+		$instituicao[$i]['local_selecao'] = $resultado->fields['local_selecao'];
+		$forma_selecao = $resultado->fields['forma_selecao'];
+		switch($forma_selecao) {
 				case 0;
-				$formaSelecao = "Entrevista";
+				$forma_selecao = "Entrevista";
 				break;
 
 				case 1;
-				$formaSelecao = "CR";
+				$forma_selecao = "CR";
 				break;
 
 				case 2;
-				$formaSelecao = "Prova";
+				$forma_selecao = "Prova";
 				break;
 
 				case 3;
-				$formaSelecao = "Outras";
+				$forma_selecao = "Outras";
 				break;
 		}
-		$instituicao[$i]['formaSelecao'] = $formaSelecao;
+		$instituicao[$i]['forma_selecao'] = $forma_selecao;
 
 		$instituicao[$i]['contato'] = $resultado->fields['contato'];
 		$instituicao[$i]['outras'] = $resultado->fields['outras'];
-		if ($resultado->fields['datafax'] == 0)  {
-			// echo "Vazio<br>";
-			$instituicao[$i]['datafax'] = "";
-		} else {
-			$instituicao[$i]['datafax'] = date("d-m-Y",strtotime($resultado->fields['datafax']));
-		}
 
-		$id_instituicao = $resultado->fields['id'];	
-		$sql_alunos = "select count(id_aluno) as alunos from mural_inscricao where id_instituicao='$id_instituicao' and periodo='" . PERIODO_ATUAL . "'";
+		$mural_estagio_id = $resultado->fields['id'];	
+		$sql_alunos = "select count(registro) as alunos from inscricoes where muralestagio_id='$mural_estagio_id' and periodo='" . PERIODO_ATUAL . "'";
 		// echo $sql_alunos . "<br>";
 		$resultado_alunos = $db->Execute($sql_alunos);
-		$instituicao[$i]['quantidade_alunos'] = $resultado_alunos->fields['alunos'];
+		$instituicao[$i]['quantidade_alunos'] = $resultado_alunos ? $resultado_alunos->fields['alunos'] : 0;
 		
 		$resultado->MoveNext();
 		$i++;
 }
 
 // Calculo o total de alunos que procuram estagio
-$sql = "SELECT id_aluno FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
-// echo $sql . "<br>";
+$sql = "SELECT DISTINCT registro FROM inscricoes WHERE periodo='". PERIODO_ATUAL . "'";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela muaral_inscriacao");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela inscricoes");
 $total = $resultado->RecordCount();
-// echo "Total " . $total . "<br>";
-
 $conhecidos = 0;
+$estagio_um = 0;
 $i = 0;
 while (!$resultado->EOF) {
-	$registro = $resultado->fields['id_aluno'];
-	// Conto a quantidade de alunos que ja estao em estagio
-	// $sqlVelho = "select registro from estagiarios where registro='$registro' and nivel != '1' group by registro";
-	
+	$registro = $resultado->fields['registro'];
+
 	$sqlVelho = "select registro from estagiarios where registro='$registro' group by registro";
-	// echo $sqlVelho . "<br>";
 	$resultadoVelho = $db->Execute($sqlVelho);
-	$numero_aluno = $resultadoVelho->fields['registro'];
-	// echo $i . " " . $conhecidos . " " . $registro . " " .  $numero_aluno . "<br>";
+	$numero_aluno = $resultadoVelho ? $resultadoVelho->fields['registro'] : null;
+
 	if (!empty($numero_aluno)) {
-		// Tenho que incluir na busca os alunos que ja estao em estagio I no periodo atual
 
 		$conhecidos++;
 
-		// Tenho que buscar os alunos novos que ja estao em estagio I no periodo atual
 		$sql_velho = "select registro from estagiarios where registro = '$numero_aluno' and periodo = '" .PERIODO_ATUAL . "' and nivel = 1 group by registro";
-		// echo $sql_velho . "<br>";
 		$res_velho = $db->Execute($sql_velho);
-		$dre_aluno = $res_velho->fields['registro'];
-		// echo $dre_aluno . "<br>";
+		$dre_aluno = $res_velho ? $res_velho->fields['registro'] : null;
 		if (!empty($dre_aluno)) {
 			$estagio_um++;
 		}
 	}
-	// echo $conhecidos . " " . $estagio_um . "<br>";
-
 	$i++;
 	$resultado->MoveNext();
 }
 
-// echo $conhecidos . " " . $estagio_um . "<br>";
-
-/* Nau sei o que quis fazer aqui. Logo vou a deletar
-$sql_estagio_um = "select count(*) as estagio_um from estagiarios where periodo ='" . PERIODO_ATUAL . "' and nivel = '1' group by registro";
-// echo $sql_estagio_um . "<br>";
-$res_estagio_um = $db->Execute($sql_estagio_um);
-$estagio_um = $res_estagio_um->fields['estagio_um'];
-*/
-
-# echo "Conhecidos " . $conhecidos . "<br>";
-# echo "Total      " . $total . "<br>";
-
 // Calculo os novos como diferencia entre o total e os ja conhecidos
 $novos = ($total - $conhecidos);
-
 $novo_novo = $novos + $estagio_um;
 $conhecidos_conhecidos = $conhecidos - $estagio_um;
 
-/*
-echo "Novos       " . $novo_novo . "<br>";
-echo "Estagiarios " . $conhecidos_conhecidos . "<br>";
-*/
-
-// echo "Usuário: " . $_COOKIE['usuario_nome'];
-if ($_COOKIE['usuario_nome']) $sistema_autentica = 1;
+$sistema_autentica = 0;
+if (isset($_COOKIE['usuario_nome'])) $sistema_autentica = 1;
 
 $smarty = new Smarty_estagio;
 
