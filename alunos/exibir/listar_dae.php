@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $origem = $_REQUEST['origem'];
@@ -23,7 +22,7 @@ $turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
 $sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, estagio.id as instituicao_id, estagio.instituicao, estagio.seguro ";
 $sql .= " from alunos ";
 $sql .= " inner join estagiarios on alunos.registro = estagiarios.registro ";
-$sql .= " inner join estagio on estagiarios.id_instituicao = estagio.id ";
+$sql .= " inner join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 if ($turma) {
 	$sql .= " where estagiarios.periodo = '$turma' ";
 } else {
@@ -53,7 +52,7 @@ while (!$resultado->EOF) {
 	$dae[$i]['celular'] = $resultado->fields['celular'];
 	$dae[$i]['email'] = $resultado->fields['email'];
 	// echo "id " . $resultado->fields['instituicao_id'];
-	$dae[$i]['id_instituicao'] = $resultado->fields['instituicao_id'];
+	$dae[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
 	$dae[$i]['instituicao'] = $resultado->fields['instituicao'];
 	$dae[$i]['seguro'] = $resultado->fields['seguro'];
 	$resultado->MoveNext();

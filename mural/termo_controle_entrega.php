@@ -1,6 +1,5 @@
 <?php
 
-require("../setup.php");
 include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';

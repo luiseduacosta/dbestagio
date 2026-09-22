@@ -1,6 +1,5 @@
 <?php
 
-include("../setup.php");
 include_once("../autentica.inc");
 
 $opcao = $_GET['opcao'];

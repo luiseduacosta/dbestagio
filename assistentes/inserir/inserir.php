@@ -1,6 +1,5 @@
 <?php
 
-require_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $num_instituicao = isset($_POST['num_instituicao']) ? $_POST['num_instituicao'] : NULL;

@@ -1,6 +1,5 @@
 <?php
 
-require_once("../../setup.php");
 require_once("../../autentica.inc");
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;

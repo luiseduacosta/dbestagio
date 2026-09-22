@@ -1,6 +1,6 @@
 <?php
 
-include_once("../setup.php");
+include_once("../autentica.inc");
 
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
 $insere = isset($_GET['insere']) ? $_GET['insere'] : '';

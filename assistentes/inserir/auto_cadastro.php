@@ -91,7 +91,6 @@ function contacarateres() {
 
 <?php
 
-include_once("../../setup.php");
 // include_once("../../db.inc");
 include_once("../../autentica.inc");
 

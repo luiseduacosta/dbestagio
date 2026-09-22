@@ -1,7 +1,5 @@
 <?php
 
-// include_once("mural-autentica.inc");
-
 include_once("../setup.php");
 
 $opcao = $_GET['opcao'];

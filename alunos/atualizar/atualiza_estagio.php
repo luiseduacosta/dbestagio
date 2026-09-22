@@ -3,7 +3,6 @@
 if ($debug == 1)
 	echo $_SERVER['PHP_SELF'];
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $origem = $_REQUEST['origem'];

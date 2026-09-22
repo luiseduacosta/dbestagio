@@ -1,7 +1,5 @@
 <?php
 
-# include_once("mural-autentica.inc");
-
 include_once("../setup.php");
 
 // Pego o numero da instituição

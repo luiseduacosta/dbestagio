@@ -1,6 +1,5 @@
 <?php
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $confirma   = isset($_POST['inserir']) ? $_POST['inserir'] : NULL;

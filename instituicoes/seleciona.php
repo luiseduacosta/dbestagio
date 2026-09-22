@@ -10,8 +10,6 @@ if ($sistema_autentica == 0) {
 }
 // header("Location: http://$url/estagio/login.php");
 
-include_once("../setup.php");
-
 $opcao = $_GET['opcao'];
 
 $sql = "select * from estagio order by instituicao";

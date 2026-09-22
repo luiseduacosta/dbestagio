@@ -38,8 +38,6 @@ if ($tamanho_telefone > 50) {
     exit;
 }
 
-include_once("../../setup.php");
-
 $smarty = new Smarty_estagio;
 
 if ($instituicao) {

@@ -1,7 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
  "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="pt-br">
-
 <head>
     <title>Menu lateral</title>
     <link rel="stylesheet" type="text/css" href="lateral.css"  >
@@ -18,7 +17,6 @@
 $(document).ready(function() {
 	$('a').css('text-decoration','none');
 	var autentica = $.cookie("usuario_nome");
-	// alert("Autentica: ");
 	if(autentica) {
         $("#administracao").css("display","block");
         $("#instituicoes").css("display","block");
@@ -56,9 +54,6 @@ Entrar
 <td class="coluna_centralizada">
 <a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">
 Manual do aluno</a>
-<!-- 
-<iframe src='http://docs.google.com/EmbedSlideshow?id=dhd8s6wp_379hdjfqjgg' frameborder='0' width='120' height='100'></iframe>
-// -->
 </td>
 </tr>
 
