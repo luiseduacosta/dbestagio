@@ -7,8 +7,8 @@ $ordem = $_GET['ordem'];
 /*
   $sql  = "select e.id as estagio_id, e.instituicao, s.id as supervisor_id, s.cress, s.nome, ";
   $sql .= "s.email ";
-  $sql .= "from supervisores as s, inst_super as i, estagio as e ";
-  $sql .= "where s.id=i.id_supervisor and i.id_instituicao=e.id";
+  $sql .= "from supervisores as s, inst_super as i, instituicoes as e ";
+  $sql .= "where s.id=i.supervisor_id and i.instituicao_id=e.id";
  */
 
 $sql = "select e.id as estagio_id, e.instituicao ";
@@ -16,10 +16,10 @@ $sql .= ", s.id as supervisor_id, s.cress, s.nome, s.email ";
 // $sql .= ", c.id as id_curso ";
 // $sql .= ", max(t.periodo) as turma ";
 $sql .= " from supervisores as s ";
-$sql .= " join inst_super as i on s.id = i.id_supervisor ";
-$sql .= " join estagio as e on e.id = i.id_instituicao ";
-// $sql .= " left join estagiarios as t on s.id = t.id_supervisor ";
-// $sql .= " group by t.id_supervisor";
+$sql .= " join inst_super as i on s.id = i.supervisor_id ";
+$sql .= " join instituicoes as e on e.id = i.instituicao_id ";
+// $sql .= " left join estagiarios as t on s.id = t.supervisor_id ";
+// $sql .= " group by t.supervisor_id";
 // $sql .= " left outer join curso_inscricao_supervisor as c on s.cress = c.cress ";
 // $sql .= " group by c.cress";
 // echo $sql . "<br>";
@@ -50,7 +50,7 @@ while (!$resultado->EOF) {
     $matriz[$i]['id_curso'] = $resultado->fields['id_curso'];
 
     // Pego a informacao sobre turma de alunos
-    $sqlturma = "select id, max(periodo) as turma from estagiarios where id_supervisor = $id_supervisor group by id_supervisor";
+    $sqlturma = "select id, max(periodo) as turma from estagiarios where supervisor_id = $id_supervisor group by supervisor_id";
     // echo $sqlturma . "<br>";
     $res_turma = $db->Execute($sqlturma);
     if ($res_turma === false)

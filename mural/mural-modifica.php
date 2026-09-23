@@ -11,7 +11,7 @@ $sql .= "cargaHoraria, requisitos, ";
 $sql .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
 $sql .= "localSelecao, formaSelecao, contato, outras, periodo, mural_estagio.email ";
 $sql .= "from mural_estagio ";
-$sql .= "left outer join areas_estagio on mural_estagio.id_area = areas_estagio.id ";
+$sql .= "left outer join areas on mural_estagio.id_area = areas.id ";
 $sql .= "left outer join professores on mural_estagio.id_professor = professores.id ";
 $sql .= "where mural_estagio.id=$id_instituicao";
 
@@ -59,10 +59,10 @@ if ($dataInscricao == 0) {
 }
 
 // Areas
-$sql = "select id, area from areas_estagio order by area";
+$sql = "select id, area from areas order by area";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela areas");
 $i = 0;
 while (!$resultado->EOF) {
 	$areas[$i]['id_areas'] = $resultado->fields["id"];

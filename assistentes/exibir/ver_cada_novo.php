@@ -10,12 +10,12 @@ $id_supervisor = $_REQUEST['id_supervisor'];
 // $sql = "select id from supervisores";
 
 $sql  = "select supervisores.id, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, supervisores.email, "; 
-$sql .= " estagio.id as id_estagio, estagio.instituicao, ";
+$sql .= " instituicoes.id as id_estagio, instituicoes.instituicao, ";
 $sql .= " supervisores.observacoes ";
 $sql .= " from supervisores ";
-$sql .= " inner join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " inner join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " order by nome, id_supervisor";
+$sql .= " inner join inst_super on supervisores.id = inst_super.supervisor_id ";
+$sql .= " inner join instituicoes on inst_super.instituicao_id = instituicoes.id ";
+$sql .= " order by nome, inst_super.supervisor_id";
 // echo $sql . "<br>";
 $resultado_total = $db->Execute($sql);
 $ultimo = $resultado_total->RecordCount();
@@ -36,12 +36,12 @@ if (!empty($id_supervisor)) {
 		// $sql = "select id from supervisores order by nome, id";
 /*
 		$sql  = "select supervisores.id as num_supervisor, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, supervisores.email, "; 
-		$sql .= " estagio.id, estagio.instituicao, ";
+		$sql .= " instituicoes.id, instituicoes.instituicao, ";
 		$sql .= " supervisores.observacoes ";
 		$sql .= " from supervisores ";
-		$sql .= " left outer join inst_super on supervisores.id = inst_super.id_supervisor ";
-		$sql .= " left outer join estagio on inst_super.id_instituicao = estagio.id ";
-		$sql .= " order by nome, id_supervisor";
+		$sql .= " left outer join inst_super on supervisores.id = inst_super.supervisor_id ";
+		$sql .= " left outer join instituicoes on inst_super.instituicao_id = instituicoes.id ";
+		$sql .= " order by nome, inst_super.supervisor_id";
 */
 		// echo $sql . "<br />";
 		$resultado = $db->Execute($sql);
@@ -67,7 +67,7 @@ if (!empty($id_supervisor)) {
 // Rotina para acrescentar uma instituicao
 if (!empty($_POST['num_instituicao'])) {
 	// echo "Acrescentar instituicao<br>";
-	$sql = "insert into inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$_POST[num_instituicao]')";
+	$sql = "insert into inst_super (supervisor_id,instituicao_id) values('$id_supervisor','$_POST[num_instituicao]')";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
@@ -76,12 +76,12 @@ if (!empty($_POST['num_instituicao'])) {
 }
 
 $sql  = "select supervisores.id as id_supervisor, supervisores.cress, supervisores.nome, supervisores.telefone, supervisores.celular, email, "; 
-$sql .= " estagio.id, estagio.instituicao, ";
+$sql .= " instituicoes.id, instituicoes.instituicao, ";
 $sql .= " supervisores.observacoes ";
 $sql .= " from supervisores ";
-$sql .= " left outer join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " left outer join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " order by nome, id_supervisor";
+$sql .= " left outer join inst_super on supervisores.id = inst_super.supervisor_id ";
+$sql .= " left outer join instituicoes on inst_super.instituicao_id = instituicoes.id ";
+$sql .= " order by nome, inst_super.supervisor_id";
 
 // echo $sql . "<br>";
 // echo "Indice: " . $indice . "<br>";
@@ -105,12 +105,12 @@ while (!$resultado->EOF) {
 	$observacoes = $resultado->fields['observacoes'];
 
 	// Capturo as instituicoes campo de emprego do supervisor
-	$sql_instituicoes = "select estagio.id, estagio.instituicao from estagio "; 
-	$sql_instituicoes .= " inner join inst_super on estagio.id=inst_super.id_instituicao ";
-	$sql_instituicoes .= "where inst_super.id_supervisor='$id_supervisor'";
+	$sql_instituicoes = "select instituicoes.id, instituicoes.instituicao from instituicoes ";
+	$sql_instituicoes .= " inner join inst_super on instituicoes.id=inst_super.instituicao_id ";
+	$sql_instituicoes .= "where inst_super.supervisor_id='$id_supervisor'";
 	// echo $sql_instituicoes . "<br>";
 	$resultado = $db->Execute($sql_instituicoes);
-	if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+	if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 	$i = 0;
 	while (!$resultado->EOF) {
 		$inst_emprego[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -121,9 +121,9 @@ while (!$resultado->EOF) {
 	}
 
 	// Alunos supervisionados pelo supervisor
-	$sqlalunos  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao from alunos ";
+	$sqlalunos .= "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.instituicao_id as id_instituicao from alunos ";
 	$sqlalunos .= " inner join estagiarios on estagiarios.registro = alunos.registro ";
-	$sqlalunos .= " where estagiarios.id_supervisor = $id_supervisor";
+	$sqlalunos .= " where estagiarios.supervisor_id = $id_supervisor";
 	$sqlalunos .= " order by estagiarios.periodo, alunos.nome";
 	// echo "Alunos: " . $sqlalunos . "<br>";
 
@@ -138,7 +138,7 @@ while (!$resultado->EOF) {
 		$alunos[$i]['id_instituicao'] = $res_alunos->fields['id_instituicao'];
 
 		$id_instituicao = $res_alunos->fields['id_instituicao'];
-		$sql_aluno_instituicao = "select instituicao from estagio where id = $id_instituicao";
+		$sql_aluno_instituicao = "select instituicao from instituicoes where id = $id_instituicao";
 		// echo $sql_aluno_instituicao . "<br>";
 		$res_aluno_instituicao = $db->Execute($sql_aluno_instituicao);
 
@@ -165,9 +165,9 @@ while (!$resultado->EOF) {
 }
 
 // Instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];

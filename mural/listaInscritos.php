@@ -1,9 +1,6 @@
 <?php
 
-include_once("../setup.php");
-
-$usuario_nome = isset($_COOKIE['usuario_nome']) ? $_COOKIE['usuario_nome'] : '';
-$sistema_autentica = !empty($usuario_nome) ? 1 : 0;
+include_once("../autentica.inc");
 
 $muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 

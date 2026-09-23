@@ -20,13 +20,13 @@ $ordem = $_REQUEST['ordem'];
 if (empty($ordem))
 	$ordem = " periodo, nome";
 
-$sql  = "select estagiarios.id, estagiarios.id_aluno, estagiarios.registro, estagiarios.periodo, estagiarios.id_instituicao, ";
+$sql  = "select estagiarios.id, estagiarios.aluno_id as id_aluno, estagiarios.registro, estagiarios.periodo, estagiarios.instituicao_id as id_instituicao, ";
 $sql .= " alunos.nome, alunos.email, ";
-$sql .= " estagio.instituicao ";
+$sql .= " instituicoes.instituicao ";
 $sql .= " from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
-$sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
-$sql .= " where id_supervisor=$id_supervisor order by $ordem";
+$sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
+$sql .= " where supervisor_id=$id_supervisor order by $ordem";
 // echo $sql . "<br>";
 $alunos = $db->Execute($sql);
 if ($alunos === false) die ("Não foi possível consultar a tabela estagiarios, alunos");

@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
 
 require_once("../pommo_config.php");
 
@@ -34,9 +34,9 @@ if($res_pommo_campos === false) die ("Não foi possível inserir na tabela pommo
 
 include("../setup.php");
 
-$sql = "SELECT id, id_aluno " .
-		" FROM mural_inscricao " .
-		" WHERE id_instituicao='$id_instituicao' and periodo='". PERIODO_ATUAL . "'";
+$sql = "SELECT id, registro " .
+		" FROM inscricoes " .
+		" WHERE muralestagio_id='$muralestagio_id' and periodo='". PERIODO_ATUAL . "'";
 
 // echo $sql ."<br>";
 $resultado = $db->Execute($sql);
@@ -44,7 +44,7 @@ if($resultado === false) die ("Não foi possível consultar as tabelas alunos, e
 $i = 0;
 while (!$resultado->EOF) {
 
-	$id_aluno = $resultado->fields['id_aluno'];
+	$id_aluno = $resultado->fields['registro'];
 
 	include('../db.inc');	
 	// Primeiro busco na tabela dos alunos estagiarios
@@ -62,7 +62,7 @@ while (!$resultado->EOF) {
 		}
 	} else {
 		// Logo busco na tabela dos aluno novos
-		$sql_alunos_novos = "select registro, nome, email from alunosNovos where registro=$id_aluno";
+		$sql_alunos_novos = "select registro, nome, email from alunos where registro=$id_aluno";
 		// echo $sql_alunos_novos . '<br>';
 		$res_alunos_novos = $db->Execute($sql_alunos_novos);
 		while (!$res_alunos_novos->EOF) {	

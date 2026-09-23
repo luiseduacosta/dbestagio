@@ -8,11 +8,11 @@ function verInstituicao($id_instituicao) {
     include_once("../db.inc");
     $respostaXajax = new xajaxResponse();
 
-    $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana ";
-    $sql .= " from estagio "; 
+    $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, beneficios as beneficio, fim_de_semana ";
+    $sql .= " from instituicoes ";
     $sql .= " where id=$id_instituicao order by instituicao";
     $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if($resultado_=== false) die ("Não foi possível consultar a tabela instituicoes");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];
@@ -21,7 +21,7 @@ function verInstituicao($id_instituicao) {
 			$municipio = $resultado->fields['municipio'];
 			$cep = $resultado->fields['cep'];
 			$telefone = $resultado->fields['telefone'];
-			$fax = $resultado->fields['fax'];
+			$fax = NULL;
 			$beneficio = $resultado->fields['beneficio'];
 			$fim_de_semana = $resultado->fields['fim_de_semana'];
 			

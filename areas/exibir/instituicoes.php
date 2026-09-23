@@ -8,23 +8,23 @@ $ordem = $_GET['ordem'];
 if (empty($ordem)) $ordem="instituicao";
 
 // Pego o nome da �rea
-$sql_areas_estagio = "select area from areas_estagio where id=$id_area";
+$sql_areas_estagio = "select area from areas where id=$id_area";
 $res_areas_estagio = $db->Execute($sql_areas_estagio);
-if ($res_areas_estagio === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($res_areas_estagio === false) die ("Nao foi possivel consultar a tabela areas");
 while (!$res_areas_estagio->EOF) {
     $nome_area = $res_areas_estagio->fields['area'];
     $res_areas_estagio->MoveNext();
 }
 
-$sql = "select e.id as num_instituicao, e.instituicao, e.beneficio as bolsa, max(t.periodo) as turma, e.endereco, e.telefone, e.area "
-	. " from estagio e "
-	. " left outer join estagiarios t on e.id = t.id_instituicao "
+$sql = "select e.id as num_instituicao, e.instituicao, e.beneficios as bolsa, max(t.periodo) as turma, e.endereco, e.telefone, e.area "
+	. " from instituicoes e "
+	. " left outer join estagiarios t on e.id = t.instituicao_id "
 	. " where e.area = '$id_area' "
-	. " group by e.id, e.instituicao, e.area, e.beneficio, e.endereco, e.telefone "
+	. " group by e.id, e.instituicao, e.area, e.beneficios, e.endereco, e.telefone "
 	. " order by $ordem";
 
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar as tabelas estagio, estagiarios");
+if ($resultado === false) die ("Nao foi possivel consultar as tabelas instituicoes, estagiarios");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -34,7 +34,7 @@ while (!$resultado->EOF) {
     $matriz[$i]["telefone"]    = $resultado->fields['telefone'];
 
     $num_instituicao = $resultado->fields['num_instituicao'];
-	$sql_periodo     = "select max(periodo) as turma from estagiarios where id_instituicao=$num_instituicao";
+	$sql_periodo     = "select max(periodo) as turma from estagiarios where instituicao_id=$num_instituicao";
 	$resultado_periodo = $db->Execute($sql_periodo);
 	if ($resultado_periodo === false) die ("Nao foi possivel consultar a tabela estagiarios");
 	while (!$resultado_periodo->EOF) {
@@ -43,7 +43,7 @@ while (!$resultado->EOF) {
 	}
 
 	// q_super_por_instituicao
-	$sql_super_por_instituicao = "select count(*) as q_super from inst_super where id_instituicao=$num_instituicao";
+	$sql_super_por_instituicao = "select count(*) as q_super from inst_super where instituicao_id=$num_instituicao";
 	$resultado_super = $db->Execute($sql_super_por_instituicao);
 	if ($resultado_super === false) die ("Nao foi possivel consultar a tabela inst_super");
 	// print_r($resultado_super_por_instituicao);

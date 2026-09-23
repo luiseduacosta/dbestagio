@@ -5,20 +5,20 @@ include_once("../../autentica.inc");
 $id_aluno = $_GET['id_aluno'];
 $erro = $_GET['erro'];
 
-$sql  = "SELECT alunos.id, alunos.registro, alunos.nome, estagiarios.nivel, estagiarios.turno, estagiarios.id_instituicao, estagiarios.id_supervisor, estagio.instituicao ";
+$sql  = "SELECT alunos.id, alunos.registro, alunos.nome, estagiarios.nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor, instituicoes.instituicao ";
 $sql .= "FROM alunos ";
-$sql .= "left outer join estagiarios on alunos.id=estagiarios.id_aluno ";
-$sql .= "left outer join estagio on estagiarios.id_instituicao=estagio.id ";
+$sql .= "left outer join estagiarios on alunos.id=estagiarios.aluno_id ";
+$sql .= "left outer join instituicoes on estagiarios.instituicao_id=instituicoes.id ";
 $sql .= "where alunos.id=$id_aluno";
 // echo $sql . "<br>";
 $resultado =$db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios, estagio");
+if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios, instituicoes");
 while (!$resultado->EOF) {
     $id              = $resultado->fields['id'];
     $registro        = $resultado->fields['registro'];
     $nome            = $resultado->fields['nome'];
     $nivel           = $resultado->fields['nivel'];
-    $turno           = $resultado->fields['turno'];
+    $turno           = NULL;
     $id_instituicao  = $resultado->fields['id_instituicao'];
     $id_supervisor   = $resultado->fields['id_supervisor'];
     $instituicao     = $resultado->fields['instituicao'];

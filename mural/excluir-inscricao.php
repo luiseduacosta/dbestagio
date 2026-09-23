@@ -4,13 +4,13 @@ include_once("../setup.php");
 
 $id = $_REQUEST['id'];
 $instituicao = $_REQUEST['instituicao'];
-$id_instituicao = $_REQUEST['id_instituicao'];
+$muralestagio_id = $_REQUEST['muralestagio_id'];
 
-$sql = "delete from mural_inscricao where id='$id'";
+$sql = "delete from inscricoes where id='$id'";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível excluir o registo da tabela mural_inscricao");
+if ($resultado === false) die ("Não foi possível excluir o registo da tabela inscricoes");
 
-header("Location:listaInscritos.php?id_instituicao=$id_instituicao&instituicao=$instituicao");
+header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id&instituicao=$instituicao");
 
 ?>

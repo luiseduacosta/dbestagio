@@ -6,9 +6,9 @@ $palavra = strtoupper($palavra);
 include_once("../../db.inc");
 include_once("../../setup.php");
 
-$sql = "select * from estagio where instituicao like '%$palavra%' order by instituicao";
+$sql = "select * from instituicoes where instituicao like '%$palavra%' order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 $quantidade = $resultado->RecordCount();
 if ($quantidade === 0) {
     echo "Não há registros com a palavra: $palavra";

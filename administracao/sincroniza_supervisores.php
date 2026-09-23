@@ -60,19 +60,18 @@ while (!$resultado->EOF) {
 			$inst_municipio = $res_instituicao->fields['municipio'];
 			$inst_cep = $res_instituicao->fields['cep'];
 			$inst_telefone = $res_instituicao->fields['telefone'];
-			$inst_fax = $res_instituicao->fields['fax'];
 			$beneficio = $res_instituicao->fields['beneficio'];
-			$fin_de_semana = $res_instituicao->fields['fin_de_semana'];
+			$fim_de_semana = $res_instituicao->fields['fim_de_semana'];
 			
-			$sql_instituicao  = "insert estagio ";
-			$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana) ";
-			$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$inst_fax','$beneficio','$fim_de_semana')";
+			$sql_instituicao  = "insert into instituicoes ";
+			$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, beneficios, fim_de_semana) ";
+			$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$beneficio','$fim_de_semana')";
 			echo $sql_instituicao . "<br>";
 			$res_institucao = $db->Execute($sql_instituicao);
-			if($res_instituicao === false) die ("Não foi possível inserir o registro na tabela curso_incricao_instituicao");
+			if($res_instituicao === false) die ("Não foi possível inserir o registro na tabela instituicoes");
 
-			$res_ultima_instituicao = $db->Execute("select max(id) as ultimo_registro from estagio");
-			if($res_ultima_instituicao === false) die ("Não foi possível consultar a tabela estagio");
+			$res_ultima_instituicao = $db->Execute("select max(id) as ultimo_registro from instituicoes");
+			if($res_ultima_instituicao === false) die ("Não foi possível consultar a tabela instituicoes");
 			$id_instituicao = $res_ultima_instituicao->fields['ultimo_registro'];
 		
 			$sql_inst_sup = "insert into curso_inst_super (id_supervisor, id_instituicao) values('$id_supervisor','$id_instituicao')";

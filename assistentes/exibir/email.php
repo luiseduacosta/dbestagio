@@ -42,13 +42,13 @@ if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pomm
 include("../../setup.php");
 
 // Busco todos os supervisores de todos os periodos para serem inseridos nas tabelas
-$sql  = "select estagiarios.id, id_supervisor, id_instituicao, periodo, nome, email, instituicao, areas_estagio.area from estagiarios";
-$sql .= " left join supervisores on supervisores.id = estagiarios.id_supervisor ";
-$sql .= " left join estagio on estagio.id = estagiarios.id_instituicao ";
-$sql .= " left join areas_estagio on areas_estagio.id = estagio.area ";
+$sql  = "select estagiarios.id, supervisor_id as id_supervisor, instituicao_id, periodo, nome, email, instituicao, areas.area from estagiarios";
+$sql .= " left join supervisores on supervisores.id = estagiarios.supervisor_id ";
+$sql .= " left join instituicoes on instituicoes.id = estagiarios.instituicao_id ";
+$sql .= " left join areas on areas.id = instituicoes.area ";
 $sql .= " where estagiarios.periodo='$periodo' ";
-$sql .= " group by estagiarios.id_supervisor ";
-$sql .= " order by estagiarios.id_supervisor";
+$sql .= " group by estagiarios.supervisor_id ";
+$sql .= " order by estagiarios.supervisor_id";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql); 
 while (!$resultado->EOF) {

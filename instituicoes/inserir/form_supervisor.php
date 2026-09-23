@@ -7,7 +7,6 @@ $instituicao   = $_POST["instituicao"];
 $endereco      = $_POST["endereco"];
 $cep           = $_POST["cep"];
 $telefone      = $_POST["telefone"];
-$fax           = $_POST["fax"];
 $turma         = $_POST["turma"];
 $beneficio     = $_POST["beneficios"];
 $fim_de_semana = $_POST["final_de_semana"];
@@ -44,19 +43,19 @@ if ($instituicao) {
 	if (empty($cep))
     	$cep = "0";
 
-	$sql = "insert into estagio (area, instituicao, endereco, cep, telefone, fax, beneficio, fim_de_semana) ";
-	$sql .= "values('$id_area','$instituicao','$endereco','$cep','$telefone','$fax', '$beneficio', '$fim_de_semana')";
+	$sql = "insert into instituicoes (area, instituicao, endereco, cep, telefone, beneficios, fim_de_semana, cnpj) ";
+	$sql .= "values('$id_area','$instituicao','$endereco','$cep','$telefone', '$beneficio', '$fim_de_semana', '')";
 	$resultado = $db->Execute($sql);
-	if ($resultado === false) die ("Não foi possível inserir o registro na tabela estagio");
+	if ($resultado === false) die ("Não foi possível inserir o registro na tabela instituicoes");
 
 	/* Pego o número do último registro entrado */
-	$res_ultimo = $db->Execute("select max(id) as ultimo_valor from estagio");
-	if ($res_ultimo === false) die ("Não foi possível consultar a tabela estagio");
+	$res_ultimo = $db->Execute("select max(id) as ultimo_valor from instituicoes");
+	if ($res_ultimo === false) die ("Não foi possível consultar a tabela instituicoes");
 	$ultimo_registro = $res_ultimo->fields["ultimo_valor"];
 } else {
 	/* Pego o número do último registro entrado */
-	$res_ultimo = $db->Execute("select max(id) as ultimo_valor from estagio");
-	if ($res_ultimo === false) die ("Não foi possível consultar a tabela estagio");
+	$res_ultimo = $db->Execute("select max(id) as ultimo_valor from instituicoes");
+	if ($res_ultimo === false) die ("Não foi possível consultar a tabela instituicoes");
 	$ultimo_registro = $res_ultimo->fields["ultimo_valor"];
 	echo "Ultima instituição " . $ultimo_registro . "<br>";
 	echo "Acrescentar outro assistente social na instituição " . $id_instituicao;

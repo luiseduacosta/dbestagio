@@ -106,11 +106,11 @@ function carrega_tabela() {
 <td style="text-align:center">{$alunos[item].intro_seso}</td>
 <td style="text-align:center">{$alunos[item].etica}</td>
 {if $alunos[item].busca_estagio}
-<td style="text-align:center"><a href='ver-aluno.php?id_aluno={$alunos[item].id_registro}'>Busca</a></td>
+<td style="text-align:center"><a href='ver-aluno.php?registro={$alunos[item].id_registro}'>Busca</a></td>
 {else}
-<td style="text-align:center"><a href='../alunos/exibir/ver_cada.php?id_aluno={$alunos[item].id_registro}'>{$alunos[item].periodo_estagio}</a></td>
+<td style="text-align:center"><a href='../alunos/exibir/ver_cada.php?registro={$alunos[item].id_registro}'>{$alunos[item].periodo_estagio}</a></td>
 {/if}
-<td style="text-align:center"><a href='../alunos/exibir/ver_cada.php?id_aluno={$alunos[item].id_registro}'>{$alunos[item].nivel}</a></td>
+<td style="text-align:center"><a href='../alunos/exibir/ver_cada.php?registro={$alunos[item].id_registro}'>{$alunos[item].nivel}</a></td>
 <td style="text-align:center"><a href="../../../tcc/monografia/visualizar/ver_monografia.php?codigo={$alunos[item].tcc}">{$alunos[item].periodo_tcc}</td>
 
 {if $alunos[item].tempo_total}

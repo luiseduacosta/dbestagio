@@ -46,15 +46,15 @@ if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pomm
 
 include("../setup.php");
 
-$sql = "select id_aluno, alunos.registro, alunos.nome, 
+$sql = "select estagiarios.aluno_id as id_aluno, alunos.registro, alunos.nome, 
 alunos.email, alunos.observacoes, 
 estagiarios.periodo, estagiarios.nivel, 
 supervisores.email as super_email, supervisores.nome as supervisor 
 from estagiarios 
 join alunos on estagiarios.registro = alunos.registro 
-left join supervisores on estagiarios.id_supervisor = supervisores.id 
+left join supervisores on estagiarios.supervisor_id = supervisores.id 
 where nivel != 4 and periodo = '$periodo' 
-group by id_aluno";
+group by estagiarios.aluno_id";
 // order by $ordem";
 // echo $sql ."<br>";
 $resultado = $db->Execute($sql);

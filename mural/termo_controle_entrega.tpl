@@ -66,9 +66,9 @@
 			<td style='text-align:right;'>{$i++}</td>
 			<td style='text-align:center;'>{$alunos[i].registro}</td>
 			{if $alunos[i].mural}
-				<td><a href="../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}">{$alunos[i].nome}</a>&nbsp;<a href="ver-aluno.php?id_aluno={$alunos[i].registro}">[1]</a></td>
+				<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a>&nbsp;<a href="ver-aluno.php?registro={$alunos[i].registro}">[1]</a></td>
 			{else}
-				<td><a href="../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
+				<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
 			{/if}
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
 			<td style='text-align:center;'>{$alunos[i].periodo}</td>

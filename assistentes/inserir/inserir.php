@@ -47,7 +47,7 @@ if (empty($num_supervisor)) {
 	*/
 
     // Insero supervisor e instituicao em inst_super
-    // $sql_inst_super = "insert into inst_super (id_supervisor, id_instituicao) values ('$id_supervisor', '$id_instituicao')";
+    // $sql_inst_super = "insert into inst_super (supervisor_id, instituicao_id) values ('$id_supervisor', '$id_instituicao')";
     // $res_inst_super = $db->Execute($sql_inst_super);
     // if($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
 } else {

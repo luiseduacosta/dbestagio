@@ -21,7 +21,7 @@ while (!$resultado_periodo->EOF) {
 	$resultado_periodo->MoveNext();
 }
 
-$sql = "select id_aluno, alunos.registro, alunos.nome, telefone, celular, alunos.email, alunos.observacoes, estagiarios.periodo, estagiarios.nivel, estagiarios.tc_solicitacao from estagiarios inner join alunos on estagiarios.registro = alunos.registro where nivel != 4 and periodo = '$periodo_atual' group by id_aluno order by $ordem";
+$sql = "select estagiarios.aluno_id as id_aluno, alunos.registro, alunos.nome, telefone, celular, alunos.email, alunos.observacoes, estagiarios.periodo, estagiarios.nivel, estagiarios.tc_solicitacao from estagiarios inner join alunos on estagiarios.registro = alunos.registro where nivel != 4 and periodo = '$periodo_atual' group by estagiarios.aluno_id order by $ordem";
 // echo "$sql <br>";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios");
@@ -53,10 +53,10 @@ while (!$resultado->EOF) {
 	
 	// echo "<br>";
 	
-	$sql_mural = "select id from mural_inscricao where id_aluno='$registro' and periodo='$periodo_proximo'";
+	$sql_mural = "select id from inscricoes where registro='$registro' and periodo='$periodo_proximo'";
 	// echo $sql_mural . "<br>";
 	$res_mural = $db->Execute($sql_mural);
-	if ($res_mural === false) die ("Não foi possível consultar a tabela mural_inscricao");
+	if ($res_mural === false) die ("Não foi possível consultar a tabela inscricoes");
 	$aluno_mural = $res_mural->fields['id'];
 	$alunos[$i]['mural'] = $aluno_mural;
 		

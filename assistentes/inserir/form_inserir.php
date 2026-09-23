@@ -4,9 +4,9 @@ require_once("../../autentica.inc");
 
 $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
 
-$sql = "select * from estagio order by instituicao";
+$sql = "select * from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {

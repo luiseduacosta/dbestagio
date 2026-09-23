@@ -113,12 +113,10 @@ if ($submit) {
     if ($quantidade == 0) {
         echo "Campo de estágio não abriu seleção neste período<br>";
         // Calculo em base ao professor que trabalhou com essa instituicao
-        $sql_ultimo_estagio = "select id_professor, turno, id_area from estagiarios where id_instituicao = '$id_estagio' order by periodo desc";
+        $sql_ultimo_estagio = "select professor_id from estagiarios where instituicao_id = '$id_estagio' order by periodo desc";
         // echo $sql_ultimo_estagio . "<br>";
         $resultado_ultimo_estagio = $db->Execute($sql_ultimo_estagio);
-        $id_professor = $resultado_ultimo_estagio->fields['id_professor'];
-        $id_area = $resultado_ultimo_estagio->fields['id_area'];
-        $turno = $resultado_ultimo_estagio->fields['turno'];
+        $id_professor = $resultado_ultimo_estagio->fields['professor_id'];
         // echo "<br>";
         // die($sql_ultimo_estagio);
     } else {
@@ -128,7 +126,7 @@ if ($submit) {
         // die("Estagio");
     } // Agora ja estou com a informacao para ser inserida na tabela estagiarios
 
-    $sql_instituicao = "select instituicao from estagio where id=$id_estagio";
+    $sql_instituicao = "select instituicao from instituicoes where id=$id_estagio";
     $res_instituicao = $db->Execute($sql_instituicao);
     $instituicao = $res_instituicao->fields['instituicao'];
 
@@ -182,8 +180,8 @@ if ($submit) {
         $id_aluno = $res_ultimo->fields['id_aluno'];
         // echo "Id aluno " . $id_aluno . "<br>";
         // Inserir estagiario
-        $sql_estagiarios = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, tc_solicitacao, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
-        $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "','$id_area')";
+        $sql_estagiarios = "insert into estagiarios(aluno_id, registro, nivel, tc, tc_solicitacao, instituicao_id, supervisor_id, professor_id, periodo) ";
+        $sql_estagiarios .= "values('$id_aluno', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "')";
         // echo $sql_estagiarios . "<br>";
         // die("Insere estagiario");
         $resultado_insere = $db->Execute($sql_estagiarios);
@@ -212,8 +210,8 @@ if ($submit) {
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
         $sql_estagiarios = "update estagiarios ";
-        $sql_estagiarios .= " set turno = '$turno', nivel = '$nivel', tc = '0', tc_solicitacao = '" . date("Y-m-d") . "', id_instituicao = '$id_estagio', id_supervisor = '$id_supervisor', id_professor = '$id_professor', periodo = '" . TC_PERIODO_ATUAL . "', id_area = '$id_area'";
-        $sql_estagiarios .= " where id_aluno='$id_aluno' and periodo= '" . TC_PERIODO_ATUAL . "'";
+        $sql_estagiarios .= " set nivel = '$nivel', tc = '0', tc_solicitacao = '" . date("Y-m-d") . "', instituicao_id = '$id_estagio', supervisor_id = '$id_supervisor', professor_id = '$id_professor', periodo = '" . TC_PERIODO_ATUAL . "'";
+        $sql_estagiarios .= " where aluno_id='$id_aluno' and periodo= '" . TC_PERIODO_ATUAL . "'";
         // echo $sql_estagiarios . "<br>";
         $resultado_atualiza = $db->Execute($sql_estagiarios);
         if ($resultado_atualiza === false)
@@ -240,8 +238,8 @@ if ($submit) {
         // $resultado_insere = $db->Execute($sql_alunos);
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
-        $sql_estagiarios = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, tc_solicitacao, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
-        $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "','$id_area')";
+        $sql_estagiarios = "insert into estagiarios(aluno_id, registro, nivel, tc, tc_solicitacao, instituicao_id, supervisor_id, professor_id, periodo) ";
+        $sql_estagiarios .= "values('$id_aluno', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "')";
         // echo $sql_estagiarios . "<br>";
         $resultado_insere = $db->Execute($sql_estagiarios);
         if ($resultado_insere === false)
@@ -335,11 +333,11 @@ while (!$resultado->EOF) {
     $observacoes = $resultado->fields['observacoes'];
     // echo $observacoes . "<br>";
     // Capturo a instituicao atual e anterior
-    $sql_periodos = "select periodo, nivel, id_instituicao, id_supervisor
-	 , instituicao, supervisores.nome
+    $sql_periodos = "select periodo, nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor
+	 , instituicoes.instituicao, supervisores.nome
 	 from estagiarios
-	 inner join estagio on estagiarios.id_instituicao = estagio.id
-	 left join supervisores on estagiarios.id_supervisor = supervisores.id
+	 inner join instituicoes on estagiarios.instituicao_id = instituicoes.id
+	 left join supervisores on estagiarios.supervisor_id = supervisores.id
 	 where registro = '$registro' order by periodo desc";
     // echo $sql_periodos . "<br>";
     $resultado_periodo = $db->Execute($sql_periodos);
@@ -442,10 +440,10 @@ while (!$resultado->EOF) {
 
 
 // Capturo as instituicoes
-$sql_instituicoes = "select id, instituicao from estagio order by instituicao";
+$sql_instituicoes = "select id, instituicao from instituicoes order by instituicao";
 $resposta_instituicoes = $db->Execute($sql_instituicoes);
 if ($resposta_instituicoes === false)
-    die("Nao foi possivel consultar a tabela estagio");
+    die("Nao foi possivel consultar a tabela instituicoes");
 $i = 1;
 while (!$resposta_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resposta_instituicoes->fields['id'];

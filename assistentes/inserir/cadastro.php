@@ -155,15 +155,12 @@ function verInstituicao() {
 
     var telefone = document.getElementById("instituicao_telefone");
     telefone.value = "";
-
-    var fax = document.getElementById("instituicao_fax");
-    fax.value = "";
-
+    
     var beneficio = document.getElementById("instituicao_beneficio");
     beneficio.value = "";
 
     var fim_de_semana = document.getElementById("fim_de_semana");
-    fax.value = "";
+    fim_de_semana.value = "";
     
     xajax_ver_Instituicao(id_instituicao);
     // alert(id_instituicao);

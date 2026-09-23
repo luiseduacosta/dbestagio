@@ -4,17 +4,17 @@ include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
 
-$sql = "SELECT id_aluno, data " .
-		" FROM mural_inscricao " .
-		" WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
+$sql = "SELECT registro, data " .
+		" FROM inscricoes " .
+		" WHERE periodo='". PERIODO_ATUAL . "' group by registro";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 $i = 0;	// Contador para a matriz inscricoes
 while (!$resultado->EOF) {
-		$id_aluno = $resultado->fields['id_aluno'];
+		$id_aluno = $resultado->fields['registro'];
 		
-		$sql_datas = "select min(data) as data_inicio, max(data) as data_ultima from mural_inscricao where id_aluno = $id_aluno";
+		$sql_datas = "select min(data) as data_inicio, max(data) as data_ultima from inscricoes where registro = $id_aluno";
 		$resultado_datas = $db->Execute($sql_datas);
 		$inscritos[$i]['data_inicio'] = $resultado_datas->fields['data_inicio'];
 		$inscritos[$i]['data_ultima'] = $resultado_datas->fields['data_ultima'];
@@ -29,10 +29,10 @@ while (!$resultado->EOF) {
 		// echo $periodo_ingresso = $res_ingresso->fields['periodo'] . "<br>";
 
 		// Calculo a quantidade de inscricoes por aluno
-		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
+		$sqlQuantidade = "select count(*) as quantidade from inscricoes where periodo = '" . PERIODO_ATUAL . "' and registro=$id_aluno";
 		// echo $sqlQuantidade . " "; // . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
-		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
+		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela inscricoes");
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		// echo $quantidadeInscricoes . "<br>";
 	
@@ -44,12 +44,12 @@ while (!$resultado->EOF) {
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $id_aluno . " " . $quantidade . "<br>";
 
-		// Se nao esta como aluno estagiario entao busco em alunosNovos
+		// Se nao esta como aluno estagiario entao busco em alunos
 		if ($quantidade == 0) {
-				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
+				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
 
 				while (!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
@@ -90,7 +90,7 @@ while (!$resultado->EOF) {
 						$registro = $resultadoAlunos->fields['registro'];
 
 						// Busco alunos estagiarios no periodo atual
-						$sql_nivel = "select registro, max(nivel) as nivel from estagiarios where registro = '$registro' and periodo ='" . PERIODO_ATUAL ."' group by id_aluno";
+						$sql_nivel = "select registro, max(nivel) as nivel from estagiarios where registro = '$registro' and periodo ='" . PERIODO_ATUAL ."' group by estagiarios.aluno_id";
 						// echo $sql_nivel . "<br>";
 						$res_nivel = $db->Execute($sql_nivel);
 						$registro_nivel = $res_nivel->fields['nivel'];

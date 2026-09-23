@@ -105,10 +105,10 @@ if ($cress) {
 	if (ctype_digit($cress) == FALSE) echo "Digite somente números.";
 }
 
-$sql  = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
+$sql  = "select inst_super.id as id_inst_super, instituicoes.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
 $sql .=	" from supervisores "; 
-$sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
+$sql .= " left join inst_super on supervisores.id = inst_super.supervisor_id ";
+$sql .= " left join instituicoes on inst_super.instituicao_id = instituicoes.id ";
 
 if (!empty($id_supervisor)) {
 	$sql .= " where supervisores.id='$id_supervisor'";
@@ -319,7 +319,7 @@ echo "
 <option value='<?php echo $id_instituicao; ?>'><?php echo $instituicao; ?></option>
 <?php
 
-$sql = "select estagio.id, estagio.instituicao from estagio order by instituicao";	
+$sql = "select instituicoes.id, instituicoes.instituicao from instituicoes order by instituicao";	
 $resultado = $db->Execute($sql);
 while (!$resultado->EOF) {
 	$id = $resultado->fields['id'];

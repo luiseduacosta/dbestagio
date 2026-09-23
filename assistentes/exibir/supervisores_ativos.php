@@ -16,12 +16,12 @@ $resultado_turma = $db->Execute($sql_turma);
 if ($resultado_turma === false) die ("Não foi possível consultar a tabela estagiarios");
 $turma = $resultado_turma->fields['turma'];
 
-$sql  = "select supervisores.id as supervisor_id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.celular, supervisores.telefone, estagio.id as estagio_id, estagio.instituicao ";
+$sql  = "select supervisores.id as supervisor_id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.celular, supervisores.telefone, instituicoes.id as estagio_id, instituicoes.instituicao ";
 $sql .= " from estagiarios ";
-$sql .= " inner join supervisores on estagiarios.id_supervisor = supervisores.id ";
-$sql .= " inner join estagio on estagiarios.id_instituicao = estagio.id ";
+$sql .= " inner join supervisores on estagiarios.supervisor_id = supervisores.id ";
+$sql .= " inner join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 $sql .= " where estagiarios.periodo='$turma'";
-$sql .= " group by estagiarios.id_supervisor";
+$sql .= " group by estagiarios.supervisor_id";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
@@ -39,7 +39,7 @@ while (!$resultado->EOF) {
 	
 	// Pego a informacao sobre turma de alunos
 	$id_supervisor = $resultado->fields['supervisor_id'];
-	$sqlturma = "select id, max(periodo) as turma from estagiarios where id_supervisor = $id_supervisor group by id_supervisor";
+	$sqlturma = "select id, max(periodo) as turma from estagiarios where supervisor_id = $id_supervisor group by supervisor_id";
 	// echo $sqlturma . "<br>";
 	$res_turma = $db->Execute($sqlturma);
 	if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
@@ -47,7 +47,7 @@ while (!$resultado->EOF) {
 	$matriz[$i]['turma'] = $turma;
 
 	// Calculo a quantidade de periodos que o supervisor trabalha com alunos
-	$sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where id_supervisor=$id_supervisor";
+	$sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$id_supervisor";
 	// echo $sql_periodos . "<br>";	
 	$res_periodos = $db->Execute($sql_periodos);
 	if ($res_periodos === false) die ("Não foi possivel consultar a tabela estagiarios");
