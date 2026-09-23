@@ -129,9 +129,9 @@
                                     <form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="excluir">
                                         {if $id}
-                                            <input type="hidden" name="id_instituicao" value="{$id}">
+                                            <input type="hidden" name="instituicao_id" value="{$id}">
                                         {else}
-                                            <input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+                                            <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
                                         {/if}
                                         <input type="hidden" name="indice" value="{$indice}">
                                         <input type="submit" name="submit" value="Excluir">
@@ -153,7 +153,7 @@
                 <tbody>
 
                     {if $smarty.cookies.usuario_senha}                 
-                    <form name="modifica_instituicao" action="?id_instituicao={$id_instituicao}" method="post">
+                    <form name="modifica_instituicao" action="?instituicao_id={$instituicao_id}" method="post">
 
                     <tr>
                         {if $modifica}
@@ -164,7 +164,7 @@
                             <td width="25%" colspan="1" class="rodape">Instituição</td>
                             <td width="75%" colspan="2" class="rodape">
                                 {if $id_curso_instituicao}
-                                    <a href='ver_cada.php?curso=sem&id_instituicao={$id_curso_instituicao}'>{$instituicao}</a>
+                                    <a href='ver_cada.php?curso=sem&instituicao_id={$id_curso_instituicao}'>{$instituicao}</a>
                                 {else}
                                     {$instituicao}
                                 {/if}
@@ -390,9 +390,9 @@
                                 <input type="hidden" name="flag" value="{$flag}">
                                 <input type="hidden" name="indice" value="{$indice}">
                                 {if $id}
-                                    <input type="hidden" name="id_instituicao" value="{$id}">
+                                    <input type="hidden" name="instituicao_id" value="{$id}">
                                 {else}
-                                    <input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+                                    <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
                                 {/if}
                                 <input type="hidden" name="curso" value="{$curso}">
                                 <input type="submit" name="modifica" value="Modificar instituição">
@@ -432,18 +432,18 @@
 
                                         {* Tambem cadastrado como supervisor de estagio *}
                                         {if $inst_supervisores[i].id_super_estagio}
-                                            <a href='../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].id_super_estagio}'>[1]</a>
+                                            <a href='../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
                                             &nbsp;
-                                            <a href='ver_cada.php?id_instituicao={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
+                                            <a href='ver_cada.php?instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
                                     {else}	
-                                        <a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
+                                        <a href="../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como assistente social do curso *}
                                         {if $inst_supervisores[i].id_super_curso}
                                             <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_super_curso}'>[1]</a>
                                             &nbsp;
-                                            <a href='ver_cada.php?curso=sem&id_instituicao={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
+                                            <a href='ver_cada.php?curso=sem&instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
                                     {/if}
                                 </td>
@@ -452,11 +452,11 @@
                                 {if !$curso}
                                     {if $sistema_autentica == 1}
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../assistentes/exibir/ver_cada.php?id_supervisor={$inst_supervisores[i].supervisor_id}">Modifica</a>
+                                            <a href="../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
                                         </td>
 
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../assistentes/cancelar/inst_supervisor.php?id_supervisor={$inst_supervisores[i].supervisor_id}&id_instituicao={$id}">Excluir</a>
+                                            <a href="../../assistentes/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
                                         </td>
                                     {/if}
                                 {/if}
@@ -479,7 +479,7 @@
                             <tr class="rodape">
 
                                 <td colspan="4" class="coluna_centralizada">
-                                    <select name='id_supervisor' size='1'>
+                                    <select name='supervisor_id' size='1'>
                                         <option value='0'>Selecione supervisor para inserir na instituição</option>
 
                                         {section name=i loop=$supervisores}
@@ -487,7 +487,7 @@
                                         {/section}
 
                                     </select>
-                                    <input type="hidden" name="id_instituicao" value="{$id}">
+                                    <input type="hidden" name="instituicao_id" value="{$id}">
                                     <input type="submit" name="submit" id="submit" value="Inserir supervisor">
                                 </td>
 

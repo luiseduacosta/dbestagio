@@ -1,46 +1,34 @@
 <?php
 
-// echo "ver_cada.php" . " " . "<br>";
-include_once("../../setup.php");
-// include_once("../../autentica.inc");
+include_once("../../autentica.inc");
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
+$supervisor_id  = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : (isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL);
 $modifica = isset($_REQUEST['modifica']) ? $_REQUEST['modifica'] : NULL;
 $flag = isset($_REQUEST['flag']) ? $_REQUEST['flag'] : NULL;
 $inserir = isset($_REQUEST['inserir']) ? $_REQUEST['inserir'] : NULL;
-$curso = isset($_REQUEST['curso']) ? $_REQUEST['curso'] : NULL;
 
 $indice = $_REQUEST['indice'];
 $submit = $_REQUEST['submit'];
 $botao  = $_REQUEST['botao'];
 
-if ($curso) {
-	$tabela_instituicao  = 'curso_inscricao_instituicao';
-	$tabela_supervisores = 'curso_inscricao_supervisor';
-	$tabela_inst_super   = 'curso_inst_super';
-	$tabela_area_estagio = 'areas';
-	$tabela_estagiarios  = 'estagiarios';
-	$tabela_professores  = 'professores';
-} else {
-	$tabela_instituicao  = 'instituicoes'; // curso_inscricao_instituicao
-	$tabela_supervisores = 'supervisores'; // curso_inscricao_supervisor
-	$tabela_inst_super   = 'inst_super';   // curso_inst_super
-	$tabela_area_estagio = 'areas';
-	$tabela_estagiarios  = 'estagiarios';
-	$tabela_professores  = 'professores';
-}
+$tabela_instituicao  = 'instituicoes';
+$tabela_supervisores = 'supervisores';
+$tabela_inst_super   = 'inst_super';
+$tabela_area_estagio = 'areas';
+$tabela_estagiarios  = 'estagiarios';
+$tabela_professores  = 'professores';
 
 // Colunas equivalentes no banco novo: estagio virou instituicoes e a inst_super trocou os nomes das FKs
-$campo_beneficio    = $curso ? 'beneficio' : 'beneficios';
-$col_is_supervisor  = $curso ? 'id_supervisor' : 'supervisor_id';
-$col_is_instituicao = $curso ? 'id_instituicao' : 'instituicao_id';
+$campo_beneficio    = 'beneficios';
+$col_is_supervisor  = 'supervisor_id';
+$col_is_instituicao = 'instituicao_id';
 
 // Insere uma instituicao em branco e logo passo para atualizar essa instituição
 if ($inserir) {
-	$sql_insert = "insert into $tabela_instituicao (instituicao" . ($curso ? "" : ", cnpj") . ") values(''" . ($curso ? "" : ", ''") . ")";
+	$sql_insert = "insert into $tabela_instituicao (instituicao) values('')";
 	$res_insert = $db->Execute($sql_insert);
-	$id_instituicao = $db->Insert_ID();
+	$instituicao_id = $db->Insert_ID();
 	$modifica = "inserir"; // Para poder atualizar
 	$flash = "Registro criado. Preencher o formulário com os dados e logo cliquar em 'Modificar instituicao'.";
 }
@@ -83,11 +71,11 @@ if ($modifica) {
 		$municipio_instituicao = $_POST['municipio'];
 		$cep_instituicao       = $_POST['cep'];
 		$telefone_instituicao  = $_POST['telefone'];
-		$fax_instituicao       = $curso ? $_POST['fax'] : NULL;
+		$fax_instituicao       = $_POST['fax'];
 		$beneficio_instituicao = $_POST['beneficios'];
 		$fim_de_semana         = $_POST['fim_de_semana'];
 		$convenio              = $_POST['convenio'];
-		$seguro		       = $_POST['seguro'];
+		$seguro		           = $_POST['seguro'];
 		$observacoes	       = $_POST['observacoes'];
 
 		if ($nome_instituicao) {
@@ -95,7 +83,7 @@ if ($modifica) {
 			$sql_atualiza  = "update $tabela_instituicao set area='$area_instituicao', natureza='$natureza_instituicao', instituicao='$nome_instituicao', url='$url_instituicao', endereco='$endereco_instituicao', bairro='$bairro_instituicao', municipio='$municipio_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', " . $campo_fax_update . "$campo_beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro', observacoes='$observacoes' ";
 			// Campos especificos dos supervisores de estagio
 			if (!$curso) $sql_atualiza .= ", convenio='$convenio' ";
-			$sql_atualiza .= " where id='$id_instituicao'";
+			$sql_atualiza .= " where id='$instituicao_id'";
 			// echo $sql_atualiza . "<br>";
 			// die();
 			$res_atualiza = $db->Execute($sql_atualiza);
@@ -104,7 +92,7 @@ if ($modifica) {
 			$flag = NULL;
 			unset($modifica);
 		} else {
-			die("<p>Error: Faltou inserir nome da instituição. Registro será excluído. <meta http-equiv='refresh' content='2;url=../cancelar/cancela.php?id_instituicao=$id_instituicao'></p>");
+			die("<p>Error: Faltou inserir nome da instituição. Registro será excluído. <meta http-equiv='refresh' content='2;url=../cancelar/cancela.php?instituicao_id=$instituicao_id'></p>");
 		}
 	}
 
@@ -113,7 +101,7 @@ if ($modifica) {
 /*
 echo "curso: " . $curso . "<br>";
 */
-// echo "<p> id_instituicao: " . $id_instituicao . "</p>";
+// echo "<p> instituicao_id: " . $instituicao_id . "</p>";
 /*
 echo " Indice: " . $indice . "<br>";
 echo " Submit: " . $submit . "<br>";
@@ -167,17 +155,17 @@ switch($botao)
 	break;
 
     case "excluir":
-	echo "<p>Excluir $id_instituicao</p>";
-	echo "<meta http-equiv='refresh' content='0;../cancelar/cancela.php?id_instituicao=$id_instituicao&indice=$indice' />";
+	echo "<p>Excluir $instituicao_id</p>";
+	echo "<meta http-equiv='refresh' content='0;../cancelar/cancela.php?instituicao_id=$instituicao_id&indice=$indice' />";
 	// die();
 	// include_once("../cancelar/cancela.php");
 	break;
 }
 
 // Rotina para acrescentar um supervisor
-if (!empty($id_supervisor)) {
+if (!empty($supervisor_id)) {
 	echo "<p>Acrescentar supervisor</p>";
-	$sql = "insert into $tabela_inst_super ($col_is_supervisor,$col_is_instituicao) values('$id_supervisor','$id_instituicao')";
+	$sql = "insert into $tabela_inst_super ($col_is_supervisor,$col_is_instituicao) values('$supervisor_id','$instituicao_id')";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
@@ -186,7 +174,7 @@ if (!empty($id_supervisor)) {
 }
 // die;
 // Busco o lugar da instituicao na tabela
-if (!empty($id_instituicao)) {
+if (!empty($instituicao_id)) {
 	$sql_instituicao = "select id from $tabela_instituicao order by instituicao";
 	// echo $sql_instituicao . "<br>";
 	$res_instituicao = $db->Execute($sql_instituicao);
@@ -194,7 +182,7 @@ if (!empty($id_instituicao)) {
 	$lugar = 0;
 	while (!$res_instituicao->EOF)	{
 		$num_instituicao = $res_instituicao->fields['id'];
-		if ($num_instituicao === $id_instituicao) {
+		if ($num_instituicao === $instituicao_id) {
 			$indice = $lugar;
 		}
 		$lugar++;
@@ -395,7 +383,7 @@ $smarty->assign("curso",$curso);
 $smarty->assign("modifica",$modifica);
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("indice",$indice);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("id",$id);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("url",$url);

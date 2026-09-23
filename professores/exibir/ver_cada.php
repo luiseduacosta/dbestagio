@@ -96,7 +96,7 @@ function alunos($id_professor,$db,$ordem="nome") {
 
 require_once("../../setup.php");
 
-$id_professor = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
+$id_professor = isset($_REQUEST['professor_id']) ? $_REQUEST['professor_id'] : (isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL);
 $ordem  = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
 $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 
@@ -164,6 +164,8 @@ $smarty->assign("professor",$professor);
 $smarty->assign("instituicoes",$instituicoes);
 $smarty->assign("alunos",$alunos);
 $smarty->assign("indice",$indice);
+$smarty->assign("professor_id",$id_professor);
+$smarty->assign("id_professor",$id_professor);
 $smarty->display("professores_ver_cada.tpl");
 
 ?>

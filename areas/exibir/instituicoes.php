@@ -67,7 +67,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("id_area",$id_area);
 $smarty->assign("nome_area",$nome_area);
 $smarty->assign("instituicoes",$matriz);
-$smarty->display("area_instituicoes.tlp");
+$smarty->display("area_instituicoes.tpl");
 
 exit;
 

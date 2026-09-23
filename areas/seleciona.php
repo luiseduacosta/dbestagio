@@ -21,7 +21,7 @@ while(!$resultado->EOF) {
 $smarty->assign("opcao",$opcao);
 $smarty->assign("id_areas",$id_areas);
 $smarty->assign("areas",$areas);
-$smarty->display("area_seleciona.tlp");
+$smarty->display("area_seleciona.tpl");
 
 exit;
 

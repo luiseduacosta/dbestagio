@@ -18,7 +18,7 @@
 
 <tr>
 <td>Id instituição</td>
-<td>{$id_instituicao}</td>
+<td>{$instituicao_id}</td>
 </tr>
 
 <tr>
@@ -106,7 +106,7 @@
 
 <tr class="rodape">
 <td colspan="2" class="coluna_centralizada">
-<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+<input type="hidden" name="instituicao_id" value="{$instituicao_id}">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>

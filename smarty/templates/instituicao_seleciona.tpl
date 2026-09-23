@@ -28,8 +28,8 @@ function elimina() {
 <form name="seleciona_instituicao" action="exibir/ver_cada.php" method="post">
 {/if}
 
-<select name="id_instituicao">
-{html_options values=$id_instituicao output=$nome_instituicao|truncate:50}
+<select name="instituicao_id">
+{html_options values=$instituicao_id output=$nome_instituicao|truncate:50}
 </select>
 
 <input type="submit" name="submit" value="Confirma">

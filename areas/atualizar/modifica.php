@@ -20,7 +20,7 @@ while (!$resultado->EOF) {
 
 $smarty->assign("id_area",$id_area);
 $smarty->assign("area",$area);
-$smarty->display("area_atualiza.tlp");
+$smarty->display("area_atualiza.tpl");
 
 exit;
 

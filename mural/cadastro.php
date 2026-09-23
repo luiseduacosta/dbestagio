@@ -20,13 +20,13 @@ $cep             = $_POST['cep'];
 $municipio       = $_POST['municipio'];
 $bairro          = $_POST['bairro'];
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
-$sql = "select instituicao from mural_estagios where id='$id_instituicao'";
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
+$sql = "select instituicao from mural_estagios where id='$muralestagio_id'";
 // echo $sql. "<br>";
 $resultado = $db->Execute($sql);
 $instituicao = $resultado->fields['instituicao'];
 
-// echo "Id instituicao " . $id_instituicao . "<br>";
+// echo "Muralestagio id " . $muralestagio_id . "<br>";
 // echo "Nascimento " . date("d-m-Y",strtotime($nascimento)) . "<br>";
 // echo "Registro: " . $registro . "<br>";
 
@@ -81,12 +81,12 @@ if ($submit) {
 	if (!$aluno_id) die ("Não foi possível encontrar o aluno com registro $registro na tabela alunos");
 
 	$sql_inserir = "insert into inscricoes (registro,muralestagio_id,data,periodo,aluno_id) ".
-		"values('$registro','$id_instituicao','$data','$periodo','$aluno_id')";
+		"values('$registro','$muralestagio_id','$data','$periodo','$aluno_id')";
 	// echo $sql_inserir . "<br>";
 	$resultado_inscricao = $db->Execute($sql_inserir);
 	if ($resultado_inscricao === false) die ("Não foi possível inserir o registro na tabela inscricoes");
 
-	header("Location:listaInscritos.php?muralestagio_id=$id_instituicao");
+	header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
 	// header("Location:ver-mural.php?insere=$nome");
 
     exit;
@@ -97,7 +97,7 @@ if ($submit) {
 $smarty = new Smarty_estagio;
 $smarty->assign("registro",$registro);
 $smarty->assign("instituicao",$instituicao);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("muralestagio_id",$muralestagio_id);
 $smarty->display("../../mural/alunos-mural_insere.tpl");
 
 exit;

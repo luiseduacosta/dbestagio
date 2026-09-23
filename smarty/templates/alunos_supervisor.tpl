@@ -17,10 +17,10 @@
 <tbody>
 
 <tr>
-<th><a href="?supervisor_id={$id_supervisor}&nome_supervisor={$nome_supervisor}&ordem=registro">Registro</a></th>
-<th><a href="?supervisor_id={$id_supervisor}&nome_supervisor={$nome_supervisor}&ordem=nome">Nome</a></th>
-<th><a href="?supervisor_id={$id_supervisor}&nome_supervisor={$nome_supervisor}&ordem=periodo">Periodo</a></th>
-<th><a href="?supervisor_id={$id_supervisor}&nome_supervisor={$nome_supervisor}&ordem=instituicao">Institui&ccedil;&atilde;o</a></th>
+<th><a href="?supervisor_id={$supervisor_id}&nome_supervisor={$nome_supervisor}&ordem=registro">Registro</a></th>
+<th><a href="?supervisor_id={$supervisor_id}&nome_supervisor={$nome_supervisor}&ordem=nome">Nome</a></th>
+<th><a href="?supervisor_id={$supervisor_id}&nome_supervisor={$nome_supervisor}&ordem=periodo">Periodo</a></th>
+<th><a href="?supervisor_id={$supervisor_id}&nome_supervisor={$nome_supervisor}&ordem=instituicao">Institui&ccedil;&atilde;o</a></th>
 </tr>
 
 {section name=elemento loop=$estagiario}

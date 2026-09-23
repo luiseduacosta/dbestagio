@@ -200,7 +200,7 @@ Município:
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-<input type="hidden" name="id_instituicao" id="id_instituicao" value="{$id_instituicao}" />
+<input type="hidden" name="muralestagio_id" id="muralestagio_id" value="{$muralestagio_id}" />
 <input type="hidden" name="registro" id="registro" value="{$registro}" />
 <input type="submit" name="submit" value="Confirma" onClick="return confirma();" />
 </td>

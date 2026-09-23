@@ -2,7 +2,7 @@
 
 require("../../autentica.inc");
 
-$id_area       = $_POST["id_area"];
+$area_id       = $_POST["area_id"];
 $instituicao   = $_POST["instituicao"];
 $endereco      = $_POST["endereco"];
 $cep           = $_POST["cep"];
@@ -43,8 +43,8 @@ if ($instituicao) {
 	if (empty($cep))
     	$cep = "0";
 
-	$sql = "insert into instituicoes (area, instituicao, endereco, cep, telefone, beneficios, fim_de_semana, cnpj) ";
-	$sql .= "values('$id_area','$instituicao','$endereco','$cep','$telefone', '$beneficio', '$fim_de_semana', '')";
+	$sql = "insert into instituicoes (area_id, instituicao, endereco, cep, telefone, beneficios, fim_de_semana, cnpj) ";
+	$sql .= "values('$area_id','$instituicao','$endereco','$cep','$telefone', '$beneficio', '$fim_de_semana', '')";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("Não foi possível inserir o registro na tabela instituicoes");
 
@@ -58,7 +58,7 @@ if ($instituicao) {
 	if ($res_ultimo === false) die ("Não foi possível consultar a tabela instituicoes");
 	$ultimo_registro = $res_ultimo->fields["ultimo_valor"];
 	echo "Ultima instituição " . $ultimo_registro . "<br>";
-	echo "Acrescentar outro assistente social na instituição " . $id_instituicao;
+	echo "Acrescentar outro assistente social na instituição " . $instituicao_id;
 }
 
 // Obtendo todos os supervisores para a caixa de selecao
@@ -73,9 +73,9 @@ while (!$res_supervisores->EOF) {
     $i++;
 }
 
-$smarty->assign("id_instituicao",$ultimo_registro);
+$smarty->assign("instituicao_id",$ultimo_registro);
 $smarty->assign("num_supervisor",$num_supervisor);
 $smarty->assign("nome_supervisor",$nome_supervisor);
-$smarty->display("supervisor_form.tlp");
+$smarty->display("supervisor_form.tpl");
 
 ?>

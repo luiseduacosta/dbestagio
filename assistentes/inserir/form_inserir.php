@@ -2,7 +2,7 @@
 
 require_once("../../autentica.inc");
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
 
 $sql = "select * from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
@@ -33,9 +33,9 @@ $smarty = new Smarty_estagio;
 $smarty->assign("num_supervisor",$num_supervisor);
 $smarty->assign("nome_supervisor",$nome_supervisor);
 $smarty->assign("num_instituicao",$num_instituicao);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("instituicao",$instituicao);
-$smarty->display("supervisor_inserir.tlp");
+$smarty->display("supervisor_inserir.tpl");
 
 exit;
 

@@ -56,7 +56,7 @@ function ver_Supervisor($id_supervisor) {
     $resultado = $db->Execute($sql);
     if ($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
 
-//    while (!$resultado->EOF) {
+    while (!$resultado->EOF) {
 			$nome = $resultado->fields['nome'];
 			$endereco = $resultado->fields['endereco'];
 			$bairro = $resultado->fields['bairro'];
@@ -94,8 +94,8 @@ function ver_Supervisor($id_supervisor) {
 			$respostaXajax->addAppend("area_curso","value",$area_curso);
 			$respostaXajax->addAppend("ano_curso","value",$ano_curso);
 			
-//			$resultado->MoveNext();
-//    }
+			$resultado->MoveNext();
+    }
     
     return $respostaXajax;
 

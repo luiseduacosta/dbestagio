@@ -60,7 +60,7 @@
                     <td>{i++}</td>    
                     <td>
                     {if $alunosupervisor[lista].supervisor} 
-                        <a href='../exibir/ver_cada.php?id_supervisor={$alunosupervisor[lista].id_supervisor}'>{$alunosupervisor[lista].supervisor}</a>
+                        <a href='../exibir/ver_cada.php?supervisor_id={$alunosupervisor[lista].supervisor_id}'>{$alunosupervisor[lista].supervisor}</a>
                     {else}
                         {$alunosupervisor[lista].supervisor}
                     {/if}
@@ -79,7 +79,7 @@
                     </td>
 
                     <td>
-                    <a href=../../alunos/exibir/ver_cada.php?id_aluno={$alunosupervisor[lista].id_aluno}>{$alunosupervisor[lista].aluno}</a>
+                    <a href=../../alunos/exibir/ver_cada.php?aluno_id={$alunosupervisor[lista].aluno_id}>{$alunosupervisor[lista].aluno}</a>
                     </td>
                     <td>
                     {$alunosupervisor[lista].registro}
@@ -94,7 +94,7 @@
                     {$alunosupervisor[lista].email}
                     </td>
                     <td>
-                    {$alunosupervisor[lista].id_estagiario}
+                    {$alunosupervisor[lista].estagiario_id}
                     </td>
                     <td>
                     {$alunosupervisor[lista].periodo}

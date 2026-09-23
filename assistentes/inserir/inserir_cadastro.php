@@ -23,8 +23,8 @@ $ano_formatura = $_POST['ano_formatura'];
 $outros_estudos = $_POST['outros_estudos'];
 $area_curso = $_POST['area_curso'];
 $ano_curso = $_POST['ano_curso'];
-$id_inst_super = $_POST['id_inst_super'];
-$id_instituicao = $_POST['id_instituicao'];
+$inst_super_id = $_POST['inst_super_id'];
+$instituicao_id = $_POST['instituicao_id'];
 
 // echo "id_supervisor: " . $id_supervisor . "<br>";
 
@@ -39,25 +39,25 @@ die;
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
 // die;
-// Pego o n�mero de registro de �ltimo supervisor ingressado
+// Pego o nmero de registro de ltimo supervisor ingressado
 $res_ultimo = $db->Execute("select max(id) as ultimo_supervisor from supervisores");
 if($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
-$id_supervisor = $res_ultimo->fields['ultimo_supervisor'];
+$supervisor_id = $res_ultimo->fields['ultimo_supervisor'];
 	
 // Insero supervisor e instituicao em inst_super
-if (!empty($id_instituicao)) {
-    $sql_inst_super = "insert into inst_super (supervisor_id, instituicao_id) values ('$id_supervisor', '$id_instituicao')";
+if (!empty($instituicao_id)) {
+    $sql_inst_super = "insert into inst_super (supervisor_id, instituicao_id) values ('$supervisor_id', '$instituicao_id')";
     $res_inst_super = $db->Execute($sql_inst_super);
     if ($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
 }
 
-$sql_log = "insert into log_supervisores (id_supervisor, cress, nome, ip) values ('$id_supervisor', '$cress', '$nome', '$ip')";
+$sql_log = "insert into log_supervisores (id_supervisor, cress, nome, ip) values ('$supervisor_id', '$cress', '$nome', '$ip')";
 // echo $sql_log . '<br>';
 $resultado_log = $db->Execute($sql_log);
 if ($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
 
 // die;
-echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?supervisor_id=$supervisor_id'>";
 
 exit;
 

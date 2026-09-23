@@ -119,7 +119,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Instituição:</td>
 <td>
-<select name="id_instituicao" size="1">
+<select name="instituicao_id" size="1">
 <option value="0">Selecione instituição</option>
 {section name=elemento loop=$instituicoes}
 <option value="{$instituicoes[elemento].instituicao_id}">
@@ -132,7 +132,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Supervisor:</td>
 <td>
-<select name="id_supervisor" size="1">
+<select name="supervisor_id" size="1">
 <option value="0">Selecione supervisor</option>
 {section name=elemento loop=$supervisores}
 <option value="{$supervisores[elemento].supervisor_id}">
@@ -145,7 +145,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Professor:</td>
 <td>
-<select name="id_professor" size="1">
+<select name="professor_id" size="1">
 <option value="0">Selecione professor</option>
 {section name=elemento loop=$professores}
 <option value="{$professores[elemento].professor_id}">

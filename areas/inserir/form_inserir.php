@@ -4,7 +4,7 @@ include_once("../../autentica.inc");
 
 $smarty = new Smarty_estagio;
 
-$smarty->display("area_form_inserir.tlp");
+$smarty->display("area_form_inserir.tpl");
 
 exit;
 

@@ -30,10 +30,10 @@ if ($resultado == false) die ("Não foi possível consultar a tabela instituicoe
 
 $i = 0;
 while (!$resultado->EOF) {
-  	$id_instituicao = $resultado->fields['id'];
+  	$instituicao_id = $resultado->fields['instituicao_id'];
   	$instituicao    = $resultado->fields['instituicao'];
-  	$id_area        = $resultado->fields['id_area'];
-  	$area           = $resultado->fields['area'];
+  	$area_id        = $resultado->fields['area_id'];
+  	$area_nome      = $resultado->fields['area'];
 	$beneficio      = $resultado->fields['beneficios'];
   	$convenio       = $resultado->fields['convenio'];
 
@@ -44,7 +44,7 @@ while (!$resultado->EOF) {
     $sql_supervisores  = "select s.id as num_supervisor ";
     $sql_supervisores .= " from inst_super as i ";
     $sql_supervisores .= " , supervisores as s ";
-    $sql_supervisores .= " where i.supervisor_id=s.id and i.instituicao_id=$id_instituicao";
+    $sql_supervisores .= " where i.supervisor_id=s.id and i.instituicao_id=$instituicao_id";
 	// echo $sql_supervisores . "<br>";
     $res_supervisores = $db->Execute($sql_supervisores);
     if ($res_supervisores === false) die ("Não foi possível consultar as tabelas supervisores/inst_super");
@@ -52,7 +52,7 @@ while (!$resultado->EOF) {
 	// echo $q_supervisores . "<br>";
 
     // Pego a turma das instituicoes
-    $sql_turma = "select periodo as turma from estagiarios where instituicao_id=$id_instituicao order by periodo";
+    $sql_turma = "select periodo as turma from estagiarios where instituicao_id=$instituicao_id order by periodo";
 	// echo $sql_turma . "<br>";
     $resultado_turma = $db->Execute($sql_turma);
     if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
@@ -69,12 +69,12 @@ while (!$resultado->EOF) {
 	}
 
   	$matriz[$i][$ordem] = $$indice;
-  	$matriz[$i]['id_instituicao'] = $id_instituicao;
+  	$matriz[$i]['instituicao_id'] = $instituicao_id;
   	$matriz[$i]['instituicao']    = $instituicao;
   	$matriz[$i]['supervisores']   = $q_supervisores;
   	$matriz[$i]['turma']          = $turma;
-  	$matriz[$i]['id_area']        = $id_area;
-  	$matriz[$i]['area']           = $area;
+  	$matriz[$i]['area_id']        = $area_id;
+  	$matriz[$i]['area']           = $area_nome;
   	$matriz[$i]['convenio']       = $convenio;
   	$matriz[$i]['beneficio']      = $beneficio;
   	$i++;
@@ -83,21 +83,9 @@ while (!$resultado->EOF) {
 reset($matriz);
 sort($matriz);
 
-/* Debugg
-for($i=0;$i<sizeof($matriz);$i++)
-{
-
- print $matriz[$i]['id'] . " ";
- print $matriz[$i]['nome'] . " ";
- print $matriz[$i]['instituicao'] . "<br>";
-}
-*/
-
 // $smarty->assign("instituicoes",$tabela);
 $smarty->assign("instituicoes",$matriz);
 $smarty->display("instituicoes.tpl");
-
-$db->Close();
 
 exit;
 

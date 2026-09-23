@@ -15,7 +15,7 @@
 <tbody>
 
 <tr>
-<td colspan="2">Id: {$id_supervisor}</td>
+<td colspan="2">Id: {$supervisor_id}</td>
 </tr>
 
 <tr>
@@ -58,7 +58,7 @@
 </tr>
 //-->
 
-<input type="hidden" name="id_supervisor" value="{$id_supervisor}">
+<input type="hidden" name="supervisor_id" value="{$supervisor_id}">
 <!--
 <input type="hidden" name="id_instituicao" value="{$id_instituicao}">
 //-->

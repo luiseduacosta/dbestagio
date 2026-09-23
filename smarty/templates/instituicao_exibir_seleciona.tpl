@@ -10,8 +10,8 @@
 <p>Seleciona instituição</p>
 
 <form name="seleciona_instituicao" action="ver_cada.php" method="post">
-<select name="id_instituicao">
-{html_options values=$id_instituicao output=$instituicoes|truncate:50}
+<select name="instituicao_id">
+{html_options values=$instituicao_id output=$instituicoes|truncate:50}
 </select>
 <input type="submit" name="submit" value="Confirma">
 </form>

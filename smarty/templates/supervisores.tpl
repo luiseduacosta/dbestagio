@@ -24,7 +24,7 @@ function carrega_tabela() {
 
 <input type=hidden name='ordem' id='ordem' value='{$ordem}'>
 
-{if empty($id_instituicao)}
+{if empty($instituicao_id)}
 	<select name='turma' id='turma' onChange="return carrega_tabela();">
 	<option value='0'>Selecione período</option>
 	<option value='0'>Todos</option>
@@ -72,7 +72,7 @@ function carrega_tabela() {
 
 <td>
 {if $smarty.cookies.usuario_senha}
-<a href="../exibir/ver_cada.php?id_supervisor={$supervisores[lista].id_supervisor}">{$supervisores[lista].nome}</a>
+<a href="../exibir/ver_cada.php?supervisor_id={$supervisores[lista].supervisor_id}">{$supervisores[lista].nome}</a>
 {else}
 {$supervisores[lista].nome}
 {/if}
@@ -88,7 +88,7 @@ function carrega_tabela() {
 
 <td>
 {if $smarty.cookies.usuario_senha}
-<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$supervisores[lista].id_instituicao}">{$supervisores[lista].instituicao}</a>
+<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$supervisores[lista].instituicao_id}">{$supervisores[lista].instituicao}</a>
 {else}
 {$supervisores[lista].instituicao}
 {/if}
@@ -96,7 +96,7 @@ function carrega_tabela() {
 
 <td class="coluna_direita">
 {if $smarty.cookies.usuario_senha}
-<a href="alunos_supervisor.php?id_supervisor={$supervisores[lista].id_supervisor}&nome_supervisor={$supervisores[lista].nome}">{$supervisores[lista].turma}</a>
+<a href="alunos_supervisor.php?supervisor_id={$supervisores[lista].supervisor_id}&nome_supervisor={$supervisores[lista].nome}">{$supervisores[lista].turma}</a>
 {else}
 {$supervisores[lista].turma}
 {/if}

@@ -2,7 +2,7 @@
 
 include_once("../../autentica.inc");
 
-$id_instituicao        = $_POST['id_instituicao'];
+$instituicao_id        = $_POST['instituicao_id'];
 $area_instituicao      = $_POST['area_instituicao'];
 $nome_instituicao      = $_POST['nome_instituicao'];
 $endereco_instituicao  = $_POST['endereco_instituicao'];
@@ -33,11 +33,11 @@ if ($tamanho_cep > 9) {
     exit;
 }
 
-$sql = "update instituicoes set area='$area_instituicao', instituicao='$nome_instituicao', endereco='$endereco_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', beneficios='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro' where id='$id_instituicao'";
+$sql = "update instituicoes set area='$area_instituicao', instituicao='$nome_instituicao', endereco='$endereco_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', beneficios='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro' where id='$instituicao_id'";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível atualizar a tabela instituicoes");
 
-header("Location:../exibir/ver_cada.php?id_instituicao=$id_instituicao");
+header("Location:../exibir/ver_cada.php?instituicao_id=$instituicao_id");
 
 exit;
 

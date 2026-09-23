@@ -5,7 +5,7 @@ include_once("../../setup.php");
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "nome";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : NULL;
-$id_instituicao = isset($_GET['id_instituicao']) ? $_GET['id_instituicao'] : NULL;
+$instituicao_id = isset($_GET['instituicao_id']) ? $_GET['instituicao_id'] : NULL;
 
 // echo $turma . "<br>";
 
@@ -20,8 +20,8 @@ $sql .= " left outer join estagiarios on s.id = estagiarios.supervisor_id ";
 if (!empty($turma))
     $sql .= " where estagiarios.periodo = '$turma' ";
 
-if (!empty($id_instituicao))
-    $sql .= " where estagiarios.instituicao_id = '$id_instituicao' ";
+if (!empty($instituicao_id))
+    $sql .= " where estagiarios.instituicao_id = '$instituicao_id' ";
 
 $sql .= " group by s.id ";
 
@@ -48,18 +48,18 @@ while (!$resultado->EOF) {
     $estagio_instituicao = $resultado->fields['instituicao'];
 
     $matriz[$i][$ordem] = $$indice;
-    $matriz[$i]['id_instituicao'] = $estagio_id_instituicao;
-    $matriz[$i]['id_supervisor'] = $id_supervisor;
+    $matriz[$i]['instituicao_id'] = $estagio_id_instituicao;
+    $matriz[$i]['supervisor_id'] = $id_supervisor;
     $matriz[$i]['turma'] = $turma_periodo;
     $matriz[$i]['nome'] = $nome_supervisor;
     $matriz[$i]['telefone'] = $tel_supervisor;
     $matriz[$i]['celular'] = $cel_supervisor;
     $matriz[$i]['instituicao'] = $estagio_instituicao;
     $matriz[$i]['email'] = $email_supervisor;
-    $matriz[$i]['id_curso'] = $resultado->fields['id_curso'];
 
+    $supervisor_id = $id_supervisor;
     // Calculo a quantidade de periodos que o supervisor trabalha com alunos
-    $sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$id_supervisor";
+    $sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$supervisor_id";
     // echo $sql_periodos . "<br>";	
     $res_periodos = $db->Execute($sql_periodos);
     if ($res_periodos === false) die("Não foi possivel consultar a tabela estagiarios");
@@ -113,7 +113,7 @@ while (!$res_turma->EOF) {
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica", $sistema_autentica);
-$smarty->assign("id_instituicao", $id_instituicao);
+$smarty->assign("instituicao_id", $instituicao_id);
 $smarty->assign("turma", $turma);
 $smarty->assign("ordem", $ordem);
 $smarty->assign("periodos", $periodos);

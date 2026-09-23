@@ -3,7 +3,7 @@
 require_once("../../autentica.inc");
 // include_once("../../autentica.inc");
 // Pego o numero da instituição
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
 
 // Busco a instituição, área e supervisor
 $sql  = "select e.instituicao, e.endereco, e.cep, e.telefone, ";
@@ -11,7 +11,7 @@ $sql .= "e.area as id_area, e.beneficios, e.fim_de_semana, e.convenio, a.area ";
 $sql .= "from instituicoes as e "; 
 $sql .= "left outer join areas as a ";
 $sql .= "on e.area=a.id ";
-$sql .= "where e.id=$id_instituicao";
+$sql .= "where e.id=$instituicao_id";
 
 // include_once("../../db.inc");
 $resultado = $db->Execute($sql);
@@ -30,7 +30,7 @@ while (!$resultado->EOF) {
 	
 	// Pego os supervisores por instituicao
 	$sql_super_por_instituicao  = "select s.id, s.nome, s.cress from supervisores as s, inst_super as j ";
-	$sql_super_por_instituicao .= "where j.supervisor_id=s.id and j.instituicao_id=$id_instituicao order by nome";
+	$sql_super_por_instituicao .= "where j.supervisor_id=s.id and j.instituicao_id=$instituicao_id order by nome";
 	$resultado_super_por_instituicao = $db->Execute($sql_super_por_instituicao);
 	if ($resultado_super_por_instituicao === false) die ("Não foi possível consultar a tabela supervisores");
 	$i = 0;
@@ -43,7 +43,7 @@ while (!$resultado->EOF) {
 	}
 
 	// Pego a turma por instituicao
-	$sql_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$id_instituicao";
+	$sql_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$instituicao_id";
 	$resultado = $db->Execute($sql_turma);
 	if ($resultado === false) die ("Não foi possível consultar a tabela estagiarios");
 	$turma = $resultado->fields['turma'];
@@ -79,7 +79,7 @@ while (!$res_supervisores->EOF) {
 // Envio os resultados
 $smarty = new Smarty_estagio;
 
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->assign("endereco_instituicao",$endereco_instituicao);
 $smarty->assign("cep_instituicao",$cep_instituicao);

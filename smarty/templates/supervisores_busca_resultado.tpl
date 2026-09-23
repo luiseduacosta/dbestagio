@@ -17,7 +17,7 @@
 
 {section name=elemento loop=$supervisores}
 <tr>
-<td><a href="../exibir/ver_cada.php?id_supervisor={$supervisores[elemento].id_supervisor}">{$supervisores[elemento].nome_supervisor}</a></td>
+<td><a href="../exibir/ver_cada.php?supervisor_id={$supervisores[elemento].supervisor_id}">{$supervisores[elemento].nome_supervisor}</a></td>
 </tr>
 {/section}
 

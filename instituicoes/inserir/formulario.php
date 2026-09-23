@@ -24,7 +24,7 @@ for($i=0;$i<sizeof($areas);$i++)
 }
 */
 
-$smarty->assign("id_area",$id_area);
+$smarty->assign("area_id",$area_id);
 $smarty->assign("areas",$areas);
 $smarty->display("instituicao_form.tlp");
 
