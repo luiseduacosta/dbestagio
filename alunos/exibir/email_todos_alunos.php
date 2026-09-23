@@ -18,11 +18,11 @@ if($res_subs === false) die ("N�o foi poss�vel limpar a tabela pommo_subscri
 
 $sql_subs_data = "truncate table pommo_subscriber_data";
 $res_subs_data = $db_pommo->Execute($sql_subs_data);
-if($res_subs_data === false) die ("N�o foi poss�vel limpar a tabela pommo_subscribers_data");
+if($res_subs_data === false) die ("No foi possvel limpar a tabela pommo_subscribers_data");
 
 $sql_pommo_fields = "truncate table pommo_fields";
 $res_pommo_fields = $db_pommo->Execute($sql_pommo_fields);
-if($res_pommo_fields === false) die ("N�o foi poss�vel limpar a tabela pommo_fields");
+if($res_pommo_fields === false) die ("No foi possvel limpar a tabela pommo_fields");
 
 // Insero os campos
 $sql_pommo_campos = "
@@ -57,7 +57,7 @@ $sql .= " group by aluno_id";
 // order by $ordem";
 // echo $sql ."<br>";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N�o foi poss�vel consultar as tabelas alunos, estagiarios");
+if($resultado === false) die ("No foi possvel consultar as tabelas alunos, estagiarios");
 $i = 0;
 while (!$resultado->EOF) {
 	$email = $resultado->fields['email'];
@@ -77,43 +77,43 @@ while (!$resultado->EOF) {
 		$sql_email = "insert into pommo_subscribers (email,status) values (\"$email\",1)";
 		// echo $sql_email . "<br>";
 		$res_email = $db_pommo->Execute($sql_email);
-		if($res_email === false) die ("0 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email === false) die ("0 No foi possvel inserir dados na tabela pommo_subscribers");
 		$subscriber_id = $db_pommo->Insert_ID();
 
 		$sql_email_nome = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (1,\"$nome\",$subscriber_id)";
 		// echo $sql_email_nome . "<br>";
 		$res_email_nome = $db_pommo->Execute($sql_email_nome);
-		if($res_email_nome === false) die ("1 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_nome === false) die ("1 No foi possvel inserir dados na tabela pommo_subscribers");
 
 		$sql_email_registro = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (2,'$registro',$subscriber_id)";
 		// echo $sql_email_registro . "<br>";
 		$res_email_registro = $db_pommo->Execute($sql_email_registro);
-		if($res_email_registro === false) die ("2 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_registro === false) die ("2 No foi possvel inserir dados na tabela pommo_subscribers");
 
 		$sql_email_periodo = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (3,\"$periodo\",$subscriber_id)";
 		// echo $sql_email_periodo . "<br>";
 		$res_email_periodo = $db_pommo->Execute($sql_email_periodo);
-		if($res_email_periodo === false) die ("5 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_periodo === false) die ("5 No foi possvel inserir dados na tabela pommo_subscribers");
 
 		$sql_email_nivel = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (4,'$nivel',$subscriber_id)";
 		// echo $sql_email_nivel . "<br>";
 		$res_email_nivel = $db_pommo->Execute($sql_email_nivel);
-		if($res_email_nivel === false) die ("6 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_nivel === false) die ("6 No foi possvel inserir dados na tabela pommo_subscribers");
 
 		$sql_email_instituicao = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (5,'$instituicao',$subscriber_id)";
 		// echo $sql_email_nivel . "<br>";
 		$res_email_instituicao = $db_pommo->Execute($sql_email_instituicao);
-		if($res_email_instituicao === false) die ("7 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_instituicao === false) die ("7 No foi possvel inserir dados na tabela pommo_subscribers");
 		
 		$sql_email_supervisor = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (6,'$supervisor',$subscriber_id)";
 		echo $sql_email_supervisor . "<br>";
 		$res_email_supervisor = $db_pommo->Execute($sql_email_supervisor);
-		if($res_email_supervisor === false) die ("8 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_supervisor === false) die ("8 No foi possvel inserir dados na tabela pommo_subscribers");
 				
 		$sql_email_professor = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (7,'$professor',$subscriber_id)";
 		// echo $sql_email_nivel . "<br>";
 		$res_email_professor = $db_pommo->Execute($sql_email_professor);
-		if($res_email_professor === false) die ("9 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_professor === false) die ("9 No foi possvel inserir dados na tabela pommo_subscribers");
 		
 		if ($monografia) {
 			$monografia = 1;
@@ -123,7 +123,7 @@ while (!$resultado->EOF) {
 		$sql_email_monografia = "insert into pommo_subscriber_data (field_id, value, subscriber_id) values (8,\"$monografia\",$subscriber_id)";
 		// echo $sql_email_monografia . "<br>";
 		$res_email_monografia = $db_pommo->Execute($sql_email_monografia);
-		if($res_email_monografia === false) die ("10 N�o foi poss�vel inserir dados na tabela pommo_subscribers");
+		if($res_email_monografia === false) die ("10 No foi possvel inserir dados na tabela pommo_subscribers");
 
 	}
 

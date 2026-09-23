@@ -12,7 +12,7 @@ if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 
 $i = 0;
 while (!$resultado->EOF) {
-    $alunos[$i]["id_aluno"] = $resultado->fields["id"];
+    $alunos[$i]["aluno_id"] = $resultado->fields["id"];
     $alunos[$i]["registro"] = $resultado->fields["registro"];
     $alunos[$i]["nome"]     = $resultado->fields["nome"];
     $i++;

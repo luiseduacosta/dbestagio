@@ -19,39 +19,40 @@ $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;
 // Tipo de inscricao do aluno: 0 = novo, 1 = cadastrado periodo atual, 2 = nao cadastrado periodo atual
 $aluno = isset($_REQUEST['aluno']) ? $_REQUEST['aluno'] : NULL;
 
-$id_aluno = $_REQUEST['id_aluno'];
-$nome = $_REQUEST['nome'];
-$codigo_telefone = $_REQUEST['codigo_telefone'];
-$telefone = $_REQUEST['telefone'];
-$codigo_celular = $_REQUEST['codigo_celular'];
-$celular = $_REQUEST['celular'];
-$email = $_REQUEST['email'];
-$identidade = $_REQUEST['identidade'];
-$orgao = $_REQUEST['orgao'];
-$cpf = $_REQUEST['cpf'];
-$nascimento = $_REQUEST['nascimento'];
-$endereco = $_REQUEST['endereco'];
-$cep = $_REQUEST['cep'];
-$bairro = $_REQUEST['bairro'];
-$municipio = $_REQUEST['municipio'];
+$aluno_id = isset($_REQUEST['aluno_id']) ? $_REQUEST['aluno_id'] :  NULL;
+$nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : '';
+$codigo_telefone = isset($_REQUEST['codigo_telefone']) ? $_REQUEST['codigo_telefone'] : '';
+$telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : '';
+$codigo_celular = isset($_REQUEST['codigo_celular']) ? $_REQUEST['codigo_celular'] : '';
+$celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : '';
+$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
+$identidade = isset($_REQUEST['identidade']) ? $_REQUEST['identidade'] : '';
+$orgao = isset($_REQUEST['orgao']) ? $_REQUEST['orgao'] : '';
+$cpf = isset($_REQUEST['cpf']) ? $_REQUEST['cpf'] : '';
+$nascimento = isset($_REQUEST['nascimento']) ? $_REQUEST['nascimento'] : '';
+$endereco = isset($_REQUEST['endereco']) ? $_REQUEST['endereco'] : '';
+$cep = isset($_REQUEST['cep']) ? $_REQUEST['cep'] : '';
+$bairro = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : '';
+$municipio = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : '';
 // $observacoes     = $_REQUEST['observacoes'];
-$nivel = $_REQUEST['nivel'];
+$nivel = isset($_REQUEST['nivel']) ? $_REQUEST['nivel'] : 1;
 // Instituicao na qual o aluno estava estagiando no periodo anterior
-$id_instituicao_periodo_atual = $_REQUEST['id_instituicao_periodo_atual'];
-$id_instituicao_periodo_anterior = $_REQUEST['id_instituicao_periodo_anterior'];
+$instituicao_id_periodo_atual = isset($_REQUEST['instituicao_id_periodo_atual']) ? $_REQUEST['instituicao_id_periodo_atual'] : '0';
+$instituicao_id_periodo_anterior = isset($_REQUEST['instituicao_id_periodo_anterior']) ? $_REQUEST['instituicao_id_periodo_anterior'] : '0';
 
-$id_estagio = $_REQUEST['id_estagio'];
-$id_supervisor = $_REQUEST['id_supervisor'];
+$estagio_id = isset($_REQUEST['estagio_id']) ? $_REQUEST['estagio_id'] : (isset($_REQUEST['id_estagio']) ? $_REQUEST['id_estagio'] : NULL);
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : NULL;
+$instituicao_id = !empty($estagio_id) ? $estagio_id : (isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : '0');
 
 // O formulario eh enviado pelo aluno
 if ($submit) {
-    // Verifica o campo id_instituicao
-    if (empty($id_estagio))
+    // Verifica o campo instituicao_id
+    if (empty($estagio_id))
         die("É obrigatório selecionar a instituição para o qual está solicitando o termo de compromisso");
 
     // echo "Tipo de aluno: " . $aluno . "<br>";
-    // echo "Nivel: ". $nivel . " Estagio solicitado: " . $id_estagio . " Estagio anterior: " . $id_instituicao_periodo_anterior;
-    // echo " Estagio atual: " . $id_instituicao_periodo_atual . "<br>";
+    // echo "Nivel: ". $nivel . " Estagio solicitado: " . $estagio_id . " Estagio anterior: " . $instituicao_id_periodo_anterior;
+    // echo " Estagio atual: " . $instituicao_id_periodo_atual . "<br>";
 
     /* Classifica a mudança de estágio */
     if ($nivel == 1) {
@@ -59,7 +60,7 @@ if ($submit) {
     } else {
         $nivel_inicial = $nivel - 1;
         // 0 = nao muda, 1 = muda
-        $muda_estagio = ($id_estagio == $id_instituicao_periodo_anterior) ? 0 : 1;
+        $muda_estagio = ($estagio_id == $instituicao_id_periodo_anterior) ? 0 : 1;
         // echo "Muda estagio: " . $muda_estagio . "<br>";
         echo "Aluno estagiário.<br>";
         if (($nivel_inicial == 1 or $nivel_inicial == 3) and ($muda_estagio == 1)) { // ($id_estagio != $id_instituicao_periodo_anterior)) {
@@ -104,7 +105,7 @@ if ($submit) {
     }
 
     // Busco primeiramente a informacao na tabela mural_estagio
-    $sql_mural = "select id, id_professor, horario, id_area from mural_estagio where id_estagio=$id_estagio and periodo = '" . TC_PERIODO_ATUAL . "'";
+    $sql_mural = "select id, professor_id, horario from mural_estagio where id=$estagio_id and periodo = '" . TC_PERIODO_ATUAL . "'";
     // echo $sql_mural . "<br>";
     $resultado_mural = $db->Execute($sql_mural);
     $quantidade = $resultado_mural->RecordCount();
@@ -116,21 +117,20 @@ if ($submit) {
         $sql_ultimo_estagio = "select professor_id from estagiarios where instituicao_id = '$id_estagio' order by periodo desc";
         // echo $sql_ultimo_estagio . "<br>";
         $resultado_ultimo_estagio = $db->Execute($sql_ultimo_estagio);
-        $id_professor = $resultado_ultimo_estagio->fields['professor_id'];
+        $professor_id = $resultado_ultimo_estagio->fields['professor_id'];
         // echo "<br>";
         // die($sql_ultimo_estagio);
     } else {
-        $id_professor = $resultado_mural->fields['id_professor'];
-        $id_area = $resultado_mural->fields['id_area'];
+        $professor_id = $resultado_mural->fields['professor_id'];
         $turno = $resultado_mural->fields['horario'];
         // die("Estagio");
     } // Agora ja estou com a informacao para ser inserida na tabela estagiarios
 
-    $sql_instituicao = "select instituicao from instituicoes where id=$id_estagio";
+    $sql_instituicao = "select instituicao from instituicoes where id=$instituicao_id";
     $res_instituicao = $db->Execute($sql_instituicao);
     $instituicao = $res_instituicao->fields['instituicao'];
 
-    $sql_supervisor = "select cress, nome from supervisores where id=$id_supervisor";
+    $sql_supervisor = "select cress, nome from supervisores where id=$supervisor_id";
     $resultado_supervisor = $db->Execute($sql_supervisor);
     $supervisor = $resultado_supervisor->fields['nome'];
     $cress = $resultado_supervisor->fields['cress'];
@@ -141,25 +141,25 @@ if ($submit) {
     // Inserir aluno e estagiario
     if ($aluno == 0) {
         // Inserir aluno
-        $sql_alunonovo = "select * from alunosNovos where registro = $registro";
-        $res_alunonovo = $db->Execute($sql_alunonovo);
-        if ($res_alunonovo === false)
-            die("Não foi possivel consultar a tabela alunosNovos");
+        $sql_aluno = "select * from alunos where registro = $registro";
+        $res_aluno = $db->Execute($sql_aluno);
+        if ($res_aluno === false)
+            die("Não foi possivel consultar a tabela aluno");
 
-        $nome = $res_alunonovo->fields['nome'];
-        $codigo_telefone = $res_alunonovo->fields['codigo_telefone'];
-        $telefone = $res_alunonovo->fields['telefone'];
-        $codigo_celular = $res_alunonovo->fields['codigo_celular'];
-        $celular = $res_alunonovo->fields['celular'];
-        $email = $res_alunonovo->fields['email'];
-        $cpf = $res_alunonovo->fields['cpf'];
-        $identidade = $res_alunonovo->fields['identidade'];
-        $orgao = $res_alunonovo->fields['orgao'];
-        $data_nascimento = $res_alunonovo->fields['nascimento'];
-        $endereco = $res_alunonovo->fields['endereco'];
-        $cep = $res_alunonovo->fields['cep'];
-        $bairro = $res_alunonovo->fields['bairro'];
-        $municipio = $res_alunonovo->fields['municipio'];
+        $nome = $res_aluno->fields['nome'];
+        $codigo_telefone = $res_aluno->fields['codigo_telefone'];
+        $telefone = $res_aluno->fields['telefone'];
+        $codigo_celular = $res_aluno->fields['codigo_celular'];
+        $celular = $res_aluno->fields['celular'];
+        $email = $res_aluno->fields['email'];
+        $cpf = $res_aluno->fields['cpf'];
+        $identidade = $res_aluno->fields['identidade'];
+        $orgao = $res_aluno->fields['orgao'];
+        $data_nascimento = $res_aluno->fields['nascimento'];
+        $endereco = $res_aluno->fields['endereco'];
+        $cep = $res_aluno->fields['cep'];
+        $bairro = $res_aluno->fields['bairro'];
+        $municipio = $res_aluno->fields['municipio'];
 
         echo "Insere aluno e estágio. <br>";
         $sql_alunos = "insert into alunos(registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
@@ -172,16 +172,16 @@ if ($submit) {
         if ($resultado_insere === false)
             die("0 Nao foi possível inserir o registro na tabela alunos");
         // Calculo o id do ultimo aluno inserido
-        // $id_aluno = $db->lnsert_ID();
+        $aluno_id = $db->Insert_ID();
 
-        $res_ultimo = $db->Execute("select last_insert_id() as id_aluno");
-        if ($res_ultimo === false)
-            die("Nao foi possivel consultar a sequencia alunos");
-        $id_aluno = $res_ultimo->fields['id_aluno'];
-        // echo "Id aluno " . $id_aluno . "<br>";
+        // $res_ultimo = $db->Execute("select last_insert_id() as aluno_id");
+        // if ($res_ultimo === false)
+        //     die("Nao foi possivel consultar a sequencia alunos");
+        // $aluno_id = $res_ultimo->fields['aluno_id'];
+        // echo "Id aluno " . $aluno_id . "<br>";
         // Inserir estagiario
         $sql_estagiarios = "insert into estagiarios(aluno_id, registro, nivel, tc, tc_solicitacao, instituicao_id, supervisor_id, professor_id, periodo) ";
-        $sql_estagiarios .= "values('$id_aluno', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "')";
+        $sql_estagiarios .= "values('$aluno_id', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$supervisor_id', '$professor_id','" . TC_PERIODO_ATUAL . "')";
         // echo $sql_estagiarios . "<br>";
         // die("Insere estagiario");
         $resultado_insere = $db->Execute($sql_estagiarios);
@@ -210,8 +210,8 @@ if ($submit) {
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
         $sql_estagiarios = "update estagiarios ";
-        $sql_estagiarios .= " set nivel = '$nivel', tc = '0', tc_solicitacao = '" . date("Y-m-d") . "', instituicao_id = '$id_estagio', supervisor_id = '$id_supervisor', professor_id = '$id_professor', periodo = '" . TC_PERIODO_ATUAL . "'";
-        $sql_estagiarios .= " where aluno_id='$id_aluno' and periodo= '" . TC_PERIODO_ATUAL . "'";
+        $sql_estagiarios .= " set nivel = '$nivel', tc = '0', tc_solicitacao = '" . date("Y-m-d") . "', instituicao_id = '$instituicao_id', supervisor_id = '$supervisor_id', professor_id = '$professor_id', periodo = '" . TC_PERIODO_ATUAL . "'";
+        $sql_estagiarios .= " where aluno_id='$aluno_id' and periodo= '" . TC_PERIODO_ATUAL . "'";
         // echo $sql_estagiarios . "<br>";
         $resultado_atualiza = $db->Execute($sql_estagiarios);
         if ($resultado_atualiza === false)
@@ -239,7 +239,7 @@ if ($submit) {
         // if ($resultado_insere === false) die("Nao foi possivel atualizar o registro na tabela alunos");
 
         $sql_estagiarios = "insert into estagiarios(aluno_id, registro, nivel, tc, tc_solicitacao, instituicao_id, supervisor_id, professor_id, periodo) ";
-        $sql_estagiarios .= "values('$id_aluno', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$id_estagio', '$id_supervisor', '$id_professor','" . TC_PERIODO_ATUAL . "')";
+        $sql_estagiarios .= "values('$aluno_id', '$registro', '$nivel', '0', '" . date("Y-m-d") . "','$instituicao_id', '$supervisor_id', '$professor_id','" . TC_PERIODO_ATUAL . "')";
         // echo $sql_estagiarios . "<br>";
         $resultado_insere = $db->Execute($sql_estagiarios);
         if ($resultado_insere === false)
@@ -283,7 +283,7 @@ if ($quantidade == 0) {
 
     // Aluno novo. Ainda nao iniciou estagio
     while (!$resultado_novo->EOF) {
-        $id_aluno = $resultado->fields['id'];
+        $aluno_id = $resultado_novo->fields['id'];
         $nome = $resultado_novo->fields['nome'];
         $codigo_telefone = $resultado_novo->fields['codigo_telefone'];
         $telefone = $resultado_novo->fields['telefone'];
@@ -311,7 +311,7 @@ if ($quantidade == 0) {
 
 // Aluno estagiario: ja cadastrado e ainda nao cadastrado
 while (!$resultado->EOF) {
-    $id_aluno = $resultado->fields['id'];
+    $aluno_id = $resultado->fields['id'];
     $nome = $resultado->fields['nome'];
     $codigo_telefone = $resultado->fields['codigo_telefone'];
     $telefone = $resultado->fields['telefone'];
@@ -333,7 +333,7 @@ while (!$resultado->EOF) {
     $observacoes = $resultado->fields['observacoes'];
     // echo $observacoes . "<br>";
     // Capturo a instituicao atual e anterior
-    $sql_periodos = "select periodo, nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor
+    $sql_periodos = "select periodo, nivel, estagiarios.instituicao_id, estagiarios.supervisor_id, estagiarios.professor_id
 	 , instituicoes.instituicao, supervisores.nome
 	 from estagiarios
 	 inner join instituicoes on estagiarios.instituicao_id = instituicoes.id
@@ -353,19 +353,19 @@ while (!$resultado->EOF) {
             // Atualizar alunos e estagiarios
             $aluno = 1; // Aluno estagiando cadastrado
             // echo "Aluno $aluno <br>";
-            $id_instituicao_periodo_atual = $resultado_periodo->fields['id_instituicao'];
+            $instituicao_id_periodo_atual = $resultado_periodo->fields['instituicao_id'];
             $instituicao_periodo_atual = $resultado_periodo->fields['instituicao'];
 
-            $id_supervisor_periodo_atual = $resultado_periodo->fields['id_supervisor'];
+            $supervisor_id_periodo_atual = $resultado_periodo->fields['supervisor_id'];
             $supervisor_periodo_atual = $resultado_periodo->fields['nome'];
 
             $nivel_periodo_atual = $resultado_periodo->fields['nivel'];
             $periodo_atual = $resultado_periodo->fields['periodo'];
 
             // Para o formulario
-            $id_instituicao = $id_instituicao_periodo_atual;
+            $instituicao_id = $instituicao_id_periodo_atual;
             $instituicao = $instituicao_periodo_atual;
-            $id_supervisor = $id_supervisor_periodo_atual;
+            $supervisor_id = $supervisor_id_periodo_atual;
             $supervisor = $supervisor_periodo_atual;
 
             if ($i == 1) {
@@ -379,19 +379,19 @@ while (!$resultado->EOF) {
             // Se nao esta cadastrado no periodo atual, entao classificar como 2
             $aluno = ($aluno == 1) ? 1 : 2; // Aluno estagiando nao cadastrado
             // echo "Aluno $aluno <br>";
-            $id_instituicao_periodo_anterior = $resultado_periodo->fields['id_instituicao'];
+            $instituicao_id_periodo_anterior = $resultado_periodo->fields['instituicao_id'];
             $instituicao_periodo_anterior = $resultado_periodo->fields['instituicao'];
 
-            $id_supervisor_periodo_anterior = $resultado_periodo->fields['id_supervisor'];
+            $supervisor_id_periodo_anterior = $resultado_periodo->fields['supervisor_id'];
             $supervisor_periodo_anterior = $resultado_periodo->fields['nome'];
 
             $nivel_periodo_anterior = $resultado_periodo->fields['nivel'];
             $periodo_anterior = $resultado_periodo->fields['periodo'];
 
             // Para o formulario
-            $id_instituicao = $id_instituicao_periodo_anterior;
+            $instituicao_id = $instituicao_id_periodo_anterior;
             $instituicao = $instituicao_periodo_anterior;
-            $id_supervisor = $id_supervisor_periodo_anterior;
+            $supervisor_id = $supervisor_id_periodo_anterior;
             $supervisor = $supervisor_periodo_anterior;
 
             if ($i == 1) {
@@ -405,9 +405,6 @@ while (!$resultado->EOF) {
                 }
             }
         }
-
-        // echo "Periodo atual: id " . $id_instituicao_periodo_atual . " instituicao: " . $instituicao_periodo_atual . " nivel: " . $nivel_periodo_atual . " periodo: " . $periodo_atual . " Nivel: " . $nivel .  " Nivel formulario: ". $nivel_formulario . "<br>";
-        // echo "Periodo anterior: id " . $id_instituicao_periodo_anterior . " instituicao: " . $instituicao_periodo_anterior . " nivel: " . $nivel_periodo_anterior . " periodo: " . $periodo_anterior .   " Nivel: " . $nivel .  " Nivel formulario: ". $nivel_formulario . "<br>";
 
         $i++;
         // Somente os dois ultimos periodos
@@ -469,7 +466,7 @@ while (!$resposta_supervisores->EOF) {
 
 $smarty = new Smarty_estagio;
 // Dados do Aluno
-$smarty->assign("id_aluno", $id_aluno);
+$smarty->assign("aluno_id", $aluno_id);
 $smarty->assign("registro", $registro);
 $smarty->assign("aluno_nome", $nome);
 $smarty->assign("codigo_telefone", $codigo_telefone);
@@ -485,18 +482,13 @@ $smarty->assign("endereco", $endereco);
 $smarty->assign("cep", $cep);
 $smarty->assign("bairro", $bairro);
 $smarty->assign("municipio", $municipio);
-$smarty->assign("observacoes", $observacoes);
+$smarty->assign("observacoes", $observacoes ?? '');
 
-$smarty->assign("id_instituicao_atual", $id_instituicao_periodo_atual);
-$smarty->assign("instituicao_atual", $instituicao_periodo_anterior);
-
-$smarty->assign("id_instituicao_anterior", $id_instituicao_periodo_anterior);
-$smarty->assign("instituicao_anterior", $instituicao_periodo_atual);
-
-$smarty->assign("id_instituicao", $id_instituicao);
-$smarty->assign("instituicao", $instituicao);
-$smarty->assign("id_supervisor", $id_supervisor);
-$smarty->assign("supervisor", $supervisor);
+$smarty->assign("instituicao_atual_id", $instituicao_id_periodo_atual);
+$smarty->assign("instituicao_id", $instituicao_id);
+$smarty->assign("instituicao", $instituicao ?? '');
+$smarty->assign("supervisor_id", $supervisor_id);
+$smarty->assign("supervisor", $supervisor ?? '');
 
 $smarty->assign("nivel", $nivel); // proximo nivel de estagio
 $smarty->assign("nivel_romano", $nivel_romano); // nivel de estagio em numeros romanos

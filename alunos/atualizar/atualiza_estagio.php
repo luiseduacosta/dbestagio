@@ -35,9 +35,9 @@ while (!$estagiarios->EOF) {
 	$periodo        = $estagiarios->fields["periodo"];
 	$tc	        	= $estagiarios->fields["tc"];
 	$nivel          = $estagiarios->fields["nivel"];
-	$id_instituicao = $estagiarios->fields["instituicao_id"];
-	$id_supervisor  = $estagiarios->fields["supervisor_id"];
-	$id_professor   = $estagiarios->fields["professor_id"];
+	$instituicao_id = $estagiarios->fields["instituicao_id"];
+	$supervisor_id  = $estagiarios->fields["supervisor_id"];
+	$professor_id   = $estagiarios->fields["professor_id"];
 	$nota           = $estagiarios->fields["nota"];
 	$ch             = $estagiarios->fields["ch"];
 

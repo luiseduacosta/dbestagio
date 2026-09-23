@@ -92,14 +92,11 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['nota']           = $resultadoLista->fields['nota'];
 	$estagiarios[$i]['ch']             = $resultadoLista->fields['ch'];
 	$estagiarios[$i]['instituicao_id'] = $resultadoLista->fields['instituicao_id'];
-	$estagiarios[$i]['id_instituicao']  = $resultadoLista->fields['instituicao_id'];
 	$estagiarios[$i]['instituicao']    = $resultadoLista->fields['instituicao'];
 	$estagiarios[$i]['seguro']         = $resultadoLista->fields['seguro'] ?? '';
 	$estagiarios[$i]['supervisor_id']  = $resultadoLista->fields['supervisor_id'];
-	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['supervisor_id'];
 	$estagiarios[$i]['supervisor']     = $resultadoLista->fields['nomeSupervisor'];
 	$estagiarios[$i]['professor_id']   = $resultadoLista->fields['professor_id'];
-	$estagiarios[$i]['id_professor']   = $resultadoLista->fields['professor_id'];
 	$estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
 	$estagiarios[$i]['codigo']         = '';
 	$estagiarios[$i]['area']           = '';
@@ -203,7 +200,6 @@ if ($res_estagio === false) die ("Nao foi possivel consultar a tabela instituico
 $i = 0;
 while (!$res_estagio->EOF) {
 	$instituicoes[$i]['instituicao_id'] = $res_estagio->fields['id'];
-	$instituicoes[$i]['id_instituicao']  = $res_estagio->fields['id'];
 	$instituicoes[$i]['instituicao']    = $res_estagio->fields['instituicao'];
 	$i++;
 	$res_estagio->MoveNext();
@@ -220,7 +216,6 @@ if ($res_professor === false) die ("Nao foi possivel consultar a tabela professo
 $i = 0;
 while (!$res_professor->EOF) {
 	$professores[$i]['professor_id'] = $res_professor->fields['id'];
-	$professores[$i]['id_professor']   = $res_professor->fields['id'];
 	$professores[$i]['nome']         = $res_professor->fields['nome'];
 	$i++;
 	$res_professor->MoveNext();
@@ -279,7 +274,6 @@ $smarty->assign("seleciona_nivel",$seleciona_nivel);
 $smarty->assign("seleciona_instituicao",$seleciona_instituicao);
 $smarty->assign("seleciona_professor",$seleciona_professor);
 $smarty->assign("seleciona_periodo",$seleciona_periodo);
-$smarty->assign("id_area", $area_id);
 
 $smarty->assign("lista",$estagiarios);
 

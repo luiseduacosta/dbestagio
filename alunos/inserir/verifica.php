@@ -12,12 +12,19 @@ if (empty($origem)) {
 
 include_once("../../autentica.inc");
 
-$registro = $_REQUEST['registro'];
+$registro = $_REQUEST['registro'] ? $_REQUEST['registro'] : NULL;
+$aluno_id = $_REQUEST['aluno_id'] ? $_REQUEST['aluno_id'] : NULL;
 
 // Busco o registro entre os alunos
-$sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-$sqlAlunos .= "endereco, cep, bairro, municipio from alunos where registro='$registro'";
-// echo $sqlAlunos . "<br>";
+if ($registro != NULL) {
+    $sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
+    $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where registro='$registro'";
+    // echo $sqlAlunos . "<br>";
+} else {
+    $sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
+    $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where id='$aluno_id'";
+    // echo $sqlAlunos . "<br>";
+}
 
 // $resultado0 = $db->Execute($sql0);
 $resultado0 = $db->Execute($sqlAlunos);
@@ -75,7 +82,7 @@ if ($quantidade == 0) {
 
 $smarty = new Smarty_estagio;
 $smarty->assign("origem",$origem);
-$smarty->assign("id_aluno",$id_aluno);
+$smarty->assign("aluno_id",$aluno_id);
 $smarty->assign("registro",$registro);
 $smarty->assign("nome",$nome);
 $smarty->assign("codigo_telefone",$codigo_telefone);
