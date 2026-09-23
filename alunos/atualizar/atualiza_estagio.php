@@ -34,20 +34,20 @@ $i = 0;
 while (!$estagiarios->EOF) {
 	$periodo        = $estagiarios->fields["periodo"];
 	$tc	        = $estagiarios->fields["tc"];
-	$turno          = $estagiarios->fields["turno"];
+	$turno          = NULL;
 	$nivel          = $estagiarios->fields["nivel"];
-	$id_instituicao = $estagiarios->fields["id_instituicao"];
-	$id_supervisor  = $estagiarios->fields["id_supervisor"];
-	$id_professor   = $estagiarios->fields["id_professor"];
-	$id_area        = $estagiarios->fields["id_area"];
+	$id_instituicao = $estagiarios->fields["instituicao_id"];
+	$id_supervisor  = $estagiarios->fields["supervisor_id"];
+	$id_professor   = $estagiarios->fields["professor_id"];
+	$id_area        = NULL;
 	$nota           = $estagiarios->fields["nota"];
 	$ch             = $estagiarios->fields["ch"];
 
 	// Nome da Instituicao
 	if (!empty($id_instituicao)) {
-		$sql_instituicao = "select id, instituicao from estagio where id=$id_instituicao";
+		$sql_instituicao = "select id, instituicao from instituicoes where id=$id_instituicao";
 		$res_instituicao = $db->Execute($sql_instituicao);
-		if ($res_instituicao === false) die ("Nao foi possivel consultar a tabela estagio");
+		if ($res_instituicao === false) die ("Nao foi possivel consultar a tabela instituicoes");
 		while (!$res_instituicao->EOF) {
 			$instituicao = $res_instituicao->fields["instituicao"];
 			$res_instituicao->MoveNext();
@@ -85,18 +85,19 @@ while (!$estagiarios->EOF) {
 		$professor = "Sem dados";
 	}
 
-	// Nome do area
-	if (!empty($id_area)) {
-		$sql_nome_area = "select area from areas_estagio where id=$id_area";
+	// Nome da area (agora vem da instituicao do estagio)
+	if (!empty($id_instituicao)) {
+		$sql_nome_area = "select areas.id as id_area, areas.area from instituicoes left join areas on instituicoes.area=areas.id where instituicoes.id=$id_instituicao";
 		$resultado_nome_area = $db->Execute($sql_nome_area);
-		if ($resultado_nome_area === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+		if ($resultado_nome_area === false) die ("Nao foi possivel consultar a tabela areas");
 		while (!$resultado_nome_area->EOF) {
+			$id_area   = $resultado_nome_area->fields["id_area"];
 			$nome_area = $resultado_nome_area->fields["area"];
 			$resultado_nome_area->MoveNext();
 		}
 	} else {
 		$id_area = 0;
-		$area = "Sem dados";
+		$nome_area = "Sem dados";
 	}
 
 	$estagiarios->MoveNext();
@@ -104,9 +105,9 @@ while (!$estagiarios->EOF) {
 }
 
 // Capturo a informacao sobre as instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 $instituicoes[$i]['id_instituicao'] = "0";
 $instituicoes[$i]['instituicao'] = "Sem dados";
@@ -149,9 +150,9 @@ while (!$resultado_professores->EOF) {
 }
 
 // Capturo a informacao sobre as areas
-$sql_areas = "select id, area from areas_estagio order by area";
+$sql_areas = "select id, area from areas order by area";
 $resultado_areas = $db->Execute($sql_areas);
-if ($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas");
 $i = 0;
 $areas[$i]['id_area'] = "0";
 $areas[$i]['area'] = "Sem dados";

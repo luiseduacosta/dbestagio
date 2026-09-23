@@ -73,9 +73,9 @@ if (($acao == 1) || ($cadastro == 1)) {
     // die();
     // Atualiza somente tabela estagiarios
     if (!empty($id_estagiarios)) {
-        $sql_estagiarios = "update estagiarios set id_aluno='$id_aluno', registro='$registro', ";
-        $sql_estagiarios .= " turno='$turno', nivel='$nivel', periodo='$periodo', tc='$tc', ";
-        $sql_estagiarios .= " id_supervisor='$id_supervisor', id_instituicao='$id_instituicao', id_area='$id_area', id_professor='$id_professor', ";
+        $sql_estagiarios = "update estagiarios set aluno_id='$id_aluno', registro='$registro', ";
+        $sql_estagiarios .= " nivel='$nivel', periodo='$periodo', tc='$tc', ";
+        $sql_estagiarios .= " supervisor_id='$id_supervisor', instituicao_id='$id_instituicao', professor_id='$id_professor', ";
         $sql_estagiarios .= " nota='$nota', ch='$ch' ";
         $sql_estagiarios .= " where id='$id_estagiarios'";
         // echo $sql_estagiarios . "<br>";
@@ -99,7 +99,7 @@ if (($acao == 1) || ($cadastro == 1)) {
         if ($resultado_insere === false)
             die("Nao foi possivel atualizar o registro na tabela alunos");
         // Atualizo tambem o campo registro na tabela estagiarios
-        $sql_registro = "update estagiarios set registro='$registro' where id_aluno='$id_aluno'";
+        $sql_registro = "update estagiarios set registro='$registro' where aluno_id='$id_aluno'";
         $resultado_registro = $db->Execute($sql_registro);
         if ($resultado_registro === false)
             die("Nao foi possivel atualizar o campo registro na tabela estagiarios");
@@ -165,7 +165,7 @@ while (!$resultado->EOF) {
 }
 
 // Estagiarios
-$sql_estagiarios = "select * from estagiarios where id_aluno=$id_aluno order by periodo";
+$sql_estagiarios = "select * from estagiarios where aluno_id=$id_aluno order by periodo";
 // echo $sql_estagiarios . "<br>";
 $resultado_estagiario = $db->Execute($sql_estagiarios);
 if ($resultado_estagiario === false)
@@ -175,26 +175,26 @@ while (!$resultado_estagiario->EOF) {
     $estagiarios[$i]['id'] = $resultado_estagiario->fields["id"];
     $estagiarios[$i]['tc'] = $resultado_estagiario->fields["tc"];
     $estagiarios[$i]['periodo'] = $resultado_estagiario->fields["periodo"];
-    $estagiarios[$i]['turno'] = $resultado_estagiario->fields["turno"];
+    $estagiarios[$i]['turno'] = NULL;
     $estagiarios[$i]['nivel'] = $resultado_estagiario->fields["nivel"];
-    $estagiarios[$i]['id_instituicao'] = $resultado_estagiario->fields["id_instituicao"];
-    $estagiarios[$i]['id_supervisor'] = $resultado_estagiario->fields["id_supervisor"];
-    $estagiarios[$i]['id_professor'] = $resultado_estagiario->fields["id_professor"];
-    $estagiarios[$i]['id_area'] = $resultado_estagiario->fields["id_area"];
+    $estagiarios[$i]['id_instituicao'] = $resultado_estagiario->fields["instituicao_id"];
+    $estagiarios[$i]['id_supervisor'] = $resultado_estagiario->fields["supervisor_id"];
+    $estagiarios[$i]['id_professor'] = $resultado_estagiario->fields["professor_id"];
+    $estagiarios[$i]['id_area'] = NULL;
     $estagiarios[$i]['nota'] = $resultado_estagiario->fields["nota"];
     $estagiarios[$i]['ch'] = $resultado_estagiario->fields["ch"];
 
-    $id_instituicao = $resultado_estagiario->fields["id_instituicao"];
-    $id_supervisor = $resultado_estagiario->fields["id_supervisor"];
-    $id_professor = $resultado_estagiario->fields["id_professor"];
-    $id_area = $resultado_estagiario->fields["id_area"];
+    $id_instituicao = $resultado_estagiario->fields["instituicao_id"];
+    $id_supervisor = $resultado_estagiario->fields["supervisor_id"];
+    $id_professor = $resultado_estagiario->fields["professor_id"];
+    $id_area = NULL;
 
     // Instituicao
     if (!empty($id_instituicao)) {
-        $sql_instituicao = "select id, instituicao from estagio where id = $id_instituicao";
+        $sql_instituicao = "select id, instituicao from instituicoes where id = $id_instituicao";
         $res_instituicao = $db->Execute($sql_instituicao);
         if ($res_instituicao === false)
-            die("Nao foi possivel consultar a tabela estagio");
+            die("Nao foi possivel consultar a tabela instituicoes");
         while (!$res_instituicao->EOF) {
             $estagiarios[$i]['instituicao'] = $res_instituicao->fields["instituicao"];
             $res_instituicao->MoveNext();
@@ -234,18 +234,17 @@ while (!$resultado_estagiario->EOF) {
         $estagiarios[$i]['professor'] = "Sem dados";
     }
 
-    // Area
-    if (!empty($id_area)) {
-        $sql_nome_area = "select area from areas_estagio where id=$id_area";
+    // Area (agora vem da instituicao do estagio)
+    if (!empty($id_instituicao)) {
+        $sql_nome_area = "select areas.area from instituicoes left join areas on instituicoes.area=areas.id where instituicoes.id=$id_instituicao";
         $resultado_nome_area = $db->Execute($sql_nome_area);
         if ($resultado_nome_area === false)
-            die("Nao foi possivel consultar a tabela areas_estagio");
+            die("Nao foi possivel consultar a tabela areas");
         while (!$resultado_nome_area->EOF) {
             $estagiarios[$i]['area'] = $resultado_nome_area->fields["area"];
             $resultado_nome_area->MoveNext();
         }
     } else {
-        $id_area = 0;
         $estagiarios[$i]['area'] = "Sem dados";
     }
 
@@ -254,10 +253,10 @@ while (!$resultado_estagiario->EOF) {
 }
 
 // Capturo a informacao sobre as instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
 if ($resultado === false)
-    die("Nao foi possivel consultar a tabela estagio");
+    die("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -293,10 +292,10 @@ while (!$resultado_professores->EOF) {
 }
 
 // Capturo a informacao sobre as areas
-$sql_areas = "select id, area from areas_estagio order by area";
+$sql_areas = "select id, area from areas order by area";
 $resultado_areas = $db->Execute($sql_areas);
 if ($resultado_areas === false)
-    die("Nao foi possivel consultar a tabela areas_estagio");
+    die("Nao foi possivel consultar a tabela areas");
 $i = 0;
 while (!$resultado_areas->EOF) {
     $areas[$i]['id_area'] = $resultado_areas->fields['id'];

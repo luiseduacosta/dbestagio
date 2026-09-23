@@ -15,19 +15,19 @@ if ($periodo) {
 	alunos_sem_estagio($periodo_sem_estagio);
 } else {
 
-	$sql = "select periodo from mural_inscricao group by periodo order by periodo";
+	$sql = "select periodo from inscricoes group by periodo order by periodo";
 	$resultado = $db->Execute($sql);
 	$i = 0;
 	while (!$resultado->EOF) {
 		$periodo = $resultado->fields['periodo'];
 
-		$sql_periodo = "SELECT count(distinct id_aluno) as subtotal FROM mural_inscricao WHERE periodo = '$periodo'";
+		$sql_periodo = "SELECT count(distinct registro) as subtotal FROM inscricoes WHERE periodo = '$periodo'";
 		$resultado_periodo = $db->Execute($sql_periodo);
 		$subtotal = $resultado_periodo->fields['subtotal'];
 		$historico[$i]['subtotal'] = $subtotal;
 		$historico[$i]['periodo'] = $periodo;
 
-		$sql_instituicoes = "select sum(vagas) as total_vagas from mural_estagio where mural_estagio.periodo = '$periodo' ";
+		$sql_instituicoes = "select sum(vagas) as total_vagas from mural_estagios where mural_estagios.periodo = '$periodo' ";
 		$resultado_instituicoes = $db->Execute($sql_instituicoes);
 		$historico[$i]['vagas'] = $resultado_instituicoes->fields['total_vagas'];
 
@@ -70,7 +70,7 @@ function instituicoes_periodo($selecao) {
 
 	require("../db.inc");
 
-	$sql_instituicoes = "select instituicao, vagas from mural_estagio where mural_estagio.periodo = '$selecao' order by instituicao";
+	$sql_instituicoes = "select instituicao, vagas from mural_estagios where mural_estagios.periodo = '$selecao' order by instituicao";
 	// echo "<br>";
 	$resultado_instituicoes = $db->Execute($sql_instituicoes);
 	$j = 0;
@@ -97,11 +97,11 @@ function alunos_por_periodo($periodo) {
 
 	require("../db.inc");
 	
-	$sql_alunos = "select mural_inscricao.id_aluno, alunos.nome 
-	from mural_inscricao 
-	left outer join alunos on mural_inscricao.id_aluno = alunos.registro 
+	$sql_alunos = "select inscricoes.registro, alunos.nome 
+	from inscricoes 
+	left outer join alunos on inscricoes.registro = alunos.registro 
 	where periodo='$periodo' 
-	group by mural_inscricao.id_aluno 
+	group by inscricoes.registro 
 	order by alunos.nome ";
 	// echo $sql_alunos . "<br>";
 
@@ -117,11 +117,11 @@ function alunos_por_periodo($periodo) {
 	while (!$resultado_alunos->EOF) {
 		
 		$alunos[$j][$ordem] = $$indice;
-		$alunos[$j]['id_aluno'] = $resultado_alunos->fields['id_aluno'];
+		$alunos[$j]['id_aluno'] = $resultado_alunos->fields['registro'];
 	  	$alunos[$j]['nome'] = $resultado_alunos->fields['nome'];
 		$alunos[$j]['situacao'] = 1; // Com estagio
 	  	
-	  	$id_aluno = $resultado_alunos->fields['id_aluno'];
+	  	$id_aluno = $resultado_alunos->fields['registro'];
 	  	$nome = $resultado_alunos->fields['nome'];
 
         // Busco se está estagiando
@@ -140,10 +140,10 @@ function alunos_por_periodo($periodo) {
 		$alunos[$j]['nivel'] = $resultado_estagiario->fields['nivel'];
 	  	// echo "<br>";
 	  	
-		// Se nao estah em alunos estagiarios entao busco em alunosNovos
+		// Se nao estah em alunos estagiarios entao busco em alunos
 	  	if (empty($nome)) {
 			// echo "Aluno sem estagio<br>";
-	  		$sql_aluno_novo = "select nome, email, telefone, celular from alunosNovos where registro='$id_aluno' order by nome";
+	  		$sql_aluno_novo = "select nome, email, telefone, celular from alunos where registro='$id_aluno' order by nome";
 			$resultado_aluno_novo = $db->Execute($sql_aluno_novo);
 			$sem_estagio = $resultado_aluno_novo->RecordCount();
 			$total_sem_estagio = $total_sem_estagio + $sem_estagio;

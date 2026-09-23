@@ -9,11 +9,11 @@ function ver_Instituicao($id_instituicao) {
     include_once("../../setup.php");
     $respostaXajax = new xajaxResponse();
 
-    $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana ";
-    $sql .= " from estagio "; 
+    $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, beneficios as beneficio, fim_de_semana ";
+    $sql .= " from instituicoes "; 
     $sql .= " where id=$id_instituicao order by instituicao";
     $resultado = $db->Execute($sql);
-    if ($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+    if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];
@@ -22,7 +22,6 @@ function ver_Instituicao($id_instituicao) {
 			$municipio = $resultado->fields['municipio'];
 			$cep = $resultado->fields['cep'];
 			$telefone = $resultado->fields['telefone'];
-			$fax = $resultado->fields['fax'];
 			$beneficio = $resultado->fields['beneficio'];
 			$fim_de_semana = $resultado->fields['fim_de_semana'];
 			
@@ -33,7 +32,6 @@ function ver_Instituicao($id_instituicao) {
 			$respostaXajax->addAppend("instituicao_municipio","value",$municipio);
 			$respostaXajax->addAppend("instituicao_cep","value",$cep);
 			$respostaXajax->addAppend("instituicao_telefone","value",$telefone);
-			$respostaXajax->addAppend("instituicao_fax","value",$fax);
 			$respostaXajax->addAppend("instituicao_beneficio","value",$beneficio);
 			$respostaXajax->addAppend("fim_de_semana","value",$fim_de_semana);
 			

@@ -174,7 +174,7 @@ while (!$resultado->EOF) {
 		$instituicao[$i]['forma_selecao'] = $forma_selecao;
 
 		$instituicao[$i]['contato'] = $resultado->fields['contato'];
-		$instituicao[$i]['email'] = $resultado->fields['email_instituicao'];
+		$instituicao[$i]['email'] = $resultado->fields['email'];
 
 		$instituicao[$i]['outras'] = $resultado->fields['outras'];
 

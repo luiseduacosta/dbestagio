@@ -37,9 +37,9 @@
 	{if $sistema_autentica == 1}
 	{include file="mural_menu.tpl"}
 	<p>
-		<a href="imprime.php?id_instituicao={$id_instituicao}">Imprimir</a>
+		<a href="imprime.php?muralestagio_id={$id_instituicao}">Imprimir</a>
 		&nbsp;&nbsp;
-		<a href='email_listaInscritos.php?id_instituicao={$id_instituicao}'>Enviar e-mail</a>
+		<a href='email_listaInscritos.php?muralestagio_id={$id_instituicao}'>Enviar e-mail</a>
 	</p>
 
 	{/if}
@@ -84,7 +84,7 @@
 				<td>
 					{if $sistema_autentica == 1}
 					<a
-						href="ver-aluno.php?registro={$inscritos[item].registro}&aluno={$inscritos[item].aluno}">{$inscritos[item].nome}</a>
+						href="ver-aluno.php?registro={$inscritos[item].registro}">{$inscritos[item].nome}</a>
 					{else}
 					{$inscritos[item].nome}
 					{/if}
@@ -103,7 +103,7 @@
 					<form name="excluirInscricao" id="excluirInscricao" method="post" action="excluir-inscricao.php"
 						onSubmit="return confirma();">
 						<input type="hidden" name="id" value="{$inscritos[item].id}">
-						<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+						<input type="hidden" name="muralestagio_id" value="{$id_instituicao}">
 						<input type="hidden" name="instituicao" value="{$instituicao}">
 						<input type="submit" name="submit" value="Excluir">
 					</form>

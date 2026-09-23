@@ -50,13 +50,6 @@
 </tr>
 
 <tr>
-<td>Fax</td>
-<td>
-<input type="text" name="fax_instituicao" size="15" value="{$fax_instituicao}">
-</td>
-</tr>
-
-<tr>
 <td>Benefícios</td>
 <td>
 <input type="text" name="beneficio_instituicao" size="50" value="{$beneficio_instituicao}">

@@ -7,8 +7,8 @@ include_once("../../setup.php");
 
 // Pego as instituicoes na que o supervisor trabalha
 $sql_instituicao  = "select e.id, e.instituicao ";
-$sql_instituicao .= "from inst_super as i, estagio as e ";
-$sql_instituicao .= "where i.id_instituicao=e.id and id_supervisor=$id_supervisor";
+$sql_instituicao .= "from inst_super as i, instituicoes as e ";
+$sql_instituicao .= "where i.instituicao_id=e.id and supervisor_id=$id_supervisor";
 // echo $sql_instituicao . "<br />";
 $res_instituicao = $db->Execute($sql_instituicao);
 if ($res_instituicao === false) die ("Não foi possível consultar as tabelas");
@@ -37,9 +37,9 @@ while (!$resultado->EOF) {
 }
 
 // Esta consulta eh para construir a caixa de seleçao de instituicoes
-$sql_estagio = "select * from estagio order by instituicao";
+$sql_estagio = "select * from instituicoes order by instituicao";
 $res_estagio = $db->Execute($sql_estagio);
-if ($res_estagio == false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio == false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$res_estagio->EOF) {

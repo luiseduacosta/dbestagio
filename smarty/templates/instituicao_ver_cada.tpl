@@ -240,6 +240,7 @@
                         </td>
                     </tr>
 
+                    {if $curso}
                     <tr>
                         <td colspan="1">Fax</td>
                         <td colspan="2">
@@ -250,6 +251,7 @@
                             {/if}
                         </td>
                     </tr>
+                    {/if}
 
                     <tr>
                         <td colspan="1">Benefícios</td>

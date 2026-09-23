@@ -13,16 +13,16 @@ $periodo = $_REQUEST['periodo'];
 // echo "id_supervisor " . $id_supervisor . "<br />";
 
 $sql = "select supervisores.id as num_supervisor, supervisores.cress, supervisores.nome, supervisores.endereco, supervisores.bairro, supervisores.cep, supervisores.municipio, supervisores.codigo_tel, supervisores.telefone, supervisores.codigo_cel, supervisores.celular, supervisores.email, ";
-$sql .= " estagio.id, estagio.instituicao, ";
+$sql .= " instituicoes.id, instituicoes.instituicao, ";
 $sql .= " supervisores.observacoes ";
 // $sql .= " max(estagiarios.periodo) ";
 $sql .= " from supervisores ";
-$sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
-$sql .= " left join estagiarios on supervisores.id = estagiarios.id_supervisor ";
+$sql .= " left join inst_super on supervisores.id = inst_super.supervisor_id ";
+$sql .= " left join instituicoes on inst_super.instituicao_id = instituicoes.id ";
+$sql .= " left join estagiarios on supervisores.id = estagiarios.supervisor_id ";
 if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
 $sql .= " group by supervisores.id ";
-$sql .= " order by nome, inst_super.id_supervisor ";
+$sql .= " order by nome, inst_super.supervisor_id ";
 
 // echo $sql . "<br>";
 
@@ -66,7 +66,7 @@ if (!empty($id_supervisor)) {
 // Rotina para acrescentar uma instituicao
 if (!empty($_POST['num_instituicao'])) {
     // echo "Acrescentar instituicao<br>";
-    $sql_inserir = "insert into inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$_POST[num_instituicao]')";
+    $sql_inserir = "insert into inst_super (supervisor_id,instituicao_id) values('$id_supervisor','$_POST[num_instituicao]')";
     // echo $sql . "<br>";
     $res_inserir = $db->Execute($sql_inserir);
     if ($res_inserir === false)
@@ -96,12 +96,12 @@ while (!$resultado->EOF) {
     $observacoes = $resultado->fields['observacoes'];
 
     // Capturo as instituicoes campo de emprego do supervisor
-    $sql_instituicoes = "select estagio.id, estagio.instituicao from estagio ";
-    $sql_instituicoes .= " inner join inst_super on estagio.id=inst_super.id_instituicao ";
-    $sql_instituicoes .= "where inst_super.id_supervisor='$id_supervisor'";
+    $sql_instituicoes = "select instituicoes.id, instituicoes.instituicao from instituicoes ";
+    $sql_instituicoes .= " inner join inst_super on instituicoes.id=inst_super.instituicao_id ";
+    $sql_instituicoes .= "where inst_super.supervisor_id='$id_supervisor'";
     // echo $sql_instituicoes . "<br>";
     $resultado = $db->Execute($sql_instituicoes);
-    if ($resultado === false) die("Não foi possível consultar a tabela estagio");
+    if ($resultado === false) die("Não foi possível consultar a tabela instituicoes");
     $i = 0;
     while (!$resultado->EOF) {
         $inst_emprego[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -125,9 +125,9 @@ while (!$resultado->EOF) {
     }
 
     // Alunos supervisionados pelo supervisor
-    $sqlalunos = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao from alunos ";
+    $sqlalunos = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.instituicao_id as id_instituicao from alunos ";
     $sqlalunos .= " inner join estagiarios on estagiarios.registro = alunos.registro ";
-    $sqlalunos .= " where estagiarios.id_supervisor = $id_supervisor";
+    $sqlalunos .= " where estagiarios.supervisor_id = $id_supervisor";
     $sqlalunos .= " order by estagiarios.periodo, alunos.nome";
     // echo $sqlalunos . "<br>";
 
@@ -142,7 +142,7 @@ while (!$resultado->EOF) {
         $alunos[$i]['id_instituicao'] = $res_alunos->fields['id_instituicao'];
 
         $id_instituicao = $res_alunos->fields['id_instituicao'];
-        $sql_aluno_instituicao = "select instituicao from estagio where id = $id_instituicao";
+        $sql_aluno_instituicao = "select instituicao from instituicoes where id = $id_instituicao";
         // echo $sql_aluno_instituicao . "<br>";
         $res_aluno_instituicao = $db->Execute($sql_aluno_instituicao);
 
@@ -158,9 +158,9 @@ while (!$resultado->EOF) {
 }
 // die;
 // Instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die("Não foi possível consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];

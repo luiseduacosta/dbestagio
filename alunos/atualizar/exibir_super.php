@@ -5,8 +5,8 @@ include_once("../../setup.php");
 $id_instituicao = isset($_REQUEST['id_estagio']) ? $_REQUEST['id_estagio'] : NULL;
 
 $sql = "select supervisores.id, supervisores.nome from supervisores
- inner join inst_super on supervisores.id = inst_super.id_supervisor
- where inst_super.id_instituicao = '$id_instituicao' 
+ inner join inst_super on supervisores.id = inst_super.supervisor_id
+ where inst_super.instituicao_id = '$id_instituicao' 
  order by supervisores.nome
 ";
 

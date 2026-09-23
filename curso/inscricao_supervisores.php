@@ -369,11 +369,11 @@ Doutorado
 
 <?php
 $sql  = "select id, instituicao ";
-$sql .= " from estagio ";
+$sql .= " from instituicoes ";
 // $sql .= " group by instituicao ";
 $sql .= " order by instituicao";
 $resultado = $db->Execute($sql);
-if($resultado_=== false) die ("Nao foi possivel consultar a tabela estagio");
+if($resultado_=== false) die ("Nao foi possivel consultar a tabela instituicoes");
 ?>
 <tr>
 <td>Selecione a institui&ccedil;&atilde;o ou programa*: </td>

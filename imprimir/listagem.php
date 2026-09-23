@@ -63,8 +63,7 @@ e.id,
 e.instituicao,
 e.endereco,
 e.telefone,
-e.fax,
-e.beneficio,
+e.beneficios,
 case e.fim_de_semana
     when 0 then 'Não'
     when 1 then 'Sim'
@@ -72,13 +71,13 @@ case e.fim_de_semana
     else 'Não'
     end as f_semana,
 a.area
-from estagio as e, areas_estagio as a
+from instituicoes as e, areas as a
 where e.area=a.id
 order by instituicao";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio e/ou areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes e/ou areas");
 
 $pdf->AddPage();
 
@@ -91,12 +90,11 @@ while (!$resultado->EOF) {
     $instituicao    = $resultado->fields["instituicao"];
     $endereco       = $resultado->fields["endereco"];
     $telefone       = $resultado->fields["telefone"];
-    $fax            = $resultado->fields["fax"];
-    $beneficios     = $resultado->fields["beneficio"];
+    $beneficios     = $resultado->fields["beneficios"];
     $fim_de_semana  = $resultado->fields["f_semana"];
     $id_instituicao = $resultado->fields["id"];
 
-    $sqlPeriodo = "select max(periodo) as periodo from estagiarios where id_instituicao = $id_instituicao";
+    $sqlPeriodo = "select max(periodo) as periodo from estagiarios where instituicao_id = $id_instituicao";
     $resultadoPeriodo = $db->Execute($sqlPeriodo);
     if($resultadoPeriodo === false) die ("Não foi possível consultar a tabela estagiarios");
     while (!$resultadoPeriodo->EOF) {
@@ -149,13 +147,7 @@ while (!$resultado->EOF) {
     $pdf->SetX(65);
     $pdf->Cell(0,5,$telefone);
     $pdf->Ln(5);
-
-    $pdf->SetX(30);
-    $pdf->Cell(0,5,"Fax:");
-    $pdf->SetX(65);
-    $pdf->Cell(0,5,$fax);
-    $pdf->Ln(5);
-
+    
     $pdf->SetX(30);
     $pdf->Cell(0,5,"Benefícios:");
     $pdf->SetX(65);

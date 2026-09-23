@@ -16,7 +16,7 @@ if ($resultado === false) die ("Não foi possível atualizar a tabela supervisor
 
 /*
 if(!empty($id_instituicao)) {
-    $sql_inst_super = "update inst_super set id_instituicao = '$id_instituicao' where id_supervisor = $id_supervisor";
+    $sql_inst_super = "update inst_super set instituicao_id = '$id_instituicao' where supervisor_id = $id_supervisor";
     echo $sql_inst_super . "<br>";
 }
 */

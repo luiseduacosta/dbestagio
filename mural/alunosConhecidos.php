@@ -11,15 +11,15 @@ include_once("../autentica.inc");
 
 $ordem = $_GET['ordem'];
 
-$sql_inscritos  = "select mural_inscricao.id_aluno "; 
-$sql_inscritos .= " , mural_inscricao.periodo as mural_periodo ";
+$sql_inscritos  = "select inscricoes.registro "; 
+$sql_inscritos .= " , inscricoes.periodo as mural_periodo ";
 $sql_inscritos .= " , max(estagiarios.periodo) as estagio_periodo, max(estagiarios.nivel) as nivel, estagiarios.periodo ";
 $sql_inscritos .= " , alunos.nome, alunos.telefone, alunos.celular, alunos.email ";
-$sql_inscritos .= " from mural_inscricao ";
-$sql_inscritos .= " inner join estagiarios on mural_inscricao.id_aluno = estagiarios.registro "; 
-$sql_inscritos .= " inner join alunos on mural_inscricao.id_aluno = alunos.registro "; 
-$sql_inscritos .= " where mural_inscricao.periodo = '" . PERIODO_ATUAL  . "'";
-$sql_inscritos .= " group by mural_inscricao.id_aluno ";
+$sql_inscritos .= " from inscricoes ";
+$sql_inscritos .= " inner join estagiarios on inscricoes.registro = estagiarios.registro "; 
+$sql_inscritos .= " inner join alunos on inscricoes.registro = alunos.registro "; 
+$sql_inscritos .= " where inscricoes.periodo = '" . PERIODO_ATUAL  . "'";
+$sql_inscritos .= " group by inscricoes.registro ";
 
 // echo $sql_inscritos . "<br>";
 
@@ -36,10 +36,10 @@ while (!$resultado_inscritos->EOF) {
 	
 	$inscritos[$i][$ordem] = $$indice;
 	
-	$id_aluno = $resultado_inscritos->fields['id_aluno'];
+	$id_aluno = $resultado_inscritos->fields['registro'];
 	$nivel = $resultado_inscritos->fields['nivel'];
 	$periodo = $resultado_inscritos->fields['periodo'];
-	$id_instituicao = $resultado_inscritos->fields['id_instituicao'];
+	$id_instituicao = $resultado_inscritos->fields['muralestagio_id'];
 	
 	$nome = $resultado_inscritos->fields['nome'];
 	$telefone = $resultado_inscritos->fields['telefone'];
@@ -70,12 +70,12 @@ while (!$resultado_inscritos->EOF) {
 	$inscritos[$i]['data'] = date("d-m-Y",strtotime($resultado->fields['data']));
 	
 	// Capturo o nome da instituicao na qual o aluno fez estagio
-	$sql_instituicao = "select instituicao from estagio 
-	inner join estagiarios on estagio.id = estagiarios.id_instituicao 
+	$sql_instituicao = "select instituicao from instituicoes 
+	inner join estagiarios on instituicoes.id = estagiarios.instituicao_id 
 	where estagiarios.registro = '$id_aluno' and estagiarios.periodo = (select max(periodo) from estagiarios where registro = $id_aluno)";
 	// echo $sql_instituicao . "<br>";
 	$res_instituicao = $db->Execute($sql_instituicao);
-	if($res_instituicao === false) die ("Não foi possível consultar a tabela estagio");	
+	if($res_instituicao === false) die ("Não foi possível consultar a tabela instituicoes");	
 	$instituicao = $res_instituicao->fields['instituicao'];
 
 	$inscritos[$i]['instituicao'] = $instituicao;

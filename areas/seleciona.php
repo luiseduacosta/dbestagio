@@ -6,9 +6,9 @@ $opcao = $_GET['opcao'];
 
 $smarty = new Smarty_estagio;
 
-$sql = "select * from areas_estagio order by area";
+$sql = "select * from areas order by area";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela areas");
 
 $i = 0;
 while(!$resultado->EOF) {

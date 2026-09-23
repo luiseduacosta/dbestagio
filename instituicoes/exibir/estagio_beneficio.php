@@ -9,14 +9,14 @@ if(empty($ordem))
 
 $smarty = new Smarty_estagio;
 
-$sql = "select e.id as num_instituicao, e.instituicao, e.beneficio as bolsa, e.area, max(t.periodo) as turma"
-	. " from estagio e "
+$sql = "select e.id as num_instituicao, e.instituicao, e.beneficios as bolsa, e.area, max(t.periodo) as turma"
+	. " from instituicoes e "
 	. " left outer join estagiarios t "
-	. " on e.id = t.id_instituicao "
-	. " where e.beneficio<>'' "
-	. " group by e.instituicao, e.area, beneficio, e.id ";
+	. " on e.id = t.instituicao_id "
+	. " where e.beneficios<>'' "
+	. " group by e.instituicao, e.area, beneficios, e.id ";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -30,15 +30,15 @@ while (!$resultado->EOF) {
 	if (empty($id_area)) {
 	    $matriz[$i]['area'] = "sem/dados";
 	} else {
-	    $sql_area = "select area from areas_estagio where id=$id_area";
+	    $sql_area = "select area from areas where id=$id_area";
 	    $resultado_area = $db->Execute($sql_area);
-	    if ($resultado_area === false) die ("Não foi possível consultar a tabela area_estagio");
+	    if ($resultado_area === false) die ("Não foi possível consultar a tabela areas");
 		$matriz[$i]['area'] = $resultado_area->fields['area'];
 	}
 
 	// Calculo a quantidade de supervisores por instituicao
 	$id_instituicao = $resultado->fields['num_instituicao'];
-	$sql_supervisores = "select count(*) as q_supervisores from inst_super where id_instituicao=$id_instituicao";
+	$sql_supervisores = "select count(*) as q_supervisores from inst_super where instituicao_id=$id_instituicao";
 	$resultado_supervisores = $db->Execute($sql_supervisores);
 	if ($resultado_supervisores === fasle) die ("Não foi possível consultar a tabela inst_super");
 	$matriz[$i]['q_supervisores'] = $resultado_supervisores->fields['q_supervisores'];

@@ -150,9 +150,6 @@ $novos = ($total - $conhecidos);
 $novo_novo = $novos + $estagio_um;
 $conhecidos_conhecidos = $conhecidos - $estagio_um;
 
-$sistema_autentica = 0;
-if (isset($_COOKIE['usuario_nome'])) $sistema_autentica = 1;
-
 $smarty = new Smarty_estagio;
 
 $smarty->assign("periodo_atual", PERIODO_ATUAL);

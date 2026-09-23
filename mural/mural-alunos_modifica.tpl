@@ -60,55 +60,55 @@ function confirma() {
 	municipio=document.getElementById('municipio').value;
 
 	if (nome=="") {
-    		alert("Você precisa informar o seu nome");
+    	alert("Você precisa informar o seu nome");
 		document.atualiza_aluno.nome.focus();
 		return false;
 	}
 
-    	if (email=="") {
-    		alert("É importante o seu e-mail para nossa comunicação");
+    if (email=="") {
+    	alert("É importante o seu e-mail para nossa comunicação");
 		document.atualiza_aluno.email.focus();
 		return false;
 	}
 
 	if (cpf=="") {
-    		alert("Favor informar o número de CPF");
+    	alert("Favor informar o número de CPF");
 		document.atualiza_aluno.cpf.focus();
 		return false;
 	}
 
 	if (identidade=="") {
-    		alert("Informe o seu número de RG");
+    	alert("Informe o seu número de RG");
 		document.atualiza_aluno.identidade.focus();
 		return false;
 	}
 
 	if (orgao=="") {
-    		alert("Informe o orgão expedidor do RG");
+    	alert("Informe o orgão expedidor do RG");
 		document.atualiza_aluno.orgao.focus();
 		return false;
 	}
 
 	if (endereco=="") {
-    		alert("Informe o seu endereço");
+    	alert("Informe o seu endereço");
 		document.atualiza_aluno.endereco.focus();
 		return false;
 	}
 
 	if (cep=="") {
-    		alert("Informe o número de CEP");
+    	alert("Informe o número de CEP");
 		document.atualiza_aluno.cep.focus();
 		return false;
 	}
 
 	if (bairro=="") {
-    		alert("Informe o bairro onde mora");
+    	alert("Informe o bairro onde mora");
 		document.atualiza_aluno.bairro.focus();
 		return false;
 	}
 
 	if (municipio=="") {
-    		alert("Informe o município da sua residência");
+    	alert("Informe o município da sua residência");
 		document.atualiza_aluno.municipio.focus();
 		return false;
 	}
@@ -162,11 +162,7 @@ function confirma() {
 {if $sistema_autentica == 1}
 
 <table border="1" width="80%">
-{if $aluno eq 0}
-	<caption>Atualizar dados do aluno novo</caption>
-{else}
-	<caption>Atualizar dados do aluno estagiário</caption>
-{/if}
+
 <tbody>
 
 <tr>
@@ -269,10 +265,9 @@ Registro: {$registro}
 </table>
 
 <input type="hidden" name="sistema_autentica" id="sistema_autentica" value="{$sistema_autentica}">
-<input type="hidden" name="aluno" id="aluno" value="{$aluno}">
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">
-<input type="hidden" name="id_instituicao" id="id_instituicao" value="{$id_instituicao}">
+<input type="hidden" name="murealestagio_id" id="murealestagio_id" value="{$muralestagio_id}">
 <input type="submit" name="submit" id="submit" value="Confirma">
 
 </form>

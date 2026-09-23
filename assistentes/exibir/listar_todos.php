@@ -13,15 +13,15 @@ $sql = "select e.id as estagio_id, e.instituicao ";
 $sql .= ", s.id as supervisor_id, s.cress, s.nome, s.telefone, s.celular, s.email ";
 $sql .= ", max(estagiarios.periodo) as turma";
 $sql .= " from supervisores as s ";
-$sql .= " left outer join inst_super as i on s.id = i.id_supervisor ";
-$sql .= " left outer join estagio as e on e.id = i.id_instituicao ";
-$sql .= " left outer join estagiarios on s.id = estagiarios.id_supervisor ";
+$sql .= " left outer join inst_super as i on s.id = i.supervisor_id ";
+$sql .= " left outer join instituicoes as e on e.id = i.instituicao_id ";
+$sql .= " left outer join estagiarios on s.id = estagiarios.supervisor_id ";
 
 if (!empty($turma))
     $sql .= " where estagiarios.periodo = '$turma' ";
 
 if (!empty($id_instituicao))
-    $sql .= " where estagiarios.id_instituicao = '$id_instituicao' ";
+    $sql .= " where estagiarios.instituicao_id = '$id_instituicao' ";
 
 $sql .= " group by s.id ";
 
@@ -59,7 +59,7 @@ while (!$resultado->EOF) {
     $matriz[$i]['id_curso'] = $resultado->fields['id_curso'];
 
     // Calculo a quantidade de periodos que o supervisor trabalha com alunos
-    $sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where id_supervisor=$id_supervisor";
+    $sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$id_supervisor";
     // echo $sql_periodos . "<br>";	
     $res_periodos = $db->Execute($sql_periodos);
     if ($res_periodos === false) die("Não foi possivel consultar a tabela estagiarios");

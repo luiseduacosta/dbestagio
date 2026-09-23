@@ -19,31 +19,31 @@ $nota           = $_POST['nota'];
 $ch             = $_POST['ch'];
 
 if ($submit) {
-    $sql_estagiarios  = "insert into estagiarios(id_aluno, registro, turno, nivel, tc, id_instituicao, id_supervisor, id_professor, periodo, id_area) ";
-    $sql_estagiarios .= "values('$id_aluno', '$registro', '$turno', '$nivel', '$tc', '$id_instituicao', '$id_supervisor', '$id_professor','$periodo', '$id_area')";
+    $sql_estagiarios  = "insert into estagiarios(aluno_id, registro, nivel, tc, instituicao_id, supervisor_id, professor_id, periodo) ";
+    $sql_estagiarios .= "values('$id_aluno', '$registro', '$nivel', '$tc', '$id_instituicao', '$id_supervisor', '$id_professor','$periodo')";
     $resultado_insere = $db->Execute($sql_estagiarios);
     if ($resultado_insere === false) die ("Não foi possível inserir o registro na tabela estagiarios");
 }
 
 // Pego esta informação para fazer a tabela dos anteriores estágios
-$sql  = "SELECT estagiarios.id, estagiarios.periodo, estagiarios.tc, estagiarios.nivel, estagiarios.turno, estagiarios.id_instituicao, estagiarios.id_supervisor, estagiarios.id_professor, estagiarios.id_area, estagiarios.nota, estagiarios.ch, estagio.instituicao ";
-$sql .= "FROM estagiarios, estagio ";
-$sql .= "WHERE estagiarios.id_instituicao = estagio.id AND estagiarios.id_aluno=$id_aluno ";
+$sql  = "SELECT estagiarios.id, estagiarios.periodo, estagiarios.tc, estagiarios.nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor, estagiarios.professor_id as id_professor, estagiarios.nota, estagiarios.ch, instituicoes.instituicao ";
+$sql .= "FROM estagiarios, instituicoes ";
+$sql .= "WHERE estagiarios.instituicao_id = instituicoes.id AND estagiarios.aluno_id=$id_aluno ";
 $sql .= "ORDER BY estagiarios.periodo";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios, estagio");
+if ($resultado === false) die ("Não foi possível consultar as tabelas alunos, estagiarios, instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
     $estagiarios[$i]['id']             = $resultado->fields['id'];
     $estagiarios[$i]['periodo']        = $resultado->fields['periodo'];
     $estagiarios[$i]['tc']             = $resultado->fields['tc'];
     $estagiarios[$i]['nivel']          = $resultado->fields['nivel'];
-    $estagiarios[$i]['turno']          = $resultado->fields['turno'];
+    $estagiarios[$i]['turno']          = NULL;
     $estagiarios[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
     $estagiarios[$i]['id_supervisor']  = $resultado->fields['id_supervisor'];
     $estagiarios[$i]['id_professor']   = $resultado->fields['id_professor'];
-    $estagiarios[$i]['id_area']        = $resultado->fields['id_area'];
+    $estagiarios[$i]['id_area']        = NULL;
     $estagiarios[$i]['nota']           = $resultado->fields['nota'];
     $estagiarios[$i]['ch']             = $resultado->fields['ch'];
     $estagiarios[$i]['instituicao']    = $resultado->fields['instituicao'];
@@ -78,9 +78,9 @@ while (!$resultado_alunos->EOF) {
 }
 
 // Capturo a informacao sobre as instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
     $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
@@ -114,9 +114,9 @@ while (!$resultado_professores->EOF) {
 }
 
 // Capturo a informacao sobre as areas
-$sql_areas = "select id, area from areas_estagio order by area";
+$sql_areas = "select id, area from areas order by area";
 $resultado_areas = $db->Execute($sql_areas);
-if ($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado_areas === false) die ("Nao foi possivel consultar a tabela areas");
 $i = 0;
 while (!$resultado_areas->EOF) {
     $areas[$i]['id_area'] = $resultado_areas->fields['id'];

@@ -6,7 +6,7 @@ $id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] 
 $indice = isset($_REQUEST['indice']) ? $_REQUEST['indice'] : NULL;
 
 // Nao excluir se supervisionou alunos
-$sql = "select id from estagiarios where id_supervisor=$id_supervisor";
+$sql = "select id from estagiarios where supervisor_id=$id_supervisor";
 // echo $sql . "<br>";
 // die();
 $resultado = $db->Execute($sql);
@@ -56,7 +56,7 @@ $resultado = $db->Execute($sql);
 if ($resultado == false) die ("Não foi possível cancelar o registro da tabela supervisores");
 
 // Obtengo as instituicoes na que trabalha o supervisor
-$sql_estagio = "select * from inst_super where id_supervisor=$id_supervisor";
+$sql_estagio = "select * from inst_super where supervisor_id=$id_supervisor";
 $res_estagio = $db->Execute($sql_estagio);
 if ($res_estagio === false) die ("Não foi possível consultar a tabela inst_super");
 $q_inst_super = $res_estagio->RecordCount();
@@ -69,7 +69,7 @@ if ($q_inst_super == 0) {
 
 $i = 0;
 while (!$res_estagio->EOF) {
-	$id_instituicao[$i] = $res_estagio->fields['id_instituicao'];
+	$id_instituicao[$i] = $res_estagio->fields['instituicao_id'];
 	$res_estagio->MoveNext();
 	$i++;
 }
@@ -79,11 +79,11 @@ $q_instituicoes = sizeof($id_instituicao);
 // echo "Quantidade de instituicoes " . $q_instituicoes . "<br>";
 for ($i=0; $i<$q_instituicoes; $i++) {
 	$num_instituicao = $id_instituicao[$i];
-	$sql_inst_super_outros = "select * from inst_super where id_instituicao=$num_instituicao";
+	$sql_inst_super_outros = "select * from inst_super where instituicao_id=$num_instituicao";
 }
 
 // Excluo tambem a relacao entre o supervisor e a instituicao
-$sql_inst_super = "delete from inst_super where id_supervisor=$id_supervisor";
+$sql_inst_super = "delete from inst_super where supervisor_id=$id_supervisor";
 $res_inst_super = $db->Execute($sql_inst_super);
 if ($res_inst_super === false) die ("Não foi possível cancelar o registro da tabela inst_super");
 

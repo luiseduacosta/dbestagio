@@ -10,7 +10,7 @@ while (!$resultado->EOF) {
 	$id = $resultado->fields['id'];
 	$nome = $resultado->fields['nome'];
 	
-	$sql_instituicoes = "select instituicao from estagio inner join estagiarios on estagio.id = estagiarios.id_instituicao where estagiarios.id_professor = $id group by instituicao";
+	$sql_instituicoes = "select instituicao from instituicoes inner join estagiarios on instituicoes.id = estagiarios.instituicao_id where estagiarios.professor_id = $id group by instituicao";
 	// echo $sql_instituicoes . "<br>";
 	$resultado_instituicoes = $db->Execute($sql_instituicoes);
 	while (!$resultado_instituicoes->EOF) {
@@ -54,7 +54,7 @@ function sel_instituicao($professores,$db) {
 		$id   = $professores['id'][$i];
 		$nome = $professores['nome'][$i];
 
-		$sql_instituicoes = "select instituicao from estagio inner join estagiarios on estagio.id = estagiarios.id_instituicao where estagiarios.id_professor = $id group by instituicao";
+		$sql_instituicoes = "select instituicao from instituicoes inner join estagiarios on instituicoes.id = estagiarios.instituicao_id where estagiarios.professor_id = $id group by instituicao";
 		// echo $sql_instituicoes . "<br>";
 		
 		$resultado_instituicoes = $db->Execute($sql_instituicoes);

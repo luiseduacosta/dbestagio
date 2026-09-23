@@ -8,7 +8,6 @@ $nome_instituicao      = $_POST['nome_instituicao'];
 $endereco_instituicao  = $_POST['endereco_instituicao'];
 $cep_instituicao       = $_POST['cep_instituicao'];
 $telefone_instituicao  = $_POST['telefone_instituicao'];
-$fax_instituicao       = $_POST['fax_instituicao'];
 $beneficio_instituicao = $_POST['beneficio_instituicao'];
 $fim_de_semana         = $_POST['fim_de_semana'];
 $convenio              = $_POST['convenio'];
@@ -34,9 +33,9 @@ if ($tamanho_cep > 9) {
     exit;
 }
 
-$sql = "update estagio set area='$area_instituicao', instituicao='$nome_instituicao', endereco='$endereco_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', fax='$fax_instituicao', beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro' where id='$id_instituicao'";
+$sql = "update instituicoes set area='$area_instituicao', instituicao='$nome_instituicao', endereco='$endereco_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', beneficios='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro' where id='$id_instituicao'";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível atualizar a tabela estagio");
+if ($resultado === false) die ("Não foi possível atualizar a tabela instituicoes");
 
 header("Location:../exibir/ver_cada.php?id_instituicao=$id_instituicao");
 

@@ -23,13 +23,13 @@ if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pomm
 
 include("../setup.php");
 
-$sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
+$sql = "SELECT registro, data FROM inscricoes WHERE periodo='". PERIODO_ATUAL . "' group by registro";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 
 while (!$resultado->EOF) {
-		$id_aluno = $resultado->fields['id_aluno'];
+		$id_aluno = $resultado->fields['registro'];
 
 		include('../db.inc');
 
@@ -41,10 +41,10 @@ while (!$resultado->EOF) {
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . "<br>";
 		if ($quantidade == 0) {
-				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
+				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 				// echo "<span style='background-color: yellow'>Alunos novos</span>: " . $sqlAlunosNovos . "<br>";
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
 				while (!$resultadoAlunosNovos->EOF) {
 						$email = $resultadoAlunosNovos->fields['email'];
 						$nome = $resultadoAlunosNovos->fields['nome'];

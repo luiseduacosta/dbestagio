@@ -44,7 +44,7 @@ if ($resultado === false) die ("Não foi possível atualizar o registro na tabel
 
 // Atualizo instituicao em inst_super
 if ((!empty($id_instituicao)) and (!empty($id_inst_super))) {
-	$sql_atualiza = "update inst_super set id_instituicao='$id_instituicao'	where id='$id_inst_super'";
+	$sql_atualiza = "update inst_super set instituicao_id='$id_instituicao'	where id='$id_inst_super'";
 	// echo $sql_atualiza . "<br>";
 	$res_atualiza = $db->Execute($sql_atualiza);
 	if ($res_atualiza === false) die ("Não foi possível atualizar o registro na tabela inst_super");

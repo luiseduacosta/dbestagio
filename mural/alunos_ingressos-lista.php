@@ -76,9 +76,9 @@ while (!$res->EOF) {
 			$res_estagiarios->MoveNext();
 		}
 	} else {
-		$sql_novos = "select alunosNovos.registro, mural_inscricao.periodo from alunosNovos " .
-				" join mural_inscricao on mural_inscricao.id_aluno = alunosNovos.registro " .
-				" where alunosNovos.registro='$registro'";
+		$sql_novos = "select alunos.registro, inscricoes.periodo from alunos " .
+				" join inscricoes on inscricoes.registro = alunos.registro " .
+				" where alunos.registro='$registro'";
 		// echo $sql_novos . "<br>";
 		$res_novos = $db->Execute($sql_novos);
 		while (!$res_novos->EOF) {

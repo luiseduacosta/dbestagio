@@ -8,8 +8,8 @@ if (empty($ordem)) $ordem="supervisor";
 
 $sql = "select s.id as id_supervisor, s.cress, s.nome, s.email "
 . " from supervisores s, inst_super j "
-. " where s.id = j.id_supervisor and "
-. " j.id_instituicao = $id_instituicao "
+. " where s.id = j.supervisor_id and "
+. " j.instituicao_id = $id_instituicao "
 . " order by s.nome ";
 // echo $sql . "<br>";
 
@@ -27,9 +27,9 @@ while (!$resultado->EOF) {
 }
 
 // Busco o nome da instituicao
-$sql_instituicao = "select instituicao from estagio where id=$id_instituicao";
+$sql_instituicao = "select instituicao from instituicoes where id=$id_instituicao";
 $res_instituicao = $db->Execute($sql_instituicao);
-if ($res_instituicao === false) die ("Nao foi possivel consutar a tabela estagio");
+if ($res_instituicao === false) die ("Nao foi possivel consutar a tabela instituicoes");
 $instituicao = $res_instituicao->fields['instituicao'];
 
 $smarty = new Smarty_estagio;

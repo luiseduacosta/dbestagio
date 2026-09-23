@@ -27,7 +27,7 @@ $seleciona_professor = $_REQUEST['seleciona_professor'];
 
 // Capturo o nome da area para o cabecalho da tabela
 if ($id_area) {
-	$sql_id_area = "select area from areas_estagio where id = '$id_area'";
+	$sql_id_area = "select area from areas where id = '$id_area'";
 	$res_id_area = $db->Execute($sql_id_area);
 	$area_selecionada = $res_id_area->fields['area'];
 }
@@ -36,43 +36,42 @@ if ($id_area) {
  echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "Area " . $id_area . "<br>";
  */
 
-$sql1 = "select estagiarios.id_aluno, " .
+$sql1 = "select estagiarios.aluno_id as id_aluno, " .
 "alunos.registro, ".
 "alunos.nome, ".
 "alunos.telefone, ".
 "alunos.celular, ".
 "alunos.email, ".
-"estagiarios.id_instituicao, ".
+"estagiarios.instituicao_id as id_instituicao, ".
 "estagiarios.id, ".
 "estagiarios.tc, ".
 "estagiarios.tc_solicitacao, ".
-"estagiarios.turno, ".
 "estagiarios.nivel, ".
 "estagiarios.periodo, ".
 "estagiarios.nota, ".
 "estagiarios.ch, ".
-"estagio.id as id_instituicao, ".
-"estagio.instituicao, ".
+"instituicoes.id as id_instituicao, ".
+"instituicoes.instituicao, ".
 "supervisores.id as id_supervisor, ".
 "supervisores.nome as nomeSupervisor, ".
 "professores.nome as nomeProfessor, ".
 "professores.id as idProfessor, " .        
-"areas_estagio.area ".
+"areas.area ".
 // Aluno
 "from estagiarios inner join alunos ".
-"on estagiarios.id_aluno=alunos.id ".
+"on estagiarios.aluno_id=alunos.id ".
 // Campo de estagio (instituicao)
-"left outer join estagio ".
-"on estagiarios.id_instituicao=estagio.id ".
+"left outer join instituicoes ".
+"on estagiarios.instituicao_id=instituicoes.id ".
 // Supervisor
 "left outer join supervisores ".
-"on estagiarios.id_supervisor=supervisores.id ".
+"on estagiarios.supervisor_id=supervisores.id ".
 // Professor
 "left outer join professores ".
-"on estagiarios.id_professor=professores.id ".
+"on estagiarios.professor_id=professores.id ".
 // Area de estagio
-"left outer join areas_estagio ".
-"on estagiarios.id_area=areas_estagio.id " ;
+"left outer join areas ".
+"on instituicoes.area=areas.id " ;
 // $sql2 = "where estagiarios.periodo='2005-1' ".
 // "order by alunos.nome";
 // " where " ;
@@ -82,11 +81,10 @@ if (!$seleciona_nivel) {
 	$sql3 = " where nivel = '$seleciona_nivel' " ;
 }
 
-if ($seleciona_turno) $sql3 .= " and turno = '$seleciona_turno' " ;
-if ($id_area) $sql3 .= " and id_area = '$id_area' " ;
-if ($seleciona_instituicao) $sql3 .= " and id_instituicao = '$seleciona_instituicao' ";
+if ($id_area) $sql3 .= " and instituicoes.area = '$id_area' " ;
+if ($seleciona_instituicao) $sql3 .= " and estagiarios.instituicao_id = '$seleciona_instituicao' ";
 if ($seleciona_periodo) $sql3 .= " and periodo = '$seleciona_periodo' ";
-if ($seleciona_professor) $sql3 .= " and id_professor = '$seleciona_professor' ";
+if ($seleciona_professor) $sql3 .= " and estagiarios.professor_id = '$seleciona_professor' ";
 
 // Ordeno a tabela utilizando uma funcao do php
 // $sql3 .= " order by $ordem";
@@ -109,7 +107,7 @@ while (!$resultadoLista->EOF) {
 	$estagiarios[$i]['celular']        = $resultadoLista->fields['celular'];
 	$estagiarios[$i]['telefone']       = $resultadoLista->fields['telefone'];
 	$estagiarios[$i]['nivel'] 	       = $resultadoLista->fields['nivel'];
-	$estagiarios[$i]['turno']          = $resultadoLista->fields['turno'];
+	$estagiarios[$i]['turno']          = NULL;
 	$estagiarios[$i]['periodo']        = $resultadoLista->fields['periodo'];
 	$estagiarios[$i]['nota']           = $resultadoLista->fields['nota'];
 	$estagiarios[$i]['ch']             = $resultadoLista->fields['ch'];
@@ -128,10 +126,10 @@ while (!$resultadoLista->EOF) {
 	$nivel    = $resultadoLista->fields['nivel'];
 
 	// Capturo a informacao para ser exibida nos niveis
-	$sqlNivel = "select nivel, id_instituicao, instituicao, areas_estagio.area, estagiarios.periodo from estagiarios " .
-			" join estagio on estagio.id = estagiarios.id_instituicao " .
-			" left join areas_estagio on areas_estagio.id = estagiarios.id_area " .
-			" where id_aluno=$id_aluno";
+	$sqlNivel = "select nivel, estagiarios.instituicao_id as id_instituicao, instituicoes.instituicao, areas.area, estagiarios.periodo from estagiarios " .
+			" join instituicoes on instituicoes.id = estagiarios.instituicao_id " .
+			" left join areas on areas.id = instituicoes.area " .
+			" where aluno_id=$id_aluno";
 	// echo $sqlNivel . "<br>";
 	$resultadoNivel = $db->Execute($sqlNivel);
 	if ($resultadoNivel === false) die ("Nao foi possivel consultar a tabela estagiarios");
@@ -259,11 +257,11 @@ $total = $codigo_0 + $codigo_1 + $codigo_2 + $codigo_3 + $codigo_4 + $codigo_5 +
 if (isset($criterio)) array_multisort($criterio, SORT_ASC, $estagiarios);
 
 // Pego a listagem das instituicoes ativas para formulario de select
-$sqlInstituicao  = "select distinct estagio.id, estagio.instituicao from estagiarios " ;
-$sqlInstituicao .= "left outer join estagio on estagiarios.id_instituicao=estagio.id ";
-$sqlInstituicao .= "order by estagio.instituicao";
+$sqlInstituicao  = "select distinct instituicoes.id, instituicoes.instituicao from estagiarios " ;
+$sqlInstituicao .= "left outer join instituicoes on estagiarios.instituicao_id=instituicoes.id ";
+$sqlInstituicao .= "order by instituicoes.instituicao";
 $res_estagio = $db->Execute($sqlInstituicao);
-if ($res_estagio === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($res_estagio === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$res_estagio->EOF) {
 	$instituicoes[$i]['id_instituicao'] = $res_estagio->fields['id'];
@@ -274,8 +272,8 @@ while (!$res_estagio->EOF) {
 
 // Pego a lista dos professores
 $sqlProfessor  = "select professores.id, professores.nome from professores ";
-$sqlProfessor .= " inner join estagiarios on professores.id = estagiarios.id_professor ";
-$sqlProfessor .= " group by estagiarios.id_professor ";
+$sqlProfessor .= " inner join estagiarios on professores.id = estagiarios.professor_id ";
+$sqlProfessor .= " group by estagiarios.professor_id ";
 $sqlProfessor .= " order by professores.nome";
 // echo $sqlProfessor . "<br>";
 $res_professor = $db->Execute($sqlProfessor);
@@ -289,7 +287,7 @@ while (!$res_professor->EOF) {
 }
 
 // Areas
-$sql_areas = "select id, area from areas_estagio order by area";
+$sql_areas = "select id, area from areas order by area";
 $res_areas = $db->Execute($sql_areas);
 while (!$res_areas->EOF) {
 	$matriz_areas[$a]['id_area'] = $res_areas->fields['id'];
@@ -301,9 +299,9 @@ while (!$res_areas->EOF) {
 
 // Pego o nome e o numero da instituicao para o cabecalho da tabela
 if (!empty($seleciona_instituicao)) {
-	$sql_instituicao = "select id, instituicao from estagio where id = $seleciona_instituicao order by instituicao";
+	$sql_instituicao = "select id, instituicao from instituicoes where id = $seleciona_instituicao order by instituicao";
 	$res_instituicao = $db->Execute($sql_instituicao);
-	if ($res_instituicao === false) die ("Não foi possível consultar a tabela estagio");
+	if ($res_instituicao === false) die ("Não foi possível consultar a tabela instituicoes");
 	while (!$res_instituicao->EOF) {
 		$num_instituicao  = $res_instituicao->fields['id'];
 		$nome_instituicao = $res_instituicao->fields['instituicao'];

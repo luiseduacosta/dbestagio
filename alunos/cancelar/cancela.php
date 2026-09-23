@@ -12,7 +12,7 @@ if (empty($id_aluno)) {
 }
 
 if ($id_aluno) {
-	$sql_estagiario = "select * from estagiarios where id_aluno='$id_aluno'";
+	$sql_estagiario = "select * from estagiarios where aluno_id='$id_aluno'";
 	// echo $sql_estagiario . "<br>";
 } else {
 	exit;

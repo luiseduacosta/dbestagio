@@ -211,21 +211,20 @@ if (empty($id_estagio)) {
 		if ($res_atualiza === false) die ("Nao foi possivel atualizar o registro na tabela curso_incricao_instituicao");
 	}
 
-	// Atualiza a tabela estagio
-	$sql_estagio  = "update estagio set ";
+	// Atualiza a tabela instituicoes
+	$sql_estagio  = "update instituicoes set ";
 	$sql_estagio .= " instituicao = '$instituicao', ";
 	$sql_estagio .= " endereco = '$inst_endereco', ";
 	$sql_estagio .= " bairro = '$inst_bairro', ";
 	$sql_estagio .= " municipio = '$inst_municipio', ";
 	$sql_estagio .= " cep = '$inst_cep', ";
 	$sql_estagio .= " telefone = '$inst_telefone', ";
-	$sql_estagio .= " fax = '$ints_fax', ";
-	$sql_estagio .= " beneficio = '$beneficio', ";
+	$sql_estagio .= " beneficios = '$beneficio', ";
 	$sql_estagio .= " fim_de_semana = '$fim_de_semana' ";
 	$sql_estagio .= " where id=$id_estagio";
 	// echo "Atualiza instituicao campo de estagio " . $sql_estagio . "<br>";
 	$res_estagio = $db->Execute($sql_estagio);
-	if ($res_estagio === false) die ("Nao foi possivel atualizar o registro na tabela estagio");
+	if ($res_estagio === false) die ("Nao foi possivel atualizar o registro na tabela instituicoes");
 
 }
 

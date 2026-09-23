@@ -22,7 +22,7 @@
         {section name=i loop=$aluno_sem_professor}
             <tr>
                 <td>{$aluno_sem_professor[i].registro}</td>
-                <td><a href="../alunos/exibir/ver_cada.php?id_aluno={$aluno_sem_professor[i].id}">{$aluno_sem_professor[i].nome}</a></td>
+                <td><a href="../alunos/exibir/ver_cada.php?aluno_id={$aluno_sem_professor[i].id}">{$aluno_sem_professor[i].nome}</a></td>
                 <td>{$aluno_sem_professor[i].celular}</td>
                 <td>{$aluno_sem_professor[i].email}</td>
             </tr>
@@ -55,7 +55,7 @@
         {section name=i loop=$aluno_sem_supervisor}
             <tr>
                 <td>{$aluno_sem_supervisor[i].registro}</td>
-                <td><a href="../alunos/exibir/ver_cada.php?id_aluno={$aluno_sem_supervisor[i].id}">{$aluno_sem_supervisor[i].nome}</a></td>
+                <td><a href="../alunos/exibir/ver_cada.php?aluno_id={$aluno_sem_supervisor[i].id}">{$aluno_sem_supervisor[i].nome}</a></td>
                 <td>{$aluno_sem_supervisor[i].celular}</td>
                 <td>{$aluno_sem_supervisor[i].email}</td>
             </tr>
@@ -109,7 +109,7 @@
         <tr>
             <td>{$sem_tc[i].id}</td>
             <td>{$sem_tc[i].registro}</td>
-            <td><a href="../alunos/exibir/ver_cada.php?id_aluno={$sem_tc[i].id}">{$sem_tc[i].nome}</a></td>            
+            <td><a href="../alunos/exibir/ver_cada.php?aluno_id={$sem_tc[i].id}">{$sem_tc[i].nome}</a></td>            
             <td>{$sem_tc[i].celular}</td>
             <td>{$sem_tc[i].email}</td>
         </tr>
@@ -125,7 +125,7 @@
         {section name=i loop=$aluno_sem_devolucao}
             <tr>
                 <td>{$aluno_sem_devolucao[i].registro}</td>
-                <td><a href="../alunos/exibir/ver_cada.php?id_aluno={$aluno_sem_devolucao[i].id}">{$aluno_sem_devolucao[i].nome}</a></td>
+                <td><a href="../alunos/exibir/ver_cada.php?aluno_id={$aluno_sem_devolucao[i].id}">{$aluno_sem_devolucao[i].nome}</a></td>
                 <td>{$aluno_sem_devolucao[i].celular}</td>
                 <td>{$aluno_sem_devolucao[i].email}</td>
             </tr>
@@ -158,7 +158,7 @@
         {section name=i loop=$aluno_sem_estagio}
             <tr>
                 <td>{$aluno_sem_estagio[i].registro}</td>
-                <td><a href="../mural/ver-aluno.php?id_aluno={$aluno_sem_estagio[i].registro}">{$aluno_sem_estagio[i].nome}</a></td>
+                <td><a href="../mural/ver-aluno.php?registro={$aluno_sem_estagio[i].registro}">{$aluno_sem_estagio[i].nome}</a></td>
                 <td>{$aluno_sem_estagio[i].celular}</td>
                 <td>{$aluno_sem_estagio[i].email}</td>
             </tr>

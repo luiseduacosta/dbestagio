@@ -18,11 +18,11 @@ while (!$res_supervisor->EOF) {
 }
 
 // Busco as instituicoes do supervisor na tabela inst_super
-$sql  = "select i.id, i.id_instituicao, e.instituicao "; 
-$sql .= "from inst_super as i, estagio as e ";
-$sql .= "where i.id_instituicao=e.id and i.id_supervisor=$id_supervisor";
+$sql  = "select i.id, i.instituicao_id as id_instituicao, e.instituicao "; 
+$sql .= "from inst_super as i, instituicoes as e ";
+$sql .= "where i.instituicao_id=e.id and i.supervisor_id=$id_supervisor";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela inst_super/estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela inst_super/instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -34,9 +34,9 @@ while (!$resultado->EOF) {
 }
 
 // Pego as instituicoes para a caixa de selecao
-$sql_estagio = "select * from estagio order by instituicao";
+$sql_estagio = "select * from instituicoes order by instituicao";
 $res_estagio = $db->Execute($sql_estagio);
-if ($res_estagio === false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio === false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$res_estagio->EOF) {

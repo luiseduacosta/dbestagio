@@ -16,17 +16,17 @@ $resultado_turma = $db->Execute($sql_turma);
 if ($resultado_turma === false) die ("Não foi possivel consultar a tabela turma_estagio");
 $turma = $resultado_turma->fields['turma'];
 
-$sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficio ";
+$sql  = "select e.id, e.instituicao, e.convenio, e.area as id_area, e.beneficios ";
 $sql .= " , a.area ";
-$sql .= " from estagio as e ";
-$sql .= " left join areas_estagio as a on e.area = a.id ";
-$sql .= " left outer join estagiarios t on e.id = t.id_instituicao ";
+$sql .= " from instituicoes as e ";
+$sql .= " left join areas as a on e.area = a.id ";
+$sql .= " left outer join estagiarios t on e.id = t.instituicao_id ";
 $sql .= " where t.periodo = '$turma' ";
-$sql .=	" group by e.instituicao, e.area, beneficio, e.id ";
+$sql .=	" group by e.instituicao, e.area, beneficios, e.id ";
 // echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado == false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado == false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {
@@ -34,7 +34,7 @@ while (!$resultado->EOF) {
   	$instituicao    = $resultado->fields['instituicao'];
   	$id_area        = $resultado->fields['id_area'];
   	$area           = $resultado->fields['area'];
-	$beneficio      = $resultado->fields['beneficio'];
+	$beneficio      = $resultado->fields['beneficios'];
   	$convenio       = $resultado->fields['convenio'];
 
   	// echo $convenio . "<br>";
@@ -44,7 +44,7 @@ while (!$resultado->EOF) {
     $sql_supervisores  = "select s.id as num_supervisor ";
     $sql_supervisores .= " from inst_super as i ";
     $sql_supervisores .= " , supervisores as s ";
-    $sql_supervisores .= " where i.id_supervisor=s.id and i.id_instituicao=$id_instituicao";
+    $sql_supervisores .= " where i.supervisor_id=s.id and i.instituicao_id=$id_instituicao";
 	// echo $sql_supervisores . "<br>";
     $res_supervisores = $db->Execute($sql_supervisores);
     if ($res_supervisores === false) die ("Não foi possível consultar as tabelas supervisores/inst_super");
@@ -52,7 +52,7 @@ while (!$resultado->EOF) {
 	// echo $q_supervisores . "<br>";
 
     // Pego a turma das instituicoes
-    $sql_turma = "select periodo as turma from estagiarios where id_instituicao=$id_instituicao order by periodo";
+    $sql_turma = "select periodo as turma from estagiarios where instituicao_id=$id_instituicao order by periodo";
 	// echo $sql_turma . "<br>";
     $resultado_turma = $db->Execute($sql_turma);
     if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");

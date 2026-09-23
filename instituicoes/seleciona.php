@@ -12,9 +12,9 @@ if ($sistema_autentica == 0) {
 
 $opcao = $_GET['opcao'];
 
-$sql = "select * from estagio order by instituicao";
+$sql = "select * from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {

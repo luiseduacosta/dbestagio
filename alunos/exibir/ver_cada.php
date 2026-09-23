@@ -18,7 +18,8 @@ $periodo_atual = isset($_REQUEST['periodo_atual']) ? $_REQUEST['periodo_atual'] 
  */
 $botao  = $_POST['botao'];
 $indice = $_REQUEST['indice'];
-$id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
+// aluno_id: novo nome do parametro; id_aluno mantido para compatibilidade
+$id_aluno = isset($_REQUEST['aluno_id']) ? $_REQUEST['aluno_id'] : (isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL);
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 // echo $registro . "<br>";
 
@@ -42,7 +43,7 @@ if ($usuario_senha) {
 
 // echo "Registro " . $registro . "<br>";
 if ($registro) {
-    $sql_estagiario  = "SELECT id, id_aluno, registro ";
+    $sql_estagiario  = "SELECT id, aluno_id, registro ";
     $sql_estagiario .= " from estagiarios ";
     $sql_estagiario .= " where registro = '$registro'";
     // echo $sql_estagiario . "<br>";
@@ -191,7 +192,7 @@ while (!$resultado->EOF) {
 	}
 
 	// Pego a informacao sobre os estagios cursados
-	$sql_estagiario = "select id, tc, nivel, turno, periodo, nota, ch, id_instituicao, id_supervisor, id_professor from estagiarios where id_aluno = $aluno_id order by periodo";
+	$sql_estagiario = "select id, tc, nivel, periodo, nota, ch, instituicao_id as id_instituicao, supervisor_id as id_supervisor, professor_id as id_professor from estagiarios where aluno_id = $aluno_id order by periodo";
         // echo $sql_estagiario . "<br>";
 	$resultado_estagiario = $db->Execute($sql_estagiario);
 	if ($resultado_estagiario === false) die ("Nao foi possivel consultar a tabela estagiarios");
@@ -200,7 +201,7 @@ while (!$resultado->EOF) {
 		$id_estagiario      = $resultado_estagiario->fields['id'];
 		$tc                 = $resultado_estagiario->fields['tc'];
 		$nivel              = $resultado_estagiario->fields['nivel'];
-		$turno              = $resultado_estagiario->fields['turno'];
+		$turno              = NULL;
 		$estagiario_periodo = $resultado_estagiario->fields['periodo'];
 		$nota               = $resultado_estagiario->fields['nota'];
 		$ch                 = $resultado_estagiario->fields['ch'];
@@ -214,7 +215,7 @@ while (!$resultado->EOF) {
 			$id_instituicao = "0";
 			$instituicao = "Sem dados";
 		} else {
-			$sql_estagio = "select id, instituicao from estagio where id = $id_instituicao";
+			$sql_estagio = "select id, instituicao from instituicoes where id = $id_instituicao";
                         // echo $sql_estagio . "<br>";
 			$resposta_estagio = $db->Execute($sql_estagio);
 			$id          = $resposta_estagio->fields['id'];

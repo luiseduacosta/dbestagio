@@ -5,10 +5,10 @@ include_once("../../db.inc");
 // Pego o numero do instituicao
 $id_instituicao = $_REQUEST['id_instituicao'];
 
-$sql_estagio = "select e.id, e.instituicao, e.endereco, e.cep, e.telefone, e.fax, e.beneficio, e.fim_de_semana, a.area from estagio as e, areas_estagio as a where e.area=a.id and e.id=$id_instituicao";
+$sql_estagio = "select e.id, e.instituicao, e.endereco, e.cep, e.telefone, e.beneficios, e.fim_de_semana, a.area from instituicoes as e, areas as a where e.area=a.id and e.id=$id_instituicao";
 $res_estagio = $db->Execute($sql_estagio);
 // echo $sql_estagio . "<br>";
-if ($res_estagio === false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio === false) die ("Não foi possível consultar a tabela instituicoes");
 
 while (!$res_estagio->EOF) {
 	$id_instituicao = $res_estagio->fields['id'];
@@ -16,8 +16,7 @@ while (!$res_estagio->EOF) {
 	$endereco       = $res_estagio->fields['endereco'];
 	$cep            = $res_estagio->fields['cep'];
 	$telefone       = $res_estagio->fields['telefone'];
-	$fax            = $res_estagio->fields['fax'];
-	$beneficio	= $res_estagio->fields['beneficio'];
+	$beneficio	= $res_estagio->fields['beneficios'];
 	$fim_de_semana  = $res_estagio->fields['fim_de_semana'];
 	$area		= $res_estagio->fields['area'];
 
@@ -59,7 +58,6 @@ $smarty->assign("instituicao",$instituicao);
 $smarty->assign("endereco",$endereco);
 $smarty->assign("cep",$cep);
 $smarty->assign("telefone",$telefone);
-$smarty->assign("fax",$fax);
 $smarty->assign("beneficio",$beneficio);
 $smarty->assign("fim_de_semana",$fim_de_semana);
 $smarty->assign("area",$area);

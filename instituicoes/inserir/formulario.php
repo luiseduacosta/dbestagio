@@ -2,10 +2,10 @@
 
 include_once("../../autentica.inc");
 
-$sql = "select * from areas_estagio order by area";
+$sql = "select * from areas order by area";
 $resultado = $db->Execute($sql);
 
-if ($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela areas");
 
 $i = 0;
 while (!$resultado->EOF) {

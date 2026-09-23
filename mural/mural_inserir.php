@@ -51,7 +51,7 @@ $dataInscricao = $anoInscricao . "-" . $mesInscricao . "-" . $diaInscricao;
 
 if ($confirma == "Confirma") {
 	if ($convenio === "1") {
-	    $sql = "select instituicao from estagio where id=$id_estagio";
+	    $sql = "select instituicao from instituicoes where id=$id_estagio";
 	    $resultado = $db->Execute($sql);
 	    $instituicao = $resultado->fields['instituicao'];
 
@@ -113,9 +113,9 @@ if ($confirma == "Confirma") {
 	}
 }
 
-$sql = "select id, area from areas_estagio order by area";
+$sql = "select id, area from areas order by area";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela areas");
 
 $i = 0;
 $id_areas[$i] = 0;
@@ -142,10 +142,10 @@ while (!$resultadoProfessores->EOF) {
 	  $resultadoProfessores->MoveNext();
 }
 
-$sql_instituicoes = "select id, instituicao from estagio order by instituicao";
+$sql_instituicoes = "select id, instituicao from instituicoes order by instituicao";
 // echo $sql_instituicoes . "<br>";
 $resultado_instituicoes = $db->Execute($sql_instituicoes);
-if ($resultado_instituicoes === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado_instituicoes === false) die ("Não foi possível consultar a tabela instituicoes");
 $i = 1;
 while (!$resultado_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resultado_instituicoes->fields['id'];
