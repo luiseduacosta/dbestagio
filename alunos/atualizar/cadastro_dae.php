@@ -1,11 +1,8 @@
 <?php
 
-// include_once("../../autentica.inc");
-
 include_once("../../setup.php");
 
 $origem = $_REQUEST['origem'];
-// echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 
 if (empty($origem))
     $origem = $_SERVER['HTTP_REFERER'];
@@ -34,8 +31,6 @@ $cep             = $_REQUEST['cep'];
 $bairro          = $_REQUEST['bairro'];
 $municipio       = $_REQUEST['municipio'];
 // $observacoes     = $_REQUEST['observacoes'];
-
-// echo $nascimento . "<br>";
 
 if ($debug == 1) {
     // print_r($_REQUEST) . "<br>";

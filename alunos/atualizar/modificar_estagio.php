@@ -5,7 +5,7 @@ if ($debug == 1)
 
 include_once("../../autentica.inc");
 
-$id_aluno = $_REQUEST['id_aluno'];
+$aluno_id = $_REQUEST['aluno_id'];
 
 $registro = $_POST['registro'];
 $nome     = $_POST['nome'];

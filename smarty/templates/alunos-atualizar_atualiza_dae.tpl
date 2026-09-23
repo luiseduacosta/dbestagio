@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-  <title>Aluno modifica estÃ¡gio</title>
+  <title>Aluno modifica estágio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
@@ -223,8 +223,8 @@ window.onload = function() {
 <script type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script type="text/javascript">
 $(function() {
-	$("#telefone").mask("9999.9999");
- 	$("#celular").mask("9999.9999");
+	$("#telefone").mask("(99)9999.9999");
+ 	$("#celular").mask("(99)99999.9999");
 	$("#cep").mask("99999-999");
 	$("#cpf").mask("999999999-99");	
 });
@@ -320,18 +320,15 @@ MunÃ­cipio:
 </td>
 </tr>
 
-<!--
 <tr>
-<td>Observa&ccedil;&otilde;es</td>
+<td>Observações</td>
 <td>
 <textarea name="observacoes" rows="3" cols="60">
 {$observacoes}
 </textarea>
 </td>
 </tr>
-//-->
 
-<!--
 <tr style='background-color:yellow'>
 <td colspan=2 style='text-align:center'>Selecione a instituicao para qual solicita o termo de compromisso</td>
 </tr>
@@ -339,14 +336,13 @@ MunÃ­cipio:
 <tr>
 <td>Instituição</td>
 <td>
-<select name='id_instituicao' size=1>
+<select name='instituicao_id' size=1>
 {section name=i loop=$instituicoes}
 <option value={$instituicoes[i].id}>{$instituicoes[i].instituicao}
 {/section}
 </select>
 </td>
 </tr>
-//-->
 
 <tr>
 <td colspan="2" style="text-align: center">
