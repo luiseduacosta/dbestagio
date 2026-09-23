@@ -1,48 +1,28 @@
 <?php
 
-require_once("../../setup.php");
-
-// Verifico se o usuario esta logado
-if (isset($_COOKIE["usuario_senha"])) {
-	$usuario = $_COOKIE["usuario_nome"];
-	if ($usuario)
-	$logado = 1;
-}
-
+require_once("../../autentica.inc");
 
 $sqlUltimoPeriodo = "select max(periodo) as ultimoPeriodo from estagiarios";
 $resultadoMaxPeriodo = $db->Execute($sqlUltimoPeriodo);
 if ($resultadoMaxPeriodo === false) die ("Não foi possível consultar a tabela estagiarios");
-$ultimoPeriodo = $resultadoMaxPeriodo->fields['ultimoPeriodo'];
+$ultimoPeriodo = $resultadoMaxPeriodo->fields['ultimoPeriodo'] ?? '';
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
 
-// $periodo = $_REQUEST['periodo'];
 $seleciona_nivel = isset($_REQUEST['seleciona_nivel']) ? $_REQUEST['seleciona_nivel'] : '0';
-$seleciona_turno = $_REQUEST['seleciona_turno'];
-$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
-$seleciona_instituicao = $_REQUEST['seleciona_instituicao'];
+$seleciona_turno = isset($_REQUEST['seleciona_turno']) ? $_REQUEST['seleciona_turno'] : '0';
+$area_id = isset($_REQUEST['area_id']) ? $_REQUEST['area_id'] : '0';
+$seleciona_instituicao = isset($_REQUEST['seleciona_instituicao']) ? $_REQUEST['seleciona_instituicao'] : '0';
 $seleciona_periodo = isset($_REQUEST['seleciona_periodo']) ? $_REQUEST['seleciona_periodo'] : $ultimoPeriodo;
-$seleciona_professor = $_REQUEST['seleciona_professor'];
+$seleciona_professor = isset($_REQUEST['seleciona_professor']) ? $_REQUEST['seleciona_professor'] : '0';
 
-// Capturo o nome da area para o cabecalho da tabela
-if ($id_area) {
-	$sql_id_area = "select area from areas where id = '$id_area'";
-	$res_id_area = $db->Execute($sql_id_area);
-	$area_selecionada = $res_id_area->fields['area'];
-}
-
-/*
- echo "Ordem: " . $ordem . " Nivel: " . $seleciona_nivel . " Turno: " . $seleciona_turno . " Area ".  $seleciona_area . " Inst. " . $seleciona_instituicao . " Periodo " . $seleciona_periodo . " Professor " . $seleciona_professor . "Area " . $id_area . "<br>";
- */
-
-$sql1 = "select estagiarios.aluno_id as id_aluno, " .
+$sql1 = "select estagiarios.aluno_id, " .
 "alunos.registro, ".
 "alunos.nome, ".
 "alunos.telefone, ".
 "alunos.celular, ".
 "alunos.email, ".
-"estagiarios.instituicao_id as id_instituicao, ".
+"estagiarios.instituicao_id, ".
 "estagiarios.id, ".
 "estagiarios.tc, ".
 "estagiarios.tc_solicitacao, ".
@@ -50,157 +30,142 @@ $sql1 = "select estagiarios.aluno_id as id_aluno, " .
 "estagiarios.periodo, ".
 "estagiarios.nota, ".
 "estagiarios.ch, ".
-"instituicoes.id as id_instituicao, ".
+"instituicoes.id as instituicao_id, ".
 "instituicoes.instituicao, ".
-"supervisores.id as id_supervisor, ".
+"supervisores.id as supervisor_id, ".
 "supervisores.nome as nomeSupervisor, ".
 "professores.nome as nomeProfessor, ".
-"professores.id as idProfessor, " .        
-"areas.area ".
-// Aluno
-"from estagiarios inner join alunos ".
+"professores.id as professor_id " .        
+" from estagiarios inner join alunos ".
 "on estagiarios.aluno_id=alunos.id ".
-// Campo de estagio (instituicao)
-"left outer join instituicoes ".
+" left outer join instituicoes ".
 "on estagiarios.instituicao_id=instituicoes.id ".
-// Supervisor
-"left outer join supervisores ".
+" left outer join supervisores ".
 "on estagiarios.supervisor_id=supervisores.id ".
-// Professor
-"left outer join professores ".
-"on estagiarios.professor_id=professores.id ".
-// Area de estagio
-"left outer join areas ".
-"on instituicoes.area=areas.id " ;
-// $sql2 = "where estagiarios.periodo='2005-1' ".
-// "order by alunos.nome";
-// " where " ;
-if (!$seleciona_nivel) {
+" left outer join professores ".
+"on estagiarios.professor_id=professores.id " ;
+
+if (empty($seleciona_nivel) || $seleciona_nivel === '0') {
 	$sql3 = " where nivel > '0'";
 } else {
-	$sql3 = " where nivel = '$seleciona_nivel' " ;
+	$sql3 = " where nivel = '" . addslashes($seleciona_nivel) . "' " ;
 }
 
-if ($id_area) $sql3 .= " and instituicoes.area = '$id_area' " ;
-if ($seleciona_instituicao) $sql3 .= " and estagiarios.instituicao_id = '$seleciona_instituicao' ";
-if ($seleciona_periodo) $sql3 .= " and periodo = '$seleciona_periodo' ";
-if ($seleciona_professor) $sql3 .= " and estagiarios.professor_id = '$seleciona_professor' ";
-
-// Ordeno a tabela utilizando uma funcao do php
-// $sql3 .= " order by $ordem";
+if (!empty($seleciona_instituicao) && $seleciona_instituicao !== '0') {
+	$sql3 .= " and estagiarios.instituicao_id = '" . addslashes($seleciona_instituicao) . "' ";
+}
+if (!empty($seleciona_periodo) && $seleciona_periodo !== '0') {
+	$sql3 .= " and periodo = '" . addslashes($seleciona_periodo) . "' ";
+}
+if (!empty($seleciona_professor) && $seleciona_professor !== '0') {
+	$sql3 .= " and estagiarios.professor_id = '" . addslashes($seleciona_professor) . "' ";
+}
 
 $sql = $sql1 . $sql3;
-// echo $sql . "<br>";
 $resultadoLista = $db->Execute($sql);
-
 if ($resultadoLista === false) die ("Nao foi possivel consultar as tabelas estagiarios, alunos");
+
+$estagiarios = array();
+$codigo_0 = 0;
+$codigo_1 = 0;
+$codigo_2 = 0;
+$codigo_3 = 0;
+$codigo_4 = 0;
+$codigo_5 = 0;
+$codigo_6 = 0;
+$codigo_7 = 0;
+
 $i=0;
 while (!$resultadoLista->EOF) {
 
-	$estagiarios[$i]['id_estagiario']  = $resultadoLista->fields['id'];
-	$estagiarios[$i]['id_aluno']       = $resultadoLista->fields['id_aluno'];
+	$estagiarios[$i]['estagiario_id']  = $resultadoLista->fields['id'];
+	$estagiarios[$i]['aluno_id']       = $resultadoLista->fields['aluno_id'];
 	$estagiarios[$i]['registro']       = $resultadoLista->fields['registro'];
 	$estagiarios[$i]['tc']             = $resultadoLista->fields['tc'];
 	$estagiarios[$i]['tc_solicitacao'] = $resultadoLista->fields['tc_solicitacao'];
 	$estagiarios[$i]['nome']           = $resultadoLista->fields['nome'];
-	$estagiarios[$i]['email']          = $resultadoLista->fields['email'];
+	$estagiarios[$i]['email']          = strtolower($resultadoLista->fields['email'] ?? '');
 	$estagiarios[$i]['celular']        = $resultadoLista->fields['celular'];
 	$estagiarios[$i]['telefone']       = $resultadoLista->fields['telefone'];
 	$estagiarios[$i]['nivel'] 	       = $resultadoLista->fields['nivel'];
-	$estagiarios[$i]['turno']          = NULL;
 	$estagiarios[$i]['periodo']        = $resultadoLista->fields['periodo'];
 	$estagiarios[$i]['nota']           = $resultadoLista->fields['nota'];
 	$estagiarios[$i]['ch']             = $resultadoLista->fields['ch'];
-	$estagiarios[$i]['id_instituicao'] = $resultadoLista->fields['id_instituicao'];
+	$estagiarios[$i]['instituicao_id'] = $resultadoLista->fields['instituicao_id'];
+	$estagiarios[$i]['id_instituicao']  = $resultadoLista->fields['instituicao_id'];
 	$estagiarios[$i]['instituicao']    = $resultadoLista->fields['instituicao'];
-	$estagiarios[$i]['seguro']         = $resultadoLista->fields['seguro'];
-	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['id_supervisor'];
+	$estagiarios[$i]['seguro']         = $resultadoLista->fields['seguro'] ?? '';
+	$estagiarios[$i]['supervisor_id']  = $resultadoLista->fields['supervisor_id'];
+	$estagiarios[$i]['id_supervisor']  = $resultadoLista->fields['supervisor_id'];
 	$estagiarios[$i]['supervisor']     = $resultadoLista->fields['nomeSupervisor'];
-	$estagiarios[$i]['area']           = $resultadoLista->fields['area'];
-    $estagiarios[$i]['id_professor']   = $resultadoLista->fields['idProfessor'];
-    $estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
+	$estagiarios[$i]['professor_id']   = $resultadoLista->fields['professor_id'];
+	$estagiarios[$i]['id_professor']   = $resultadoLista->fields['professor_id'];
+	$estagiarios[$i]['professor']      = $resultadoLista->fields['nomeProfessor'];
+	$estagiarios[$i]['codigo']         = '';
+	$estagiarios[$i]['area']           = '';
 
-	$id_aluno = $resultadoLista->fields['id_aluno'];
+	$aluno_id = $resultadoLista->fields['aluno_id'];
 	$registro = $resultadoLista->fields['registro'];
 	$nome     = $resultadoLista->fields['nome'];
 	$nivel    = $resultadoLista->fields['nivel'];
 
-	// Capturo a informacao para ser exibida nos niveis
-	$sqlNivel = "select nivel, estagiarios.instituicao_id as id_instituicao, instituicoes.instituicao, areas.area, estagiarios.periodo from estagiarios " .
+	$sqlNivel = "select nivel, estagiarios.instituicao_id, instituicoes.instituicao, estagiarios.periodo from estagiarios " .
 			" join instituicoes on instituicoes.id = estagiarios.instituicao_id " .
-			" left join areas on areas.id = instituicoes.area " .
-			" where aluno_id=$id_aluno";
-	// echo $sqlNivel . "<br>";
+			" where aluno_id = " . (int)$aluno_id;
 	$resultadoNivel = $db->Execute($sqlNivel);
-	if ($resultadoNivel === false) die ("Nao foi possivel consultar a tabela estagiarios");
+	if ($resultadoNivel === false) die ("Nao foi possivel consultar esta tabela estagiarios");
 	$nivel1 = NULL;
 	$nivel2 = NULL;
 	$nivel3 = NULL;
 	$nivel4 = NULL;
 	while (!$resultadoNivel->EOF) {
 		$nivelCadaAluno = $resultadoNivel->fields['nivel'];
-		$id_instituicao = $resultadoNivel->fields['id_instituicao'];
+		$instituicao_id = $resultadoNivel->fields['instituicao_id'];
 		$instituicao = $resultadoNivel->fields['instituicao'];
-		$area = $resultadoNivel->fields['area'];
-		$periodo = $resultadoNivel->fields['periodo'];
-
-		// echo $id_aluno . " " .$nivelCadaAluno . "<br>";
+		$periodo_nivel = $resultadoNivel->fields['periodo'];
 
 		if ($nivelCadaAluno == 1) {
-			$estagiarios[$i]['nivel1'] = $id_instituicao;
+			$estagiarios[$i]['nivel1'] = $instituicao_id;
 			$estagiarios[$i]['instituicao1'] = $instituicao;
-			$estagiarios[$i]['area1'] = $area;
-			$estagiarios[$i]['periodo1'] = $periodo;
-			$nivel1 = $id_instituicao;
-			// echo $nivel1 . " ";
+			$estagiarios[$i]['periodo1'] = $periodo_nivel;
+			$nivel1 = $instituicao_id;
 		}
 
 		if ($nivelCadaAluno == 2) {
-			$estagiarios[$i]['nivel2'] = $id_instituicao;
+			$estagiarios[$i]['nivel2'] = $instituicao_id;
 			$estagiarios[$i]['instituicao2'] = $instituicao;
-			$estagiarios[$i]['area2'] = $area;
-			$estagiarios[$i]['periodo2'] = $periodo;
-			$nivel2 = $id_instituicao;
-			// echo $nivel2 . " ";
+			$estagiarios[$i]['periodo2'] = $periodo_nivel;
+			$nivel2 = $instituicao_id;
 		}
 
 		if ($nivelCadaAluno == 3) {
-			$estagiarios[$i]['nivel3'] = $id_instituicao;
+			$estagiarios[$i]['nivel3'] = $instituicao_id;
 			$estagiarios[$i]['instituicao3'] = $instituicao;
-			$estagiarios[$i]['area3'] = $area;
-			$estagiarios[$i]['periodo3'] = $periodo;
-			$nivel3 = $id_instituicao;
-			// echo $nivel3 . " ";
+			$estagiarios[$i]['periodo3'] = $periodo_nivel;
+			$nivel3 = $instituicao_id;
 		}
 
 		if ($nivelCadaAluno == 4) {
-			$estagiarios[$i]['nivel4'] = $id_instituicao;
+			$estagiarios[$i]['nivel4'] = $instituicao_id;
 			$estagiarios[$i]['instituicao4'] = $instituicao;
-			$estagiarios[$i]['area4'] = $area;
-			$estagiarios[$i]['periodo4'] = $periodo;
-			$nivel4 = $id_instituicao;
-			// echo $nivel4 . " ";
+			$estagiarios[$i]['periodo4'] = $periodo_nivel;
+			$nivel4 = $instituicao_id;
 		}
 
 		$resultadoNivel->MoveNext();
-
 	}
 
 	// Se os quatro niveis de estagio estao preenchidos
 	if ((!empty($nivel1)) and (!empty($nivel2)) and (!empty($nivel3)) and (!empty($nivel4))) {
-		// echo "aluno cursou 4 niveis de estagio <br>";
+		$codigo = 0;
 		if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 0;
 		if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 1;
-		// Padrao
 		if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 2;
-		// Dois consecutivos
 		if (($nivel1 == $nivel2) and ($nivel2 != $nivel3) and ($nivel3 != $nivel4)) $codigo = 3;
 		if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 4;
 		if (($nivel1 != $nivel2) and ($nivel2 != $nivel3) and ($nivel3 == $nivel4)) $codigo = 5;
-		// Tres consecutivos
 		if (($nivel1 == $nivel2) and ($nivel2 == $nivel3) and ($nivel3 != $nivel4)) $codigo = 6;
 		if (($nivel1 != $nivel2) and ($nivel2 == $nivel3) and ($nivel3 == $nivel4)) $codigo = 7;
-		// echo "$nome cursou 4 niveis de estagio: $codigo <br>";
 
 		if ($codigo == 0) $codigo_0++;
 		if ($codigo == 1) $codigo_1++;
@@ -214,49 +179,22 @@ while (!$resultadoLista->EOF) {
 		$estagiarios[$i]['codigo'] = $codigo;
 	}
 
-	// TCC
-	$sql_tcc = "select num_monografia, titulo, area, periodo " .
-			" from tcc_alunos " .
-			" join monografia on monografia.codigo = tcc_alunos.num_monografia " .
-			" join areas on areas.numero = monografia.num_area " .
-			" where registro='$registro'";
-	// echo $sql_tcc . "<br>";
-	$resultado_tcc = $db->Execute($sql_tcc);
-	if ($resultado_tcc === false) die ("Nao foi possivel consultar a tabela tcc_alunos");
-
-	$estagiarios[$i]['titulo'] = $resultado_tcc->fields['titulo'];
-	$estagiarios[$i]['mono_area']   = $resultado_tcc->fields['area'];
-	$estagiarios[$i]['num_monografia'] = $resultado_tcc->fields['num_monografia'];
-	$estagiarios[$i]['mono_periodo']   = $resultado_tcc->fields['periodo'];
-	// echo $num_monografia . "<br>";
-
-	// Array para ordenar a tabela
-	$criterio[] = $estagiarios[$i][$ordem];
-
 	$i++;
 	$resultadoLista->MoveNext();
 }
 
-// Tabela provissoria
 $total = $codigo_0 + $codigo_1 + $codigo_2 + $codigo_3 + $codigo_4 + $codigo_5 + $codigo_6 + $codigo_7;
 
-/*
- echo "Cod   " . "Quant. " . "<br>";
- echo "0     " . $codigo_0 . "<br>";
- echo "1     " . $codigo_1 . "<br>";
- echo "2     " . $codigo_2 . "<br>";
- echo "3     " . $codigo_3 . "<br>";
- echo "4     " . $codigo_4 . "<br>";
- echo "5     " . $codigo_5 . "<br>";
- echo "6     " . $codigo_6 . "<br>";
- echo "7     " . $codigo_7 . "<br>";
- echo "Total " . $total . "<br>";
- */
-
-// Ordeno a tabela. A variavel $criterio tem que ter algum valor
-if (isset($criterio)) array_multisort($criterio, SORT_ASC, $estagiarios);
+// Ordeno a tabela
+if (!empty($estagiarios) && !empty($ordem)) {
+	$criterio_col = array_column($estagiarios, $ordem);
+	if (!empty($criterio_col)) {
+		array_multisort($criterio_col, SORT_ASC, $estagiarios);
+	}
+}
 
 // Pego a listagem das instituicoes ativas para formulario de select
+$instituicoes = array();
 $sqlInstituicao  = "select distinct instituicoes.id, instituicoes.instituicao from estagiarios " ;
 $sqlInstituicao .= "left outer join instituicoes on estagiarios.instituicao_id=instituicoes.id ";
 $sqlInstituicao .= "order by instituicoes.instituicao";
@@ -264,42 +202,34 @@ $res_estagio = $db->Execute($sqlInstituicao);
 if ($res_estagio === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$res_estagio->EOF) {
-	$instituicoes[$i]['id_instituicao'] = $res_estagio->fields['id'];
+	$instituicoes[$i]['instituicao_id'] = $res_estagio->fields['id'];
+	$instituicoes[$i]['id_instituicao']  = $res_estagio->fields['id'];
 	$instituicoes[$i]['instituicao']    = $res_estagio->fields['instituicao'];
 	$i++;
 	$res_estagio->MoveNext();
 }
 
 // Pego a lista dos professores
+$professores = array();
 $sqlProfessor  = "select professores.id, professores.nome from professores ";
 $sqlProfessor .= " inner join estagiarios on professores.id = estagiarios.professor_id ";
 $sqlProfessor .= " group by estagiarios.professor_id ";
 $sqlProfessor .= " order by professores.nome";
-// echo $sqlProfessor . "<br>";
 $res_professor = $db->Execute($sqlProfessor);
 if ($res_professor === false) die ("Nao foi possivel consultar a tabela professores");
 $i = 0;
 while (!$res_professor->EOF) {
-	$professores[$i]['id_professor'] = $res_professor->fields['id'];
+	$professores[$i]['professor_id'] = $res_professor->fields['id'];
+	$professores[$i]['id_professor']   = $res_professor->fields['id'];
 	$professores[$i]['nome']         = $res_professor->fields['nome'];
 	$i++;
 	$res_professor->MoveNext();
 }
 
-// Areas
-$sql_areas = "select id, area from areas order by area";
-$res_areas = $db->Execute($sql_areas);
-while (!$res_areas->EOF) {
-	$matriz_areas[$a]['id_area'] = $res_areas->fields['id'];
-	$matriz_areas[$a]['area'] = $res_areas->fields['area'];
-
-	$a++;
-	$res_areas->MoveNext();
-}
-
 // Pego o nome e o numero da instituicao para o cabecalho da tabela
-if (!empty($seleciona_instituicao)) {
-	$sql_instituicao = "select id, instituicao from instituicoes where id = $seleciona_instituicao order by instituicao";
+$nome_instituicao = '';
+if (!empty($seleciona_instituicao) && $seleciona_instituicao !== '0') {
+	$sql_instituicao = "select id, instituicao from instituicoes where id = " . (int)$seleciona_instituicao . " order by instituicao";
 	$res_instituicao = $db->Execute($sql_instituicao);
 	if ($res_instituicao === false) die ("Não foi possível consultar a tabela instituicoes");
 	while (!$res_instituicao->EOF) {
@@ -310,9 +240,9 @@ if (!empty($seleciona_instituicao)) {
 }
 
 // Pego o nome e o numero do professor para o cabecalho da tabela
-if (!empty($seleciona_professor)) {
-	$sql_professor = "select id, nome from professores where id = $seleciona_professor order by nome";
-	// echo $sql_professor . "<br>";
+$nome_professor = '';
+if (!empty($seleciona_professor) && $seleciona_professor !== '0') {
+	$sql_professor = "select id, nome from professores where id = " . (int)$seleciona_professor . " order by nome";
 	$resultado_professor = $db->Execute($sql_professor);
 	if ($resultado_professor === false) die ("Nao foi possivel consultar a tabela professores");
 	while (!$resultado_professor->EOF) {
@@ -323,8 +253,8 @@ if (!empty($seleciona_professor)) {
 }
 
 // Pego os periodos para listar as instituicoes
+$matriz_periodo = array();
 $sql_periodo = "select distinct periodo from estagiarios order by periodo";
-// echo $sql_periodo . "<br>";
 $resultado_periodo = $db->Execute($sql_periodo);
 if ($resultado_periodo === false) die ("Não foi possível consultar a tabela estagiarios");
 $i = 0;
@@ -334,29 +264,30 @@ while (!$resultado_periodo->EOF) {
 	$i++;
 }
 
+$logado = ($usuario_ok || !empty($isAdmin)) ? 1 : 0;
+
 $smarty = new Smarty_estagio;
 
 $smarty->assign("ordem",$ordem);
 $smarty->assign("logado",$logado);
 $smarty->assign("instituicoes",$instituicoes);
 $smarty->assign("professores",$professores);
-$smarty->assign("areas",$matriz_areas);
+$smarty->assign("areas", array());
 
 $smarty->assign("seleciona_turno",$seleciona_turno);
 $smarty->assign("seleciona_nivel",$seleciona_nivel);
 $smarty->assign("seleciona_instituicao",$seleciona_instituicao);
 $smarty->assign("seleciona_professor",$seleciona_professor);
-$smarty->assign("id_area",$id_area);
 $smarty->assign("seleciona_periodo",$seleciona_periodo);
+$smarty->assign("id_area", $area_id);
 
-// $smarty->assign("lista",$lista);
 $smarty->assign("lista",$estagiarios);
 
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->assign("nome_professor",$nome_professor);
-$smarty->assign("area_selecionada",$area_selecionada);
+$smarty->assign("area_selecionada", '');
 $smarty->assign("matriz_periodo",$matriz_periodo);
-$smarty->assign("periodo",$periodo);
+$smarty->assign("periodo",$seleciona_periodo);
 
 $smarty->assign("codigo_0",$codigo_0);
 $smarty->assign("codigo_1",$codigo_1);

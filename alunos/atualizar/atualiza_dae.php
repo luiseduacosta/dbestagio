@@ -1,7 +1,5 @@
 <?php
 
-// echo $_SERVER['PHP_SELF'] . "<br>";
-
 // include_once("../../autentica.inc");
 
 include_once("../../setup.php");
@@ -27,7 +25,7 @@ if ($debug == 1) {
 
 $submit = $_REQUEST['submit'];
 // Alunos
-$id_aluno        = $_REQUEST['id_aluno'];
+$aluno_id        = $_REQUEST['aluno_id'];
 $registro        = $_REQUEST['registro'];
 $nome            = $_REQUEST['nome'];
 $codigo_telefone = $_REQUEST['codigo_telefone'];

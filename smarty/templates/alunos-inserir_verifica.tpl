@@ -11,8 +11,8 @@
 <script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(function() {
-	$("#telefone").mask("9999.9999");
- 	$("#celular").mask("9999.9999");
+	$("#telefone").mask("(99)9999.9999");
+ 	$("#celular").mask("(99)99999.9999");
 	$("#cep").mask("99999-999");
 	$("#cpf").mask("999999999-99");	
 });
@@ -35,9 +35,7 @@ window.onload = function() {
 
 <body style="direction: ltr;">
 
-<!-- 
 <p>Cadastro: {$cadastro}</p>
--->
 
 <div align="center" id="formulario_insere_aluno" style="visibility: visible">
 
@@ -48,11 +46,6 @@ window.onload = function() {
 {/if}
 
 <table border="1">
-{if $cadastro == 1}
-    <caption>Atualizar aluno j&aacute; cadastrado</caption>
-{else}
-    <caption>Inserir aluno novo</caption>
-{/if}
 <tbody>
 
 <tr>
@@ -131,7 +124,7 @@ Bairro:
 <tr>
 <td colspan="2" class="coluna_centralizada">
 {if $cadastro == 1}
-    <input type="hidden" name="id_aluno" value={$id_aluno}>
+    <input type="hidden" name="aluno_id" value={$aluno_id}>
     <input type="hidden" name="origem" value={$origem}>
     <input type="hidden" name="valorcadastro" value={$cadastro}>
     <input type="submit" name="atualiza" value="Clique aqui para atualizar">

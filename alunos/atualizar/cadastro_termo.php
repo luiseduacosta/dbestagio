@@ -17,7 +17,7 @@ if ($debug == 1) {
 }
 
 // Alunos
-$id_aluno        = $_REQUEST['id_aluno'];
+$aluno_id        = $_REQUEST['aluno_id'];
 $registro        = $_REQUEST['registro'];
 $nome            = $_REQUEST['nome'];
 $codigo_telefone = $_REQUEST['codigo_telefone'];
@@ -93,7 +93,7 @@ while (!$resultado->EOF) {
 $smarty = new Smarty_estagio;
 $smarty->assign("origem",$origem);
 // Aluno
-$smarty->assign("id_aluno",$id_aluno);
+$smarty->assign("aluno_id",$aluno_id);
 $smarty->assign("registro",$registro);
 $smarty->assign("aluno_nome",$nome);
 $smarty->assign("codigo_telefone",$codigo_telefone);
