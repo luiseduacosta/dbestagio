@@ -23,10 +23,10 @@ if (empty($aluno_id) && !empty($registro)) {
 	}
 }
 
-$sql  = "SELECT alunos.id, alunos.registro, nome, ingresso, codigo_telefone, telefone, codigo_celular, celular, email, ";
-$sql .= " cpf, identidade, orgao, nascimento, endereco, cep, municipio, bairro, alunos.observacoes ";
-$sql .= " from alunos ";
-$sql .= " order by nome ";
+$sql  = "SELECT a.id, a.registro, a.nome, a.ingresso, a.codigo_telefone, a.telefone, a.codigo_celular, a.celular, a.email, ";
+$sql .= " a.cpf, a.identidade, a.orgao, a.nascimento, a.endereco, a.cep, a.municipio, a.bairro, a.observacoes ";
+$sql .= " from alunos a ";
+$sql .= " order by a.nome ";
 
 // Calculo a quantidade de registros
 $resultado_total = $db->Execute($sql);
@@ -214,7 +214,6 @@ while (!$resultado->EOF) {
 		$historico_estagio[$i]['nota']           = $nota;
 		$historico_estagio[$i]['ch']             = $ch;
 		$historico_estagio[$i]['instituicao_id'] = $instituicao_id;
-		$historico_estagio[$i]['id_instituicao']  = $instituicao_id;
 		$historico_estagio[$i]['instituicao']    = $instituicao;
 		$historico_estagio[$i]['supervisor_id']  = $supervisor_id;
 		$historico_estagio[$i]['supervisor']     = $supervisor_nome;

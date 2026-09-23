@@ -1,34 +1,26 @@
 <?php
 
-include_once("../../setup.php");
+include_once("../../autentica.inc");
 
-// Verifico se o usuario esta logado
-if (isset($_COOKIE['usuario_senha'])) {
-    $usuario = $_COOKIE['usuario_nome'];
-    if ($usuario) 
-	$logado = 1;
-}
-
-$sql  = "select alunos.id, alunos.registro, alunos.nome, estagiarios.nivel, estagiarios.supervisor_id as id_supervisor, estagiarios.instituicao_id as id_instituicao ";
-$sql .= "from alunos, estagiarios where alunos.id = estagiarios.aluno_id order by nome";
-// echo $sql . "<br>";
+$sql  = "select a.id, a.registro, a.nome, e.nivel, e.supervisor_id, e.instituicao_id ";
+$sql .= "from alunos left join estagiarios on e.aluno_id = a.id order by a.nome";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 $i = 1;
 while (!$resultado->EOF) {
-    $aluno_super[$i]['id_aluno']       = $resultado->fields['id'];
+    $aluno_super[$i]['aluno_id']       = $resultado->fields['id'];
     $aluno_super[$i]['registro']       = $resultado->fields['registro'];
-    $aluno_super[$i]['aluno']          = $resultado->fields['nome'];
-    $aluno_super[$i]['id_supervisor']  = $resultado->fields['id_supervisor'];
-    $aluno_super[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
+    $aluno_super[$i]['nome']           = $resultado->fields['nome'];
+    $aluno_super[$i]['supervisor_id']  = $resultado->fields['supervisor_id'];
+    $aluno_super[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
     
-    $id_supervisor = $resultado->fields['id_supervisor'];
+    $supervisor_id = $resultado->fields['supervisor_id'];
     $resultado->MoveNext();
 
-    if (empty($id_supervisor))
-        $id_supervisor = "0";
+    if (empty($supervisor_id))
+        $supervisor_id = "0";
 
-    $sql_supervisores = "select cress, nome from supervisores where id=$id_supervisor";
+    $sql_supervisores = "select cress, nome from supervisores where id=$supervisor_id";
     $resultado_supervisores = $db->Execute($sql_supervisores);
     if ($resultado_supervisores === false) die ("Não foi possível consultar a tabela supervisores");
     while (!$resultado_supervisores->EOF) {

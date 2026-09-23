@@ -61,7 +61,7 @@ if ($debug == 1)
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 while (!$resultado->EOF) {
-	// $id_aluno = $resultado->fields['id'];
+	$aluno_id = $resultado->fields['id'];
 	$registro = $resultado->fields['registro'];
 	$nome = $resultado->fields['nome'];
 	$codigo_telefone = $resultado->fields['codigo_telefone'];
@@ -109,7 +109,7 @@ $smarty->assign("endereco",$endereco);
 $smarty->assign("cep",$cep);
 $smarty->assign("bairro",$bairro);
 $smarty->assign("municipio",$municipio);
-// $smarty->assign("observacoes",$observacoes);
+$smarty->assign("observacoes",$observacoes);
 
 $smarty->display("alunos-cadastro_termo.tpl");
 

@@ -41,12 +41,12 @@ if ($cadastro == 0) {
 
     if ($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunos");
 
-    $res_ultimo = $db->Execute("select max(id) as ultimo_aluno from alunos");
+    $res_ultimo = $db->Execute("select max(id) as aluno_id from alunos");
     if ($res_ultimo === false) die ("Não foi possível consultar a sequencia alunos");
-    $ultimo_aluno = $res_ultimo->fields['ultimo_aluno'];
+    $aluno_id = $res_ultimo->fields['aluno_id'];
 
-    header("Location:../exibir/ver_cada.php?id_aluno=$ultimo_aluno");
-    // header("Location:acrescentar_estagio.php?id_aluno=$ultimo_aluno");
+    header("Location:../exibir/ver_cada.php?aluno_id=$aluno_id");
+    // header("Location:acrescentar_estagio.php?aluno_id=$aluno_id");
     exit;
 }
 

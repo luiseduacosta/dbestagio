@@ -16,14 +16,15 @@ $email    = $_POST['email'];
 $periodo        = $_POST['periodo'];
 $turno          = $_POST['turno'];
 $nivel          = $_POST['nivel'];
-$id_instituicao = $_POST['id_instituicao'];
-$id_supervisor  = $_POST['id_supervisor'];
+$instituicao_id = $_POST['instituicao_id'];
+$supervisor_id  = $_POST['supervisor_id'];
 
 // Pego esta informacao para fazer a tabela dos anteriores estagios
-$sql  = "SELECT estagiarios.id, estagiarios.periodo, estagiarios.nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor, instituicoes.instituicao ";
-$sql .= "FROM estagiarios, instituicoes ";
-$sql .= "WHERE estagiarios.instituicao_id = instituicoes.id AND estagiarios.aluno_id=$id_aluno ";
-$sql .= "ORDER BY estagiarios.periodo";
+$estagiarios = array();
+$sql  = "SELECT e.id, e.periodo, e.nivel, e.instituicao_id, e.supervisor_id, i.instituicao ";
+$sql .= "FROM estagiarios e, instituicoes i ";
+$sql .= "WHERE e.instituicao_id = i.id AND e.aluno_id = " . (int)$aluno_id . " ";
+$sql .= "ORDER BY e.periodo";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Nao foi possivel consultar as tabelas alunos, estagiarios, instituicoes");
 $i = 0;
@@ -31,20 +32,20 @@ while (!$resultado->EOF) {
     $estagiarios[$i]['id']             = $resultado->fields['id'];
     $estagiarios[$i]['periodo']        = $resultado->fields['periodo'];
     $estagiarios[$i]['nivel']          = $resultado->fields['nivel'];   
-    $estagiarios[$i]['turno']          = NULL; 
-    $estagiarios[$i]['id_instituicao'] = $resultado->fields['id_instituicao'];
-    $estagiarios[$i]['id_supervisor']  = $resultado->fields['id_supervisor'];
+    $estagiarios[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
+    $estagiarios[$i]['supervisor_id']  = $resultado->fields['supervisor_id'];
     $estagiarios[$i]['instituicao']    = $resultado->fields['instituicao'];
 
-    if (empty($id_supervisor))
-        $id_supervisor = "0";
+    $current_supervisor_id = $resultado->fields['supervisor_id'];
+    if (empty($current_supervisor_id))
+        $current_supervisor_id = "0";
 
-    $sql_supervisor  = "select supervisores.id, supervisores.cress, supervisores.nome, supervisores.email ";
-    $sql_supervisor .= "from supervisores ";
-    $sql_supervisor .= "where supervisores.id=$id_supervisor ";
-    $sql_supervisor .= "order by supervisores.nome";
+    $sql_supervisor  = "select s.id, s.cress, s.nome, s.email ";
+    $sql_supervisor .= "from supervisores s ";
+    $sql_supervisor .= "where s.id=$current_supervisor_id ";
+    $sql_supervisor .= "order by s.nome";
     $resultado_supervisor = $db->Execute($sql_supervisor);
-    while (!$resultado_supervisor->EOF) {
+    while ($resultado_supervisor && !$resultado_supervisor->EOF) {
         $estagiarios[$i]['supervisor_nome']  = $resultado_supervisor->fields['nome'];
         $estagiarios[$i]['supervisor_cress'] = $resultado_supervisor->fields['cress'];
         $estagiarios[$i]['supervisor_email'] = $resultado_supervisor->fields['email'];
@@ -55,7 +56,12 @@ while (!$resultado->EOF) {
 }
 
 // Capturo a informacao sobre os alunos
-$sql_alunos = "select id, registro, nome, telefone, celular, email from alunos where id='$id_aluno'";
+$aluno_registro = '';
+$aluno_nome = '';
+$aluno_telefone = '';
+$aluno_celular = '';
+$aluno_email = '';
+$sql_alunos = "select id, registro, nome, telefone, celular, email from alunos where id='$aluno_id'";
 $resultado_alunos = $db->Execute($sql_alunos);
 if ($resultado_alunos === false) die ("Nao foi possivel consultar a tabela alunos");
 while (!$resultado_alunos->EOF) {
@@ -75,7 +81,7 @@ $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
-    $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
+    $instituicoes[$i]['instituicao_id'] = $resultado->fields['id'];
     $instituicoes[$i]['instituicao']    = $resultado->fields['instituicao'];
     $resultado->MoveNext();
     $i++;
@@ -87,8 +93,8 @@ $resultado_supervisores = $db->Execute($sql_supervisores);
 if ($resultado_supervisores === false) die ("Nao foi possivel consultar a tabela supervisores");
 $i = 0;
 while (!$resultado_supervisores->EOF) {
-    $supervisores[$i]['id_supervisor'] = $resultado_supervisores->fields['id'];
-    $supervisores[$i]['supervisor'] = $resultado_supervisores->fields['nome'];
+    $supervisores[$i]['supervisor_id'] = $resultado_supervisores->fields['id'];
+    $supervisores[$i]['supervisor']    = $resultado_supervisores->fields['nome'];
     $resultado_supervisores->MoveNext();
     $i++;
 }
@@ -98,7 +104,7 @@ $smarty = new Smarty_estagio;
 // Tabela de estagios anteriores
 $smarty->assign("estagiarios",$estagiarios);
 // Tabela inserir novo estagio
-$smarty->assign("id_aluno",$id_aluno);
+$smarty->assign("aluno_id",$aluno_id);
 $smarty->assign("registro",$aluno_registro);
 $smarty->assign("aluno_nome",$aluno_nome);
 $smarty->assign("telefone",$aluno_telefone);
