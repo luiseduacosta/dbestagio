@@ -267,7 +267,7 @@ Registro: {$registro}
 <input type="hidden" name="sistema_autentica" id="sistema_autentica" value="{$sistema_autentica}">
 <input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">
-<input type="hidden" name="murealestagio_id" id="murealestagio_id" value="{$muralestagio_id}">
+<input type="hidden" name="muralestagio_id" id="muralestagio_id" value="{$muralestagio_id}">
 <input type="submit" name="submit" id="submit" value="Confirma">
 
 </form>

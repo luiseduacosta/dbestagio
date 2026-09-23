@@ -3,7 +3,6 @@
 $palavra = $_POST['instituicao'];
 $palavra = strtoupper($palavra);
 
-include_once("../../db.inc");
 include_once("../../setup.php");
 
 $sql = "select * from instituicoes where instituicao like '%$palavra%' order by instituicao";

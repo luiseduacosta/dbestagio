@@ -1,6 +1,6 @@
 <?php
 
-$id_supervisor = $_GET['id_supervisor'];
+$supervisor_id = $_GET['supervisor_id'];
 
 ?>
 <html>
@@ -13,7 +13,7 @@ $id_supervisor = $_GET['id_supervisor'];
 
 <div align="center">
 <form action="cancela.php" name="cancela" method="post">
-<input type="hidden" name="id_supervisor" value="<?php echo $id_supervisor; ?>">
+<input type="hidden" name="supervisor_id" value="<?php echo $supervisor_id; ?>">
 <input type="submit" name="submit" value="Confirme">
 </form>
 </div>

@@ -20,17 +20,16 @@ if ($resultado === false) die ("Não foi possível consultar a tabela instituico
 
 $i = 0;
 while (!$resultado->EOF) {
-	$matriz[$i]['id_instituicao'] = $resultado->fields['num_instituicao'];
+	$matriz[$i]['instituicao_id'] = $resultado->fields['num_instituicao'];
 	$matriz[$i]['instituicao']    = $resultado->fields['instituicao'];
-	$matriz[$i]['bolsa']          = $resultado->fields['bolsa'];
-	$matriz[$i]['turma'] = $resultado->fields['turma'];
+	$matriz[$i]['beneficio']      = $resultado->fields['bolsa'];
 
 	// Pego a area a partir do id da area
-	$id_area = $resultado->fields['area'];
-	if (empty($id_area)) {
+	$area_id = $resultado->fields['area'];
+	if (empty($area_id)) {
 	    $matriz[$i]['area'] = "sem/dados";
 	} else {
-	    $sql_area = "select area from areas where id=$id_area";
+	    $sql_area = "select area from areas where id=$area_id";
 	    $resultado_area = $db->Execute($sql_area);
 	    if ($resultado_area === false) die ("Não foi possível consultar a tabela areas");
 		$matriz[$i]['area'] = $resultado_area->fields['area'];
@@ -52,7 +51,7 @@ $sql_tabela_temporaria  = "create temporary table instituicoes_estagio ( ";
 if ($tipo === "mysql") {
 	$sql_tabela_temporaria .= "  `id` int(4) NOT NULL auto_increment, ";
 	$sql_tabela_temporaria .= "  `area` varchar(30) NOT NULL default '', ";
-	$sql_tabela_temporaria .= "  `id_instituicao` int(3) NOT NULL default 0, ";
+	$sql_tabela_temporaria .= "  `instituicao_id` int(3) NOT NULL default 0, ";
 	$sql_tabela_temporaria .= "  `instituicao` varchar(75) NOT NULL default '', ";
 	$sql_tabela_temporaria .= "  `beneficio` varchar(50) NOT NULL default '', ";
 	$sql_tabela_temporaria .= "  `fim_de_semana` char(1) NOT NULL default '', ";
@@ -63,7 +62,7 @@ if ($tipo === "mysql") {
 } elseif($tipo === "pgsql") {
 	$sql_tabela_temporaria .= "  id serial NOT NULL, ";
 	$sql_tabela_temporaria .= "  area varchar(30) NOT NULL default '', ";
-	$sql_tabela_temporaria .= "  id_instituicao integer NOT NULL default 0, ";
+	$sql_tabela_temporaria .= "  instituicao_id integer NOT NULL default 0, ";
 	$sql_tabela_temporaria .= "  instituicao varchar(75) NOT NULL default '', ";
 	$sql_tabela_temporaria .= "  beneficio varchar(50) NOT NULL default '', ";
 	$sql_tabela_temporaria .= "  fim_de_semana char(1) NOT NULL default '', ";
@@ -76,14 +75,13 @@ if ($resultado_temporaria === false) die ("Não foi possível criar a tabela tem
 
 for ($i=0;$i<sizeof($matriz);$i++) {
 	$area           = $matriz[$i]['area'];
-	$id_instituicao = $matriz[$i]['id_instituicao'];
+	$instituicao_id = $matriz[$i]['instituicao_id'];
 	$instituicao    = $matriz[$i]['instituicao'];
 	$beneficio      = $matriz[$i]['bolsa'];
-	$turma          = $matriz[$i]['turma'];
 	$q_supervisores = $matriz[$i]['q_supervisores'];
 
-	$insere  = "insert into instituicoes_estagio(area,id_instituicao,instituicao,beneficio,turma,q_supervisores) ";
-	$insere .= " values('$area','$id_instituicao','$instituicao','$beneficio','$turma','$q_supervisores')";
+	$insere  = "insert into instituicoes_estagio(area,instituicao_id,instituicao,beneficio,q_supervisores) ";
+	$insere .= " values('$area','$instituicao_id','$instituicao','$beneficio','$q_supervisores')";
 	$resultado_insere = $db->Execute($insere);
 	if ($resultado_insere === false) die ("Não foi possivel inserir dados na tabela temporaria");
 	// echo $insere . "<br>";
@@ -94,10 +92,9 @@ $resultado_ver_tabela_temporaria = $db->Execute($sql_ver_tabela_temporaria);
 if($resultado_ver_tabela_temporaria === false) die ("Não foi possível consultar a tabela temporaria instituicoes_estagio");
 $i=0;
 while(!$resultado_ver_tabela_temporaria->EOF) {
-	$tabela[$i]['id_instituicao'] = $resultado_ver_tabela_temporaria->fields['id_instituicao'];
+	$tabela[$i]['instituicao_id'] = $resultado_ver_tabela_temporaria->fields['instituicao_id'];
 	$tabela[$i]['instituicao']    = $resultado_ver_tabela_temporaria->fields['instituicao'];
 	$tabela[$i]['beneficio']      = $resultado_ver_tabela_temporaria->fields['beneficio'];
-	$tabela[$i]['turma']          = $resultado_ver_tabela_temporaria->fields['turma'];
 	$tabela[$i]['supervisores']   = $resultado_ver_tabela_temporaria->fields['q_supervisores'];
 	$tabela[$i]['area']           = $resultado_ver_tabela_temporaria->fields['area'];
 	$resultado_ver_tabela_temporaria->MoveNext();

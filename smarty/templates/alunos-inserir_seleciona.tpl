@@ -7,10 +7,10 @@
 <script language="Javascript" type="text/javascript">
 function seleciona() 
 {
-    var id_valor = document.seleciona_aluno.id_aluno.value;
+    var id_valor = document.seleciona_aluno.aluno_id.value;
     var id_valor = getElementById("id_aluno");
     /* alert("id_valor"); */
-    document.location.href="verifica.php?id_aluno=" + id_valor;
+    document.location.href="verifica.php?aluno_id=" + id_valor;
     return false;
 }
 </script>

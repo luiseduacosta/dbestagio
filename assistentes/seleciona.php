@@ -10,7 +10,7 @@ if ($resultado === false) die ("Não foi possível consultar a tabela supervisor
 
 $i = 0;
 while (!$resultado->EOF) {
-    $id_supervisor[$i] = $resultado->fields['id'];
+    $supervisor_id[$i] = $resultado->fields['id'];
     $nome[$i] = $resultado->fields['nome'];
     $resultado->MoveNext();
     $i++;
@@ -19,7 +19,7 @@ while (!$resultado->EOF) {
 $smarty = new Smarty_estagio;
 
 $smarty->assign("opcao",$opcao);
-$smarty->assign("id_supervisor",$id_supervisor);
+$smarty->assign("supervisor_id",$supervisor_id);
 $smarty->assign("nome",$nome);
 $smarty->display("supervisor_seleciona.tpl");
 

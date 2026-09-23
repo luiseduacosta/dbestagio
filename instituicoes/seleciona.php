@@ -18,7 +18,7 @@ if ($resultado === false) die ("Não foi possível consultar a tabela instituico
 
 $i = 0;
 while (!$resultado->EOF) {
-    $id_instituicao[$i]   = $resultado->fields['id'];
+    $instituicao_id[$i]   = $resultado->fields['id'];
     $nome_instituicao[$i] = $resultado->fields['instituicao'];
     $resultado->MoveNext();
     $i++;
@@ -26,7 +26,7 @@ while (!$resultado->EOF) {
 
 $smarty = new Smarty_estagio;
 $smarty->assign("opcao",$opcao);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->display("instituicao_seleciona.tpl");
 

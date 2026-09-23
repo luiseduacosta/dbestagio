@@ -2,8 +2,8 @@
 
 include_once("../../autentica.inc");
 
-$num_instituicao = isset($_POST['num_instituicao']) ? $_POST['num_instituicao'] : NULL;
-$id_supervisor  = isset($_POST['id_supervisor']) ? $_POST['id_supervisor'] : NULL;
+$instituicao_id = isset($_POST['instituicao_id']) ? $_POST['instituicao_id'] : NULL;
+$supervisor_id  = isset($_POST['supervisor_id']) ? $_POST['supervisor_id'] : NULL;
 
 $cress = $_POST['cress'];
 $regiao = $_POST['regiao'];
@@ -28,7 +28,7 @@ $ano_curso = $_POST['ano_curso'];
 // echo " Num. super " . $num_supervisor = $_REQUEST['num_supervisor'];
 
 // Se nao foi selecionado um supervisor ja existente entra nesta rotina
-if (empty($num_supervisor)) {
+if (empty($supervisor_id)) {
     echo "Inserindo supervisor<br>";
     $sql  = "insert into supervisores (nome, cpf, endereco, municipio, bairro, cep, cress, regiao, email, codigo_tel, telefone, codigo_cel, celular, escola, ano_formatura, outros_estudos, area_curso, ano_curso) "; 
     $sql .= " values ('$nome', '$cpf', '$endereco', '$municipio', '$bairro','$cep','$cress', '$regiao', '$email','$codigo_tel', '$telefone','$codigo_cel','$celular','$escola','$ano_formatura','$outros_estudos','$area_curso','$ano_curso')";
@@ -37,7 +37,7 @@ if (empty($num_supervisor)) {
     if ($resultado === false) die ("Não foi possível inserir o registro na tabela supervisores");
     // die;
     // Pego o numero de registro de ultimo supervisor ingressado
-    $id_supervisor = $db->Insert_ID();
+    $supervisor_id = $db->Insert_ID();
 	// echo $id_supervisor . "<br>";
     /*	
     $res_ultimo = $db->Execute("select insert_id() as ultimo_supervisor from supervisores");
@@ -54,33 +54,15 @@ if (empty($num_supervisor)) {
     echo "Atualizando supervisor <br>";
     $sql  = "update supervisores "; 
     $sql .= " set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', cress='$cress', regiao='$regiao', email='$email', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel', celular='$celular', escola='$escola', ano_formatura='$ano_formatura', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso'";
-    $sql .= " where id=$_POST[num_supervisor]";
+    $sql .= " where id=$_POST[supervisor_id]";
     // echo $sql . "<br>";
     $resultado = $db->Execute($sql);
     if ($resultado === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
-    $id_supervisor = $_POST['num_supervisor'];
+    $supervisor_id = $_POST['supervisor_id'];
 
 }
 
-// Registro das atividades de atualização e inserção na tabela de supervisores
-$arquivo = $_SERVER['PHP_SELF'];
-$ip = $_SERVER['REMOTE_ADDR'];
-$data = date('Y-m-d');
-
-$sql = "select id from log_supervisores where id_supervisor = '$id_supervisor'";
-// echo $sql . "<br>";
-$resultado = $db->Execute($sql);
-$quantidade = $resultado->RecordCount();
-if ($quantidade > 0) {
-    $sql_log = "update log_supervisores set cress='$cress', id_supervisor='$id_supervisor', nome='$nome', ip='$ip', data='$data', arquivo='$arquivo' where id_supervisor='$id_supervisor'"; 
-} else {
-    $sql_log = "insert into log_supervisores (cress, id_supervisor, nome, ip, data, arquivo) values ('$cress', '$id_supervisor', '$nome', '$ip', '$data', '$arquivo')";
-}
-// echo $sql_log . '<br>';
-$resultado_log = $db->Execute($sql_log);
-if ($resultado_log === false) die ("Não foi possível inserir/atualizar registro na tabela log_supervisores");    		  
-
-echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?id_supervisor=$id_supervisor'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?supervisor_id=$supervisor_id'>";
 
 exit;
 

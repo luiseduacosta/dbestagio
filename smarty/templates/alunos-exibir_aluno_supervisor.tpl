@@ -28,7 +28,7 @@
 {section name=elemento loop=$alunos_supervisor}
 <tr>
 <td>
-<a href="ver_cada.php?id_aluno={$alunos_supervisor[elemento].id_aluno}">{$alunos_supervisor[elemento].aluno}</a>
+<a href="ver_cada.php?aluno_id={$alunos_supervisor[elemento].aluno_id}">{$alunos_supervisor[elemento].aluno}</a>
 </td>
 <td>{$alunos_supervisor[elemento].cress}</td>
 <td>{$alunos_supervisor[elemento].supervisor}</td>

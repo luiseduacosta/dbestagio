@@ -97,7 +97,7 @@ $smarty->assign("bairro", $aluno_bairro);
 $smarty->assign("observacoes", $aluno_observacoes);
 
 $smarty->assign("instituicao", $instituicao);
-$smarty->assign("instituicao_id", $instituicao_id);
+$smarty->assign("muralestagio_id", $muralestagio_id);
 
 $smarty->display("../../mural/mural-alunos_modifica.tpl");
 

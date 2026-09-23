@@ -94,6 +94,7 @@ if ($resultado === false) die ("3 Não foi possível consultar a tabela mural_es
 $i = 0;
 while (!$resultado->EOF) {
 		$instituicao[$i]['muralestagio_id'] = $resultado->fields['id'];
+		$instituicao[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
 		$instituicao[$i]['instituicao'] = $resultado->fields['instituicao'];
 		$instituicao[$i]['convenio'] = $resultado->fields['convenio'];
 		$instituicao[$i]['vagas'] = $resultado->fields['vagas'];

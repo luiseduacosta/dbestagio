@@ -39,11 +39,11 @@
 	<div align="center">
 		{if $sistema_autentica == 1}
 		<span class="botao">
-			<a href="imprime_cartaz.php?id_instituicao={$id_instituicao}">Imprimir cartaz</a>
+			<a href="imprime_cartaz.php?id_instituicao={$muralestagio_id}">Imprimir cartaz</a>
 		</span>
 
 		<span class="botao">
-			<a href="http://200.20.112.2/estagio/mural/publica_google.php?id_instituicao={$id_instituicao}">Publicar no
+			<a href="http://200.20.112.2/estagio/mural/publica_google.php?id_instituicao={$muralestagio_id}">Publicar no
 				Google</a>
 		</span>
 
@@ -52,11 +52,11 @@
 		{* Se o email nao foi envidado *}
 		{if $data_fax == 0}
 		<span class="botao">
-			<a href="agenda_tarefa.php?id_instituicao={$id_instituicao}">Enviar e-mail</a>
+			<a href="agenda_tarefa.php?id_instituicao={$muralestagio_id}">Enviar e-mail</a>
 		</span>
 		{else}
 		<span class="botao">
-			<a href="agenda_tarefa.php?id_instituicao={$id_instituicao}">E-mail enviado</a>
+			<a href="agenda_tarefa.php?id_instituicao={$muralestagio_id}">E-mail enviado</a>
 		</span>
 		{/if}
 		{/if}
@@ -94,7 +94,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="primeiro">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="Primeiro">
 						</form>
@@ -104,7 +104,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="menos_10">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="mun_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="mun_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="- 10">
 						</form>
@@ -114,7 +114,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="menos_1">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="- 1">
 						</form>
@@ -124,7 +124,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="mais_1">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="+ 1">
 						</form>
@@ -134,7 +134,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="mais_10">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="+ 10">
 						</form>
@@ -144,7 +144,7 @@
 						<form name="cabacalho" action="#" method="post">
 							<input type="hidden" name="botao" value="ultimo">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$id_instituicao}">
+							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
 							<input type="hidden" name="id_instituicao" value="">
 							<input type="submit" name="submit" value="Último">
 						</form>
@@ -172,11 +172,11 @@
 
 				<tr>
 					<td width="30%">Instituição</td>
-					{if $instituicao[item].id_estagio == 0}
+					{if $instituicao[item].instituicao_id == 0}
 					<td>{$instituicao[item].instituicao}</td>
 					{else}
 					<td><a
-							href="../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicao[item].id_estagio}">{$instituicao[item].instituicao}</a>
+							href="../instituicoes/exibir/ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
 					</td>
 					{/if}
 				</tr>
@@ -292,10 +292,10 @@
 					<td colspan="2" class="coluna_centralizada">
 						{if $sistema_autentica == 1}
 						<span class="botao">
-							{if $id_instituicao == ""}
-							<a href="mural-modifica.php?id_instituicao={$instituicao[item].id_instituicao}">Editar</a>
+							{if $muralestagio_id == ""}
+							<a href="mural-modifica.php?id_instituicao={$instituicao[item].muralestagio_id}">Editar</a>
 							{else}
-							<a href="mural-modifica.php?id_instituicao={$id_instituicao}">Editar</a>
+							<a href="mural-modifica.php?id_instituicao={$muralestagio_id}">Editar</a>
 							{/if}
 						</span>
 						{/if}
@@ -304,13 +304,13 @@
 						*}
 						{if $sistema_autentica == 1}
 						<span class="botao">
-							{if $id_instituicao == ""}
+							{if $muralestagio_id == ""}
 							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">Inscrição
+								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$instituicao[item].muralestagio_id}">Inscrição
 								para seleção</a>
 							{else}
 							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$id_instituicao}">Inscrição
+								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$muralestagio_id}">Inscrição
 								para seleção</a>
 							{/if}
 						</span>
@@ -322,7 +322,7 @@
 						{else}
 						{if $data_hoje <= $data_inscricao} <span class="botao">
 							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&id_instituicao={$instituicao[item].id_instituicao}">Inscrição
+								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$instituicao[item].muralestagio_id}">Inscrição
 								para seleção</a>
 							</span>
 							{/if}

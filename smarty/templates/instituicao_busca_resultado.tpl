@@ -14,7 +14,7 @@
 
 {section name=elemento loop=$instituicao}
 <tr>
-<td><a href="../exibir/ver_cada.php?id_instituicao={$instituicao[elemento].id}">{$instituicao[elemento].instituicao}</a></td>
+<td><a href="../exibir/ver_cada.php?instituicao_id={$instituicao[elemento].id}">{$instituicao[elemento].instituicao}</a></td>
 </tr>
 {/section}
 

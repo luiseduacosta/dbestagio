@@ -10,7 +10,7 @@ $ultimo_periodo = $res_ultimo_periodo->fields['ultimo_periodo'];
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
 $turma = isset($_GET['turma']) ? $_GET['turma'] : $ultimo_periodo;
 $instituicao = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
-$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
+$area_id = isset($_REQUEST['area_id']) ? $_REQUEST['area_id'] : NULL;
 $natureza = isset($_GET['natureza']) ? $_GET['natureza'] : NULL;
 // echo "Natureza " . $natureza . "<br>";
 
@@ -85,20 +85,20 @@ if ($resultado == false) die ("Não foi possível consultar a tabela instituicoe
 
 $i = 0;
 while (!$resultado->EOF) {
-  	$id_instituicao   = $resultado->fields['id'];
-  	$nome_instituicao = $resultado->fields['instituicao'];
-  	$id_area          = $resultado->fields['id_area'];
-  	$natureza_inst    = $resultado->fields['natureza'];
+  	$instituicao_id   = $resultado->fields['id'];
+  	$instituicao_nome = $resultado->fields['instituicao'];
+  	$area_id          = $resultado->fields['id_area'];
+  	$natureza         = $resultado->fields['natureza'];
   	$area             = $resultado->fields['area'];
 	$beneficio        = $resultado->fields['beneficio'];
   	$convenio         = $resultado->fields['convenio'];
 	$seguro           = $resultado->fields['seguro'];
-	$id_supervisor	  = $resultado->fields['id_supervisor'];
+	$supervisor_id	  = $resultado->fields['id_supervisor'];
 
   	$resultado->MoveNext();
 
 	// Quantidade de supervisores por periodo e instituicao
-	$sql_supervi  = "select supervisor_id from estagiarios where instituicao_id='$id_instituicao' ";
+	$sql_supervi  = "select supervisor_id from estagiarios where instituicao_id='$instituicao_id' ";
 	if ($turma)$sql_supervi .= " and periodo = '$turma' ";
 	$sql_supervi .= " group by supervisor_id";
 	// echo $sql_supervi . "<br>";
@@ -110,7 +110,7 @@ while (!$resultado->EOF) {
 	// echo " Super " . $id_supervisor . " quantidade: " . $q_supervi .  " acumulado: " . $total_supervi . "<br>";
 
     // Pego a ultima turma de cada instituicao
-    $sql_max_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$id_instituicao";
+    $sql_max_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$instituicao_id";
 	// echo $sql_max_turma . "<br>";
     $resultado_turma = $db->Execute($sql_max_turma);
     if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
@@ -123,7 +123,7 @@ while (!$resultado->EOF) {
 	}
 
 	// Quantidade de alunos por periodos
-	$sql_alunos = "select count(registro) as q_alunos from estagiarios where instituicao_id='$id_instituicao'";
+	$sql_alunos = "select count(registro) as q_alunos from estagiarios where instituicao_id='$instituicao_id'";
 	if ($turma) $sql_alunos .= " and periodo='$turma' ";
 	$sql_alunos .= " group by registro ";
 	// echo $sql_alunos . "<br>";
@@ -141,10 +141,10 @@ while (!$resultado->EOF) {
 	// echo "Todos periodos: " . $todos_periodos . "<br>";
 
 	// Pego o mural da instituicao (por enquanto nao tem utilidade)
-	$sql_mural = "select id, periodo from mural_estagio where id_estagio=$id_instituicao";
+	$sql_mural = "select id, periodo from mural_estagios where instituicao_id=$instituicao_id";
 	// echo $sql_mural . "<br>";
 	$resultado_mural = $db->Execute($sql_mural);
-    if ($resultado_mural === false) die ("Não foi possível consultar a tabela mural_estagio");
+    if ($resultado_mural === false) die ("Não foi possível consultar a tabela mural_estagios");
 
 	while (!$resultado_mural->EOF) {
 		$id_mural = $resultado_mural->fields['id'];
@@ -158,15 +158,15 @@ while (!$resultado->EOF) {
     	$indice = $ordem;
 
   	$matriz[$i][$ordem] = $$indice;
-  	$matriz[$i]['id_instituicao'] = $id_instituicao;
-  	$matriz[$i]['instituicao']    = $nome_instituicao;
+  	$matriz[$i]['instituicao_id'] = $instituicao_id;
+  	$matriz[$i]['instituicao']    = $instituicao_nome;
   	$matriz[$i]['supervisores']   = $q_supervi;
   	$matriz[$i]['turma']          = $turma_estagiarios;
   	$matriz[$i]['alunos']         = $j;
 	$matriz[$i]['periodos']       = $total_periodos;
-  	$matriz[$i]['id_area']        = $id_area;
+  	$matriz[$i]['area_id']        = $area_id;
   	$matriz[$i]['area']           = $area;
-	$matriz[$i]['natureza']       = $natureza_inst;
+	$matriz[$i]['natureza']       = $natureza;
   	$matriz[$i]['convenio']       = $convenio;
  	$matriz[$i]['seguro']         = $seguro;
   	$matriz[$i]['beneficio']      = $beneficio;
@@ -177,15 +177,6 @@ if (!empty($matriz)) {
 	reset($matriz);
 	sort($matriz);
 }
-
-/* Debugg
-for($i=0;$i<sizeof($matriz);$i++) {
-
- print $matriz[$i]['id'] . " ";
- print $matriz[$i]['nome'] . " ";
- print $matriz[$i]['instituicao'] . "<br>";
-}
-*/
 
 // Pego a informacao sobre as turma de alunos
 $sql_turma = "select id, periodo from estagiarios group by periodo";
@@ -221,8 +212,6 @@ $smarty->assign("total_supervisores",$total_supervi);
 $smarty->assign("total_alunos",$todos_alunos);
 $smarty->assign("total_periodos",$todos_periodos);
 $smarty->display("instituicoes.tpl");
-
-$db->Close();
 
 exit;
 

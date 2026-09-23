@@ -1,13 +1,6 @@
 <?php
 
-include_once("../../setup.php");
-
-// Verifico se o usuario esta logado
-if (isset($_COOKIE['usuario_senha'])) {
-    $usuario = $_COOKIE['usuario_nome'];
-    if ($usuario) 
-	$logado = 1;
-}
+include_once("../../autentica.inc");
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : 'nome';
 
@@ -16,7 +9,7 @@ $resultado_turma = $db->Execute($sql_turma);
 if ($resultado_turma === false) die ("Não foi possível consultar a tabela estagiarios");
 $turma = $resultado_turma->fields['turma'];
 
-$sql  = "select supervisores.id as supervisor_id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.celular, supervisores.telefone, instituicoes.id as estagio_id, instituicoes.instituicao ";
+$sql  = "select supervisores.id as supervisor_id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.celular, supervisores.telefone, instituicoes.id as instituicao_id, instituicoes.instituicao ";
 $sql .= " from estagiarios ";
 $sql .= " inner join supervisores on estagiarios.supervisor_id = supervisores.id ";
 $sql .= " inner join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
@@ -28,8 +21,8 @@ $resultado = $db->Execute($sql);
 if ($resultado == false) die ("Não foi possível consultar as tabelas");
 while (!$resultado->EOF) {
 
-	$matriz[$i]['id_instituicao'] = $resultado->fields['estagio_id'];
-	$matriz[$i]['id_supervisor']  = $resultado->fields['supervisor_id'];
+	$matriz[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
+	$matriz[$i]['supervisor_id']  = $resultado->fields['supervisor_id'];
 	$matriz[$i]['nome']           = $resultado->fields['nome'];
 	$matriz[$i]['email']          = $resultado->fields['email'];
 	$matriz[$i]['telefone']       = $resultado->fields['telefone'];
@@ -38,8 +31,8 @@ while (!$resultado->EOF) {
 	$matriz[$i]['cress']          = $resultado->fields['cress'];
 	
 	// Pego a informacao sobre turma de alunos
-	$id_supervisor = $resultado->fields['supervisor_id'];
-	$sqlturma = "select id, max(periodo) as turma from estagiarios where supervisor_id = $id_supervisor group by supervisor_id";
+	$supervisor_id = $resultado->fields['supervisor_id'];
+	$sqlturma = "select id, max(periodo) as turma from estagiarios where supervisor_id = $supervisor_id group by supervisor_id";
 	// echo $sqlturma . "<br>";
 	$res_turma = $db->Execute($sqlturma);
 	if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
@@ -47,7 +40,7 @@ while (!$resultado->EOF) {
 	$matriz[$i]['turma'] = $turma;
 
 	// Calculo a quantidade de periodos que o supervisor trabalha com alunos
-	$sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$id_supervisor";
+	$sql_periodos = "select count(distinct periodo) as q_periodos from estagiarios where supervisor_id=$supervisor_id";
 	// echo $sql_periodos . "<br>";	
 	$res_periodos = $db->Execute($sql_periodos);
 	if ($res_periodos === false) die ("Não foi possivel consultar a tabela estagiarios");

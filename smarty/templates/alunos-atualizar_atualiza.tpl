@@ -78,7 +78,7 @@ Modifica dados do aluno
 <table border="1" width="80%">
 <caption>Aluna(o): {$aluno_nome} DRE: {$registro}</caption>
 <!--
-<a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
+<a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 //-->
 <tbody>
 
@@ -259,10 +259,10 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Instituição:</td>
 <td>
-<select id="id_instituicao" name="id_instituicao" size="1">
+<select id="instituicao_id" name="instituicao_id" size="1">
 <option value="0">Selecione instituição</option>
 {section name=elemento loop=$instituicoes}
-<option value="{$instituicoes[elemento].id_instituicao}">
+<option value="{$instituicoes[elemento].instituicao_id}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
 {/section}
 </select>
@@ -272,7 +272,7 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Supervisor: </td>
 <td>
-<select id='id_supervisor' name='id_supervisor' size=1>
+<select id='supervisor_id' name='supervisor_id' size=1>
 <option id ='opcoes' value='0'>Selecione supervisor</option>
 </select>
 </td>
@@ -281,7 +281,7 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Supervisor:</td>
 <td>
-<select name="id_supervisor" size="1">
+<select name="supervisor_id" size="1">
 <option value="0">Selecione supervisor</option>
 {section name=elemento loop=$supervisores}
 <option value="{$supervisores[elemento].supervisor_id}">
@@ -295,7 +295,7 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Professor:</td>
 <td>
-<select name="id_professor" size="1">
+<select name="professor_id" size="1">
 <option value="0">Selecione professor</option>
 {section name=elemento loop=$professores}
 <option value="{$professores[elemento].professor_id}">
@@ -313,7 +313,7 @@ Carga horária (inteiro): <input type="text" name="ch" id="ch" size="5" maxlengt
 </td>
 </tr>
 
-<input type="hidden" name="id_aluno" id="aluno_id" value="{$aluno_id}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="origem" id="origem" value="{$origem}">
 <input type="hidden" name="nome" id="nome" value="{$aluno_nome}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">

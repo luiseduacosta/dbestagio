@@ -2,11 +2,11 @@
 
 include_once("../../autentica.inc");
 
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : NULL;
 $indice = isset($_REQUEST['indice']) ? $_REQUEST['indice'] : NULL;
 
 // Nao excluir se supervisionou alunos
-$sql = "select id from estagiarios where supervisor_id=$id_supervisor";
+$sql = "select id from estagiarios where supervisor_id=$supervisor_id";
 // echo $sql . "<br>";
 // die();
 $resultado = $db->Execute($sql);
@@ -14,12 +14,12 @@ $quantidade = $resultado->RecordCount();
 // echo $quantidade . "<br>";
 // die();
 if ($quantidade != 0) {
-	echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+	echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
 	die ("Não é possível excluir o supervisor porque orientou $quantidade alunos");
 }
 
 // Nao excluir se realizou o curso para supervisores
-$sql_cress = "select cress from supervisores where id=$id_supervisor";
+$sql_cress = "select cress from supervisores where id=$supervisor_id";
 // echo $sql_cress . "<br>";
 // die();
 $resultado_cress = $db->Execute($sql_cress);
@@ -39,24 +39,24 @@ if (ctype_digit($cress)) {
 		// die();
 		if (isset($id_curso)) {
 			// echo "Id curso: " . $id_curso . "<br>";
-			// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+			// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
 			// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
 		}
 		if ($cress != 0) {
-			echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?id_supervisor=$id_supervisor' />";
+			echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
 			die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
 		}
 	}
 }
 
-$sql = "delete from supervisores where id=$id_supervisor";
+$sql = "delete from supervisores where id=$supervisor_id";
 // echo $sql. "<br>";
 // die;
 $resultado = $db->Execute($sql);
 if ($resultado == false) die ("Não foi possível cancelar o registro da tabela supervisores");
 
 // Obtengo as instituicoes na que trabalha o supervisor
-$sql_estagio = "select * from inst_super where supervisor_id=$id_supervisor";
+$sql_estagio = "select * from inst_super where supervisor_id=$supervisor_id";
 $res_estagio = $db->Execute($sql_estagio);
 if ($res_estagio === false) die ("Não foi possível consultar a tabela inst_super");
 $q_inst_super = $res_estagio->RecordCount();
@@ -83,7 +83,7 @@ for ($i=0; $i<$q_instituicoes; $i++) {
 }
 
 // Excluo tambem a relacao entre o supervisor e a instituicao
-$sql_inst_super = "delete from inst_super where supervisor_id=$id_supervisor";
+$sql_inst_super = "delete from inst_super where supervisor_id=$supervisor_id";
 $res_inst_super = $db->Execute($sql_inst_super);
 if ($res_inst_super === false) die ("Não foi possível cancelar o registro da tabela inst_super");
 

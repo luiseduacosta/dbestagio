@@ -332,14 +332,14 @@
             <option value={$seleciona_instituicao}>{$nome_instituicao|truncate:30}</option>
 	    //-->
 								{section name=elemento loop=$instituicoes}
-								<option value="{$instituicoes[elemento].id_instituicao}">
+								<option value="{$instituicoes[elemento].instituicao_id}">
 									{$instituicoes[elemento].instituicao|truncate:30}</option>
 								{/section}
 								{else}
 								<option value='0'>Instituições</option>
 								<option value={$seleciona_instituicao} selected>{$nome_instituicao|truncate:30}</option>
 								{section name=elemento loop=$instituicoes}
-								<option value="{$instituicoes[elemento].id_instituicao}">
+								<option value="{$instituicoes[elemento].instituicao_id}">
 									{$instituicoes[elemento].instituicao|truncate:30}</option>
 								{/section}
 								{/if}
@@ -355,14 +355,14 @@
             <option value={$seleciona_professor}>{$nome_professor|truncate:30}</option>
 	    //-->
 								{section name=elemento loop=$professores}
-								<option value="{$professores[elemento].id_professor}">
+								<option value="{$professores[elemento].professor_id}">
 									{$professores[elemento].nome|truncate:30}</option>
 								{/section}
 								{else}
 								<option value='0'>Professores</option>
 								<option value={$seleciona_professor} selected>{$nome_professor|truncate:30}</option>
 								{section name=elemento loop=$professores}
-								<option value="{$professores[elemento].id_professor}">
+								<option value="{$professores[elemento].professor_id}">
 									{$professores[elemento].nome|truncate:30}</option>
 								{/section}
 								{/if}
