@@ -19,7 +19,7 @@ if(empty($usuario_digitado) or (empty($senha_digitada))) {
 		$db_senha   = $resultado->fields["senha"];
 		$resultado->MoveNext();
     }
-    $usuario_senha_passw = crypt(chop($db_senha),post);
+    $usuario_senha_passw = crypt(chop($db_senha), 'post');
     $usuario_senha_passw = substr($usuario_senha_passw,4);
     // echo "Senha digitada= " . $senha_digitada . " Dbase senha= ". $db_senha . "<br>";
     // Si a senha digitada conicide com a senha da tabela envio o cookie
