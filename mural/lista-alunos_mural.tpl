@@ -82,7 +82,7 @@ $("#link").toggle(function() {
 <td style="text-align:center;">{$alunos[i].turno}</td>
 <td style="text-align:center;">{$alunos[i].nivel}</td>
 <td style="text-align:center;">{$alunos[i].registro}</td>
-<td><a href="ver-aluno.php?id_aluno={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>
+<td><a href="ver-aluno.php?registro={$alunos[i].registro}&aluno={$alunos[i].aluno}">{$alunos[i].nome}</a></td>
 <td style="text-align:center;">{$alunos[i].quantidade}</td>
 <td style="text-align:center;">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 
@@ -95,7 +95,7 @@ $("#link").toggle(function() {
 
 {* Omito os dados de cpf, identidade e data de nascimento se nao esta cadastrado *}
 {if $sistema_autentica == 1}
-	<td style="text-align:center;"><a href="mural-excluir_aluno.php?id_aluno={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
+	<td style="text-align:center;"><a href="mural-excluir_aluno.php?aluno_id={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
 {/if}
 
 </tr>

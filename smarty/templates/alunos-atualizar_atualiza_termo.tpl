@@ -14,13 +14,13 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#id_estagio").change(function() {
+	$("#instituicao_id").change(function() {
 	/* alert("resposta"); */
-	$("#id_supervisor").html("<option value='sda'>Procurando :::::::</option>");
+	$("#supervisor_id").html("<option value='sda'>Procurando :::::::</option>");
 	$.post('exibir_super.php',
-	{ id_estagio : $(this).val() },
+	{ instituicao_id : $(this).val() },
 	function(resposta){
-		$("select[@name=id_supervisor]").html(resposta);
+		$("select[@name=supervisor_id]").html(resposta);
 		}
 		);
 	});
@@ -31,8 +31,8 @@ $(document).ready(function() {
 <script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(function() {
-	$("#telefone").mask("9999.9999");
- 	$("#celular").mask("9999.9999");
+	$("#telefone").mask("(99)9999.9999");
+ 	$("#celular").mask("(99)99999.9999");
 	$("#cep").mask("99999-999");
 	$("#cpf").mask("999999999-99");	
 });
@@ -261,17 +261,16 @@ Modifica dados do aluno
 {* Aluno novo *}
 {if $aluno eq 0}
 	<h1>Aluno novo</h1>
-{* Aluno com estagio cadastrado no periodo atual * }
+{* Aluno com estagio cadastrado no periodo atual *}
 {elseif $aluno eq 1}
 	<h1>Atualizando cadastro do aluno estagiário: nivel {$nivel_romano}</h1>
-{* Aluno sem estagio cadastrado no periodo atual * }
+{* Aluno sem estagio cadastrado no periodo atual *}
 {elseif $aluno eq 2}
 	<h1>Cadastrando aluno estagiário: nivel {$nivel_romano}</h1>
 {/if}
 
 <form action="atualiza_termo.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
-<!--
 <table width='90%' border='0' summary='Tabela'>
 <caption>Solicitação de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>
 <tbody>
@@ -351,8 +350,6 @@ Município:
 </tbody>
 </table>
 
-//-->
-
 <table border='1' summary='Tabela'>
 <tbody>
 
@@ -373,26 +370,25 @@ Município:
 <tr>
 <td>Instituição</td>
 <td>
-<select id='id_estagio' name='id_estagio' size=1>
-{if $id_instituicao eq ""}
+<select id='instituicao_id' name='instituicao_id' size=1>
+{if $instituicao_id eq ""}
 <option value=0>Selecione instituição
 {else}
-<option value={$id_instituicao}>{$instituicao}
+<option value={$instituicao_id}>{$instituicao}
 {/if}
 {section name=i loop=$instituicoes}
-<option value={$instituicoes[i].id}>{$instituicoes[i].instituicao}
+<option value={$instituicoes[i].instituicao_id}>{$instituicoes[i].instituicao}
 {/section}
 </select>
 </td>
 </tr>
 
-
 {if $supervisor}
 	<tr>
 	<td>Supervisor</td>
 	<td>
-	<select id='id_supervisor' name='id_supervisor' size=1>
-	<option id ='opcoes' value='{$id_supervisor}'>{$supervisor}</option>
+	<select id='supervisor_id' name='supervisor_id' size=1>
+	<option id ='opcoes' value='{$supervisor_id}'>{$supervisor}</option>
 	</select>
 	</td>
 	</tr>
@@ -407,10 +403,10 @@ Município:
 	<tr>
 	<td>Supervisor</td>
 	<td>
-	<select id='id_supervisor' name='id_supervisor' size=1>
+	<select id='supervisor_id' name='supervisor_id' size=1>
 	<option value='0'>Selecione supervisor</option>
 	{section name=i loop=$supervisores}
-	<option id ='opcoes' value='{$supervisores[i].id_supervisor}'>{$supervisores[i].nome}</option>
+	<option id ='opcoes' value='{$supervisores[i].supervisor_id}'>{$supervisores[i].nome}</option>
 	{/section}
 	</select>
 	</td>
@@ -421,7 +417,7 @@ Município:
 <td colspan="2" style="text-align: center">
 <input type="hidden" name="acao" value="1">
 <input type="hidden" name="aluno" value="{$aluno}">
-<input type="hidden" name="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="registro" value="{$registro}">
 <input type="hidden" name="nivel" value="{$nivel}">
 <input type="hidden" name="id_instituicao_periodo_atual" value="{$id_instituicao_atual}">

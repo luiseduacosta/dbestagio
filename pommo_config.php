@@ -6,17 +6,18 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
  
+require_once __DIR__ . '/vendor/autoload.php';
 
 // Banco de dados
-define("ADODB", __DIR__ . "/lib/adodb5/");
-require(ADODB.'adodb.inc.php');
+define("ADODB", __DIR__ . "/vendor/adodb/adodb-php/");
+
 
 /* */
 $tipo       = "mysqli";
-$host       = "200.20.112.2";
-$usuario    = "ess";
-$senha = "";
-$bancodados = "pommo";
+$host       = "localhost";
+$usuario    = "root";
+$senha      = "root";
+$bancodados = "ess_apps";
 /* */
 
 $db_pommo = NewADOConnection($tipo);

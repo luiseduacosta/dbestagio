@@ -1,41 +1,34 @@
 <?php
 
-// echo "ver_cada.php" . " " . "<br>";
-include_once("../../setup.php");
-// include_once("../../autentica.inc");
+include_once("../../autentica.inc");
 
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
+$supervisor_id  = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : (isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL);
 $modifica = isset($_REQUEST['modifica']) ? $_REQUEST['modifica'] : NULL;
 $flag = isset($_REQUEST['flag']) ? $_REQUEST['flag'] : NULL;
 $inserir = isset($_REQUEST['inserir']) ? $_REQUEST['inserir'] : NULL;
-$curso = isset($_REQUEST['curso']) ? $_REQUEST['curso'] : NULL;
 
 $indice = $_REQUEST['indice'];
 $submit = $_REQUEST['submit'];
 $botao  = $_REQUEST['botao'];
 
-if ($curso) {
-	$tabela_instituicao  = 'curso_inscricao_instituicao';
-	$tabela_supervisores = 'curso_inscricao_supervisor';
-	$tabela_inst_super   = 'curso_inst_super';
-	$tabela_area_estagio = 'areas_estagio';
-	$tabela_estagiarios  = 'estagiarios';
-	$tabela_professores  = 'professores';
-} else {
-	$tabela_instituicao  = 'estagio';      // curso_inscricao_instituicao
-	$tabela_supervisores = 'supervisores'; // curso_inscricao_supervisor
-	$tabela_inst_super   = 'inst_super';   // curso_inst_super
-	$tabela_area_estagio = 'areas_estagio';
-	$tabela_estagiarios  = 'estagiarios';
-	$tabela_professores  = 'professores';
-}
+$tabela_instituicao  = 'instituicoes';
+$tabela_supervisores = 'supervisores';
+$tabela_inst_super   = 'inst_super';
+$tabela_area_estagio = 'areas';
+$tabela_estagiarios  = 'estagiarios';
+$tabela_professores  = 'professores';
+
+// Colunas equivalentes no banco novo: estagio virou instituicoes e a inst_super trocou os nomes das FKs
+$campo_beneficio    = 'beneficios';
+$col_is_supervisor  = 'supervisor_id';
+$col_is_instituicao = 'instituicao_id';
 
 // Insere uma instituicao em branco e logo passo para atualizar essa instituição
 if ($inserir) {
 	$sql_insert = "insert into $tabela_instituicao (instituicao) values('')";
 	$res_insert = $db->Execute($sql_insert);
-	$id_instituicao = $db->Insert_ID();
+	$instituicao_id = $db->Insert_ID();
 	$modifica = "inserir"; // Para poder atualizar
 	$flash = "Registro criado. Preencher o formulário com os dados e logo cliquar em 'Modificar instituicao'.";
 }
@@ -51,7 +44,7 @@ if ($modifica) {
 	// Pego as áreas das instituições para ser enviadas para o formulário
 	$sql_areas = "select id, area from $tabela_area_estagio order by area";
 	$res_areas = $db->Execute($sql_areas);
-	if ($res_areas === false) die ("Não foi possível consultar a tabela areas_estagio");
+	if ($res_areas === false) die ("Não foi possível consultar a tabela areas");
 	$i = 0;
 	while (!$res_areas->EOF) {
 	    $matriz_areas[$i]["id_area"] = $res_areas->fields['id'];
@@ -82,23 +75,24 @@ if ($modifica) {
 		$beneficio_instituicao = $_POST['beneficios'];
 		$fim_de_semana         = $_POST['fim_de_semana'];
 		$convenio              = $_POST['convenio'];
-		$seguro		       = $_POST['seguro'];
+		$seguro		           = $_POST['seguro'];
 		$observacoes	       = $_POST['observacoes'];
 
 		if ($nome_instituicao) {
-			$sql_atualiza  = "update $tabela_instituicao set area='$area_instituicao', natureza='$natureza_instituicao', instituicao='$nome_instituicao', url='$url_instituicao', endereco='$endereco_instituicao', bairro='$bairro_instituicao', municipio='$municipio_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', fax='$fax_instituicao', beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro', observacoes='$observacoes' ";
+			$campo_fax_update = $curso ? "fax='$fax_instituicao', " : "";
+			$sql_atualiza  = "update $tabela_instituicao set area='$area_instituicao', natureza='$natureza_instituicao', instituicao='$nome_instituicao', url='$url_instituicao', endereco='$endereco_instituicao', bairro='$bairro_instituicao', municipio='$municipio_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', " . $campo_fax_update . "$campo_beneficio='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro', observacoes='$observacoes' ";
 			// Campos especificos dos supervisores de estagio
 			if (!$curso) $sql_atualiza .= ", convenio='$convenio' ";
-			$sql_atualiza .= " where id='$id_instituicao'";
+			$sql_atualiza .= " where id='$instituicao_id'";
 			// echo $sql_atualiza . "<br>";
 			// die();
 			$res_atualiza = $db->Execute($sql_atualiza);
-			if ($res_atualiza === false) die ("Não foi possível atualizar a tabela estagio");
+			if ($res_atualiza === false) die ("Não foi possível atualizar a tabela $tabela_instituicao");
 
 			$flag = NULL;
 			unset($modifica);
 		} else {
-			die("<p>Error: Faltou inserir nome da instituição. Registro será excluído. <meta http-equiv='refresh' content='2;url=../cancelar/cancela.php?id_instituicao=$id_instituicao'></p>");
+			die("<p>Error: Faltou inserir nome da instituição. Registro será excluído. <meta http-equiv='refresh' content='2;url=../cancelar/cancela.php?instituicao_id=$instituicao_id'></p>");
 		}
 	}
 
@@ -107,7 +101,7 @@ if ($modifica) {
 /*
 echo "curso: " . $curso . "<br>";
 */
-// echo "<p> id_instituicao: " . $id_instituicao . "</p>";
+// echo "<p> instituicao_id: " . $instituicao_id . "</p>";
 /*
 echo " Indice: " . $indice . "<br>";
 echo " Submit: " . $submit . "<br>";
@@ -117,7 +111,7 @@ echo " Botao: " . $botao . "<br>";
 // Conto a quantidade de registros
 $sql = "select id from $tabela_instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela $tabela_instituicao");
 $num_linhas = $resultado->RecordCount();
 
 $ultimo_registro = $num_linhas - 1;
@@ -161,17 +155,17 @@ switch($botao)
 	break;
 
     case "excluir":
-	echo "<p>Excluir $id_instituicao</p>";
-	echo "<meta http-equiv='refresh' content='0;../cancelar/cancela.php?id_instituicao=$id_instituicao&indice=$indice' />";
+	echo "<p>Excluir $instituicao_id</p>";
+	echo "<meta http-equiv='refresh' content='0;../cancelar/cancela.php?instituicao_id=$instituicao_id&indice=$indice' />";
 	// die();
 	// include_once("../cancelar/cancela.php");
 	break;
 }
 
 // Rotina para acrescentar um supervisor
-if (!empty($id_supervisor)) {
+if (!empty($supervisor_id)) {
 	echo "<p>Acrescentar supervisor</p>";
-	$sql = "insert into $tabela_inst_super (id_supervisor,id_instituicao) values('$id_supervisor','$id_instituicao')";
+	$sql = "insert into $tabela_inst_super ($col_is_supervisor,$col_is_instituicao) values('$supervisor_id','$instituicao_id')";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
 	if($resultado === false) die ("Não foi possível inserir dados na tabela inst_super");	
@@ -180,15 +174,15 @@ if (!empty($id_supervisor)) {
 }
 // die;
 // Busco o lugar da instituicao na tabela
-if (!empty($id_instituicao)) {
+if (!empty($instituicao_id)) {
 	$sql_instituicao = "select id from $tabela_instituicao order by instituicao";
 	// echo $sql_instituicao . "<br>";
 	$res_instituicao = $db->Execute($sql_instituicao);
-	if ($res_instituicao === false) die ("Não foi possível consultar a tabela estagio");
+	if ($res_instituicao === false) die ("Não foi possível consultar a tabela $tabela_instituicao");
 	$lugar = 0;
 	while (!$res_instituicao->EOF)	{
 		$num_instituicao = $res_instituicao->fields['id'];
-		if ($num_instituicao === $id_instituicao) {
+		if ($num_instituicao === $instituicao_id) {
 			$indice = $lugar;
 		}
 		$lugar++;
@@ -200,7 +194,7 @@ echo "Indice: " . $indice . "<br>";
 if (isset($indice)) {
 	$sql_estagio  = "select e.id, e.instituicao, ";
 	$sql_estagio .= " e.endereco, e.cep, e.bairro, e.municipio, ";
-	$sql_estagio .= " e.telefone, e.fax, e.beneficio, e.fim_de_semana, ";
+	$sql_estagio .= " e.telefone, " . ($curso ? "e.fax, " : "") . "e.$campo_beneficio, e.fim_de_semana, ";
 	$sql_estagio .= " e.observacoes ";
 
 	// Estes campos somente existem na tabela de instituicoes de estagio
@@ -209,7 +203,7 @@ if (isset($indice)) {
 	$sql_estagio .= " from $tabela_instituicao as e ";
 	$sql_estagio .= " left outer join $tabela_area_estagio as a ";
 	$sql_estagio .= " on e.area=a.id ";
-	// $sql_estagio .= " join $tabela_estagiarios as t on e.id = t.id_instituicao ";
+	// $sql_estagio .= " join $tabela_estagiarios as t on e.id = t.instituicao_id ";
 	// if ($periodo) $sql_estagio .= " where t.periodo = '$periodo'";
 	$sql_estagio .= " order by instituicao";
 
@@ -226,8 +220,8 @@ if (isset($indice)) {
    	    $municipio     = $res_estagio->fields['municipio'];
 	    $cep           = $res_estagio->fields['cep'];
 	    $telefone      = $res_estagio->fields['telefone'];
-	    $fax           = $res_estagio->fields['fax'];
-	    $beneficios    = $res_estagio->fields['beneficio'];
+	    if ($curso) $fax = $res_estagio->fields['fax'];
+	    $beneficios    = $res_estagio->fields[$campo_beneficio];
 	    $fim_de_semana = $res_estagio->fields['fim_de_semana'];
 	    $id_area       = $res_estagio->fields['id_area'];
 	    $area          = $res_estagio->fields['area'];
@@ -240,7 +234,7 @@ if (isset($indice)) {
 			// Nao fazer para os supervisores do curso
 			if (!$curso) {
 		    	// Seleciono a turma das instituicoes
-			    $sql_periodo = "select max(periodo) as periodo from $tabela_estagiarios where id_instituicao=$id";
+			    $sql_periodo = "select max(periodo) as periodo from $tabela_estagiarios where instituicao_id=$id";
 				// echo $sql_periodo . "<br>";
 			    $resultado = $db->Execute($sql_periodo);
 			    if ($resultado === false) die ("Não foi possível consultar a tabela estagiarios");
@@ -252,7 +246,7 @@ if (isset($indice)) {
 
 			// Seleciono os supervisores ou assistentes sociais
 		    $sql  = "select s.id as supervisor_id, s.cress, s.nome, e.id as instituicao_id from $tabela_supervisores as s, $tabela_instituicao as e, $tabela_inst_super as j ";
-		    $sql .= "where s.id=j.id_supervisor and e.id=j.id_instituicao and e.id=$id order by s.nome";
+		    $sql .= "where s.id=j.$col_is_supervisor and e.id=j.$col_is_instituicao and e.id=$id order by s.nome";
 		    // echo $sql . "<br>";
 		    $resultado = $db->Execute($sql);
 		    if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
@@ -288,7 +282,7 @@ if (isset($indice)) {
 						}
 
 						// Para pegar as instituicoes tenho que inverter
-						$tabela_instituicao  = 'estagio';// 'curso_inscricao_instituicao';
+						$tabela_instituicao  = 'instituicoes';// 'curso_inscricao_instituicao';
 						$tabela_supervisores = 'supervisores'; // 'curso_inscricao_supervisor';
 						$tabela_inst_super   = 'inst_super'; // 'curso_inst_super';
 
@@ -310,8 +304,8 @@ if (isset($indice)) {
 
 					// Seleciono instituicoes 'cruzadas' entre as tabelas
 					$sql_inst_estagio  = "select e.id from $tabela_instituicao as e";
-					$sql_inst_estagio .= " join $tabela_inst_super as j on e.id = j.id_instituicao ";
-					$sql_inst_estagio .= " join $tabela_supervisores as s on j.id_supervisor = s.id ";
+					$sql_inst_estagio .= " join $tabela_inst_super as j on e.id = j.$col_is_instituicao ";
+					$sql_inst_estagio .= " join $tabela_supervisores as s on j.$col_is_supervisor = s.id ";
 					$sql_inst_estagio .= " where cress=$cress";
 					// echo $sql_inst_estagio . "<br>";
 					$res_inst_estagio = $db->Execute($sql_inst_estagio);
@@ -328,8 +322,8 @@ if (isset($indice)) {
 				    // Seleciona os professores somente para os supervisores de estagio
 				    $sql_professor  = "select professores.id, professores.nome, max(estagiarios.periodo) as periodo ";
 				    $sql_professor .= " from $tabela_estagiarios ";
-				    $sql_professor .= " inner join $tabela_professores on estagiarios.id_professor = professores.id "; 
-				    $sql_professor .= " where estagiarios.id_instituicao = $id";
+				    $sql_professor .= " inner join $tabela_professores on estagiarios.professor_id = professores.id "; 
+				    $sql_professor .= " where estagiarios.instituicao_id = $id";
 				    $sql_professor .= " group by professores.nome ";
 				    $sql_professor .= " order by nome, periodo ";
 				    // echo $sql_professor . "<br>";
@@ -389,7 +383,7 @@ $smarty->assign("curso",$curso);
 $smarty->assign("modifica",$modifica);
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("indice",$indice);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("id",$id);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("url",$url);
@@ -399,7 +393,7 @@ $smarty->assign("cep",$cep);
 $smarty->assign("bairro",$bairro);
 $smarty->assign("municipio",$municipio);
 $smarty->assign("telefone",$telefone);
-$smarty->assign("fax",$fax);
+if ($curso) $smarty->assign("fax",$fax);
 $smarty->assign("beneficios",$beneficios);
 $smarty->assign("fim_de_semana",$fim_de_semana);
 $smarty->assign("id_area",$id_area);

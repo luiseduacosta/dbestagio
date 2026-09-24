@@ -30,8 +30,8 @@ function elimina()
 <form name="seleciona_supervisor" action="exibir/ver_cada.php" method="post">
 {/if}
 
-<select name="id_supervisor">
-{html_options values=$id_supervisor output=$nome}
+<select name="supervisor_id">
+{html_options values=$supervisor_id output=$nome}
 </select>
 
 {if $opcao == "cancela"}

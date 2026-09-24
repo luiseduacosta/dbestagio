@@ -91,7 +91,6 @@ function contacarateres() {
 
 <?php
 
-include_once("../../setup.php");
 // include_once("../../db.inc");
 include_once("../../autentica.inc");
 
@@ -100,19 +99,19 @@ $cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : NULL;
 $telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : NULL;
 $celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : NULL;
 $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : NULL;
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : NULL;
 
 if ($cress) {
 	if (ctype_digit($cress) == FALSE) echo "Digite somente números.";
 }
 
-$sql  = "select inst_super.id as id_inst_super, estagio.id as id_instituicao, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
+$sql  = "select inst_super.id as id_inst_super, instituicoes.id as instituicao_id, instituicao, supervisores.id, supervisores.cress, supervisores.nome, supervisores.email, supervisores.telefone, supervisores.celular, supervisores.endereco, supervisores.bairro, supervisores.municipio, supervisores.cep, escola, ano_formatura, outros_estudos, area_curso, ano_curso ";
 $sql .=	" from supervisores "; 
-$sql .= " left join inst_super on supervisores.id = inst_super.id_supervisor ";
-$sql .= " left join estagio on inst_super.id_instituicao = estagio.id ";
+$sql .= " left join inst_super on supervisores.id = inst_super.supervisor_id ";
+$sql .= " left join instituicoes on inst_super.instituicao_id = instituicoes.id ";
 
-if (!empty($id_supervisor)) {
-	$sql .= " where supervisores.id='$id_supervisor'";
+if (!empty($supervisor_id)) {
+	$sql .= " where supervisores.id='$supervisor_id'";
 } elseif(!empty($cress)) {
 	$sql .= " where supervisores.cress='$cress'";
 } else {
@@ -134,11 +133,11 @@ if ($sistema_autentica == 0) {
 	}
 }
 
-// while (!$resultado->EOF) {
-	$id_inst_super = $resultado->fields['id_inst_super'];
-	$id_instituicao = $resultado->fields['id_instituicao'];
+while (!$resultado->EOF) {
+	$inst_super_id = $resultado->fields['id_inst_super'];
+	$instituicao_id = $resultado->fields['instituicao_id'];
 	$instituicao = $resultado->fields['instituicao'];
-	$id_supervisor = $resultado->fields['id'];
+	$supervisor_id = $resultado->fields['id'];
     $cress = $resultado->fields['cress'];
     $nome = $resultado->fields['nome'];
     $email = $resultado->fields['email'];
@@ -154,11 +153,8 @@ if ($sistema_autentica == 0) {
     $area_curso = $resultado->fields['area_curso'];
     $ano_curso = $resultado->fields['ano_curso'];
 	
-//    $resultado->MoveNext();
-	// die();
-// }
-
-// die();
+    $resultado->MoveNext();
+}
 
 ?>
 
@@ -316,11 +312,11 @@ echo "
 <tr>
 <td>Selecione instituição</td>
 <td>
-<select name='id_instituicao' id='id_instituicao'>
-<option value='<?php echo $id_instituicao; ?>'><?php echo $instituicao; ?></option>
+<select name='instituicao_id' id='instituicao_id'>
+<option value='<?php echo $instituicao_id; ?>'><?php echo $instituicao; ?></option>
 <?php
 
-$sql = "select estagio.id, estagio.instituicao from estagio order by instituicao";	
+$sql = "select instituicoes.id, instituicoes.instituicao from instituicoes order by instituicao";	
 $resultado = $db->Execute($sql);
 while (!$resultado->EOF) {
 	$id = $resultado->fields['id'];
@@ -340,8 +336,8 @@ while (!$resultado->EOF) {
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-<input type="hidden" name="id_supervisor" value="<?php echo $id_supervisor; ?>">
-<input type="hidden" name="id_inst_super" value="<?php echo $id_inst_super; ?>">
+<input type="hidden" name="supervisor_id" value="<?php echo $supervisor_id; ?>">
+<input type="hidden" name="inst_super_id" value="<?php echo $inst_super_id; ?>">
 <?php 
 if ($sistema_autentica == 0) {
 	echo "

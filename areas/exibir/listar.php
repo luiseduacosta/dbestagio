@@ -2,15 +2,15 @@
 
 include_once("../../setup.php");
 
-$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'areas_estagio.area';
+$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'areas.area';
 
-$sql_professores = "select areas_estagio.id as area_id, areas_estagio.area, nome, professores.id as id_professor, min(periodo) as min_periodo, max(periodo) as max_periodo " .
+$sql_professores = "select areas.id as area_id, areas.area, nome, professores.id as id_professor, min(periodo) as min_periodo, max(periodo) as max_periodo " .
    		" from estagiarios " .
-   		" join areas_estagio on estagiarios.id_area = areas_estagio.id " .
-   		" join professores on estagiarios.id_professor = professores.id " .
-   		" group by estagiarios.id_area, estagiarios.id_professor " .
+   		" join instituicoes on estagiarios.instituicao_id = instituicoes.id left join areas on instituicoes.area = areas.id " .
+   		" join professores on estagiarios.professor_id = professores.id " .
+   		" group by instituicoes.area, estagiarios.professor_id " .
    		" order by $ordem";
-//   		" order by areas_estagio.area";
+//   		" order by areas.area";
 
 // echo $sql_professores . "<br>";
 
@@ -29,19 +29,19 @@ while (!$res_professores->EOF) {
 	$res_professores->MoveNext();
 }
 /*
-$sql = "select * from areas_estagio order by area";
+$sql = "select * from areas order by area";
 $resultado = $db->Execute($sql);
-if($resultado === false) die ("N�o foi poss�vel consultar a tabela areas_estagio");
+if($resultado === false) die ("N�o foi poss�vel consultar a tabela areas");
 
 $i = 0;
 while(!$resultado->EOF) {
     $id_area = $resultado->fields["id"];
     $area    = $resultado->fields["area"];
     // Para cada �rea conto a quantidade de instituicoes
-    $sql_estagio = "select area from estagio where area=$id_area";
+    $sql_estagio = "select area from instituicoes where area=$id_area";
     
     $res_estagio = $db->Execute($sql_estagio);
-    if($res_estagio === false) die ("N�o foi poss�vel consultar a tabela estagio");
+    if($res_estagio === false) die ("N�o foi poss�vel consultar a tabela instituicoes");
     $quantidade = $res_estagio->RecordCount();
     $total = $total + $quantidade;
 

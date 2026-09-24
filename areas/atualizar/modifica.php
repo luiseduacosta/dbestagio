@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 $smarty = new Smarty_estagio;
@@ -9,10 +8,10 @@ $id_area = $_GET["id_area"];
 if (empty($id_area))
     $id_area = $_POST["id_area"];
 
-$sql = "select * from areas_estagio where id=$id_area";
+$sql = "select * from areas where id=$id_area";
 $resultado = $db->Execute($sql);
 
-if ($resultado === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela areas");
 
 while (!$resultado->EOF) {
     $area = $resultado->fields["area"];
@@ -21,7 +20,7 @@ while (!$resultado->EOF) {
 
 $smarty->assign("id_area",$id_area);
 $smarty->assign("area",$area);
-$smarty->display("area_atualiza.tlp");
+$smarty->display("area_atualiza.tpl");
 
 exit;
 

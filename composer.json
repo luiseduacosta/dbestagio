@@ -1,0 +1,16 @@
+{
+    "name": "luiseduacosta/dbestagio",
+    "description": "Estágio application refactored for PHP 8.x",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "adodb/adodb-php": "^5.22",
+        "smarty/smarty": "^4.5",
+        "tecnickcom/tcpdf": "^6.7",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

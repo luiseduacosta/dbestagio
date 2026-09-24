@@ -1,38 +1,36 @@
 <?php
 
 require_once("../../autentica.inc");
-require_once("../../setup.php");
 // include_once("../../autentica.inc");
 // Pego o numero da instituição
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
 
 // Busco a instituição, área e supervisor
 $sql  = "select e.instituicao, e.endereco, e.cep, e.telefone, ";
-$sql .= "e.fax, e.area as id_area, e.beneficio, e.fim_de_semana, e.convenio, a.area ";
-$sql .= "from estagio as e "; 
-$sql .= "left outer join areas_estagio as a ";
+$sql .= "e.area as id_area, e.beneficios, e.fim_de_semana, e.convenio, a.area ";
+$sql .= "from instituicoes as e "; 
+$sql .= "left outer join areas as a ";
 $sql .= "on e.area=a.id ";
-$sql .= "where e.id=$id_instituicao";
+$sql .= "where e.id=$instituicao_id";
 
 // include_once("../../db.inc");
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
 while (!$resultado->EOF) {
 	$nome_instituicao      = $resultado->fields['instituicao'];
 	$endereco_instituicao  = $resultado->fields['endereco'];
 	$cep_instituicao       = $resultado->fields['cep'];
 	$telefone_instituicao  = $resultado->fields['telefone'];
-	$fax_instituicao       = $resultado->fields['fax'];
 	$id_area_instituicao   = $resultado->fields['id_area'];
 	$area_instituicao      = $resultado->fields['area'];
-	$beneficio_instituicao = $resultado->fields['beneficio'];
+	$beneficio_instituicao = $resultado->fields['beneficios'];
 	$fim_de_semana         = $resultado->fields['fim_de_semana'];
 	$convenio              = $resultado->fields['convenio'];
 	
 	// Pego os supervisores por instituicao
 	$sql_super_por_instituicao  = "select s.id, s.nome, s.cress from supervisores as s, inst_super as j ";
-	$sql_super_por_instituicao .= "where j.id_supervisor=s.id and j.id_instituicao=$id_instituicao order by nome";
+	$sql_super_por_instituicao .= "where j.supervisor_id=s.id and j.instituicao_id=$instituicao_id order by nome";
 	$resultado_super_por_instituicao = $db->Execute($sql_super_por_instituicao);
 	if ($resultado_super_por_instituicao === false) die ("Não foi possível consultar a tabela supervisores");
 	$i = 0;
@@ -45,7 +43,7 @@ while (!$resultado->EOF) {
 	}
 
 	// Pego a turma por instituicao
-	$sql_turma = "select max(periodo) as turma from estagiarios where id_instituicao=$id_instituicao";
+	$sql_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$instituicao_id";
 	$resultado = $db->Execute($sql_turma);
 	if ($resultado === false) die ("Não foi possível consultar a tabela estagiarios");
 	$turma = $resultado->fields['turma'];
@@ -55,9 +53,9 @@ while (!$resultado->EOF) {
 }
 
 // Pego as áreas das instituições para ser enviadas para o formulário
-$sql_areas = "select id, area from areas_estagio order by area";
+$sql_areas = "select id, area from areas order by area";
 $res_areas = $db->Execute($sql_areas);
-if ($res_areas === false) die ("Não foi possível consultar a tabela areas_estagio");
+if ($res_areas === false) die ("Não foi possível consultar a tabela areas");
 $i = 0;
 while (!$res_areas->EOF) {
     $matriz_areas[$i]["id_area"] = $res_areas->fields['id'];
@@ -81,12 +79,11 @@ while (!$res_supervisores->EOF) {
 // Envio os resultados
 $smarty = new Smarty_estagio;
 
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->assign("endereco_instituicao",$endereco_instituicao);
 $smarty->assign("cep_instituicao",$cep_instituicao);
 $smarty->assign("telefone_instituicao",$telefone_instituicao);
-$smarty->assign("fax_instituicao",$fax_instituicao);
 $smarty->assign("id_area_instituicao",$id_area_instituicao);
 $smarty->assign("beneficio_instituicao",$beneficio_instituicao);
 $smarty->assign("fim_de_semana",$fim_de_semana);

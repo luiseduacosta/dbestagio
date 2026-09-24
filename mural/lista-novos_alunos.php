@@ -1,30 +1,29 @@
 <?php
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : NULL;
 
-$sql = "SELECT id_aluno, data FROM mural_inscricao WHERE periodo='". PERIODO_ATUAL . "' group by id_aluno";
+$sql = "SELECT registro, data FROM inscricoes WHERE periodo='". PERIODO_ATUAL . "' group by registro";
 // echo $sql . "<br>";
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
 
 $i = 0;
 while (!$resultado->EOF) {
-		$id_aluno = $resultado->fields['id_aluno'];
+		$id_aluno = $resultado->fields['registro'];
 
-		$sqlQuantidade = "select count(*) as quantidade from mural_inscricao where periodo = '" . PERIODO_ATUAL . "' and id_aluno=$id_aluno";
+		$sqlQuantidade = "select count(*) as quantidade from inscricoes where periodo = '" . PERIODO_ATUAL . "' and registro=$id_aluno";
 		// echo $sqlQuantidade . "<br>";
 		$resultadoQuantidade = $db->Execute($sqlQuantidade);
-		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela mural_inscricao");
+		if ($resultadoQuantidade === false) die ("Não foi possivel consultar a tabela inscricoes");
 		$quantidadeInscricoes = $resultadoQuantidade->fields['quantidade'];
 		//  echo $quantidadeInscricoes . "<br>";
 
 		// Pego todos os alunos estagiarios menos os que ja entregaram o TC		
-		$sqlAlunos = "select alunos.id from alunos join estagiarios on alunos.id = estagiarios.id_aluno " .
+		$sqlAlunos = "select alunos.id from alunos join estagiarios on alunos.id = estagiarios.aluno_id " .
 				" where alunos.registro='$id_aluno' and estagiarios.periodo != '" . PERIODO_ATUAL . "' " .
-				" group by estagiarios.id_aluno ";
+				" group by estagiarios.aluno_id ";
 	
 		// echo $sqlAlunos . "<br>";
 
@@ -33,11 +32,11 @@ while (!$resultado->EOF) {
 		$quantidade = $resultadoAlunos->RecordCount();
 
 		if ($quantidade == 0) {
-				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email, cpf, identidade, nascimento from alunosNovos where registro='$id_aluno'";
+				$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email, cpf, identidade, nascimento from alunos where registro='$id_aluno'";
 				// echo $i . " " . $sqlAlunosNovos . "<br>";
 				
 				$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+				if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
 				while (!$resultadoAlunosNovos->EOF) {
 						$nome = $resultadoAlunosNovos->fields['nome'];
 						$registro = $resultadoAlunosNovos->fields['registro'];
@@ -64,7 +63,7 @@ while (!$resultado->EOF) {
 						$inscritos[$i]['nivel'] = $res_estagiarios_novos->fields['nivel'];
 
 						// Data da ultima intervencao do aluno no Banco de Dados
-						$sql_estagiarios_data = "select max(data) as data_ultima from mural_inscricao where id_aluno='$id_aluno'";
+						$sql_estagiarios_data = "select max(data) as data_ultima from inscricoes where registro='$id_aluno'";
 						// echo $sql_estagiarios_data . "<br>";
 						$res_estagiarios_data = $db->Execute($sql_estagiarios_data);
 						$inscritos[$i]['data_ultima'] = date("d-m-Y",strtotime($res_estagiarios_data->fields['data_ultima']));

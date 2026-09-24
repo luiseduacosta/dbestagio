@@ -5,8 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require_once('../libphp/tcpdf/config/lang/eng.php');
-require_once('../libphp/tcpdf/tcpdf.php'); 
+require_once('../setup.php');
+
 
 $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false); 
 // $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false); 
@@ -45,7 +45,6 @@ $pdf->SetFont('times', '', 12);
 // add a page
 $pdf->AddPage();
 
-include("../setup.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
 $prof_id = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
@@ -53,23 +52,23 @@ $professor = isset($_REQUEST['professor']) ? $_REQUEST['professor'] : NULL;
 $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 
 // echo $periodo . " " . $prof_id . "<br>";
-/* Capturo os valores para área e turno */
-$sql  = "select estagiarios.turno, areas_estagio.area from estagiarios ";
-$sql .= " join areas_estagio on estagiarios.id_area = areas_estagio.id ";
-$sql .=	" where periodo = '$periodo' "; 
-$sql .= " and id_area = $id_area ";
-$sql .=	" and id_professor = '$prof_id' ";
+/* Capturo os valores para a área */
+$sql  = "select areas.area from estagiarios ";
+$sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
+$sql .= " left join areas on instituicoes.area = areas.id ";
+$sql .=	" where estagiarios.periodo = '$periodo' "; 
+$sql .= " and instituicoes.area = $id_area ";
+$sql .=	" and estagiarios.professor_id = '$prof_id' ";
 // echo $sql . "<br>";
 
 $res = $db->Execute($sql);
 $area = $res->fields['area'];
-$turno = $res->fields['turno'];
 
 // $pdf->SetXY(15,25);
 
 $titulo = <<<EOD
 <p style="font-family:arial; color:red; font-size:16;">
-Período: $periodo - Professor(a): $professor - Área: $area - Turno: $turno
+Período: $periodo - Professor(a): $professor - Área: $area
 </p>
 EOD;
 
@@ -89,13 +88,13 @@ $tbl = <<<EOD
 <tbody>
 EOD;
 
-$sql  = "select alunos.registro, alunos.nome as aluno, estagiarios.nivel, estagiarios.id_professor, estagio.instituicao, supervisores.nome as supervisor, estagiarios.periodo from estagiarios ";
+$sql  = "select alunos.registro, alunos.nome as aluno, estagiarios.nivel, estagiarios.professor_id as id_professor, instituicoes.instituicao, supervisores.nome as supervisor, estagiarios.periodo from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
-$sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
-$sql .= " left join supervisores on estagiarios.id_supervisor = supervisores.id ";
-$sql .=	" where periodo = '$periodo' "; 
-$sql .= " and id_area = $id_area ";
-$sql .=	" and id_professor = '$prof_id' ";
+$sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
+$sql .= " left join supervisores on estagiarios.supervisor_id = supervisores.id ";
+$sql .=	" where estagiarios.periodo = '$periodo' "; 
+$sql .= " and instituicoes.area = $id_area ";
+$sql .=	" and estagiarios.professor_id = '$prof_id' ";
 $sql .= " order by alunos.nome ";
 // echo $sql . "<br>";
 

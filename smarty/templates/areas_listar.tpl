@@ -13,7 +13,7 @@
 <tbody>
 
 <tr>
-<th><a href=?ordem=areas_estagio.area>Área</a></th>
+<th><a href=?ordem=areas.area>Área</a></th>
 <th><a href=?ordem=professores.nome>Professor</a></th>
 <th><a href=?ordem=min(estagiarios.periodo)>Período início</a></th>
 <th><a href=?ordem=max(estagiarios.periodo)>Período último</a></th>

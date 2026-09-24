@@ -47,7 +47,7 @@
 			<td style='text-align:right;'>{$j++}</td>
 			<td style='text-align:center;'>{$alunos[i].id_aluno}</td>
 			{if !$alunos[i].situacao eq 0}
-				<td><a href='../alunos/exibir/ver_cada.php?id_aluno={$alunos[i].id_aluno}'>{$alunos[i].nome}</a></td>
+				<td><a href='../alunos/exibir/ver_cada.php?registro={$alunos[i].id_aluno}'>{$alunos[i].nome}</a></td>
 			{else}
 				<td>{$alunos[i].nome}</td>
 			{/if}

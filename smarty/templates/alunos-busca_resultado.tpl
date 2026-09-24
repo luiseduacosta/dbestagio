@@ -18,7 +18,7 @@
 {section name=elemento loop=$alunos}
 <tr>
 <td>{$alunos[elemento].registro}</td>
-<td><a href="../exibir/ver_cada.php?id_aluno={$alunos[elemento].id_aluno}">{$alunos[elemento].nome}</a></td>
+<td><a href="../exibir/ver_cada.php?aluno_id={$alunos[elemento].aluno_id}">{$alunos[elemento].nome}</a></td>
 </tr>
 {/section}
 

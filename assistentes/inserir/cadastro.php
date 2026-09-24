@@ -15,7 +15,7 @@
     var domTT_closeLink = '<img src="close.gif" style="vertical-align: bottom;" width="16" height="14" />';
     onload = function(in_event)
     {
-    // domTT_addPredefined('popup', 'caption', 'Coordena��o de est�gio', 'content', '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF;"><span style="font-weight: bold;">Inscri��es para o curso de extens�o para atualiza��o profissional de supervisores a partir do dia 4 de abril</span><br /></div>', 'type', 'sticky');
+    // domTT_addPredefined('popup', 'caption', 'Coordenao de estgio', 'content', '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF;"><span style="font-weight: bold;">Inscries para o curso de extenso para atualizao profissional de supervisores a partir do dia 4 de abril</span><br /></div>', 'type', 'sticky');
     // domTT_activate('popup1', in_event, 'predefined', 'popup', 'x', 230, 'y', 50, 'width', 260, 'delay', 1000);
     // domTT_activate('popup2', in_event, 'caption', 'Hello There!', 'content', '<div style="background-color: #FFFFFF; font-size: 13px; padding: 2px; font-family: Arial;">This is an example of a second popup tooltip onload.  It has a delay twice as long as the first popup.</div>', 'x', 100, 'y', 100, 'width', 150, 'delay', 2000, 'type', 'sticky');
     }
@@ -155,15 +155,12 @@ function verInstituicao() {
 
     var telefone = document.getElementById("instituicao_telefone");
     telefone.value = "";
-
-    var fax = document.getElementById("instituicao_fax");
-    fax.value = "";
-
+    
     var beneficio = document.getElementById("instituicao_beneficio");
     beneficio.value = "";
 
     var fim_de_semana = document.getElementById("fim_de_semana");
-    fax.value = "";
+    fim_de_semana.value = "";
     
     xajax_ver_Instituicao(id_instituicao);
     // alert(id_instituicao);
@@ -247,7 +244,6 @@ function ver_Supervisor() {
 
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 if($sistema_autentica == 0) {

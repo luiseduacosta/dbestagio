@@ -95,7 +95,7 @@ function get_periodo() {
 {if $smarty.cookies.usuario_senha}
 	<td style="background-color:red">
 	<form action="../cancelar/cancela.php" method="POST">
-	<input type="hidden" name=id_supervisor value={$id_supervisor}>
+	<input type="hidden" name=supervisor_id value={$supervisor_id}>
 	<input type="hidden" name=indice value={$indice}>
 	<input type="submit" name=submit value="Excluir">
 	</form>
@@ -145,7 +145,7 @@ function get_periodo() {
 <tr>
 	<td>Instituição</td>
 	<td>
-		<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$emprego[i].id_instituicao}">{$emprego[i].instituicao}</a>
+		<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$emprego[i].instituicao_id}">{$emprego[i].instituicao}</a>
 	</td>
 </tr>
 {/section}
@@ -165,13 +165,13 @@ function get_periodo() {
 <tr>
 <td style="text-align: center">
 <form action="../inserir/auto_cadastro.php" method="post">
-<input type="hidden" name="id_supervisor" value="{$id_supervisor}">
+<input type="hidden" name="supervisor_id" value="{$supervisor_id}">
 <input type="hidden" name="nome" value="{$nome}">
 <input type="hidden" name="cress" value="{$cress}">
 <input type="hidden" name="telefone" value="{$telefone}">
 <input type="hidden" name="celular" value="{$celular}">
 <input type="hidden" name="email" value="{$email}">
-<input type="submit" name="submit" value="Modifica {$id_supervisor}">
+<input type="submit" name="submit" value="Modifica {$supervisor_id}">
 </form>
 </td>
 </tr>
@@ -184,10 +184,10 @@ function get_periodo() {
 		<form name='sel_instituicao' action='#' method='post'>
 			<select name='num_instituicao'>
 				{section name=i loop=$instituicoes}
-				<option value='{$instituicoes[i].id_instituicao}'>{$instituicoes[i].instituicao|truncate:50}</option>
+				<option value='{$instituicoes[i].instituicao_id}'>{$instituicoes[i].instituicao|truncate:50}</option>
 				{/section}
 			</select>
-			<input type='hidden' name='id_supervisor' value='{$id_supervisor}'>
+			<input type='hidden' name='supervisor_id' value='{$supervisor_id}'>
 			<input type='submit' name='submit' value='Acrescentar instituição'>
 		</form>
 	</td>
@@ -217,8 +217,8 @@ function get_periodo() {
     <td>{$alunos[id].registro}</td>
 {/if}
 
-<td><a href="../../alunos/exibir/ver_cada.php?id_aluno={$alunos[id].id_aluno}">{$alunos[id].nome}</a></td>
-<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$alunos[id].id_instituicao}">{$alunos[id].instituicao}</a></td>
+<td><a href="../../alunos/exibir/ver_cada.php?aluno_id={$alunos[id].aluno_id}">{$alunos[id].nome}</a></td>
+<td><a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$alunos[id].instituicao_id}">{$alunos[id].instituicao}</a></td>
 <td style="text-align:center">{$alunos[id].periodo}</td>
 </tr>
 {/section}

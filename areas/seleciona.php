@@ -1,15 +1,14 @@
 <?php
 
-include_once("../setup.php");
 include_once("../autentica.inc");
 
 $opcao = $_GET['opcao'];
 
 $smarty = new Smarty_estagio;
 
-$sql = "select * from areas_estagio order by area";
+$sql = "select * from areas order by area";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela areas_estagio");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela areas");
 
 $i = 0;
 while(!$resultado->EOF) {
@@ -22,7 +21,7 @@ while(!$resultado->EOF) {
 $smarty->assign("opcao",$opcao);
 $smarty->assign("id_areas",$id_areas);
 $smarty->assign("areas",$areas);
-$smarty->display("area_seleciona.tlp");
+$smarty->display("area_seleciona.tpl");
 
 exit;
 

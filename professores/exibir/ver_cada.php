@@ -48,10 +48,10 @@ function ver_cada($indice, $db) {
 
 // Busco as instituicoes com as quais o professor trabalha
 function instituicao($id_professor, $db) {
-	$sql_instituicao = "select estagio.id, estagio.instituicao from estagio inner join estagiarios on estagio.id = estagiarios.id_instituicao where estagiarios.id_professor = $id_professor group by instituicao";	
+	$sql_instituicao = "select instituicoes.id, instituicoes.instituicao from instituicoes inner join estagiarios on instituicoes.id = estagiarios.instituicao_id where estagiarios.professor_id = $id_professor group by instituicao";	
 	// echo $sql_instituicao . "<br>";
 	$resultado = $db->Execute($sql_instituicao);
-	if ($resultado === false) die ("institucao: Não foi possível consultar as tabelas estagio e estagiarios");
+	if ($resultado === false) die ("institucao: Não foi possível consultar as tabelas instituicoes e estagiarios");
 	$i = 0;
 	while (!$resultado->EOF) {
 
@@ -67,16 +67,16 @@ function instituicao($id_professor, $db) {
 
 // Alunos que estagiaram com o professor
 function alunos($id_professor,$db,$ordem="nome") {
-	$sql = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.id_instituicao, areas_estagio.area, estagio.instituicao " .
+	$sql = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.instituicao_id as id_instituicao, areas.area, instituicoes.instituicao " .
 			" from alunos " .
-			" join estagiarios on alunos.id = estagiarios.id_aluno inner " .
-			" join estagio on estagiarios.id_instituicao = estagio.id " .
-			" join areas_estagio on estagiarios.id_area = areas_estagio.id " .
-			" where estagiarios.id_professor = $id_professor " .
+			" join estagiarios on alunos.id = estagiarios.aluno_id inner " .
+			" join instituicoes on estagiarios.instituicao_id = instituicoes.id " .
+			" left join areas on instituicoes.area = areas.id " .
+			" where estagiarios.professor_id = $id_professor " .
 			" order by $ordem";
 	// echo $sql . "<br>";
 	$resultado = $db->Execute($sql);
-	if ($resultado === false) die ("alunos: Não foi possível consultar as tabelas alunos, estagiarios e estagio");
+	if ($resultado === false) die ("alunos: Não foi possível consultar as tabelas alunos, estagiarios e instituicoes");
 	$i = 0;
 	while (!$resultado->EOF) {
 		$alunos[$i]['id_aluno'] = $resultado->fields['id'];
@@ -96,7 +96,7 @@ function alunos($id_professor,$db,$ordem="nome") {
 
 require_once("../../setup.php");
 
-$id_professor = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
+$id_professor = isset($_REQUEST['professor_id']) ? $_REQUEST['professor_id'] : (isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL);
 $ordem  = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
 $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 
@@ -164,6 +164,8 @@ $smarty->assign("professor",$professor);
 $smarty->assign("instituicoes",$instituicoes);
 $smarty->assign("alunos",$alunos);
 $smarty->assign("indice",$indice);
+$smarty->assign("professor_id",$id_professor);
+$smarty->assign("id_professor",$id_professor);
 $smarty->display("professores_ver_cada.tpl");
 
 ?>

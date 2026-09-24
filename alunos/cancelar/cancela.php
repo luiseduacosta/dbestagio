@@ -1,19 +1,18 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
-$id_aluno = isset($_REQUEST['id_aluno']) ? $_REQUEST['id_aluno'] : NULL;
+$aluno_id = isset($_REQUEST['aluno_id']) ? $_REQUEST['aluno_id'] : NULL;
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 
-if (empty($id_aluno)) {
+if (empty($aluno_id)) {
 	$sql = "select id from alunos where registro=$registro";
 	$resultado = $db->Execute($sql);
-	$id_aluno = $resultado->fields['id'];
+	$aluno_id = $resultado->fields['id'];
 }
 
-if ($id_aluno) {
-	$sql_estagiario = "select * from estagiarios where id_aluno='$id_aluno'";
+if ($aluno_id) {
+	$sql_estagiario = "select * from estagiarios where aluno_id='$aluno_id'";
 	// echo $sql_estagiario . "<br>";
 } else {
 	exit;
@@ -25,7 +24,7 @@ $quantidade = $resultado_sql_estagiario->RecordCount();
 
 if ($quantidade === 0) {
 	// die("Registro sera excluido");
-	$sql_cancela_aluno = "delete from alunos where id='$id_aluno'";
+	$sql_cancela_aluno = "delete from alunos where id='$aluno_id'";
 	// echo $sql_cancela_aluno . "<br>";
 
 	$resultado_cancela_aluno = $db->Execute($sql_cancela_aluno);
@@ -33,7 +32,7 @@ if ($quantidade === 0) {
 	header("Location:../exibir/listar.php");
 } else {
 	// echo "Existem estagios relacionados com este aluno. <br>Exclua primeiro os estagios para logo poder excluir o aluno";
-	header("Location:ver_cancela.php?id_aluno=$id_aluno&erro=0");
+	header("Location:ver_cancela.php?aluno_id=$aluno_id&erro=0");
 }
 
 exit;

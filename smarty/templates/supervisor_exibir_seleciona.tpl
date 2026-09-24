@@ -10,8 +10,8 @@
 <h1>Seleciona supervisor</h1>
 
 <form name="seleciona_supervisor" action="ver_cada.php" method="post">
-<select name="id_supervisor">
-{html_options values=$id_supervisor output=$nome}
+<select name="supervisor_id">
+{html_options values=$supervisor_id output=$nome}
 </select>
 <input type="submit" name="submit" value="Confirma">
 </form>

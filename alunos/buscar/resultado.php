@@ -14,7 +14,7 @@ if ($quantidade === 0) {
 } else {
     $i = 0;
     while (!$resultado->EOF) {
-	$alunos[$i]['id_aluno'] = $resultado->fields['id'];
+	$alunos[$i]['aluno_id'] = $resultado->fields['id'];
 	$alunos[$i]['nome']     = $resultado->fields['nome'];
 	$alunos[$i]['registro'] = $resultado->fields['registro'];
 	$alunos[$i]['email']    = $resultado->fields['email'];

@@ -32,14 +32,14 @@
 <div align="center">
 <h1>
 {if $sistema_autentica == 1}
-	<a href="mural-alunos_modifica.php?id_aluno={$id_aluno}&registro={$registro}&aluno={$aluno}">{$nome_aluno}</a>
+	<a href="mural-alunos_modifica.php?aluno_id={$aluno_id}&registro={$registro}">{$nome_aluno}</a>
 {else}
 	{$nome_aluno}
 {/if}
 </h1>
 </div>
 
-{if $aluno == 1}
+{if $estagiarios|@count > 0}
 	<div align="center" id="historico_estagios" style="visibility: visible">
 	<table border="1">
 	<caption>Histórico dos estágios cursados</caption>
@@ -77,7 +77,7 @@
 <tr>
 
 {if $sistema_autentica == 1}
-	<td><a href='listaInscritos.php?id_instituicao={$instituicoes[i].id_instituicao}'>{$instituicoes[i].instituicao}</a></td>
+	<td><a href='listaInscritos.php?muralestagio_id={$instituicoes[i].muralestagio_id}'>{$instituicoes[i].instituicao}</a></td>
 {else}
 	<td>{$instituicoes[i].instituicao}</td>
 {/if}

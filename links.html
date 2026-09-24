@@ -1,7 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
  "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="pt-br">
-
 <head>
     <title>Menu lateral</title>
     <link rel="stylesheet" type="text/css" href="lateral.css"  >
@@ -18,10 +17,9 @@
 $(document).ready(function() {
 	$('a').css('text-decoration','none');
 	var autentica = $.cookie("usuario_nome");
-	// alert("Autentica: ");
 	if(autentica) {
-                $("#administracao").css("display","block");
-                $("#instituicoes").css("display","block");
+        $("#administracao").css("display","block");
+        $("#instituicoes").css("display","block");
 		$("#supervisores").css("display","block");
 		$("#areas").css("display","block");
 		$("#alunos").css("display","block");
@@ -53,20 +51,9 @@ Entrar
 </tr>
 
 <tr>
-    <td class="coluna_centralizada">
-    <a rel="author" href="https://profiles.google.com/115567722862878215603" target="_top">
-    <img src="http://ssl.gstatic.com/images/icons/gplus-64.png" width="32" height="32">
-    </a>
-    </td>
-</tr>
-
-<tr>
 <td class="coluna_centralizada">
-<a href="http://200.20.112.2/wiki/doku.php?id=estagio" target="_corpo">
+<a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">
 Manual do aluno</a>
-<!-- 
-<iframe src='http://docs.google.com/EmbedSlideshow?id=dhd8s6wp_379hdjfqjgg' frameborder='0' width='120' height='100'></iframe>
-// -->
 </td>
 </tr>
 
@@ -94,14 +81,14 @@ Manual do aluno</a>
         <a class="box2" href="instituicoes/exibir/ver_cada.php?inserir=inserir" target="_corpo">
     	Inserir</a><br>
 //-->
-        <a class="box2" href="http://200.20.112.2/mural" target="_corpo">
+        <a class="box2" href="http://localhost/mural" target="_corpo">
             Modificar</a><br>
 
 <!--        
         <a class="box2" href="instituicoes/seleciona.php" target="_corpo">
     	Modificar</a><br>
 //-->        
-        <a class="box2" href="http://200.20.112.2/mural" target="_corpo">
+        <a class="box2" href="http://localhost/mural" target="_corpo">
             Excluir</a><br>
 
 <!--        
@@ -269,7 +256,6 @@ Manual do aluno</a>
 </td>
 </tr>
 
-
 <!-- Mural //-->
 <tr>
 <td>
@@ -312,7 +298,7 @@ Manual do aluno</a>
         <hr />
 
        	<a class="box2" href="mural/alunos_ingressos-lista.php" target="_corpo">
-   	Alunos ingressantes</a><br>
+       	Alunos ingressantes</a><br>
 
     </div>
   	
@@ -416,9 +402,6 @@ clickMenu1.init();
 <table border="1">
     <tbody>
 	<tr>
-            <td>
-                <iframe src="http://www.google.com/talk/service/badge/Show?tk=z01q6amlqp78ptnr0nagvm9j3d0hn2octg360qk9mo74siivjba96gckl5d06fj3blih5hfhspl96rq57lvo4d5pfjg3p4gssibebq3qqi5mlceijcs9rksrlt7e0suh4i4e56avl9ma64asbscfk09l4gckvqofcmqsod6blcqlkll0hnosd4g8hhm456bpdoo&amp;w=200&amp;h=60" frameborder="1" allowtransparency="true" width="200" height="60"></iframe>
-            </td>
 	    <td class="coluna_centralizada">
 		Fale conosco
 	    </td>

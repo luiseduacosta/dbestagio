@@ -42,18 +42,18 @@ if ($res_pommo_campos === false) die ("Não foi possível inserir na tabela pomm
 
 include("../../setup.php");
 
-$sql  = "select id_aluno, alunos.registro, alunos.nome, alunos.email "; 
+$sql  = "select aluno_id, alunos.registro, alunos.nome, alunos.email "; 
 $sql .= " , estagiarios.periodo, max(estagiarios.nivel) as nivel  ";
-$sql .= " , estagio.instituicao, supervisores.nome as supervisor, professores.nome as professor ";
+$sql .= " , instituicoes.instituicao, supervisores.nome as supervisor, professores.nome as professor ";
 $sql .= " , num_monografia ";
 $sql .= " from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
-$sql .= " join estagio on estagiarios.id_instituicao = estagio.id ";
-$sql .= " join supervisores on estagiarios.id_supervisor = supervisores.id ";
-$sql .= " join professores on estagiarios.id_professor = professores.id ";
+$sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
+$sql .= " join supervisores on estagiarios.supervisor_id = supervisores.id ";
+$sql .= " join professores on estagiarios.professor_id = professores.id ";
 $sql .= " left join tcc_alunos on alunos.registro = tcc_alunos.registro ";
 if ($periodo) $sql .= " where periodo = '$periodo' ";
-$sql .= " group by id_aluno";
+$sql .= " group by aluno_id";
 // order by $ordem";
 // echo $sql ."<br>";
 $resultado = $db->Execute($sql);

@@ -7,10 +7,10 @@
 <script language="Javascript" type="text/javascript">
 function seleciona() 
 {
-    var id_valor = document.seleciona_aluno.id_aluno.value;
+    var id_valor = document.seleciona_aluno.aluno_id.value;
     var id_valor = getElementById("id_aluno");
     /* alert("id_valor"); */
-    document.location.href="verifica.php?id_aluno=" + id_valor;
+    document.location.href="verifica.php?aluno_id=" + id_valor;
     return false;
 }
 </script>
@@ -21,10 +21,10 @@ function seleciona()
 
 <form name="seleciona_aluno" action="verifica.php" method="post">
 
-<select name="id_aluno" id="id_aluno" size="1" onChange="return seleciona();">
+<select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
 <option value=0>Selecione aluno</option>
 {section name=elemento loop=$alunos}
-<option value={$alunos[elemento].id_aluno}>{$alunos[elemento].nome}</option>
+<option value={$alunos[elemento].aluno_id}>{$alunos[elemento].nome}</option>
 {/section}
 </select>
 

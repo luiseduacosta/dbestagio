@@ -9,7 +9,7 @@
 
 <form name="supervisor" action="entra_super.php" method="post">
 
-<input type="hidden" name="id_instituicao" value={$id_instituicao}>
+<input type="hidden" name="instituicao_id" value={$instituicao_id}>
 
 <div class="center">
 <table>
@@ -34,7 +34,7 @@
 <tr>
 <td>Selecione supervisor</td>
 <td>
-<select name="id_supervisor" id="id_supervisor">
+<select name="supervisor_id" id="supervisor_id">
 <option value="0" selected>Selecione supervisor</option>
 {section name=elemento loop=$num_supervisor}
 <option value={$num_supervisor[elemento]}>{$nome_supervisor[elemento]}</option>

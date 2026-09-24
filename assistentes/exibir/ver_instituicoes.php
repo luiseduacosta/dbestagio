@@ -7,19 +7,19 @@ $ordem = $_GET['ordem'];
 /*
   $sql  = "select e.id as estagio_id, e.instituicao, s.id as supervisor_id, s.cress, s.nome, ";
   $sql .= "s.email ";
-  $sql .= "from supervisores as s, inst_super as i, estagio as e ";
-  $sql .= "where s.id=i.id_supervisor and i.id_instituicao=e.id";
+  $sql .= "from supervisores as s, inst_super as i, instituicoes as e ";
+  $sql .= "where s.id=i.supervisor_id and i.instituicao_id=e.id";
  */
 
-$sql = "select e.id as estagio_id, e.instituicao ";
+$sql = "select e.id, e.instituicao ";
 $sql .= ", s.id as supervisor_id, s.cress, s.nome, s.email ";
 // $sql .= ", c.id as id_curso ";
 // $sql .= ", max(t.periodo) as turma ";
 $sql .= " from supervisores as s ";
-$sql .= " join inst_super as i on s.id = i.id_supervisor ";
-$sql .= " join estagio as e on e.id = i.id_instituicao ";
-// $sql .= " left join estagiarios as t on s.id = t.id_supervisor ";
-// $sql .= " group by t.id_supervisor";
+$sql .= " join inst_super as i on s.id = i.supervisor_id ";
+$sql .= " join instituicoes as e on e.id = i.instituicao_id ";
+// $sql .= " left join estagiarios as t on s.id = t.supervisor_id ";
+// $sql .= " group by t.supervisor_id";
 // $sql .= " left outer join curso_inscricao_supervisor as c on s.cress = c.cress ";
 // $sql .= " group by c.cress";
 // echo $sql . "<br>";
@@ -33,8 +33,8 @@ while (!$resultado->EOF) {
     else
         $indice = $ordem;
 
-    $estagio_id_instituicao = $resultado->fields['estagio_id'];
-    $id_supervisor = $resultado->fields['supervisor_id'];
+    $instituicao_id = $resultado->fields['id'];
+    $supervisor_id = $resultado->fields['supervisor_id'];
     $cress = $resultado->fields['cress'];
     $turma = $resultado->fields['turma'];
     $nome_supervisor = $resultado->fields['nome'];
@@ -42,15 +42,14 @@ while (!$resultado->EOF) {
     $estagio_instituicao = $resultado->fields['instituicao'];
 
     $matriz[$i][$ordem] = $$indice;
-    $matriz[$i]['id_instituicao'] = $estagio_id_instituicao;
-    $matriz[$i]['id_supervisor'] = $id_supervisor;
+    $matriz[$i]['instituicao_id'] = $instituicao_id;
+    $matriz[$i]['supervisor_id'] = $supervisor_id;
     $matriz[$i]['nome'] = $nome_supervisor;
     $matriz[$i]['instituicao'] = $estagio_instituicao;
     $matriz[$i]['email'] = $email_supervisor;
-    $matriz[$i]['id_curso'] = $resultado->fields['id_curso'];
 
     // Pego a informacao sobre turma de alunos
-    $sqlturma = "select id, max(periodo) as turma from estagiarios where id_supervisor = $id_supervisor group by id_supervisor";
+    $sqlturma = "select id, max(periodo) as turma from estagiarios where supervisor_id = $supervisor_id group by supervisor_id";
     // echo $sqlturma . "<br>";
     $res_turma = $db->Execute($sqlturma);
     if ($res_turma === false)
@@ -58,34 +57,6 @@ while (!$resultado->EOF) {
     $turma = $res_turma->fields['turma'];
     $matriz[$i]['turma'] = $turma;
 
-    // Pego a informacao sobre curso de supervisores
-    if (!empty($cress)) {
-
-        for ($k = 0; $k < strlen($cress); $k++) {
-            $j = ord($cress[$k]);
-            // echo $cress . " " . $k . " -> " . $j . " <br /> ";
-            if ($j < 48 || $j > 57) {
-                $okcress = "0";
-                $k = strlen($cress);
-                // echo $cress . " " . $k . " " . $j . " letra <br /> ";
-            } else {
-//					// echo $i . " " . $j . " numero <br /> ";
-                $okcress = $cress;
-            }
-        }
-        if ($okcress <> 0) {
-            $sqlcurso = "select id from curso_inscricao_supervisor where cress=$okcress";
-            // echo $sqlcurso . "<br />";
-            $supervisores_curso = $db->Execute($sqlcurso);
-            if ($supervisores_curso === false)
-                die("Não foi possível consultar a tabela curso_inscricao_supervisores");
-            $matriz[$i]['id_curso'] = $supervisores_curso->fields['id'];
-            $id_curso = $supervisores_curso->fields['id'];
-            // echo $id_curso . "<br>";
-        }
-    }
-
-    $matriz[$i]['cress'] = $cress;
     $resultado->MoveNext();
     $i++;
 }

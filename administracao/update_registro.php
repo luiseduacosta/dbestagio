@@ -11,7 +11,7 @@ utilizando as tabelas alunos e alunosNovos
 /*
 $sql = "update estagiarios set registro = 0";
 $resultado = $db->Execute($sql);
-if($resultado == false) die ("Nao foi possi�vel zerar a tabela estagiarios");
+if($resultado == false) die ("Nao foi possi�vel zerar a tabela estagiarios");
 
 // Primeiro atualizo os alunos
 $sql = "select id, registro from alunos";
@@ -20,7 +20,7 @@ while(!$alunos->EOF)
 {
     $registro = $alunos->fields['registro'];
     $id = $alunos->fields['id'];
-    $sql = "update estagiarios set registro=$registro where estagiarios.id_aluno = $id"; 
+    $sql = "update estagiarios set registro=$registro where estagiarios.aluno_id = $id"; 
     echo $sql . "<br>";
     $resultado = $db->Execute($sql);
     if($resultado == false) die ("Não foi possível atualizar a tabela estagiarios");
