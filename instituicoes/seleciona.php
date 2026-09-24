@@ -10,17 +10,15 @@ if ($sistema_autentica == 0) {
 }
 // header("Location: http://$url/estagio/login.php");
 
-include_once("../setup.php");
-
 $opcao = $_GET['opcao'];
 
-$sql = "select * from estagio order by instituicao";
+$sql = "select * from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela estagio");
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
 $i = 0;
 while (!$resultado->EOF) {
-    $id_instituicao[$i]   = $resultado->fields['id'];
+    $instituicao_id[$i]   = $resultado->fields['id'];
     $nome_instituicao[$i] = $resultado->fields['instituicao'];
     $resultado->MoveNext();
     $i++;
@@ -28,7 +26,7 @@ while (!$resultado->EOF) {
 
 $smarty = new Smarty_estagio;
 $smarty->assign("opcao",$opcao);
-$smarty->assign("id_instituicao",$id_instituicao);
+$smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("nome_instituicao",$nome_instituicao);
 $smarty->display("instituicao_seleciona.tpl");
 

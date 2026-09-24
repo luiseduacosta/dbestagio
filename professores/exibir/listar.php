@@ -14,12 +14,13 @@ $periodo_atual = $res_periodo->fields['periodo'];
 
 $periodo = isset($_GET['periodo']) ? $_GET['periodo'] : $periodo_atual;
 
-$sql  = "select areas_estagio.id as areas_id, areas_estagio.area, professores.id as professores_id, professores.nome, professores.departamento, estagiarios.periodo, estagiarios.turno ";
-$sql .= " from areas_estagio ";
-$sql .= " join estagiarios on areas_estagio.id = estagiarios.id_area  ";
-$sql .= " join professores on estagiarios.id_professor = professores.id  ";
+$sql  = "select areas.id as areas_id, areas.area, professores.id as professores_id, professores.nome, professores.departamento, estagiarios.periodo ";
+$sql .= " from estagiarios ";
+$sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id  ";
+$sql .= " left join areas on instituicoes.area = areas.id  ";
+$sql .= " join professores on estagiarios.professor_id = professores.id  ";
 if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
-$sql .= " group by estagiarios.turno, estagiarios.id_area, professores.id ";
+$sql .= " group by areas.id, professores.id ";
 $sql .= " order by professores.nome ";
 // echo $sql . "<br>";
 
@@ -32,18 +33,18 @@ while (!$resultado->EOF) {
 	$professores[$i]['departamento'] = $resultado->fields['departamento'];
 	$professores[$i]['id_area'] = $resultado->fields['areas_id'];
 	$professores[$i]['area'] = $resultado->fields['area'];
-	$professores[$i]['turno'] = $resultado->fields['turno'];
+	$professores[$i]['turno'] = NULL;
 	$professores[$i]['turno_professor'] = $resultado->fields['turno_professor'];
         
 	// Calculo a quantidade de alunos por professor	
 	$id_professor = $resultado->fields['professores_id'];
 	$id_area = $resultado->fields['areas_id'];
-        $turno = $resultado->fields['turno'];
+        $turno = NULL;
         
 	// $sql_alunos = "select id_aluno as q_alunos from estagiarios where id_professor = $id_professor and id_area= $id_area";
-	$sql_alunos = "select id_aluno as q_alunos from estagiarios where id_area= '$id_area' and turno = '$turno' and id_professor = '$id_professor' ";
-	if ($periodo) $sql_alunos .= " and periodo='$periodo' ";
-	$sql_alunos .= " group by id_aluno ";
+	$sql_alunos = "select estagiarios.aluno_id as q_alunos from estagiarios join instituicoes on estagiarios.instituicao_id = instituicoes.id where instituicoes.area= '$id_area' and estagiarios.professor_id = '$id_professor' ";
+	if ($periodo) $sql_alunos .= " and estagiarios.periodo='$periodo' ";
+	$sql_alunos .= " group by estagiarios.aluno_id ";
 	// echo $sql_alunos . "<br>";
 	$res_alunos = $db->Execute($sql_alunos);
 	if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");

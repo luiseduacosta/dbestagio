@@ -2,7 +2,7 @@
 
 $opts['hn'] = 'localhost';
 $opts['un'] = 'root';
-$opts['pw'] = '';
-$opts['db'] = 'ess_app';
+$opts['pw'] = 'root';
+$opts['db'] = 'ess_apps';
 
 ?>

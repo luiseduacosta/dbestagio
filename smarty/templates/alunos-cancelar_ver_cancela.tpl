@@ -25,7 +25,7 @@ function verifica() {
 }
 function confirma() {
 	var num_aluno;
-	num_aluno = form_motivo.id_aluno.value;
+	num_aluno = form_motivo.aluno_id.value;
 	resposta=confirm("Tem certeza?");
 	if(resposta) {
 		return true;
@@ -55,7 +55,7 @@ function confirma() {
 <tbody>
 
 <tr>
-<td width="20%">{$id_aluno}</td>
+<td width="20%">{$aluno_id}</td>
 <td widht="80%">Alunos estagiários</td>
 </tr>
 
@@ -115,19 +115,19 @@ function confirma() {
 
 <tr>
 <td>Instituição:</td>
-<td><a href="../../instituicoes/exibir/exibir.php?id_instituicao={$id_instituicao}">{$instituicao}</a></td>
+<td><a href="../../instituicoes/exibir/exibir.php?instituicao_id={$instituicao_id}">{$instituicao}</a></td>
 </tr>
 
 <tr>
 <td>Supervisor:</td>
-<td><a href="../../assistentes/exibir/exibir.php?id_supervisor={$id_supervisor}">{$supervisor}</a></td>
+<td><a href="../../assistentes/exibir/exibir.php?supervisor_id={$supervisor_id}">{$supervisor}</a></td>
 </tr>
 
 </tbody>
 </table>
 
 <form name="form_motivo" id="form_motivo" method="post" action="cancela.php" onSubmit="return confirma();">
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <tr>
 <td colspan="2" style="text-align:center"><input type="submit"
 name="submit" value="Confirma excluir"></td>

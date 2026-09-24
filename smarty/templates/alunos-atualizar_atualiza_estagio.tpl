@@ -14,12 +14,12 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#id_instituicao").change(function() {
-	$("#id_supervisor").html("<option value='sda'>Procurando :::::::</option>");
+	$("#instituicao_id").change(function() {
+	$("#supervisor_id").html("<option value='sda'>Procurando :::::::</option>");
 	$.post('exibir_super.php',
 	{ id_estagio : $(this).val() },
 	function(resposta){
-		$("select[@name=id_supervisor]").html(resposta);
+		$("select[@name=supervisor_id]").html(resposta);
 		}
 		);
 	});
@@ -141,10 +141,10 @@ Instituição
 <td>Instituição:</td>
 
 <td>
-<select id="id_instituicao" name="id_instituicao" size="1" return onchange="seleciona_supervisor();">
-<option value="{$id_instituicao}" selected>{$nome_instituicao|truncate:50}</option>
+<select id="instituicao_id" name="instituicao_id" size="1" return onchange="seleciona_supervisor();">
+<option value="{$instituicao_id}" selected>{$nome_instituicao|truncate:50}</option>
 {section name=elemento loop=$instituicoes}
-<option value={$instituicoes[elemento].id_instituicao}>
+<option value={$instituicoes[elemento].instituicao_id}>
 {$instituicoes[elemento].instituicao|truncate:50}</option>
 {/section}
 </select>
@@ -155,31 +155,11 @@ Instituição
 <tr>
 <td>Supervisor: </td>
 <td>
-<select id='id_supervisor' name='id_supervisor' size=1>
-<option id ='opcoes' value='{$id_supervisor}'>{$nome_supervisor}</option>
+<select id='supervisor_id' name='supervisor_id' size=1>
+<option id ='opcoes' value='{$supervisor_id}'>{$nome_supervisor}</option>
 </select>
 </td>
 </tr>
-
-<!--
-Supervisor
-//-->
-
-<!--
-<tr>
-<td>Supervisor:</td>
-
-<td>
-<select id="id_supervisor" name="id_supervisor" size="1">
-<option value={$id_supervisor} selected>{$nome_supervisor|truncate:50}</option>
-{section name=elemento loop=$supervisores}
-<option value={$supervisores[elemento].id_supervisor}>
-{$supervisores[elemento].supervisor|truncate:50}</option>
-{/section}
-</select>
-</td>
-</tr>
--->
 
 <!--
 Professor
@@ -188,51 +168,11 @@ Professor
 <td>Professor:</td>
 
 <td>
-<select id="id_professor" name="id_professor" size="1">
-<option value={$id_professor} selected>{$nome_professor|truncate:50}</option>
+<select id="professor_id" name="professor_id" size="1">
+<option value={$professor_id} selected>{$nome_professor|truncate:50}</option>
 {section name=elemento loop=$professores}
-<option value={$professores[elemento].id_professor}>
+<option value={$professores[elemento].professor_id}>
 {$professores[elemento].professor|truncate:50}</option>
-{/section}
-</select>
-</td>
-</tr>
-
-<!--
-Turno
-//-->
-<tr>
-<td>Turno:</td>
-{if $turno eq "D"}
-<td>
-Diurno  <input type="radio" name="turno" value="D" checked>
-Noturno <input type="radio" name="turno" value="N">
-</td>
-{elseif $turno eq "N"}
-<td>
-Diurno  <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N" checked>
-</td>
-{else}
-<td>
-Diurno  <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N">
-</td>
-</tr>
-{/if}
-
-<!--
-Area
-//-->
-<tr>
-<td>Área do professor:</td>
-
-<td>
-<select name="id_area" size="1">
-<option value={$id_area} selected>{$nome_area|truncate:50}</option>
-{section name=elemento loop=$areas}
-<option value={$areas[elemento].id_area}>
-{$areas[elemento].area|truncate:50}</option>
 {/section}
 </select>
 </td>
@@ -251,10 +191,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-<input type="hidden" name="id_estagiarios" value="{$id_estagiarios}">
+<input type="hidden" name="estagiario_id" value="{$estagiario_id}">
 <input type="hidden" name="atualizar_estagio" value=1>
 <input type="hidden" name="origem" value="{$origem}">
-<input type="hidden" name="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="acao" value="1">
 <input type="submit" name="submit" value="Confirma">
 </td>

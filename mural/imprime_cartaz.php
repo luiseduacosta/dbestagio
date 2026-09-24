@@ -44,7 +44,7 @@ $sql_estagio .= "cargaHoraria, requisitos, ";
 $sql_estagio .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
 $sql_estagio .= "localSelecao, formaSelecao, contato, outras ";
 $sql_estagio .= "from mural_estagio ";
-$sql_estagio .= "left outer join areas_estagio on (mural_estagio.id_area = areas_estagio.id) ";
+$sql_estagio .= "left outer join areas on (mural_estagio.id_area = areas.id) ";
 $sql_estagio .= "left outer join professores on (mural_estagio.id_professor = professores.id) ";
 $sql_estagio .= "where mural_estagio.periodo = '" . PERIODO_ATUAL . "' ";
 $sql_estagio .= "and mural_estagio.id = $id_instituicao";

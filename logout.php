@@ -1,9 +1,7 @@
 <?php
 
 setcookie("usuario_nome");
-setcookie("usuario_senha");
 setcookie("mural_usuario","",0,"estagio/mural/administraco");
-setcookie("mural_senha","",0,"estagio/mural/administraco");
 
 ?>
 
@@ -33,7 +31,7 @@ if($usuario_nome == "") {
 else {
     echo "
     <a href='links.php'>
-    <button>Usuario não logado</button>
+    <button>Usuario nï¿½o logado</button>
     </a>
     ";
     }
@@ -41,7 +39,7 @@ else {
 ?>
 
 <tr><td>
-INSTITUIÇÕES
+INSTITUIï¿½ï¿½ES
 </td></tr>
 
 <tr><td>
@@ -66,12 +64,12 @@ Listar</a>
 
 <tr><td>
 <a href=instituicoes/exibir/seleciona.php target=_corpo>
-Ver instituição</a>
+Ver instituiï¿½ï¿½o</a>
 </td></tr>
 
 <tr><td>
 <a href=instituicoes/exibir/ver_cada.php?indice=0 target=_corpo>
-Ver c/instituição</a>
+Ver c/instituiï¿½ï¿½o</a>
 </td></tr>
 
 <tr><td>
@@ -81,7 +79,7 @@ Cancelar</a>
 
 <tr><td>
 <a href=imprimir/listagem.php target=_corpo>
-Imprimir catálogo</a>
+Imprimir catï¿½logo</a>
 </td></tr>
 
 <tr><td>
@@ -119,7 +117,7 @@ Cancelar</a>
 </td></tr>
 
 <tr><td>
-ÁREAS
+ï¿½REAS
 </td></tr>
 
 <tr><td>

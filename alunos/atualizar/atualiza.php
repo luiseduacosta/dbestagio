@@ -1,6 +1,5 @@
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 // echo "Origem: " .  $url . "<br>";
 
@@ -24,7 +23,7 @@ if ($debug == 1) {
 }
 
 // Alunos
-$id_aluno = $_REQUEST['id_aluno'];
+$aluno_id = $_REQUEST['aluno_id'];
 $registro = $_REQUEST['registro'];
 $nome = $_REQUEST['nome'];
 $codigo_telefone = $_REQUEST['codigo_telefone'];
@@ -45,15 +44,14 @@ $observacoes = $_REQUEST['observacoes'];
 // echo $nascimento . "<br>";
 
 // Estagiarios
-$id_estagiarios = $_POST['id_estagiarios'];
+$estagiario_id = $_POST['estagiario_id'];
 $periodo = $_POST['periodo'];
 $nivel = $_POST['nivel'];
 $turno = $_POST['turno'];
 $tc = $_POST['tc'];
-$id_instituicao = $_POST['id_instituicao'];
-$id_area = $_POST['id_area'];
-$id_supervisor = $_POST['id_supervisor'];
-$id_professor = $_POST['id_professor'];
+$instituicao_id = $_POST['instituicao_id'];
+$supervisor_id = $_POST['supervisor_id'];
+$professor_id = $_POST['professor_id'];
 $nota = $_POST['nota'];
 $ch = $_POST['ch'];
 
@@ -73,12 +71,12 @@ if (($acao == 1) || ($cadastro == 1)) {
     // echo "Acao ou cadastro" . "<br>";
     // die();
     // Atualiza somente tabela estagiarios
-    if (!empty($id_estagiarios)) {
-        $sql_estagiarios = "update estagiarios set id_aluno='$id_aluno', registro='$registro', ";
-        $sql_estagiarios .= " turno='$turno', nivel='$nivel', periodo='$periodo', tc='$tc', ";
-        $sql_estagiarios .= " id_supervisor='$id_supervisor', id_instituicao='$id_instituicao', id_area='$id_area', id_professor='$id_professor', ";
+    if (!empty($estagiario_id)) {
+        $sql_estagiarios = "update estagiarios set aluno_id='$aluno_id', registro='$registro', ";
+        $sql_estagiarios .= " nivel='$nivel', periodo='$periodo', tc='$tc', ";
+        $sql_estagiarios .= " supervisor_id='$supervisor_id', instituicao_id='$instituicao_id', professor_id='$professor_id', ";
         $sql_estagiarios .= " nota='$nota', ch='$ch' ";
-        $sql_estagiarios .= " where id='$id_estagiarios'";
+        $sql_estagiarios .= " where id='$estagiario_id'";
         // echo $sql_estagiarios . "<br>";
         $resultado_insere = $db->Execute($sql_estagiarios);
         if ($resultado_insere === false)
@@ -94,13 +92,13 @@ if (($acao == 1) || ($cadastro == 1)) {
         $sql_alunos .= " identidade = '$identidade', orgao = '$orgao', cpf = '$cpf', nascimento='$data_nascimento', ";
         $sql_alunos .= " endereco='$endereco', cep='$cep', bairro='$bairro', municipio='$municipio', ";
         $sql_alunos .= " observacoes='$observacoes' ";
-        $sql_alunos .= " where id='$id_aluno'";
+        $sql_alunos .= " where id='$aluno_id'";
         // echo $sql_alunos . "<br>";
         $resultado_insere = $db->Execute($sql_alunos);
         if ($resultado_insere === false)
             die("Nao foi possivel atualizar o registro na tabela alunos");
         // Atualizo tambem o campo registro na tabela estagiarios
-        $sql_registro = "update estagiarios set registro='$registro' where id_aluno='$id_aluno'";
+        $sql_registro = "update estagiarios set registro='$registro' where aluno_id='$aluno_id'";
         $resultado_registro = $db->Execute($sql_registro);
         if ($resultado_registro === false)
             die("Nao foi possivel atualizar o campo registro na tabela estagiarios");
@@ -118,7 +116,7 @@ if (($acao == 1) || ($cadastro == 1)) {
         exit;
     } else {
         // echo "Exibir " . "<br>";
-        header("Location: ../exibir/ver_cada.php?id_aluno=$id_aluno");
+        header("Location: ../exibir/ver_cada.php?aluno_id=$aluno_id");
         exit;
     }
     exit;
@@ -126,7 +124,7 @@ if (($acao == 1) || ($cadastro == 1)) {
 
 // Aluno
 $sql = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-$sql .= "endereco, cep, bairro, municipio, observacoes from alunos where id='$id_aluno'";
+$sql .= "endereco, cep, bairro, municipio, observacoes from alunos where id='$aluno_id'";
 // echo $sql . "<br>";
 
 if ($debug == 1)
@@ -136,7 +134,7 @@ $resultado = $db->Execute($sql);
 if ($resultado === false)
     die("Nao foi possivel consultar a tabela alunos");
 while (!$resultado->EOF) {
-    // $id_aluno = $resultado->fields['id'];
+    // $aluno_id = $resultado->fields['id'];
     $registro = $resultado->fields['registro'];
     $nome = $resultado->fields['nome'];
     $codigo_telefone = $resultado->fields['codigo_telefone'];
@@ -166,7 +164,7 @@ while (!$resultado->EOF) {
 }
 
 // Estagiarios
-$sql_estagiarios = "select * from estagiarios where id_aluno=$id_aluno order by periodo";
+$sql_estagiarios = "select * from estagiarios where aluno_id=$aluno_id order by periodo";
 // echo $sql_estagiarios . "<br>";
 $resultado_estagiario = $db->Execute($sql_estagiarios);
 if ($resultado_estagiario === false)
@@ -176,78 +174,55 @@ while (!$resultado_estagiario->EOF) {
     $estagiarios[$i]['id'] = $resultado_estagiario->fields["id"];
     $estagiarios[$i]['tc'] = $resultado_estagiario->fields["tc"];
     $estagiarios[$i]['periodo'] = $resultado_estagiario->fields["periodo"];
-    $estagiarios[$i]['turno'] = $resultado_estagiario->fields["turno"];
+    $estagiarios[$i]['turno'] = NULL;
     $estagiarios[$i]['nivel'] = $resultado_estagiario->fields["nivel"];
-    $estagiarios[$i]['id_instituicao'] = $resultado_estagiario->fields["id_instituicao"];
-    $estagiarios[$i]['id_supervisor'] = $resultado_estagiario->fields["id_supervisor"];
-    $estagiarios[$i]['id_professor'] = $resultado_estagiario->fields["id_professor"];
-    $estagiarios[$i]['id_area'] = $resultado_estagiario->fields["id_area"];
+    $estagiarios[$i]['instituicao_id'] = $resultado_estagiario->fields["instituicao_id"];
+    $estagiarios[$i]['supervisor_id'] = $resultado_estagiario->fields["supervisor_id"];
+    $estagiarios[$i]['professor_id'] = $resultado_estagiario->fields["professor_id"];
     $estagiarios[$i]['nota'] = $resultado_estagiario->fields["nota"];
     $estagiarios[$i]['ch'] = $resultado_estagiario->fields["ch"];
 
-    $id_instituicao = $resultado_estagiario->fields["id_instituicao"];
-    $id_supervisor = $resultado_estagiario->fields["id_supervisor"];
-    $id_professor = $resultado_estagiario->fields["id_professor"];
-    $id_area = $resultado_estagiario->fields["id_area"];
+    $curr_inst_id = $resultado_estagiario->fields["instituicao_id"];
+    $curr_super_id = $resultado_estagiario->fields["supervisor_id"];
+    $curr_prof_id = $resultado_estagiario->fields["professor_id"];
 
     // Instituicao
-    if (!empty($id_instituicao)) {
-        $sql_instituicao = "select id, instituicao from estagio where id = $id_instituicao";
+    if (!empty($curr_inst_id)) {
+        $sql_instituicao = "select id, instituicao from instituicoes where id = " . (int)$curr_inst_id;
         $res_instituicao = $db->Execute($sql_instituicao);
-        if ($res_instituicao === false)
-            die("Nao foi possivel consultar a tabela estagio");
-        while (!$res_instituicao->EOF) {
+        if ($res_instituicao && !$res_instituicao->EOF) {
             $estagiarios[$i]['instituicao'] = $res_instituicao->fields["instituicao"];
-            $res_instituicao->MoveNext();
+        } else {
+            $estagiarios[$i]['instituicao'] = "Sem dados";
         }
     } else {
-        $id_instituicao = 0;
         $estagiarios[$i]['instituicao'] = "Sem dados";
     }
 
     // Supervisor
-    if (!empty($id_supervisor)) {
-        $sql_nome_supervisor = "select nome from supervisores where id = $id_supervisor";
+    if (!empty($curr_super_id)) {
+        $sql_nome_supervisor = "select nome from supervisores where id = " . (int)$curr_super_id;
         $resultado_nome_supervisor = $db->Execute($sql_nome_supervisor);
-        if ($resultado_nome_supervisor === false)
-            die("Nao foi possivel consultar a tabela supervisores");
-        while (!$resultado_nome_supervisor->EOF) {
+        if ($resultado_nome_supervisor && !$resultado_nome_supervisor->EOF) {
             $estagiarios[$i]['supervisor'] = $resultado_nome_supervisor->fields["nome"];
-            $resultado_nome_supervisor->MoveNext();
+        } else {
+            $estagiarios[$i]['supervisor'] = "Sem dados";
         }
     } else {
-        $id_supervisor = 0;
         $estagiarios[$i]['supervisor'] = "Sem dados";
     }
 
     // Professor
-    if (!empty($id_professor)) {
-        $sql_nome_professor = "select nome from professores where id=$id_professor";
+    if (!empty($curr_prof_id)) {
+        $sql_nome_professor = "select nome from professores where id = " . (int)$curr_prof_id;
         $resultado_nome_professor = $db->Execute($sql_nome_professor);
-        if ($resultado_nome_professor === false)
-            die("Nao foi possivel consultar a tabela professores");
-        while (!$resultado_nome_professor->EOF) {
+        if ($resultado_nome_professor && !$resultado_nome_professor->EOF) {
             $estagiarios[$i]['professor'] = $resultado_nome_professor->fields["nome"];
-            $resultado_nome_professor->MoveNext();
+        } else {
+            $estagiarios[$i]['professor'] = "Sem dados";
         }
     } else {
-        $id_professor = 0;
         $estagiarios[$i]['professor'] = "Sem dados";
-    }
-
-    // Area
-    if (!empty($id_area)) {
-        $sql_nome_area = "select area from areas_estagio where id=$id_area";
-        $resultado_nome_area = $db->Execute($sql_nome_area);
-        if ($resultado_nome_area === false)
-            die("Nao foi possivel consultar a tabela areas_estagio");
-        while (!$resultado_nome_area->EOF) {
-            $estagiarios[$i]['area'] = $resultado_nome_area->fields["area"];
-            $resultado_nome_area->MoveNext();
-        }
-    } else {
-        $id_area = 0;
-        $estagiarios[$i]['area'] = "Sem dados";
     }
 
     $resultado_estagiario->MoveNext();
@@ -255,61 +230,56 @@ while (!$resultado_estagiario->EOF) {
 }
 
 // Capturo a informacao sobre as instituicoes
-$sql = "select id, instituicao from estagio order by instituicao";
+$instituicoes = array();
+$sql = "select id, instituicao from instituicoes order by instituicao";
 $resultado = $db->Execute($sql);
 if ($resultado === false)
-    die("Nao foi possivel consultar a tabela estagio");
+    die("Nao foi possivel consultar a tabela instituicoes");
 $i = 0;
 while (!$resultado->EOF) {
-    $instituicoes[$i]['id_instituicao'] = $resultado->fields['id'];
+    $instituicoes[$i]['instituicao_id'] = $resultado->fields['id'];
     $instituicoes[$i]['instituicao'] = $resultado->fields['instituicao'];
     $resultado->MoveNext();
     $i++;
 }
 
 // Capturo a informacao sobre os supervisores
+$supervisores = array();
 $sql_supervisores = "select id, nome from supervisores order by nome";
 $resultado_supervisores = $db->Execute($sql_supervisores);
 if ($resultado_supervisores === false)
     die("Nao foi possivel consultar a tabela supervisores");
 $i = 0;
 while (!$resultado_supervisores->EOF) {
-    $supervisores[$i]['id_supervisor'] = $resultado_supervisores->fields['id'];
+    $supervisores[$i]['supervisor_id'] = $resultado_supervisores->fields['id'];
     $supervisores[$i]['supervisor'] = $resultado_supervisores->fields['nome'];
     $resultado_supervisores->MoveNext();
     $i++;
 }
 
 // Capturo a informacao sobre os professores
+$professores = array();
 $sql_professores = "select id, nome from professores order by nome";
 $resultado_professores = $db->Execute($sql_professores);
 if ($resultado_professores === false)
     die("Nao foi possivel consultar a tabela professores");
 $i = 0;
 while (!$resultado_professores->EOF) {
-    $professores[$i]['id_professor'] = $resultado_professores->fields['id'];
+    $professores[$i]['professor_id'] = $resultado_professores->fields['id'];
     $professores[$i]['professor'] = $resultado_professores->fields['nome'];
     $resultado_professores->MoveNext();
-    $i++;
-}
-
-// Capturo a informacao sobre as areas
-$sql_areas = "select id, area from areas_estagio order by area";
-$resultado_areas = $db->Execute($sql_areas);
-if ($resultado_areas === false)
-    die("Nao foi possivel consultar a tabela areas_estagio");
-$i = 0;
-while (!$resultado_areas->EOF) {
-    $areas[$i]['id_area'] = $resultado_areas->fields['id'];
-    $areas[$i]['area'] = $resultado_areas->fields['area'];
-    $resultado_areas->MoveNext();
     $i++;
 }
 
 $smarty = new Smarty_estagio;
 $smarty->assign("origem", $origem);
 // Aluno
-$smarty->assign("id_aluno", $id_aluno);
+$smarty->assign("aluno_id", $aluno_id);
+
+$smarty = new Smarty_estagio;
+$smarty->assign("origem", $origem);
+// Aluno
+$smarty->assign("aluno_id", $aluno_id);
 $smarty->assign("registro", $registro);
 $smarty->assign("aluno_nome", $nome);
 $smarty->assign("codigo_telefone", $codigo_telefone);
@@ -334,8 +304,6 @@ $smarty->assign("instituicoes", $instituicoes);
 $smarty->assign("supervisores", $supervisores);
 // Professores
 $smarty->assign("professores", $professores);
-// Areas
-$smarty->assign("areas", $areas);
 
 $smarty->display("alunos-atualizar_atualiza.tpl");
 

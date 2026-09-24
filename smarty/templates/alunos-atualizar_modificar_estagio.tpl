@@ -37,7 +37,7 @@ Modifica dados do aluno
 <form action="atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table border="1" width="80%">
-<caption>Modificar dados do aluno <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
+<caption>Modificar dados do aluno <a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 <tbody>
 
 <tr>
@@ -107,7 +107,7 @@ Município:
 <tr>
 <td colspan="2" style="text-align: center">
 <input type="hidden" name="acao" value="1">
-<input type="hidden" name="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="submit" name="submit" value="Confirma">
 </td>
 </tr>
@@ -149,8 +149,8 @@ Modifica dados dos campos de estágio
 <td>{$estagiarios[elemento].ch}</td>
 <td>{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Modifica</a></td>
-<td><a href="../cancelar/cancela_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Canelar</a></td>
+<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modifica</a></td>
+<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Canelar</a></td>
 </tr>
 {/section}
 </table>
@@ -217,10 +217,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Instituição:</td>
 <td>
-<select name="id_instituicao" size="1">
+<select name="instituicao_id" size="1">
 <option value="0">Selecione instituição</option>
 {section name=elemento loop=$instituicoes}
-<option value="{$instituicoes[elemento].id_instituicao}">
+<option value="{$instituicoes[elemento].instituicao_id}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
 {/section}
 </select>
@@ -230,10 +230,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Supervisor:</td>
 <td>
-<select name="id_supervisor" size="1">
+<select name="supervisor_id" size="1">
 <option value="0">Selecione supervisor</option>
 {section name=elemento loop=$supervisores}
-<option value="{$supervisores[elemento].id_supervisor}">
+<option value="{$supervisores[elemento].supervisor_id}">
 {$supervisores[elemento].supervisor|truncate:50}</option>
 {/section}
 </select>
@@ -243,10 +243,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Professor:</td>
 <td>
-<select name="id_professor" size="1">
+<select name="professor_id" size="1">
 <option value="0">Selecione professor</option>
 {section name=elemento loop=$professores}
-<option value="{$professores[elemento].id_professor}">
+<option value="{$professores[elemento].professor_id}">
 {$professores[elemento].professor|truncate:50}</option>
 {/section}
 </select>
@@ -266,7 +266,7 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </td>
 </tr>
 
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="nome" id="nome" value="{$aluno_nome}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">
 

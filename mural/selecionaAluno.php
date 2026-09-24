@@ -39,8 +39,8 @@ function verificaRegistro() {
 
 <?php
 $instituicao    = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
-// echo "Id instituicao " . $id_instituicao . "Instituicao " . $instituicao . "<br>";
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
+// echo "Muralestagio id " . $muralestagio_id . " Instituicao " . $instituicao . "<br>";
 ?>
 
 <h1>Inscrição para seleção de estágio na instituição: <?php echo $instituicao; ?></h1>
@@ -48,7 +48,7 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao
 <form name="seleciona_aluno" id="seleciona_aluno" method="post" action="verifica.php" onSubmit="return verificaRegistro();">
 <p>Digite o seu número de registro (DRE):</p>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
-<input type="hidden" name="id_instituicao" value="<?php echo $id_instituicao; ?>">
+<input type="hidden" name="muralestagio_id" value="<?php echo $muralestagio_id; ?>">
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>
 

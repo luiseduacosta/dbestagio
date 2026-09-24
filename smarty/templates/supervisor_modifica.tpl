@@ -15,7 +15,7 @@
 <tbody>
 
 <tr>
-<td colspan="2">Id: {$id_supervisor}</td>
+<td colspan="2">Id: {$supervisor_id}</td>
 </tr>
 
 <tr>
@@ -28,6 +28,7 @@
 <td><input type="text" name="nome" size="50" value="{$nome}"></td>
 </tr>
 
+<tr>
 <td>Email</td>
 <td><input type="text" name="email" size="50" value="{$email}"></td>
 </tr>
@@ -49,13 +50,15 @@
 </tr>
 {/section}
 
+<!--
 <tr class="rodape">
 <td colspan="2" class="coluna_centralizada">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>
+//-->
 
-<input type="hidden" name="id_supervisor" value="{$id_supervisor}">
+<input type="hidden" name="supervisor_id" value="{$supervisor_id}">
 <!--
 <input type="hidden" name="id_instituicao" value="{$id_instituicao}">
 //-->
@@ -63,7 +66,7 @@
 </table>
 </div>
 
-</form>
+<!--</form>-->
 
 </body>
 

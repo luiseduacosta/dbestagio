@@ -2,17 +2,15 @@
 
 /*
  * Created on 13/06/2006
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
 include_once("../setup.php");
 
 $sistema_autentica = $_REQUEST['sistema_autentica'];
+
 $aluno = $_REQUEST['aluno']; // Novo ou ja conhecido
-$id_aluno = $_REQUEST['id_aluno'];
-$id_instituicao = $_REQUEST['id_instituicao'];
+$aluno_id = $_REQUEST['aluno_id'];
+$muralestagio_id = $_REQUEST['muralestagio_id'];
 
 $nome = $_REQUEST['nome'];
 $registro = $_REQUEST['registro'];
@@ -44,31 +42,12 @@ if ($sistema_autentica == 1) {
         $codigo_celular = 21;
     }
 
-    /*
-      echo "Tipo: " . $aluno . "<br>";
-      echo "Id Aluno: " . $id_aluno . "<br>";
-      echo "Id Instituição: " . $id_instituicao . "<br>";
-      echo "Registro: " . $registro . "<br>";
-     */
-
-// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-// echo "Nascimento (atualizaInsere.php) " . $nascimento . "<br>";
-// $nova_data = ereg_replace("-","/",$nascimento);
-// echo "Nova data: ". $nova_data . "<br>";
-// $dataCorrigida = explode("/",$nova_data);
-// $dataSQL = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
-
     if (empty($nascimento))
         $dataSQL = "";
     else
         $dataSQL = date("Y-m-d", strtotime($nascimento));
 
-// Se não eh "novo" atualiza a tabela alunos
-    if ($aluno == 1) {
-        $dbase = " alunos ";
-    } elseif ($aluno == 0) {
-        $dbase = " alunosNovos ";
-    }
+    $dbase = " alunos ";
 
     $sql = "update " . $dbase . " set " .
             "nome='$nome', " .
@@ -85,50 +64,52 @@ if ($sistema_autentica == 1) {
             "cep='$cep', " .
             "municipio='$municipio', " .
             "bairro='$bairro' " .
-// "where id='$id_aluno'";
             "where registro='$registro'";
 
-// echo $sql . "<br>";
-// die();
 
     $resultado = $db->Execute($sql);
-    if ($resultado === false) die("Não foi possível atualizar a tabela alunos ou a tabela alunosNovos");
+    if ($resultado === false) die("Não foi possível atualizar a tabela alunos");
 }
 
 // Insere inscricao para selecao de estagio
-if (!empty($id_instituicao)) {
+if (!empty($muralestagio_id)) {
     $data = date("Y-m-j");
 
     // Capturo o valor do PERIODO_ATUAL
     $periodo = PERIODO_ATUAL;
 
     // Verifico se o aluno já fez inscricao nesta seleção
-    $sql = "select id from mural_inscricao where id_aluno='$registro' and id_instituicao='$id_instituicao' and periodo='$periodo'";
+    $sql = "select id from inscricoes where registro='$registro' and muralestagio_id='$muralestagio_id' and periodo='$periodo'";
     // echo $sql . "<br>";
     // die("Verifico se ja fez inscricao");
     $resultado = $db->Execute($sql);
     $quantidade = $resultado->RecordCount($ql);
     if ($quantidade > 0) {
         echo "Inscrição já realizada" . "<br>";
-        header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
+        header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
         die("Inscricao ja realizada!");
     }
 
-    $sql_inserir = "insert into mural_inscricao (id_aluno,id_instituicao,data,periodo) " .
-            "values('$registro','$id_instituicao','$data','$periodo')";
-    // echo $sql_inserir . "<br>";
+    // Busco o id do aluno na tabela alunos
+    $sql_aluno = "select id from alunos where registro='$registro'";
+    $res_aluno = $db->Execute($sql_aluno);
+    $aluno_id = $res_aluno->fields['id'];
+    if (!$aluno_id) die ("Não foi possível encontrar o aluno com registro $registro na tabela alunos");
+
+    $sql_inserir = "insert into inscricoes (registro, muralestagio_id, data, periodo, aluno_id) " .
+            "values('$registro','$muralestagio_id','$data','$periodo','$aluno_id')";
     // die("Inserir inscrição para estágio");
     $resultadoInserir = $db->Execute($sql_inserir);
 
     if ($resultadoInserir === false)
-        die("Não foi possível inserir o registro na tabela mural_inscricao");
+        die("Não foi possível inserir o registro na tabela inscricoes");
 
-    header("Location:listaInscritos.php?id_instituicao=$id_instituicao");
+    header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
 
     exit;
 }
 
-header("Location:ver-aluno.php?id_aluno={$registro}&aluno={$aluno}");
+header("Location:ver-aluno.php?registro={$registro}");
 
 exit;
 

@@ -13,8 +13,8 @@
 <script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(function() {
-	$("#telefone").mask("9999.9999");
- 	$("#celular").mask("9999.9999");
+	$("#telefone").mask("(99)9999.9999");
+ 	$("#celular").mask("(99)99999.9999");
 	$("#cep").mask("99999-999");
 	$("#cpf").mask("999999999-99");	
 });
@@ -22,12 +22,12 @@ $(function() {
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#id_instituicao").change(function() {
-	$("#id_supervisor").html("<option value='sda'>Procurando :::::::</option>");
+	$("#instituicao_id").change(function() {
+	$("#supervisor_id").html("<option value='sda'>Procurando :::::::</option>");
 	$.post('exibir_super.php',
 	{ id_estagio : $(this).val() },
 	function(resposta){
-		$("select[@name=id_supervisor]").html(resposta);
+		$("select[@name=supervisor_id]").html(resposta);
 		}
 		);
 	});
@@ -41,9 +41,9 @@ function verificaPeriodo() {
 }
 
 function aluno() {
-    var id_aluno = document.form_estagiarios.id_aluno.value;
+    var aluno_id = document.form_estagiarios.aluno_id.value;
     // alert("Id aluno = " + id_aluno);
-    window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;
+    window.location="../atualizar/atualiza.php?aluno_id=" + aluno_id;
 }
 </script>
 
@@ -78,7 +78,7 @@ Modifica dados do aluno
 <table border="1" width="80%">
 <caption>Aluna(o): {$aluno_nome} DRE: {$registro}</caption>
 <!--
-<a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
+<a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 //-->
 <tbody>
 
@@ -152,7 +152,7 @@ Município:
 </tr>
 
 <tr>
-<td>Observa&ccedil;&otilde;es</td>
+<td>Observações</td>
 <td>
 <textarea name="observacoes" id="observacoes" rows="3" cols="60">
 {$observacoes}
@@ -164,7 +164,7 @@ Município:
 <td colspan="2" style="text-align: center">
 <input type="hidden" name="acao" value="1">
 <input type="hidden" name="origem" value={$origem}>
-<input type="hidden" name="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="submit" name="submit" value="Confirma">
 </td>
 </tr>
@@ -202,8 +202,8 @@ Modifica dados dos campos de estágio
 <td style='text-align:right'>{$estagiarios[elemento].ch}</td>
 <td style='text-align:right'>{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Modificar</a></td>
-<td><a href="../cancelar/cancela_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Excluir</a></td>
+<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
+<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluir</a></td>
 </tr>
 {/section}
 </table>
@@ -259,10 +259,10 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Instituição:</td>
 <td>
-<select id="id_instituicao" name="id_instituicao" size="1">
+<select id="instituicao_id" name="instituicao_id" size="1">
 <option value="0">Selecione instituição</option>
 {section name=elemento loop=$instituicoes}
-<option value="{$instituicoes[elemento].id_instituicao}">
+<option value="{$instituicoes[elemento].instituicao_id}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
 {/section}
 </select>
@@ -272,20 +272,19 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Supervisor: </td>
 <td>
-<select id='id_supervisor' name='id_supervisor' size=1>
+<select id='supervisor_id' name='supervisor_id' size=1>
 <option id ='opcoes' value='0'>Selecione supervisor</option>
 </select>
 </td>
 </tr>
 
-<!--
 <tr>
 <td>Supervisor:</td>
 <td>
-<select name="id_supervisor" size="1">
+<select name="supervisor_id" size="1">
 <option value="0">Selecione supervisor</option>
 {section name=elemento loop=$supervisores}
-<option value="{$supervisores[elemento].id_supervisor}">
+<option value="{$supervisores[elemento].supervisor_id}">
 {$supervisores[elemento].supervisor|truncate:50}</option>
 {/section}
 </select>
@@ -296,24 +295,11 @@ Noturno <input type="radio" name="turno" value="N">
 <tr>
 <td>Professor:</td>
 <td>
-<select name="id_professor" size="1">
+<select name="professor_id" size="1">
 <option value="0">Selecione professor</option>
 {section name=elemento loop=$professores}
-<option value="{$professores[elemento].id_professor}">
+<option value="{$professores[elemento].professor_id}">
 {$professores[elemento].professor|truncate:50}</option>
-{/section}
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Área do professor:</td>
-<td>
-<select name="id_area" size="1">
-<option value="0">Selecione area</option>
-{section name=elemento loop=$areas}
-<option value="{$areas[elemento].id_area}">
-{$areas[elemento].area|truncate:50}</option>
 {/section}
 </select>
 </td>
@@ -327,7 +313,7 @@ Carga horária (inteiro): <input type="text" name="ch" id="ch" size="5" maxlengt
 </td>
 </tr>
 
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="origem" id="origem" value="{$origem}">
 <input type="hidden" name="nome" id="nome" value="{$aluno_nome}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">

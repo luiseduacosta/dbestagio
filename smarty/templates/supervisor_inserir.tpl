@@ -27,7 +27,7 @@
 <tr>
 <td>Selecione</td>
 <td>
-<select name="id_supervisor" id="id_supervisor">
+<select name="supervisor_id" id="supervisor_id">
 <option value="0" selected>Selecione supervisor</option>
 {section name=elemento loop=$num_supervisor}
 <option 
@@ -45,8 +45,8 @@ value={$num_supervisor[elemento]}>{$nome_supervisor[elemento]|truncate:50}</opti
 <tr>
 <td>Instituição</td>
 <td>
-<select name="id_instituicao" id="id_instituicao">
-{html_options values=$num_instituicao selected=$id_instituicao output=$instituicao|truncate:50}
+<select name="instituicao_id" id="instituicao_id">
+{html_options values=$num_instituicao selected=$instituicao_id output=$instituicao|truncate:50}
 </select>
 </td>
 </tr>

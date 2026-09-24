@@ -1,24 +1,22 @@
 <?php
 
-// include_once("mural-autentica.inc");
-
 include_once("../setup.php");
 
-$id_instituicao = $_REQUEST['id_instituicao'];
+$muralestagio_id = $_REQUEST['muralestagio_id'];
 
-$sql_inscritos = "select id from mural_inscricao where id_instituicao=$id_instituicao";
+$sql_inscritos = "select id from inscricoes where muralestagio_id=$muralestagio_id";
 $resultado_inscritos = $db->Execute($sql_inscritos);
 // echo $sql_inscritos . "<br>";
-if ($resultado_inscritos === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if ($resultado_inscritos === false) die ("Não foi possível consultar a tabela inscricoes");
 $quantidade = $resultado_inscritos->RecordCount();
 // echo $quantidade . "<br>";
 
 if ($quantidade === 0) {
 	// Elimino o registro da instituicao
-	$sql_estagio = "delete from mural_estagio where id='$id_instituicao'";
+	$sql_estagio = "delete from mural_estagios where id='$muralestagio_id'";
 	// echo $sql_estagio . "<br>";
 	$resultado_estagio = $db->Execute($sql_estagio);
-	if ($resultado_estagio === false) die ("Não foi possível excluir o registro da tabela mural_estagio");
+	if ($resultado_estagio === false) die ("Não foi possível excluir o registro da tabela mural_estagios");
 } else {
 	echo "Primeiro tem que excluir os alunos inscritos para logo poder excluir a instituição" . "<br>";
 }

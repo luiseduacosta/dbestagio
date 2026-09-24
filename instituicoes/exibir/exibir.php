@@ -3,27 +3,25 @@
 include_once("../../db.inc");
 
 // Pego o numero do instituicao
-$id_instituicao = $_REQUEST['id_instituicao'];
+$instituicao_id = isset($_REQUEST['instituicao_id']) ? $_REQUEST['instituicao_id'] : (isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL);
 
-$sql_estagio = "select e.id, e.instituicao, e.endereco, e.cep, e.telefone, e.fax, e.beneficio, e.fim_de_semana, a.area from estagio as e, areas_estagio as a where e.area=a.id and e.id=$id_instituicao";
+$sql_estagio = "select e.id, e.instituicao, e.endereco, e.cep, e.telefone, e.beneficios, e.fim_de_semana, a.area from instituicoes as e, areas as a where e.area=a.id and e.id=$instituicao_id";
 $res_estagio = $db->Execute($sql_estagio);
 // echo $sql_estagio . "<br>";
-if ($res_estagio === false) die ("Não foi possível consultar a tabela estagio");
+if ($res_estagio === false) die ("Não foi possível consultar a tabela instituicoes");
 
 while (!$res_estagio->EOF) {
-	$id_instituicao = $res_estagio->fields['id'];
-	$instituicao    = $res_estagio->fields['instituicao'];
-	$endereco       = $res_estagio->fields['endereco'];
-	$cep            = $res_estagio->fields['cep'];
-	$telefone       = $res_estagio->fields['telefone'];
-	$fax            = $res_estagio->fields['fax'];
-	$beneficio	= $res_estagio->fields['beneficio'];
-	$fim_de_semana  = $res_estagio->fields['fim_de_semana'];
-	$area		= $res_estagio->fields['area'];
+	$instituicao_id    = $res_estagio->fields['id'];
+	$instituicao       = $res_estagio->fields['instituicao'];
+	$endereco          = $res_estagio->fields['endereco'];
+	$cep               = $res_estagio->fields['cep'];
+	$telefone          = $res_estagio->fields['telefone'];
+	$beneficio	       = $res_estagio->fields['beneficios'];
+	$fim_de_semana     = $res_estagio->fields['fim_de_semana'];
 
 	// Busco os supervisores por instituicao
 	$sql  = "select s.id, s.cress, s.nome from supervisores as s, inst_super as j ";
-	$sql .= "where j.id_supervisor=s.id and j.id_instituicao=$id_instituicao ";
+	$sql .= "where j.supervisor_id=s.id and j.instituicao_id=$instituicao_id ";
 	$sql .= "order by nome";
 	$resultado = $db->Execute($sql);
 	if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
@@ -54,20 +52,15 @@ while (!$res_estagio->EOF) {
 include_once("../../setup.php");
 $smarty = new Smarty_estagio;
 
-$smarty->assign("id",$id_instituicao);
+$smarty->assign("id",$instituicao_id);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("endereco",$endereco);
 $smarty->assign("cep",$cep);
 $smarty->assign("telefone",$telefone);
-$smarty->assign("fax",$fax);
 $smarty->assign("beneficio",$beneficio);
 $smarty->assign("fim_de_semana",$fim_de_semana);
-$smarty->assign("area",$area);
-$smarty->assign("turma",$turma);
 $smarty->assign("supervisores",$supervisores);
 $smarty->display("instituicao_exibir.tlp");
-
-$db->close();
 
 exit;
 

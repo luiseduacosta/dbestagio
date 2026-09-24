@@ -83,7 +83,7 @@ if ($submit) {
 
 	// $resultado_insere = $db->Execute($sql_alunos);
 	// if($resultado_insere === false) die ("Nao foi possivel atualizar o registro na tabela alunos");
-	$sql_instituicao = "select instituicao from estagio where id=$id_instituicao";
+	$sql_instituicao = "select instituicao from instituicoes where id=$id_instituicao";
 	$res_instituicao = $db->Execute($sql_instituicao);
 	$instituicao = $res_instituicao->fields['instituicao'];
 
@@ -197,9 +197,9 @@ while (!$resultado->EOF) {
 }
 
 // Capturo as instituicoes
-$sql_instituicoes = "select id, instituicao from estagio order by instituicao";
+$sql_instituicoes = "select id, instituicao from instituicoes order by instituicao";
 $resposta_instituicoes = $db->Execute($sql_instituicoes);
-if ($resposta_instituicoes === false) die ("Nao foi possivel consultar a tabela estagio");
+if ($resposta_instituicoes === false) die ("Nao foi possivel consultar a tabela instituicoes");
 $i = 1;
 while (!$resposta_instituicoes->EOF) {
     $instituicoes[$i]['id'] = $resposta_instituicoes->fields['id'];

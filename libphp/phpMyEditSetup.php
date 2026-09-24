@@ -55,8 +55,8 @@
 <?php
 
 if (! defined('PHP_EOL')) {
-	define('PHP_EOL', strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? "\r\n"
-			: strtoupper(substr(PHP_OS, 0, 3) == 'MAC') ? "\r" : "\n");
+	define('PHP_EOL', (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') ? "\r\n"
+			: ((strtoupper(substr(PHP_OS, 0, 3)) == 'MAC') ? "\r" : "\n"));
 }
 
 $hn = @$_POST['hn'];

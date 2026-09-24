@@ -4,10 +4,10 @@ include_once("../setup.php");
 
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 $instituicao = isset($_REQUEST['instituicao']) ? htmlspecialchars($_REQUEST['instituicao']) : NULL;
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? $_REQUEST['id_instituicao'] : NULL;
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
 
 // echo "Registro: " . $registro . "<br>";
-// echo "Id instituicao : " . $id_instituicao . "<br>";
+// echo "Muralestagio id : " . $muralestagio_id . "<br>";
 // echo "Instituicao: " . $instituicao;
 
 if (!ctype_digit($registro)) {
@@ -26,20 +26,20 @@ $quantidade_estagiarios = $resultado_estagiarios->RecordCount();
 
 // Aluno cadastrado como novo
 if ($quantidade_estagiarios === 0) {
-	$sql = "select id from alunosNovos where registro='$registro'";
+	$sql = "select id from alunos where registro='$registro'";
 	$resultado = $db->Execute($sql);
 	$quantidade = $resultado->RecordCount();
 	if ($quantidade > 0) {
 		// die("Aluno novo ja cadastrado como aluno novo");
 		// Solicitar senha aqui
-		echo "<meta http-equiv='refresh' content='1; URL=mural-alunos_modifica.php?registro=$registro&id_aluno=$id_aluno&id_instituicao=$id_instituicao&aluno=0'>";
+		echo "<meta http-equiv='refresh' content='1; URL=mural-alunos_modifica.php?registro=$registro&aluno_id=$id_aluno&muralestagio_id=$muralestagio_id&aluno=0'>";
 		exit;
 	} else {
 		// echo "Inserir alunosNovos<br>";
 		// die("Aluno novo ainda nao cadastrado em alunos novos");
-		// header("Location:cadastro.php?registro=$registro&id_instituicao=$id_instituicao");
-		// die($id_instituicao);
-		echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&id_instituicao=$id_instituicao'>";
+		// header("Location:cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id");
+		// die($muralestagio_id);
+		echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id'>";
 		die;
 	}
 // Aluno cadastrado como estagiario. Busco os estagios realizados
@@ -59,11 +59,11 @@ if ($quantidade_estagiarios === 0) {
 
 	/**/
 	// Capturo a instituicao atual e anterior
-	$sql_periodos = "select periodo, nivel, id_instituicao, id_supervisor
+	$sql_periodos = "select periodo, nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor
 	, instituicao, supervisores.nome
 	from estagiarios
-	inner join estagio on estagiarios.id_instituicao = estagio.id
-	left join supervisores on estagiarios.id_supervisor = supervisores.id ";
+	inner join instituicoes on estagiarios.instituicao_id = instituicoes.id
+	left join supervisores on estagiarios.supervisor_id = supervisores.id ";
 	// where registro = '$registro' and periodo < '" . PERIODO_ATUAL . "' order by periodo desc";
 	$sql_periodos .= "where registro = '$registro' order by periodo desc";
 	// echo $sql_periodos . "<br>";
@@ -108,18 +108,18 @@ if ($quantidade_estagiarios === 0) {
 		<form action='mural-alunos_modifica.php' method='post'>
 		<input type='submit' name='submit' value='Confirmar inscrição'>
 		<input type='hidden' name='registro' value='$registro'>
-		<input type='hidden' name='id_aluno' value='$id_aluno'>
+		<input type='hidden' name='aluno_id' value='$id_aluno'>
 		<input type='hidden' name='aluno' value='1'>
-		<input type='hidden' name='id_instituicao' value='$id_instituicao'>
+		<input type='hidden' name='muralestagio_id' value='$muralestagio_id'>
 		</form>
 			";
 		die;
 	    } else {
-		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?id_aluno=$id_aluno&registro=$registro&id_instituicao=$id_instituicao&aluno=1'>";
+		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?aluno_id=$id_aluno&registro=$registro&muralestagio_id=$muralestagio_id&aluno=1'>";
 		die;
 	    }
 	} else {
-		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?id_aluno=$id_aluno&registro=$registro&id_instituicao=$id_instituicao&aluno=1'>";
+		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?aluno_id=$id_aluno&registro=$registro&muralestagio_id=$muralestagio_id&aluno=1'>";
 		die;
 	}
 	exit;

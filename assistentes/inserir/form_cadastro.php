@@ -124,7 +124,6 @@ function contacarateres() {
 
 <?php
 
-include_once("../../setup.php");
 include_once("../../autentica.inc");
 
 if ($sistema_autentica == 0) {

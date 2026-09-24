@@ -6,31 +6,31 @@ define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 require(FPDF."fpdf.php");
 require("../setup.php");
 
-if (!isset($id_instituicao)) {
-	$id_instituicao = $_REQUEST['id_instituicao'];
-	// echo "id: " . $id_instituicao . "<br>";
+if (!isset($muralestagio_id)) {
+	$muralestagio_id = $_REQUEST['muralestagio_id'];
+	// echo "id: " . $muralestagio_id . "<br>";
 }
 
-$sql = "select instituicao from mural_estagio where id=$id_instituicao";
+$sql = "select instituicao from mural_estagios where id=$muralestagio_id";
 // echo $sql . "<br>";
 $res_instituicao = $db->Execute($sql);
-if ($res_instituicao === false) die ("Não foi possível consultar a tabela mural_estagio");
+if ($res_instituicao === false) die ("Não foi possível consultar a tabela mural_estagios");
 while (!$res_instituicao->EOF) {
     $instituicao = $res_instituicao->fields['instituicao'];
     $res_instituicao->MoveNext();
 }
 
-$sql = "SELECT id, id_aluno, data 
-    FROM `mural_inscricao` 
-    WHERE id_instituicao='$id_instituicao' and periodo='". PERIODO_ATUAL . "'";
+$sql = "SELECT id, registro, data 
+    FROM `inscricoes` 
+    WHERE muralestagio_id='$muralestagio_id' and periodo='". PERIODO_ATUAL . "'";
 //echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela mural_inscricao");
+if ($resultado === false) die ("Não foi possível consultar a tabela inscricoes");
 $i = 0;
 while (!$resultado->EOF) {
 	$id = $resultado->fields['id'];
-	$id_aluno = $resultado->fields['id_aluno'];
+	$id_aluno = $resultado->fields['registro'];
 	$data = date("d-m-Y",strtotime($resultado->fields['data']));
 
 	$sqlAlunos = "select nome, alunos.registro, alunos.id, telefone, celular, email, max(nivel) as nivel 
@@ -45,9 +45,9 @@ while (!$resultado->EOF) {
 		$quantidade = $resultadoAlunos->RecordCount();
 		// echo $quantidade . " ";
 		if ($quantidade == 0) {
-			$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunosNovos where registro=$id_aluno";
+			$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
 			$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
-			if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunosNovos");
+			if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
 				while (!$resultadoAlunosNovos->EOF) {
 					$nome = $resultadoAlunosNovos->fields['nome'];
 					// echo "Novos " . $nome . "<br>";
@@ -211,7 +211,7 @@ for($j=0;$j<sizeof($inscritos);$j++) {
 	}
 }
 
-$arquivo = "estagio" . $id_instituicao . ".pdf";
+$arquivo = "estagio" . $muralestagio_id . ".pdf";
 $camino = TMP. $arquivo;
 $pdf->Output("$camino");
 

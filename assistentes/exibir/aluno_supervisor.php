@@ -3,14 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once("../../setup.php");
-
-// Verifico se o usuario esta logado
-if (isset($_COOKIE['usuario_senha'])) {
-    $usuario = $_COOKIE['usuario_nome'];
-    if ($usuario) 
-	$logado = 1;
-}
+include_once("../../autentica.inc");
 
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : 'super_email';
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
@@ -26,21 +19,21 @@ if ($res_sql === false) die ("Não foi possível consultar a tabela supervisor_a
 $i = 0;
 while (!$res_sql->EOF) {
     
-    $alunosupervisor[$i]['id_aluno'] = $res_sql->fields['id_aluno'];
+    $alunosupervisor[$i]['aluno_id'] = $res_sql->fields['aluno_id'];
     $alunosupervisor[$i]['aluno'] = $res_sql->fields['aluno'];
     $alunosupervisor[$i]['registro'] = $res_sql->fields['registro'];
     $alunosupervisor[$i]['celular'] = $res_sql->fields['celular'];
     $alunosupervisor[$i]['telefone'] = $res_sql->fields['telefone'];
     $alunosupervisor[$i]['email'] = $res_sql->fields['email'];
-    $alunosupervisor[$i]['id_estagiario'] = $res_sql->fields['id_estagiario'];
+    $alunosupervisor[$i]['estagiario_id'] = $res_sql->fields['estagiario_id'];
     $alunosupervisor[$i]['periodo'] = $res_sql->fields['periodo'];
-    $alunosupervisor[$i]['id_supervisor'] = $res_sql->fields['id_supervisor']; 
+    $alunosupervisor[$i]['supervisor_id'] = $res_sql->fields['supervisor_id']; 
     $alunosupervisor[$i]['supervisor'] = $res_sql->fields['supervisor']; 
     $alunosupervisor[$i]['cress'] = $res_sql->fields['cress'];
     $alunosupervisor[$i]['super_email'] = $res_sql->fields['super_email'];
     $alunosupervisor[$i]['super_celular'] = $res_sql->fields['super_celular'];
     $alunosupervisor[$i]['super_telefone'] = $res_sql->fields['super_telefone'];
-    $alunosupervisor[$i]['id_instituicao'] = $res_sql->fields['id_instituicao'];
+    $alunosupervisor[$i]['instituicao_id'] = $res_sql->fields['instituicao_id'];
     $alunosupervisor[$i]['instituicao'] = $res_sql->fields['instituicao'];
     
     $i++;
@@ -60,13 +53,10 @@ while (!$res_turma->EOF) {
 }
 
 $smarty = new Smarty_estagio;
-$smarty->assign("logado",$logado);
 $smarty->assign("periodos",$periodos);
 $smarty->assign("periodo",$periodo);
 $smarty->assign("alunosupervisor",$alunosupervisor);
 $smarty->display("supervisores-aluno_supervisor.tpl");
-
-$db->Close();
 
 exit;
 

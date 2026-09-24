@@ -115,7 +115,7 @@
 		{section name=j loop=$alunos}
 		<tr>
 			<td>{$alunos[j].registro}</td>
-			<td><a href="../../alunos/exibir/ver_cada.php?id_aluno={$alunos[j].id_aluno}">{$alunos[j].nome}</a></td>
+			<td><a href="../../alunos/exibir/ver_cada.php?aluno_id={$alunos[j].id_aluno}">{$alunos[j].nome}</a></td>
 			<td style='text-align:center'>{$alunos[j].periodo}</td>
 			<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$alunos[j].id_instituicao}">{$alunos[j].instituicao}</a></td>
 			<td style='text-align:center'>{$alunos[j].area}</td>

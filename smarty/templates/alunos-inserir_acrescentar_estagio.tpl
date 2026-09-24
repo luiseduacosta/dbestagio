@@ -17,9 +17,9 @@ function verificaPeriodo()
 
 function aluno()
 {
-    var id_aluno = document.form_estagiarios.id_aluno.value;
-    // alert("Id aluno = " + id_aluno);
-    window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;
+    var aluno_id = document.form_estagiarios.aluno_id.value;
+    // alert("Id aluno = " + aluno_id);
+    window.location="../atualizar/atualiza.php?aluno_id=" + aluno_id;
 }
 </script>
 {/literal}
@@ -29,7 +29,7 @@ function aluno()
 <body style="direction: ltr;">
 
 <div align="center" id="formulario_acrescenta_estagio" style="visibility: visible">
-<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir est�gio do aluno <a href="../exibir/ver_cada.php?id_aluno={$id_aluno}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
+<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estágio do aluno <a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
 </div>
 
 <div align="center" id="historico_estagios" style="visibility: visible">
@@ -55,8 +55,8 @@ function aluno()
 <td style="text-align:center">{$estagiarios[elemento].ch}</td>
 <td style="text-align:center">{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Modificar</a></td>
-<td><a href="../cancelar/cancela_estagio.php?id_estagiarios={$estagiarios[elemento].id}&id_aluno={$id_aluno}">Excluirr</a></td>
+<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
+<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluirr</a></td>
 </tr>
 {/section}
 
@@ -119,10 +119,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Instituição:</td>
 <td>
-<select name="id_instituicao" size="1">
+<select name="instituicao_id" size="1">
 <option value="0">Selecione instituição</option>
 {section name=elemento loop=$instituicoes}
-<option value="{$instituicoes[elemento].id_instituicao}">
+<option value="{$instituicoes[elemento].instituicao_id}">
 {$instituicoes[elemento].instituicao|truncate:50}</option>
 {/section}
 </select>
@@ -132,10 +132,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Supervisor:</td>
 <td>
-<select name="id_supervisor" size="1">
+<select name="supervisor_id" size="1">
 <option value="0">Selecione supervisor</option>
 {section name=elemento loop=$supervisores}
-<option value="{$supervisores[elemento].id_supervisor}">
+<option value="{$supervisores[elemento].supervisor_id}">
 {$supervisores[elemento].supervisor|truncate:50}</option>
 {/section}
 </select>
@@ -145,10 +145,10 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 <tr>
 <td>Professor:</td>
 <td>
-<select name="id_professor" size="1">
+<select name="professor_id" size="1">
 <option value="0">Selecione professor</option>
 {section name=elemento loop=$professores}
-<option value="{$professores[elemento].id_professor}">
+<option value="{$professores[elemento].professor_id}">
 {$professores[elemento].professor|truncate:50}</option>
 {/section}
 </select>
@@ -156,19 +156,19 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 </tr>
 
 <tr>
-<td>Área:</td>
+<td>Turma:</td>
 <td>
-<select name="id_area" size="1">
-<option value="0">Selecione área</option>
-{section name=elemento loop=$areas}
-<option value="{$areas[elemento].id_area}">
-{$areas[elemento].area|truncate:50}</option>
+<select name="turma_id" size="1">
+<option value="0">Selecione turma</option>
+{section name=elemento loop=$turmas}
+<option value="{$turmas[elemento].turma_id}">
+{turmas[elemento].turma|truncate:50}</option>
 {/section}
 </select>
 </td>
 </tr>
 
-<input type="hidden" name="id_aluno" id="id_aluno" value="{$id_aluno}">
+<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="nome" id="nome" value="{$aluno_nome}">
 <input type="hidden" name="registro" id="registro" value="{$registro}">
 

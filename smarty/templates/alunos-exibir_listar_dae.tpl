@@ -70,7 +70,7 @@ Tabela principal
 	<td style="text-align:right">{$i++}</td>
 	<td style="text-align:center">{$dae[i].registro}</td>
 	<td style="text-align:center">{$dae[i].nivel}</td>
-        <td><a href="ver_cada.php?id_aluno={$dae[i].registro}">{$dae[i].nome}</a></td>
+        <td><a href="ver_cada.php?registro={$dae[i].registro}">{$dae[i].nome}</a></td>
 	<td>{$dae[i].endereco}</td>
 	<td>{$dae[i].bairro}</td>
 	<td>{$dae[i].municipio}</td>
@@ -84,7 +84,7 @@ Tabela principal
 	<td style="text-align:right">{$dae[i].codigo_celular}</td>
 	<td style="text-align:right">{$dae[i].celular}</td>	
 	<td>{$dae[i].email}</td>
-	<td><a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$dae[i].id_instituicao}">{$dae[i].instituicao}</a></td>
+	<td><a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$dae[i].instituicao_id}">{$dae[i].instituicao}</a></td>
 	{if $dae[i].seguro eq 0}
 		<td style="text-align:left">Instituição</td>
 	{else}
