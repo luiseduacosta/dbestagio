@@ -1,7 +1,6 @@
 <?php
 
-setcookie("usuario_nome");
-setcookie("mural_usuario","",0,"estagio/mural/administraco");
+setcookie("usuario","");
 
 ?>
 
