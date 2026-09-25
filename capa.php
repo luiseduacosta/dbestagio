@@ -1,8 +1,7 @@
 <?php
 
-// Apago os cookies que ja possam existir enviando um cookie sem valor
+// Elimino os cookies
 setcookie("usuario", "");
-setcookie("senha", "");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
