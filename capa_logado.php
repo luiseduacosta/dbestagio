@@ -1,6 +1,6 @@
 <?php
 
-$usuario_nome = isset($_COOKIE['usuario_nome']) ? $_COOKIE['usuario_nome'] : NULL;
+$usuario = isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : NULL;
 
 ?>
 <html>
@@ -12,7 +12,7 @@ $usuario_nome = isset($_COOKIE['usuario_nome']) ? $_COOKIE['usuario_nome'] : NUL
 <script type='text/javascript' src='lib/jquery.cookie.js'></script>
 <script type='text/javascript'>
 $(document).ready(function() {
-	var autentica = $.cookie("usuario_nome");
+	var autentica = $.cookie("usuario");
 	// alert("Autentica: " + autentica);
 	if(autentica) {
 		$("#administracao").css("display","block");
@@ -37,7 +37,7 @@ $(document).ready(function() {
 <table>
 
 <tr>
-<td>Usuário <b><?php echo $usuario_nome; ?></b> autorizado</td>
+<td>Usuário <b><?php echo $usuario; ?></b> autorizado</td>
 </tr>
 
 </table>

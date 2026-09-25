@@ -1,10 +1,7 @@
 <?php
 
 // Elimino os cookies
-setcookie("usuario_nome");
-setcookie("usuario_senha");
-setcookie("mural_usuario","",0,"/estagio/mural/administraco");
-setcookie("mural_senha","",0,"/estagio/mural/administraco");
+setcookie("usuario", "");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
