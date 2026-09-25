@@ -1,7 +1,7 @@
 <?php
-
-setcookie("usuario_nome");
-setcookie("mural_usuario","",0,"estagio/mural/administraco");
+// Apago os cookies que ja possam existir enviando um cookie sem valor
+setcookie("usuario", "");
+setcookie("senha", "");
 
 ?>
 
