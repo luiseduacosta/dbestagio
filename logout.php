@@ -1,7 +1,6 @@
 <?php
-// Apago os cookies que ja possam existir enviando um cookie sem valor
-setcookie("usuario", "");
-setcookie("senha", "");
+
+setcookie("usuario","");
 
 ?>
 
