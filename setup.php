@@ -66,8 +66,8 @@ $termo_compromisso_final = $res->fields['termo_compromisso_final'];
 // Para o mural
 define("PERIODO_ATUAL", $mural_periodo_atual);
 $periodo_atual = PERIODO_ATUAL;
-$_periodo_atual = explode("-",$periodo_atual);
 
+$_periodo_atual = explode("-",$periodo_atual);
 if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";
 if ($_periodo_atual[1] == 1) $periodo_anterior = $_periodo_atual[0] - 1 . "-2";
 
