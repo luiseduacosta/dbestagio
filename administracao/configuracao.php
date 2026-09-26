@@ -84,6 +84,24 @@ $opts['fdd']['mural_periodo_atual'] = array(
   'colattrs' => 'style="text-align:center"', 
   'sort'     => true
 );
+$opts['fdd']['termo_compromisso_periodo'] = array(
+  'name'     => 'Período do termo de compromisso',
+  'select'   => 'T',
+  'maxlen'   => 6,
+  'sort'     => true
+);
+$opts['fdd']['termo_compromisso_inicio'] = array(
+  'name'     => 'Início do termo de compromisso',
+  'select'   => 'T',
+  'maxlen'   => 10,
+  'sort'     => true
+);
+$opts['fdd']['termo_compromisso_final'] = array(
+  'name'     => 'Finalização do termo de compromisso',
+  'select'   => 'T',
+  'maxlen'   => 10,
+  'sort'     => true
+);
 $opts['fdd']['curso_turma_atual'] = array(
   'name'     => 'Turma atual do curso',
   'select'   => 'T',
@@ -93,25 +111,7 @@ $opts['fdd']['curso_turma_atual'] = array(
   'sort'     => true
 );
 $opts['fdd']['curso_encerramento_inscricoes'] = array(
-  'name'     => 'Data de encerramento das inscrições para o curso',
-  'select'   => 'T',
-  'maxlen'   => 10,
-  'sort'     => true
-);
-$opts['fdd']['termo_compromisso_periodo'] = array(
-  'name'     => 'Período do termo de compromisso',
-  'select'   => 'T',
-  'maxlen'   => 6,
-  'sort'     => true
-);
-$opts['fdd']['termo_compromisso_inicio'] = array(
-  'name'     => 'Data de início do termo de compromisso',
-  'select'   => 'T',
-  'maxlen'   => 10,
-  'sort'     => true
-);
-$opts['fdd']['termo_compromisso_final'] = array(
-  'name'     => 'Data de finalização do termo de compromisso',
+  'name'     => 'Encerramento das inscrições para o curso',
   'select'   => 'T',
   'maxlen'   => 10,
   'sort'     => true
