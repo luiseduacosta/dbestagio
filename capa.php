@@ -13,7 +13,7 @@ setcookie("usuario", "");
 @import url("estagio.css");
 </style>
 <script>
-// setTimeout("trocaImagem();",3000);
+setTimeout("trocaImagem();",3000);
 function trocaImagem() {
     figura = document.getElementById("capa_imagem");
     figura.src="imagens/fachada_redonda.jpg";
