@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/../autentica.inc';   // valida e já redireciona se não logado
 
+echo '<link rel="stylesheet" href="user.css">' . "\n";
+
 // A partir daqui o usuário está garantidamente autenticado
 if ($sistema_autentica == 1) {
     echo "Logado como: {$usuario_email} ({$usuario_nome_completo})";
