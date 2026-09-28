@@ -10,7 +10,8 @@ if (empty($email_digitado) || empty($password_digitada)) {
     exit;
 }
 
-$sql = "SELECT email, password FROM user WHERE email = '$email_digitado'";
+$sql = "SELECT email, password FROM users WHERE email = '$email_digitado'";
+echo $sql;
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Nao foi possivel consultar a tabela user");
 
@@ -76,6 +77,7 @@ $senha_ok = verificar_senha($password_digitada, $db_password_hash);
 if ($senha_ok) {
     converter_hash_para_bcrypt($password_digitada, $db_password_hash, $db, $db_email);
     setcookie("email", $db_email);
+    setcookie("usuario", $db_email);
     echo("<script language='javascript'>parent.window.location.href='index1.html'</script>");
 } else {
     echo("<script language='javascript'>parent.window.location.href='index.html'</script>");

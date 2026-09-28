@@ -1,5 +1,17 @@
 <?php
 
+require_once __DIR__ . '/../autentica.inc';   // valida e já redireciona se não logado
+
+// A partir daqui o usuário está garantidamente autenticado
+if ($sistema_autentica == 1) {
+    echo "Logado como: {$usuario_email} ({$usuario_nome_completo})";
+    echo "Role: {$usuario_role}";        // admin | supervisor | professor | aluno
+    echo "isAdmin: " . ($isAdmin ? 'sim' : 'não');
+} else {
+  header('Location: /');
+  exit;
+}
+
 echo "<h3>Usuários do sistema (tabela: users)</h3>";
 
 include_once("../database.inc");
@@ -41,16 +53,32 @@ $opts['fdd']['id'] = array(
 $opts['fdd']['email'] = array(
   'name'     => 'E-mail',
   'select'   => 'T',
-  'maxlen'   => 150,
+  'maxlen'   => 50,
   'sort'     => true
 );
-$opts['fdd']['password'] = array(
-  'name'     => 'Senha',
+$opts['fdd']['identificacao'] = array(
+  'name'     => 'Identificação',
   'select'   => 'T',
-  'maxlen'   => 255,
-  'default'  => '',
-  'input'    => 'P',
-  'help'     => 'Para novos usuários: digite a senha em texto claro (será criptografada automaticamente). Para editar: deixe em branco para MANTER a senha atual, ou digite uma nova senha para alterar.'
+  'maxlen'   => 10,
+  'sort'     => true
+);
+$opts['fdd']['nome'] = array(
+  'name'     => 'Nome',
+  'select'   => 'T',
+  'maxlen'   => 130,
+  'sort'     => true
+);
+$opts['fdd']['role'] = array(
+  'name'     => 'Categoria',
+  'select'   => 'T',
+  'maxlen'   => 20,
+  'sort'     => true
+);
+$opts['fdd']['ativo'] = array(
+  'name'     => 'Ativo',
+  'select'   => 'T',
+  'maxlen'   => 1,
+  'sort'     => true
 );
 
 require_once '../libphp/phpMyEdit.class.php';
