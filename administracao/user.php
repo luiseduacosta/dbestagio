@@ -72,13 +72,15 @@ $opts['fdd']['nome'] = array(
 );
 $opts['fdd']['role'] = array(
   'name'     => 'Categoria',
-  'select'   => 'T',
+  'select'   => 'D',
+  'values2'  => array('Admin' => 'Admin', 'Aluno' => 'Aluno', 'Professor' => 'Professor', 'Supervisor' => 'Supervisor'),
   'maxlen'   => 20,
   'sort'     => true
 );
 $opts['fdd']['ativo'] = array(
   'name'     => 'Ativo',
-  'select'   => 'T',
+  'select'   => 'D',
+  'values2'  => array('1' => 'Sim', '0' => 'Não'),
   'maxlen'   => 1,
   'sort'     => true
 );
