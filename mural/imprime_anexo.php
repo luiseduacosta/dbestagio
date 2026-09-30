@@ -86,7 +86,6 @@ if (sizeof($inscritos) != 0) {
 }
 
 $pdf=new FPDF();
-$pdf->Open();
 
 $titulo = "Alunos inscritos para seleção de estágio";
 $pdf->SetTitle($titulo);

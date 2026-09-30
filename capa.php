@@ -39,10 +39,12 @@ function escolaImagem() {
 
 <br />
 
-<span style='text-align: center'>
+<p>
+    <span style='text-align: center'>
 Telefone: 3873 5394 <br />
 Email: estagio@ess.ufrj.br
-</span>
+    </span>
+</p>
 
 <p class="coluna_centralizada">
 <a href="http://localhost/estagio/">

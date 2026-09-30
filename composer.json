@@ -5,9 +5,10 @@
     "require": {
         "php": ">=8.0",
         "adodb/adodb-php": "^5.22",
+        "phpmailer/phpmailer": "^6.9",
+        "setasign/fpdf": "^1.8",
         "smarty/smarty": "^4.5",
-        "tecnickcom/tcpdf": "^6.7",
-        "phpmailer/phpmailer": "^6.9"
+        "tecnickcom/tcpdf": "^6.7"
     },
     "config": {
         "optimize-autoloader": true,

@@ -44,7 +44,7 @@ $pdf->Open();
 
 $pdf->AddPage();
 $pdf->SetMargins(15,15,15);
-$pdf->Image("minerva.jpg", 90, 10, 20, 20, jpg);
+$pdf->Image("minerva.jpg", 90, 10, 20, 20, 'jpg');
 $pdf->SetFont("Helvetica","B","10");
 // $pdf->Ln();
 $cabecalho1 = $pdf->GetStringWidth("UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
