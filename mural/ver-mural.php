@@ -1,33 +1,40 @@
 <?php
 
-include_once("../autentica.inc");
+include_once(__DIR__ . "/../autentica.inc");
 
 // Variavel com o nome do aluno para saber se um registro foi inserido na selecao de estagio
 $insere = isset($_GET['insere']) ? $_GET['insere'] : '';
+
+// Ordenacao: lista fechada de colunas permitidas (protecao contra SQL injection)
+$ordens = array(
+	'instituicao'    => 'instituicao',
+	'vagas'          => 'vagas',
+	'beneficios'     => 'beneficios',
+	'data_inscricao' => 'data_inscricao',
+	'data_selecao'   => 'data_selecao'
+);
 $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : '';
-if (empty($ordem)) {
-	$ordem = "data_inscricao desc";
-}
+$orderby = isset($ordens[$ordem]) ? $ordens[$ordem] : 'data_inscricao desc';
 
 // Pego os estagios do PERIODO_ATUAL
-$sql  = "select id, instituicao_id, instituicao, convenio, vagas, beneficios, final_de_semana, ";
-$sql .= "carga_horaria, requisitos, ";
-$sql .= "horario, data_selecao, horario_selecao, data_inscricao, ";
-$sql .= "local_selecao, forma_selecao, contato, outras ";
-$sql .= "from mural_estagios ";
-$sql .= "where periodo = '" . PERIODO_ATUAL . "' ";
-$sql .= "order by $ordem";
+// A quantidade de inscritos de cada estagio e calculada na propria consulta (elimina N+1)
+$sql  = "select m.id as mural_estagio_id, m.instituicao_id, m.instituicao, m.convenio, m.vagas, ";
+$sql .= "m.beneficios, m.final_de_semana, m.carga_horaria, m.requisitos, ";
+$sql .= "m.horario, m.data_selecao, m.horario_selecao, m.data_inscricao, ";
+$sql .= "m.local_selecao, m.forma_selecao, m.contato, m.outras, ";
+$sql .= "(select count(i.registro) from inscricoes as i where i.muralestagio_id = m.id and i.periodo = ?) as quantidade_alunos ";
+$sql .= "from mural_estagios as m ";
+$sql .= "where m.periodo = ? ";
+$sql .= "order by $orderby";
 
-// echo $sql . "<br>";
-
-$resultado = $db->Execute($sql);
-
+$resultado = $db->Execute($sql, array(PERIODO_ATUAL, PERIODO_ATUAL));
 if ($resultado === false) die("Não foi possível consultar a tabela mural_estagios");
+
 $i = 0;
 $totalVagas = 0;
 $instituicao = array();
 while (!$resultado->EOF) {
-		$instituicao[$i]['mural_estagio_id'] = $resultado->fields['id'];
+		$instituicao[$i]['mural_estagio_id'] = $resultado->fields['mural_estagio_id'];
 		$instituicao[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
 		$instituicao[$i]['instituicao'] = $resultado->fields['instituicao'];
 		$instituicao[$i]['convenio'] = $resultado->fields['convenio'];
@@ -64,23 +71,28 @@ while (!$resultado->EOF) {
 
 		$instituicao[$i]['horario'] = $horario;
 
-		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
-		if ($resultado->fields['data_selecao'] == 0) {
-			$data_selecao = "00-00-0000";
+		// Passo do formato aaaa-mm-dd para dd-mm-aaaa na exibicao e mantenho o
+		// formato ISO em um campo separado, usado na ordenacao pelo DataTables
+		$ts_selecao = empty($resultado->fields['data_selecao']) ? false : strtotime($resultado->fields['data_selecao']);
+		if ($ts_selecao === false) {
+			$instituicao[$i]['data_selecao'] = '';
+			$instituicao[$i]['data_selecao_iso'] = '';
 		} else {
-			$data_selecao = date("d-m-Y",strtotime($resultado->fields['data_selecao']));
+			$instituicao[$i]['data_selecao'] = date("d-m-Y", $ts_selecao);
+			$instituicao[$i]['data_selecao_iso'] = date("Y-m-d", $ts_selecao);
 		}
-		$instituicao[$i]['data_selecao'] = $data_selecao;
 
 		$instituicao[$i]['horario_selecao'] = $resultado->fields['horario_selecao'];
-		
-		// Passo do formato aaaa/mm/dd para dd/mm/aaaa		
-		if ($resultado->fields['data_inscricao'] == 0) {
-			$data_inscricao = "00-00-0000";
+
+		$ts_inscricao = empty($resultado->fields['data_inscricao']) ? false : strtotime($resultado->fields['data_inscricao']);
+		if ($ts_inscricao === false) {
+			$instituicao[$i]['data_inscricao'] = '';
+			$instituicao[$i]['data_inscricao_iso'] = '';
 		} else {
-			$data_inscricao = date("d-m-Y",strtotime($resultado->fields['data_inscricao']));
+			$instituicao[$i]['data_inscricao'] = date("d-m-Y", $ts_inscricao);
+			$instituicao[$i]['data_inscricao_iso'] = date("Y-m-d", $ts_inscricao);
 		}
-		$instituicao[$i]['data_inscricao'] = $data_inscricao;
+
 		$instituicao[$i]['local_selecao'] = $resultado->fields['local_selecao'];
 		$forma_selecao = $resultado->fields['forma_selecao'];
 		switch($forma_selecao) {
@@ -105,45 +117,33 @@ while (!$resultado->EOF) {
 		$instituicao[$i]['contato'] = $resultado->fields['contato'];
 		$instituicao[$i]['outras'] = $resultado->fields['outras'];
 
-		$mural_estagio_id = $resultado->fields['id'];	
-		$sql_alunos = "select count(registro) as alunos from inscricoes where muralestagio_id='$mural_estagio_id' and periodo='" . PERIODO_ATUAL . "'";
-		// echo $sql_alunos . "<br>";
-		$resultado_alunos = $db->Execute($sql_alunos);
-		$instituicao[$i]['quantidade_alunos'] = $resultado_alunos ? $resultado_alunos->fields['alunos'] : 0;
-		
+		$instituicao[$i]['quantidade_alunos'] = $resultado->fields['quantidade_alunos'];
+
 		$resultado->MoveNext();
 		$i++;
 }
 
-// Calculo o total de alunos que procuram estagio
-$sql = "SELECT DISTINCT registro FROM inscricoes WHERE periodo='". PERIODO_ATUAL . "'";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela inscricoes");
-$total = $resultado->RecordCount();
-$conhecidos = 0;
-$estagio_um = 0;
-$i = 0;
-while (!$resultado->EOF) {
-	$registro = $resultado->fields['registro'];
+// Calculo o total de alunos que procuram estagio (consultas set-based, sem N+1)
+$sql = "select count(distinct registro) as total from inscricoes where periodo = ?";
+$res_total = $db->Execute($sql, array(PERIODO_ATUAL));
+if ($res_total === false) die("Nao foi possivel consultar a tabela inscricoes");
+$total = (int) $res_total->fields['total'];
 
-	$sqlVelho = "select registro from estagiarios where registro='$registro' group by registro";
-	$resultadoVelho = $db->Execute($sqlVelho);
-	$numero_aluno = $resultadoVelho ? $resultadoVelho->fields['registro'] : null;
+// Alunos ja conhecidos: registro existe na tabela estagiarios
+$sql  = "select count(distinct i.registro) as conhecidos from inscricoes as i ";
+$sql .= "where i.periodo = ? ";
+$sql .= "and exists (select 1 from estagiarios as e where e.registro = i.registro)";
+$res_conhecidos = $db->Execute($sql, array(PERIODO_ATUAL));
+if ($res_conhecidos === false) die("Nao foi possivel consultar a tabela estagiarios");
+$conhecidos = (int) $res_conhecidos->fields['conhecidos'];
 
-	if (!empty($numero_aluno)) {
-
-		$conhecidos++;
-
-		$sql_velho = "select registro from estagiarios where registro = '$numero_aluno' and periodo = '" .PERIODO_ATUAL . "' and nivel = 1 group by registro";
-		$res_velho = $db->Execute($sql_velho);
-		$dre_aluno = $res_velho ? $res_velho->fields['registro'] : null;
-		if (!empty($dre_aluno)) {
-			$estagio_um++;
-		}
-	}
-	$i++;
-	$resultado->MoveNext();
-}
+// Alunos conhecidos que ja fizeram estagio de nivel 1 no periodo atual
+$sql  = "select count(distinct i.registro) as estagio_um from inscricoes as i ";
+$sql .= "where i.periodo = ? ";
+$sql .= "and exists (select 1 from estagiarios as e where e.registro = i.registro and e.periodo = ? and e.nivel = 1)";
+$res_estagio_um = $db->Execute($sql, array(PERIODO_ATUAL, PERIODO_ATUAL));
+if ($res_estagio_um === false) die("Nao foi possivel consultar a tabela estagiarios");
+$estagio_um = (int) $res_estagio_um->fields['estagio_um'];
 
 // Calculo os novos como diferencia entre o total e os ja conhecidos
 $novos = ($total - $conhecidos);
@@ -161,5 +161,9 @@ $smarty->assign("totalAlunos", $total);
 $smarty->assign("alunos_novos", $novo_novo);
 $smarty->assign("alunosVelhos", $conhecidos_conhecidos);
 $smarty->display("../../mural/ver-mural.tpl");
+
+$db->Close();
+
+exit;
 
 ?>

@@ -7,7 +7,6 @@ define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 require(FPDF."fpdf.php");
 
 $pdf=new FPDF();
-$pdf->Open();
 
 $titulo = "Cadastro de campos de estágio";
 $pdf->SetTitle($titulo);
@@ -18,7 +17,7 @@ $pdf->AddPage();
 
 $pdf->SetFont("Arial","","20");
 
-$pdf->Image("minerva.jpg", 100, 20, 20, 20, jpg);
+$pdf->Image("minerva.jpg", 100, 20, 20, 20, 'jpg');
 $pdf->Ln(50);
 $cabecalho1 = $pdf->GetStringWidth("UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
 $pdf->SetX((210-$cabecalho1)/2);
@@ -36,7 +35,7 @@ $pdf->SetX((210-$cabecalho3)/2);
 $pdf->Cell($cabecalho3,9,"Coordenação de Estágio", 0, 1, 'C', 0);
 $pdf->Ln(20);
 
-$pdf->Image("LogoESS.jpg",95,120,20,20,jpg);
+$pdf->Image("LogoESS.jpg",95,120,20,20,'jpg');
 $pdf->Ln(10);
 
 $cabecalho4 = $pdf->GetStringWidth("Catálogo de campos de estágio");

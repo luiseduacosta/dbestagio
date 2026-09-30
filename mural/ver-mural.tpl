@@ -10,6 +10,7 @@
 	<meta name="generator" content="screem 0.12.1">
 	<meta name="description" content="">
 	<meta name="keywords" content="">
+	<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
 		@import url("mural.css");
 	</style>
@@ -58,69 +59,68 @@
 		estágio
 	</p>
 
-	<div align="center">
-		<form name="inscricao" id="inscricao" action="#" method="post">
-			<table class="tab_mural" border="1">
+	<table id="mural" class="display">
 
-				<thead>
-					<tr>
-						<th><a href=?ordem=instituicao>Instituiçao</a></th>
-						<th>Vagas</th>
-						<th>Inscritos</th>
-						<th>Benefícios</th>
-						<th><a href=?ordem=data_inscricao>Encerramento</a></th>
-						<th><a href=?ordem=data_selecao>Seleção</a></th>
-						{if $sistema_autentica == 1}
-						<th>Email enviado</th>
-						{/if}
-					</tr>
-				</thead>
+		<thead>
+			<tr>
+				<th>Instituição</th>
+				<th>Vagas</th>
+				<th>Inscritos</th>
+				<th>Benefícios</th>
+				<th>Encerramento</th>
+				<th>Seleção</th>
+			</tr>
+		</thead>
 
-				{section name=item loop=$instituicao}
+		<tbody>
 
-				<tbody>
-					<tr>
-						{if $instituicao[item].convenio == 0}
-					<tr style="background-color:#fdb9b9">
-						{else}
-					<tr style="background-color:#c9f5bf">
-						{/if}
-						<td><a
-								href="ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
-						</td>
-						<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
-						<td class="coluna_centralizada"><a
-								href="listaInscritos.php?muralestagio_id={$instituicao[item].mural_estagio_id}">{$instituicao[item].quantidade_alunos}</a>
-						</td>
-						<td>{$instituicao[item].beneficios}</td>
+		{section name=item loop=$instituicao}
+			<tr{if $instituicao[item].convenio == 0} style="background-color:#fdb9b9"{else} style="background-color:#c9f5bf"{/if}>
+				<td><a
+						href="ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
+				</td>
+				<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
+				<td class="coluna_centralizada"><a
+						href="listaInscritos.php?muralestagio_id={$instituicao[item].mural_estagio_id}">{$instituicao[item].quantidade_alunos}</a>
+				</td>
+				<td>{$instituicao[item].beneficios}</td>
 
-						{if $instituicao[item].data_inscricao == 0}
-						<td style="text-align:center">
-							Sem data
-						</td>
-						{else}
-						<td style="text-align:center">
-							{$instituicao[item].data_inscricao}
-						</td>
-						{/if}
+				<td class="coluna_centralizada" data-order="{$instituicao[item].data_inscricao_iso}">
+					{if $instituicao[item].data_inscricao == ''}
+					Sem data
+					{else}
+					{$instituicao[item].data_inscricao}
+					{/if}
+				</td>
 
-						{if $instituicao[item].data_selecao == 0}
-						<td style="text-align:center">
-							Sem data
-						</td>
-						{else}
-						<td style="text-align:center">
-							{$instituicao[item].data_selecao} Horário: {$instituicao[item].horario_selecao}
-						</td>
-						{/if}
-					</tr>
-				</tbody>
+				<td class="coluna_centralizada" data-order="{$instituicao[item].data_selecao_iso}">
+					{if $instituicao[item].data_selecao == ''}
+					Sem data
+					{else}
+					{$instituicao[item].data_selecao} Horário: {$instituicao[item].horario_selecao}
+					{/if}
+				</td>
+			</tr>
+		{/section}
 
-				{/section}
+		</tbody>
 
-			</table>
-		</form>
-	</div>
+	</table>
+
+	{literal}
+	<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+	<script src="../libjs/datatables/dataTables.min.js"></script>
+	<script>
+	$(document).ready(function () {
+		$('#mural').DataTable({
+			language: { url: '../libjs/datatables/pt-BR.json' },
+			pageLength: 25,
+			lengthMenu: [10, 25, 50, 100],
+			order: []
+		});
+	});
+	</script>
+	{/literal}
 
 </body>
 

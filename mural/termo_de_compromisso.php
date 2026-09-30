@@ -43,7 +43,6 @@ define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 require(FPDF."fpdf.php");
 
 $pdf = new FPDF();
-$pdf->Open();
 
 $pdf->AddPage();
 
