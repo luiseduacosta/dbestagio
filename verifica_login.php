@@ -11,12 +11,12 @@ if (empty($email_digitado) || empty($password_digitada)) {
 }
 
 $sql = "SELECT email, password FROM users WHERE email = '$email_digitado'";
-echo $sql;
+
 $resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela user");
+if ($resultado === false) die ("Nao foi possivel consultar a tabela users");
 
 if ($resultado->RecordCount() === 0) {
-    echo("<script language='javascript'>parent.window.location.href='login.php?email=$email_digitado&password=$password_digitada&opcao=login&msg=Email ou senha inválidos'</script>");
+    echo("<script language='javascript'>parent.window.location.href='index0.html?email=$email_digitado&password=$password_digitada&opcao=login&msg=Email ou senha inválidos'</script>");
     exit;
 }
 
@@ -78,9 +78,9 @@ if ($senha_ok) {
     converter_hash_para_bcrypt($password_digitada, $db_password_hash, $db, $db_email);
     setcookie("email", $db_email);
     setcookie("usuario", $db_email);
-    echo("<script language='javascript'>parent.window.location.href='index1.html'</script>");
+    echo("<script language='javascript'>parent.window.location.href='../mural/ver-mural.php'</script>");
 } else {
-    echo("<script language='javascript'>parent.window.location.href='index.html'</script>");
+    echo("<script language='javascript'>parent.window.location.href='index0.html'</script>");
 }
 
 ?>
