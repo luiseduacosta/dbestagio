@@ -57,7 +57,7 @@
                         
                         {* Inserir *}
                         {if !$curso}
-                            {if $smarty.cookies.usuario_senha}
+                            {if $smarty.cookies.usuario}
                                 <td style="background-color:red">
                                     <form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="inserir">
@@ -124,7 +124,7 @@
 
                         {* Excluir registro *}
                         {if !$curso}
-                            {if $smarty.cookies.usuario_senha}
+                            {if $smarty.cookies.usuario}
                                 <td style="background-color:red">
                                     <form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="excluir">
@@ -152,7 +152,7 @@
             <table border="1" width="95%">
                 <tbody>
 
-                    {if $smarty.cookies.usuario_senha}                 
+                    {if $smarty.cookies.usuario}                 
                     <form name="modifica_instituicao" action="?instituicao_id={$instituicao_id}" method="post">
 
                     <tr>
@@ -371,7 +371,7 @@
                         </tr>
                     {/if}
 
-                    {if $smarty.cookies.usuario_senha}
+                    {if $smarty.cookies.usuario}
                         <tr>
                             <td colspan="1">Observações</td>
                             <td colspan="2">
@@ -384,7 +384,7 @@
                         </tr>
                     {/if}
 
-                    {if $smarty.cookies.usuario_senha}
+                    {if $smarty.cookies.usuario}
                         <tr class="rodape">
                             <td colspan="3" class="rodape" style="text-align:center">
                                 <input type="hidden" name="flag" value="{$flag}">
@@ -432,12 +432,12 @@
 
                                         {* Tambem cadastrado como supervisor de estagio *}
                                         {if $inst_supervisores[i].id_super_estagio}
-                                            <a href='../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
+                                            <a href='../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
                                             &nbsp;
                                             <a href='ver_cada.php?instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
                                     {else}	
-                                        <a href="../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
+                                        <a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como assistente social do curso *}
                                         {if $inst_supervisores[i].id_super_curso}
@@ -452,11 +452,11 @@
                                 {if !$curso}
                                     {if $sistema_autentica == 1}
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../assistentes/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
+                                            <a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
                                         </td>
 
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../assistentes/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
+                                            <a href="../../supervisores/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
                                         </td>
                                     {/if}
                                 {/if}
@@ -470,7 +470,7 @@
 
         {* Inserir supervisor somente para os supervisores de estagio *}
         {if !$curso}
-            {if $smarty.cookies.usuario_senha}
+            {if $smarty.cookies.usuario}
                 <div align="center">
                     <table border='1'>
                         <tbody>

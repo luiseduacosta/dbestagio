@@ -1,44 +1,58 @@
 <?php
 
-include_once("../../autentica.inc");
+require_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
-$instituicao_id        = $_POST['instituicao_id'];
-$area_instituicao      = $_POST['area_instituicao'];
-$nome_instituicao      = $_POST['nome_instituicao'];
-$endereco_instituicao  = $_POST['endereco_instituicao'];
-$cep_instituicao       = $_POST['cep_instituicao'];
-$telefone_instituicao  = $_POST['telefone_instituicao'];
-$beneficio_instituicao = $_POST['beneficio_instituicao'];
-$fim_de_semana         = $_POST['fim_de_semana'];
-$convenio              = $_POST['convenio'];
-$seguro                = $_POST['seguro'];
-// $turma                 = $_POST['turma'];
-// $nova_turma            = $_POST['nova_turma'];
+$instituicao_id = isset($_POST['instituicao_id']) ? (int)$_POST['instituicao_id'] : 0;
 
-$tamanho_instituicao = strlen($nome_instituicao);
-if ($tamanho_instituicao > 75) {
-    echo "Endereço maior de 75 carateres (seu tamanho é $tamanho_instituicao )" . "<br>";
-    exit;
+// Busca a instituição a editar.
+$instituicao_mod = Instituicao::find($instituicao_id);
+if ($instituicao_mod === null) {
+    die("Instituição não encontrada (id $instituicao_id).");
 }
 
-$tamanho_endereco = strlen($endereco_instituicao);
-if ($tamanho_endereco > 104) {
-    echo "Endereço maior de 105 carateres (seu tamanho é $tamanho_endereco )" . "<br>";
-    exit;
+// Coleta os campos do formulário.
+$dados = array();
+$dados['area']          = isset($_POST['area_instituicao']) ? trim($_POST['area_instituicao']) : null;
+$dados['instituicao']   = isset($_POST['nome_instituicao']) ? trim($_POST['nome_instituicao']) : '';
+$dados['endereco']      = isset($_POST['endereco_instituicao']) ? trim($_POST['endereco_instituicao']) : null;
+$dados['cep']           = isset($_POST['cep_instituicao']) ? trim($_POST['cep_instituicao']) : null;
+$dados['telefone']      = isset($_POST['telefone_instituicao']) ? trim($_POST['telefone_instituicao']) : null;
+$dados['beneficios']    = isset($_POST['beneficio_instituicao']) ? trim($_POST['beneficio_instituicao']) : null;
+$dados['fim_de_semana'] = isset($_POST['fim_de_semana']) ? $_POST['fim_de_semana'] : null;
+$dados['convenio']      = isset($_POST['convenio']) ? trim($_POST['convenio']) : null;
+$dados['seguro']        = isset($_POST['seguro']) ? $_POST['seguro'] : null;
+
+// Validações de tamanho (mesmas regras antigas, agora com mensagens claras).
+$limites = array(
+    'instituicao' => 75,
+    'endereco'    => 104,
+    'cep'         => 9,
+);
+foreach ($limites as $campo => $max) {
+    if (isset($dados[$campo]) && mb_strlen((string)$dados[$campo], 'UTF-8') > $max) {
+        echo "Campo '" . htmlspecialchars($campo) . "' excede $max caracteres (tamanho atual: "
+           . mb_strlen((string)$dados[$campo], 'UTF-8') . ").<br>";
+        exit;
+    }
 }
 
-$tamanho_cep = strlen($cep_instituicao);
-if ($tamanho_cep > 9) {
-    echo "Endereço maior de 9 carateres (seu tamanho é $tamanho_cep )" . "<br>";
-    exit;
+// Nome da instituição é obrigatório.
+if ($dados['instituicao'] === '') {
+    die("<p>O nome da instituição é obrigatório.</p>");
 }
 
-$sql = "update instituicoes set area='$area_instituicao', instituicao='$nome_instituicao', endereco='$endereco_instituicao', cep='$cep_instituicao', telefone='$telefone_instituicao', beneficios='$beneficio_instituicao', fim_de_semana='$fim_de_semana', convenio='$convenio', seguro='$seguro' where id='$instituicao_id'";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível atualizar a tabela instituicoes");
+// Aplica os dados no modelo e salva (UPDATE parametrizado via ADODB_Model).
+foreach ($dados as $campo => $valor) {
+    $instituicao_mod->$campo = $valor;
+}
 
-header("Location:../exibir/ver_cada.php?instituicao_id=$instituicao_id");
+if (!$instituicao_mod->save()) {
+    error_log("Erro ao atualizar instituicao: " . $db->ErrorMsg());
+    die("Não foi possível atualizar a tabela instituicoes. Tente novamente.");
+}
 
+header("Location: ../exibir/ver_cada.php?instituicao_id=$instituicao_id");
 exit;
 
 ?>

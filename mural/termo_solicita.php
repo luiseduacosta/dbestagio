@@ -125,9 +125,9 @@ $quantidade = $resultado->RecordCount();
 
 if ($quantidade == 0) {
 
-	$sql_novo = "select * from alunosNovos";
+	$sql_novo = "select * from alunos";
 	$resultado_novo = $db->Execute($sql_novo);
-	if ($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunosNovos");
+	if ($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunos");
 	$quantidade_novo = $resultado_novo->RecordCount();
 	if ($quantidade_novo == 0) {
 	    echo "Aluno não cadastrado em estágio <br />";

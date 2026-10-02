@@ -28,7 +28,7 @@
 <tr>
 <td style="text-align:center">{$i++}</td>
 <td style="text-align:center">{$supervisores[elemento].cress}</td>
-<td><a href="../../assistentes/exibir/ver_cada.php?supervisor_id={$supervisores[elemento].supervisor_id}">{$supervisores[elemento].nome}</a></td>
+<td><a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$supervisores[elemento].supervisor_id}">{$supervisores[elemento].nome}</a></td>
 <td>{$supervisores[elemento].email}</td>
 </tr>
 {/section}

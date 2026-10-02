@@ -2,36 +2,49 @@
 
 include_once("../../autentica.inc");
 
-$origem = $_REQUEST['origem'];
+$origem = isset($_REQUEST['origem']) ? $_REQUEST['origem'] : '';
 if (empty($origem))
 $origem = $_SERVER['HTTP_REFERER'];
 
-// Verifico se o usuario esta logado
-if (isset($_REQUEST['usuario_senha'])) {
-	$usuario = $_REQUEST['usuario_senha'];
-	if ($usuario)
+// Verifico se o usuario esta logado (cookie correto é "usuario").
+$logado = 0;
+if (!empty($_COOKIE['usuario'])) {
 	$logado = 1;
 }
 
+// Whitelist de colunas permitidas para ORDER BY (proteção contra SQL injection).
 $ordem = @$_REQUEST["ordem"];
-if (empty($ordem))
-$ordem = "nome";
+$ordenacoes = array(
+	'nome'       => 'nome',
+	'nome_desc'  => 'nome DESC',
+	'registro'   => 'alunos.registro',
+	'instituicao'=> 'instituicao',
+	'periodo'    => 'estagiarios.periodo',
+	'periodo_desc'=> 'estagiarios.periodo DESC',
+	'nivel'      => 'estagiarios.nivel',
+);
+if (empty($ordem) || !isset($ordenacoes[$ordem])) {
+	$ordem = 'nome';
+}
+$orderby = $ordenacoes[$ordem];
 
-$turma = isset($_REQUEST['turma']) ? $_REQUEST['turma'] : NULL;
+$turma = isset($_REQUEST['turma']) ? trim($_REQUEST['turma']) : NULL;
 
 $sql  = "select nome, alunos.registro, estagiarios.nivel, alunos.cpf, alunos.identidade, alunos.nascimento, alunos.orgao, alunos.endereco, alunos.bairro, alunos.municipio, alunos.cep, alunos.codigo_telefone, alunos.telefone, alunos.codigo_celular, alunos.celular, alunos.email, instituicoes.id as instituicao_id, instituicoes.instituicao, instituicoes.seguro ";
 $sql .= " from alunos ";
 $sql .= " inner join estagiarios on alunos.registro = estagiarios.registro ";
 $sql .= " inner join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
+
+$param = array();
 if ($turma) {
-	$sql .= " where estagiarios.periodo = '$turma' ";
+	$sql .= " where estagiarios.periodo = ? ";
+	$param[] = $turma;
 } else {
 	$sql .= " where estagiarios.periodo = (select max(estagiarios.periodo) as max_periodo from estagiarios)";
 }
-$sql .= " order by $ordem";
-// echo $sql . "<br>";
+$sql .= " order by $orderby";
 
-$resultado = $db->Execute($sql);
+$resultado = $db->Execute($sql, $param);
 if ($resultado == false) die ("Não foi possível consultar as tabelas alunos, estagiarios e instituicoes");
 $i = 0;
 while (!$resultado->EOF) {

@@ -86,32 +86,32 @@ SUPERVISORES
 </td></tr>
 
 <tr><td>
-<a href=assistentes/inserir/form_inserir.php target=_corpo>
+<a href=supervisores/inserir/form_inserir.php target=_corpo>
 Inserir</a>
 </td></tr>
 
 <tr><td>
-<a href=assistentes/seleciona.php target=_corpo>
+<a href=supervisores/seleciona.php target=_corpo>
 Modificar</a>
 </td></tr>
 
 <tr><td>
-<a href=assistentes/buscar/busca.php target=_corpo>
+<a href=supervisores/buscar/busca.php target=_corpo>
 Buscar</a>
 </td></tr>
 
 <tr><td>
-<a href=assistentes/exibir/ver_instituicoes.php target=_corpo>
+<a href=supervisores/exibir/ver_instituicoes.php target=_corpo>
 Listar</a>
 </td></tr>
 
 <tr><td>
-<a href=assistentes/exibir/seleciona.php target=_corpo>
+<a href=supervisores/exibir/seleciona.php target=_corpo>
 Ver supervisor</a>
 </td></tr>
 
 <tr><td>
-<a href=assistentes/seleciona.php?opcao=cancela target=_corpo>
+<a href=supervisores/seleciona.php?opcao=cancela target=_corpo>
 Cancelar</a>
 </td></tr>
 

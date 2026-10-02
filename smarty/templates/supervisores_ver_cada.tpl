@@ -92,7 +92,7 @@ function get_periodo() {
 </form>
 </td>
 
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 	<td style="background-color:red">
 	<form action="../cancelar/cancela.php" method="POST">
 	<input type="hidden" name=supervisor_id value={$supervisor_id}>
@@ -113,7 +113,7 @@ function get_periodo() {
 <tr><td>Cress</td><td>{$cress}</td></tr>
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 	<tr><td>Endereço</td><td>{$endereco}</td></tr>
 	<tr><td>Bairro</td><td>{$bairro}</td></tr>
 	<tr><td>CEP</td><td>{$cep}</td></tr>
@@ -128,12 +128,12 @@ function get_periodo() {
 <td>
 
 {if $id_curso}
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
     <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}'>{$id_curso}</a>
 {else}
     {$id_curso}
 {/if}
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
     <a href="../../curso/atualiza_supervisor_estagio.php?id_supervisor_curso={$id_curso}&indice={$indice}">Sincroniza</a>
 {/if}
 {/if}
@@ -151,7 +151,7 @@ function get_periodo() {
 {/section}
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
     <tr><td>Observações</td><td>{$observacoes}</td></tr>
 {/if}
 
@@ -159,7 +159,7 @@ function get_periodo() {
 </table>
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <table>
 <tbody>
 <tr>
@@ -202,7 +202,7 @@ function get_periodo() {
 <tbody>
 <tr>
 
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <th>Registro</th>
 {/if}
 
@@ -213,7 +213,7 @@ function get_periodo() {
 {section name=id loop=$alunos}
 <tr>
 
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
     <td>{$alunos[id].registro}</td>
 {/if}
 

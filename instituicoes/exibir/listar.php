@@ -1,216 +1,145 @@
 <?php
 
 include_once("../../setup.php");
+require_once("../../libphp/models.php");
 
-$sql_ultimo_periodo = "select max(periodo) as ultimo_periodo from estagiarios";
-// echo $sql_ultimo_periodo . "<br>";
-$res_ultimo_periodo = $db->Execute($sql_ultimo_periodo);
-$ultimo_periodo = $res_ultimo_periodo->fields['ultimo_periodo'];
+// Àreas de filtro (todas parametrizadas - sem SQL injection).
+// A ordenação é feita pelo DataTables (lado cliente), por isso não há coluna de ordenação.
+$turma        = isset($_GET['turma']) ? $_GET['turma'] : Instituicao::$db->GetOne("SELECT MAX(periodo) FROM estagiarios");
+$instituicao  = isset($_REQUEST['instituicao']) ? trim($_REQUEST['instituicao']) : '';
+$naturezaFilt = isset($_GET['natureza']) ? $_GET['natureza'] : '';
+$todos_periodos = 0;
+$total_supervi  = 0;
 
-$ordem = isset($_GET['ordem']) ? $_GET['ordem'] : "instituicao";
-$turma = isset($_GET['turma']) ? $_GET['turma'] : $ultimo_periodo;
-$instituicao = isset($_REQUEST['instituicao']) ? $_REQUEST['instituicao'] : NULL;
-$area_id = isset($_REQUEST['area_id']) ? $_REQUEST['area_id'] : NULL;
-$natureza = isset($_GET['natureza']) ? $_GET['natureza'] : NULL;
-// echo "Natureza " . $natureza . "<br>";
+// ---------- Totais gerais ----------
+$total_alunos      = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT registro) FROM estagiarios");
+$total_instituicoes = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT instituicao_id) FROM estagiarios WHERE instituicao_id IS NOT NULL");
+$total_professores = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT professor_id) FROM estagiarios WHERE professor_id IS NOT NULL");
 
-// Calculo a quantidade de alunos total e/ou por periodo
-$sql_alunos  = "select count(registro) as total_alunos from estagiarios";
-if ($turma) $sql_alunos .= " where periodo='$turma' ";
-$sql_alunos .= " group by registro";
-// echo $sql_alunos . "<br>";
-
-$res_alunos = $db->Execute($sql_alunos);
-if ($res_alunos == false) die ("Não foi possível consultar a tabela estagiarios");
-while (!$res_alunos->EOF) {
-	$total_alunos = $res_alunos->fields['total_alunos'];
-	$todos_alunos++;
-	$res_alunos->MoveNext();
+// ---------- Lista de instituições (filtrada por turma e nome/natureza) ----------
+$wheres = array();
+$params = array();
+if ($turma !== '' && $turma !== null) {
+    $wheres[] = "t.periodo = ?";
+    $params[] = $turma;
 }
-// echo "Total de alunos: ". $todos_alunos . " " . $total_alunos . "<br>";
-
-// Calculo a quantidade de instituicoes total e/ou por periodo
-$sql_instituicoes  = "select count(instituicao_id) as total_instituicao from estagiarios";
-if ($turma) $sql_instituicoes .= " where periodo='$turma' ";
-$sql_instituicoes .= " group by instituicao_id";
-// echo $sql_instituicoes . "<br>";
-$res_instituicoes = $db->Execute($sql_instituicoes);
-if ($res_instituicoes == false) die ("Não foi possível consultar a tabela estagiarios");
-while (!$res_instituicoes->EOF) {
-	$total_instituicoes = $res_instituicoes->fields['total_instituicoes'];
-	$todas_instituicoes++;
-	$res_instituicoes->MoveNext();
+if ($instituicao !== '') {
+    $wheres[] = "e.instituicao LIKE ?";
+    $params[] = "%$instituicao%";
 }
-// echo "Total de instituicoes: ". $todas_instituicoes . " " . $total_instituicoes . "<br>";
-
-// Calculo a quantidade de professores total e/ou por periodo
-$sql_professor  = "select count(professor_id) as total_professores from estagiarios";
-if ($turma) $sql_professor .= " where periodo='$turma' ";
-$sql_professor .= " group by professor_id";
-// echo $sql_professor . "<br>";
-$res_professor = $db->Execute($sql_professor);
-if ($res_professor == false) die ("Não foi possível consultar a tabela estagiarios");
-while (!$res_professor->EOF) {
-	$total_professores = $res_professor->fields['total_professores'];
-	$todos_professores++;
-	$res_professor->MoveNext();
+if ($naturezaFilt !== '' && $naturezaFilt !== '0') {
+    $wheres[] = "e.natureza = ?";
+    $params[] = $naturezaFilt;
 }
-// echo "Total de professores: ". $todos_professores . " " . $total_professores . "<br>";
+$where_sql = $wheres ? ('WHERE ' . implode(' AND ', $wheres)) : '';
 
-$sql  = "select e.id, e.instituicao, e.seguro, e.convenio, e.natureza, e.area as id_area, e.beneficios as beneficio ";
-$sql .= " , a.area ";
-$sql .= " , t.supervisor_id as id_supervisor ";
-$sql .= " from instituicoes as e ";
-$sql .= " left join areas as a on e.area = a.id ";
-$sql .= " left outer join estagiarios t on e.id = t.instituicao_id ";
-
-if ($turma == 0) {
-	$sql .= " where t.periodo > '$turma' ";
-} else {
-	$sql .= " where t.periodo = '$turma' ";
+$sql = "SELECT e.id, e.instituicao, e.seguro, e.convenio, e.natureza, e.area AS id_area,
+               e.beneficios AS beneficio, a.area
+        FROM instituicoes AS e
+        LEFT JOIN areas AS a ON e.area = a.id
+        LEFT JOIN estagiarios AS t ON e.id = t.instituicao_id
+        $where_sql
+        GROUP BY e.instituicao, e.area, e.beneficios, e.id";
+$resultado = Instituicao::$db->Execute($sql, $params);
+if ($resultado === false) {
+    error_log("Erro ao consultar instituicoes: " . Instituicao::$db->ErrorMsg());
+    die("Não foi possível consultar a tabela instituicoes.");
 }
 
-if ($instituicao) $sql .= " and e.instituicao like '%$instituicao%' ";
-if ($natureza) $sql .= " and e.natureza =  '$natureza' ";
-
-$sql .=	" group by e.instituicao, e.area, e.beneficios, e.id ";
-
-// echo $sql . "<br>";
-
-$resultado = $db->Execute($sql);
-
-$quantidade_alunos = $resultado->RecordCount();
-
-if ($resultado == false) die ("Não foi possível consultar a tabela instituicoes");
-
-$i = 0;
+$matriz = array();
 while (!$resultado->EOF) {
-  	$instituicao_id   = $resultado->fields['id'];
-  	$instituicao_nome = $resultado->fields['instituicao'];
-  	$area_id          = $resultado->fields['id_area'];
-  	$natureza         = $resultado->fields['natureza'];
-  	$area             = $resultado->fields['area'];
-	$beneficio        = $resultado->fields['beneficio'];
-  	$convenio         = $resultado->fields['convenio'];
-	$seguro           = $resultado->fields['seguro'];
-	$supervisor_id	  = $resultado->fields['id_supervisor'];
+    $id          = (int)$resultado->fields['id'];
+    $inst_nome   = $resultado->fields['instituicao'];
+    $convenio    = $resultado->fields['convenio'];
+    $seguro      = $resultado->fields['seguro'];
+    $beneficio   = $resultado->fields['beneficio'];
+    $id_area     = $resultado->fields['id_area'];
+    $area        = $resultado->fields['area'];
+    $natureza    = $resultado->fields['natureza'];
 
-  	$resultado->MoveNext();
+    // Supervisores distintos no período (e no total quando turma=vazio).
+    $superSql   = "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?";
+    $superArgs  = array($id);
+    if ($turma !== '' && $turma !== null) {
+        $superSql .= " AND periodo = ?";
+        $superArgs[] = $turma;
+    }
+    $q_supervi  = (int)Instituicao::$db->GetOne($superSql, $superArgs);
+    $total_supervi += $q_supervi;
 
-	// Quantidade de supervisores por periodo e instituicao
-	$sql_supervi  = "select supervisor_id from estagiarios where instituicao_id='$instituicao_id' ";
-	if ($turma)$sql_supervi .= " and periodo = '$turma' ";
-	$sql_supervi .= " group by supervisor_id";
-	// echo $sql_supervi . "<br>";
-	$res_supervi = $db->Execute($sql_supervi);
-	$q_supervi = $res_supervi->RecordCount();
-	// $supervisor_id = $res_supervi->fields['id_supervisor'];
-	// echo $i . " " .  $supervisor_id . "<br>";
-	$total_supervi = $total_supervi + $q_supervi;
-	// echo " Super " . $id_supervisor . " quantidade: " . $q_supervi .  " acumulado: " . $total_supervi . "<br>";
+    // Última turma com estagiários na instituição.
+    $turma_inst = Instituicao::$db->GetOne(
+        "SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
+        array($id)
+    );
+    $turma_inst = $turma_inst ?: '';
 
-    // Pego a ultima turma de cada instituicao
-    $sql_max_turma = "select max(periodo) as turma from estagiarios where instituicao_id=$instituicao_id";
-	// echo $sql_max_turma . "<br>";
-    $resultado_turma = $db->Execute($sql_max_turma);
-    if ($resultado_turma === false) die ("Não foi possível consultar a tabela turma_estagio");
-    $q_turma = $resultado_turma->RecordCount();
-    // echo $q_turma . "<br>";
-	if ($q_turma != 0) {
-		$turma_estagiarios = $resultado_turma->fields['turma'];
-	} else {
-		$turma_estagiarios = "";
-	}
+    // Alunos (distintos por registro) no período selecionado.
+    $aluSql   = "SELECT COUNT(DISTINCT registro) FROM estagiarios WHERE instituicao_id = ?";
+    $aluArgs  = array($id);
+    if ($turma !== '' && $turma !== null) {
+        $aluSql .= " AND periodo = ?";
+        $aluArgs[] = $turma;
+    }
+    $q_alunos = (int)Instituicao::$db->GetOne($aluSql, $aluArgs);
 
-	// Quantidade de alunos por periodos
-	$sql_alunos = "select count(registro) as q_alunos from estagiarios where instituicao_id='$instituicao_id'";
-	if ($turma) $sql_alunos .= " and periodo='$turma' ";
-	$sql_alunos .= " group by registro ";
-	// echo $sql_alunos . "<br>";
-	$res_alunos = $db->Execute($sql_alunos);
-	$total_periodos = 0;
-	$j = 0;
-	while (!$res_alunos->EOF){
-		$q_alunos = $res_alunos->fields['q_alunos'];
-		$total_periodos = $total_periodos + $q_alunos;
-		// $todos_periodos = $todos_periodos + $total_periodos;
-		$res_alunos->MoveNext();
-		$j++;
-	}
-	$todos_periodos = $todos_periodos + $total_periodos;
-	// echo "Todos periodos: " . $todos_periodos . "<br>";
+    // Total de períodos (valores distintos de periodo) para a instituição.
+    $n_periodos = Instituicao::$db->GetOne(
+        "SELECT COUNT(DISTINCT periodo) FROM estagiarios WHERE instituicao_id = ?",
+        array($id)
+    );
+    $todos_periodos += (int)$n_periodos;
 
-	// Pego o mural da instituicao (por enquanto nao tem utilidade)
-	$sql_mural = "select id, periodo from mural_estagios where instituicao_id=$instituicao_id";
-	// echo $sql_mural . "<br>";
-	$resultado_mural = $db->Execute($sql_mural);
-    if ($resultado_mural === false) die ("Não foi possível consultar a tabela mural_estagios");
+    $row = array(
+        'instituicao_id' => $id,
+        'instituicao'    => $inst_nome,
+        'convenio'       => $convenio,
+        'seguro'         => $seguro,
+        'beneficio'      => $beneficio,
+        'area'           => $area,
+        'natureza'       => $natureza,
+        'supervisores'   => $q_supervi,
+        'turma'          => $turma_inst,
+        'alunos'         => $q_alunos,
+        'periodos'       => (int)$n_periodos,
+    );
+    $matriz[] = $row;
 
-	while (!$resultado_mural->EOF) {
-		$id_mural = $resultado_mural->fields['id'];
-		$periodo_mural = $resultado_mural->fields['periodo'];
-		$resultado_mural->MoveNext();
-	}
-
-	if (empty($ordem))
-   	    $ordem = "instituicao";
-  	else
-    	$indice = $ordem;
-
-  	$matriz[$i][$ordem] = $$indice;
-  	$matriz[$i]['instituicao_id'] = $instituicao_id;
-  	$matriz[$i]['instituicao']    = $instituicao_nome;
-  	$matriz[$i]['supervisores']   = $q_supervi;
-  	$matriz[$i]['turma']          = $turma_estagiarios;
-  	$matriz[$i]['alunos']         = $j;
-	$matriz[$i]['periodos']       = $total_periodos;
-  	$matriz[$i]['area_id']        = $area_id;
-  	$matriz[$i]['area']           = $area;
-	$matriz[$i]['natureza']       = $natureza;
-  	$matriz[$i]['convenio']       = $convenio;
- 	$matriz[$i]['seguro']         = $seguro;
-  	$matriz[$i]['beneficio']      = $beneficio;
-  	$i++;
+    $resultado->MoveNext();
 }
 
-if (!empty($matriz)) {
-	reset($matriz);
-	sort($matriz);
+// ---------- Períodos e naturezas para os filtros ----------
+$periodos = array();
+$rs_turma = Instituicao::$db->Execute("SELECT DISTINCT periodo FROM estagiarios WHERE periodo IS NOT NULL ORDER BY periodo DESC");
+if ($rs_turma) {
+    while (!$rs_turma->EOF) {
+        $periodos[] = $rs_turma->fields['periodo'];
+        $rs_turma->MoveNext();
+    }
 }
 
-// Pego a informacao sobre as turma de alunos
-$sql_turma = "select id, periodo from estagiarios group by periodo";
-// echo $sql_turma . "<br>";
-$res_turma = $db->Execute($sql_turma);
-if ($res_turma === false) die ("Não foi possivel consultar a tabela estagiarios");
-while (!$res_turma->EOF) {
-	$periodos[] = $res_turma->fields['periodo'];
-	$res_turma->MoveNext();
-}
-
-// Pego a natureza das instituicoes
-$sql_natureza = "select natureza from instituicoes group by natureza order by natureza";
-$res_natureza = $db->Execute($sql_natureza);
-if ($res_natureza === false) die ("Não foi possivel consultar a tabela instituicoes");
-while (!$res_natureza->EOF) {
-	$naturezas[] = $res_natureza->fields['natureza'];
-	$res_natureza->MoveNext();
+$naturezas = array();
+$rs_nat = Instituicao::$db->Execute("SELECT DISTINCT natureza FROM instituicoes WHERE natureza IS NOT NULL ORDER BY natureza");
+if ($rs_nat) {
+    while (!$rs_nat->EOF) {
+        $naturezas[] = $rs_nat->fields['natureza'];
+        $rs_nat->MoveNext();
+    }
 }
 
 $smarty = new Smarty_estagio;
 
-$smarty->assign("turma",$turma);
-$smarty->assign("ordem",$ordem);
-$smarty->assign("periodos",$periodos);
-$smarty->assign("natureza",$natureza);
-$smarty->assign("naturezas",$naturezas);
-$smarty->assign("instituicao",$instituicao);
-$smarty->assign("instituicoes",$matriz);
-$smarty->assign("total_professores",$todos_professores);
-$smarty->assign("total_instituicoes",$todas_instituicoes);
-$smarty->assign("total_supervisores",$total_supervi);
-$smarty->assign("total_alunos",$todos_alunos);
-$smarty->assign("total_periodos",$todos_periodos);
+$smarty->assign("turma", $turma);
+$smarty->assign("periodos", $periodos);
+$smarty->assign("natureza", $naturezaFilt);
+$smarty->assign("naturezas", $naturezas);
+$smarty->assign("instituicao", $instituicao);
+$smarty->assign("instituicoes", $matriz);
+$smarty->assign("total_professores", $total_professores);
+$smarty->assign("total_instituicoes", $total_instituicoes);
+$smarty->assign("total_supervisores", $total_supervi);
+$smarty->assign("total_alunos", $total_alunos);
+$smarty->assign("total_periodos", $todos_periodos);
 $smarty->display("instituicoes.tpl");
 
 exit;

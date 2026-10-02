@@ -1,0 +1,179 @@
+<?php
+
+require_once __DIR__ . '/Model.php';
+
+/**
+ * User — Model da tabela `users` (usuários do sistema de estágio).
+ *
+ * Esquema real (MariaDB): id, email, password, nome, role, categoria,
+ * identificacao, entidade_id, ativo, criado_em, atualizado_em,
+ * aluno_id, supervisor_id, professor_id.
+ *
+ * `password` é char(80) — cabe perfeitamente um hash bcrypt (60 chars).
+ * `criado_em` e `atualizado_em` são gerenciados pelo proprio MySQL
+ * (default CURRENT_TIMESTAMP), por isso $timestamps = false.
+ */
+class User extends ADODB_Model {
+    protected static $table    = 'users';
+    protected static $pk       = 'id';
+    protected static $hidden   = array('password');
+    protected static $timestamps = false; // MySQL já atualiza criado_em/atualizado_em
+
+    /**
+     * Busca usuário pelo e-mail.
+     */
+    public static function byEmail($email) {
+        return static::firstWhere('email', $email);
+    }
+
+    /**
+     * Verifica se a senha digitada corresponde ao hash armazenado.
+     *
+     * Suporta formatos ___________________________________________
+     *  - bcrypt ($2y$) : PHP password_verify (formato moderno e seguro)
+     *  - SHA-1 puro    : 40 caracteres hexadecimais (formato legado atual)
+     *  - MD5 puro      : 32 caracteres hexadecimais (legado)
+     *  - crypt()       : $1$, $5$, $6$, DES (legado)
+     *
+     * Se a senha estiver em formato legado (SHA-1/MD5/crypt) e bater,
+     * o hash e atualizado automaticamente para bcrypt (self-upgrade),
+     * de forma que no proximo login o formato ja e seguro.
+     */
+    public function verifyPassword($plainPassword) {
+        $hash = isset($this->_data['password']) ? trim($this->_data['password']) : '';
+        if ($hash === '') {
+            return false;
+        }
+
+        $isLegacy = false;
+
+        // 1) bcrypt (e outros formatos do password_verify, ex.: ar
+        if (password_verify($plainPassword, $hash)) {
+            if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+                $this->setPassword($plainPassword);
+                $this->save();
+            }
+            return true;
+        }
+
+        // 2) SHA-1 puro (40 hex) - formato atual dos usuarios
+        if (preg_match('/^[a-f0-9]{40}$/i', $hash)) {
+            if (strtolower(hash('sha1', $plainPassword)) === strtolower($hash)) {
+                $isLegacy = true;
+            }
+        }
+
+        // 3) MD5 puro (32 hex)
+        if (!$isLegacy && preg_match('/^[a-f0-9]{32}$/i', $hash)) {
+            if (strtolower(md5($plainPassword)) === strtolower($hash)) {
+                $isLegacy = true;
+            }
+        }
+
+        // 4) crypt() com salt embutido ($1$, $5$, $6$, DES, etc.)
+        $crypt_check = @crypt($plainPassword, $hash);
+        if (!$isLegacy && is_string($hash) && $crypt_check !== '' &&
+            $crypt_check !== '*' && $crypt_check === $hash) {
+            $isLegacy = true;
+        }
+
+        // Senha legada correta -> migra para bcrypt imediatamente
+        if ($isLegacy) {
+            $this->setPassword($plainPassword);
+            $this->save();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Define a senha em texto claro; grava como hash bcrypt.
+     */
+    public function setPassword($plainPassword) {
+        $this->_data['password'] = password_hash($plainPassword, PASSWORD_DEFAULT);
+        return $this;
+    }
+
+    /**
+     * Atalho: cria um novo usuário com e-mail e senha criptografada.
+     */
+    public static function create($email, $plainPassword, $extra = array()) {
+        $user = new static();
+        $user->email = $email;
+        $user->password = password_hash($plainPassword, PASSWORD_DEFAULT);
+        $user->ativo = 1;
+        foreach ($extra as $col => $val) {
+            $user->$col = $val;
+        }
+        return $user->save() ? $user : null;
+    }
+
+    /**
+     * Lista os usuários com os campos formatados para exibição (listagem).
+     */
+    public static function listar() {
+        $db = static::db();
+        $rs = $db->Execute(
+            "SELECT u.*, "
+            . "COALESCE(al.nome, '') AS aluno_nome, "
+            . "COALESCE(sup.nome, '') AS supervisor_nome, "
+            . "COALESCE(prof.nome, '') AS professor_nome "
+            . "FROM users AS u "
+            . "LEFT JOIN alunos AS al      ON al.id        = u.aluno_id "
+            . "LEFT JOIN supervisores AS sup ON sup.id      = u.supervisor_id "
+            . "LEFT JOIN professores AS prof ON prof.id     = u.professor_id "
+            . "ORDER BY u.nome"
+        );
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $f = $rs->fields;
+                $out[] = array(
+                    'id'              => (int)$f['id'],
+                    'email'           => $f['email'],
+                    'nome'            => $f['nome'],
+                    'role'            => self::roleTexto($f['role']),
+                    'categoria'       => self::categoriaTexto($f['categoria']),
+                    'identificacao'   => $f['identificacao'],
+                    'ativo'           => $f['ativo'],
+                    'role_raw'        => $f['role'],
+                    'ativo_raw'       => (int)$f['ativo'],
+                    'aluno'           => $f['aluno_nome'],
+                    'supervisor'      => $f['supervisor_nome'],
+                    'professor'       => $f['professor_nome'],
+                );
+                $rs->MoveNext();
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Rótulo legível do papel (role) do usuário.
+     */
+    public static function roleTexto($role) {
+        switch ($role) {
+            case 'admin':      return 'Administrador';
+            case 'supervisor': return 'Supervisor';
+            case 'professor':  return 'Professor';
+            case 'aluno':      return 'Aluno';
+            default:           return $role;
+        }
+    }
+
+    /**
+     * Rótulo legível da categoria (1-4).
+     */
+    public static function categoriaTexto($categoria) {
+        switch ($categoria) {
+            case '1': return 'Categoria 1';
+            case '2': return 'Categoria 2';
+            case '3': return 'Categoria 3';
+            case '4': return 'Categoria 4';
+            default:  return $categoria;
+        }
+    }
+}
+
+?>

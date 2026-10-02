@@ -71,7 +71,7 @@ function carrega_tabela() {
 <td class="coluna_direita">{$supervisores[lista].cress}</td>
 
 <td>
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <a href="../exibir/ver_cada.php?supervisor_id={$supervisores[lista].supervisor_id}">{$supervisores[lista].nome}</a>
 {else}
 {$supervisores[lista].nome}
@@ -87,7 +87,7 @@ function carrega_tabela() {
 {/if}
 
 <td>
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$supervisores[lista].instituicao_id}">{$supervisores[lista].instituicao}</a>
 {else}
 {$supervisores[lista].instituicao}
@@ -95,7 +95,7 @@ function carrega_tabela() {
 </td>
 
 <td class="coluna_direita">
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <a href="alunos_supervisor.php?supervisor_id={$supervisores[lista].supervisor_id}&nome_supervisor={$supervisores[lista].nome}">{$supervisores[lista].turma}</a>
 {else}
 {$supervisores[lista].turma}
@@ -103,7 +103,7 @@ function carrega_tabela() {
 </td>
 
 <td class="coluna_direita">
-{if $smarty.cookies.usuario_senha}
+{if $smarty.cookies.usuario}
 <a href="../../curso/ver_cada_supervisor.php?id_supervisor={$supervisores[lista].id_curso}">{$supervisores[lista].id_curso}</a>
 {else}
 {$supervisores[lista].id_curso}

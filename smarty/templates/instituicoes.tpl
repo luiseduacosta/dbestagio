@@ -2,6 +2,8 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta charset="utf-8">
+<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
 <title>Lista de instituições</title>
 
@@ -10,10 +12,9 @@
 function carrega_tabela() {
 	turma=document.getElementById('turma').value;
 	natureza=document.getElementById('natureza').value;
-	ordem=document.getElementById('ordem').value;
 	instituicao=document.getElementById('instituicao').value;
 	// alert(turma);
-	window.location="listar.php?turma=" + turma + "&ordem=" + ordem + "&instituicao=" + instituicao + "&natureza=" + natureza;
+	window.location="listar.php?turma=" + turma + "&instituicao=" + instituicao + "&natureza=" + natureza;
 	return false;
 }
 </script>
@@ -23,7 +24,6 @@ function carrega_tabela() {
 
 <body>
 
-<input type=hidden name='ordem' id='ordem' value='{$ordem}'>
 <input type=hidden name='instituicao' id='instituicao' value='{$instituicao}'>
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
@@ -45,22 +45,22 @@ function carrega_tabela() {
 <p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
 
 <div align="center">
-<table border="1">
+<table id="instituicoes" class="display">
 <caption>Tabela de instituições {$turma}</caption>
 
 <thead>
 <tr>
 <th>Id</th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=convenio">Convênio</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=instituicao">Instituições</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=seguro">Seguro</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=beneficio">Bene- <br>fícios</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=turma">Turma</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=alunos">Alunos</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=periodos">Períodos</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=q_supervi">Super- <br>visores</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=area">Áreas</a></th>
-<th><a href="?instituicao={$instituicao}&turma={$turma}&ordem=natureza">Natureza</a></th>
+<th>Convênio</th>
+<th>Instituições</th>
+<th>Seguro</th>
+<th>Benefícios</th>
+<th>Turma</th>
+<th>Alunos</th>
+<th>Períodos</th>
+<th>Supervisores</th>
+<th>Áreas</th>
+<th>Natureza</th>
 </tr>
 </thead>
 
@@ -117,7 +117,7 @@ function carrega_tabela() {
 	<td  style="text-align:center">{$instituicoes[elementos].supervisores}</td>
 {else}
 	<td  style="text-align:center">
-	<a href="../../assistentes/exibir/listar_todos.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
+	<a href="../../supervisores/exibir/listar_todos.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
 	</td>
 {/if}
 
@@ -142,6 +142,21 @@ function carrega_tabela() {
 </tbody>
 </table>
 </div>
+
+{literal}
+<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script>
+$(document).ready(function () {
+	$('#instituicoes').DataTable({
+		language: { url: '../../libjs/datatables/pt-BR.json' },
+		pageLength: 25,
+		lengthMenu: [10, 25, 50, 100],
+		order: []
+	});
+});
+</script>
+{/literal}
 
 </body>
 
