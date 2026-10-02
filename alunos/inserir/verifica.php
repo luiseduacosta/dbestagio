@@ -1,104 +1,61 @@
 <?php
 
-if ($debug == 1) {
-	echo $_SERVER['PHP_SELF'] . "<br>";
-}
-
 if (empty($origem)) {
     $origem = $_SERVER['HTTP_REFERER'];
 }
 
-// echo $origem . "<br>";
+include_once(__DIR__ . "/../../autentica.inc");
+require_once(__DIR__ . "/../../libphp/models.php");
 
-include_once("../../autentica.inc");
+$registro = isset($_REQUEST['registro']) ? trim($_REQUEST['registro']) : '';
+$aluno_id = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
 
-$registro = $_REQUEST['registro'] ? $_REQUEST['registro'] : NULL;
-$aluno_id = $_REQUEST['aluno_id'] ? $_REQUEST['aluno_id'] : NULL;
-
-// Busco o registro entre os alunos
-if ($registro != NULL) {
-    $sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-    $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where registro='$registro'";
-    // echo $sqlAlunos . "<br>";
+// Busca o aluno na tabela `alunos` (única fonte cadastral).
+if ($registro !== '') {
+    $dados = Aluno::$db->Execute(
+        "SELECT id, registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, "
+        . "identidade, orgao, nascimento, endereco, cep, bairro, municipio "
+        . "FROM alunos WHERE registro = ? LIMIT 1",
+        array((int)$registro)
+    );
 } else {
-    $sqlAlunos  = "select id, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-    $sqlAlunos .= "endereco, cep, bairro, municipio from alunos where id='$aluno_id'";
-    // echo $sqlAlunos . "<br>";
+    $dados = Aluno::$db->Execute(
+        "SELECT id, registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, "
+        . "identidade, orgao, nascimento, endereco, cep, bairro, municipio "
+        . "FROM alunos WHERE id = ? LIMIT 1",
+        array($aluno_id)
+    );
+}
+if ($dados === false) {
+    die("Não foi possível consultar a tabela alunos");
 }
 
-// $resultado0 = $db->Execute($sql0);
-$resultado0 = $db->Execute($sqlAlunos);
-if ($resultado0 === false) die ("Não foi possível consultar a tabela alunos");
-$quantidade = $resultado0->RecordCount();
-
-// echo "Quantidade de alunos na tabela alunos: " . $quantidade . "<br>";
-// Se nao esta na tabela alunos tenho que verificar se esta na tabela alunosNovos
-if ($quantidade == 0) {
-	// Busco o aluno entre os alunos da tabela alunosNovos
-	// $sqlAlunos = "select registro from alunosNovos where registro='$registro'";
-	$sqlAlunos  = "select nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-	$sqlAlunos .= "endereco, cep, bairro, municipio from alunosNovos where registro='$registro'";
-	// echo $sqlAlunos . "<br>";
-	$resultadoAlunos = $db->Execute($sqlAlunos);
-	if ($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunosNovos");
-	$quantidadeAlunos = $resultadoAlunos->RecordCount();
-	// echo "Quantidade de alunos na tabela alunosNovos: " . $quantidadeAlunos  . "<br>";
-	if ($quantidadeAlunos == 0) {
-		// echo "Aluno nao cadastrado nem em alunosNovos nem em alunos";
-	} else {
-		// echo "Aluno cadastrado na tabela alunosNovos " . "<br>";
-		// $sqlAlunos  = "select nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, nascimento, ";
-		// $sqlAlunos .= "endereco, cep, bairro, municipio from alunosNovos where registro='$registro'";
-		$resultado = $db->Execute($sqlAlunos);
-		while (!$resultado->EOF) {
-			$nome = $resultado->fields['nome'];
-			$codigo_telefone = $resultado->fields['codigo_telefone'];
-			$telefone = $resultado->fields['telefone'];
-			$codigo_celular = $resultado->fields['codigo_celular'];
-			$celular = $resultado->fields['celular'];
-			$email = $resultado->fields['email'];
-			$cpf = $resultado->fields['cpf'];
-			$identidade = $resultado->fields['identidade'];
-			$orgao = $resultado->fields['orgao'];
-			$nascimento = $resultado->fields['nascimento'];
-			
-			// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-			$data_sql = date('d/m/Y', strtotime($nascimento));
-
-			$endereco = $resultado->fields['endereco'];
-			$cep = $resultado->fields['cep'];
-			$bairro = $resultado->fields['bairro'];
-			$municipio = $resultado->fields['municipio'];
-			$cadastro = 0; // Aluno nao cadastrado na tabela alunos
-			$resultado->MoveNext();
-		}
-	}
-	// Se esta cadastrado na tabela alunos
-} elseif ($quantidade > 0) {
-	// echo "Aluno cadastrado na tabela alunos " . "<br>";
-	header("Location:../exibir/ver_cada.php?registro=$registro");
-	exit;
+// Aluno já cadastrado: mostra a ficha do aluno.
+if (!$dados->EOF) {
+    header("Location:../exibir/ver_cada.php?registro=" . (int)$dados->fields['registro']);
+    exit;
 }
 
+// Aluno não cadastrado: exibe o formulário para cadastrar um novo aluno.
 $smarty = new Smarty_estagio;
-$smarty->assign("origem",$origem);
-$smarty->assign("aluno_id",$aluno_id);
-$smarty->assign("registro",$registro);
-$smarty->assign("nome",$nome);
-$smarty->assign("codigo_telefone",$codigo_telefone);
-$smarty->assign("telefone",$telefone);
-$smarty->assign("codigo_celular",$codigo_celular);
-$smarty->assign("celular",$celular);
-$smarty->assign("email",$email);
-$smarty->assign("cpf",$cpf);
-$smarty->assign("identidade",$identidade);
-$smarty->assign("orgao",$orgao);
-$smarty->assign("nascimento",$data_sql);
-$smarty->assign("endereco",$endereco);
-$smarty->assign("cep",$cep);
-$smarty->assign("bairro",$bairro);
-$smarty->assign("municipio",$municipio);
-$smarty->assign("cadastro",$cadastro);
+$smarty->assign("origem", $origem);
+$smarty->assign("aluno_id", $aluno_id);
+$smarty->assign("registro", $registro);
+$smarty->assign("nome", '');
+$smarty->assign("codigo_telefone", 21);
+$smarty->assign("telefone", '');
+$smarty->assign("codigo_celular", 21);
+$smarty->assign("celular", '');
+$smarty->assign("email", '');
+$smarty->assign("cpf", '');
+$smarty->assign("identidade", '');
+$smarty->assign("orgao", '');
+$smarty->assign("nascimento", '');
+$smarty->assign("endereco", '');
+$smarty->assign("cep", '');
+$smarty->assign("bairro", '');
+$smarty->assign("municipio", '');
+$smarty->assign("cadastro", 0);
 $smarty->display("alunos-inserir_verifica.tpl");
 
 exit;

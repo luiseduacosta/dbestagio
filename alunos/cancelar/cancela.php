@@ -1,38 +1,37 @@
 <?php
 
-include_once("../../autentica.inc");
+include_once(__DIR__ . "/../../autentica.inc");
+require_once(__DIR__ . "/../../libphp/models.php");
 
-$aluno_id = isset($_REQUEST['aluno_id']) ? $_REQUEST['aluno_id'] : NULL;
-$registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
+$aluno_id = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
+$registro = isset($_REQUEST['registro']) ? (int)$_REQUEST['registro'] : 0;
 
-if (empty($aluno_id)) {
-	$sql = "select id from alunos where registro=$registro";
-	$resultado = $db->Execute($sql);
-	$aluno_id = $resultado->fields['id'];
+if ($aluno_id <= 0 && $registro > 0) {
+    $res = Aluno::$db->Execute("SELECT id FROM alunos WHERE registro = ? LIMIT 1", array($registro));
+    if ($res !== false && !$res->EOF) {
+        $aluno_id = (int)$res->fields['id'];
+    }
 }
 
-if ($aluno_id) {
-	$sql_estagiario = "select * from estagiarios where aluno_id='$aluno_id'";
-	// echo $sql_estagiario . "<br>";
-} else {
-	exit;
+if ($aluno_id <= 0) {
+    exit;
 }
 
-$resultado_sql_estagiario = $db->Execute($sql_estagiario);
-if ($resultado_sql_estagiario === false) die ("Não foi possível consultar a tabela estagiarios");
-$quantidade = $resultado_sql_estagiario->RecordCount();
+// Só permite excluir o aluno se ele não tiver estágios vinculados.
+$res = Aluno::$db->Execute("SELECT COUNT(*) AS qtd FROM estagiarios WHERE aluno_id = ?", array($aluno_id));
+$quantidade = ($res !== false) ? (int)$res->fields['qtd'] : 0;
 
 if ($quantidade === 0) {
-	// die("Registro sera excluido");
-	$sql_cancela_aluno = "delete from alunos where id='$aluno_id'";
-	// echo $sql_cancela_aluno . "<br>";
-
-	$resultado_cancela_aluno = $db->Execute($sql_cancela_aluno);
-	if ($resultado_cancela_aluno === false) die ("Não foi possível cancelar o registro do aluno");
-	header("Location:../exibir/listar.php");
+    $aluno = Aluno::find($aluno_id);
+    if ($aluno !== null) {
+        if (!$aluno->delete()) {
+            error_log("Erro ao excluir aluno: " . ADODB_Model::$db->ErrorMsg());
+            die("Não foi possível excluir o registro do aluno.");
+        }
+    }
+    header("Location:../exibir/listar.php");
 } else {
-	// echo "Existem estagios relacionados com este aluno. <br>Exclua primeiro os estagios para logo poder excluir o aluno";
-	header("Location:ver_cancela.php?aluno_id=$aluno_id&erro=0");
+    header("Location:ver_cancela.php?aluno_id=$aluno_id&erro=0");
 }
 
 exit;

@@ -178,7 +178,7 @@
 
 	<input type='submit' name='botao_resumo' id='botao_resumo' value='Ver resumo' onClick='mostrar()'>
 
-	{if $smarty.cookies.usuario_senha}
+	{if $smarty.cookies.usuario}
 	<input type='submit' name='botao_historia' id='botao_historia' value='Ver histórico' onClick='historia()'>
 	{/if}
 
@@ -505,7 +505,7 @@ Tabela principal
 						<td>
 							{if $logado == 1}
 							<a
-								href="../../assistentes/exibir/ver_cada.php?supervisor_id={$lista[i].supervisor_id}">{$lista[i].supervisor}</a>
+								href="../../supervisores/exibir/ver_cada.php?supervisor_id={$lista[i].supervisor_id}">{$lista[i].supervisor}</a>
 							{else}
 							{$lista[i].supervisor}
 							{/if}

@@ -26,13 +26,13 @@ while (!$estagiarios->EOF) {
 		$sql_novos = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, "
 		. "cpf, identidade, nascimento, "
 		. "endereco, cep, municipio, bairro, observacoes "
-		. "from alunosNovos where registro = $registro";
+		. "from alunos where registro = $registro";
 		// echo "Novos: " . $sql_novos . "<br>";
 		$alunos_novos = $db->Execute($sql_novos);
-		if ($alunos_novos == false) die ("Não foi possível consultar a tabela alunosNovos");
+		if ($alunos_novos == false) die ("Não foi possível consultar a tabela alunos");
 		$numero_novos = $alunos_novos->RecordCount();
 		// echo "Numero novos " . 	$numero_novos . "<br>";
-		// Alunos novos que estao na tabela alunosNovos
+		// Alunos novos que estao na tabela alunos
 		if ($numero_novos > 0) {
 			while (!$alunos_novos->EOF) {
 				$registro_aluno = $alunos_novos->fields['registro'];

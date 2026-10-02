@@ -27,7 +27,7 @@
 <tr>
 <td><a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$instituicoes[elemento].id}">{$instituicoes[elemento].instituicao}</a></td>
 <td><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elemento].id}&seleciona_periodo={$instituicoes[elemento].turma}">{$instituicoes[elemento].turma}</a></td>
-<td class="coluna_centralizada"><a href="../../assistentes/exibir/listar_todos.php?instituicao_id={$instituicoes[elemento].id}">{$instituicoes[elemento].q_supervisores}</a></td>
+<td class="coluna_centralizada"><a href="../../supervisores/exibir/listar_todos.php?instituicao_id={$instituicoes[elemento].id}">{$instituicoes[elemento].q_supervisores}</a></td>
 <td>{$instituicoes[elemento].endereco}</td>
 <td>{$instituicoes[elemento].telefone}</td>
 </tr>

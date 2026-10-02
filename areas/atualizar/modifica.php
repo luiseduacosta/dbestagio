@@ -1,25 +1,16 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
+
+$id_area = isset($_REQUEST["id_area"]) ? (int)$_REQUEST["id_area"] : 0;
+
+$area_obj = Area::find($id_area);
+$area = $area_obj ? $area_obj->area : '';
 
 $smarty = new Smarty_estagio;
-
-$id_area = $_GET["id_area"];
-if (empty($id_area))
-    $id_area = $_POST["id_area"];
-
-$sql = "select * from areas where id=$id_area";
-$resultado = $db->Execute($sql);
-
-if ($resultado === false) die ("Nao foi possivel consultar a tabela areas");
-
-while (!$resultado->EOF) {
-    $area = $resultado->fields["area"];
-    $resultado->MoveNext();
-}
-
-$smarty->assign("id_area",$id_area);
-$smarty->assign("area",$area);
+$smarty->assign("id_area", $id_area);
+$smarty->assign("area", $area);
 $smarty->display("area_atualiza.tpl");
 
 exit;

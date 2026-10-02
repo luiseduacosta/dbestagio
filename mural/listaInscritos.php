@@ -1,48 +1,43 @@
 <?php
 
-include_once("../autentica.inc");
+include_once(__DIR__ . "/../autentica.inc");
+require_once(__DIR__ . "/../libphp/models.php");
 
 $muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 
-$sqlInstituicao = "select instituicao from mural_estagios where id = $muralestagio_id";
+// Instituição da oferta (via modelo, consulta parametrizada).
+$oferta = Mural::find($muralestagio_id);
+$instituicao = ($oferta !== null) ? $oferta->instituicao : '';
 
-$resultadoInstituicao = $db->Execute($sqlInstituicao);
-if ($resultadoInstituicao === false)
-    die("Não foi possível consultar a tabela mural_estagios");
-$instituicao = $resultadoInstituicao ? $resultadoInstituicao->fields['instituicao'] : '';
+// Lista de inscritos da oferta no período atual.
+// O JOIN com alunos/mural_estagios é feito na própria consulta (sem N+1).
+$lista = Inscricao::listar(PERIODO_ATUAL, $muralestagio_id);
 
-$sql = "SELECT id, registro, data FROM inscricoes WHERE muralestagio_id='$muralestagio_id' and periodo='" . PERIODO_ATUAL . "'";
-$resultado = $db->Execute($sql);
-if ($resultado === false)
-    die("Não foi possível consultar a tabela inscricoes");
-
+// Mapeia a saída do modelo para o formato esperado pelo template listaInscritos.tpl.
+// Mantém apenas inscrições com aluno cadastrado (mesmo comportamento do código
+// anterior, que só listava registros existentes na tabela alunos).
 $inscritos = array();
-$i = 0;
-while ($resultado && !$resultado->EOF) {
-    $id = $resultado->fields['id'];
-    $registro = $resultado->fields['registro'];
-    $data = date("d-m-Y", strtotime($resultado->fields['data']));
-    $sqlAlunos = "select id, nome, registro, telefone, celular, email from alunos where registro= '$registro'";
-    $resultadoAlunos = $db->Execute($sqlAlunos);
-    if ($resultadoAlunos === false)
-        die("Não foi possível consultar a tabela alunos");
-    while ($resultadoAlunos && !$resultadoAlunos->EOF) {
-        $inscritos[$i]['id'] = $id;
-        $inscritos[$i]['nome'] = $resultadoAlunos->fields['nome'];
-        $inscritos[$i]['registro'] = $resultadoAlunos->fields['registro'];
-        $inscritos[$i]['telefone'] = $resultadoAlunos->fields['telefone'];
-        $inscritos[$i]['celular'] = $resultadoAlunos->fields['celular'];
-        $inscritos[$i]['email'] = $resultadoAlunos->fields['email'];
-        $inscritos[$i]['data'] = $data;
-        $inscritos[$i]['aluno'] = 1;
-        $i++;
-        $resultadoAlunos->MoveNext();
+foreach ($lista as $ins) {
+    if (empty($ins['aluno_nome'])) {
+        continue;
     }
-    $resultado->MoveNext();
+    $inscritos[] = array(
+        'id'        => $ins['id'],
+        'registro'  => $ins['registro'],
+        'nome'      => $ins['aluno_nome'],
+        'email'     => $ins['aluno_email'],
+        'telefone'  => $ins['aluno_telefone'],
+        'celular'   => $ins['aluno_celular'],
+        'data'      => $ins['data'],
+        'aluno'     => ($ins['aluno_id'] > 0) ? 1 : 0,
+    );
 }
 
+// Mantém a ordenação original (por data de inscrição).
 if (!empty($inscritos)) {
-    sort($inscritos);
+    usort($inscritos, function ($a, $b) {
+        return strcmp($a['data'], $b['data']);
+    });
 }
 
 $smarty = new Smarty_estagio;

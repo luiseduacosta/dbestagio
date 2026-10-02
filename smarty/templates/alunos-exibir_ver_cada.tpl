@@ -141,7 +141,7 @@
             <table border="1" width="98%">
                 <tbody>
 
-                    {if $smarty.cookies.usuario_senha}
+                    {if $smarty.cookies.usuario}
                     <tr>
                         <td width='20%'>Registro:</td>
                         <td width='80%'>{$registro}</td>
@@ -162,14 +162,14 @@
                         {/if}
                     </tr>
 
-                    {if $smarty.cookies.usuario_senha}
+                    {if $smarty.cookies.usuario}
                     <tr>
                         <td>E-mail</td>
                         <td>{$email}</td>
                     </tr>
                     {/if}
 
-                    {if $smarty.cookies.usuario_senha}
+                    {if $smarty.cookies.usuario}
                     <tr>
                         <td>Telefone</td>
                         <td>({$codigo_telefone}){$telefone}</td>
@@ -238,7 +238,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../../assistentes/exibir/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
+                                href="../../supervisores/exibir/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
                             {else}
                             {$historico_estagio[estagio].supervisor}
                             {/if}

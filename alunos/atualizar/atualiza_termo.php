@@ -267,12 +267,12 @@ $quantidade = $resultado->RecordCount();
 // Aluno nao cadastrado entre os estagiarios portanto, aluno = novo
 if ($quantidade == 0) {
 
-    $sql_novo = "select * from alunosNovos where registro='$registro'";
+    $sql_novo = "select * from alunos where registro='$registro'";
     // echo $sql_novo;
     // die("Aluno novo");
     $resultado_novo = $db->Execute($sql_novo);
     if ($resultado_novo === false)
-        die("Nao foi possivel consultar a tabela alunosNovos");
+        die("Nao foi possivel consultar a tabela alunos");
     $quantidade_novo = $resultado_novo->RecordCount();
     // Aluno nao cadastrado na tabela dos alunoNovo
     if ($quantidade_novo == 0) {

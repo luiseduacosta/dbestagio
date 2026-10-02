@@ -38,6 +38,6 @@ $sql = "update supervisores set nome=\"$nome\", cpf=\"$cpf\", endereco=\"$endere
 $res_atualiza_supervisores = $db->Execute($sql);
 if ($res_atualiza_supervisores === false) die ("Nao foi possivel atualizar o registro na tabela supervisores");
 
-header("Location: ../assistentes/exibir/ver_cada.php?indice=$indice");
+header("Location: ../supervisores/exibir/ver_cada.php?indice=$indice");
 
 ?>

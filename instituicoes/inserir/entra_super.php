@@ -1,30 +1,39 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
-$cress = $_POST['cress'];
-$nome  = $_POST['nome'];
-$email = $_POST['email'];
-$instituicao_id = $_POST['instituicao_id'] ? $_POST['instituicao_id'] : NULL;
-$supervisor_id  = $_POST['supervisor_id'] ? $_POST['supervisor_id'] : NULL;
+$cress           = isset($_POST['cress']) ? trim($_POST['cress']) : '';
+$nome            = isset($_POST['nome']) ? trim($_POST['nome']) : '';
+$email           = isset($_POST['email']) ? trim($_POST['email']) : '';
+$instituicao_id  = (int)(isset($_POST['instituicao_id']) ? $_POST['instituicao_id'] : 0);
+$supervisor_id   = (int)(isset($_POST['supervisor_id']) ? $_POST['supervisor_id'] : 0);
 
-if($supervisor_id == 0) {
-    $sql = "insert into supervisores (cress,nome,email) values('$cress','$nome','$email')";
-    $resultado = $db->Execute($sql);
-    if ($resultado === false) die ("Não foi possível inserir dados na tabela supervisores");
-
-    // Obtenho o numero do ultimo supervisor ingressado
-    $res_ultimo = $db->Execute("select max(id) as ultimo_supervisor from supervisores");
-    if ($res_ultimo === false) die ("Não foi possível consultar a tabela supervisores");
-    $supervisor_id = $res_ultimo->fields['ultimo_supervisor'];
+if ($instituicao_id <= 0) {
+    die("Instituição inválida (id $instituicao_id).");
 }
 
-// Insero supervisor e instituicao em inst_super
-$sql_inst_super = "insert into inst_super (supervisor_id, instituicao_id) values ('$supervisor_id', '$instituicao_id')";
-$res_inst_super = $db->Execute($sql_inst_super);
-if ($res_inst_super === false) die ("Não foi possível inserir o registro na tabela inst_super");
+// Se não foi informado supervisor, cria um novo supervisor e usa o id dele.
+if ($supervisor_id == 0) {
+    ADODB_Model::$db->Execute(
+        "INSERT INTO supervisores (cress, nome, email) VALUES (?, ?, ?)",
+        array($cress, $nome, $email)
+    );
+    $supervisor_id = (int)ADODB_Model::$db->Insert_ID();
+    if ($supervisor_id <= 0) {
+        error_log("Erro ao inserir supervisor: " . ADODB_Model::$db->ErrorMsg());
+        die("Não foi possível inserir dados na tabela supervisores. Tente novamente.");
+    }
+}
 
-header("Location:../exibir/ver_cada.php?instituicao_id=$instituicao_id");
-// require("form_supervisor.php");
+// Vincula o supervisor à instituição.
+$inst = Instituicao::find($instituicao_id);
+if ($inst === null) {
+    die("Instituição não encontrada (id $instituicao_id).");
+}
+$inst->vincularSupervisor($supervisor_id);
+
+header("Location: ../exibir/ver_cada.php?instituicao_id=$instituicao_id");
+exit;
 
 ?>

@@ -1,72 +1,40 @@
 <?php
 
 include_once("../../setup.php");
+require_once("../../libphp/models.php");
 
-$id_area = $_GET['id_area'];
-$ordem = $_GET['ordem'];
+$id_area = isset($_GET['id_area']) ? (int)$_GET['id_area'] : 0;
+$ordem   = isset($_GET['ordem']) ? $_GET['ordem'] : 'instituicao';
 
-if (empty($ordem)) $ordem="instituicao";
-
-// Pego o nome da �rea
-$sql_areas_estagio = "select area from areas where id=$id_area";
-$res_areas_estagio = $db->Execute($sql_areas_estagio);
-if ($res_areas_estagio === false) die ("Nao foi possivel consultar a tabela areas");
-while (!$res_areas_estagio->EOF) {
-    $nome_area = $res_areas_estagio->fields['area'];
-    $res_areas_estagio->MoveNext();
+// Whitelist de colunas de ordenação seguras.
+$ordens_validas = array(
+    'instituicao' => 'e.instituicao',
+    'turma'       => 'turma',
+    'endereco'    => 'e.endereco',
+    'telefone'    => 'e.telefone',
+);
+if (!isset($ordens_validas[$ordem])) {
+    $ordem = 'instituicao';
 }
 
-$sql = "select e.id as num_instituicao, e.instituicao, e.beneficios as bolsa, max(t.periodo) as turma, e.endereco, e.telefone, e.area "
-	. " from instituicoes e "
-	. " left outer join estagiarios t on e.id = t.instituicao_id "
-	. " where e.area = '$id_area' "
-	. " group by e.id, e.instituicao, e.area, e.beneficios, e.endereco, e.telefone "
-	. " order by $ordem";
+$area_obj = Area::find($id_area);
+$nome_area = $area_obj ? $area_obj->area : '';
+$matriz    = $area_obj ? $area_obj->instituicoes() : array();
 
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar as tabelas instituicoes, estagiarios");
-
-$i = 0;
-while (!$resultado->EOF) {
-    $matriz[$i]["id"]          = $resultado->fields['num_instituicao'];
-    $matriz[$i]["instituicao"] = $resultado->fields['instituicao'];
-    $matriz[$i]["endereco"]    = $resultado->fields['endereco'];
-    $matriz[$i]["telefone"]    = $resultado->fields['telefone'];
-
-    $num_instituicao = $resultado->fields['num_instituicao'];
-	$sql_periodo     = "select max(periodo) as turma from estagiarios where instituicao_id=$num_instituicao";
-	$resultado_periodo = $db->Execute($sql_periodo);
-	if ($resultado_periodo === false) die ("Nao foi possivel consultar a tabela estagiarios");
-	while (!$resultado_periodo->EOF) {
-	    $matriz[$i]["turma"] = $resultado_periodo->fields['turma'];
-		$resultado_periodo->MoveNext();
-	}
-
-	// q_super_por_instituicao
-	$sql_super_por_instituicao = "select count(*) as q_super from inst_super where instituicao_id=$num_instituicao";
-	$resultado_super = $db->Execute($sql_super_por_instituicao);
-	if ($resultado_super === false) die ("Nao foi possivel consultar a tabela inst_super");
-	// print_r($resultado_super_por_instituicao);
-	while (!$resultado_super->EOF) {
-		$matriz[$i]["q_supervisores"] = $resultado_super->fields['q_super'];
-		$quantidade_super = $resultado_super->fields['q_super'];
-		$resultado_super->MoveNext();
-	}
-	$i++;
-
-	$resultado->MoveNext();
+// Aplica a ordenação selecionada (em memória, segura).
+if ($matriz) {
+    usort($matriz, function ($a, $b) use ($ordem) {
+        $va = isset($a[$ordem]) ? (string)$a[$ordem] : '';
+        $vb = isset($b[$ordem]) ? (string)$b[$ordem] : '';
+        return strnatcasecmp($va, $vb);
+    });
+    $matriz = array_values($matriz);
 }
-
-/*
-include_once("../../../adodb/adodb-pager.inc.php");
-$pager = new ADODB_Pager($db,$sql);
-$pager->Render();
-*/
 
 $smarty = new Smarty_estagio;
-$smarty->assign("id_area",$id_area);
-$smarty->assign("nome_area",$nome_area);
-$smarty->assign("instituicoes",$matriz);
+$smarty->assign("id_area", $id_area);
+$smarty->assign("nome_area", $nome_area);
+$smarty->assign("instituicoes", $matriz);
 $smarty->display("area_instituicoes.tpl");
 
 exit;

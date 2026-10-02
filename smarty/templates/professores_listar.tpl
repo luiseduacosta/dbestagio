@@ -1,75 +1,100 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Listar professores</title>
+<title>Professores</title>
+
 {literal}
 <script type="text/javascript">
-function get_turma() {
-	turma=document.getElementById('turma').value;
-	// ordem=document.getElementById('ordem').value;
-	// alert(turma);
-	window.location="?periodo=" + turma;
+function carrega_tabela() {
+	busca=document.getElementById('busca').value;
+	status=document.getElementById('status').value;
+	window.location="listar.php?busca=" + encodeURIComponent(busca) + "&status=" + status;
 	return false;
 }
 </script>
 {/literal}
+
 </head>
 <body>
 
-<a href="javascript:history.back();">Voltar</a>
+<a href="javascript:history.back();">Voltar</a><br>
 
-<br>
-
-<select name='turma' id='turma' onChange='return get_turma();'>
-{if $periodo}
-	<option value='0'>{$periodo}</option>
-{else}
-	<option value='0'>Seleciona periodo</option>
-{/if}
-
-{section name='i' loop=$periodos}
-<option value='{$periodos[i]}'>{$periodos[i]}</option>
-{/section}
+<form name="filtros" onsubmit="return carrega_tabela();">
+Busca: <input type="text" id="busca" name="busca" value="{$busca}" onkeyup="if (event.keyCode == 13) return carrega_tabela();">
+Status:
+<select id="status" name="status" onChange="return carrega_tabela();">
+{foreach item=s key=k from=$statuses}
+<option value="{$k}" {if $k == $status}selected{/if}>{$s}</option>
+{/foreach}
 </select>
+<input type="submit" value="Filtrar">
+</form>
 
-<div align="center">
-<table border="1">
-<caption>Professores {$periodo}</caption>
-<tbody>
-
+<table id="professores" class="display">
+<thead>
 <tr>
-<th>Id</th>
 <th>Nome</th>
 <th>Departamento</th>
-<th>Área</th>
-<th>Turno</th>
-<th>Alunos</th>
-<th>Imprime</th>
+<th>E-mail</th>
+<th>Telefone</th>
+<th>Celular</th>
+<th>Status</th>
+<th data-orderable="false">Nº estágios</th>
+<th data-orderable="false">Ações</th>
 </tr>
+</thead>
+<tbody>
 
-{assign var="i" value=1}
-{section name=i loop=$professores}
+{foreach item=p from=$professores}
 <tr>
-<td>{$i++}</td>
-<td><a href="ver_cada.php?id_professor={$professores[i].id_professor}">{$professores[i].nome}</a></td>
-<td>{$professores[i].departamento}</td>
-<td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}&seleciona_turno={$professores[i].turno}&id_area={$professores[i].id_area}">{$professores[i].area}</a></td>
-<td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}&seleciona_turno={$professores[i].turno}&id_area={$professores[i].id_area}">{$professores[i].turno}</a></td>
-<td style='text-align:center'><a href="../../alunos/exibir/listar.php?seleciona_professor={$professores[i].id_professor}&seleciona_periodo={$periodo}&seleciona_turno={$professores[i].turno}&id_area={$professores[i].id_area}">{$professores[i].q_alunos}</a></td>
-<td style='text-align:center'><a href="../../imprimir/alunos_por_professor.php?id_professor={$professores[i].id_professor}&professor={$professores[i].nome}&id_area={$professores[i].id_area}&periodo={$periodo}">Pauta</a></td>
+<td>
+{if $smarty.cookies.usuario}
+<a href="ver_cada.php?professor_id={$p.id}">{$p.nome}</a>
+{else}
+{$p.nome}
+{/if}
+</td>
+<td>{$p.departamento}</td>
+<td>{$p.email}</td>
+<td class="coluna_centralizada">{$p.telefone}</td>
+<td class="coluna_centralizada">{$p.celular}</td>
+<td>{$p.status}</td>
+<td class="coluna_centralizada">{$p.num_estagios}</td>
+<td>
+{if $smarty.cookies.usuario}
+<a href="ver_cada.php?professor_id={$p.id}">Ver</a> |
+<a href="../atualizar/atualiza.php?professor_id={$p.id}">Editar</a> |
+<a href="../cancelar/cancela.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
+{/if}
+</td>
 </tr>
-{/section}
-<tr>
-<td colspan='5'>&nbsp;</td>
-<td style='text-align:center'>{$total_alunos}</td>
-<td>&nbsp;</td>
-</tr>
+{/foreach}
 
 </tbody>
 </table>
+
+<div align="center">
+<p><a href="../inserir/inserir.php">Novo professor</a></p>
 </div>
+
+{literal}
+<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script>
+$(document).ready(function () {
+	$('#professores').DataTable({
+		language: { url: '../../libjs/datatables/pt-BR.json' },
+		pageLength: 25,
+		lengthMenu: [10, 25, 50, 100],
+		order: []
+	});
+});
+</script>
+{/literal}
 
 </body>
 </html>

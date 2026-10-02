@@ -1,26 +1,24 @@
 <?php
 
 include_once("../autentica.inc");
+require_once("../libphp/models.php");
 
-$opcao = $_GET['opcao'];
+$opcao = isset($_GET['opcao']) ? $_GET['opcao'] : '';
 
-$smarty = new Smarty_estagio;
+// Lista completa de áreas (ordem alfabética).
+$areas_objs = Area::seleciona();
 
-$sql = "select * from areas order by area";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela areas");
-
-$i = 0;
-while(!$resultado->EOF) {
-    $id_areas[$i] = $resultado->fields["id"];
-    $areas[$i] = $resultado->fields["area"];
-    $i++;
-    $resultado->MoveNext();
+$id_areas = array();
+$areas    = array();
+foreach ($areas_objs as $a) {
+    $id_areas[] = $a['id'];
+    $areas[]    = $a['area'];
 }
 
-$smarty->assign("opcao",$opcao);
-$smarty->assign("id_areas",$id_areas);
-$smarty->assign("areas",$areas);
+$smarty = new Smarty_estagio;
+$smarty->assign("opcao", $opcao);
+$smarty->assign("id_areas", $id_areas);
+$smarty->assign("areas", $areas);
 $smarty->display("area_seleciona.tpl");
 
 exit;

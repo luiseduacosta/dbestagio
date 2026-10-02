@@ -1,31 +1,13 @@
 <?php
 
 include_once("../../autentica.inc");
-
-$sql = "select * from areas order by area";
-$resultado = $db->Execute($sql);
-
-if ($resultado === false) die ("Não foi possível consultar a tabela areas");
-
-$i = 0;
-while (!$resultado->EOF) {
-  $id_area[$i] = $resultado->fields["id"];
-  $areas[$i]   = $resultado->fields["area"];
-  $i++;
-  $resultado->MoveNext();
-}
+require_once("../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
 
-/* Debugg
-for($i=0;$i<sizeof($areas);$i++)
-{
-    print($areas[$i]) . "<br>";
-}
-*/
+// Lista de áreas para o seletor do formulário.
+$smarty->assign("matriz_areas", Instituicao::areasLista());
 
-$smarty->assign("area_id",$area_id);
-$smarty->assign("areas",$areas);
-$smarty->display("instituicao_form.tlp");
+$smarty->display("instituicao_form.tpl");
 
 ?>

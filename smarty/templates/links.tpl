@@ -48,21 +48,21 @@ Entrar
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
-    <a class="box2" href="assistentes/inserir/form_inserir.php" target="_corpo">
+    <a class="box2" href="supervisores/inserir/form_inserir.php" target="_corpo">
     Inserir</a><br>
-    <a class="box2" href="assistentes/seleciona.php?opcao=modifica" target="_corpo">
+    <a class="box2" href="supervisores/seleciona.php?opcao=modifica" target="_corpo">
     Modificar</a><br>
-    <a class="box2" href="assistentes/buscar/busca.php" target="_corpo">
+    <a class="box2" href="supervisores/buscar/busca.php" target="_corpo">
     Buscar</a><br>
-    <a class="box2" href="assistentes/exibir/ver_instituicoes.php" target="_corpo">
+    <a class="box2" href="supervisores/exibir/ver_instituicoes.php" target="_corpo">
     Listar todos</a><br>
-    <a class="box2" href="assistentes/exibir/supervisores_ativos.php" target="_corpo">
+    <a class="box2" href="supervisores/exibir/supervisores_ativos.php" target="_corpo">
     Supervisores ativos</a><br>
-    <a class="box2" href="assistentes/exibir/seleciona.php" target="_corpo">
+    <a class="box2" href="supervisores/exibir/seleciona.php" target="_corpo">
     Ver supervisor</a><br>
-    <a class="box2" href="assistentes/exibir/enviar_email_destinatario.php" target="_corpo">
+    <a class="box2" href="supervisores/exibir/enviar_email_destinatario.php" target="_corpo">
     Enviar e-mail</a><br>
-    <a class="box2" href="assistentes/seleciona.php?opcao=cancela" target="_corpo">
+    <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
     Excluir</a>
 </div>
 </td>

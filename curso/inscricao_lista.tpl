@@ -114,7 +114,7 @@ para participar da lista de discuss&atilde;o no Google</h1>
 			<td>{if $matriz[elemento].supervisores_id <> 0} <a
 				href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
 			<a
-				href='../assistentes/exibir/ver_cada.php?id_supervisor={$matriz[elemento].supervisores_id}'>[1]</a>
+				href='../supervisores/exibir/ver_cada.php?id_supervisor={$matriz[elemento].supervisores_id}'>[1]</a>
 			{else} <a
 				href='ver_cada_supervisor.php?id_supervisor={$matriz[elemento].id}'>{$matriz[elemento].nome}</a>
 			{/if}</td>
