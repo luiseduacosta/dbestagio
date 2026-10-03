@@ -6,6 +6,8 @@ require_once("../../libphp/models.php");
 // Àreas de filtro (todas parametrizadas - sem SQL injection).
 // A ordenação é feita pelo DataTables (lado cliente), por isso não há coluna de ordenação.
 $turma        = isset($_GET['turma']) ? $_GET['turma'] : Instituicao::$db->GetOne("SELECT MAX(periodo) FROM estagiarios");
+// "Todos" (turma=0) e ausência de período => listar sem filtro de período.
+$sem_periodo  = ($turma === '' || $turma === null || (string)$turma === '0');
 $instituicao  = isset($_REQUEST['instituicao']) ? trim($_REQUEST['instituicao']) : '';
 $naturezaFilt = isset($_GET['natureza']) ? $_GET['natureza'] : '';
 $todos_periodos = 0;
@@ -19,7 +21,7 @@ $total_professores = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT profes
 // ---------- Lista de instituições (filtrada por turma e nome/natureza) ----------
 $wheres = array();
 $params = array();
-if ($turma !== '' && $turma !== null) {
+if (!$sem_periodo) {
     $wheres[] = "t.periodo = ?";
     $params[] = $turma;
 }
@@ -33,13 +35,13 @@ if ($naturezaFilt !== '' && $naturezaFilt !== '0') {
 }
 $where_sql = $wheres ? ('WHERE ' . implode(' AND ', $wheres)) : '';
 
-$sql = "SELECT e.id, e.instituicao, e.seguro, e.convenio, e.natureza, e.area AS id_area,
+$sql = "SELECT e.id, e.instituicao, e.seguro, e.convenio, e.natureza, e.area_id AS id_area,
                e.beneficios AS beneficio, a.area
         FROM instituicoes AS e
-        LEFT JOIN areas AS a ON e.area = a.id
+        LEFT JOIN areas AS a ON a.id = e.area_id
         LEFT JOIN estagiarios AS t ON e.id = t.instituicao_id
         $where_sql
-        GROUP BY e.instituicao, e.area, e.beneficios, e.id";
+        GROUP BY e.instituicao, e.area_id, e.beneficios, e.id";
 $resultado = Instituicao::$db->Execute($sql, $params);
 if ($resultado === false) {
     error_log("Erro ao consultar instituicoes: " . Instituicao::$db->ErrorMsg());
@@ -60,7 +62,7 @@ while (!$resultado->EOF) {
     // Supervisores distintos no período (e no total quando turma=vazio).
     $superSql   = "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?";
     $superArgs  = array($id);
-    if ($turma !== '' && $turma !== null) {
+    if (!$sem_periodo) {
         $superSql .= " AND periodo = ?";
         $superArgs[] = $turma;
     }
@@ -77,7 +79,7 @@ while (!$resultado->EOF) {
     // Alunos (distintos por registro) no período selecionado.
     $aluSql   = "SELECT COUNT(DISTINCT registro) FROM estagiarios WHERE instituicao_id = ?";
     $aluArgs  = array($id);
-    if ($turma !== '' && $turma !== null) {
+    if (!$sem_periodo) {
         $aluSql .= " AND periodo = ?";
         $aluArgs[] = $turma;
     }

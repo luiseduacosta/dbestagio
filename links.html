@@ -1,463 +1,440 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
- "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="pt-br">
+
 <head>
     <title>Menu lateral</title>
-    <link rel="stylesheet" type="text/css" href="lateral.css"  >
+    <link rel="stylesheet" type="text/css" href="lateral.css">
     <link rel="stylesheet" type="text/css" href="ClickShowHideMenu.css">
     <script type="text/javascript" src="lib/mygosumenu/ie5.js"></script>
     <script type="text/javascript" src="lib/mygosumenu/1.3/ClickShowHideMenu.js"></script>
-<style type="text/css">
-@import url("lateral.css");
-</style>
+    <style type="text/css">
+        @import url("lateral.css");
+    </style>
 
-<script type='text/javascript' src='lib/jquery.js'></script>
-<script type='text/javascript' src='lib/jquery.cookie.js'></script>
-<script type='text/javascript'>
-$(document).ready(function() {
-	$('a').css('text-decoration','none');
-	var autentica = $.cookie("usuario_nome");
-	if(autentica) {
-        $("#administracao").css("display","block");
-        $("#instituicoes").css("display","block");
-		$("#supervisores").css("display","block");
-		$("#areas").css("display","block");
-		$("#visitas").css("display","block");
-		$("#alunos").css("display","block");
-		$("#mural").css("display","block");
-		$("#historico").css("display","block");
-		$("#curso").css("display","block");
-		$("#alunos_ess").css("display","block");
-		};
-	});
-</script>
+    <script type='text/javascript' src='lib/jquery.js'></script>
+    <script type='text/javascript' src='lib/jquery.cookie.js'></script>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $('a').css('text-decoration', 'none');
+            var autentica = $.cookie("usuario_nome");
+            if (autentica) {
+                $("#administracao").css("display", "block");
+                $("#instituicoes").css("display", "block");
+                $("#supervisores").css("display", "block");
+                $("#areas").css("display", "block");
+                $("#visitas").css("display", "block");
+                $("#alunos").css("display", "block");
+                $("#mural").css("display", "block");
+                $("#historico").css("display", "block");
+                $("#curso").css("display", "block");
+                $("#alunos_ess").css("display", "block");
+            };
+        });
+    </script>
 
 </head>
 
 <body>
 
-<div align="center">
+    <div align="center">
 
-<table id="click-menu1" class="click-menu">
+        <table id="click-menu1" class="click-menu">
 
-<tbody>
+            <tbody>
 
-<tr>
-<td class="coluna_centralizada">
-<a href="index0.html" target="_parent">
-Entrar
-</a>
-</td>
-</tr>
+                <tr>
+                    <td class="coluna_centralizada">
+                        <a href="index0.html" target="_parent">
+                            Entrar
+                        </a>
+                    </td>
+                </tr>
 
-<tr>
-<td class="coluna_centralizada">
-<a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">
-Manual do aluno</a>
-</td>
-</tr>
+                <tr>
+                    <td class="coluna_centralizada">
+                        <a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">
+                            Manual do aluno</a>
+                    </td>
+                </tr>
 
-<tr>
-<td id="administracao" style="display:none">
-        <a href="administracao/controle_db.php" target="_corpo">
-            Controle administrativo</a><br>
-        <a href="administracao/configuracao.php" target="_corpo">
-            Configurações</a><br>
-        <a href="users/exibir/listar.php" target="_corpo">
-            Usuários</a><br>
-</td>
-</tr>
+                <tr>
+                    <td id="administracao" style="display:none">
+                        <a href="administracao/controle_db.php" target="_corpo">
+                            Controle administrativo</a><br>
+                        <a href="administracao/configuracao.php" target="_corpo">
+                            Configurações</a><br>
+                        <a href="users/exibir/listar.php" target="_corpo">
+                            Usuários</a><br>
+                    </td>
+                </tr>
 
-<!-- Inicio de instituicao //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">INSTITUIÇÕES 
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
-    <a class="box2" href="imprimir/listagem.php" target="_corpo">
-    Imprimir catálogo</a>
-	
-    <div id='instituicoes' style='display:none'> 
-        <a class="box2" href="javascript:location.href();">
-            Inserir</a><br>
-<!--
-        <a class="box2" href="instituicoes/exibir/ver_cada.php?inserir=inserir" target="_corpo">
-    	Inserir</a><br>
-//-->
-        <a class="box2" href="http://localhost/mural" target="_corpo">
-            Modificar</a><br>
+                <!-- Inicio de instituicao //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">INSTITUIÇÕES
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="imprimir/listagem.php" target="_corpo">
+                                Imprimir catálogo</a>
 
-<!--        
-        <a class="box2" href="instituicoes/seleciona.php" target="_corpo">
-    	Modificar</a><br>
-//-->        
-        <a class="box2" href="http://localhost/mural" target="_corpo">
-            Excluir</a><br>
+                            <div id='instituicoes' style='display:none'>
+                                <a class="box2" href="instituicoes/seleciona.php" target="_corpo">
+                                    Modificar</a><br>
+                                <a class="box2" href="instituicoes/seleciona.php?opcao=cancela" target="_corpo">
+                                    Excluir</a><br>
+                            </div>
+                            <a class="box2" href="instituicoes/inserir/formulario.php" target="_corpo">
+                                Inserir instituição</a><br>
+                            <a class="box2" href="instituicoes/exibir/listar.php" target="_corpo">
+                                Listar todas</a><br>
+                            <a class="box2" href="areas/exibir/listar.php" target="_corpo">
+                                Listar áreas</a><br>
 
-<!--        
-        <a class="box2" href="instituicoes/seleciona.php?opcao=cancela" target="_corpo">
-	Excluir</a>
-//-->	
-    </div>
-    <a class="box2" href="instituicoes/buscar/busca.php" target="_corpo">
-    Buscar</a><br>
-    <a class="box2" href="instituicoes/exibir/seleciona.php" target="_corpo">
-    Ver instituição</a><br>
-    <a class="box2" href="instituicoes/exibir/ver_cada.php?indice=0" target="_corpo">
-    Ver c/instituição</a><br>
-    <a class="box2" href="instituicoes/exibir/listar.php" target="_corpo">
-    Listar todas</a><br>
-    <a class="box2" href="instituicoes/exibir/estagio_ativo.php" target="_corpo">
-    Estágios atuais</a><br>
-    <a class="box2" href="instituicoes/exibir/estagio_beneficio.php" target="_corpo">
-    Estágios c/benefícios</a><br>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Fim de instituicao //-->
 
-</div>
-</td>
-</tr>
-<!-- Fim de instituicao //-->
+                <!-- Supervisores //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">SUPERVISORES
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
 
-<!-- Supervisores //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">SUPERVISORES
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
+                            <div id='supervisores' style='display:none'>
+                                <a class="box2" href="supervisores/seleciona.php?opcao=modifica" target="_corpo">
+                                    Modificar</a><br>
+                                <a class="box2" href="supervisores/exibir/email_total.php" target="_top">
+                                    E-mail todos</a><br>
+                                <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
+                                    Excluir</a>
+                                <a class="box2" href="supervisores/exibir/aluno_supervisor.php" target="_corpo">
+                                    Supervisores alunos</a><br>
+                                <a class="box2" href="supervisores/atualizar/seleciona_cadastro.php" target="_corpo">
+                                    Cadastro</a><br>
+                                <a class="box2" href="supervisores/buscar/busca.php" target="_corpo">
+                                    Buscar</a><br>
+                                <a class="box2" href="supervisores/exibir/seleciona.php" target="_corpo">
+                                    Ver supervisor</a><br>
+                                <a class="box2" href="supervisores/exibir/ver_cada.php?indice=0" target="_corpo">
+                                    Ver c/supervisor</a><br>
 
-    <div id='supervisores' style='display:none'>     
-	<a class="box2" href="supervisores/inserir/form_cadastro.php" target="_corpo">
-    	Inserir</a><br>
-        <a class="box2" href="supervisores/seleciona.php?opcao=modifica" target="_corpo">
-        Modificar</a><br>
-    	<a class="box2" href="supervisores/exibir/email_total.php" target="_top">
-    	E-mail todos</a><br>
-        <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
-    	Excluir</a>		
-	<hr>
-        <a class="box2" href="supervisores/exibir/aluno_supervisor.php" target="_corpo">	
-        Supervisores alunos</a><br>
-       	<hr>
-        <a class="box2" href="supervisores/atualizar/seleciona_cadastro.php" target="_corpo">
-    	Cadastro</a><br>
-	<hr>
-   	<a class="box2" href="supervisores/buscar/busca.php" target="_corpo">
-   	Buscar</a><br>
-        <a class="box2" href="supervisores/exibir/seleciona.php" target="_corpo">
-        Ver supervisor</a><br>
-        <a class="box2" href="supervisores/exibir/ver_cada.php?indice=0" target="_corpo">
-        Ver c/supervisor</a><br>
-        
-    </div>
-<!--    
-    <a class="box2" href="supervisores/exibir/ver_instituicoes.php" target="_corpo">
-    Listar todos</a><br>
-//-->
-        <a class="box2" href="supervisores/exibir/listar_todos.php" target="_corpo">
-        Listar todos</a><br>
-        <a class="box2" href="supervisores/exibir/supervisores_ativos.php" target="_corpo">	
-        Supervisores atuais</a><br>
+                            </div>
+                            <a class="box2" href="supervisores/inserir/form_inserir.php" target="_corpo">
+                                Inserir supervisor</a><br>
+                            <a class="box2" href="supervisores/exibir/listar.php" target="_corpo">
+                                Listar todos</a><br>
+                        </div>
+                    </td>
+                </tr>
 
-</div>
-</td>
-</tr>
+                <!-- Visitas //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">VISITAS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
 
-<!-- Visitas //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">VISITAS
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
+                            <div id='visitas' style='display:none'>
+                                <a class="box2" href="visitas/inserir/formulario.php" target="_corpo">
+                                    Inserir</a><br>
+                                <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                                    Editar</a><br>
+                                <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                                    Excluir</a>
+                            </div>
 
-    <div id='visitas' style='display:none'>     
-    	<a class="box2" href="visitas/inserir/formulario.php" target="_corpo">
-    	Inserir</a><br>
-    	<a class="box2" href="visitas/exibir/listar.php" target="_corpo">
-    	Editar</a><br>
-    	<a class="box2" href="visitas/exibir/listar.php" target="_corpo">
-    	Excluir</a>
-	</div>
-	    
-	<a class="box2" href="visitas/exibir/listar.php" target="_corpo">
-        Listar</a><br>
+                            <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                                Listar</a><br>
 
-</div>
-</td>
-</tr>
+                        </div>
+                    </td>
+                </tr>
 
-<!-- Areas //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">ÁREAS DE OTP
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
+                <!-- Areas //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">ÁREAS DE OTP
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
 
-    <div id='areas' style='display:none'>     
-    	<a class="box2" href="areas/inserir/form_inserir.php" target="_corpo">
-    	Inserir</a><br>
-    	<a class="box2" href="areas/seleciona.php" target="_corpo">
-    	Modificar</a><br>
-    	<a class="box2" href="areas/seleciona.php?opcao=cancela" target="_corpo">
-    	Excluir</a>
-	</div>
-	    
-	<a class="box2" href="areas/exibir/listar.php" target="_corpo">
-        Listar</a><br>
+                            <div id='areas' style='display:none'>
+                                <a class="box2" href="areas/inserir/form_inserir.php" target="_corpo">
+                                    Inserir</a><br>
+                                <a class="box2" href="areas/seleciona.php" target="_corpo">
+                                    Modificar</a><br>
+                                <a class="box2" href="areas/seleciona.php?opcao=cancela" target="_corpo">
+                                    Excluir</a>
+                            </div>
 
-</div>
-</td>
-</tr>
+                            <a class="box2" href="areas/exibir/listar.php" target="_corpo">
+                                Listar</a><br>
 
-<!-- Alunos //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">ALUNOS
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
+                        </div>
+                    </td>
+                </tr>
 
-    <div id='alunos' style='display:none'>     
-    	<a class="box2" href="alunos/inserir/seleciona_aluno.php" target="_corpo">
-    	Inserir/atualizar aluno</a><br>
-    	<a class="box2" href="alunos/atualizar/seleciona.php" target="_corpo">
-    	Modificar</a><br>
-    	<a class="box2" href="alunos/cancelar/seleciona.php" target="_corpo">
-    	Excluir</a><br>
-    	<a class="box2" href="alunos/exibir/email_todos_alunos.php" target="_corpo">
-    	E-mail todos</a><br>
+                <!-- Alunos //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">ALUNOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
 
-        <a class="box2" href="alunos/buscar/busca.php" target="_corpo">
-        Buscar</a><br>
-        <a class="box2" href="alunos/exibir/ver_cada.php?indice=0" target="_corpo">
-        Ver c/aluno</a><br>	
-        <a class="box2" href="alunos/exibir/seleciona.php" target="_corpo">
-        Ver aluno</a><br>
-    	</div>
-    
-    <a class="box2" href="alunos/exibir/listar.php" target="_corpo">
-    Listar</a><br>
+                            <div id='alunos' style='display:none'>
+                                <a class="box2" href="alunos/inserir/seleciona_aluno.php" target="_corpo">
+                                    Inserir/atualizar aluno</a><br>
+                                <a class="box2" href="alunos/atualizar/seleciona.php" target="_corpo">
+                                    Modificar</a><br>
+                                <a class="box2" href="alunos/cancelar/seleciona.php" target="_corpo">
+                                    Excluir</a><br>
+                                <a class="box2" href="alunos/exibir/email_todos_alunos.php" target="_corpo">
+                                    E-mail todos</a><br>
 
-    <!--
-    <a class="box2" href="alunos/exibir/aluno_supervisor.php" target="_corpo">
-    Aluno por supervisor</a><br>
-    //-->
+                                <a class="box2" href="alunos/buscar/busca.php" target="_corpo">
+                                    Buscar</a><br>
+                                <a class="box2" href="alunos/exibir/ver_cada.php?indice=0" target="_corpo">
+                                    Ver c/aluno</a><br>
+                                <a class="box2" href="alunos/exibir/seleciona.php" target="_corpo">
+                                    Ver aluno</a><br>
+                            </div>
 
-</div>
-</td>
-</tr>
+                            <a class="box2" href="alunos/exibir/listar.php" target="_corpo">
+                                Listar</a><br>
 
-<!-- Professores -->
-<tr>
-	<td>
-	<a class="box1" href="javascript:void(0)">PROFESSORES
-	<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-	</a>
+                            <a class="box2" href="alunos/inserir/inserir.php" target="_corpo">
+                                Inserir aluno</a><br>
 
-	<div class="section">
-    	<a class="box2" href="professores/exibir/listar.php" target="_corpo">
-    	Listar</a><br>
-    	<a class="box2" href="professores/exibir/ver_cada.php?indice=0" target="_corpo">
-    	Ver cada</a><br>
-	</div>
-	</td>
-</tr>
+                            <a class="box2" href="turnos/exibir/listar.php" target="_corpo">
+                                Turnos</a><br>
 
-<!-- Estagiarios -->
-<tr>
-	<td>
-	<a class="box1" href="javascript:void(0)">ESTAGIÁRIOS
-	<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-	</a>
+                        </div>
+                    </td>
+                </tr>
 
-	<div class="section">
-    	<a class="box2" href="estagiarios/exibir/listar.php" target="_corpo">
-    	Listar</a><br>
-	</div>
-	</td>
-</tr>
+                <!-- Professores -->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">PROFESSORES
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
 
-<!-- Graficos //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">GRÁFICOS
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
-    <a class="box2" href="alunos/exibir/graficos.php" target="_corpo">
-    Alunos por período</a><br>
-</div>
-</td>
-</tr>
+                        <div class="section">
+                            <a class="box2" href="professores/exibir/listar.php" target="_corpo">
+                                Listar</a><br>
+                            <a class="box2" href="professores/inserir/form.php" target="_corpo">
+                                Inserir</a><br>
+                        </div>
+                    </td>
+                </tr>
 
-<!-- Mural //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
-    <a class="box2" href="mural/ver-mural.php" target="_corpo">
-    Listar mural</a><br />
-    <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
-    Ver cada mural</a><br />
+                <!-- Estagiarios -->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">ESTAGIÁRIOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
 
-    <hr />
+                        <div class="section">
+                            <a class="box2" href="estagiarios/exibir/listar.php" target="_corpo">
+                                Listar</a><br>
+                        </div>
+                    </td>
+                </tr>
 
-    <div id='mural' style='display:none'>
-        <a class="box2" href="inscricoes/exibir/listar.php" target="_corpo">
-    	Inscrições</a><br />
-        <a class="box2" href="mural/mural_inserir.php" target="_corpo">
-    	Inserir no mural</a><br />
-        <a class="box2" href="mural/alunosConhecidos.php" target="_corpo">
-    	Alunos com estágio</a><br />
+                <!-- Graficos //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">GRÁFICOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="alunos/exibir/graficos.php" target="_corpo">
+                                Alunos por período</a><br>
+                        </div>
+                    </td>
+                </tr>
 
-        <a class="box2" href="mural/lista-alunos.php" target="_corpo">
-        Alunos</a><br />
-        <a class="box2" href="mural/lista-novos_alunos.php" target="_corpo">
-        Alunos novos</a><br />
-        
-	<hr />
-    </div>
+                <!-- Mural //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="mural/ver-mural.php" target="_corpo">
+                                Listar mural</a><br />
+                            <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
+                                Ver cada mural</a><br />
 
-    <a class="box2" href="alunos/atualizar/seleciona_termo.php" target="_corpo">
-    Termo de Compromisso</a><br>
+                            <hr />
 
-    <div id='historico' style='display:none'> 
-    	<a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
-    	Controle de TC</a><br>
-    	<a class="box2" href="mural/controle_culminacao_estagio.php" target="_corpo">
-    	Controle culminação estágio</a><br>
-    	<a class="box2" href="mural/historico.php" target="_corpo">
-    	Histórico</a><br>
+                            <div id='mural' style='display:none'>
+                                <a class="box2" href="inscricoes/exibir/listar.php" target="_corpo">
+                                    Inscrições</a><br />
+                                <a class="box2" href="mural/mural_inserir.php" target="_corpo">
+                                    Inserir no mural</a><br />
+                                <a class="box2" href="mural/alunosConhecidos.php" target="_corpo">
+                                    Alunos com estágio</a><br />
 
-        <hr />
+                                <a class="box2" href="mural/lista-alunos.php" target="_corpo">
+                                    Alunos</a><br />
+                                <a class="box2" href="mural/lista-novos_alunos.php" target="_corpo">
+                                    Alunos novos</a><br />
 
-       	<a class="box2" href="mural/alunos_ingressos-lista.php" target="_corpo">
-       	Alunos ingressantes</a><br>
+                                <hr />
+                            </div>
 
-    </div>
-  	
-    <div id='alunos_ess' style='display:none'> 
-    	<a class="box2" href="mural/graduacao/alunos_ingressos.php" target="_corpo">
-    	Inserir/atualizar alunos</a><br>
-    	<a class="box2" href="mural/graduacao/alunos_etica.php" target="_corpo">
-    	Inserir/atualizar ética</a><br>
-    </div>
+                            <a class="box2" href="alunos/atualizar/seleciona_termo.php" target="_corpo">
+                                Termo de Compromisso</a><br>
 
-</div>
-</td>
-</tr>
+                            <div id='historico' style='display:none'>
+                                <a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
+                                    Controle de TC</a><br>
+                                <a class="box2" href="mural/controle_culminacao_estagio.php" target="_corpo">
+                                    Controle culminação estágio</a><br>
+                                <a class="box2" href="mural/historico.php" target="_corpo">
+                                    Histórico</a><br>
 
-<!-- Curso //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">CURSO ESTÁGIO
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
-    <a class="box2" href="curso/capa.html" target="_corpo">
-    Apresentação</a><br />
-<!--
+                                <hr />
+
+                                <a class="box2" href="mural/alunos_ingressos-lista.php" target="_corpo">
+                                    Alunos ingressantes</a><br>
+
+                            </div>
+
+                            <div id='alunos_ess' style='display:none'>
+                                <a class="box2" href="mural/graduacao/alunos_ingressos.php" target="_corpo">
+                                    Inserir/atualizar alunos</a><br>
+                                <a class="box2" href="mural/graduacao/alunos_etica.php" target="_corpo">
+                                    Inserir/atualizar ética</a><br>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Curso //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">CURSO ESTÁGIO
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="curso/capa.html" target="_corpo">
+                                Apresentação</a><br />
+                            <!--
     <a class="box2" href="curso/supervisores_selecionados_6.html" target="_corpo">
     Inscrição</a><br />
 //-->
 
-    <a class="box2" href="curso/inscricao_supervisores.php" target="_corpo">
-    Inscrição</a><br />
+                            <a class="box2" href="curso/inscricao_supervisores.php" target="_corpo">
+                                Inscrição</a><br />
 
-    <a class="box2" href="curso/inscricao_lista.php" target="_corpo">
-    Lista inscritos</a><br />
+                            <a class="box2" href="curso/inscricao_lista.php" target="_corpo">
+                                Lista inscritos</a><br />
 
-    <a class="box2" href="curso/inscricao_lista.php?selecao=1" target="_corpo">
-    Selecionados</a><br />
+                            <a class="box2" href="curso/inscricao_lista.php?selecao=1" target="_corpo">
+                                Selecionados</a><br />
 
-    <a class="box2" href="curso/curso_busca.html" target="_corpo">
-    Busca inscritos</a><br />
+                            <a class="box2" href="curso/curso_busca.html" target="_corpo">
+                                Busca inscritos</a><br />
 
-    <div id='curso' style='display:none'> 
+                            <div id='curso' style='display:none'>
 
-        <a class="box2" href="curso/seleciona.php" target="_corpo">
-    	Imprimir</a><br />
+                                <a class="box2" href="curso/seleciona.php" target="_corpo">
+                                    Imprimir</a><br />
 
-    	<a class="box2" href="curso/email_curso.php" target="_corpo">
-    	E-mail</a><br />
+                                <a class="box2" href="curso/email_curso.php" target="_corpo">
+                                    E-mail</a><br />
 
+                            </div>
+
+                            <a class="box2" href="http://docs.google.com/View?id=dhd8s6wp_479f78fcbg4" target="_corpo">
+                                Programação</a><br />
+                            <a class="box2" href="http://web.intranet.ess.ufrj.br/cursos/" target="_corpo">
+                                Plataforma do curso</a><br />
+
+                            <a class="box2" href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj"
+                                target="_top">
+                                Lista de discuss&atilde;o</a><br />
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Eventos //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">EVENTOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="http://web.intranet.ess.ufrj.br/ocs/index.php/estagio/estagioI"
+                                target="_corpo">
+                                I Seminário Regional</a><br />
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="coluna_centralizada">
+                        <a href="index0.html" target="_parent">
+                            Sair
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
-    <a class="box2" href="http://docs.google.com/View?id=dhd8s6wp_479f78fcbg4" target="_corpo">
-    Programação</a><br />
-    <a class="box2" href="http://web.intranet.ess.ufrj.br/cursos/" target="_corpo">
-    Plataforma do curso</a><br />
-    
-    <a class="box2" href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj" target="_top">
-    Lista de discuss&atilde;o</a><br />
-</div>
-</td>
-</tr>
+    <script type="text/javascript">
+        var clickMenu1 = new ClickShowHideMenu('click-menu1');
+        clickMenu1.init();
+    </script>
 
-<!-- Eventos //-->
-<tr>
-<td>
-<a class="box1" href="javascript:void(0)">EVENTOS
-<img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-</a>
-<div class="section">
-    <a class="box2" href="http://web.intranet.ess.ufrj.br/ocs/index.php/estagio/estagioI" target="_corpo">
-    I Seminário Regional</a><br />
-</div>
-</td>
-</tr>
+    <hr>
 
-<tr>
-<td class="coluna_centralizada">
-<a href="index0.html" target="_parent">
-Sair
-</a>
-</td>
-</tr>
+    <table style="background-color: #fff; padding: 5px;" cellspacing=0>
+        <tr>
+            <td style="padding-left: 5px"> <a href="http://groups.google.com/forum/#!forum/estagio_ess"
+                    target="_top">Alunos em estagio da ESS/UFRJ</a> </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 5px"> <a href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj"
+                    target="_top">Supervisores da ESS/UFRJ</a> </td>
+        </tr>
+    </table>
 
-</tbody>
-</table>
-</div>
+    <hr>
 
-<script type="text/javascript">
-var clickMenu1 = new ClickShowHideMenu('click-menu1');
-clickMenu1.init();
-</script>
-
-<hr>
-
-<table style="background-color: #fff; padding: 5px;" cellspacing=0>
-  <tr><td style="padding-left: 5px"> <a href="http://groups.google.com/forum/#!forum/estagio_ess" target="_top">Alunos em estagio da ESS/UFRJ</a> </td></tr>
-  <tr><td style="padding-left: 5px"> <a href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj" target="_top">Supervisores da ESS/UFRJ</a> </td></tr>
-</table>
-
-<hr>
-
-<table border="1">
-    <tbody>
-	<tr>
-	    <td class="coluna_centralizada">
-		Fale conosco
-	    </td>
-	</tr>
-	<tr>
-	    <td class="coluna_centralizada">
-		<a href="mailto:estagio@ess.ufrj.br?Subject=Mural de Estágio">Coordenação de estágio</a>
-	    </td>
-	</tr>
-<!--
+    <table border="1">
+        <tbody>
+            <tr>
+                <td class="coluna_centralizada">
+                    Fale conosco
+                </td>
+            </tr>
+            <tr>
+                <td class="coluna_centralizada">
+                    <a href="mailto:estagio@ess.ufrj.br?Subject=Mural de Estágio">Coordenação de estágio</a>
+                </td>
+            </tr>
+            <!--
 	<tr>
 	    <td class="coluna_centralizada">
 		<a href="http://codigolivre.org.br"><img src="http://codigolivre.org.br/CLlogo.php?group_id=2434" width="95" height="38" border="0" alt="Logotivo Codigolivre"></a>
 	    </td>
 	</tr>
-//-->	
-    </tbody>
-</table>
+//-->
+        </tbody>
+    </table>
 
 </body>
 

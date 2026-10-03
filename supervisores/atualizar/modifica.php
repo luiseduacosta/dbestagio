@@ -1,66 +1,44 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
-// Pego o numero do supervisor
-$supervisor_id = $_REQUEST['supervisor_id'] ? $_REQUEST['supervisor_id'] : NULL;
-
-// Busco o supervisor
-$sql_supervisor = "select cress, nome, email from supervisores where id=$supervisor_id";
-// echo $sql_supervisor . "<br>";
-$res_supervisor = $db->Execute($sql_supervisor);
-if ($res_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
-while (!$res_supervisor->EOF) {
-	$nome  = $res_supervisor->fields['nome'];
-	$email = $res_supervisor->fields['email'];
-	$cress = $res_supervisor->fields['cress'];
-	$res_supervisor->MoveNext();
+// Formulário de edição do supervisor (envia para atualiza.php).
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+if ($supervisor_id <= 0) {
+    die("Supervisor inválido.");
 }
 
-// Busco as instituicoes do supervisor na tabela inst_super
-$sql  = "select i.id, i.instituicao_id as instituicao_id, e.instituicao "; 
-$sql .= "from inst_super as i, instituicoes as e ";
-$sql .= "where i.instituicao_id=e.id and i.supervisor_id=$supervisor_id";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela inst_super/instituicoes");
-
-$i = 0;
-while (!$resultado->EOF) {
-	$instituicao[$i]['id']             = $resultado->fields['id'];
-	$instituicao[$i]['instituicao_id'] = $resultado->fields['instituicao_id'];
-	$instituicao[$i]['instituicao']    = $resultado->fields['instituicao'];
-	$i++;
-	$resultado->MoveNext();
+$sup = Supervisor::find($supervisor_id);
+if ($sup === null) {
+    die("Supervisor não encontrado (id $supervisor_id).");
 }
 
-// Pego as instituicoes para a caixa de selecao
-$sql_estagio = "select * from instituicoes order by instituicao";
-$res_estagio = $db->Execute($sql_estagio);
-if ($res_estagio === false) die ("Não foi possível consultar a tabela instituicoes");
-
-$i = 0;
-while (!$res_estagio->EOF) {
-	$instituicao_id = $res_estagio->fields['id'];
-	$instituicoes   = $res_estagio->fields['instituicao'];
-	$matriz_instituicoes[$i]['instituicao_id'] = $instituicao_id;
-	$matriz_instituicoes[$i]['instituicoes'] = $instituicoes;
-	$i++;
-	$res_estagio->MoveNext();
-}
-
-// Envio os resultados
 $smarty = new Smarty_estagio;
-$smarty->assign("supervisor_id",$supervisor_id);
-$smarty->assign("nome",$nome);
-$smarty->assign("email",$email);
-$smarty->assign("cress",$cress);
-$smarty->assign("instituicao",$instituicao); // instituicoes do supervisor
-$smarty->assign("matriz_instituicoes",$matriz_instituicoes);
 
-// Mostro os resultados
+$smarty->assign("supervisor_id", $supervisor_id);
+$smarty->assign("nome", $sup->nome);
+$smarty->assign("cress", $sup->cress);
+$smarty->assign("cpf", $sup->cpf);
+$smarty->assign("email", $sup->email);
+$smarty->assign("codigo_telefone", $sup->codigo_telefone);
+$smarty->assign("telefone", $sup->telefone);
+$smarty->assign("codigo_celular", $sup->codigo_celular);
+$smarty->assign("celular", $sup->celular);
+$smarty->assign("endereco", $sup->endereco);
+$smarty->assign("bairro", $sup->bairro);
+$smarty->assign("municipio", $sup->municipio);
+$smarty->assign("cep", $sup->cep);
+$smarty->assign("escola", $sup->escola);
+$smarty->assign("ano_formacao", $sup->ano_formacao);
+$smarty->assign("cargo", $sup->cargo);
+$smarty->assign("regiao", $sup->regiao);
+$smarty->assign("observacoes", $sup->observacoes);
+
+// Instituições vinculadas (exibição).
+$smarty->assign("instituicao", $sup->instituicoes());
+
 $smarty->display("supervisor_modifica.tpl");
-
-// $db->close();
 
 exit;
 

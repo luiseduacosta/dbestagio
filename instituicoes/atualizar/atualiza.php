@@ -13,7 +13,8 @@ if ($instituicao_mod === null) {
 
 // Coleta os campos do formulário.
 $dados = array();
-$dados['area']          = isset($_POST['area_instituicao']) ? trim($_POST['area_instituicao']) : null;
+$area_val = isset($_POST['area_instituicao']) && $_POST['area_instituicao'] !== '' ? (int)$_POST['area_instituicao'] : 0;
+$dados['area_id']       = $area_val > 0 ? $area_val : null;
 $dados['instituicao']   = isset($_POST['nome_instituicao']) ? trim($_POST['nome_instituicao']) : '';
 $dados['endereco']      = isset($_POST['endereco_instituicao']) ? trim($_POST['endereco_instituicao']) : null;
 $dados['cep']           = isset($_POST['cep_instituicao']) ? trim($_POST['cep_instituicao']) : null;

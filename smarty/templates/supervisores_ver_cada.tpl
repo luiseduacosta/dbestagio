@@ -54,7 +54,7 @@ function get_periodo() {
 
 <td>
 <form action=? method="POST">
-<input type="hidden" name=indice value={$indice+10}>
+<input type="hidden" name=indice value={$indice-10}>
 <input type="hidden" name=periodo id=id_periodo value='{$periodo}'>
 <input type="submit" name=submit value="- 10">
 </form>
@@ -93,6 +93,15 @@ function get_periodo() {
 </td>
 
 {if $smarty.cookies.usuario}
+	<td>
+	<form action="../atualizar/modifica.php" method="GET">
+	<input type="hidden" name=supervisor_id value={$supervisor_id}>
+	<input type="submit" name=submit value="Modificar">
+	</form>
+	</td>
+{/if}
+
+{if $smarty.cookies.usuario}
 	<td style="background-color:red">
 	<form action="../cancelar/cancela.php" method="POST">
 	<input type="hidden" name=supervisor_id value={$supervisor_id}>
@@ -109,14 +118,23 @@ function get_periodo() {
 <table border="1" width="95%">
 <tbody>
 
-<tr><th width="20%">Id</th><td>{$indice}</td></tr>
+<tr><th width="20%">Id</th><td>{$supervisor_id}</td></tr>
 <tr><td>Cress</td><td>{$cress}</td></tr>
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $smarty.cookies.usuario}
+        <tr><td>CPF</td><td>{$cpf}</td></tr>
         <tr><td>Telefone</td><td>({$codigo_telefone}){$telefone}</td></tr>
         <tr><td>Celular</td><td>({$codigo_celular}){$celular}</td></tr>
         <tr><td>E-mail</td><td>{$email}</td></tr>
+        <tr><td>Endereço</td><td>{$endereco}</td></tr>
+        <tr><td>Bairro</td><td>{$bairro}</td></tr>
+        <tr><td>Município</td><td>{$municipio}</td></tr>
+        <tr><td>CEP</td><td>{$cep}</td></tr>
+        <tr><td>Região (CRESS)</td><td>{$regiao}</td></tr>
+        <tr><td>Escola</td><td>{$escola}</td></tr>
+        <tr><td>Ano de formação</td><td>{$ano_formacao}</td></tr>
+        <tr><td>Cargo</td><td>{$cargo}</td></tr>
 {/if}
 
 <tr>
@@ -156,24 +174,6 @@ function get_periodo() {
 
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $smarty.cookies.usuario}
-<table>
-<tbody>
-<tr>
-<td style="text-align: center">
-<form action="../inserir/auto_cadastro.php" method="post">
-<input type="hidden" name="supervisor_id" value="{$supervisor_id}">
-<input type="hidden" name="nome" value="{$nome}">
-<input type="hidden" name="cress" value="{$cress}">
-<input type="hidden" name="telefone" value="{$telefone}">
-<input type="hidden" name="celular" value="{$celular}">
-<input type="hidden" name="email" value="{$email}">
-<input type="submit" name="submit" value="Modifica {$supervisor_id}">
-</form>
-</td>
-</tr>
-</tbody>
-</table>
-
 <table>
 <tr>
 	<td>

@@ -59,6 +59,11 @@ window.onload = function() {
 </tr>
 
 <tr>
+<td>Ingresso:</td>
+<td><input type="text" maxlength="6" size="6" name="ingresso" value='{$ingresso}'> Formato: AAAA-S (ex.: 2026-1)</td>
+</tr>
+
+<tr>
 <td>Telefone</td>
 <td>
 <input type="text" maxlength="2" size="2" name="codigo_telefone" value={$codigo_telefone}>
@@ -118,6 +123,18 @@ CEP: <input type="text" maxlength="9" size="9" id="cep" name="cep" value='{$cep}
 <input type="text" maxlength="30" size="20" name="municipio" value='{$municipio}' />
 Bairro:
 <input type="text" maxlength="30" size="20" name="bairro" value='{$bairro}' />
+</td>
+</tr>
+
+<tr>
+<td>Turno</td>
+<td>
+<select name="turno_id" id="turno_id" size="1">
+<option value="0">Selecione turno</option>
+{section name=t loop=$turnos}
+<option value="{$turnos[t].id}" {if $turnos[t].id == $turno_id}selected="selected"{/if}>{$turnos[t].turno}</option>
+{/section}
+</select>
 </td>
 </tr>
 

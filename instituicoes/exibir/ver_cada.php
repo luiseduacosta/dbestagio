@@ -27,12 +27,13 @@ $curso = false; // este módulo trabalha somente com a tabela instituicoes
 if ($inserir) {
     $nova = new Instituicao();
     $nova->instituicao = '';
-    $nova->user_id = (int)(isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : 0);
+    $nova->cnpj = '';
+    $nova->user_id = (int)(isset($usuario_id) ? $usuario_id : 0);
     if ($nova->save()) {
         $instituicao_id = $nova->getKey();
         $flash = "Registro criado. Preencher o formulário com os dados e logo clicar em 'Modificar instituição'.";
     } else {
-        error_log("Erro ao inserir instituicao: " . $db->ErrorMsg());
+        error_log("Erro ao inserir instituicao: " . Instituicao::$db->ErrorMsg());
         die("Não foi possível inserir a instituição. Tente novamente.");
     }
 }
@@ -65,7 +66,8 @@ if ($modifica) {
         if ($inst === null) {
             die("Instituição não encontrada (id $instituicao_id).");
         }
-        $inst->area          = $area_instituicao;
+        $area_id_val = ($area_instituicao !== null && $area_instituicao !== '') ? (int)$area_instituicao : 0;
+        $inst->area_id       = $area_id_val > 0 ? $area_id_val : null;
         $inst->natureza      = $natureza;
         $inst->instituicao   = $nome_instituicao;
         $inst->url           = $url;
@@ -80,7 +82,7 @@ if ($modifica) {
         $inst->seguro        = $seguro;
         $inst->observacoes   = $observacoes;
         if (!$inst->save()) {
-            error_log("Erro ao atualizar instituicao: " . $db->ErrorMsg());
+            error_log("Erro ao atualizar instituicao: " . Instituicao::$db->ErrorMsg());
             die("Não foi possível atualizar a tabela instituicoes. Tente novamente.");
         }
         $flag = 0;
@@ -169,7 +171,7 @@ $dados = array(
     'telefone'       => $inst ? $inst->telefone : '',
     'beneficios'     => $inst ? $inst->beneficios : '',
     'fim_de_semana'  => $inst ? $inst->fim_de_semana : 0,
-    'id_area'        => $inst ? $inst->area : '',
+    'id_area'        => $inst ? $inst->areaId() : '',
     'area'           => $inst ? $inst->areaNome() : '',
     'natureza'       => $inst ? $inst->natureza : '',
     'convenio'       => $inst ? $inst->convenio : 0,

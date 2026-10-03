@@ -12,6 +12,15 @@ if ($periodo_atual === '') {
     $periodo_atual = PERIODO_ATUAL;
 }
 
+// Navegação registro a registro (barra superior).
+$indice = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
+$botao  = isset($_REQUEST['botao']) ? trim($_REQUEST['botao']) : '';
+if ($botao !== '') {
+    // Ao usar os botões, ignora o aluno da URL: a seleção passa a ser pelo índice.
+    $aluno_id = 0;
+    $registro = 0;
+}
+
 // Se veio por registro, converto para aluno_id.
 if ($aluno_id <= 0 && $registro > 0) {
     $db = Aluno::$db;
@@ -21,9 +30,66 @@ if ($aluno_id <= 0 && $registro > 0) {
     }
 }
 
+// Lista ordenada de alunos (apenas os ids) — base da navegação.
+$alunos_ids = array();
+$res = Aluno::$db->Execute("SELECT id FROM alunos ORDER BY nome");
+if ($res === false) {
+    die("Não foi possível consultar a tabela alunos.");
+}
+while (!$res->EOF) {
+    $alunos_ids[] = (int)$res->fields['id'];
+    $res->MoveNext();
+}
+$ultimo = count($alunos_ids);
+
+// Botões Primeiro / -10 / Retroceder / Avançar / +10 / Último (com wrap-around).
+switch ($botao) {
+    case 'primeiro':
+        $indice = 0;
+        break;
+    case 'menos_10':
+        $indice -= 10;
+        if ($indice < 0) $indice = $ultimo - 1;
+        break;
+    case 'retroceder':
+        $indice--;
+        if ($indice < 0) $indice = $ultimo - 1;
+        break;
+    case 'avancar':
+        $indice++;
+        if ($indice >= $ultimo) $indice = 0;
+        break;
+    case 'mais_10':
+        $indice += 10;
+        if ($indice >= $ultimo) $indice = 0;
+        break;
+    case 'ultimo':
+        $indice = $ultimo - 1;
+        break;
+}
+
+if ($ultimo > 0) {
+    if ($indice >= $ultimo) $indice = 0;
+    if ($indice < 0) $indice = $ultimo - 1;
+} else {
+    $indice = 0;
+}
+
+// Com aluno_id (link direto) posiciona a barra no aluno; sem ele, seleciona pelo índice.
+if ($aluno_id > 0) {
+    $posicao = array_search($aluno_id, $alunos_ids, true);
+    if ($posicao !== false) {
+        $indice = (int)$posicao;
+    }
+} elseif ($ultimo > 0) {
+    $aluno_id = $alunos_ids[$indice];
+}
+
 $dados = ($aluno_id > 0) ? Aluno::buscar($aluno_id) : null;
 if ($dados === null) {
-    die("Aluno não encontrado (id " . ($aluno_id ?: $registro) . ").");
+    die($aluno_id > 0
+        ? "Aluno não encontrado (id $aluno_id)."
+        : "Nenhum aluno cadastrado.");
 }
 $aluno_id = (int)$dados['id'];
 
@@ -70,7 +136,7 @@ $smarty->assign("logado", $isAdmin);
 $smarty->assign("isAdmin", $isAdmin);
 $smarty->assign("periodo", $periodo);
 $smarty->assign("origem", $origem);
-$smarty->assign("indice", 0);
+$smarty->assign("indice", $indice);
 $smarty->assign("aluno_id", $aluno_id);
 $smarty->assign("instituicao_id", $dados['instituicao_id'] ?? 0);
 $smarty->assign("supervisor_id", $dados['supervisor_id'] ?? 0);

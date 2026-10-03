@@ -1,7 +1,7 @@
 <?php
 
 if (empty($origem)) {
-    $origem = $_SERVER['HTTP_REFERER'];
+    $origem = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 }
 
 include_once(__DIR__ . "/../../autentica.inc");
@@ -42,6 +42,7 @@ $smarty->assign("origem", $origem);
 $smarty->assign("aluno_id", $aluno_id);
 $smarty->assign("registro", $registro);
 $smarty->assign("nome", '');
+$smarty->assign("ingresso", '');
 $smarty->assign("codigo_telefone", 21);
 $smarty->assign("telefone", '');
 $smarty->assign("codigo_celular", 21);
@@ -56,6 +57,8 @@ $smarty->assign("cep", '');
 $smarty->assign("bairro", '');
 $smarty->assign("municipio", '');
 $smarty->assign("cadastro", 0);
+$smarty->assign("turnos", Turno::seleciona());
+$smarty->assign("turno_id", 0);
 $smarty->display("alunos-inserir_verifica.tpl");
 
 exit;

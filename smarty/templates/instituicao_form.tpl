@@ -29,7 +29,7 @@
 <tr>
 <td>Área</td>
 <td>
-<select name="area" size="1">
+<select name="area_id" size="1">
 <option value="">-- Selecione --</option>
 {section name=elementos loop=$matriz_areas}
 	<option value="{$matriz_areas[elementos].id}">{$matriz_areas[elementos].area}</option>
@@ -113,6 +113,28 @@
 <tr>
 <td>Observações</td>
 <td><textarea rows="4" cols="60" name="observacoes"></textarea></td>
+</tr>
+
+<tr>
+<td>Supervisores</td>
+<td>
+<select name="supervisores[]" size="6" multiple="multiple">
+{section name=s loop=$supervisores}
+	<option value="{$supervisores[s].id}">{$supervisores[s].nome}</option>
+{/section}
+</select>
+<br>Use Ctrl/Shift para selecionar mais de um supervisor existente (opcional).
+</td>
+</tr>
+
+<tr>
+<td>Novo supervisor</td>
+<td>
+Nome: <input type="text" name="novo_supervisor_nome" size="40" maxlength="70">
+Cress: <input type="text" name="novo_supervisor_cress" size="10" maxlength="10">
+E-mail: <input type="text" name="novo_supervisor_email" size="30" maxlength="255">
+<br>(opcional: cadastra um supervisor novo e já vincula à instituição)
+</td>
 </tr>
 
 <tr class="rodape">

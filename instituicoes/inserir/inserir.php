@@ -3,9 +3,17 @@
 include_once("../../autentica.inc");
 require_once("../../libphp/models.php");
 
+// Sem POST: redireciona para o formulário de inserção.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: formulario.php");
+    exit;
+}
+
 $instituicao  = isset($_POST['instituicao']) ? trim($_POST['instituicao']) : '';
 $natureza     = isset($_POST['natureza']) ? trim($_POST['natureza']) : null;
-$area         = isset($_POST['area']) && $_POST['area'] !== '' ? (int)$_POST['area'] : null;
+$area         = isset($_POST['area_id']) && $_POST['area_id'] !== ''
+    ? (int)$_POST['area_id']
+    : (isset($_POST['area']) && $_POST['area'] !== '' ? (int)$_POST['area'] : null);
 $cnpj         = isset($_POST['cnpj']) ? trim($_POST['cnpj']) : null;
 $email        = isset($_POST['email']) ? trim($_POST['email']) : null;
 $url          = isset($_POST['url']) ? trim($_POST['url']) : null;
@@ -28,7 +36,7 @@ if ($instituicao === '') {
 $nova = new Instituicao();
 $nova->instituicao    = $instituicao;
 $nova->natureza       = $natureza;
-$nova->area           = $area;
+$nova->area_id        = $area;
 $nova->cnpj           = $cnpj;
 $nova->email          = $email;
 $nova->url            = $url;
@@ -43,7 +51,7 @@ $nova->convenio       = $convenio;
 $nova->expira         = $expira;
 $nova->seguro         = $seguro;
 $nova->observacoes    = $observacoes;
-$nova->user_id        = (int)(isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : 0);
+$nova->user_id        = (int)(isset($usuario_id) ? $usuario_id : 0);
 $nova->estagiarios_count = 0;
 
 if (!$nova->save()) {
@@ -52,6 +60,32 @@ if (!$nova->save()) {
 }
 
 $novo_id = $nova->getKey();
+
+// Vincula os supervisores existentes selecionados no formulário.
+$supervisores = isset($_POST['supervisores']) && is_array($_POST['supervisores']) ? $_POST['supervisores'] : array();
+foreach ($supervisores as $supervisor_id) {
+    $supervisor_id = (int)$supervisor_id;
+    if ($supervisor_id > 0) {
+        $nova->vincularSupervisor($supervisor_id);
+    }
+}
+
+// Opcional: cadastra um supervisor novo e já vincula à instituição.
+$novo_supervisor_nome = isset($_POST['novo_supervisor_nome']) ? trim($_POST['novo_supervisor_nome']) : '';
+if ($novo_supervisor_nome !== '') {
+    $novo_supervisor_cress = isset($_POST['novo_supervisor_cress']) ? trim($_POST['novo_supervisor_cress']) : '';
+    $novo_supervisor_email = isset($_POST['novo_supervisor_email']) ? trim($_POST['novo_supervisor_email']) : '';
+    $ok_supervisor = Instituicao::$db->Execute(
+        "INSERT INTO supervisores (nome, cress, email) VALUES (?, ?, ?)",
+        array($novo_supervisor_nome, $novo_supervisor_cress, $novo_supervisor_email)
+    );
+    if ($ok_supervisor !== false) {
+        $nova->vincularSupervisor((int)Instituicao::$db->Insert_ID());
+    } else {
+        error_log("Erro ao inserir supervisor: " . Instituicao::$db->ErrorMsg());
+    }
+}
+
 header("Location: ../exibir/ver_cada.php?instituicao_id=$novo_id");
 exit;
 

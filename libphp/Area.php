@@ -6,7 +6,7 @@ require_once __DIR__ . '/Model.php';
  * Area — Model da tabela `areas`.
  *
  * Colunas: id (int), area (varchar 90).
- * Relação: instituicoes.area -> areas.id (uma área tem várias instituições).
+ * Relação: instituicoes.area_id -> areas.id (uma área tem várias instituições).
  */
 class Area extends ADODB_Model {
     protected static $table  = 'areas';
@@ -17,7 +17,7 @@ class Area extends ADODB_Model {
      */
     public function countInstituicoes() {
         $db = self::$db;
-        return (int)$db->GetOne("SELECT COUNT(*) FROM instituicoes WHERE area = ?", array($this->getKey()));
+        return (int)$db->GetOne("SELECT COUNT(*) FROM instituicoes WHERE area_id = ?", array($this->getKey()));
     }
 
     /**
@@ -36,8 +36,8 @@ class Area extends ADODB_Model {
                  FROM inst_super
                  GROUP BY instituicao_id
              ) iss ON iss.instituicao_id = e.id
-             WHERE e.area = ?
-             GROUP BY e.id, e.instituicao, e.area, e.beneficios, e.endereco, e.telefone, iss.q_super
+             WHERE e.area_id = ?
+             GROUP BY e.id, e.instituicao, e.area_id, e.beneficios, e.endereco, e.telefone, iss.q_super
              ORDER BY e.instituicao",
             array($this->getKey())
         );

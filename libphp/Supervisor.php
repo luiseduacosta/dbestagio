@@ -6,8 +6,8 @@ require_once __DIR__ . '/Model.php';
  * Supervisor — Model da tabela `supervisores`.
  *
  * Colunas: id (auto), nome, cpf, codigo_telefone, telefone, codigo_celular, celular,
- *          email, escola, ano_formacao, cress, regiao, cargo, observacoes,
- *          user_id, estagiarios_count.
+ *          email, escola, ano_formacao, cress, regiao, cargo, endereco, bairro,
+ *          municipio, cep, observacoes, user_id, estagiarios_count.
  * Relação: instituições via tabela ponte `inst_super` (supervisor_id, instituicao_id).
  */
 class Supervisor extends ADODB_Model {
@@ -18,6 +18,7 @@ class Supervisor extends ADODB_Model {
     private static $colunas = array(
         'nome', 'cpf', 'codigo_telefone', 'telefone', 'codigo_celular', 'celular',
         'email', 'escola', 'ano_formacao', 'cress', 'regiao', 'cargo',
+        'endereco', 'bairro', 'municipio', 'cep',
         'observacoes', 'user_id', 'estagiarios_count',
     );
 
