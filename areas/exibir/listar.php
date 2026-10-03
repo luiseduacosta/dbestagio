@@ -46,8 +46,12 @@ while (!$res_professores->EOF) {
     $res_professores->MoveNext();
 }
 
+$areas = Area::listarAllAreas();
+
 $smarty = new Smarty_estagio;
-$smarty->assign("areas", $matriz);
+$smarty->assign("ordem", $ordem);
+$smarty->assign("areas", $areas);
+$smarty->assign("matriz", $matriz);
 $smarty->display("areas_listar.tpl");
 
 exit;

@@ -102,7 +102,7 @@ class Inscricao extends ADODB_Model {
      * @param int    $muralestagio_id Filtra uma oferta específica (0 = todas).
      * @return array Registros formatados (data em dd-mm-aaaa e timestamp legível).
      */
-    public static function listar($periodo = '', $muralestagio_id = 0) {
+    public static function listar($periodo = '', $muralestagio_id = 0, $aluno_id = 0, $aluno_registro = '') {
         $db = static::db();
 
         $sql = "SELECT i.id, i.registro, i.muralestagio_id, i.data, i.periodo, i.timestamp, "
@@ -122,6 +122,11 @@ class Inscricao extends ADODB_Model {
         if ($muralestagio_id > 0) {
             $where[] = "i.muralestagio_id = ?";
             $params[] = (int)$muralestagio_id;
+        }
+        if ($aluno_id > 0 || $aluno_registro !== '') {
+            $where[] = "(i.aluno_id = ? OR i.registro = ?)";
+            $params[] = (int)$aluno_id;
+            $params[] = (int)$aluno_registro;
         }
         if ($where) {
             $sql .= " WHERE " . implode(" AND ", $where);
@@ -190,6 +195,26 @@ class Inscricao extends ADODB_Model {
             'aluno_telefone'     => $f['aluno_telefone'],
             'aluno_celular'      => $f['aluno_celular'],
         );
+    }
+
+    /**
+     * Lista de alunos (registro + nome) para o seletor do formulário.
+     */
+    public static function alunosLista() {
+        $db = static::db();
+        $rs = $db->Execute("SELECT id, registro, nome FROM alunos ORDER BY nome");
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $out[] = array(
+                    'id'       => (int)$rs->fields['id'],
+                    'registro' => (string)$rs->fields['registro'],
+                    'nome'     => $rs->fields['nome'],
+                );
+                $rs->MoveNext();
+            }
+        }
+        return $out;
     }
 
     private static function dataIso($date) {

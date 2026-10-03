@@ -1,10 +1,19 @@
 <?php
 
-include_once("../../autentica.inc");
-require_once("../../libphp/models.php");
+include_once(__DIR__ . "/../../autentica.inc");
+include_once(__DIR__ . "/../../libphp/models.php");
 
-$aluno_id = $_GET['aluno_id'];
-$erro = $_GET['erro'];
+$aluno_id = $_GET['aluno_id'] ?? NULL;
+$erro = $_GET['erro'] ?? NULL;
+
+if ($aluno_id === NULL) {
+    die("Nenhum aluno foi informado.");
+}
+
+$aluno = Aluno::find($aluno_id);
+if ($aluno === null) {
+    die("Aluno não encontrado.");
+}
 
 $sql  = "SELECT alunos.id, alunos.registro, alunos.nome, alunos.turno_id, estagiarios.nivel, estagiarios.instituicao_id, estagiarios.supervisor_id, instituicoes.instituicao ";
 $sql .= "FROM alunos ";

@@ -3,7 +3,7 @@
 include_once("../../autentica.inc");
 require_once("../../libphp/models.php");
 
-$id_area = isset($_POST["id_area"]) ? (int)$_POST["id_area"] : 0;
+$area_id = isset($_POST["area_id"]) ? (int)$_POST["area_id"] : 0;
 $area    = isset($_POST["area"]) ? trim($_POST["area"]) : '';
 
 if ($area === '') {
@@ -13,9 +13,9 @@ if (mb_strlen($area, 'UTF-8') > 90) {
     die("O nome da área excede 90 caracteres.");
 }
 
-$area_obj = Area::find($id_area);
+$area_obj = Area::find($area_id);
 if ($area_obj === null) {
-    die("Área não encontrada (id $id_area).");
+    die("Área não encontrada (id $area_id).");
 }
 
 $area_obj->area = $area;

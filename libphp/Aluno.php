@@ -13,6 +13,64 @@ class Aluno extends ADODB_Model {
     protected static $hidden = array();
 
     /**
+      * Busca todas as informações do aluno, suas inscrições e seus estágios.
+      */
+    public static function buscarCompleto($id) {
+        $db = static::db();
+
+        // 1. Dados do aluno (com o turno)
+        $sqlAluno = "SELECT a.*, t.turno AS turno_nome "
+            . "FROM alunos a "
+            . "LEFT JOIN turnos t ON t.id = a.turno_id "
+            . "WHERE a.id = ? LIMIT 1";
+        $rsAluno = $db->Execute($sqlAluno, array((int)$id));
+
+        if ($rsAluno === false || $rsAluno->RecordCount() == 0) {
+            return null;
+        }
+
+        $aluno = $rsAluno->fields;
+        $aluno['inscricoes'] = array();
+        $aluno['estagiarios'] = array();
+
+        // 2. Busca todas as inscrições do aluno
+        if (!empty($aluno['registro'])) {
+            $rsInsc = $db->Execute(
+                "SELECT i.*, m.instituicao AS oferta_instituicao "
+                . "FROM inscricoes i "
+                . "LEFT JOIN mural_estagios m ON m.id = i.muralestagio_id "
+                . "WHERE i.registro = ? OR i.aluno_id = ? ORDER BY i.id DESC",
+                array((int)$aluno['registro'], (int)$id)
+            );
+            if ($rsInsc) {
+                while (!$rsInsc->EOF) {
+                    $aluno['inscricoes'][] = $rsInsc->fields;
+                    $rsInsc->MoveNext();
+                }
+            }
+        }
+
+        // 3. Busca todos os estágios do aluno (com instituição, supervisor e professor)
+        $rsEstag = $db->Execute(
+            "SELECT e.*, inst.instituicao AS instituicao_nome, s.nome AS supervisor_nome, p.nome AS professor_nome "
+            . "FROM estagiarios e "
+            . "LEFT JOIN instituicoes inst ON inst.id = e.instituicao_id "
+            . "LEFT JOIN supervisores s ON s.id = e.supervisor_id "
+            . "LEFT JOIN professores p ON p.id = e.professor_id "
+            . "WHERE e.aluno_id = ? ORDER BY e.periodo DESC",
+            array((int)$id)
+        );
+        if ($rsEstag) {
+            while (!$rsEstag->EOF) {
+                $aluno['estagiarios'][] = $rsEstag->fields;
+                $rsEstag->MoveNext();
+            }
+        }
+
+        return $aluno;
+    }
+
+    /**
      * Próximo id disponível (a coluna id não é auto_increment).
      */
     public static function proximoId() {
@@ -53,6 +111,13 @@ class Aluno extends ADODB_Model {
             return null;
         }
         return $rs->fields;
+    }
+
+    /**
+     * Busca alunos por parte do nome (retorna array de modelos Aluno).
+     */
+    public static function buscarPorNome($palavra) {
+        return static::where("nome LIKE ?", array("%" . $palavra . "%"));
     }
 
     /**

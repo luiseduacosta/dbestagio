@@ -1,27 +1,30 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta charset="utf-8">
+<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Instituiçoes por área</title>
+<title>Instituições por Área</title>
 </head>
-
 <body>
 
-<div aling="center">
-<table border="1">
-<caption>Instituições da área: {$nome_area}</caption>
+<a href="javascript:history.back();">Voltar</a><br>
+
+<div align="center">
+<h3>Instituições da área: {$nome_area}</h3>
+</div>
+
+<table id="instituicoes" class="display">
+<thead>
+<tr>
+<th>Instituição</th>
+<th>Turma</th>
+<th>Supervisores</th>
+<th>Endereço</th>
+<th>Telefone</th>
+</tr>
+</thead>
 <tbody>
-
-<tr>
-<th><a href="?id_area={$id_area}&ordem=instituicao">Instituição</a></th>
-<th><a href="?id_area={$id_area}&ordem=turma">Turma</a></th>
-<th>Super- <br> visores</th>
-<th><a href="?id_area={$id_area}&ordem=endereco">Endereço</a></th>
-<th><a href="?id_area={$id_area}&ordem=telefone">Telefone</a></th>
-</tr>
-
-<tr>
-</tr>
 
 {section name=elemento loop=$instituicoes}
 <tr>
@@ -35,8 +38,21 @@
 
 </tbody>
 </table>
-</div>
+
+{literal}
+<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script>
+$(document).ready(function () {
+	$('#instituicoes').DataTable({
+		language: { url: '../../libjs/datatables/pt-BR.json' },
+		pageLength: 25,
+		lengthMenu: [10, 25, 50, 100],
+		order: []
+	});
+});
+</script>
+{/literal}
 
 </body>
-
 </html>

@@ -1,20 +1,13 @@
 <?php
 
-// include_once("../../autentica.inc");
-
-include_once("../../setup.php");
+include_once(__DIR__ . "/../../autentica.inc");
+include_once(__DIR__ . "/../../libphp/models.php");
 
 $origem = $_REQUEST['origem'];
 // echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 
 if (empty($origem))
     $origem = $_SERVER['HTTP_REFERER'];
-
-
-if ($debug == 1) {
-    echo $origem . "<br>";
-    echo $_SERVER['PHP_SELF'] . "<br>";
-}
 
 // Alunos
 $aluno_id        = $_REQUEST['aluno_id'];
@@ -33,30 +26,15 @@ $endereco        = $_REQUEST['endereco'];
 $cep             = $_REQUEST['cep'];
 $bairro          = $_REQUEST['bairro'];
 $municipio       = $_REQUEST['municipio'];
-// $observacoes     = $_REQUEST['observacoes'];
-
-// echo $nascimento . "<br>";
-
-if ($debug == 1) {
-    // print_r($_REQUEST) . "<br>";
-	}
+$observacoes     = $_REQUEST['observacoes'];
 
 $acao     = $_REQUEST['acao'];
 $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
-if ($debug == 1) {
-    echo "Acao " . $acao . "<br>";
-    echo "Cadastro " . $cadastro . "<br>";
-    echo "Atualizar estagio ". $atualizar_estagio . "<br>";
-}
-
 // Aluno
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro='$registro'";
-
-if ($debug == 1)
-    echo $sql . "<br>";
 
 $resultado = $db->Execute($sql);
 if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
@@ -112,7 +90,5 @@ $smarty->assign("municipio",$municipio);
 $smarty->assign("observacoes",$observacoes);
 
 $smarty->display("alunos-cadastro_termo.tpl");
-
-exit;
 
 ?>

@@ -24,8 +24,20 @@
 <tbody>
 
 <tr>
-<td class="coluna_direita"><label for="registro">Registro do aluno *</label></td>
-<td><input type="text" id="registro" name="registro" size="10" maxlength="9" value="{$v.registro}"></td>
+<td class="coluna_direita"><label for="registro">Aluno *</label></td>
+<td>
+{if $e_aluno}
+{$v.registro}
+<input type="hidden" id="registro" name="registro" value="{$v.registro}">
+{else}
+<select id="registro" name="registro" size="1">
+<option value="">Selecione o aluno</option>
+{foreach item=al from=$alunos}
+<option value="{$al.registro}" {if $al.registro == $v.registro}selected="selected"{/if}>{$al.registro} - {$al.nome}</option>
+{/foreach}
+</select>
+{/if}
+</td>
 </tr>
 
 <tr>

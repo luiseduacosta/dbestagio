@@ -180,8 +180,6 @@ class Estagiario extends ADODB_Model {
     public static function niveis() {
         return array('', '1', '2', '3', '4', '9');
     }
-}
 
 }
-
-?>
+}

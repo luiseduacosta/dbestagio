@@ -1,25 +1,21 @@
 <?php
 
-include_once("../../autentica.inc");
+include_once(__DIR__ . "/../../autentica.inc");
+include_once(__DIR__ . "/../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
 
-$sql = "select * from alunos order by nome";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
+$alunos = Aluno::all();
 
 $i = 0;
-while (!$resultado->EOF) {
-    $alunos[$i]["aluno_id"] = $resultado->fields["id"];
-    $alunos[$i]["registro"] = $resultado->fields["registro"];
-    $alunos[$i]["nome"]     = $resultado->fields["nome"];
+foreach ($alunos as $aluno) {
+    $alunos[$i]["aluno_id"] = $aluno->id;
+    $alunos[$i]["registro"] = $aluno->registro;
+    $alunos[$i]["nome"]     = $aluno->nome;
     $i++;
-    $resultado->MoveNext();
 }
 
 $smarty->assign("alunos",$alunos);
 $smarty->display("alunos-cancelar_seleciona.tpl");
-
-exit;
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 include_once(__DIR__ . "/../../autentica.inc");
-require_once(__DIR__ . "/../../libphp/models.php");
+include_once(__DIR__ . "/../../libphp/models.php");
 
 $origem = isset($_REQUEST['origem']) ? trim($_REQUEST['origem']) : '';
 if (substr_count($origem, "seleciona.php") == 1) {
