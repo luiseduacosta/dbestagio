@@ -38,7 +38,6 @@ function aluno()
 <th>Período</th>
 <th>TC</th>
 <th>Estágio</th>
-<th>Turno</th>
 <th>ch</th>
 <th>Nota</th>
 <th>Instituição</th>
@@ -51,7 +50,6 @@ function aluno()
 <td style="text-align:center">{$estagiarios[elemento].periodo}</td>
 <td style="text-align:center">{$estagiarios[elemento].tc}</td>
 <td style="text-align:center">{$estagiarios[elemento].nivel}</td>
-<td style="text-align:center">{$estagiarios[elemento].turno}</td>
 <td style="text-align:center">{$estagiarios[elemento].ch}</td>
 <td style="text-align:center">{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
@@ -101,14 +99,6 @@ Estágio IV  <input type="radio" name="nivel" value="4">
 </tr>
 
 <tr>
-<td>Turno:</td>
-<td>
-Diurno <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N">
-</td>
-</tr>
-
-<tr>
 <td>Avaliação</td>
 <td>
 Nota (decimal): <input type="text" name="nota" id="nota" size="5" maxlength="5" value="0,00">
@@ -150,19 +140,6 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 {section name=elemento loop=$professores}
 <option value="{$professores[elemento].professor_id}">
 {$professores[elemento].professor|truncate:50}</option>
-{/section}
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Turma:</td>
-<td>
-<select name="turma_id" size="1">
-<option value="0">Selecione turma</option>
-{section name=elemento loop=$turmas}
-<option value="{$turmas[elemento].turma_id}">
-{turmas[elemento].turma|truncate:50}</option>
 {/section}
 </select>
 </td>

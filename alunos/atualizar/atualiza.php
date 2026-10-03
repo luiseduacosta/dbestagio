@@ -3,12 +3,9 @@
 include_once(__DIR__ . "/../../autentica.inc");
 require_once(__DIR__ . "/../../libphp/models.php");
 
-$url    = $_SERVER['SERVER_NAME'];
 $origem = isset($_REQUEST['origem']) ? trim($_REQUEST['origem']) : '';
 if (substr_count($origem, "seleciona.php") == 1) {
     $origem = $_SERVER['PHP_SELF'];
-} elseif (substr_count($origem, "listar_dae.php") == 1) {
-    $origem = "http://$url/estagio/alunos/exibir/listar_dae.php";
 }
 if ($origem === '') {
     $origem = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -26,7 +23,6 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST') || (isset($_GET['acao']) && $_GET['a
     $estagiario_id = isset($_POST['estagiario_id']) ? (int)$_POST['estagiario_id'] : 0;
     $periodo = isset($_POST['periodo']) ? trim($_POST['periodo']) : '';
     $nivel   = isset($_POST['nivel']) ? trim($_POST['nivel']) : '';
-    $turno   = isset($_POST['turno']) ? trim($_POST['turno']) : '';
     $tc      = isset($_POST['tc']) ? trim($_POST['tc']) : '';
     $instituicao_id = isset($_POST['instituicao_id']) ? (int)$_POST['instituicao_id'] : 0;
     $supervisor_id  = isset($_POST['supervisor_id']) ? (int)$_POST['supervisor_id'] : 0;
@@ -75,6 +71,15 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST') || (isset($_GET['acao']) && $_GET['a
                 $data_nascimento = $nasc;
             }
             if ($data_nascimento !== '') $aluno->nascimento = $data_nascimento;
+        }
+
+        // Turno do aluno (alunos.turno_id -> turnos.turno).
+        if (isset($_REQUEST['turno_id'])) {
+            $turno_id = (int)$_REQUEST['turno_id'];
+            if ($turno_id > 0 && Turno::find($turno_id) === null) {
+                die("Turno inválido (id $turno_id).");
+            }
+            $aluno->turno_id = ($turno_id > 0) ? $turno_id : null;
         }
 
         // Verifica duplicidade de registro (salvo neste próprio aluno).
@@ -171,6 +176,8 @@ $smarty->assign("cep", $dados['cep']);
 $smarty->assign("bairro", $dados['bairro']);
 $smarty->assign("municipio", $dados['municipio']);
 $smarty->assign("observacoes", $dados['observacoes']);
+$smarty->assign("turno_id", (int)$dados['turno_id']);
+$smarty->assign("turnos", Turno::seleciona());
 $smarty->assign("estagiarios", $estagiarios);
 $smarty->assign("instituicoes", $instituicoes);
 $smarty->assign("supervisores", $supervisores);

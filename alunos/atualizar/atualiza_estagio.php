@@ -1,13 +1,13 @@
 <?php
 
-if ($debug == 1)
+if (isset($debug) && $debug == 1)
 	echo $_SERVER['PHP_SELF'];
 
 include_once("../../autentica.inc");
 
-$origem = $_REQUEST['origem'];
+$origem = isset($_REQUEST['origem']) ? $_REQUEST['origem'] : '';
 if (empty($origem )) {
-	$origem = $_SERVER['HTTP_REFERER']; // Para poder retornar desde onde foi chamado
+	$origem = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''; // Para poder retornar desde onde foi chamado
 }
 // echo "Origem: " . $origem . "<br>";
 
@@ -140,7 +140,6 @@ $smarty->assign("nome_aluno",$nome_aluno);
 $smarty->assign("registro",$registro);
 $smarty->assign("periodo",$periodo);
 $smarty->assign("tc",$tc);
-$smarty->assign("turno",$turno);
 $smarty->assign("nivel",$nivel);
 $smarty->assign("estagiario_id",$estagiario_id);
 $smarty->assign("instituicao_id",$instituicao_id);

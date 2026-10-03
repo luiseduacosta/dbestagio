@@ -1,6 +1,6 @@
 <?php
 
-if ($debug == 1)
+if (isset($debug) && $debug == 1)
 	echo $_SERVER['PHP_SELF'] . "<br>";
 
 include_once("../../autentica.inc");
@@ -14,7 +14,6 @@ $celular  = $_POST['celular'];
 $email    = $_POST['email'];
 
 $periodo        = $_POST['periodo'];
-$turno          = $_POST['turno'];
 $nivel          = $_POST['nivel'];
 $instituicao_id = $_POST['instituicao_id'];
 $supervisor_id  = $_POST['supervisor_id'];

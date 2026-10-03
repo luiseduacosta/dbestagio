@@ -114,12 +114,8 @@ function get_periodo() {
 <tr><td>Nome</td><td>{$nome}</td></tr>
 {* Usuarios nao cadastrados nao podem ver estes campos *}
 {if $smarty.cookies.usuario}
-	<tr><td>Endereço</td><td>{$endereco}</td></tr>
-	<tr><td>Bairro</td><td>{$bairro}</td></tr>
-	<tr><td>CEP</td><td>{$cep}</td></tr>
-	<tr><td>Município</td><td>{$municipio}</td></tr>
-        <tr><td>Telefone</td><td>({$codigo_tel}){$telefone}</td></tr>
-        <tr><td>Celular</td><td>({$codigo_cel}){$celular}</td></tr>
+        <tr><td>Telefone</td><td>({$codigo_telefone}){$telefone}</td></tr>
+        <tr><td>Celular</td><td>({$codigo_celular}){$celular}</td></tr>
         <tr><td>E-mail</td><td>{$email}</td></tr>
 {/if}
 
@@ -145,7 +141,7 @@ function get_periodo() {
 <tr>
 	<td>Instituição</td>
 	<td>
-		<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$emprego[i].instituicao_id}">{$emprego[i].instituicao}</a>
+		<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$emprego[i].id}">{$emprego[i].instituicao}</a>
 	</td>
 </tr>
 {/section}
@@ -184,7 +180,7 @@ function get_periodo() {
 		<form name='sel_instituicao' action='#' method='post'>
 			<select name='num_instituicao'>
 				{section name=i loop=$instituicoes}
-				<option value='{$instituicoes[i].instituicao_id}'>{$instituicoes[i].instituicao|truncate:50}</option>
+				<option value='{$instituicoes[i].id}'>{$instituicoes[i].instituicao|truncate:50}</option>
 				{/section}
 			</select>
 			<input type='hidden' name='supervisor_id' value='{$supervisor_id}'>
