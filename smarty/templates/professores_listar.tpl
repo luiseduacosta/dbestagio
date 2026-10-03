@@ -43,7 +43,7 @@ Status:
 <th>Telefone</th>
 <th>Celular</th>
 <th>Status</th>
-<th data-orderable="false">Nº estágios</th>
+<th>Nº estágios</th>
 <th data-orderable="false">Ações</th>
 </tr>
 </thead>

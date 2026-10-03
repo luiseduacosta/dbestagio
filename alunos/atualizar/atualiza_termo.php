@@ -6,10 +6,6 @@ include_once("../../setup.php");
 // A entrada ao formulario eh atraves do numero de registro
 $registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
 // echo "Registro: " . $registro;
-
-if (!ctype_digit($registro)) {
-    die("O DRE deve conter apenas carateres numéricos");
-}
 if (strlen($registro) < 8 or strlen($registro) > 9) {
     die("Quantidade de carateres digitados inválido");
 }
@@ -46,6 +42,9 @@ $instituicao_id = !empty($estagio_id) ? $estagio_id : (isset($_REQUEST['institui
 
 // O formulario eh enviado pelo aluno
 if ($submit) {
+    if (!ctype_digit($registro)) {
+        die("O DRE deve conter apenas carateres numéricos");
+    }
     // Verifica o campo instituicao_id
     if (empty($estagio_id))
         die("É obrigatório selecionar a instituição para o qual está solicitando o termo de compromisso");

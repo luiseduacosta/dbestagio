@@ -4,6 +4,9 @@ include_once(__DIR__ . "/../../autentica.inc");
 require_once(__DIR__ . "/../../libphp/models.php");
 require_once(__DIR__ . "/../validar.php");
 
+// Permissões: admin (tudo) ou aluno (apenas as próprias inscrições).
+inscricao_exigir_permissao();
+
 // Período selecionado (filtra). Vazio = todos.
 $periodo = isset($_GET['periodo']) ? trim($_GET['periodo']) : '';
 if ($periodo === '') {
@@ -18,7 +21,15 @@ if (!in_array($periodo, $periodos, true)) {
     $periodo = PERIODO_ATUAL;
 }
 
-$inscritos = Inscricao::listar($periodo, $muralestagio_id);
+// Aluno: a listagem mostra apenas as próprias inscrições.
+if ($isAluno) {
+    $filtro_aluno_id  = inscricao_aluno_id_logado();
+    $filtro_aluno_reg = inscricao_aluno_registro_logado();
+} else {
+    $filtro_aluno_id  = 0;
+    $filtro_aluno_reg = '';
+}
+$inscritos = Inscricao::listar($periodo, $muralestagio_id, $filtro_aluno_id, $filtro_aluno_reg);
 
 // Instituição da oferta (exibida no título quando filtrado por oferta).
 $titulo_oferta = '';

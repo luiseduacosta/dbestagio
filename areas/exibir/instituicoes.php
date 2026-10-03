@@ -3,7 +3,7 @@
 include_once("../../setup.php");
 require_once("../../libphp/models.php");
 
-$id_area = isset($_GET['id_area']) ? (int)$_GET['id_area'] : 0;
+$area_id = isset($_GET['area_id']) ? (int)$_GET['area_id'] : 0;
 $ordem   = isset($_GET['ordem']) ? $_GET['ordem'] : 'instituicao';
 
 // Whitelist de colunas de ordenação seguras.
@@ -17,7 +17,7 @@ if (!isset($ordens_validas[$ordem])) {
     $ordem = 'instituicao';
 }
 
-$area_obj = Area::find($id_area);
+$area_obj = Area::find($area_id);
 $nome_area = $area_obj ? $area_obj->area : '';
 $matriz    = $area_obj ? $area_obj->instituicoes() : array();
 
@@ -32,7 +32,7 @@ if ($matriz) {
 }
 
 $smarty = new Smarty_estagio;
-$smarty->assign("id_area", $id_area);
+$smarty->assign("area_id", $area_id);
 $smarty->assign("nome_area", $nome_area);
 $smarty->assign("instituicoes", $matriz);
 $smarty->display("area_instituicoes.tpl");

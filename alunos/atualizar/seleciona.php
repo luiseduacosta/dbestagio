@@ -1,6 +1,7 @@
 <?php
 
-include_once("../../autentica.inc");
+include_once(__DIR__ . "/../../autentica.inc");
+include_once(__DIR__ . "/../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
 
@@ -19,7 +20,5 @@ while (!$resultado->EOF) {
 
 $smarty->assign("alunos",$alunos);
 $smarty->display("alunos-atualizar_seleciona.tpl");
-
-exit;
 
 ?>

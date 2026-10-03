@@ -2,10 +2,10 @@
 
 include_once("../setup.php");
 
-$instituicao_id = $_REQUEST['instituicao_id'];
-$indice = $_REQUEST['indice'];
-$submit = $_REQUEST['submit'];
-$botao  = $_REQUEST['botao'];
+$instituicao_id = $_REQUEST['instituicao_id'] ?? '';
+$indice = $_REQUEST['indice'] ?? '';
+$submit = $_REQUEST['submit'] ?? '';
+$botao  = $_REQUEST['botao'] ?? '';
 
 /*
 echo "instituicao_id: " . $instituicao_id . "<br/>";
@@ -91,6 +91,16 @@ $sql_estagio .= "order by instituicao";
 $resultado = $db->SelectLimit($sql_estagio,1,$indice);
 
 if ($resultado === false) die ("3 Não foi possível consultar a tabela mural_estagios");
+// Perfil do usuario logado (sem forcar login): define a visibilidade do botao Inscricao.
+$sistema_autentica = 0;
+$usuario_role = '';
+if (!empty($_COOKIE['usuario'])) {
+	$res_role = $db->Execute("select role from users where email = ? and ativo = 1", array($_COOKIE['usuario']));
+	if ($res_role && $res_role->RecordCount() == 1) {
+		$usuario_role = (string)$res_role->fields['role'];
+	}
+}
+
 $i = 0;
 while (!$resultado->EOF) {
 		$instituicao[$i]['muralestagio_id'] = $resultado->fields['id'];
@@ -143,8 +153,34 @@ while (!$resultado->EOF) {
 		
 		$instituicao[$i]['horario_selecao'] = $resultado->fields['horario_selecao'];
 
+		// Campos legados sem origem no cadastro atual: mantidos vazios/zero para nao gerar avisos.
+		$instituicao[$i]['area']      = '';
+		$instituicao[$i]['professor'] = '';
+		$instituicao[$i]['datafax']   = 0;
+
+		// Existe data de selecao valida? (o template decide o que exibir)
+		$instituicao[$i]['tem_selecao'] = !empty($resultado->fields['data_selecao'])
+			&& $resultado->fields['data_selecao'] !== '0000-00-00';
+
 		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
 		$data_inscricao = $resultado->fields['data_inscricao'];
+		// Valor ISO (AAAA-MM-DD) da data-limite, usado na regra do botao Inscricao.
+		$data_inscricao_iso = '';
+		if (!empty($data_inscricao) && $data_inscricao !== '0000-00-00') {
+			$ts_insc = strtotime($data_inscricao);
+			if ($ts_insc !== false) {
+				$data_inscricao_iso = date("Y-m-d", $ts_insc);
+			}
+		}
+		// Botao Inscricao: admin sempre; aluno so com data_inscricao < hoje;
+		// professor/supervisor nunca.
+		$pode_inscrever = false;
+		if ($usuario_role === "admin") {
+			$pode_inscrever = true;
+		} elseif ($usuario_role === "aluno" && $data_inscricao_iso !== '' && $data_inscricao_iso < date("Y-m-d")) {
+			$pode_inscrever = true;
+		}
+		$instituicao[$i]['pode_inscrever'] = $pode_inscrever;
 		if ($data_inscricao == 0) {
 			$data_inscricao = "00-00-0000";
 		} else {
@@ -188,17 +224,18 @@ $data_hoje = date("Ymd");
 // echo "Data hoje: " . date("Ymd") . "<br>";
 
 // echo "Usuário: " . $_COOKIE['usuario_nome'];
-if ($_COOKIE['usuario_nome']) $sistema_autentica = 1;
+if (!empty($_COOKIE['usuario_nome'])) $sistema_autentica = 1;
 
 $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("muralestagio_id",$muralestagio_id);
+$smarty->assign("pode_inscrever",$pode_inscrever);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("data_hoje",$data_hoje);
 $smarty->assign("data_inscricao",$data_inscricao);
 $smarty->assign("data_selecao",$data_selecao);
-$smarty->assign("data_fax",$data_fax);
+$smarty->assign("data_fax",0);
 $smarty->assign("indice",$indice);
 $smarty->display("../../mural/ver_cada.tpl");
 

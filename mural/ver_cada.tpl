@@ -73,6 +73,12 @@
 		{/if}
 		{/if}
 
+		{if $pode_inscrever}
+		<p style="text-align:center">
+			<span class="botao"><a href="../inscricoes/inserir/formulario.php?muralestagio_id={$muralestagio_id}">Inscrição</a></span>
+		</p>
+		{/if}
+
 		<!--
 {if $data_selecao == "00000000"}
 	<p style="text-align:center">Sem data de seleção</p>
@@ -198,7 +204,7 @@
 
 				<tr>
 					<td>Carga horária</td>
-					<td>{$instituicao[item].cargaHoraria}</td>
+					<td>{$instituicao[item].carga_horaria}</td>
 				</tr>
 
 				<tr>
@@ -229,29 +235,29 @@
 				{else}
 				<tr>
 					<td>Inscrições na Coordenação de Estágio até</td>
-					<td>{$instituicao[item].dataInscricao}</td>
+					<td>{$instituicao[item].data_inscricao}</td>
 				</tr>
 				{/if}
 
 				<tr>
 					<td>Data e horário da seleção</td>
 					<td>
-						{if $dataSelecao == 0}
+						{if !$instituicao[item].tem_selecao}
 						Sem data de seleção
 						{else}
-						{$instituicao[item].dataSelecao}: Horário: {$instituicao[item].horarioSelecao} hs.
+						{$instituicao[item].data_selecao}: Horário: {$instituicao[item].horario_selecao} hs.
 						{/if}
 					</td>
 				</tr>
 
 				<tr>
 					<td>Local da seleção</td>
-					<td>{$instituicao[item].localSelecao}</td>
+					<td>{$instituicao[item].local_selecao}</td>
 				</tr>
 
 				<tr>
 					<td>Forma de seleção</td>
-					<td>{$instituicao[item].formaSelecao}</td>
+					<td>{$instituicao[item].forma_selecao}</td>
 				</tr>
 
 				<tr>

@@ -60,9 +60,9 @@ class Area extends ADODB_Model {
     }
 
     /**
-     * Todas as áreas ordenadas por nome, para o seletor.
+     * Todas as áreas ordenadas por nome
      */
-    public static function seleciona() {
+    public static function listarAllAreas() {
         $db = self::$db;
         $rs = $db->Execute("SELECT id, area FROM areas ORDER BY area");
         $out = array();

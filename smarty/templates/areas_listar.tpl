@@ -1,52 +1,63 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css"> 
-<title>Listar áreas</title>
+    <meta charset="utf-8">
+    <link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="../../estagio.css" rel="stylesheet" type="text/css">
+    <title>Listar Áreas</title>
 </head>
 
 <body>
 
-<div align="center">
-<table border="1">
-<caption>Tabela de professores por área</caption>
-<tbody>
+    <a href="javascript:history.back();">Voltar</a><br>
 
-<tr>
-<th><a href=?ordem=areas.area>Área</a></th>
-<th><a href=?ordem=professores.nome>Professor</a></th>
-<th><a href=?ordem=min(estagiarios.periodo)>Período início</a></th>
-<th><a href=?ordem=max(estagiarios.periodo)>Período último</a></th>
-</tr>
+    <div align="center">
+        <p><a href="../inserir/form_inserir.php">Inserir nova área</a></p>
+    </div>
 
-{section name=elemento loop=$areas}
-<tr>
-<!-- 1a coluna -->
-<td>
-{$areas[elemento].area}
-</td>
+    <div align="center">
+        <h3>Lista de Áreas</h3>
+    </div>
 
-<!-- 2a coluna -->
-<td>
-<a href='../../professores/exibir/ver_cada.php?id_professor={$areas[elemento].id_professor}&id_area={$areas[elemento].area_id}'>{$areas[elemento].nome}</a>
-</td>
+    <table id="areas" class="display">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Área</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
 
-<!-- 3a coluna -->
-<td style='text-align:center'>
-{$areas[elemento].min_periodo}
-</td>
+            {section name=i loop=$areas}
+            <tr>
+                <td class="coluna_direita">{$areas[i].id}</td>
+                <td><a href="../exibir/ver_cada.php?area_id={$areas[i].id}">{$areas[i].area}</a></td>
+                <td>
+                    <a href="instituicoes.php?area_id={$areas[i].id}">Ver Instituições</a> |
+                    <a href="../atualizar/modifica.php?area_id={$areas[i].id}">Editar</a>
+                </td>
+            </tr>
+            {/section}
 
-<!-- 4a coluna -->
-<td style='text-align:center'>
-{$areas[elemento].max_periodo}
-</td>
+        </tbody>
+    </table>
 
-</tr>
-{/section}
-
-</tbody>
-</table>
-</div>
+    {literal}
+    <script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
+    <script src="../../libjs/datatables/dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#areas').DataTable({
+                language: { url: '../../libjs/datatables/pt-BR.json' },
+                pageLength: 25,
+                lengthMenu: [10, 25, 50, 100],
+                order: []
+            });
+        });
+    </script>
+    {/literal}
 
 </body>
 
