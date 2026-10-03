@@ -1,11 +1,12 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
 $aluno_id = $_GET['aluno_id'];
 $erro = $_GET['erro'];
 
-$sql  = "SELECT alunos.id, alunos.registro, alunos.nome, estagiarios.nivel, estagiarios.instituicao_id, estagiarios.supervisor_id, instituicoes.instituicao ";
+$sql  = "SELECT alunos.id, alunos.registro, alunos.nome, alunos.turno_id, estagiarios.nivel, estagiarios.instituicao_id, estagiarios.supervisor_id, instituicoes.instituicao ";
 $sql .= "FROM alunos ";
 $sql .= "left outer join estagiarios on alunos.id=estagiarios.aluno_id ";
 $sql .= "left outer join instituicoes on estagiarios.instituicao_id=instituicoes.id ";
@@ -18,7 +19,7 @@ while (!$resultado->EOF) {
     $registro        = $resultado->fields['registro'];
     $nome            = $resultado->fields['nome'];
     $nivel           = $resultado->fields['nivel'];
-    $turno           = NULL;
+    $turno_id        = (int)$resultado->fields['turno_id'];
     $instituicao_id  = $resultado->fields['instituicao_id'];
     $supervisor_id   = $resultado->fields['supervisor_id'];
     $instituicao     = $resultado->fields['instituicao'];
@@ -43,8 +44,17 @@ while (!$resultado->EOF) {
     $resultado->MoveNext();
 }
 
+// Turno do aluno (alunos.turno_id -> turnos.turno).
+$turno = '';
+if (!empty($turno_id)) {
+    $turno_obj = Turno::find((int)$turno_id);
+    if ($turno_obj !== null) {
+        $turno = $turno_obj->turno;
+    }
+}
+
 $smarty = new Smarty_estagio;
-$smarty->assign("pagina",$PHP_SELF);
+$smarty->assign("pagina", $_SERVER['PHP_SELF']);
 $smarty->assign("aluno_id",$aluno_id);
 $smarty->assign("aluno",$nome);
 $smarty->assign("registro",$registro);

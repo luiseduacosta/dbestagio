@@ -14,11 +14,6 @@ function verificaPeriodo() {
     return;
 }
 
-function aluno() {
-    var id_aluno = document.form_estagiarios.id_aluno.value;
-    // alert("Id aluno = " + id_aluno);
-    window.location="../atualizar/atualiza_dae.php?id_aluno=" + id_aluno;
-}
 </script>
 {/literal}
 
@@ -118,7 +113,7 @@ dd/mm/aaaa
 
 <tr>
 <td colspan="2" class="coluna_centralizada">
-<form action="atualiza_dae.php" method="post" name="atualizar_dae">
+<form action="atualiza_termo.php" method="post" name="atualizar_termo">
 <input type="hidden" name="registro" value={$registro}>
 <input type="submit" name="modificar" value="Modificar">
 </form>

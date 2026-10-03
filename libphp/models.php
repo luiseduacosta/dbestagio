@@ -51,5 +51,6 @@ require_once __DIR__ . '/Inscricao.php';
 require_once __DIR__ . '/Aluno.php';
 require_once __DIR__ . '/Professor.php';
 require_once __DIR__ . '/Estagiario.php';
+require_once __DIR__ . '/Turno.php';
 
 ?>

@@ -30,6 +30,15 @@ $aluno_id = (int)$dados['id'];
 // Histórico de estágios do aluno (uma única consulta com JOINs).
 $historico_estagio = Aluno::historicoEstagios($aluno_id);
 
+// Turno do aluno (alunos.turno_id -> turnos.turno).
+$turno = '';
+if (!empty($dados['turno_id'])) {
+    $turno_obj = Turno::find((int)$dados['turno_id']);
+    if ($turno_obj !== null) {
+        $turno = $turno_obj->turno;
+    }
+}
+
 // Tempo de curso cursado (mesma fórmula do fluxo anterior).
 $tempo_cursado = '';
 if (!empty($periodo_atual) && !empty($dados['ingresso'])) {
@@ -82,6 +91,7 @@ $smarty->assign("bairro", $dados['bairro']);
 $smarty->assign("municipio", $dados['municipio']);
 $smarty->assign("observacoes", $dados['observacoes']);
 $smarty->assign("periodo_intro", $dados['ingresso']);
+$smarty->assign("turno", $turno);
 $smarty->assign("tempo_cursado", $tempo_cursado);
 $smarty->assign("historico_estagio", $historico_estagio);
 $smarty->assign("periodos", $periodos);

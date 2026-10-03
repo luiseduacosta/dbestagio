@@ -9,7 +9,6 @@ $registro       = $_POST['registro'];
 $nome           = $_POST['nome'];
 $periodo        = $_POST['periodo'];
 $tc             = $_POST['tc'];
-$turno          = $_POST['turno'];
 $nivel          = $_POST['nivel'];
 $instituicao_id = $_POST['instituicao_id'];
 $supervisor_id  = $_POST['supervisor_id'];

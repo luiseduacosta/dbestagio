@@ -7,12 +7,6 @@ include_once("../setup.php");
 // $origem = $_REQUEST['origem'];
 // echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 // $url = $_SERVER['SERVER_NAME'];
-// Se o programa foi chamado desde seleciona.php retorna a ele proprio
-// if (substr_count($origem,"seleciona.php") == 1) {
-//	$origem = $_SERVER['PHP_SELF'];	
-// } elseif (substr_count($origem,"listar_dae.php") == 1) {
-//	$origem = "http://$url/estagio/alunos/exibir/listar_dae.php";
-//}
 
 // if(empty($origem))
 //    $origem = $_SERVER['HTTP_REFERER'];

@@ -152,6 +152,18 @@ Município:
 </tr>
 
 <tr>
+<td>Turno</td>
+<td>
+<select name="turno_id" id="turno_id" size="1">
+<option value="0">Selecione turno</option>
+{section name=t loop=$turnos}
+<option value="{$turnos[t].id}" {if $turnos[t].id == $turno_id}selected="selected"{/if}>{$turnos[t].turno}</option>
+{/section}
+</select>
+</td>
+</tr>
+
+<tr>
 <td>Observações</td>
 <td>
 <textarea name="observacoes" id="observacoes" rows="3" cols="60">
@@ -187,7 +199,6 @@ Modifica dados dos campos de estágio
 <th>Período</th>
 <th>TC</th>
 <th>Estágio</th>
-<th>Turno</th>
 <th>ch</th>
 <th>Nota</th>
 <th>Instituição</th>
@@ -198,7 +209,6 @@ Modifica dados dos campos de estágio
 <td style='text-align:center'>{$estagiarios[elemento].periodo}</td>
 <td style='text-align:center'>{$estagiarios[elemento].tc}</td>
 <td style='text-align:center'>{$estagiarios[elemento].nivel}</td>
-<td style='text-align:center'>{$estagiarios[elemento].turno}</td>
 <td style='text-align:right'>{$estagiarios[elemento].ch}</td>
 <td style='text-align:right'>{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
@@ -245,14 +255,6 @@ Estágio I   <input type="radio" name="nivel" value="1">
 Estágio II  <input type="radio" name="nivel" value="2">
 Estágio III <input type="radio" name="nivel" value="3">
 Estágio IV  <input type="radio" name="nivel" value="4">
-</td>
-</tr>
-
-<tr>
-<td>Turno:</td>
-<td>
-Diurno <input type="radio" name="turno" value="D">
-Noturno <input type="radio" name="turno" value="N">
 </td>
 </tr>
 

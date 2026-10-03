@@ -1,186 +1,136 @@
 <?php
 
-include_once("../../autentica.inc");
+include_once(__DIR__ . "/../../autentica.inc");
+require_once(__DIR__ . "/../../libphp/models.php");
 
-$indice = $_REQUEST['indice'];
-$supervisor_id = $_REQUEST['supervisor_id'];
-$periodo = $_REQUEST['periodo'];
-// echo "Indice: " . $indice . " Periodo "  . $periodo . "<br />";
-// echo "id_supervisor " . $supervisor_id . "<br />";
-
-$sql = "select supervisores.id as num_supervisor, supervisores.cress, supervisores.nome, supervisores.endereco, supervisores.bairro, supervisores.cep, supervisores.municipio, supervisores.codigo_tel, supervisores.telefone, supervisores.codigo_cel, supervisores.celular, supervisores.email, ";
-$sql .= " instituicoes.id, instituicoes.instituicao, ";
-$sql .= " supervisores.observacoes ";
-// $sql .= " max(estagiarios.periodo) ";
-$sql .= " from supervisores ";
-$sql .= " left join inst_super on supervisores.id = inst_super.supervisor_id ";
-$sql .= " left join instituicoes on inst_super.instituicao_id = instituicoes.id ";
-$sql .= " left join estagiarios on supervisores.id = estagiarios.supervisor_id ";
-if ($periodo) $sql .= " where estagiarios.periodo = '$periodo' ";
-$sql .= " group by supervisores.id ";
-$sql .= " order by nome, inst_super.supervisor_id ";
-
-// echo $sql . "<br>";
-
-$resultado_total = $db->Execute($sql);
-$ultimo = $resultado_total->RecordCount();
-// echo $ultimo . "<br>";
-// Se estou no final o proximo registro é o primeiro
-if ($indice >= $ultimo) {
-    $indice = 0;
+$indice        = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+$periodo       = isset($_REQUEST['periodo']) ? trim($_REQUEST['periodo']) : '';
+if ($periodo === '0') {
+    $periodo = '';
 }
 
-// Se estou no primerio registro o registro anterior é o último
-if ($indice < 0) {
-    $indice = $ultimo - 1;
+// Períodos existentes: alimentam o filtro da página e servem de lista
+// fechada de valores aceitos para $periodo (proteção contra SQL injection).
+$periodos = Estagiario::periodos();
+if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
+    $periodo = '';
 }
 
-// Calculo o indice
-if (!empty($supervisor_id)) {
+$db = Supervisor::$db;
 
-    /*
-     * Utilizo a consulta anterior
-     */
-    // echo $sql . "<br />";
-    $resultado = $db->Execute($sql);
-    $i = 0;
-    // echo $i . "<br />";
-    while (!$resultado->EOF) {
-        $num_supervisor = $resultado->fields['num_supervisor'];
-        $nome_supervisor = $resultado->fields['nome'];
-        // echo "id_supervisor -> " . $supervisor_id . " num_supervisor -> " . $num_supervisor . " Nome: "  . $nome_supervisor . "<br />";
-        if ($num_supervisor == $supervisor_id) {
-            $indice = $i;
-            // echo "Indice " . $indice . " id_supervisor " . $supervisor_id . "<br />";
-            break;
-        }
-        $i++;
-        $resultado->MoveNext();
+// Lista ordenada dos supervisores (filtro opcional por período). Base para
+// a navegação: Primeiro / Retrocede / Avança / Último.
+$sql    = "SELECT DISTINCT s.id, s.nome FROM supervisores AS s";
+$params = array();
+if ($periodo !== '') {
+    $sql .= " INNER JOIN estagiarios AS e ON e.supervisor_id = s.id AND e.periodo = ?";
+    $params[] = $periodo;
+}
+$sql .= " ORDER BY s.nome";
+
+$rs = $db->Execute($sql, $params);
+if ($rs === false) {
+    die("Não foi possível consultar a tabela supervisores.");
+}
+$lista = array();
+while (!$rs->EOF) {
+    $lista[] = (int)$rs->fields['id'];
+    $rs->MoveNext();
+}
+$ultimo = count($lista);
+
+// Posição na lista: com supervisor_id localiza o índice dele; senão usa o
+// índice pedido (com wrap-around, como antes).
+if ($supervisor_id > 0) {
+    $posicao = array_search($supervisor_id, $lista, true);
+    if ($posicao !== false) {
+        $indice = (int)$posicao;
     }
+} elseif ($ultimo > 0) {
+    if ($indice >= $ultimo) $indice = 0;
+    if ($indice < 0)        $indice = $ultimo - 1;
+    $supervisor_id = $lista[$indice];
 }
 
-// Rotina para acrescentar uma instituicao
+$supervisor = ($supervisor_id > 0) ? Supervisor::find($supervisor_id) : null;
+if ($supervisor === null) {
+    die($supervisor_id > 0
+        ? "Supervisor não encontrado (id $supervisor_id)."
+        : "Nenhum supervisor cadastrado.");
+}
+
+// Acrescenta uma instituição ao supervisor (formulário da própria página).
 if (!empty($_POST['num_instituicao'])) {
-    // echo "Acrescentar instituicao<br>";
-    $sql_inserir = "insert into inst_super (supervisor_id,instituicao_id) values('$supervisor_id','$_POST[num_instituicao]')";
-    // echo $sql . "<br>";
-    $res_inserir = $db->Execute($sql_inserir);
-    if ($res_inserir === false)
-        die("Não foi possível inserir dados na tabela inst_super");
-} else {
-    // echo "Nada: " . $_POST[num_instituicao] . "<br>";
-}
-
-// echo $indice . " " . $sql . "<br>";
-$resultado = $db->SelectLimit($sql, 1, $indice);
-if ($resultado === false) die("1 Não foi possível consultar a tabela supervisores");
-while (!$resultado->EOF) {
-    $supervisor_id = $resultado->fields['num_supervisor'];
-    $cress = $resultado->fields['cress'];
-    $nome = $resultado->fields['nome'];
-    $endereco = $resultado->fields['endereco'];
-    $bairro = $resultado->fields['bairro'];
-    $cep = $resultado->fields['cep'];
-    $municipio = $resultado->fields['municipio'];
-    $codigo_tel = $resultado->fields['codigo_tel'];
-    $telefone = $resultado->fields['telefone'];
-    $codigo_cel = $resultado->fields['codigo_cel'];
-    $celular = $resultado->fields['celular'];
-    $email = $resultado->fields['email'];
-    $instituicao_id = $resultado->fields['id'];
-    $observacoes = $resultado->fields['observacoes'];
-
-    // Capturo as instituicoes campo de emprego do supervisor
-    $sql_instituicoes = "select instituicoes.id, instituicoes.instituicao from instituicoes ";
-    $sql_instituicoes .= " inner join inst_super on instituicoes.id=inst_super.instituicao_id ";
-    $sql_instituicoes .= "where inst_super.supervisor_id='$supervisor_id'";
-    // echo $sql_instituicoes . "<br>";
-    $resultado = $db->Execute($sql_instituicoes);
-    if ($resultado === false) die("Não foi possível consultar a tabela instituicoes");
-    $i = 0;
-    while (!$resultado->EOF) {
-        $inst_emprego[$i]['instituicao_id'] = $resultado->fields['id'];
-        $inst_emprego[$i]['instituicao'] = $resultado->fields['instituicao'];
-        // echo "Instituicao: " . $inst_estagio[$i]['instituicao'] . "<br>";
-        $i++;
-        $resultado->MoveNext();
+    $num_instituicao = (int)$_POST['num_instituicao'];
+    if ($num_instituicao > 0) {
+        $ok = $db->Execute(
+            "INSERT INTO inst_super (supervisor_id, instituicao_id) VALUES (?, ?)",
+            array($supervisor_id, $num_instituicao)
+        );
+        if ($ok === false) {
+            die("Não foi possível inserir dados na tabela inst_super");
+        }
     }
+}
 
-    // Alunos supervisionados pelo supervisor
-    $sqlalunos = "select alunos.id, alunos.registro, alunos.nome, estagiarios.periodo, estagiarios.instituicao_id as instituicao_id from alunos ";
-    $sqlalunos .= " inner join estagiarios on estagiarios.registro = alunos.registro ";
-    $sqlalunos .= " where estagiarios.supervisor_id = $supervisor_id";
-    $sqlalunos .= " order by estagiarios.periodo, alunos.nome";
-    // echo $sqlalunos . "<br>";
+// Instituições vinculadas ao supervisor (campo de trabalho).
+$emprego = $supervisor->instituicoes();
 
-    $res_alunos = $db->Execute($sqlalunos);
-    if ($res_alunos === false) die("Não foi possível consultar a tabela alunos");
-    $i = 0;
-    while (!$res_alunos->EOF) {
-        $alunos[$i]['aluno_id'] = $res_alunos->fields['id'];
-        $alunos[$i]['registro'] = $res_alunos->fields['registro'];
-        $alunos[$i]['nome'] = $res_alunos->fields['nome'];
-        $alunos[$i]['periodo'] = $res_alunos->fields['periodo'];
-        $alunos[$i]['instituicao_id'] = $res_alunos->fields['instituicao_id'];
+// Alunos supervisionados (consulta única, sem N+1).
+$alunos = array();
+$rs = $db->Execute(
+    "SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao
+     FROM estagiarios AS e
+     INNER JOIN alunos AS a ON a.id = e.aluno_id
+     LEFT JOIN instituicoes AS i ON i.id = e.instituicao_id
+     WHERE e.supervisor_id = ?
+     ORDER BY e.periodo, a.nome",
+    array($supervisor_id)
+);
+if ($rs === false) {
+    die("Não foi possível consultar a tabela alunos");
+}
+while (!$rs->EOF) {
+    $alunos[] = array(
+        'aluno_id'       => (int)$rs->fields['aluno_id'],
+        'registro'       => (int)$rs->fields['registro'],
+        'nome'           => $rs->fields['nome'],
+        'periodo'        => $rs->fields['periodo'],
+        'instituicao_id' => (int)$rs->fields['instituicao_id'],
+        'instituicao'    => ($rs->fields['instituicao'] !== null) ? $rs->fields['instituicao'] : 'Sem dados',
+    );
+    $rs->MoveNext();
+}
 
-        $instituicao_id = $res_alunos->fields['instituicao_id'];
-        $sql_aluno_instituicao = "select instituicao from instituicoes where id = $instituicao_id";
-        // echo $sql_aluno_instituicao . "<br>";
-        $res_aluno_instituicao = $db->Execute($sql_aluno_instituicao);
-
-        $alunos[$i]['instituicao'] = $res_aluno_instituicao->fields['instituicao'];
-        // echo $res_aluno_instituicao->fields['instituicao'];
-
-        $i++;
-        // echo $i;
-        $res_alunos->MoveNext();
+// Vínculo do supervisor com o curso (mesma regra usada no índice).
+$id_curso = null;
+$cress = (string)$supervisor->cress;
+if ($cress !== '' && $cress !== '0' && ctype_digit($cress)) {
+    $id_curso = $db->GetOne("SELECT id FROM curso_inscricao_supervisor WHERE cress = ? LIMIT 1", array($cress));
+    if ($id_curso === false) {
+        $id_curso = null;
     }
-
-    $resultado->MoveNext();
-}
-// die;
-// Instituicoes
-$sql = "select id, instituicao from instituicoes order by instituicao";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die("Não foi possível consultar a tabela instituicoes");
-$i = 0;
-while (!$resultado->EOF) {
-    $instituicoes[$i]['instituicao_id'] = $resultado->fields['id'];
-    $instituicoes[$i]['instituicao'] = $resultado->fields['instituicao'];
-    $resultado->MoveNext();
-    $i++;
 }
 
-// Pego a informacao sobre as turma de alunos
-$sqlturma = "select id, periodo from estagiarios group by periodo";
-// echo $sqlturma . "<br>";
-$res_turma = $db->Execute($sqlturma);
-if ($res_turma === false) die("Não foi possivel consultar a tabela estagiarios");
-while (!$res_turma->EOF) {
-    $periodos[] = $res_turma->fields['periodo'];
-    $res_turma->MoveNext();
-}
+// Instituições para o formulário de vínculo.
+$instituicoes = Instituicao::listar_todas();
 
 $smarty = new Smarty_estagio;
-$smarty->assign("sistema_autentica", $logado);
-$smarty->assign("ultimo", $ultimo - 1);
+$smarty->assign("ultimo", ($ultimo > 0) ? $ultimo - 1 : 0);
 $smarty->assign("indice", $indice);
 $smarty->assign("supervisor_id", $supervisor_id);
 $smarty->assign("periodo", $periodo);
-$smarty->assign("cress", $cress);
-$smarty->assign("nome", $nome);
-$smarty->assign("endereco", $endereco);
-$smarty->assign("bairro", $bairro);
-$smarty->assign("cep", $cep);
-$smarty->assign("municipio", $municipio);
-$smarty->assign("codigo_tel", $codigo_tel);
-$smarty->assign("telefone", $telefone);
-$smarty->assign("codigo_cel", $codigo_cel);
-$smarty->assign("celular", $celular);
-$smarty->assign("email", $email);
-$smarty->assign("instituicao_id", $instituicao_id);
-$smarty->assign("emprego", $inst_emprego);
-$smarty->assign("observacoes", $observacoes);
+$smarty->assign("cress", $supervisor->cress);
+$smarty->assign("nome", $supervisor->nome);
+$smarty->assign("codigo_telefone", $supervisor->codigo_telefone);
+$smarty->assign("telefone", $supervisor->telefone);
+$smarty->assign("codigo_celular", $supervisor->codigo_celular);
+$smarty->assign("celular", $supervisor->celular);
+$smarty->assign("email", $supervisor->email);
+$smarty->assign("observacoes", $supervisor->observacoes);
+$smarty->assign("id_curso", $id_curso);
+$smarty->assign("emprego", $emprego);
 $smarty->assign("alunos", $alunos);
 $smarty->assign("periodos", $periodos);
 $smarty->assign("instituicoes", $instituicoes);

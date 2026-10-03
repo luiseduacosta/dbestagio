@@ -55,7 +55,7 @@
     <div align="center">
 
         <table id="navegacao">
-            <caption>Alunos</caption>
+            <caption>Visualizar cada aluno</caption>
             <tbody>
                 <tr>
 
@@ -129,9 +129,9 @@
             <tbody>
 
                 <tr>
-                    <th width='80%'>Aluno {* $aluno_id *}</th>
+                    <th width='80%'>Dados do(a) Aluno(a)</th>
                     {if $isAdmin}
-                    <th width='20%'><a href='../cancelar/ver_cancela.php?aluno_id={$aluno_id}'>Excluir registro</a></th>
+                    <th width='20%'><a href="../atualizar/atualiza.php?aluno_id={$aluno_id}">Editar Aluno(a)</a></th>
                     {/if}
                 </tr>
             </tbody>
@@ -160,6 +160,11 @@
                         {else}
                         <td>{$periodo_intro}&nbsp; - Período atual: {$tempo_cursado}o.</td>
                         {/if}
+                    </tr>
+
+                    <tr>
+                        <td>Turno:</td>
+                        <td>{$turno}</td>
                     </tr>
 
                     {if $smarty.cookies.usuario}
@@ -201,7 +206,6 @@
                         <th>Período</th>
                         <th>TC</th>
                         <th>Nível</th>
-                        <th>Turno</th>
                         <th>Instituição</th>
                         <th>Supervisor</th>
                         <th>Professor</th>
@@ -222,7 +226,6 @@
                         <td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
                         <td style="text-align:center">{$historico_estagio[estagio].tc}</td>
                         <td style="text-align:center">{$historico_estagio[estagio].nivel}</td>
-                        <td style="text-align:center">{$historico_estagio[estagio].turno}</td>
                         <td>
                             {if $isAdmin}
                             <a
@@ -245,7 +248,18 @@
                         </td>
                         {/if}
 
-                        <td>{$historico_estagio[estagio].professor}</td>
+                        {if $historico_estagio[estagio].professor_id eq 0}
+                        <td>-</td>
+                        {else}
+                        <td>
+                            {if $isAdmin}
+                            <a
+                                href="../../professores/exibir/ver_cada.php?professor_id={$historico_estagio[estagio].professor_id}">{$historico_estagio[estagio].professor}</a>
+                            {else}
+                            {$historico_estagio[estagio].professor}
+                            {/if}
+                        </td>
+                        {/if}
                         {if $isAdmin}
                         <td style="text-align:center">{$historico_estagio[estagio].nota}</td>
                         <td style="text-align:center">{$historico_estagio[estagio].ch}</td>
@@ -256,7 +270,7 @@
 
                     {if $isAdmin}
                     <tr>
-                        <td colspan="10" style="text-align: center">
+                        <td colspan="9" style="text-align: center">
                             <form action="../atualizar/atualiza.php" method="post">
                                 <input type="hidden" name="aluno_id" value="{$aluno_id}">
                                 <input type="hidden" name="origem" value="{$origem}">

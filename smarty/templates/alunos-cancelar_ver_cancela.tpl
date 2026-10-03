@@ -100,17 +100,7 @@ function confirma() {
 
 <tr>
 <td>Turno</td>
-<td>
-{if $turno eq "D"}
-    Diurno:  <input type="radio" name="turno" value="D" checked>
-    Noturno: <input type="radio" name="turno" value="N">
-{elseif $turno eq "N"}
-    Diurno:  <input type="radio" name="turno" value="D">
-    Noturno: <input type="radio" name="turno" value="N" checked>
-{else}
-    Sem informação
-{/if}
-</td>
+<td>{if $turno}{$turno}{else}Sem informação{/if}</td>
 </tr>
 
 <tr>

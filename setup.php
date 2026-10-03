@@ -31,7 +31,15 @@ class Smarty_estagio extends Smarty {
 		$this->template_dir = RAIZ.'/smarty/templates/';
 		$this->compile_dir  = RAIZ.'/smarty/templates_c/';
 
-		$this->debugging = true;
+		// Console de debug do Smarty: desligada por padrao (nao abre em toda pagina).
+		// Para abrir somente quando precisar: ?SMARTY_DEBUG na URL (esta pagina) ou
+		// ?SMARTY_DEBUG=on / ?SMARTY_DEBUG=off (todas as paginas). A tag {debug}
+		// dentro de um .tpl tambem abre a console apenas naquele template.
+		// O controle por URL so vale em acesso local (localhost), para nao expor
+		// a console quando o sistema estiver em uso por terceiros.
+		$this->debugging = false;
+		$debug_local = in_array(isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '', array('127.0.0.1', '::1'), true);
+		$this->debugging_ctrl = $debug_local ? 'URL' : 'NONE';
 		$this->caching = true;
 		$this->compile_check = true; // Em producao tem que ser false
 		$this->clearAllCache();
