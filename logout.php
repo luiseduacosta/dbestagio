@@ -52,23 +52,8 @@ Modificar</a>
 </td></tr>
 
 <tr><td>
-<a href=instituicoes/buscar/busca.php target=_corpo>
-Buscar</a>
-</td></tr>
-
-<tr><td>
 <a href=instituicoes/exibir/listar.php target=_corpo>
 Listar</a>
-</td></tr>
-
-<tr><td>
-<a href=instituicoes/exibir/seleciona.php target=_corpo>
-Ver institui��o</a>
-</td></tr>
-
-<tr><td>
-<a href=instituicoes/exibir/ver_cada.php?indice=0 target=_corpo>
-Ver c/institui��o</a>
 </td></tr>
 
 <tr><td>
@@ -101,7 +86,7 @@ Buscar</a>
 </td></tr>
 
 <tr><td>
-<a href=supervisores/exibir/ver_instituicoes.php target=_corpo>
+<a href=supervisores/exibir/listar.php target=_corpo>
 Listar</a>
 </td></tr>
 

@@ -11,7 +11,7 @@
 function carrega_tabela() {
 	turma=document.getElementById('turma').value;
 	/* alert(turma); */
-	window.location="listar_todos.php?turma=" + turma;
+	window.location="listar.php?turma=" + turma;
 	return false;
 }
 </script>
@@ -70,11 +70,7 @@ function carrega_tabela() {
 <td class="coluna_direita">{$supervisores[lista].cress}</td>
 
 <td>
-{if $smarty.cookies.usuario}
-<a href="../exibir/ver_cada.php?supervisor_id={$supervisores[lista].supervisor_id}">{$supervisores[lista].nome}</a>
-{else}
-{$supervisores[lista].nome}
-{/if}
+<a href="ver_cada.php?supervisor_id={$supervisores[lista].supervisor_id}">{$supervisores[lista].nome}</a>
 </td>
 
 <td class="coluna_direita">{$supervisores[lista].q_periodos}</td>

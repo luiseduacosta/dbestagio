@@ -6,7 +6,7 @@ require_once __DIR__ . '/Model.php';
  * Instituicao — Model da tabela `instituicoes`.
  *
  * Relações (via colunas/chaves existentes no banco):
- *  - areas        : instituicoes.area -> areas.id      (nitidez: campo `area` guarda id da area)
+ *  - areas        : instituicoes.area_id -> areas.id (FK; coluna `area` é obsoleta)
  *  - supervisores : tabela ponte `inst_super` (instituicao_id, supervisor_id)
  *  - visitas      : visitas.instituicao_id          -> instituicoes.id
  *  - mural_estagios: mural_estagios.instituicao_id  -> instituicoes.id
@@ -22,14 +22,22 @@ class Instituicao extends ADODB_Model {
     // ------------------------------------------------------------------
 
     /**
-     * Nome da área da instituição (via instituicoes.area -> areas.id).
+     * Id da área da instituição (FK `area_id`; a coluna `area` é obsoleta).
+     */
+    public function areaId() {
+        return isset($this->_data['area_id']) ? (int)$this->_data['area_id'] : 0;
+    }
+
+    /**
+     * Nome da área da instituição (via area_id -> areas.id).
      */
     public function areaNome() {
-        if (empty($this->_data['area'])) {
+        $area_id = $this->areaId();
+        if ($area_id <= 0) {
             return '';
         }
         $db = self::$db;
-        return $db->GetOne("SELECT area FROM areas WHERE id = ?", array($this->_data['area']));
+        return $db->GetOne("SELECT area FROM areas WHERE id = ?", array($area_id));
     }
 
     /**

@@ -9,6 +9,48 @@
 </head>
 <body>
 
+<div align="center">
+<table id="navegacao" border="0">
+<tbody>
+<tr>
+
+{if $anterior_id}
+<td>
+<form action="ver_cada.php" method="get">
+<input type="hidden" name="professor_id" value="{$anterior_id}">
+<input type="submit" value="Anterior">
+</form>
+</td>
+{/if}
+
+{if $proximo_id}
+<td>
+<form action="ver_cada.php" method="get">
+<input type="hidden" name="professor_id" value="{$proximo_id}">
+<input type="submit" value="Próximo">
+</form>
+</td>
+{/if}
+
+<td>
+<form action="../atualizar/atualiza.php" method="get">
+<input type="hidden" name="professor_id" value="{$professor_id}">
+<input type="submit" value="Modificar">
+</form>
+</td>
+
+<td style="background-color:red">
+<form action="../cancelar/cancela.php" method="get" onClick="return confirm('Tem certeza?');">
+<input type="hidden" name="professor_id" value="{$professor_id}">
+<input type="submit" value="Excluir">
+</form>
+</td>
+
+</tr>
+</tbody>
+</table>
+</div>
+
 <a href="javascript:history.back();">Voltar</a>
 <div align="center">
 <h3>Professor: {$professor_nome}</h3>

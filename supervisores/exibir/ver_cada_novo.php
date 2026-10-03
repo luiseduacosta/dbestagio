@@ -86,7 +86,7 @@ $sql .= " order by nome, inst_super.supervisor_id";
 // echo $sql . "<br>";
 // echo "Indice: " . $indice . "<br>";
 if (!isset($indice)) {
-	echo "<meta http-equiv='refresh' content='1;url=listar_todos.php?ordem=instituicao' />";
+	echo "<meta http-equiv='refresh' content='1;url=listar.php?ordem=instituicao' />";
 	die ("Nao foi encontrado o índice");
 }
 

@@ -268,19 +268,6 @@
 
                     {/section}
 
-                    {if $isAdmin}
-                    <tr>
-                        <td colspan="9" style="text-align: center">
-                            <form action="../atualizar/atualiza.php" method="post">
-                                <input type="hidden" name="aluno_id" value="{$aluno_id}">
-                                <input type="hidden" name="origem" value="{$origem}">
-                                <input type="submit" name="submit"
-                                    value="Clique aqui para modificar dados do aluno ou atualizar/inserir estágios">
-                            </form>
-                        </td>
-                    </tr>
-                    {/if}
-
                 </tbody>
             </table>
         </div>

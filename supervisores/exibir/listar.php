@@ -93,7 +93,7 @@ $smarty->assign("turma", $turma);
 $smarty->assign("ordem", $ordem);
 $smarty->assign("periodos", $periodos);
 $smarty->assign("supervisores", $supervisores);
-$smarty->display("supervisores_datatables.tpl");
+$smarty->display("supervisores_listar.tpl");
 
 $db->Close();
 

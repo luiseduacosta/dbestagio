@@ -3,6 +3,12 @@
 include_once("../../autentica.inc");
 require_once("../../libphp/models.php");
 
+// Sem POST: redireciona para o formulário de inserção.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: form_inserir.php");
+    exit;
+}
+
 // Fluxo secundário de inserção (form_inserir.php).
 // O cadastro principal (XAJAX) fica em cadastro.php.
 $dados = array();
@@ -18,7 +24,12 @@ $dados['ano_formacao']  = isset($_POST['ano_formacao']) ? trim($_POST['ano_forma
 $dados['cress']         = isset($_POST['cress'])     ? trim($_POST['cress']) : null;
 $dados['regiao']        = isset($_POST['regiao'])    ? (int)$_POST['regiao'] : 0;
 $dados['cargo']         = isset($_POST['cargo'])     ? trim($_POST['cargo']) : null;
-$dados['user_id']       = (int)(isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : 0);
+$dados['endereco']      = isset($_POST['endereco'])   ? trim($_POST['endereco']) : null;
+$dados['bairro']        = isset($_POST['bairro'])     ? trim($_POST['bairro']) : null;
+$dados['municipio']     = isset($_POST['municipio'])  ? trim($_POST['municipio']) : null;
+$dados['cep']           = isset($_POST['cep'])        ? trim($_POST['cep']) : null;
+$dados['observacoes']   = isset($_POST['observacoes']) ? trim($_POST['observacoes']) : null;
+$dados['user_id']       = (int)(isset($usuario_id) ? $usuario_id : 0);
 
 if ($dados['nome'] === '') {
     die("O campo Nome é obrigatório.");

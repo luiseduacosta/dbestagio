@@ -22,9 +22,9 @@ $sql = "SELECT areas.id AS area_id, areas.area, professores.nome,
                MAX(estagiarios.periodo) AS max_periodo
         FROM estagiarios
         JOIN instituicoes ON estagiarios.instituicao_id = instituicoes.id
-        LEFT JOIN areas ON instituicoes.area = areas.id
+        LEFT JOIN areas ON instituicoes.area_id = areas.id
         JOIN professores ON estagiarios.professor_id = professores.id
-        GROUP BY instituicoes.area, estagiarios.professor_id, areas.area, professores.nome, professores.id
+        GROUP BY instituicoes.area_id, estagiarios.professor_id, areas.area, professores.nome, professores.id
         ORDER BY " . $ordens_validas[$ordem];
 
 $res_professores = ADODB_Model::$db->Execute($sql);

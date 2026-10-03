@@ -29,7 +29,7 @@ function elimina() {
 {/if}
 
 <select name="instituicao_id">
-{html_options values=$instituicao_id output=$nome_instituicao|truncate:50}
+{html_options values=$instituicao_id output=$nome_instituicao}
 </select>
 
 <input type="submit" name="submit" value="Confirma">

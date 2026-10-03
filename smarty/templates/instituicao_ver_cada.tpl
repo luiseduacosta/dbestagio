@@ -30,7 +30,7 @@
 
     <body>
 
-        {if $smarty.cookies.usuario_nome}
+        {if isset($smarty.cookies.usuario_nome)}
             <p>Usuario: {$smarty.cookies.usuario_nome}</p>
         {/if}
 
@@ -57,7 +57,7 @@
                         
                         {* Inserir *}
                         {if !$curso}
-                            {if $smarty.cookies.usuario}
+                            {if isset($smarty.cookies.usuario)}
                                 <td style="background-color:red">
                                     <form name="cabacalho" action="ver_cada.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="inserir">
@@ -124,7 +124,7 @@
 
                         {* Excluir registro *}
                         {if !$curso}
-                            {if $smarty.cookies.usuario}
+                            {if isset($smarty.cookies.usuario)}
                                 <td style="background-color:red">
                                     <form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="excluir">
@@ -135,6 +135,18 @@
                                         {/if}
                                         <input type="hidden" name="indice" value="{$indice}">
                                         <input type="submit" name="submit" value="Excluir">
+                                    </form>
+                                </td>
+                            {/if}
+                        {/if}
+
+                        {* Adicionar visita (tabela visitas) *}
+                        {if !$curso}
+                            {if isset($smarty.cookies.usuario)}
+                                <td>
+                                    <form name="cabacalho" action="../../visitas/inserir/formulario.php" method="get">
+                                        <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
+                                        <input type="submit" name="submit" value="Adicionar visita">
                                     </form>
                                 </td>
                             {/if}
@@ -152,7 +164,7 @@
             <table border="1" width="95%">
                 <tbody>
 
-                    {if $smarty.cookies.usuario}                 
+                    {if isset($smarty.cookies.usuario)}                 
                     <form name="modifica_instituicao" action="?instituicao_id={$instituicao_id}" method="post">
 
                     <tr>
@@ -312,9 +324,9 @@
                         <td>
                             {if $modifica}
                                 <select name="area" size="1">
-                                    <option value='{$id_area}' selected>{$area}{$id_area_instituicao}</option>
+                                    <option value='{$id_area}' selected>{$area}</option>
                                     {section name=elementos loop=$matriz_areas}
-                                        <option value='{$matriz_areas[elementos].id_area}'>{$matriz_areas[elementos].area}</option>
+                                        <option value='{$matriz_areas[elementos].id}'>{$matriz_areas[elementos].area}</option>
                                     {/section}
                                 </select>
                             {else}
@@ -371,7 +383,7 @@
                         </tr>
                     {/if}
 
-                    {if $smarty.cookies.usuario}
+                    {if isset($smarty.cookies.usuario)}
                         <tr>
                             <td colspan="1">Observações</td>
                             <td colspan="2">
@@ -384,7 +396,7 @@
                         </tr>
                     {/if}
 
-                    {if $smarty.cookies.usuario}
+                    {if isset($smarty.cookies.usuario)}
                         <tr class="rodape">
                             <td colspan="3" class="rodape" style="text-align:center">
                                 <input type="hidden" name="flag" value="{$flag}">
@@ -395,7 +407,7 @@
                                     <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
                                 {/if}
                                 <input type="hidden" name="curso" value="{$curso}">
-                                <input type="submit" name="modifica" value="Modificar instituição">
+                                <input type="submit" name="modifica" value="{if $modifica}Salvar alterações{else}Modificar instituição{/if}">
                             </td>
                         </tr>
                         {/if}
@@ -440,7 +452,7 @@
                                         <a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como assistente social do curso *}
-                                        {if $inst_supervisores[i].id_super_curso}
+                                        {if isset($inst_supervisores[i].id_super_curso)}
                                             <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_super_curso}'>[1]</a>
                                             &nbsp;
                                             <a href='ver_cada.php?curso=sem&instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
@@ -470,7 +482,7 @@
 
         {* Inserir supervisor somente para os supervisores de estagio *}
         {if !$curso}
-            {if $smarty.cookies.usuario}
+            {if isset($smarty.cookies.usuario)}
                 <div align="center">
                     <table border='1'>
                         <tbody>

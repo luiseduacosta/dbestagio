@@ -1,97 +1,51 @@
 <?php
 
 include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
-$supervisor_id = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : NULL;
-$indice = isset($_REQUEST['indice']) ? $_REQUEST['indice'] : NULL;
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+$indice        = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
 
-// Nao excluir se supervisionou alunos
-$sql = "select id from estagiarios where supervisor_id=$supervisor_id";
-// echo $sql . "<br>";
-// die();
-$resultado = $db->Execute($sql);
-$quantidade = $resultado->RecordCount();
-// echo $quantidade . "<br>";
-// die();
-if ($quantidade != 0) {
-	echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
-	die ("Não é possível excluir o supervisor porque orientou $quantidade alunos");
+if ($supervisor_id <= 0) {
+    echo "Supervisor inválido (id $supervisor_id).";
+    exit;
 }
 
-// Nao excluir se realizou o curso para supervisores
-$sql_cress = "select cress from supervisores where id=$supervisor_id";
-// echo $sql_cress . "<br>";
-// die();
-$resultado_cress = $db->Execute($sql_cress);
-$cress = $resultado_cress->fields['cress'];
-// echo $cress . "<br>";
-// die();
-// if(!empty($cress)) {
-if (ctype_digit($cress)) {
-	if ($cress != 0) {
-		$sqlcurso = "select id from curso_inscricao_supervisor where cress=$cress";
-		// echo $sqlcurso . "<br />";
-		// die();
-		$supervisores_curso = $db->Execute($sqlcurso);
-		if ($supervisores_curso === false) die ("Não foi possivel consultar a tabela curso_inscricao_supervisores");
-		$id_curso = $supervisores_curso->fields['id'];
-		// echo $id_curso . "<br>";
-		// die();
-		if (isset($id_curso)) {
-			// echo "Id curso: " . $id_curso . "<br>";
-			// echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
-			// die ("Não é possível excluir o supervisor porque realizou inscrição para o curso para supervisores");
-		}
-		if ($cress != 0) {
-			echo "<meta http-equiv='refresh' content='0;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
-			die ("Não é possível excluir o supervisor porque tem número de CRESS cadastrado");
-		}
-	}
+$sup = Supervisor::find($supervisor_id);
+if ($sup === null) {
+    echo "Supervisor não encontrado (id $supervisor_id).";
+    echo "<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?indice=$indice' />";
+    exit;
 }
 
-$sql = "delete from supervisores where id=$supervisor_id";
-// echo $sql. "<br>";
-// die;
-$resultado = $db->Execute($sql);
-if ($resultado == false) die ("Não foi possível cancelar o registro da tabela supervisores");
+// ---------- Checagem de registros dependentes ----------
+$erros = array();
 
-// Obtengo as instituicoes na que trabalha o supervisor
-$sql_estagio = "select * from inst_super where supervisor_id=$supervisor_id";
-$res_estagio = $db->Execute($sql_estagio);
-if ($res_estagio === false) die ("Não foi possível consultar a tabela inst_super");
-$q_inst_super = $res_estagio->RecordCount();
-// echo $q_inst_super . "<br>";
-// Se nao este em nenhuma instituicao sair
-if ($q_inst_super == 0) {
-	echo "<meta HTTP-EQUIV='refresh' CONTENT='0,URL=../exibir/ver_cada.php?indice=0'>";
-	exit;
+// Estagiários (alunos supervisionados).
+$countEstagiarios = $sup->countEstagiarios();
+if ($countEstagiarios > 0) {
+    $erros[] = "alunos supervisionados ($countEstagiarios)";
 }
 
-$i = 0;
-while (!$res_estagio->EOF) {
-	$id_instituicao[$i] = $res_estagio->fields['instituicao_id'];
-	$res_estagio->MoveNext();
-	$i++;
+if (!empty($erros)) {
+    echo "Operação abortada. Não é possível excluir este supervisor porque existem "
+       . "registros relacionados:<br>"
+       . "<ul><li>" . implode('</li><li>', $erros) . "</li></ul>";
+    echo "<meta http-equiv='refresh' content='3;url=../exibir/ver_cada.php?supervisor_id=$supervisor_id' />";
+    exit;
 }
 
-// Busco em inst_super si outros supervisores trabalham em essa instituicao
-$q_instituicoes = sizeof($id_instituicao);
-// echo "Quantidade de instituicoes " . $q_instituicoes . "<br>";
-for ($i=0; $i<$q_instituicoes; $i++) {
-	$num_instituicao = $id_instituicao[$i];
-	$sql_inst_super_outros = "select * from inst_super where instituicao_id=$num_instituicao";
+// ---------- Nenhum registro dependente: exclui ----------
+if (!$sup->delete()) {
+    error_log("Erro ao excluir supervisor: " . Supervisor::$db->ErrorMsg());
+    echo "Não foi possível excluir o registro da tabela supervisores.";
+    exit;
 }
 
-// Excluo tambem a relacao entre o supervisor e a instituicao
-$sql_inst_super = "delete from inst_super where supervisor_id=$supervisor_id";
-$res_inst_super = $db->Execute($sql_inst_super);
-if ($res_inst_super === false) die ("Não foi possível cancelar o registro da tabela inst_super");
+// Remove também os vínculos com instituições (inst_super).
+Supervisor::$db->Execute("DELETE FROM inst_super WHERE supervisor_id = ?", array($supervisor_id));
 
-// echo "<p>Registro cancelado</p>";
-// echo "Indice " . $indice . "<br>";
-
-header("Location:../../supervisores/exibir/ver_cada.php?indice=$indice");
-
+header("Location: ../exibir/ver_cada.php?indice=$indice");
 exit;
 
 ?>

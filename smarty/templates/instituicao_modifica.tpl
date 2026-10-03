@@ -61,7 +61,7 @@
 
 <td>
 {if $fim_de_semana == 0}
-	<input type="radio" name="fim_de_semana" value="0" checked="$fim_de_semana}">Não
+	<input type="radio" name="fim_de_semana" value="0" checked>Não
 	<input type="radio" name="fim_de_semana" value="1">Sim
 	<input type="radio" name="fim_de_semana" value="2">Parcialmente
 {elseif $fim_de_semana == 1}
@@ -84,7 +84,7 @@
 <select name="area_instituicao" size="1">
 <option value={$id_area_instituicao} selected>{$area_instituicao}</option>
 {section name=elementos loop=$matriz_areas}
-	<option value={$matriz_areas[elementos].id_area}>{$matriz_areas[elementos].area}</option>
+	<option value={$matriz_areas[elementos].id}>{$matriz_areas[elementos].area}</option>
 {/section}
 </select>
 </td>

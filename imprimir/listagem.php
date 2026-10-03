@@ -71,7 +71,7 @@ case e.fim_de_semana
     end as f_semana,
 a.area
 from instituicoes as e, areas as a
-where e.area=a.id
+where e.area_id=a.id
 order by instituicao";
 // echo $sql . "<br>";
 

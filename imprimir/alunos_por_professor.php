@@ -36,8 +36,7 @@ $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
 
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
+// strings de idioma não são configuradas neste projeto (setLanguageArray omitido)
 
 // set font
 $pdf->SetFont('times', '', 12);
@@ -55,9 +54,9 @@ $id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
 /* Capturo os valores para a área */
 $sql  = "select areas.area from estagiarios ";
 $sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
-$sql .= " left join areas on instituicoes.area = areas.id ";
+$sql .= " left join areas on instituicoes.area_id = areas.id ";
 $sql .=	" where estagiarios.periodo = '$periodo' "; 
-$sql .= " and instituicoes.area = $id_area ";
+$sql .= " and instituicoes.area_id = $id_area ";
 $sql .=	" and estagiarios.professor_id = '$prof_id' ";
 // echo $sql . "<br>";
 
@@ -93,7 +92,7 @@ $sql .= " join alunos on estagiarios.registro = alunos.registro ";
 $sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 $sql .= " left join supervisores on estagiarios.supervisor_id = supervisores.id ";
 $sql .=	" where estagiarios.periodo = '$periodo' "; 
-$sql .= " and instituicoes.area = $id_area ";
+$sql .= " and instituicoes.area_id = $id_area ";
 $sql .=	" and estagiarios.professor_id = '$prof_id' ";
 $sql .= " order by alunos.nome ";
 // echo $sql . "<br>";

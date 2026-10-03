@@ -41,7 +41,7 @@ $sql = "select supervisores.email, supervisores.id, supervisores.nome, max(estag
 from estagiarios
 join supervisores on estagiarios.supervisor_id = supervisores.id
 join instituicoes on estagiarios.instituicao_id = instituicoes.id
-join areas on instituicoes.area = areas.id
+join areas on instituicoes.area_id = areas.id
 group by estagiarios.supervisor_id
 order by supervisores.nome ";
 

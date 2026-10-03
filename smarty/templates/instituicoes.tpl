@@ -27,7 +27,7 @@ function carrega_tabela() {
 <input type=hidden name='instituicao' id='instituicao' value='{$instituicao}'>
 
 <select name='turma' id='turma' onChange="return carrega_tabela();">
-<option value='{$turma}'>Período: {$turma}</option>
+<option value='{$turma}'>Período: {if $turma}{$turma}{else}Todos{/if}</option>
 <option value='0'>Todos</option>
 {section name=i loop=$periodos}
 <option value='{$periodos[i]}'>{$periodos[i]}</option>
@@ -46,7 +46,7 @@ function carrega_tabela() {
 
 <div align="center">
 <table id="instituicoes" class="display">
-<caption>Tabela de instituições {$turma}</caption>
+<caption>Tabela de instituições {if $turma}{$turma}{else}(todos os períodos){/if}</caption>
 
 <thead>
 <tr>
@@ -117,7 +117,7 @@ function carrega_tabela() {
 	<td  style="text-align:center">{$instituicoes[elementos].supervisores}</td>
 {else}
 	<td  style="text-align:center">
-	<a href="../../supervisores/exibir/listar_todos.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
+	<a href="../../supervisores/exibir/listar.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
 	</td>
 {/if}
 
@@ -127,14 +127,7 @@ function carrega_tabela() {
 {* Natureza *}
 <td>{$instituicoes[elementos].natureza}</td>
 
-<!--
-{* Url *}
-{if $instituicoes[elementos].url}
-	<td><a href='{$instituicoes[elementos].url}'></a>{$instituicoes[elementos].url}</td>
-{else}
-	<td>&nbsp;</td>
-{/if}
-//-->
+
 
 </tr>
 {/section}
