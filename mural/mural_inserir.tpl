@@ -3,7 +3,7 @@
 <html lang="pt-br">
 
 <head>
-	<title>Cadastro de instituições de estágio</title>
+	<title>Cadastro de mural de estágio</title>
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Script-Type" content="text/javascript">
 	<meta http-equiv="Content-Style-Type" content="text/css">
@@ -60,8 +60,6 @@ function verificaConvenio() {
 
 <body onLoad="return janelaAviso()">
 
-<body>
-
 {include file="mural_menu.tpl"}
 
 <form name="aviso" id="aviso" action="#" method="post" enctype="text/plain">
@@ -74,7 +72,7 @@ function verificaConvenio() {
 
 <div align="center">
 <table border="1">
-<caption>Oferta de vagas de Estágio {$periodo_atual}</caption>
+<caption>Oferta de vagas de Estágio {$periodo}</caption>
 <tbody>
 
 <tr>
@@ -88,7 +86,7 @@ function verificaConvenio() {
 <tr>
 <td>Instituição:</td>
 <td>
-<select name='id_estagio' size='1'>
+<select name='instituicao_id' size='1'>
 {section name=i loop=$instituicoes}
 <option value={$instituicoes[i].id}>{$instituicoes[i].instituicao|truncate:70}</option>
 {/section}
@@ -117,7 +115,7 @@ function verificaConvenio() {
 
 <tr>
 <td>Carga horária semanal</td>
-<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2">Digitar somente números</td>
+<td><input type="text" name="carga_horaria" id="carga_horaria" size="2"  maxlength="2">Digitar somente números</td>
 </tr>
 
 <tr>
@@ -128,8 +126,8 @@ function verificaConvenio() {
 <tr>
 <td>Área da disciplina:</td>
 <td>
-<select name="id_area" id="id_area">
-{html_options values=$id_areas output=$areas}
+<select name="area_id" id="area_id">
+{html_options values=$area_id output=$areas}
 </select>
 </td>
 </tr>
@@ -146,8 +144,8 @@ function verificaConvenio() {
 <tr>
 <td>Professor</td>
 <td>
-<select name="id_professor" id="id_professor">
-{html_options values=$id_professores output=$professores}
+<select name="professor_id" id="professor_id">
+{html_options values=$professor_id output=$professores}
 </select>
 </td>
 </tr>
@@ -155,7 +153,7 @@ function verificaConvenio() {
 <tr>
 <td>Inscrições na Coordenação de Estágio até:</td>
 <td>Dia:
-<select name="diaInscricao">
+<select name="dia_inscricao">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -189,7 +187,7 @@ function verificaConvenio() {
 <option value="31">31</option>
 </select>
 Mês:
-<select name="mesInscricao">
+<select name="mes_inscricao">
 <option value="1">Janeiro</option>
 <option value="2">Fevereiro</option>
 <option value="3">Março</option>
@@ -204,7 +202,7 @@ Mês:
 <option value="12">Dezembro</option>
 </select>
 Ano:
-<select name="anoInscricao">
+<select name="ano_inscricao">
 <option value="2007">2007</option>
 <option value="2008">2008</option>
 <option value="2009">2009</option>
@@ -221,7 +219,7 @@ Ano:
 <tr>
 <td>Data da seleção</td>
 <td>Dia:
-<select name="dia">
+<select name="dia_selecao">
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -255,7 +253,7 @@ Ano:
 <option value="31">31</option>
 </select>
 Mês:
-<select name="mes">
+<select name="mes_selecao">
 <option value="1">Janeiro</option>
 <option value="2">Fevereiro</option>
 <option value="3">Março</option>
@@ -270,7 +268,7 @@ Mês:
 <option value="12">Dezembro</option>
 </select>
 Ano:
-<select name="ano">
+<select name="ano_selecao">
 <option value="2007">2007</option>
 <option value="2008">2008</option>
 <option value="2009">2009</option>
@@ -281,23 +279,24 @@ Ano:
 <option value="2014">2014</option>
 <option value="2015">2015</option>
 </select>
+
 Horário:
-<input type="text" name="horarioSelecao" id="horarioSelecao" size="5" value="00:00">
+<input type="text" name="horario_selecao" id="horario_selecao" size="5" value="00:00">
 </td>
 </tr>
 
 <tr>
 <td>Local da seleção</td>
-<td><input type="text" name="localSelecao" id="localSelecao" size="50" maxlength="70"></td>
+<td><input type="text" name="local_selecao" id="local_selecao" size="50" maxlength="70"></td>
 </tr>
 
 <tr>
 <td>Forma de seleção</td>
 <td>
-<input type="radio" name="formaSelecao" id="formaSelecao0" value="0" checked>Entrevista
-<input type="radio" name="formaSelecao" id="formaSelecao1" value="1">CR
-<input type="radio" name="formaSelecao" id="formaSelecao2" value="2">Prova
-<input type="radio" name="formaSelecao" id="formaSelecao3" value="3">Outras (especificar em outras informações)
+<input type="radio" name="forma_selecao" id="forma_selecao0" value="0" checked>Entrevista
+<input type="radio" name="forma_selecao" id="forma_selecao1" value="1">CR
+<input type="radio" name="forma_selecao" id="forma_selecao2" value="2">Prova
+<input type="radio" name="forma_selecao" id="forma_selecao3" value="3">Outras (especificar em outras informações)
 </td>
 </tr>
 
@@ -320,7 +319,7 @@ Horário:
 
 <tr>
 <td class="rodape" colspan=2>
-<input type="hidden" value={$periodo_atual} name="periodo_atual">
+<input type="hidden" value={$periodo} name="periodo">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>
