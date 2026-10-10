@@ -1,6 +1,7 @@
 <?php
 
 require("../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
 $periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL; 
 $selecao = isset($_REQUEST['selecao']) ? $_REQUEST['selecao'] : NULL; 
@@ -27,9 +28,7 @@ if ($periodo) {
 		$historico[$i]['subtotal'] = $subtotal;
 		$historico[$i]['periodo'] = $periodo;
 
-		$sql_instituicoes = "select sum(vagas) as total_vagas from mural_estagios where mural_estagios.periodo = '$periodo' ";
-		$resultado_instituicoes = $db->Execute($sql_instituicoes);
-		$historico[$i]['vagas'] = $resultado_instituicoes->fields['total_vagas'];
+		$historico[$i]['vagas'] = Mural::totalVagasPorPeriodo($periodo);
 
 		$alunos_periodo = alunos_por_periodo($periodo);
 		$historico[$i]['alunos_sem_estagio'] = $alunos_periodo[1];

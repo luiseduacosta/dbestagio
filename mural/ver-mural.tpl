@@ -77,7 +77,7 @@
 		{section name=item loop=$instituicao}
 			<tr{if $instituicao[item].convenio == 0} style="background-color:#fdb9b9"{else} style="background-color:#c9f5bf"{/if}>
 				<td><a
-						href="ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
+						href="ver_cada.php?mural_id={$instituicao[item].mural_estagio_id}">{$instituicao[item].instituicao}</a>
 				</td>
 				<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
 				<td class="coluna_centralizada"><a

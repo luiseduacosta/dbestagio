@@ -1,4 +1,32 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php
+/**
+ * links.php — Menu lateral.
+ *
+ * Inclui autentica.inc para $isAdmin ser verdadeiro apenas quando o usuário
+ * logado tem role === 'admin' na tabela users. Isso garante que os links de
+ * Administração (controle_db, configurações, usuários) só sejam renderizados
+ * no HTML para admins — mesmo que alguém tente desviar no lado cliente.
+ *
+ * Para manter compatibilidade com framesets, basta trocar a referência do
+ * <frame> de links.html para links.php.
+ */
+require_once __DIR__ . '/autentica.inc';
+
+/**
+ * Retorna o status de admin da sessão.
+ *
+ * A variável $isAdmin (booleano) já está definida no escopo global por
+ * autentica.inc — ela é setada para `true` somente quando
+ * users.role === 'admin' para o e-mail presente no cookie `usuario`.
+ *
+ *   $isAdmin === true  -> user é admin; bloco de Administração é exibido.
+ *   $isAdmin === false -> user é aluno/supervisor/professor/inativo ou
+ *                         não autenticado (esses últimos são redirecionados
+ *                         para login.php por autentica.inc antes de chegar
+ *                         aqui).
+ */
+
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="pt-br">
 
 <head>
@@ -16,7 +44,7 @@
     <script type='text/javascript'>
         $(document).ready(function () {
             $('a').css('text-decoration', 'none');
-            var autentica = $.cookie("usuario_nome");
+            var autentica = $.cookie("usuario");
             if (autentica) {
                 $("#administracao").css("display", "block");
                 $("#instituicoes").css("display", "block");
@@ -39,9 +67,7 @@
     <div align="center">
 
         <table id="click-menu1" class="click-menu">
-
             <tbody>
-
                 <tr>
                     <td class="coluna_centralizada">
                         <a href="index0.html" target="_parent">
@@ -49,23 +75,28 @@
                         </a>
                     </td>
                 </tr>
-
                 <tr>
                     <td class="coluna_centralizada">
                         <a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">
                             Manual do aluno</a>
                     </td>
                 </tr>
-
                 <tr>
-                    <td id="administracao" style="display:none">
-                        <a href="administracao/controle_db.php" target="_corpo">
-                            Controle administrativo</a><br>
-                        <a href="administracao/configuracao.php" target="_corpo">
-                            Configurações</a><br>
-                        <a href="users/exibir/listar.php" target="_corpo">
-                            Usuários</a><br>
+                    <?php if ($isAdmin) { ?>
+                    <td id="administracao" style="display:block">
+                        <a class="box1" href="javascript:void(0)">Administração
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="administracao/configuracao.php" target="_corpo">
+                                Configurações</a><br>
+                            <a class="box2" href="users/exibir/listar.php" target="_corpo">
+                                Usuários</a><br>
+                            <a class="box2" href="users/inserir/formulario.php" target="_corpo">
+                                Inserir usuário</a><br>
+                        </div>
                     </td>
+                    <?php } ?>
                 </tr>
 
                 <!-- Inicio de instituicao //-->
@@ -77,20 +108,12 @@
                         <div class="section">
                             <a class="box2" href="imprimir/listagem.php" target="_corpo">
                                 Imprimir catálogo</a>
-
-                            <div id='instituicoes' style='display:none'>
-                                <a class="box2" href="instituicoes/seleciona.php" target="_corpo">
-                                    Modificar</a><br>
-                                <a class="box2" href="instituicoes/seleciona.php?opcao=cancela" target="_corpo">
-                                    Excluir</a><br>
-                            </div>
                             <a class="box2" href="instituicoes/inserir/formulario.php" target="_corpo">
                                 Inserir instituição</a><br>
                             <a class="box2" href="instituicoes/exibir/listar.php" target="_corpo">
                                 Listar todas</a><br>
                             <a class="box2" href="areas/exibir/listar.php" target="_corpo">
                                 Listar áreas</a><br>
-
                         </div>
                     </td>
                 </tr>

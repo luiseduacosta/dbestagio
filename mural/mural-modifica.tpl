@@ -83,7 +83,7 @@
 
 <tr>
 <td>Carga horária</td>
-<td><input type="text" name="cargaHoraria" id="cargaHoraria" size="2"  maxlength="2" value="{$cargaHoraria}">Digite somente números</td>
+<td><input type="text" name="carga_horaria" id="carga_horaria" size="2"  maxlength="2" value="{$cargaHoraria}">Digite somente números</td>
 </tr>
 
 <tr>
@@ -136,47 +136,47 @@
 
 <tr>
 <td>Inscrições na Coordenação de Estágio atá:</td>
-<td><input type="text" name="dataInscricao" id="dataInscricao" size="15" maxlength="15" value="{$dataInscricao}">
+<td><input type="text" name="data_inscricao" id="data_inscricao" size="15" maxlength="15" value="{$dataInscricao}">
 Formato: dd-mm-aaaa</td>
 </tr>
 
 <tr>
 <td>Data da seleção</td>
 <td>
-<input type="text" name="dataSelecao" id="dataSelecao" size="15" maxlength="15" value="{$dataSelecao}">
+<input type="text" name="data_selecao" id="data_selecao" size="15" maxlength="15" value="{$dataSelecao}">
 Horário:
-<input type="text" name="horarioSelecao" id="horarioSelecao" size="5" maxlength="5" value="{$horarioSelecao}">
+<input type="text" name="horario_selecao" id="horario_selecao" size="5" maxlength="5" value="{$horarioSelecao}">
 Formato hh:mm</td>
 </tr>
 
 <tr>
 <td>Local da seleção</td>
-<td><input type="text" name="localSelecao" id="localSelecao" size="50" maxleghth="70" value="{$localSelecao}"></td>
+<td><input type="text" name="local_selecao" id="local_selecao" size="50" maxleghth="70" value="{$localSelecao}"></td>
 </tr>
 
 <tr>
 <td>Forma de seleção</td>
 <td>
 {if $formaSelecao == 0}
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="0" checked="{$formaSelecao}">Entrevista
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="1">CR
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="3">Prova
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="3">Outra
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="0" checked="{$formaSelecao}">Entrevista
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="1">CR
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="3">Prova
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="3">Outra
 {elseif $formaSelecao == 1}
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="0">Entrevista
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="1" checked="{$formaSelecao}">CR
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="2">Prova
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="3">Outra
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="0">Entrevista
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="1" checked="{$formaSelecao}">CR
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="2">Prova
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="3">Outra
 {elseif $formaSelecao == 2}
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="0">Entrevista
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="1">CR
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="2" checked="{$formaSelecao}">Prova
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="3">Outra
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="0">Entrevista
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="1">CR
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="2" checked="{$formaSelecao}">Prova
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="3">Outra
 {elseif $formaSelecao == 3}
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="0">Entrevista
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="1">CR
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="2">Prova
-	<input type="radio" name="formaSelecao" id="formaSelecao" value="3" checked="{$formaSelecao}">Outra
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="0">Entrevista
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="1">CR
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="2">Prova
+	<input type="radio" name="forma_selecao" id="forma_selecao" value="3" checked="{$formaSelecao}">Outra
 {/if}
 </td>
 </tr>
@@ -199,7 +199,7 @@ Formato hh:mm</td>
 <tr class="rodape">
 <td colspan="2" class="coluna_centralizada">
 <input type="hidden" name="periodo" value="{$periodo}">
-<input type="hidden" name="id_instituicao" value="{$id_instituicao}">
+<input type="hidden" name="mural_id" value="{$id_instituicao}">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>

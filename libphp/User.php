@@ -109,6 +109,77 @@ class User extends ADODB_Model {
         return $user->save() ? $user : null;
     }
 
+    /*
+     * Ver cada usuário com informações completas:
+     *   - todos os campos da tabela users,
+     *   - role_texto / categoria_texto,
+     *   - nome do aluno, supervisor e professor associados (via LEFT JOIN),
+     *   - linhas completas das tabelas alunos / supervisores / professores
+     *     quando o respectivo *_id estiver preenchido.
+     *
+     * Retorna um array associativo ou null quando o usuário não existe.
+     */
+    public static function verCadaCompleto($id) {
+        $db = static::db();
+
+        $sql = "SELECT u.*, "
+             . "COALESCE(al.nome,  '') AS aluno_nome, "
+             . "COALESCE(sup.nome, '') AS supervisor_nome, "
+             . "COALESCE(prof.nome,'') AS professor_nome "
+             . "FROM users AS u "
+             . "LEFT JOIN alunos AS al       ON al.id        = u.aluno_id "
+             . "LEFT JOIN supervisores AS sup ON sup.id      = u.supervisor_id "
+             . "LEFT JOIN professores AS prof ON prof.id     = u.professor_id "
+             . "WHERE u.id = ? LIMIT 1";
+        $rs = $db->Execute($sql, array((int)$id));
+
+        if ($rs === false || $rs->RecordCount() == 0) {
+            return null;
+        }
+
+        $f = $rs->fields;
+
+        $hidden = isset(static::$hidden) && is_array(static::$hidden) ? static::$hidden : array();
+        foreach ($hidden as $h) {
+            if (array_key_exists($h, $f)) {
+                unset($f[$h]);
+            }
+        }
+
+        $out = $f;
+        $out['id']              = (int)$out['id'];
+        $out['role_texto']      = self::roleTexto($out['role']);
+        $out['categoria_texto'] = self::categoriaTexto($out['categoria']);
+        $out['ativo_raw']       = (int)$out['ativo'];
+
+        $out['aluno']      = null;
+        $out['supervisor'] = null;
+        $out['professor']  = null;
+
+        if (!empty($f['aluno_id'])) {
+            $rsA = $db->Execute("SELECT * FROM alunos WHERE id = ? LIMIT 1", array((int)$f['aluno_id']));
+            if ($rsA && $rsA->RecordCount() > 0) {
+                $out['aluno'] = $rsA->fields;
+            }
+        }
+
+        if (!empty($f['supervisor_id'])) {
+            $rsS = $db->Execute("SELECT * FROM supervisores WHERE id = ? LIMIT 1", array((int)$f['supervisor_id']));
+            if ($rsS && $rsS->RecordCount() > 0) {
+                $out['supervisor'] = $rsS->fields;
+            }
+        }
+
+        if (!empty($f['professor_id'])) {
+            $rsP = $db->Execute("SELECT * FROM professores WHERE id = ? LIMIT 1", array((int)$f['professor_id']));
+            if ($rsP && $rsP->RecordCount() > 0) {
+                $out['professor'] = $rsP->fields;
+            }
+        }
+
+        return $out;
+    }
+
     /**
      * Lista os usuários com os campos formatados para exibição (listagem).
      */
@@ -140,8 +211,11 @@ class User extends ADODB_Model {
                     'role_raw'        => $f['role'],
                     'ativo_raw'       => (int)$f['ativo'],
                     'aluno'           => $f['aluno_nome'],
+                    'aluno_id'        => isset($f['aluno_id'])        ? (int)$f['aluno_id']        : null,
                     'supervisor'      => $f['supervisor_nome'],
+                    'supervisor_id'   => isset($f['supervisor_id'])   ? (int)$f['supervisor_id']   : null,
                     'professor'       => $f['professor_nome'],
+                    'professor_id'    => isset($f['professor_id'])    ? (int)$f['professor_id']    : null,
                 );
                 $rs->MoveNext();
             }

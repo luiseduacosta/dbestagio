@@ -206,6 +206,23 @@ class Professor extends ADODB_Model {
     }
 
     /**
+     * Lista simples (id + nome) ordenada por nome, para preencher seletores
+     * nos formulários (ex.: cadastro de ofertas no mural).
+     */
+    public static function listaSimples() {
+        $db = static::db();
+        $rs = $db->Execute("SELECT id, nome FROM professores ORDER BY nome");
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $out[] = array('id' => (int)$rs->fields['id'], 'nome' => $rs->fields['nome']);
+                $rs->MoveNext();
+            }
+        }
+        return $out;
+    }
+
+    /**
      * Lista de status possíveis (para o filtro/select).
      */
     public static function statuses() {

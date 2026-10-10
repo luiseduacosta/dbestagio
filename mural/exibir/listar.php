@@ -30,7 +30,7 @@ if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
 }
 
 // Lista de ofertas do mural do período selecionado (inscritos calculados no SQL).
-$ofertas = Mural::listarPorPeriodo($periodo);
+$ofertas = Mural::listarMuralPorPeriodo($periodo);
 
 // Totais do período selecionado.
 $total_vagas  = 0;
