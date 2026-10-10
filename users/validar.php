@@ -16,9 +16,16 @@ function users_validar_post($senhaObrigatoria = false) {
     $ativo   = isset($_POST['ativo']) ? (int)$_POST['ativo'] : 1;
     $senha   = isset($_POST['password']) ? $_POST['password'] : '';
 
-    // Caixa fechada de valores válidos.
     $roles = array('admin', 'supervisor', 'professor', 'aluno');
     $categorias = array('1', '2', '3', '4');
+
+    $categoria_para_role = array(
+        '1' => 'admin',
+        '2' => 'aluno',
+        '3' => 'professor',
+        '4' => 'supervisor',
+    );
+    $role_para_categoria = array_flip($categoria_para_role);
 
     if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die("Informe um e-mail válido.");
@@ -32,6 +39,24 @@ function users_validar_post($senhaObrigatoria = false) {
     if (!in_array($categoria, $categorias, true)) {
         die("Categoria (1-4) inválida.");
     }
+
+    $roleEsperada    = $categoria_para_role[$categoria];
+    $categoriaEsperada = $role_para_categoria[$role];
+
+    if ($role !== $roleEsperada) {
+        $labelMap = array(
+            '1' => 'Administrador',
+            '2' => 'Aluno',
+            '3' => 'Professor',
+            '4' => 'Supervisor',
+        );
+        die(
+            "Incompatibilidade entre Categoria e Role. " .
+            "Categoria {$categoria} ({$labelMap[$categoria]}) exige Role='{$roleEsperada}', " .
+            "Role '{$role}' exige Categoria={$categoriaEsperada} ({$labelMap[$categoriaEsperada]})."
+        );
+    }
+
     if ($identificacao === '') {
         $identificacao = null;
     }
@@ -66,10 +91,10 @@ function users_form_options() {
             'aluno'      => 'Aluno',
         ),
         'categorias' => array(
-            '1' => 'Categoria 1',
-            '2' => 'Categoria 2',
-            '3' => 'Categoria 3',
-            '4' => 'Categoria 4',
+            '1' => 'Categoria 1 — Administrador',
+            '2' => 'Categoria 2 — Aluno',
+            '3' => 'Categoria 3 — Professor',
+            '4' => 'Categoria 4 — Supervisor',
         ),
         'ativo_opcoes' => array(
             '1' => 'Ativo',
