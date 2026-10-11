@@ -32,7 +32,7 @@ $limites = array(
 );
 foreach ($limites as $campo => $max) {
     if (isset($dados[$campo]) && mb_strlen((string)$dados[$campo], 'UTF-8') > $max) {
-        echo "Campo '" . htmlspecialchars($campo) . "' excede $max caracteres (tamanho atual: "
+        echo "Campo '" . htmlspecialchars($campo, ENT_QUOTES, 'UTF-8') . "' excede $max caracteres (tamanho atual: "
            . mb_strlen((string)$dados[$campo], 'UTF-8') . ").<br>";
         exit;
     }

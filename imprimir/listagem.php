@@ -1,14 +1,17 @@
 <?php
 
+require_once("../autentica.inc"); // Carrega setup.php e exige login
+
 // Intranet
 define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
 define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
+require_once(__DIR__ . "/../libphp/PDFHelper.php");
 
-$pdf=new FPDF();
+$pdf = new PDF_UTF8();
 
-$titulo = "Cadastro de campos de estágio";
+$titulo = "Catálogo de instituições conveniadas";
 $pdf->SetTitle($titulo);
 $pdf->SetAuthor("Coordenação de Estágio & Extensão - ESS/UFRJ");
 
@@ -38,9 +41,9 @@ $pdf->Ln(20);
 $pdf->Image("LogoESS.jpg",95,120,20,20,'jpg');
 $pdf->Ln(10);
 
-$cabecalho4 = $pdf->GetStringWidth("Catálogo de campos de estágio");
+$cabecalho4 = $pdf->GetStringWidth("Catálogo de instituições conveniadas");
 $pdf->SetX((210-$cabecalho4)/2);
-$pdf->Cell($cabecalho4, 9, "Catálogo de campos de estágio", 0, 1, 'C', 0);
+$pdf->Cell($cabecalho4, 9, "Catálogo de instituições conveniadas", 0, 1, 'C', 0);
 $pdf->Ln(20);
 
 $pdf->SetFont("Arial","","15");
@@ -54,8 +57,6 @@ $data = date('d/m/Y');
 $pdf->SetFont("Arial","","12");
 $pdf->SetXY(0,270);
 $pdf->Cell(0,0,$data, 0, 0, "C");
-
-include_once("../../setup.php");
 
 $sql = "select
 e.id,
@@ -80,26 +81,40 @@ if ($resultado === false) die ("Não foi possível consultar a tabela instituico
 
 $pdf->AddPage();
 
-// A variavel linha define o inicio de cada pagina
+// A variavel linha define a posicao vertical dentro da pagina atual
 $linha = 20;
-// A varivel pagina conta a quantidade de registros. Cada quatro registros avança una página
+// A variavel pagina conta as instituicoes ja renderizadas na pagina atual (quebra a cada 5)
 $pagina = 0;
 while (!$resultado->EOF) {
+    // Antes de renderizar, fecha a anterior e abre nova pagina se ja temos 5 instituicoes
+    if ($pagina >= 5) {
+        $pdf->SetXY(0,275);
+        $pdf->Cell(0,0,$pdf->PageNo(), 0, 0, "C");
+        $pdf->AddPage();
+        $pagina = 0;
+        $linha = 20;
+    }
+
     $area           = $resultado->fields["area"];
     $instituicao    = $resultado->fields["instituicao"];
     $endereco       = $resultado->fields["endereco"];
     $telefone       = $resultado->fields["telefone"];
     $beneficios     = $resultado->fields["beneficios"];
     $fim_de_semana  = $resultado->fields["f_semana"];
-    $id_instituicao = $resultado->fields["id"];
+    $id             = (int)$resultado->fields["id"];
 
-    $sqlPeriodo = "select max(periodo) as periodo from estagiarios where instituicao_id = $id_instituicao";
-    $resultadoPeriodo = $db->Execute($sqlPeriodo);
-    if($resultadoPeriodo === false) die ("Não foi possível consultar a tabela estagiarios");
-    while (!$resultadoPeriodo->EOF) {
-        $turma = $resultadoPeriodo->fields["periodo"];
-	$resultadoPeriodo->MoveNext();
-    }
+    // Conta os supervisores distintos que ja registraram estagiarios nesta instituicao
+    // para dimensionar o espaco do bloco no PDF (varia conforme a quantidade de supervisores)
+    $quantidade_supervisores = (int)$db->GetOne(
+        "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?",
+        array($id)
+    );
+
+    // Turma mais recente com estagiarios nesta instituicao
+    $turma = $db->GetOne(
+        "SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
+        array($id)
+    );
 
     $instituicao = trim($instituicao);
     $instituicao = ucwords($instituicao);
@@ -118,12 +133,12 @@ while (!$resultado->EOF) {
     if ($tamanho_instituicao >= 50)
     {
         $pdf->MultiCell(0,4,$instituicao);
-		$pdf->Ln(1);
+		    $pdf->Ln(1);
     }
     else
     {
     	$pdf->Cell(0,5,$instituicao);
-		$pdf->Ln(5);
+		  $pdf->Ln(5);
     }
 
     $pdf->SetX(30);
@@ -133,12 +148,12 @@ while (!$resultado->EOF) {
     if ($tamanho_endereco >= 50)
     {
         $pdf->MultiCell(0,4,$endereco);
-	$pdf->Ln(1);
+	      $pdf->Ln(1);
     }
     else
     {
-		$pdf->Cell(0,5,$endereco);
-		$pdf->Ln(5);
+        $pdf->Cell(0,5,$endereco);
+        $pdf->Ln(5);
     }
 
     $pdf->SetX(30);
@@ -146,7 +161,7 @@ while (!$resultado->EOF) {
     $pdf->SetX(65);
     $pdf->Cell(0,5,$telefone);
     $pdf->Ln(5);
-    
+
     $pdf->SetX(30);
     $pdf->Cell(0,5,"Benefícios:");
     $pdf->SetX(65);
@@ -166,20 +181,16 @@ while (!$resultado->EOF) {
     $pdf->Ln(5);
 
     $pagina++;
-    $linha = $linha + (50 + ($quantidade_supervisores * 5));
+    $linha = $linha + 50;    
+    // $linha = $linha + 50 + ($quantidade_supervisores * 5);
 
     $resultado->MoveNext();
 
-    if($pagina >= 5)
-    {
-		$pagina = 0;
-		$linha  = 20;
-		$pdf->SetXY(0,275);
-		$pdf->Cell(0,0,$pdf->PageNo(),0,0,"C");
-		$pdf->AddPage();
-    }
-
 }
+
+// Imprime o numero na ultima pagina (nao coberto pelo loop)
+$pdf->SetXY(0,275);
+$pdf->Cell(0,0,$pdf->PageNo(), 0, 0, "C");
 
 $pdf->Output();
 

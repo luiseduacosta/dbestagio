@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Ver inscrição</title>
 </head>
 <body>
@@ -25,9 +25,9 @@
 
 <div align="center">
 <p>
-<a href="../atualizar.php?id={$ins.id}">Editar</a> |
-<a href="../listar.php?periodo={$ins.periodo}&muralestagio_id={$ins.muralestagio_id}">Voltar</a> |
-<a href="../excluir.php?id={$ins.id}&periodo={$ins.periodo}&muralestagio_id={$ins.muralestagio_id}" onclick="return confirm('Excluir esta inscrição?');">Excluir</a>
+<a href="atualizar.php?id={$ins.id}">Editar</a> |
+<a href="listar.php?periodo={$ins.periodo}&muralestagio_id={$ins.muralestagio_id}">Voltar</a> |
+<a href="excluir.php?id={$ins.id}&periodo={$ins.periodo}&muralestagio_id={$ins.muralestagio_id}" onclick="return confirm('Excluir esta inscrição?');">Excluir</a>
 </p>
 </div>
 

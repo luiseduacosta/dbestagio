@@ -26,7 +26,8 @@ require_once __DIR__ . '/autentica.inc';
  *                         aqui).
  */
 
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="pt-br">
 
 <head>
@@ -97,6 +98,37 @@ require_once __DIR__ . '/autentica.inc';
                         </div>
                     </td>
                     <?php } ?>
+                </tr>
+
+                <!-- Mural //-->
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+                        <div class="section">
+                            <a class="box2" href="mural/mural_inserir.php" target="_corpo">
+                                Inserir mural</a><br />
+                            <a class="box2" href="mural/ver-mural.php" target="_corpo">
+                                Listar mural</a><br />
+                            <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
+                                Ver cada mural</a><br />
+
+                                <hr />
+
+                            <a class="box2" href="alunos/atualizar/seleciona_termo.php" target="_corpo">
+                                Termo de Compromisso</a><br>
+
+                            <div id='historico' style='display:none'>
+                                <a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
+                                    Controle de TC</a><br>
+                                <a class="box2" href="mural/historico.php" target="_corpo">
+                                    Histórico</a><br>
+
+                            </div>
+
+                        </div>
+                    </td>
                 </tr>
 
                 <!-- Inicio de instituicao //-->
@@ -237,6 +269,22 @@ require_once __DIR__ . '/autentica.inc';
                     </td>
                 </tr>
 
+                <!-- Inscricoes -->
+
+                <tr>
+                    <td>
+                        <a class="box1" href="javascript:void(0)">INSCRIÇÕES
+                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
+                        </a>
+
+                        <div class="section">
+                            <a class="box2" href="inscricoes/listar.php" target="_corpo">
+                                Listar</a><br>
+                        </div>
+                    </td>
+                </tr>
+
+
                 <!-- Professores -->
                 <tr>
                     <td>
@@ -280,48 +328,6 @@ require_once __DIR__ . '/autentica.inc';
                     </td>
                 </tr>
 
-                <!-- Mural //-->
-                <tr>
-                    <td>
-                        <a class="box1" href="javascript:void(0)">MURAL DE ESTÁGIOS
-                            <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
-                        </a>
-                        <div class="section">
-                            <a class="box2" href="mural/mural_inserir.php" target="_corpo">
-                                Inserir mural</a><br />
-                            <a class="box2" href="mural/ver-mural.php" target="_corpo">
-                                Listar mural</a><br />
-                            <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
-                                Ver cada mural</a><br />
-                            <hr />
-                            <div id='mural' style='display:none'>
-                                <a class="box2" href="inscricoes/listar.php" target="_corpo">
-                                    Inscrições</a><br />
-                                <a class="box2" href="mural/mural_inserir.php" target="_corpo">
-                                    Inserir no mural</a><br />
-                                <a class="box2" href="mural/alunosConhecidos.php" target="_corpo">
-                                    Alunos com estágio</a><br />
-                                <a class="box2" href="mural/lista-alunos.php" target="_corpo">
-                                    Alunos</a><br />
-                                <a class="box2" href="mural/lista-novos_alunos.php" target="_corpo">
-                                    Alunos novos</a><br />
-                                <hr />
-                            </div>
-
-                            <a class="box2" href="alunos/atualizar/seleciona_termo.php" target="_corpo">
-                                Termo de Compromisso</a><br>
-
-                            <div id='historico' style='display:none'>
-                                <a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
-                                    Controle de TC</a><br>
-                                <a class="box2" href="mural/historico.php" target="_corpo">
-                                    Histórico</a><br>
-
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
 
                 <!-- Curso //-->
                 <tr>

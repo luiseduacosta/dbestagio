@@ -41,8 +41,9 @@ define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
 define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
+require_once(__DIR__ . "/../libphp/PDFHelper.php");
 
-$pdf = new FPDF();
+$pdf = new PDF_UTF8();
 
 $pdf->AddPage();
 
