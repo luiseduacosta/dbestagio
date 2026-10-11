@@ -38,7 +38,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>phpMyEdit Setup</title>
 	<style type="text/css">
 	<!--
@@ -103,7 +103,7 @@
 
 function echo_html($x)
 {
-	echo htmlspecialchars($x),PHP_EOL;
+	echo htmlspecialchars($x, ENT_QUOTES, 'UTF-8'),PHP_EOL;
 }
 
 function build_buffer($x)
@@ -185,20 +185,20 @@ function get_versions()
 
 function EchoFormHiddenInput ($self, $hn, $pt, $un, $pw, $db, $tb, $id, $opt)
 {
-	echo '<form action="'.htmlspecialchars($self).'" method="POST">
-	<input type="hidden" name="hn" value = "' . htmlspecialchars($hn) . '">
-	<input type="hidden" name="pt" value = "' . htmlspecialchars($pt) . '">
-	<input type="hidden" name="un" value = "' . htmlspecialchars($un) . '">
-	<input type="hidden" name="pw" value= "' . htmlspecialchars($pw) . '">' . PHP_EOL;
+	echo '<form action="'.htmlspecialchars($self, ENT_QUOTES, 'UTF-8').'" method="POST">
+	<input type="hidden" name="hn" value = "' . htmlspecialchars($hn, ENT_QUOTES, 'UTF-8') . '">
+	<input type="hidden" name="pt" value = "' . htmlspecialchars($pt, ENT_QUOTES, 'UTF-8') . '">
+	<input type="hidden" name="un" value = "' . htmlspecialchars($un, ENT_QUOTES, 'UTF-8') . '">
+	<input type="hidden" name="pw" value= "' . htmlspecialchars($pw, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
 
 	if ($db != "")
-		echo '<input type="hidden" name="db" value = "' . htmlspecialchars($db) . '">' . PHP_EOL;
+		echo '<input type="hidden" name="db" value = "' . htmlspecialchars($db, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
 
 	if ($tb != "")
-		echo '<input type="hidden" name="tb" value = "' . htmlspecialchars($tb) . '">' . PHP_EOL;
+		echo '<input type="hidden" name="tb" value = "' . htmlspecialchars($tb, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
 
 	if ($id != "")
-		echo '<input type="hidden" name="id" value = "' . htmlspecialchars($id) . '">' . PHP_EOL;
+		echo '<input type="hidden" name="id" value = "' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
 
 	if ($opt != "")
 		echo '<input type="hidden" name="options" value="1">' . PHP_EOL;
@@ -208,27 +208,27 @@ function EchoFormHiddenInput ($self, $hn, $pt, $un, $pw, $db, $tb, $id, $opt)
 function ShowLogin ($self, $hn, $pt, $un, $pw, $db, $tb)
 {
 	echo '
-		<form action="' . htmlspecialchars($self) . '" method="POST">
+		<form action="' . htmlspecialchars($self, ENT_QUOTES, 'UTF-8') . '" method="POST">
 		<table border="1" cellpadding="1" cellspacing="0" summary="Login form">
 		<tr>
 		<td>Hostname:</td>
-		<td><input type="text" name="hn" value="' . htmlspecialchars($hn) . '"></td>
+		<td><input type="text" name="hn" value="' . htmlspecialchars($hn, ENT_QUOTES, 'UTF-8') . '"></td>
 		</tr><tr>
 		<tr>
 		<td>Port:</td>
-		<td><input type="text" name="pt" value="' . htmlspecialchars($pt) . '"></td>
+		<td><input type="text" name="pt" value="' . htmlspecialchars($pt, ENT_QUOTES, 'UTF-8') . '"></td>
 		</tr><tr>
 		<td>Username:</td>
-		<td><input type="text" name="un" value="' . htmlspecialchars($un) . '"></td>
+		<td><input type="text" name="un" value="' . htmlspecialchars($un, ENT_QUOTES, 'UTF-8') . '"></td>
 		</tr><tr>
 		<td>Password:</td>
-		<td><input type="password" name="pw" value="'.htmlspecialchars($pw).'"></td>
+		<td><input type="password" name="pw" value="'.htmlspecialchars($pw, ENT_QUOTES, 'UTF-8').'"></td>
 		</tr><tr>
 		<td>Database:</td>
-		<td><input type="text" name="db" value="' . htmlspecialchars($db) . '"></td>
+		<td><input type="text" name="db" value="' . htmlspecialchars($db, ENT_QUOTES, 'UTF-8') . '"></td>
 		</tr><tr>
 		<td>Table:</td>
-		<td><input type="text" name="tb" value="' . htmlspecialchars($tb) . '"></td>
+		<td><input type="text" name="tb" value="' . htmlspecialchars($tb, ENT_QUOTES, 'UTF-8') . '"></td>
 		</tr>
 		</table><br>
 		<input type="submit" name="submit" value="Submit">
@@ -307,7 +307,7 @@ function CheckForDatabaseTable ($self, $hn, $pt, $un, $pw, $db, $tb, $db1)
 
 function ShowSelectTable ($self, $hn, $pt, $un, $pw, $db, $db1)
 {
-	echo '<h1>Please select a table from database: '.htmlspecialchars($db).'</h1>' . PHP_EOL;
+	echo '<h1>Please select a table from database: '.htmlspecialchars($db, ENT_QUOTES, 'UTF-8').'</h1>' . PHP_EOL;
 
 	$result = EchoFormHiddenInput ($self, $hn, $pt, $un, $pw, $db, "", "", "");
 
@@ -332,7 +332,7 @@ function ShowSelectTable ($self, $hn, $pt, $un, $pw, $db, $db1)
 
 function ShowSelectId ($self, $hn, $pt, $un, $pw, $db, $tb, $db1)
 {
-	echo '  <h1>Please select an identifier from table: ' . htmlspecialchars($tb) . '</h1>
+	echo '  <h1>Please select an identifier from table: ' . htmlspecialchars($tb, ENT_QUOTES, 'UTF-8') . '</h1>
 		<p>
 		This field will be used in change, view, copy and delete operations.<br>
 		The field should be numeric and must uniquely identify a record.
@@ -361,8 +361,8 @@ function ShowSelectId ($self, $hn, $pt, $un, $pw, $db, $tb, $db1)
 		else
 			$checked = "";
 
-		echo '<tr><td><input ' . $checked . ' type="radio" name="id" value="',htmlspecialchars($field),'"></td>';
-		echo '<td>',htmlspecialchars($field),'</td>';
+		echo '<tr><td><input ' . $checked . ' type="radio" name="id" value="',htmlspecialchars($field, ENT_QUOTES, 'UTF-8'),'"></td>';
+		echo '<td>',htmlspecialchars($field, ENT_QUOTES, 'UTF-8'),'</td>';
 		// should I get ff (flags) from getcolumnmeta ???
 		// strlen($ff) <= 0 && $ff = '---';  // what is this ???
 //		echo '<td>',htmlspecialchars($ff),'</td></tr>' . PHP_EOL;; //commented in PHP v8 (the above two lines are NOT my comments!)
@@ -448,8 +448,8 @@ function ShowSelectOptions ($self, $hn, $pt, $un, $pw, $db, $tb, $db1, $id)
 	$result = EchoFormHiddenInput ($self, $hn, $pt, $un, $pw, $db, $tb, $id, "");
 
 	echo '		<table border="1" cellpadding="1" cellspacing="1" summary="Additional options">
-		<tr><td>Base filename</td><td><input type="text" name=baseFilename value ="'.htmlspecialchars($tb).'"></td></tr>
-		<tr><td>Page title</td><td><input type="text" name=pageTitle value ="'.htmlspecialchars($tb).'"></td></tr>
+		<tr><td>Base filename</td><td><input type="text" name=baseFilename value ="'.htmlspecialchars($tb, ENT_QUOTES, 'UTF-8').'"></td></tr>
+		<tr><td>Page title</td><td><input type="text" name=pageTitle value ="'.htmlspecialchars($tb, ENT_QUOTES, 'UTF-8').'"></td></tr>
 		<tr><td>Page header</td><td><input type="checkbox" name=pageHeader></td></tr>
 		<tr><td>HTML header &amp; footer</td><td><input type="checkbox" name=HTMLissues></td></tr>
 		<tr><td>CSS basic stylesheet</td><td><input checked type="checkbox" name=CSSstylesheet></td></tr>

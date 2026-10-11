@@ -8,8 +8,9 @@ define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
 define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
+require_once(__DIR__ . "/../libphp/PDFHelper.php");
 
-$pdf=new FPDF();
+$pdf = new PDF_UTF8();
 $pdf->AddPage();
 // $pdf->SetMargins(30,20,30);
 $pdf->SetFont("Arial","","16");
@@ -78,11 +79,11 @@ while (!$resultado->EOF) {
 		}
 		$final_de_semana = $final_de_semana;
 
-		$cargaHoraria = $resultado->fields['cargaHoraria'];
+		$cargaHoraria = $resultado->fields['carga_horaria'];
 		$requisitos = $resultado->fields['requisitos'];
-		$id_area = $resultado->fields['id_area'];
+		$area_id = $resultado->fields['area_id'];
 		$area = $resultado->fields['area'];
-		$id_professor = $resultado->fields['id_professor'];
+		$professor_id = $resultado->fields['professor_id'];
 		$professor = $resultado->fields['nome'];
 
 		$horario  = $resultado->fields['horario'];
@@ -96,15 +97,15 @@ while (!$resultado->EOF) {
 		$horario = $horario;
 
 		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
-		$data_selecao = date("d-m-Y",strtotime($resultado->fields['dataSelecao']));
+		$data_selecao = date("d-m-Y",strtotime($resultado->fields['data_selecao']));
 
-		$horarioSelecao = $resultado->fields['horarioSelecao'];
+		$horarioSelecao = $resultado->fields['horario_selecao'];
 
-		$data_inscricao = date("d-m-Y",strtotime($resultado->fields['dataInscricao']));
+		$data_inscricao = date("d-m-Y",strtotime($resultado->fields['data_inscricao']));
 
-		$localSelecao = $resultado->fields['localSelecao'];
+		$localSelecao = $resultado->fields['local_selecao'];
 
-		$formaSelecao = $resultado->fields['formaSelecao'];
+		$formaSelecao = $resultado->fields['forma_selecao'];
 		switch($formaSelecao) {
 				case 0;
 				$formaSelecao = "Entrevista";
@@ -245,7 +246,7 @@ $pdf->MultiCell(160,5,$outras,1);
 $pdf->Ln(8);
 $pdf->SetX(55);
 $pdf->SetFont("Arial","U","16");
-$pdf->Cell(0,0,"http://www.ess.ufrj.br/estagio");
+$pdf->Cell(0,0,"http://www.ess.ufrj.br");
 
 $pdf->Output();
 

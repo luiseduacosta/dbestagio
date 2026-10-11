@@ -4,6 +4,7 @@ define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
 define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
+require_once(__DIR__ . "/../libphp/PDFHelper.php");
 require("../setup.php");
 
 if (!isset($muralestagio_id)) {
@@ -95,7 +96,7 @@ if (sizeof($inscritos) != 0) {
 	sort($inscritos);
 }
 
-$pdf=new FPDF();
+$pdf=new PDF_UTF8();
 
 $titulo = "Alunos inscritos para seleção de estégio";
 $pdf->SetTitle($titulo);
