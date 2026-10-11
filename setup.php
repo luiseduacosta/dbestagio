@@ -53,6 +53,7 @@ class Smarty_estagio extends Smarty {
 define("FPDF_FONTPATH", __DIR__ . "/lib/fpdf/font/");
 define("FPDF", __DIR__ . "/lib/fpdf/");
 
+/* Configurações */
 $sql = "select mural_periodo_atual," .
 		" curso_turma_atual, " .
 		" curso_encerramento_inscricoes, " .

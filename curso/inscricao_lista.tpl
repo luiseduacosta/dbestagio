@@ -51,11 +51,7 @@ function get_turma() {
 <a href='?selecao=0&turma={$turma}&ordem={$ordem}'>Todos</a>
 
 {if $turma} {
-if $autentica == 1}
-<br>
-<a href='email_curso.php?turma={$turma}'>E-mail</a>
-<br>
-{/if} 
+{/if}
 {/if}
 
 <form id="inscricaoRealizada" name="inscricaoRealizada" action="#">

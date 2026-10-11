@@ -22,7 +22,7 @@
     Alunos mudam de estágio</a>
     <a class="item2" href="seleciona.php?opcao=cancela" target="_corpo">
     Excluir</a>
-    <a class="item2" href="sair.php" target="_corpo">
+    <a class="item2" href="../logout.php" target="_corpo">
     Sair</a>
 </div>
 </td>

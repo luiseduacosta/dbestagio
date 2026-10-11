@@ -47,19 +47,6 @@
 				Google</a>
 		</span>
 
-		{* Se as inscricoes estao encerradas *}
-		{if $data_hoje > $data_encerramento}
-		{* Se o email nao foi envidado *}
-		{if $data_fax == 0}
-		<span class="botao">
-			<a href="agenda_tarefa.php?id_instituicao={$muralestagio_id}">Enviar e-mail</a>
-		</span>
-		{else}
-		<span class="botao">
-			<a href="agenda_tarefa.php?id_instituicao={$muralestagio_id}">E-mail enviado</a>
-		</span>
-		{/if}
-		{/if}
 		{/if}
 
 
@@ -75,7 +62,7 @@
 
 		{if $pode_inscrever}
 		<p style="text-align:center">
-			<span class="botao"><a href="../inscricoes/inserir/formulario.php?muralestagio_id={$muralestagio_id}">Inscrição</a></span>
+			<span class="botao"><a href="../inscricoes/inserir.php?muralestagio_id={$muralestagio_id}">Inscrição</a></span>
 		</p>
 		{/if}
 

@@ -50,16 +50,7 @@ while (!$resultado->EOF) {
 	$tc_solicitacao = ($tc_solicitacao == 0) ? NULL : $tc_solicitacao;
 	$alunos[$i]['tc_solicitacao'] = $tc_solicitacao;
 	$alunos[$i]['tc'] = $resultado_tc->fields['tc'];
-	
-	// echo "<br>";
-	
-	$sql_mural = "select id from inscricoes where registro='$registro' and periodo='$periodo_proximo'";
-	// echo $sql_mural . "<br>";
-	$res_mural = $db->Execute($sql_mural);
-	if ($res_mural === false) die ("Não foi possível consultar a tabela inscricoes");
-	$aluno_mural = $res_mural->fields['id'];
-	$alunos[$i]['mural'] = $aluno_mural;
-		
+
 	$i++;
 
 	$resultado->MoveNext();

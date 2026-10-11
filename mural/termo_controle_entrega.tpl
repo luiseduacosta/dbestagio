@@ -29,13 +29,6 @@
 </select>
 </div>
 
-{if $sistema_autentica == 1}
-<br>
-<a href="email_tc.php?periodo={$periodo}">Email para aluno</a>
-<br>
-<a href="email_tc_super.php?periodo={$periodo}">Email para supervisor</a>
-{/if}
-
 <div align="center">
 <table border="1" summary="Tabela de controle de solicitação do Termo de Compromisso">
 	<caption>Controle de solicitação do termo de compromisso dos alunos que cursaram estágio no período {$periodo}</caption>
@@ -65,11 +58,7 @@
 		<tr>
 			<td style='text-align:right;'>{$i++}</td>
 			<td style='text-align:center;'>{$alunos[i].registro}</td>
-			{if $alunos[i].mural}
-				<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a>&nbsp;<a href="ver-aluno.php?registro={$alunos[i].registro}">[1]</a></td>
-			{else}
-				<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
-			{/if}
+			<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
 			<td style='text-align:center;'>{$alunos[i].periodo}</td>
 			<td style='text-align:center;'>{$alunos[i].tc}</td>
