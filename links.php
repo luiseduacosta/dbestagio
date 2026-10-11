@@ -130,8 +130,6 @@ require_once __DIR__ . '/autentica.inc';
                             <div id='supervisores' style='display:none'>
                                 <a class="box2" href="supervisores/seleciona.php?opcao=modifica" target="_corpo">
                                     Modificar</a><br>
-                                <a class="box2" href="supervisores/exibir/email_total.php" target="_top">
-                                    E-mail todos</a><br>
                                 <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
                                     Excluir</a>
                                 <a class="box2" href="supervisores/exibir/aluno_supervisor.php" target="_corpo">
@@ -217,8 +215,6 @@ require_once __DIR__ . '/autentica.inc';
                                     Modificar</a><br>
                                 <a class="box2" href="alunos/cancelar/seleciona.php" target="_corpo">
                                     Excluir</a><br>
-                                <a class="box2" href="alunos/exibir/email_todos_alunos.php" target="_corpo">
-                                    E-mail todos</a><br>
 
                                 <a class="box2" href="alunos/buscar/busca.php" target="_corpo">
                                     Buscar</a><br>
@@ -299,7 +295,7 @@ require_once __DIR__ . '/autentica.inc';
                                 Ver cada mural</a><br />
                             <hr />
                             <div id='mural' style='display:none'>
-                                <a class="box2" href="inscricoes/exibir/listar.php" target="_corpo">
+                                <a class="box2" href="inscricoes/listar.php" target="_corpo">
                                     Inscrições</a><br />
                                 <a class="box2" href="mural/mural_inserir.php" target="_corpo">
                                     Inserir no mural</a><br />
@@ -318,23 +314,9 @@ require_once __DIR__ . '/autentica.inc';
                             <div id='historico' style='display:none'>
                                 <a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
                                     Controle de TC</a><br>
-                                <a class="box2" href="mural/controle_culminacao_estagio.php" target="_corpo">
-                                    Controle culminação estágio</a><br>
                                 <a class="box2" href="mural/historico.php" target="_corpo">
                                     Histórico</a><br>
 
-                                <hr />
-
-                                <a class="box2" href="mural/alunos_ingressos-lista.php" target="_corpo">
-                                    Alunos ingressantes</a><br>
-
-                            </div>
-
-                            <div id='alunos_ess' style='display:none'>
-                                <a class="box2" href="mural/graduacao/alunos_ingressos.php" target="_corpo">
-                                    Inserir/atualizar alunos</a><br>
-                                <a class="box2" href="mural/graduacao/alunos_etica.php" target="_corpo">
-                                    Inserir/atualizar ética</a><br>
                             </div>
 
                         </div>
@@ -366,16 +348,6 @@ require_once __DIR__ . '/autentica.inc';
 
                             <a class="box2" href="curso/curso_busca.html" target="_corpo">
                                 Busca inscritos</a><br />
-
-                            <div id='curso' style='display:none'>
-
-                                <a class="box2" href="curso/seleciona.php" target="_corpo">
-                                    Imprimir</a><br />
-
-                                <a class="box2" href="curso/email_curso.php" target="_corpo">
-                                    E-mail</a><br />
-
-                            </div>
 
                             <a class="box2" href="http://docs.google.com/View?id=dhd8s6wp_479f78fcbg4" target="_corpo">
                                 Programação</a><br />

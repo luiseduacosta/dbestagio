@@ -94,10 +94,10 @@
 <tr>
 <td>Área da disciplina</td>
 <td>
-<select name="id_area" id="id_area" size="1">
-<option value={$id_area}>{$area}<option>
+<select name="area_id" id="area_id" size="1">
+<option value={$area_id}>{$area}<option>
 {section name=item loop=$areas}
-<option value={$areas[item].id_areas}>{$areas[item].areas}</option>
+<option value={$areas[item].areas_id}>{$areas[item].areas}</option>
 {/section}
 </select>
 </td>
@@ -106,10 +106,10 @@
 <tr>
 <td>Professor</td>
 <td>
-<select name="id_professor" id="id_professor" size="1">
-<option value={$id_professor}>{$professor}</option>
+<select name="professor_id" id="professor_id" size="1">
+<option value={$professor_id}>{$professor}</option>
 {section name=item loop=$professores}
-<option value={$professores[item].id_professores}>{$professores[item].professores}</option>
+<option value={$professores[item].professores_id}>{$professores[item].professores}</option>
 {/section}
 </select>
 </td>
@@ -199,7 +199,7 @@ Formato hh:mm</td>
 <tr class="rodape">
 <td colspan="2" class="coluna_centralizada">
 <input type="hidden" name="periodo" value="{$periodo}">
-<input type="hidden" name="mural_id" value="{$id_instituicao}">
+<input type="hidden" name="mural_id" value="{$instituicao_id}">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>

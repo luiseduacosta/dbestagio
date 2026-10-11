@@ -38,8 +38,6 @@
 	{include file="mural_menu.tpl"}
 	<p>
 		<a href="imprime.php?muralestagio_id={$id_instituicao}">Imprimir</a>
-		&nbsp;&nbsp;
-		<a href='email_listaInscritos.php?muralestagio_id={$id_instituicao}'>Enviar e-mail</a>
 	</p>
 
 	{/if}
@@ -84,7 +82,7 @@
 				<td>
 					{if $sistema_autentica == 1}
 					<a
-						href="ver-aluno.php?registro={$inscritos[item].registro}">{$inscritos[item].nome}</a>
+						href="../alunos/exibir/ver_cada.php?registro={$inscritos[item].registro}">{$inscritos[item].nome}</a>
 					{else}
 					{$inscritos[item].nome}
 					{/if}

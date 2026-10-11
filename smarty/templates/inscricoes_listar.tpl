@@ -11,7 +11,7 @@
 <script type="text/javascript">
 function carrega_tabela() {
 	periodo=document.getElementById('periodo').value;
-	window.location="listar.php?periodo=" + periodo;
+	window.location="../listar.php?periodo=" + periodo;
 	return false;
 }
 </script>
@@ -51,7 +51,7 @@ function carrega_tabela() {
 <td class="coluna_direita">{$inscritos[i].registro}</td>
 <td>
 {if $smarty.cookies.usuario}
-<a href="ver_cada.php?id={$inscritos[i].id}">{$inscritos[i].aluno_nome}</a>
+<a href="../ver_cada.php?id={$inscritos[i].id}">{$inscritos[i].aluno_nome}</a>
 {else}
 {$inscritos[i].aluno_nome}
 {/if}
@@ -61,9 +61,9 @@ function carrega_tabela() {
 <td class="coluna_centralizada">{$inscritos[i].periodo}</td>
 <td class="coluna_centralizada" data-order="{$inscritos[i].data_iso}">{$inscritos[i].data}</td>
 <td>
-<a href="ver_cada.php?id={$inscritos[i].id}">Ver</a> |
-<a href="../atualizar/modifica.php?id={$inscritos[i].id}">Editar</a> |
-<a href="../cancelar/cancela.php?id={$inscritos[i].id}&periodo={$inscritos[i].periodo}&muralestagio_id={$inscritos[i].muralestagio_id}" onclick="return confirm('Excluir esta inscrição?');">Excluir</a>
+<a href="../ver_cada.php?id={$inscritos[i].id}">Ver</a> |
+<a href="../atualizar.php?id={$inscritos[i].id}">Editar</a> |
+<a href="../excluir.php?id={$inscritos[i].id}&periodo={$inscritos[i].periodo}&muralestagio_id={$inscritos[i].muralestagio_id}" onclick="return confirm('Excluir esta inscrição?');">Excluir</a>
 </td>
 </tr>
 {/section}
@@ -72,7 +72,7 @@ function carrega_tabela() {
 </table>
 
 <div align="center">
-<p><a href="../inserir/formulario.php?periodo={$periodo}">Nova inscrição</a></p>
+<p><a href="../inserir.php?periodo={$periodo}">Nova inscrição</a></p>
 </div>
 
 {literal}

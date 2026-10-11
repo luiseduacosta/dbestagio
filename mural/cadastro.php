@@ -43,7 +43,6 @@ if ($submit) {
 	$resultado_sql_verifica = $db->Execute($sql_verifica);
 	$quantidade = $resultado_sql_verifica->RecordCount();
 	if ($quantidade > 0) {
-		// echo "Já há um aluno com esse número de <a href='ver-aluno.php?id_aluno=$registro'>DRE</a>";
 		header("Location:mural-alunos_modifica.php?registro=$registro");
 		exit;
 	}

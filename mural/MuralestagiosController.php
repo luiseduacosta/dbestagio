@@ -322,7 +322,7 @@ class MuralestagiosController {
 		$f = Mural::formatar($mural->toArray(true));
 
 		$smarty = new Smarty_estagio;
-		$smarty->assign("id_instituicao", $id);
+		$smarty->assign("instituicao_id", $id);
 		$smarty->assign("convenio", $mural->convenio);
 		$smarty->assign("instituicao", $mural->instituicao);
 		$smarty->assign("vagas", $mural->vagas);
@@ -330,9 +330,9 @@ class MuralestagiosController {
 		$smarty->assign("final_de_semana", $mural->final_de_semana);
 		$smarty->assign("cargaHoraria", $mural->carga_horaria);
 		$smarty->assign("requisitos", $mural->requisitos);
-		$smarty->assign("id_area", 0);
+		$smarty->assign("area_id", 0);
 		$smarty->assign("area", '');
-		$smarty->assign("id_professor", 0);
+		$smarty->assign("professor_id", 0);
 		$smarty->assign("professor", '');
 		$smarty->assign("horario", $mural->horario);
 		$smarty->assign("dataInscricao", $f['data_inscricao']); // dd-mm-aaaa ou ''
@@ -359,8 +359,8 @@ class MuralestagiosController {
 		$this->semAutenticacao();
 
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			$id = isset($_REQUEST['id_instituicao']) ? (int)$_REQUEST['id_instituicao'] : 0;
-			header("Location: mural-modifica.php?id_instituicao=" . $id);
+			$id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
+			header("Location: mural-modifica.php?instituicao_id=" . $id);
 			exit;
 		}
 
