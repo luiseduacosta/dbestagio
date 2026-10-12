@@ -93,19 +93,19 @@ function carrega_tabela() {
 
 {* Turma *}
 {if $turma}
-	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$turma}</a></td>
+	<td style="text-align:center"><a href="../alunos/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$turma}</a></td>
 {else}
-	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
+	<td style="text-align:center"><a href="../alunos/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
 {/if}
 
 {* Alunos *}
 {if $turma}
-	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
+	<td style="text-align:center"><a href="../alunos/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
 {else}
 	{if $instituicoes[elementos].alunos == 0}
 		<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
 	{else}
-		<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
+		<td style="text-align:center"><a href="../alunos/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
 	{/if}
 {/if}
 

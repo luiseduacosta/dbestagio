@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css"> 
+<link href="../estagio.css" rel="stylesheet" type="text/css"> 
 <title>Resultado da busca de alunos</title>
 </head>
 
@@ -18,7 +18,7 @@
 {section name=elemento loop=$alunos}
 <tr>
 <td>{$alunos[elemento].registro}</td>
-<td><a href="../exibir/ver_cada.php?aluno_id={$alunos[elemento].aluno_id}">{$alunos[elemento].nome}</a></td>
+<td><a href="ver_cada.php?aluno_id={$alunos[elemento].aluno_id}">{$alunos[elemento].nome}</a></td>
 </tr>
 {/section}
 

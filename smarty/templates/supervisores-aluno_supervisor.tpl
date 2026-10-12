@@ -3,7 +3,7 @@
     <head>
         <title>Supervisores e alunos</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="../../estagio.css" rel="stylesheet" type="text/css">
+        <link href="../estagio.css" rel="stylesheet" type="text/css">
 
         {literal}
         <script type="text/javascript">
@@ -60,7 +60,7 @@
                     <td>{i++}</td>    
                     <td>
                     {if $alunosupervisor[lista].supervisor} 
-                        <a href='../exibir/ver_cada.php?supervisor_id={$alunosupervisor[lista].supervisor_id}'>{$alunosupervisor[lista].supervisor}</a>
+                        <a href='exibir/ver_cada.php?supervisor_id={$alunosupervisor[lista].supervisor_id}'>{$alunosupervisor[lista].supervisor}</a>
                     {else}
                         {$alunosupervisor[lista].supervisor}
                     {/if}
@@ -79,7 +79,7 @@
                     </td>
 
                     <td>
-                    <a href=../../alunos/exibir/ver_cada.php?aluno_id={$alunosupervisor[lista].aluno_id}>{$alunosupervisor[lista].aluno}</a>
+                    <a href=../alunos/ver_cada.php?aluno_id={$alunosupervisor[lista].aluno_id}>{$alunosupervisor[lista].aluno}</a>
                     </td>
                     <td>
                     {$alunosupervisor[lista].registro}

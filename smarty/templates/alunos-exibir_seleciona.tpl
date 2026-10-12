@@ -2,7 +2,7 @@
 <html>
 <head>
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 <title>Seleciona aluno</title>
 

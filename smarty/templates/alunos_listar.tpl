@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Alunos</title>
 
 {literal}
@@ -91,8 +91,8 @@ function carrega_tabela() {
 <td>{$alunos[i].email}</td>
 <td>
 <a href="ver_cada.php?aluno_id={$alunos[i].id}">Ver</a> |
-<a href="../atualizar/atualiza.php?aluno_id={$alunos[i].id}">Editar</a> |
-<a href="../cancelar/cancela.php?aluno_id={$alunos[i].id}" onclick="return confirm('Excluir este aluno?');">Excluir</a>
+<a href="atualizar.php?aluno_id={$alunos[i].id}">Editar</a> |
+<a href="excluir.php?aluno_id={$alunos[i].id}" onclick="return confirm('Excluir este aluno?');">Excluir</a>
 </td>
 {/if}
 </tr>
@@ -102,7 +102,7 @@ function carrega_tabela() {
 </table>
 
 <div align="center">
-<p><a href="../inserir/seleciona_aluno.php">Novo aluno</a></p>
+<p><a href="../../alunos/inserir/seleciona_aluno.php">Novo aluno</a></p>
 </div>
 
 {literal}

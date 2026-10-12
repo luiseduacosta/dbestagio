@@ -67,20 +67,20 @@
 {/if}
 
 <td>
-<form action="../inserir/form_inserir.php" method="get">
+<form action="inserir/form_inserir.php" method="get">
 <input type="submit" value="Inserir">
 </form>
 </td>
 
 <td>
-<form action="../atualizar/modifica.php" method="get">
+<form action="atualizar/modifica.php" method="get">
 <input type="hidden" name="area_id" value="{$area_id}">
 <input type="submit" value="Modificar">
 </form>
 </td>
 
 <td style="background-color:red">
-<form action="../cancelar/cancela.php" method="get" onClick="return confirm('Tem certeza?');">
+<form action="../../areas/cancelar/cancela.php" method="get" onClick="return confirm('Tem certeza?');">
 <input type="hidden" name="area_id" value="{$area_id}">
 <input type="submit" value="Excluir">
 </form>
@@ -105,8 +105,8 @@
 <tr>
 <th>Ações</th>
 <td>
-<a href="../atualizar/modifica.php?area_id={$area.id}">Editar</a> |
-<a href="../cancelar/cancela.php?area_id={$area.id}">Excluir</a>
+<a href="../../areas/atualizar/modifica.php?area_id={$area.id}">Editar</a> |
+<a href="../../areas/cancelar/cancela.php?area_id={$area.id}">Excluir</a>
 </td>
 </tr>
 </tbody>
@@ -131,7 +131,7 @@
 {section name=i loop=$instituicoes}
 <tr>
 <td><a href="../../instituicoes/ver_cada.php?instituicao_id={$instituicoes[i].id}">{$instituicoes[i].instituicao}</a></td>
-<td><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[i].id}&seleciona_periodo={$instituicoes[i].turma}">{$instituicoes[i].turma}</a></td>
+<td><a href="../../alunos/listar.php?seleciona_instituicao={$instituicoes[i].id}&seleciona_periodo={$instituicoes[i].turma}">{$instituicoes[i].turma}</a></td>
 <td class="coluna_centralizada"><a href="../../supervisores/exibir/listar.php?instituicao_id={$instituicoes[i].id}">{$instituicoes[i].q_supervisores}</a></td>
 <td>{$instituicoes[i].endereco}</td>
 <td>{$instituicoes[i].telefone}</td>

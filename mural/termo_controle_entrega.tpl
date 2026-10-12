@@ -58,7 +58,7 @@
 		<tr>
 			<td style='text-align:right;'>{$i++}</td>
 			<td style='text-align:center;'>{$alunos[i].registro}</td>
-			<td><a href="../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
+			<td><a href="../alunos/ver_cada.php?aluno_id={$alunos[i].id_aluno}">{$alunos[i].nome}</a></td>
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
 			<td style='text-align:center;'>{$alunos[i].periodo}</td>
 			<td style='text-align:center;'>{$alunos[i].tc}</td>

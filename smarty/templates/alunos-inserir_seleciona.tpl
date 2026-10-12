@@ -10,7 +10,7 @@ function seleciona()
     var id_valor = document.seleciona_aluno.aluno_id.value;
     var id_valor = getElementById("id_aluno");
     /* alert("id_valor"); */
-    document.location.href="verifica.php?aluno_id=" + id_valor;
+    document.location.href="inserir.php?aluno_id=" + id_valor;
     return false;
 }
 </script>
@@ -19,7 +19,7 @@ function seleciona()
 
 <body>
 
-<form name="seleciona_aluno" action="verifica.php" method="post">
+<form name="seleciona_aluno" action="inserir.php" method="post">
 
 <select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
 <option value=0>Selecione aluno</option>

@@ -5,7 +5,7 @@
   <title>Ver aluno antes de ser cancelado</title>
   <meta content="author" name="Luis Acosta">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
 <script languaje="Javascript" type="text/javascript">
@@ -105,18 +105,18 @@ function confirma() {
 
 <tr>
 <td>Instituição:</td>
-<td><a href="../../instituicoes/ver_cada.php?instituicao_id={$instituicao_id}">{$instituicao}</a></td>
+<td><a href="../instituicoes/ver_cada.php?instituicao_id={$instituicao_id}">{$instituicao}</a></td>
 </tr>
 
 <tr>
 <td>Supervisor:</td>
-<td><a href="../../supervisores/exibir/exibir.php?supervisor_id={$supervisor_id}">{$supervisor}</a></td>
+<td><a href="../supervisores/exibir/exibir.php?supervisor_id={$supervisor_id}">{$supervisor}</a></td>
 </tr>
 
 </tbody>
 </table>
 
-<form name="form_motivo" id="form_motivo" method="post" action="cancela.php" onSubmit="return confirma();">
+<form name="form_motivo" id="form_motivo" method="post" action="excluir.php" onSubmit="return confirma();">
 <input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 <tr>
 <td colspan="2" style="text-align:center"><input type="submit"

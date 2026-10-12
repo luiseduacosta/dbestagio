@@ -13,7 +13,7 @@
     <a href="javascript:history.back();">Voltar</a><br>
 
     <div align="center">
-        <p><a href="../inserir/form_inserir.php">Inserir nova área</a></p>
+        <p><a href="../../areas/inserir/form_inserir.php">Inserir nova área</a></p>
     </div>
 
     <div align="center">
@@ -33,10 +33,10 @@
             {section name=i loop=$areas}
             <tr>
                 <td class="coluna_direita">{$areas[i].id}</td>
-                <td><a href="../exibir/ver_cada.php?area_id={$areas[i].id}">{$areas[i].area}</a></td>
+                <td><a href="../../areas/exibir/ver_cada.php?area_id={$areas[i].id}">{$areas[i].area}</a></td>
                 <td>
-                    <a href="instituicoes.php?area_id={$areas[i].id}">Ver Instituições</a> |
-                    <a href="../atualizar/modifica.php?area_id={$areas[i].id}">Editar</a>
+                    <a href="../../instituicoes/instituicoes.php?area_id={$areas[i].id}">Ver Instituições</a> |
+                    <a href="../../areas/atualizar/modifica.php?area_id={$areas[i].id}">Editar</a>
                 </td>
             </tr>
             {/section}

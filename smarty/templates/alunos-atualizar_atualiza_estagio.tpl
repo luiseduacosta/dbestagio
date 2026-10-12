@@ -35,7 +35,7 @@ $(document).ready(function() {
     <p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Atualizar est&aacute;gio</p>
 {/if}
 
-<form action="atualiza.php" name="atualizar_aluno" method="post">
+<form action="../../areas/atualizar/atualiza_estagio.php" name="atualizar_aluno" method="post">
 
 <div align="center">
 <table border="1">

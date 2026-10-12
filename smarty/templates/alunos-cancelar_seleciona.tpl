@@ -1,14 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css"> 
+<link href="../estagio.css" rel="stylesheet" type="text/css"> 
 <title>Seleciona aluno</title>
 {literal}
 <script language="Javascript" type="text/javascript">
 function seleciona() 
 {
     var id_valor = document.seleciona_aluno.aluno_id.value;
-    document.location.href="ver_cancela.php?aluno_id=" + id_valor;
+    document.location.href="excluir.php?aluno_id=" + id_valor;
     return false;
 }
 </script>
@@ -21,7 +21,7 @@ function seleciona()
 <p>{$alunos.id_aluno} {$alunos.nome}</p>
 {/section}
 
-<form name="seleciona_aluno" action="ver_cancela.php" method="post">
+<form name="seleciona_aluno" action="excluir.php" method="post">
 
 <select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
 <option value=0>Selecione aluno</option>

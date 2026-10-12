@@ -109,7 +109,7 @@ if (!empty($muralestagio_id)) {
     exit;
 }
 
-header("Location:../alunos/exibir/ver_cada.php?registro={$registro}");
+header("Location:../alunos/ver_cada.php?registro={$registro}");
 
 exit;
 
