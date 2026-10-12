@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Lista de instituições</title>
 
 {literal}
@@ -42,7 +42,7 @@ function carrega_tabela() {
 {/section}
 </select>
 
-<p>Professores: <a href="../../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
+<p>Professores: <a href="../professores/exibir/listar.php?periodo={$turma}">{$total_professores}</a>, instituições: {$total_instituicoes}, supervisores: {$total_supervisores}, alunos: {$total_alunos}, períodos: {$total_periodos}</p>
 
 <div align="center">
 <table id="instituicoes" class="display">
@@ -93,19 +93,19 @@ function carrega_tabela() {
 
 {* Turma *}
 {if $turma}
-	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$turma}</a></td>
+	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$turma}</a></td>
 {else}
-	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
+	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].turma}</a></td>
 {/if}
 
 {* Alunos *}
 {if $turma}
-	<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
+	<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$turma}">{$instituicoes[elementos].alunos}</a></td>
 {else}
 	{if $instituicoes[elementos].alunos == 0}
 		<td style="text-align:center">{$instituicoes[elementos].alunos}</td>
 	{else}
-		<td style="text-align:center"><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
+		<td style="text-align:center"><a href="../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[elementos].instituicao_id}&seleciona_periodo={$instituicoes[elementos].turma}">{$instituicoes[elementos].alunos}</a></td>
 	{/if}
 {/if}
 
@@ -117,7 +117,7 @@ function carrega_tabela() {
 	<td  style="text-align:center">{$instituicoes[elementos].supervisores}</td>
 {else}
 	<td  style="text-align:center">
-	<a href="../../supervisores/exibir/listar.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
+	<a href="../supervisores/exibir/listar.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
 	</td>
 {/if}
 
@@ -137,12 +137,12 @@ function carrega_tabela() {
 </div>
 
 {literal}
-<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
-<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
 	$('#instituicoes').DataTable({
-		language: { url: '../../libjs/datatables/pt-BR.json' },
+		language: { url: '../libjs/datatables/pt-BR.json' },
 		pageLength: 25,
 		lengthMenu: [10, 25, 50, 100],
 		order: []
