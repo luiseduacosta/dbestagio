@@ -130,7 +130,7 @@
 <tbody>
 {section name=i loop=$instituicoes}
 <tr>
-<td><a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$instituicoes[i].id}">{$instituicoes[i].instituicao}</a></td>
+<td><a href="../../instituicoes/ver_cada.php?instituicao_id={$instituicoes[i].id}">{$instituicoes[i].instituicao}</a></td>
 <td><a href="../../alunos/exibir/listar.php?seleciona_instituicao={$instituicoes[i].id}&seleciona_periodo={$instituicoes[i].turma}">{$instituicoes[i].turma}</a></td>
 <td class="coluna_centralizada"><a href="../../supervisores/exibir/listar.php?instituicao_id={$instituicoes[i].id}">{$instituicoes[i].q_supervisores}</a></td>
 <td>{$instituicoes[i].endereco}</td>

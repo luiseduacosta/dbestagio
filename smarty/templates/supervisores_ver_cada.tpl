@@ -159,7 +159,7 @@ function get_periodo() {
 <tr>
 	<td>Instituição</td>
 	<td>
-		<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$emprego[i].id}">{$emprego[i].instituicao}</a>
+		<a href="../../instituicoes/ver_cada.php?instituicao_id={$emprego[i].id}">{$emprego[i].instituicao}</a>
 	</td>
 </tr>
 {/section}
@@ -214,7 +214,7 @@ function get_periodo() {
 {/if}
 
 <td><a href="../../alunos/exibir/ver_cada.php?aluno_id={$alunos[id].aluno_id}">{$alunos[id].nome}</a></td>
-<td><a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$alunos[id].instituicao_id}">{$alunos[id].instituicao}</a></td>
+<td><a href="../../instituicoes/ver_cada.php?instituicao_id={$alunos[id].instituicao_id}">{$alunos[id].instituicao}</a></td>
 <td style="text-align:center">{$alunos[id].periodo}</td>
 </tr>
 {/section}

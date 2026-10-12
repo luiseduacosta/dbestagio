@@ -151,7 +151,7 @@
 <td class="coluna_centralizada">{$e.nivel}</td>
 <td>
 {if $e.instituicao_id}
-<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$e.instituicao_id}">{$e.instituicao}</a>
+<a href="../../instituicoes/ver_cada.php?instituicao_id={$e.instituicao_id}">{$e.instituicao}</a>
 {else}
 {$e.instituicao}
 {/if}

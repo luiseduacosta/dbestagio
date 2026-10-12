@@ -122,9 +122,9 @@ para participar da lista de discuss&atilde;o no Google</h1>
 			{/if}
 
 			<td><a
-				href='../instituicoes/exibir/ver_cada.php?curso=sem&id_instituicao={$matriz[elemento].id_instituicao}'>{$matriz[elemento].instituicao}</a>
+				href='../instituicoes/ver_cada.php?curso=sem&id_instituicao={$matriz[elemento].id_instituicao}'>{$matriz[elemento].instituicao}</a>
 			{if $matriz[elemento].id_estagio} <a
-				href='../instituicoes/exibir/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
+				href='../instituicoes/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
 			{/if}</td>
 
 			{if $autentica == 1}

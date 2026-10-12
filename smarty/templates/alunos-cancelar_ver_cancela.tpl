@@ -105,7 +105,7 @@ function confirma() {
 
 <tr>
 <td>Instituição:</td>
-<td><a href="../../instituicoes/exibir/exibir.php?instituicao_id={$instituicao_id}">{$instituicao}</a></td>
+<td><a href="../../instituicoes/ver_cada.php?instituicao_id={$instituicao_id}">{$instituicao}</a></td>
 </tr>
 
 <tr>

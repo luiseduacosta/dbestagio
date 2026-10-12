@@ -83,7 +83,7 @@ function carrega_tabela() {
 
 <td>
 {if $smarty.cookies.usuario}
-<a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$supervisores[lista].instituicao_id}">{$supervisores[lista].instituicao}</a>
+<a href="../../instituicoes/ver_cada.php?instituicao_id={$supervisores[lista].instituicao_id}">{$supervisores[lista].instituicao}</a>
 {else}
 {$supervisores[lista].instituicao}
 {/if}

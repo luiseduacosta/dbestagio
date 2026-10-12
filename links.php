@@ -140,9 +140,9 @@ require_once __DIR__ . '/autentica.inc';
                         <div class="section">
                             <a class="box2" href="imprimir/listagem.php" target="_corpo">
                                 Imprimir catálogo</a>
-                            <a class="box2" href="instituicoes/inserir/formulario.php" target="_corpo">
+                            <a class="box2" href="instituicoes/inserir.php" target="_corpo">
                                 Inserir instituição</a><br>
-                            <a class="box2" href="instituicoes/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="instituicoes/listar.php" target="_corpo">
                                 Listar todas</a><br>
                             <a class="box2" href="areas/exibir/listar.php" target="_corpo">
                                 Listar áreas</a><br>

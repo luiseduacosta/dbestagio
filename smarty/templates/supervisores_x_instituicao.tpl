@@ -13,7 +13,7 @@
 
 <div align="center">
 <table border="1">
-<caption>Supervisores da instituição: <a href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$instituicao_id}">{$instituicao}</a></caption>
+<caption>Supervisores da instituição: <a href="../../instituicoes/ver_cada.php?instituicao_id={$instituicao_id}">{$instituicao}</a></caption>
 <tbody>
 
 <tr>

@@ -42,7 +42,7 @@ INSTITUI��ES
 </td></tr>
 
 <tr><td>
-<a href=instituicoes/inserir/formulario.php target=_corpo>
+<a href=instituicoes/inserir.php target=_corpo>
 Inserir</a>
 </td></tr>
 
@@ -52,7 +52,7 @@ Modificar</a>
 </td></tr>
 
 <tr><td>
-<a href=instituicoes/exibir/listar.php target=_corpo>
+<a href=instituicoes/listar.php target=_corpo>
 Listar</a>
 </td></tr>
 

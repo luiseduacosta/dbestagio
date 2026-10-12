@@ -592,7 +592,7 @@ if ($sistema_autentica == 1) {
     <td>Trabalho:</td>
     <td>
     <?php if ($estagio_id <> 0) {; ?>
-    <a href="../instituicoes/exibir/ver_cada.php?id_instituicao=<?php echo $estagio_id; ?>"><?php echo $instituicao; ?></a>
+    <a href="../instituicoes/ver_cada.php?id_instituicao=<?php echo $estagio_id; ?>"><?php echo $instituicao; ?></a>
     <?php } else { 
     echo $instituicao; } ?>
     </td>

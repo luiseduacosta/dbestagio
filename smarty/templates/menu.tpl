@@ -19,7 +19,7 @@ Entrar
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
-    <a class="box2" href="instituicoes/inserir/formulario.php" target="_corpo">
+    <a class="box2" href="instituicoes/inserir.php" target="_corpo">
     Inserir</a><br>
     <a class="box2" href="instituicoes/seleciona.php" target="_corpo">
     Modificar</a><br>
@@ -27,7 +27,7 @@ Entrar
     Buscar</a><br>
     <a class="box2" href="instituicoes/exibir/seleciona.php" target="_corpo">
     Ver instituição</a><br>
-    <a class="box2" href="instituicoes/exibir/ver_cada.php?indice=0" target="_corpo">
+    <a class="box2" href="instituicoes/ver_cada.php?indice=0" target="_corpo">
     Ver c/instituição</a><br>
     <a class="box2" href="instituicoes/exibir/lista_todos.php" target="_corpo">
     Listar todas</a><br>

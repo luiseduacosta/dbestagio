@@ -229,7 +229,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../../instituicoes/exibir/ver_cada.php?instituicao_id={$historico_estagio[estagio].instituicao_id}">{$historico_estagio[estagio].instituicao}</a>
+                                href="../../instituicoes/ver_cada.php?instituicao_id={$historico_estagio[estagio].instituicao_id}">{$historico_estagio[estagio].instituicao}</a>
                             {else}
                             {$historico_estagio[estagio].instituicao}
                             {/if}
