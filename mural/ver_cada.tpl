@@ -41,12 +41,6 @@
 		<span class="botao">
 			<a href="imprime_cartaz.php?id_instituicao={$muralestagio_id}">Imprimir cartaz</a>
 		</span>
-
-		<span class="botao">
-			<a href="http://200.20.112.2/estagio/mural/publica_google.php?id_instituicao={$muralestagio_id}">Publicar no
-				Google</a>
-		</span>
-
 		{/if}
 
 

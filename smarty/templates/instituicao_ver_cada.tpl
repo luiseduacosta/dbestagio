@@ -30,8 +30,9 @@
 
     <body>
 
-        {if isset($smarty.cookies.usuario_nome)}
-            <p>Usuario: {$smarty.cookies.usuario_nome}</p>
+        {* Nome do usuário autenticado: vem da sessão (não de cookie) *}
+        {if isset($smarty.session.usuario_nome)}
+            <p>Usuario: {$smarty.session.usuario_nome}</p>
         {/if}
 
         {if $curso} 

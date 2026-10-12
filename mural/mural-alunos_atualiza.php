@@ -1,112 +1,88 @@
 <?php
-
-/*
- * Created on 13/06/2006
+/**
+ * mural-alunos_atualiza.php — Gravação da ficha do candidato no mural.
+ *
+ * Recebe o formulário de mural-alunos_modifica.tpl: atualiza os dados do aluno
+ * e, quando vem uma oferta (muralestagio_id), registra a inscrição dele na
+ * oferta do período atual, redirecionando para a lista de inscritos.
+ *
+ * Exige usuário logado (autentica.inc). Antes o campo "sistema_autentica" do
+ * formulário — controlado pelo cliente — decidia se os dados do aluno seriam
+ * gravados, e o script era público: qualquer visitante podia alterar a ficha de
+ * qualquer aluno. Agora quem decide é a sessão autenticada.
+ *
+ * Toda a leitura/gravação passa pelos modelos (libphp/Aluno.php e
+ * libphp/Inscricao.php), que gravam com parâmetros ligados. O SQL anterior era
+ * montado por interpolação de strings, o que quebrava a gravação de qualquer
+ * nome com apóstrofo (ex.: "Isabelle Motta D' Assumpção"). O DDD do celular
+ * também vinha de um campo com nome errado ('codigo_celuar'): era sempre
+ * gravado 21, ignorando o que o formulário enviava.
  */
 
-include_once("../setup.php");
+include_once(__DIR__ . "/../autentica.inc");
+require_once(__DIR__ . "/../libphp/models.php");
 
-$sistema_autentica = $_REQUEST['sistema_autentica'];
+$registro        = isset($_REQUEST['registro']) ? trim((string)$_REQUEST['registro']) : '';
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 
-$aluno = $_REQUEST['aluno']; // Novo ou ja conhecido
-$aluno_id = $_REQUEST['aluno_id'];
-$muralestagio_id = $_REQUEST['muralestagio_id'];
-
-$nome = $_REQUEST['nome'];
-$registro = $_REQUEST['registro'];
-$codigo_telefone = $_REQUEST['codigo_telefone'];
-$telefone = $_REQUEST['telefone'];
-$codigo_celular = $_REQUEST['codigo_celuar'];
-$celular = $_REQUEST['celular'];
-$email = $_REQUEST['email'];
-$cpf = $_REQUEST['cpf'];
-$identidade = $_REQUEST['identidade'];
-$orgao = $_REQUEST['orgao'];
-$nascimento = $_REQUEST['nascimento'];
-$endereco = $_REQUEST['endereco'];
-$cep = $_REQUEST['cep'];
-$municipio = $_REQUEST['municipio'];
-$bairro = $_REQUEST['bairro'];
-
-$instituicao = $_REQUEST['instituicao'];
-
-// echo "Sistema autentica " . $sistema_autentica . "<br>";
-
-if ($sistema_autentica == 1) {
-
-    if (empty($codigo_telefone)) {
-        $codigo_telefone = 21;
-    }
-
-    if (empty($codigo_celular)) {
-        $codigo_celular = 21;
-    }
-
-    if (empty($nascimento))
-        $dataSQL = "";
-    else
-        $dataSQL = date("Y-m-d", strtotime($nascimento));
-
-    $dbase = " alunos ";
-
-    $sql = "update " . $dbase . " set " .
-            "nome='$nome', " .
-            "codigo_telefone ='$codigo_telefone', " .
-            "telefone='$telefone', " .
-            "codigo_celular='$codigo_celular', " .
-            "celular='$celular', " .
-            "email='$email', " .
-            "cpf='$cpf', " .
-            "identidade='$identidade', " .
-            "orgao='$orgao', " .
-            "nascimento='$dataSQL', " .
-            "endereco='$endereco', " .
-            "cep='$cep', " .
-            "municipio='$municipio', " .
-            "bairro='$bairro' " .
-            "where registro='$registro'";
-
-
-    $resultado = $db->Execute($sql);
-    if ($resultado === false) die("Não foi possível atualizar a tabela alunos");
+if (!ctype_digit($registro)) {
+	die("Registro (DRE) inválido: informe somente números.");
 }
 
-// Insere inscricao para selecao de estagio
-if (!empty($muralestagio_id)) {
-    $data = date("Y-m-j");
+// A ficha só existe para aluno já cadastrado.
+$aluno = Aluno::firstWhere('registro', (int)$registro);
+if ($aluno === null) {
+	die("Não foi possível encontrar o aluno com registro $registro na tabela alunos");
+}
+$aluno_id = (int)$aluno->id;
 
-    // Capturo o valor do PERIODO_ATUAL
-    $periodo = PERIODO_ATUAL;
+// Atualiza a ficha do aluno com o que veio do formulário.
+$nascimento = isset($_POST['nascimento']) ? trim($_POST['nascimento']) : '';
 
-    // Verifico se o aluno já fez inscricao nesta seleção
-    $sql = "select id from inscricoes where registro='$registro' and muralestagio_id='$muralestagio_id' and periodo='$periodo'";
-    // echo $sql . "<br>";
-    // die("Verifico se ja fez inscricao");
-    $resultado = $db->Execute($sql);
-    $quantidade = $resultado->RecordCount($ql);
-    if ($quantidade > 0) {
-        echo "Inscrição já realizada" . "<br>";
-        header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
-        die("Inscricao ja realizada!");
-    }
+$aluno->nome            = isset($_POST['nome']) ? $_POST['nome'] : '';
+$aluno->codigo_telefone = (isset($_POST['codigo_telefone']) && $_POST['codigo_telefone'] !== '') ? (int)$_POST['codigo_telefone'] : 21;
+$aluno->telefone        = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+$aluno->codigo_celular  = (isset($_POST['codigo_celular']) && $_POST['codigo_celular'] !== '') ? (int)$_POST['codigo_celular'] : 21;
+$aluno->celular         = isset($_POST['celular']) ? $_POST['celular'] : '';
+$aluno->email           = strtolower(isset($_POST['email']) ? $_POST['email'] : '');
+$aluno->cpf             = isset($_POST['cpf']) ? $_POST['cpf'] : '';
+$aluno->identidade      = isset($_POST['identidade']) ? $_POST['identidade'] : '';
+$aluno->orgao           = isset($_POST['orgao']) ? $_POST['orgao'] : '';
+$aluno->nascimento      = ($nascimento === '') ? null : date("Y-m-d", strtotime($nascimento));
+$aluno->endereco        = isset($_POST['endereco']) ? $_POST['endereco'] : '';
+$aluno->cep             = isset($_POST['cep']) ? $_POST['cep'] : '';
+$aluno->municipio       = isset($_POST['municipio']) ? $_POST['municipio'] : '';
+$aluno->bairro          = isset($_POST['bairro']) ? $_POST['bairro'] : '';
 
-    // Busco o id do aluno na tabela alunos
-    $sql_aluno = "select id from alunos where registro='$registro'";
-    $res_aluno = $db->Execute($sql_aluno);
-    $aluno_id = $res_aluno->fields['id'];
-    if (!$aluno_id) die ("Não foi possível encontrar o aluno com registro $registro na tabela alunos");
+if (!$aluno->save()) {
+	error_log("Erro ao atualizar aluno: " . ADODB_Model::$db->ErrorMsg());
+	die("Não foi possível atualizar a tabela alunos");
+}
 
-    $sql_inserir = "insert into inscricoes (registro, muralestagio_id, data, periodo, aluno_id) " .
-            "values('$registro','$muralestagio_id','$data','$periodo','$aluno_id')";
-    // die("Inserir inscrição para estágio");
-    $resultadoInserir = $db->Execute($sql_inserir);
+// Insere a inscrição para seleção de estágio, quando há oferta escolhida.
+if ($muralestagio_id > 0) {
+	$periodo = PERIODO_ATUAL;
 
-    if ($resultadoInserir === false)
-        die("Não foi possível inserir o registro na tabela inscricoes");
+	// O aluno já fez inscrição nesta seleção? Segue direto para a lista.
+	if (Inscricao::duplicada($registro, $muralestagio_id, $periodo) !== null) {
+		header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+		exit;
+	}
 
-    header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+	$nova = new Inscricao();
+	$nova->registro        = (int)$registro;
+	$nova->muralestagio_id = $muralestagio_id;
+	$nova->data            = date("Y-m-d");
+	$nova->periodo         = $periodo;
+	$nova->aluno_id        = $aluno_id;
 
-    exit;
+	if (!$nova->save()) {
+		error_log("Erro ao inserir inscricao: " . ADODB_Model::$db->ErrorMsg());
+		die("Não foi possível inserir o registro na tabela inscricoes");
+	}
+
+	header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+	exit;
 }
 
 header("Location:../alunos/ver_cada.php?registro={$registro}");

@@ -1,25 +1,16 @@
 <?php
 
-$usuario = isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : NULL;
+require_once(__DIR__ . "/libphp/sessao.php");
+
+// Nome de quem está autenticado (identidade da sessão, não de cookie).
+$sessao  = sessao_usuario();
+$usuario = ($sessao !== null) ? $sessao['nome'] : '';
 
 ?>
 <html>
 <head>
 <title>Menu lateral</title>
 <link href="estagio.css" rel="stylesheet" type="text/css">
-
-<script type='text/javascript' src='lib/jquery.js'></script>
-<script type='text/javascript' src='lib/jquery.cookie.js'></script>
-<script type='text/javascript'>
-$(document).ready(function() {
-	var autentica = $.cookie("usuario");
-	// alert("Autentica: " + autentica);
-	if(autentica) {
-		$("#administracao").css("display","block");
-	};
-	});
-</script>
-
 </head>
 
 <body>

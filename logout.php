@@ -1,14 +1,16 @@
 <?php
 
-setcookie("usuario","");
+require_once(__DIR__ . "/libphp/sessao.php");
+
+// Encerra a sessão autenticada e apaga os cookies de identificação.
+sessao_encerrar();
 
 ?>
-
 <html>
 
 <head>
 <title>Lista lateral - Logout</title>
-<link href="lateral.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="lateral.css">
 </head>
 
 <body>
@@ -16,29 +18,12 @@ setcookie("usuario","");
 <div align="center">
 <table>
 
-<?php
-
-echo $usuario_nome . "<br>";
-
-if($usuario_nome == "") {
-    echo "
-    <a href='logout.php'>
-    <button>Usuario $usuario_nome logado</button>
-    </a>
-    ";
-    }
-else {
-    echo "
-    <a href='links.php'>
-    <button>Usuario n�o logado</button>
-    </a>
-    ";
-    }
-
-?>
+<tr><td>
+Sessão encerrada. <a href="login.php">Entrar novamente</a>
+</td></tr>
 
 <tr><td>
-INSTITUI��ES
+INSTITUIÇÕES
 </td></tr>
 
 <tr><td>
@@ -63,7 +48,7 @@ Cancelar</a>
 
 <tr><td>
 <a href=imprimir/listagem.php target=_corpo>
-Imprimir cat�logo</a>
+Imprimir catálogo</a>
 </td></tr>
 
 <tr><td>
@@ -101,7 +86,7 @@ Cancelar</a>
 </td></tr>
 
 <tr><td>
-�REAS
+ÁREAS
 </td></tr>
 
 <tr><td>

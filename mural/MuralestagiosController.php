@@ -39,6 +39,7 @@ class MuralestagiosController {
 		global $db, $sistema_autentica;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
+		require_once(__DIR__ . "/../libphp/sessao.php");
 	}
 
 	/**
@@ -49,6 +50,7 @@ class MuralestagiosController {
 		global $db;
 		include_once(__DIR__ . "/../setup.php");
 		require_once(__DIR__ . "/../libphp/models.php");
+		require_once(__DIR__ . "/../libphp/sessao.php");
 	}
 
 	/**
@@ -246,19 +248,15 @@ class MuralestagiosController {
 		$muralestagio_id = $registro ? $registro['muralestagio_id'] : 0;
 
 		// Perfil do usuário logado (sem forçar login): define a visibilidade
-		// do botão Inscrição.
+		// do botão Inscrição. A identidade vem da SESSÃO e é relida da tabela
+		// users a cada requisição — usuário desativado perde o acesso na hora.
 		$sistema_autentica = 0;
 		$usuario_role = '';
-		if (!empty($_COOKIE['usuario'])) {
-			$res_role = $db->Execute(
-				"select role from users where email = ? and ativo = 1",
-				array($_COOKIE['usuario'])
-			);
-			if ($res_role && $res_role->RecordCount() == 1) {
-				$usuario_role = (string)$res_role->fields['role'];
-			}
+		$sessao_usuario = sessao_usuario_atual();
+		if ($sessao_usuario !== null) {
+			$usuario_role = (string)$sessao_usuario['role'];
+			$sistema_autentica = 1;
 		}
-		if (!empty($_COOKIE['usuario_nome'])) $sistema_autentica = 1;
 
 		// Botão Inscrição: admin sempre; aluno só com inscrição ainda aberta;
 		// professor/supervisor nunca.

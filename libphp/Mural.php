@@ -96,7 +96,10 @@ class Mural extends ADODB_Model {
             $orderby = self::$ordens_listagem[$ordem];
         }
 
-        $sql = "SELECT m.id AS mural_estagio_id, m.instituicao_id, m.instituicao, m.convenio, m.vagas, "
+        // m.id também com o nome "id": formatar() lê $f['id'] (sem o alias, as
+        // linhas da listagem saíam com mural_estagio_id = 0 e os links do mural
+        // apontavam para o registro errado).
+        $sql = "SELECT m.id AS mural_estagio_id, m.id AS id, m.instituicao_id, m.instituicao, m.convenio, m.vagas, "
              . "m.beneficios, m.final_de_semana, m.carga_horaria, m.requisitos, m.horario, "
              . "m.data_selecao, m.horario_selecao, m.data_inscricao, m.local_selecao, "
              . "m.forma_selecao, m.contato, m.email, m.periodo, m.outras, "

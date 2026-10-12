@@ -136,11 +136,11 @@ Entrar
 <div class="section">
     <a class="box2" href="mural/ver-mural.php" target="_corpo">
     Listar mural total</a><br />
-    <a class="box2" href="mural/administracao/ver_cada.php?opcao=1&indice=0" target="_corpo">
+    <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
     Ver cada mural</a><br />
-    <a class="box2" href="mural/administracao/lista-alunos.php" target="_corpo">
+    <a class="box2" href="mural/lista-alunos.php" target="_corpo">
     Total de alunos</a><br />
-    <a class="bos2" href="mural/administracao/alunosConhecidos.php" target="_corpo">
+    <a class="bos2" href="mural/alunosConhecidos.php" target="_corpo">
     Alunos que mudam</a><br />
 </div>
 </td>
