@@ -10,7 +10,7 @@
 
 <div align="center">
 
-<form name="atualiza_instituicao" action="atualiza.php" method="post">
+<form name="atualiza_instituicao" action="atualizar.php" method="post">
 
 <table border="1">
 

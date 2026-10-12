@@ -12,7 +12,7 @@ if ($res_inst_super === false) die ("Não foi possivel cancelar o registro da ta
 
 // echo "<p>Registro cancelado</p>";
 
-header("Location:../../instituicoes/exibir/ver_cada.php?instituicao_id=$instituicao_id");
+header("Location:../../instituicoes/ver_cada.php?instituicao_id=$instituicao_id");
 
 exit;
 

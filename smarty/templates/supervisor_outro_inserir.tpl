@@ -34,7 +34,7 @@
 <tr>
 <td>Instituição</td>
 <td>
-<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$instituicao[elementos].num_instituicao}">{$instituicao[elementos].instituicao|truncate:50}</a>
+<a href="../../instituicoes/ver_cada.php?id_instituicao={$instituicao[elementos].num_instituicao}">{$instituicao[elementos].instituicao|truncate:50}</a>
 </td>
 </tr>
 {/section}

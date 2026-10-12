@@ -169,7 +169,7 @@
 					<td>{$instituicao[item].instituicao}</td>
 					{else}
 					<td><a
-							href="../instituicoes/exibir/ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
+							href="../instituicoes/ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
 					</td>
 					{/if}
 				</tr>

@@ -126,7 +126,7 @@
                         {if !$curso}
                             {if isset($smarty.cookies.usuario)}
                                 <td style="background-color:red">
-                                    <form name="cabacalho" action="../cancelar/cancela.php" method="post" onClick="return elimina();">
+                                    <form name="cabacalho" action="excluir.php" method="post" onClick="return elimina();">
                                         <input type="hidden" name="botao" value="excluir">
                                         {if $id}
                                             <input type="hidden" name="instituicao_id" value="{$id}">
@@ -487,7 +487,7 @@
                     <table border='1'>
                         <tbody>
 
-                        <form name="supervisores" id="supervisores" action="../../instituicoes/exibir/ver_cada.php" method="post">
+                        <form name="supervisores" id="supervisores" action="ver_cada.php" method="post">
                             <tr class="rodape">
 
                                 <td colspan="4" class="coluna_centralizada">

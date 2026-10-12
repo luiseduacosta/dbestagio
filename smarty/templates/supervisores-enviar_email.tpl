@@ -67,7 +67,7 @@ $("input#main").click(function() {
 </td>
 
 <td>
-<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$supervisores[i].id_instituicao}">{$supervisores[i].instituicao}</a>
+<a href="../../instituicoes/ver_cada.php?id_instituicao={$supervisores[i].id_instituicao}">{$supervisores[i].instituicao}</a>
 </td>
 
 <td style="text-align:center">

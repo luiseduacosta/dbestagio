@@ -74,9 +74,9 @@ function get_turma() {
 {/if}
 
 <td>
-<a href='../instituicoes/exibir/ver_cada.php?curso=sem&id_instituicao={$matriz[elemento].id_instituicao}'>{$matriz[elemento].instituicao}</a>
+<a href='../instituicoes/ver_cada.php?curso=sem&id_instituicao={$matriz[elemento].id_instituicao}'>{$matriz[elemento].instituicao}</a>
 {if $matriz[elemento].id_estagio}
-	<a href='../instituicoes/exibir/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
+	<a href='../instituicoes/ver_cada.php?id_instituicao={$matriz[elemento].id_estagio}'>[1]</a>
 {/if}
 </td>
 

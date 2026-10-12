@@ -34,7 +34,7 @@
 <tr>
 <td class="coluna_direita">Instituição</td>
 <td>
-<a href="../../instituicoes/exibir/ver_cada.php?id_instituicao={$e.instituicao_id}">{$e.instituicao}</a>
+<a href="../../instituicoes/ver_cada.php?id_instituicao={$e.instituicao_id}">{$e.instituicao}</a>
 </td>
 </tr>
 

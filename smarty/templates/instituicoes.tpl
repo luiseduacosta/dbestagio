@@ -79,7 +79,7 @@ function carrega_tabela() {
 {/if}
 
 {* Instituicoes *}
-<td><a href="../exibir/ver_cada.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].instituicao}</a></td>
+<td><a href="ver_cada.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].instituicao}</a></td>
 
 {* Seguro *}
 {if $instituicoes[elementos].seguro eq 0}
