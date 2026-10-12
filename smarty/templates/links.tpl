@@ -75,11 +75,11 @@ Entrar
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
-    <a class="box2" href="areas/inserir/form_inserir.php" target="_corpo">
+    <a class="box2" href="areas/inserir.php" target="_corpo">
     Inserir</a><br>
     <a class="box2" href="areas/seleciona.php" target="_corpo">
     Modificar</a><br>
-    <a class="box2" href="areas/exibir/listar.php" target="_corpo">
+    <a class="box2" href="areas/listar.php" target="_corpo">
     Listar</a><br>
     <a class="box2" href="areas/seleciona.php?opcao=cancela" target="_corpo">
     Cancela</a>

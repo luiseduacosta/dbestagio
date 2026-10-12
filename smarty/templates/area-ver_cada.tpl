@@ -67,20 +67,20 @@
 {/if}
 
 <td>
-<form action="inserir/form_inserir.php" method="get">
+<form action="inserir.php" method="get">
 <input type="submit" value="Inserir">
 </form>
 </td>
 
 <td>
-<form action="atualizar/modifica.php" method="get">
+<form action="atualizar.php" method="get">
 <input type="hidden" name="area_id" value="{$area_id}">
 <input type="submit" value="Modificar">
 </form>
 </td>
 
 <td style="background-color:red">
-<form action="../../areas/cancelar/cancela.php" method="get" onClick="return confirm('Tem certeza?');">
+<form action="../../areas/excluir.php" method="get" onClick="return confirm('Tem certeza?');">
 <input type="hidden" name="area_id" value="{$area_id}">
 <input type="submit" value="Excluir">
 </form>
@@ -105,8 +105,8 @@
 <tr>
 <th>Ações</th>
 <td>
-<a href="../../areas/atualizar/modifica.php?area_id={$area.id}">Editar</a> |
-<a href="../../areas/cancelar/cancela.php?area_id={$area.id}">Excluir</a>
+<a href="../../areas/atualizar.php?area_id={$area.id}">Editar</a> |
+<a href="../../areas/excluir.php?area_id={$area.id}">Excluir</a>
 </td>
 </tr>
 </tbody>

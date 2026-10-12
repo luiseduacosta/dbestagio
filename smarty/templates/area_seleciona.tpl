@@ -24,10 +24,10 @@ function elimina()
 
 {if $opcao == "cancela"}
 <p>Cancela registro</p>
-<form name="seleciona_area" action="../../areas/cancelar/cancela.php" method="post">
+<form name="seleciona_area" action="../../areas/excluir.php" method="post">
 {else}
 <p>Modifica registro</p>
-<form name="seleciona_area" action="../../areas/atualizar/modifica.php" method="post">
+<form name="seleciona_area" action="../../areas/atualizar.php" method="post">
 {/if}
 
 <select name=id_area>
