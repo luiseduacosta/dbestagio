@@ -1,8 +1,9 @@
 <?php
 
 include_once("../setup.php");
+require_once(__DIR__ . "/../libphp/Mural.php");
 
-$id_instituicao = $_REQUEST['id_instituicao'];
+$instituicao_id = $_REQUEST['instituicao_id'] or die("Faltou passar o parâmetro instituicao_id");
 
 define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
 define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
@@ -39,98 +40,11 @@ $pdf->SetFont("Arial","IB","24");
 $pdf->Cell($cabecalho4,9,"Seleção para estágio",0,1,'C',0);
 $pdf->Ln(2);
 
-$sql_estagio  = "select mural_estagio.id, instituicao, convenio, vagas, beneficios, final_de_semana, ";
-$sql_estagio .= "cargaHoraria, requisitos, ";
-$sql_estagio .= "id_area, area, id_professor, nome, horario, dataSelecao, horarioSelecao, dataInscricao, ";
-$sql_estagio .= "localSelecao, formaSelecao, contato, outras ";
-$sql_estagio .= "from mural_estagio ";
-$sql_estagio .= "left outer join areas on (mural_estagio.id_area = areas.id) ";
-$sql_estagio .= "left outer join professores on (mural_estagio.id_professor = professores.id) ";
-$sql_estagio .= "where mural_estagio.periodo = '" . PERIODO_ATUAL . "' ";
-$sql_estagio .= "and mural_estagio.id = $id_instituicao";
-
-// echo $sql_estagio . "<br />";
-// echo $indice . "<br />";
-
-$resultado = $db->Execute($sql_estagio);
-
-if($resultado === false) die ("Não foi possível consultar a tabela mural_estagio");
-$i = 0;
-while (!$resultado->EOF) {
-		$id_instituicao = $resultado->fields['id'];
-		$instituicao = $resultado->fields['instituicao'];
-		$convenio = $resultado->fields['convenio'];
-		$vagas = $resultado->fields['vagas'];
-		$beneficios = $resultado->fields['beneficios'];
-
-		$final_de_semana = $resultado->fields['final_de_semana'];
-		switch($final_de_semana) {
-				case 0;
-				$final_de_semana = "Não";
-				break;
-
-				case 1;
-				$final_de_semana = "Sim";
-				break;
-
-				case 2;
-				$final_de_semana = "Parcialmente";
-				break;
-		}
-		$final_de_semana = $final_de_semana;
-
-		$cargaHoraria = $resultado->fields['carga_horaria'];
-		$requisitos = $resultado->fields['requisitos'];
-		$area_id = $resultado->fields['area_id'];
-		$area = $resultado->fields['area'];
-		$professor_id = $resultado->fields['professor_id'];
-		$professor = $resultado->fields['nome'];
-
-		$horario  = $resultado->fields['horario'];
-		if ($horario === "D") {
-			$horario = "Diurno";
-		} elseif ($horario === "N") {
-			$horario = "Noturno";
-		} elseif ($horario === "A") {
-			$horario = "Ambos";
-		}
-		$horario = $horario;
-
-		// Passo do formato aaaa/mm/dd para dd/mm/aaaa
-		$data_selecao = date("d-m-Y",strtotime($resultado->fields['data_selecao']));
-
-		$horarioSelecao = $resultado->fields['horario_selecao'];
-
-		$data_inscricao = date("d-m-Y",strtotime($resultado->fields['data_inscricao']));
-
-		$localSelecao = $resultado->fields['local_selecao'];
-
-		$formaSelecao = $resultado->fields['forma_selecao'];
-		switch($formaSelecao) {
-				case 0;
-				$formaSelecao = "Entrevista";
-				break;
-
-				case 1;
-				$formaSelecao = "CR";
-				break;
-
-				case 2;
-				$formaSelecao = "Prova";
-				break;
-
-				case 3;
-				$formaSelecao = "Outras";
-				break;
-		}
-		$formaSelecao = $formaSelecao;
-
-		$contato = $resultado->fields['contato'];
-		$outras = $resultado->fields['outras'];
-
-		$resultado->MoveNext();
-		$i++;
+$dados = Mural::cartazPorId($instituicao_id, PERIODO_ATUAL);
+if ($dados === null) {
+    die("Não há cartaz com id " . (int)$instituicao_id . " no período atual");
 }
+extract($dados, EXTR_SKIP);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
@@ -138,7 +52,7 @@ $pdf->SetX(20);
 // $pdf->SetX(70);
 $pdf->SetFont("Arial","B","18");
 $pdf->SetLineWidth(0,5);
-$pdf->MultiCell(160,8,$instituicao,1);
+$pdf->MultiCell(160,8,strip_tags(html_entity_decode($instituicao)),1);
 
 $pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
@@ -151,7 +65,7 @@ $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Benefícios:");
 $pdf->SetX(70);
-$pdf->Cell(0,0,$beneficios);
+$pdf->Cell(0,0,strip_tags(html_entity_decode($beneficios)));
 
 $pdf->Ln(10);
 $pdf->SetX(20);
@@ -163,7 +77,7 @@ $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Carga horária:");
 $pdf->SetX(70);
-$pdf->Cell(0,0,$cargaHoraria);
+$pdf->Cell(0,0,strip_tags(html_entity_decode($carga_horaria)));
 
 if(!empty($requisitos)) {
     $pdf->Ln(10);
@@ -173,22 +87,10 @@ if(!empty($requisitos)) {
     $pdf->SetLineWidth(0,5);
     $pdf->SetFont("Arial","","14");
     $pdf->SetX(70);
-    $pdf->MultiCell(110,5,$requisitos,1);
+    $pdf->MultiCell(110,5,strip_tags(html_entity_decode($requisitos)),1);
 }
 
 $pdf->SetFont("Arial","","14");
-$pdf->Ln(10);
-$pdf->SetX(20);
-$pdf->Cell(0,0,"Área:");
-$pdf->SetX(70);
-$pdf->Cell(0,0,$area);
-
-$pdf->Ln(10);
-$pdf->SetX(20);
-$pdf->Cell(0,0,"Professor:");
-$pdf->SetX(70);
-$pdf->Cell(0,0,$professor);
-
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Horário da OTP:");
@@ -209,25 +111,25 @@ $pdf->Cell(0,0,$data_selecao);
 $pdf->SetX(100);
 $pdf->Cell(0,0,"horário:");
 $pdf->SetX(120);
-$pdf->Cell(0,0,$horarioSelecao);
+$pdf->Cell(0,0,strip_tags(html_entity_decode($horario_selecao)));
 
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Local da seleção:");
 $pdf->SetX(70);
-$pdf->MultiCell(100,5,$localSelecao);
+$pdf->MultiCell(100,5,strip_tags(html_entity_decode($local_selecao)));
 
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Forma de seleção:");
 $pdf->SetX(70);
-$pdf->Cell(0,0,$formaSelecao);
+$pdf->Cell(0,0,$forma_selecao);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Contatos:");
 $pdf->SetX(70);
-$pdf->Cell(0,0,$contato);
+$pdf->Cell(0,0,strip_tags(html_entity_decode($contato)));
 
 // echo strlen($outras);
 if(strlen(trim($outras)) > 250) {
@@ -241,7 +143,7 @@ $pdf->Cell(0,0,"Outras informações:");
 $pdf->Ln(5);
 $pdf->SetX(20);
 $pdf->SetLineWidth(0,5);
-$pdf->MultiCell(160,5,$outras,1);
+$pdf->MultiCell(160,5,strip_tags(html_entity_decode($outras)),1);
 
 $pdf->Ln(8);
 $pdf->SetX(55);

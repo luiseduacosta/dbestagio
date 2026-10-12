@@ -39,7 +39,7 @@
 	<div align="center">
 		{if $sistema_autentica == 1}
 		<span class="botao">
-			<a href="imprime_cartaz.php?id_instituicao={$muralestagio_id}">Imprimir cartaz</a>
+			<a href="imprime_cartaz.php?instituicao_id={$muralestagio_id}">Imprimir cartaz</a>
 		</span>
 		{/if}
 
