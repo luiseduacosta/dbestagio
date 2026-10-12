@@ -48,7 +48,7 @@ Email: estagio@ess.ufrj.br
 </p>
 
 <p class="coluna_centralizada">
-<a href="http://localhost/estagio/">
+<a href="http://www.ess.ufrj.br/">
 <img src="imagens/fachada_redonda.jpg" name="capa_imagem" id="capa_imagem" alt="Fachada da Escola de Serviço Social/UFRJ" width="588" height="400">
 </a>
 </p>

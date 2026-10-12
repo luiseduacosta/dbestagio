@@ -35,8 +35,8 @@
 <td>{$visitas[v].avaliacao}</td>
 <td>
 <a href="ver_cada.php?id={$visitas[v].id}">Ver</a> |
-<a href="../atualizar/modifica.php?id={$visitas[v].id}">Editar</a> |
-<a href="../cancelar/cancela.php?id={$visitas[v].id}">Excluir</a>
+<a href="atualizar.php?id={$visitas[v].id}">Editar</a> |
+<a href="excluir.php?id={$visitas[v].id}">Excluir</a>
 </td>
 </tr>
 {/section}
@@ -47,7 +47,7 @@
 </table>
 
 <div align="center">
-<p><a href="../inserir/formulario.php">Inserir nova visita</a></p>
+<p><a href="inserir.php">Inserir nova visita</a></p>
 </div>
 
 </body>

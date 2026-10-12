@@ -8,7 +8,7 @@
 
 <body>
 
-    <form name="atualiza_area" action="atualiza.php" method="post">
+    <form name="atualiza_area" action="atualizar.php" method="post">
         <input type="text" name="area" size="30" value="{$area}">
         <input type="hidden" name="area_id" value="{$area_id}">
         <input type="submit" name="submit" value="Confirma">

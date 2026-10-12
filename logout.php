@@ -90,7 +90,7 @@ Cancelar</a>
 </td></tr>
 
 <tr><td>
-<a href=areas/inserir/form_inserir.php target=_corpo>
+<a href=areas/inserir.php target=_corpo>
 Inserir</a>
 </td></tr>
 
@@ -100,7 +100,7 @@ Modificar</a>
 </td></tr>
 
 <tr><td>
-<a href=areas/exibir/listar.php target=_corpo>
+<a href=areas/listar.php target=_corpo>
 Listar</a>
 </td></tr>
 

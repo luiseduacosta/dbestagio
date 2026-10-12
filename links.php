@@ -141,7 +141,7 @@ require_once __DIR__ . '/autentica.inc';
                                 Inserir instituição</a><br>
                             <a class="box2" href="instituicoes/listar.php" target="_corpo">
                                 Listar todas</a><br>
-                            <a class="box2" href="areas/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="areas/listar.php" target="_corpo">
                                 Listar áreas</a><br>
                         </div>
                     </td>
@@ -190,15 +190,15 @@ require_once __DIR__ . '/autentica.inc';
                         <div class="section">
 
                             <div id='visitas' style='display:none'>
-                                <a class="box2" href="visitas/inserir/formulario.php" target="_corpo">
+                                <a class="box2" href="visitas/inserir.php" target="_corpo">
                                     Inserir</a><br>
-                                <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                                <a class="box2" href="visitas/listar.php" target="_corpo">
                                     Editar</a><br>
-                                <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                                <a class="box2" href="visitas/listar.php" target="_corpo">
                                     Excluir</a>
                             </div>
 
-                            <a class="box2" href="visitas/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="visitas/listar.php" target="_corpo">
                                 Listar</a><br>
 
                         </div>
@@ -214,7 +214,7 @@ require_once __DIR__ . '/autentica.inc';
                         <div class="section">
 
                             <div id='areas' style='display:none'>
-                                <a class="box2" href="areas/inserir/form_inserir.php" target="_corpo">
+                                <a class="box2" href="areas/inserir.php" target="_corpo">
                                     Inserir</a><br>
                                 <a class="box2" href="areas/seleciona.php" target="_corpo">
                                     Modificar</a><br>
@@ -222,7 +222,7 @@ require_once __DIR__ . '/autentica.inc';
                                     Excluir</a>
                             </div>
 
-                            <a class="box2" href="areas/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="areas/listar.php" target="_corpo">
                                 Listar</a><br>
 
                         </div>

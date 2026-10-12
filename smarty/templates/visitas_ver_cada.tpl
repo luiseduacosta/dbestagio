@@ -25,9 +25,9 @@
 
 <div align="center">
 <p>
-<a href="../atualizar/modifica.php?id={$v.id}">Editar</a> |
+<a href="atualizar.php?id={$v.id}">Editar</a> |
 <a href="javascript:history.back()">Voltar</a> |
-<a href="../cancelar/cancela.php?id={$v.id}" onclick="return confirm('Excluir esta visita?');">Excluir</a>
+<a href="excluir.php?id={$v.id}" onclick="return confirm('Excluir esta visita?');">Excluir</a>
 </p>
 </div>
 

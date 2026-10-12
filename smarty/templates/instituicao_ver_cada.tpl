@@ -145,7 +145,7 @@
                         {if !$curso}
                             {if isset($smarty.cookies.usuario)}
                                 <td>
-                                    <form name="cabacalho" action="../visitas/inserir/formulario.php" method="get">
+                                    <form name="cabacalho" action="../visitas/inserir.php" method="get">
                                         <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
                                         <input type="submit" name="submit" value="Adicionar visita">
                                     </form>
@@ -331,7 +331,7 @@
                                     {/section}
                                 </select>
                             {else}
-                                <a href="../areas/exibir/instituicoes.php?id_area={$id_area}">{$area}</a>
+                                <a href="../areas/instituicoes.php?id_area={$id_area}">{$area}</a>
                             {/if}
                         </td>
 
