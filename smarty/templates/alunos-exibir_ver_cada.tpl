@@ -6,12 +6,12 @@
     <title>Ver cada aluno</title>
     <meta content="author" name="Luis Acosta">
     <style type="text/css">
-        @import url("../../estagio.css");
+        @import url("../estagio.css");
     </style>
 
     {literal}
-    <script type="text/javascript" src="../../lib/jquery.js"></script>
-    <script type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+    <script type="text/javascript" src="../lib/jquery.js"></script>
+    <script type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#telefone").mask("(99)9999.9999");
@@ -131,7 +131,7 @@
                 <tr>
                     <th width='80%'>Dados do(a) Aluno(a)</th>
                     {if $isAdmin}
-                    <th width='20%'><a href="../atualizar/atualiza.php?aluno_id={$aluno_id}">Editar Aluno(a)</a></th>
+                    <th width='20%'><a href="atualizar.php?aluno_id={$aluno_id}">Editar Aluno(a)</a></th>
                     {/if}
                 </tr>
             </tbody>
@@ -220,7 +220,7 @@
                     <tr>
                         {if $isAdmin}
                         <td><a
-                                href=../atualizar/atualiza_estagio.php?estagiario_id={$historico_estagio[estagio].estagiario_id}&aluno_id={$aluno_id}>Editar</a>
+                                href="atualizar/atualiza_estagio.php?estagiario_id={$historico_estagio[estagio].estagiario_id}&aluno_id={$aluno_id}">Editar</a>
                         </td>
                         {/if}
                         <td style="text-align:center">{$historico_estagio[estagio].periodo}</td>
@@ -229,7 +229,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../../instituicoes/ver_cada.php?instituicao_id={$historico_estagio[estagio].instituicao_id}">{$historico_estagio[estagio].instituicao}</a>
+                                href="../instituicoes/ver_cada.php?instituicao_id={$historico_estagio[estagio].instituicao_id}">{$historico_estagio[estagio].instituicao}</a>
                             {else}
                             {$historico_estagio[estagio].instituicao}
                             {/if}
@@ -241,7 +241,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../../supervisores/exibir/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
+                                href="../supervisores/exibir/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
                             {else}
                             {$historico_estagio[estagio].supervisor}
                             {/if}
@@ -254,7 +254,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../../professores/exibir/ver_cada.php?professor_id={$historico_estagio[estagio].professor_id}">{$historico_estagio[estagio].professor}</a>
+                                href="../professores/exibir/ver_cada.php?professor_id={$historico_estagio[estagio].professor_id}">{$historico_estagio[estagio].professor}</a>
                             {else}
                             {$historico_estagio[estagio].professor}
                             {/if}

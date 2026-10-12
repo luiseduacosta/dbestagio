@@ -38,7 +38,7 @@
 <td>{$usuarios[u].categoria}</td>
 <td>
 {if $usuarios[u].aluno_id}
-<a href="../../alunos/exibir/ver_cada.php?aluno_id={$usuarios[u].aluno_id}">{$usuarios[u].aluno}</a>
+<a href="../../alunos/ver_cada.php?aluno_id={$usuarios[u].aluno_id}">{$usuarios[u].aluno}</a>
 {else}
 —
 {/if}

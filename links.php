@@ -250,16 +250,16 @@ require_once __DIR__ . '/autentica.inc';
 
                                 <a class="box2" href="alunos/buscar/busca.php" target="_corpo">
                                     Buscar</a><br>
-                                <a class="box2" href="alunos/exibir/ver_cada.php?indice=0" target="_corpo">
+                                <a class="box2" href="alunos/ver_cada.php?indice=0" target="_corpo">
                                     Ver c/aluno</a><br>
                                 <a class="box2" href="alunos/exibir/seleciona.php" target="_corpo">
                                     Ver aluno</a><br>
                             </div>
 
-                            <a class="box2" href="alunos/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="alunos/listar.php" target="_corpo">
                                 Listar</a><br>
 
-                            <a class="box2" href="alunos/inserir/inserir.php" target="_corpo">
+                            <a class="box2" href="alunos/inserir.php" target="_corpo">
                                 Inserir aluno</a><br>
 
                             <a class="box2" href="turnos/exibir/listar.php" target="_corpo">

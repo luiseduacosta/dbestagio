@@ -27,7 +27,7 @@
 <tr>
 <td>{$estagiario[elemento].registro}</td>
 <td>
-<a href="../../alunos/exibir/ver_cada.php?aluno_id={$estagiario[elemento].aluno_id}">{$estagiario[elemento].nome}</a>
+<a href="../../alunos/ver_cada.php?aluno_id={$estagiario[elemento].aluno_id}">{$estagiario[elemento].nome}</a>
 </td>
 <td style="text-align:right">{$estagiario[elemento].periodo}</td>
 <td><a href="../../instituicoes/ver_cada.php?instituicao_id={$estagiario[elemento].instituicao_id}">{$estagiario[elemento].instituicao}</a></td>

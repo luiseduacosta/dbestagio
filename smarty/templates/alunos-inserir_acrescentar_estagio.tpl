@@ -5,7 +5,7 @@
   <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -19,7 +19,7 @@ function aluno()
 {
     var aluno_id = document.form_estagiarios.aluno_id.value;
     // alert("Id aluno = " + aluno_id);
-    window.location="../atualizar/atualiza.php?aluno_id=" + aluno_id;
+    window.location="atualizar.php?aluno_id=" + aluno_id;
 }
 </script>
 {/literal}
@@ -29,7 +29,7 @@ function aluno()
 <body style="direction: ltr;">
 
 <div align="center" id="formulario_acrescenta_estagio" style="visibility: visible">
-<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estágio do aluno <a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
+<p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estágio do aluno <a href="../ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
 </div>
 
 <div align="center" id="historico_estagios" style="visibility: visible">
@@ -53,8 +53,8 @@ function aluno()
 <td style="text-align:center">{$estagiarios[elemento].ch}</td>
 <td style="text-align:center">{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
-<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluirr</a></td>
+<td><a href="atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
+<td><a href="cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluirr</a></td>
 </tr>
 {/section}
 

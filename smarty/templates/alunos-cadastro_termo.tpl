@@ -5,7 +5,7 @@
   <title>Aluno modifica estágio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -18,9 +18,9 @@ function verificaPeriodo() {
 {/literal}
 
 {* Calendario *}
-<link rel="stylesheet" type="text/css" href="../../../epoch/epoch_styles.css" />
+<link rel="stylesheet" type="text/css" href="../../epoch/epoch_styles.css" />
 {literal}
-<script type="text/javascript" src="../../../epoch/epoch_classes.js"></script>
+<script type="text/javascript" src="../../epoch/epoch_classes.js"></script>
 <script language="JavaScript" type="text/javascript">
 
 var calendar1;

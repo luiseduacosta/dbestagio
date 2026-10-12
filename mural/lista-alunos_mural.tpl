@@ -80,7 +80,7 @@ $("#link").toggle(function() {
 <td style="text-align:center;">{$alunos[i].turno}</td>
 <td style="text-align:center;">{$alunos[i].nivel}</td>
 <td style="text-align:center;">{$alunos[i].registro}</td>
-<td><a href="../alunos/exibir/ver_cada.php?registro={$alunos[i].registro}">{$alunos[i].nome}</a></td>
+<td><a href="../alunos/ver_cada.php?registro={$alunos[i].registro}">{$alunos[i].nome}</a></td>
 <td style="text-align:center;">{$alunos[i].quantidade}</td>
 <td style="text-align:center;">{$alunos[i].data_ultima|date_format:"%d-%m-%Y"}</td>
 

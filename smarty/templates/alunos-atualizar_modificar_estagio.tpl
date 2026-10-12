@@ -5,7 +5,7 @@
   <title>Aluno modifica estágio</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -19,7 +19,7 @@ function aluno()
 {
     var id_aluno = document.form_estagiarios.id_aluno.value;
     // alert("Id aluno = " + id_aluno);
-    window.location="../atualizar/atualiza.php?id_aluno=" + id_aluno;
+    window.location="../atualizar.php?id_aluno=" + id_aluno;
 }
 </script>
 {/literal}
@@ -34,10 +34,10 @@ Modifica dados do aluno
 
 <div align="center" id="formulario_modifica_estagio" style="visibility: visible">
 
-<form action="atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+<form action="atualizar.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table border="1" width="80%">
-<caption>Modificar dados do aluno <a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
+<caption>Modificar dados do aluno <a href="ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 <tbody>
 
 <tr>
@@ -147,8 +147,8 @@ Modifica dados dos campos de estágio
 <td>{$estagiarios[elemento].ch}</td>
 <td>{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modifica</a></td>
-<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Canelar</a></td>
+<td><a href="atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modifica</a></td>
+<td><a href="cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Canelar</a></td>
 </tr>
 {/section}
 </table>
@@ -162,7 +162,7 @@ Modifica dados dos campos de estágio
 Inserir novos campos de estagio do aluno
 //-->
 
-<form name="form_insere_estagio" id="form_insere_estagio" action="../inserir/acrescentar_estagio.php" method="post">
+<form name="form_insere_estagio" id="form_insere_estagio" action="inserir/acrescentar_estagio.php" method="post">
 
 <div align="center" class="modificar_estagiario" id="modificar_estagiario" style="visibility: visible">
 

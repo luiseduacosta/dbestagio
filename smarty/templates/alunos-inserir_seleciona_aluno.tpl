@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -41,7 +41,7 @@ function verificaRegistro() {
 
 <h1>Inserir/atualizar aluno</h1>
 
-<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="verifica.php" enctype="text/html" onSubmit="return verificaRegistro();">
+<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="inserir.php" enctype="text/html" onSubmit="return verificaRegistro();">
 <h2>Digite o número de registro (DRE):</h2>
 <input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
 <input type="hidden" name="origem" value={$origem}>

@@ -82,7 +82,7 @@
 				<td>
 					{if $sistema_autentica == 1}
 					<a
-						href="../alunos/exibir/ver_cada.php?registro={$inscritos[item].registro}">{$inscritos[item].nome}</a>
+						href="../alunos/ver_cada.php?registro={$inscritos[item].registro}">{$inscritos[item].nome}</a>
 					{else}
 					{$inscritos[item].nome}
 					{/if}

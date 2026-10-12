@@ -234,9 +234,9 @@ function confirma() {
 {/literal}
 
 {* Calendario *}
-<link rel="stylesheet" type="text/css" href="../../../epoch/epoch_styles.css" />
+<link rel="stylesheet" type="text/css" href="../../epoch/epoch_styles.css" />
 {literal}
-<script type="text/javascript" src="../../../epoch/epoch_classes.js"></script>
+<script type="text/javascript" src="../../epoch/epoch_classes.js"></script>
 <script language="JavaScript" type="text/javascript">
 
 var calendar1;

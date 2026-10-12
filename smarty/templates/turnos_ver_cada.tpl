@@ -36,7 +36,7 @@
 {section name=i loop=$alunos}
 <tr>
 <td class="coluna_direita">{$alunos[i].registro}</td>
-<td><a href="../../alunos/exibir/ver_cada.php?aluno_id={$alunos[i].id}">{$alunos[i].nome}</a></td>
+<td><a href="../../alunos/ver_cada.php?aluno_id={$alunos[i].id}">{$alunos[i].nome}</a></td>
 <td class="coluna_centralizada">{$alunos[i].ingresso}</td>
 </tr>
 {/section}

@@ -146,7 +146,7 @@
 {foreach item=e from=$estagiarios}
 <tr>
 <td class="coluna_direita">{$e.registro}</td>
-<td><a href="../../alunos/exibir/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a></td>
+<td><a href="../../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a></td>
 <td class="coluna_centralizada">{$e.periodo}</td>
 <td class="coluna_centralizada">{$e.nivel}</td>
 <td>

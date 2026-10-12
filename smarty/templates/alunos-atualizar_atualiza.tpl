@@ -43,16 +43,16 @@ function verificaPeriodo() {
 function aluno() {
     var aluno_id = document.form_estagiarios.aluno_id.value;
     // alert("Id aluno = " + id_aluno);
-    window.location="../atualizar/atualiza.php?aluno_id=" + aluno_id;
+    window.location="../../alunos/atualizar/atualizar.php?aluno_id=" + aluno_id;
 }
 </script>
 
 {/literal}
 
 {* Calendario *}
-<link rel="stylesheet" type="text/css" href="../../../epoch/epoch_styles.css" />
+<link rel="stylesheet" type="text/css" href="../../epoch/epoch_styles.css" />
 {literal}
-<script type="text/javascript" src="../../../epoch/epoch_classes.js"></script>
+<script type="text/javascript" src="../../epoch/epoch_classes.js"></script>
 <script language="JavaScript" type="text/javascript">
 
 var calendar1;
@@ -73,12 +73,12 @@ Modifica dados do aluno
 
 <div align="center" id="formulario_modifica_estagio" style="visibility: visible">
 
-<form action="atualiza.php?acao=1" name="atualiza_aluno" id="atualiza_aluno" method="post">
+<form action="atualizar.php?acao=1" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table border="1" width="80%">
 <caption>Aluna(o): {$aluno_nome} DRE: {$registro}</caption>
 <!--
-<a href="../exibir/ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
+<a href="../ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</caption>
 //-->
 <tbody>
 
@@ -212,8 +212,8 @@ Modifica dados dos campos de estágio
 <td style='text-align:right'>{$estagiarios[elemento].ch}</td>
 <td style='text-align:right'>{$estagiarios[elemento].nota}</td>
 <td>{$estagiarios[elemento].instituicao}</td>
-<td><a href="../atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
-<td><a href="../cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluir</a></td>
+<td><a href="atualizar/atualiza_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Modificar</a></td>
+<td><a href="cancelar/cancela_estagio.php?estagiario_id={$estagiarios[elemento].id}&aluno_id={$aluno_id}">Excluir</a></td>
 </tr>
 {/section}
 </table>
@@ -224,7 +224,7 @@ Modifica dados dos campos de estágio
 Inserir novos campos de estagio do aluno
 //-->
 
-<form name="form_insere_estagio" id="form_insere_estagio" action="../inserir/acrescentar_estagio.php" method="post">
+<form name="form_insere_estagio" id="form_insere_estagio" action="inserir/acrescentar_estagio.php" method="post">
 
 <div align="center" class="modificar_estagiario" id="modificar_estagiario" style="visibility: visible">
 

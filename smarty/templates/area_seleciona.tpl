@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="../estagio.css" rel="stylesheet" type="text/css">
+<link href="../../estagio.css" rel="stylesheet" type="text/css">
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -24,10 +24,10 @@ function elimina()
 
 {if $opcao == "cancela"}
 <p>Cancela registro</p>
-<form name="seleciona_area" action="cancelar/cancela.php" method="post">
+<form name="seleciona_area" action="../../areas/cancelar/cancela.php" method="post">
 {else}
 <p>Modifica registro</p>
-<form name="seleciona_area" action="atualizar/modifica.php" method="post">
+<form name="seleciona_area" action="../../areas/atualizar/modifica.php" method="post">
 {/if}
 
 <select name=id_area>

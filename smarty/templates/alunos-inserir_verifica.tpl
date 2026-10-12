@@ -5,10 +5,10 @@
   <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 {literal}
-<script language="JavaScript" type="text/javascript" src="../../lib/jquery.maskedinput-1.2.1.pack.js"></script>
+<script language="JavaScript" type="text/javascript" src="../lib/jquery.maskedinput-1.2.1.pack.js"></script>
 <script language="JavaScript" type="text/javascript">
 $(function() {
 	$("#telefone").mask("(99)9999.9999");
@@ -20,9 +20,9 @@ $(function() {
 {/literal}
 
 {* Calendario *}
-<link rel="stylesheet" type="text/css" href="../../../epoch/epoch_styles.css" />
+<link rel="stylesheet" type="text/css" href="../../epoch/epoch_styles.css" />
 {literal}
-<script type="text/javascript" src="../../../epoch/epoch_classes.js"></script>
+<script type="text/javascript" src="../../epoch/epoch_classes.js"></script>
 <script language="JavaScript" type="text/javascript">
 var calendar1;
 window.onload = function() {
@@ -40,7 +40,7 @@ window.onload = function() {
 <div align="center" id="formulario_insere_aluno" style="visibility: visible">
 
 {if $cadastro == 1}
-    <form method="post" action="../atualizar/atualiza.php" name="modifica_aluno" id="modifica_aluno">
+    <form method="post" action="atualizar.php" name="modifica_aluno" id="modifica_aluno">
 {else}
     <form method="post" action="inserir.php" name="inserir_aluno" id="inserir_aluno">
 {/if}

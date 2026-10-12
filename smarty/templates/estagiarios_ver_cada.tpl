@@ -25,7 +25,7 @@
 <td class="coluna_direita">Aluno</td>
 <td>
 {if $smarty.cookies.usuario}
-<a href="../../alunos/exibir/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a>
+<a href="../../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a>
 {else}{$e.aluno_nome}{/if}
 <span style="font-size:85%">({$e.registro})</span>
 </td>
@@ -101,7 +101,7 @@
 </tbody>
 </table>
 
-<p><a href="../atualizar/atualiza.php?id={$e.id}">Editar estágio</a></p>
+<p><a href="../../areas/atualizar/atualiza.php?id={$e.id}">Editar estágio</a></p>
 </div>
 
 </body>

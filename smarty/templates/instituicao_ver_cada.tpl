@@ -313,7 +313,7 @@
                                 {if $modifica}
                                     Campo calculado automaticamente
                                 {else}
-                                    <a href="../alunos/exibir/listar.php?seleciona_instituicao={$id}&seleciona_periodo={$turma}">{$turma}</a>
+                                    <a href="../alunos/listar.php?seleciona_instituicao={$id}&seleciona_periodo={$turma}">{$turma}</a>
                                 {/if}
                             </td>
                         </tr>

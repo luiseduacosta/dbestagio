@@ -4,15 +4,11 @@
 <link href="../estagio.css" rel="stylesheet" type="text/css"> 
 <title>Seleciona aluno</title>
 
-<style type="text/css">
-@import url("../../estagio.css");
-</style>
-
 {literal}
 <script language="Javascript" type="text/javascript">
 function seleciona() {
     var id_valor = document.seleciona_aluno.aluno_id.value;
-    document.location.href="atualiza.php?aluno_id=" + id_valor;
+    document.location.href="atualizar.php?aluno_id=" + id_valor;
     return false;
 }
 </script>
@@ -27,7 +23,7 @@ function seleciona() {
 {/section}
 //-->
 
-<form name="seleciona_aluno" action="atualiza.php" method="post">
+<form name="seleciona_aluno" action="atualizar.php" method="post">
 
 <select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
 <option value=0>Selecione aluno</option>

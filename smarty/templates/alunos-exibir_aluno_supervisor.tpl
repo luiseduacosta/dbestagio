@@ -5,7 +5,7 @@
   <title>Alunos</title>
   <meta content="author" name="Luis Acosta" >
 <style type="text/css">
-@import url("../../estagio.css");
+@import url("../estagio.css");
 </style>
 </head>
 
