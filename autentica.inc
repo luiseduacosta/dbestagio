@@ -1,16 +1,15 @@
 <?php
 
 require_once(__DIR__ . "/setup.php"); // Garante a conexao $db, pois alguns arquivos incluem este autentica.inc antes do setup.php
+require_once(__DIR__ . "/libphp/sessao.php");
 
-$usuario_nome = isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : '';
-
-$http_host = $_SERVER['HTTP_HOST'];
-// echo "Servidor " . $http_host;
+// Servidor onde esta sendo executado o programa (usado nos redirecionamentos)
 $url = $_SERVER['SERVER_NAME'];
 
 // Dados do usuario logado (tabela users)
 $usuario_id            = NULL;
 $usuario_email         = NULL;
+$usuario_nome          = NULL;
 $usuario_nome_completo = NULL;
 $usuario_role          = NULL;
 $usuario_categoria     = NULL;
@@ -26,29 +25,28 @@ $isAdmin      = false;
 
 $usuario_ok = false;
 
-if (!empty($usuario_nome)) {
-	$sql = "select id, email, nome, role, categoria, ativo, aluno_id, supervisor_id, professor_id " .
-			" from users where email = ?";
-	$res = $db->Execute($sql, array($usuario_nome));
-	if ($res === false) die("Nao foi possivel consultar a tabela users");
+// Usuario autenticado = sessao criada no login (verifica_login.php) e relida da
+// tabela users a cada requisicao: usuario desativado ou removido perde o acesso
+// na hora. Nao se usa mais nenhum cookie de identificacao.
+$usuario = sessao_usuario_atual();
 
-	if ($res->RecordCount() == 1 and $res->fields['ativo'] == 1) {
-		$usuario_ok = true;
+if ($usuario !== null) {
+	$usuario_ok = true;
 
-		$usuario_id            = $res->fields['id'];
-		$usuario_email         = $res->fields['email'];
-		$usuario_nome_completo = $res->fields['nome'];
-		$usuario_role          = $res->fields['role'];
-		$usuario_categoria     = $res->fields['categoria'];
-		$usuario_aluno_id      = $res->fields['aluno_id'];
-		$usuario_supervisor_id = $res->fields['supervisor_id'];
-		$usuario_professor_id  = $res->fields['professor_id'];
+	$usuario_id            = (int)$usuario['id'];
+	$usuario_email         = $usuario['email'];
+	$usuario_nome          = $usuario['nome'];
+	$usuario_nome_completo = $usuario['nome'];
+	$usuario_role          = $usuario['role'];
+	$usuario_categoria     = $usuario['categoria'];
+	$usuario_aluno_id      = $usuario['aluno_id'];
+	$usuario_supervisor_id = $usuario['supervisor_id'];
+	$usuario_professor_id  = $usuario['professor_id'];
 
-		$isAluno      = ($usuario_role === 'aluno');
-		$isProfessor  = ($usuario_role === 'professor');
-		$isSupervisor = ($usuario_role === 'supervisor');
-		$isAdmin      = ($usuario_role === 'admin');
-	}
+	$isAluno      = ($usuario_role === 'aluno');
+	$isProfessor  = ($usuario_role === 'professor');
+	$isSupervisor = ($usuario_role === 'supervisor');
+	$isAdmin      = ($usuario_role === 'admin');
 }
 
 if ($usuario_ok) {
@@ -57,6 +55,7 @@ if ($usuario_ok) {
 } else {
 	$mural_autentica = 0;
     $sistema_autentica = 0;
+	$url = $_SERVER['SERVER_NAME'];
 	header("Location: http://$url/estagio/login.php");
 	exit;
 }

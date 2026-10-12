@@ -120,11 +120,8 @@ require_once __DIR__ . '/autentica.inc';
                                 Termo de Compromisso</a><br>
 
                             <div id='historico' style='display:none'>
-                                <a class="box2" href="mural/termo_controle_entrega.php" target="_corpo">
-                                    Controle de TC</a><br>
                                 <a class="box2" href="mural/historico.php" target="_corpo">
                                     Histórico</a><br>
-
                             </div>
 
                         </div>

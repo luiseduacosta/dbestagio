@@ -1,6 +1,7 @@
 <?php
-// Apago os cookies que ja possam existir enviando um cookie sem valor
-setcookie("usuario", "");
+// Encerro a sessão anterior (quem chega ao formulário de login entra de novo)
+require_once(__DIR__ . "/libphp/sessao.php");
+sessao_encerrar();
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

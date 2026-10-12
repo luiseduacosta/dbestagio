@@ -1,128 +1,63 @@
 <?php
+/**
+ * verifica.php — Identificação pública do candidato no mural (pelo DRE).
+ *
+ * Recebe o registro (DRE) e a oferta escolhida e decide o próximo passo:
+ *   - aluno ainda não cadastrado -> cadastro.php (cadastro de aluno novo);
+ *   - aluno cadastrado           -> mural-alunos_modifica.php;
+ *   - cursou estágio I ou III no último período -> exibe o aviso e a inscrição
+ *     só segue com a confirmação do candidato.
+ *
+ * As consultas passam pelos modelos (libphp/Aluno.php), sem SQL cru. O
+ * histórico é buscado pelo registro: há linhas de estagiarios com aluno_id
+ * nulo, que a busca por aluno_id perderia.
+ */
 
-include_once("../setup.php");
+include_once(__DIR__ . "/../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
-$registro = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : NULL;
-$instituicao = isset($_REQUEST['instituicao']) ? htmlspecialchars($_REQUEST['instituicao']) : NULL;
-$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
-
-// echo "Registro: " . $registro . "<br>";
-// echo "Muralestagio id : " . $muralestagio_id . "<br>";
-// echo "Instituicao: " . $instituicao;
+$registro        = isset($_REQUEST['registro']) ? trim((string)$_REQUEST['registro']) : '';
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 
 if (!ctype_digit($registro)) {
-    die("Digite somente números ou tente com outro navegador: <a href=\"http://br.mozdev.org\">Firefox</a>");
+	die("Digite somente números ou tente com outro navegador: <a href=\"http://br.mozdev.org\">Firefox</a>");
 }
 
-// Busco o registro entre os alunos estagiarios
-$sql_estagiarios  = "select id, nome, telefone, celular, email from alunos ";
-$sql_estagiarios .= " where registro='$registro'";
-// echo $sql_estagiarios . "<br>";
-
-$resultado_estagiarios = $db->Execute($sql_estagiarios);
-if ($resultado_estagiarios === false) die ("Não foi possível consultar a tabela alunos");
-$quantidade_estagiarios = $resultado_estagiarios->RecordCount();
-// echo "Aluno estagiario: " . $quantidade_estagiarios . "<br>";
-
-// Aluno cadastrado como novo
-if ($quantidade_estagiarios === 0) {
-	$sql = "select id from alunos where registro='$registro'";
-	$resultado = $db->Execute($sql);
-	$quantidade = $resultado->RecordCount();
-	if ($quantidade > 0) {
-		// die("Aluno novo ja cadastrado como aluno novo");
-		// Solicitar senha aqui
-		echo "<meta http-equiv='refresh' content='1; URL=mural-alunos_modifica.php?registro=$registro&aluno_id=$id_aluno&muralestagio_id=$muralestagio_id&aluno=0'>";
-		exit;
-	} else {
-		// echo "Inserir alunosNovos<br>";
-		// die("Aluno novo ainda nao cadastrado em alunos novos");
-		// header("Location:cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id");
-		// die($muralestagio_id);
-		echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id'>";
-		die;
-	}
-// Aluno cadastrado como estagiario. Busco os estagios realizados
-} elseif ($quantidade_estagiarios > 0) {
-	// die("Aluno ja cadastrado como estagiario. Solicitar senha");
-	// echo "Aluno ja cadastrado";
-	$periodo_atual = PERIODO_ATUAL;
-	$periodo_anterior = explode("-",$periodo_atual);
-	// print_r($periodo_anterior);
-	$digito_final = $periodo_anterior[1];
-
-	if ($digito_final == 2)
-	$periodo_novo = $periodo_anterior[0] .  "-1";
-
-	if ($digito_final == 1)
-	$periodo_novo = $periodo_anterior[0] - 1 .  "-2";
-
-	/**/
-	// Capturo a instituicao atual e anterior
-	$sql_periodos = "select periodo, nivel, estagiarios.instituicao_id as id_instituicao, estagiarios.supervisor_id as id_supervisor
-	, instituicao, supervisores.nome
-	from estagiarios
-	inner join instituicoes on estagiarios.instituicao_id = instituicoes.id
-	left join supervisores on estagiarios.supervisor_id = supervisores.id ";
-	// where registro = '$registro' and periodo < '" . PERIODO_ATUAL . "' order by periodo desc";
-	$sql_periodos .= "where registro = '$registro' order by periodo desc";
-	// echo $sql_periodos . "<br>";
-
-	$resultado_periodo = $db->Execute($sql_periodos);
-	$quantidade = $resultado_periodo->RecordCount();
-	// echo $quantidade . "<br>";
-	if ($quantidade === 0) die("Error: Aluno estagiario sem estágio? Informar para <a href='mailto:estagio@ess.ufrj.br?Subject=Error: estagiario (DRE: $registro) sem estagio '>estagio@ess.ufrj.br</a>");
-	$i = 1;
-	while (!$resultado_periodo->EOF) {
-		$periodo = $resultado_periodo->fields['periodo'];
-		$nivel = $resultado_periodo->fields['nivel'];
-		// echo $periodo . " " . $nivel . " Atual: " . PERIODO_ATUAL . "<br>";
-
-		$id_instituicao_periodo_anterior = $resultado_periodo->fields['id_instituicao'];
-		$instituicao_periodo_anterior = $resultado_periodo->fields['instituicao'];
-
-		$id_supervisor_periodo_anterior = $resultado_periodo->fields['id_supervisor'];
-		$supervisor_periodo_anterior = $resultado_periodo->fields['nome'];
-
-		$nivel_periodo_anterior = $resultado_periodo->fields['nivel'];
-		$periodo_anterior = $resultado_periodo->fields['periodo'];
-		// echo $periodo_anterior . "<br>";
-		// if ($periodo_anterior = PERIODO_ATUAL) echo 'periodo atual';
-
-		$i++;
-
-		// Somente o primeiro periodo anterior ao PERIODO ATUAL
-		if ($i > 1) {
-			break;
-			// die("Registros capturados");
-		}
-
-		$resultado_periodo->MoveNext();
-	}
-
-	// var_dump($nivel_periodo_anterior);
-	if ($nivel_periodo_anterior == 1 or $nivel_periodo_anterior == 3) {
-	    if ($periodo_anterior != PERIODO_ATUAL) {
-		echo $texto = "<h2>Atenção: aluno que cursou estágio I ou III no período anterior</h2><p style='text-align:justify; background-color:#e7e1ae'>Prezada(o) aluna(o):<br><br>Clicando no botão embaixo sua solicitação será processada, ainda que, pelas normas vigentes, alunos que cursaram estágio I ou III no último período devem requerer autorização especial na Coordenação de Estágio e Extensão para serem habilitados a trocar de estágio antes do cumprimento de dois períodos consecutivos numa mesma instituição.<br><br>Em caso de dúvida entre em contacto através do e-mail <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a></p>";
-		echo "
-		<form action='mural-alunos_modifica.php' method='post'>
-		<input type='submit' name='submit' value='Confirmar inscrição'>
-		<input type='hidden' name='registro' value='$registro'>
-		<input type='hidden' name='aluno_id' value='$id_aluno'>
-		<input type='hidden' name='aluno' value='1'>
-		<input type='hidden' name='muralestagio_id' value='$muralestagio_id'>
-		</form>
-			";
-		die;
-	    } else {
-		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?aluno_id=$id_aluno&registro=$registro&muralestagio_id=$muralestagio_id&aluno=1'>";
-		die;
-	    }
-	} else {
-		echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?aluno_id=$id_aluno&registro=$registro&muralestagio_id=$muralestagio_id&aluno=1'>";
-		die;
-	}
-	exit;
+// Aluno já cadastrado? Se não, é candidato novo: segue para o cadastro.
+$aluno = Aluno::porRegistro($registro);
+if ($aluno === null) {
+	echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id'>";
+	die;
 }
+
+$aluno_id = (int)$aluno['id'];
+
+// Estágios já cursados (do mais antigo para o mais recente).
+$historico = Aluno::historicoEstagiosPorRegistro($registro);
+if (count($historico) === 0) {
+	die("Error: Aluno estagiario sem estágio? Informar para <a href='mailto:estagio@ess.ufrj.br?Subject=Error: estagiario (DRE: $registro) sem estagio '>estagio@ess.ufrj.br</a>");
+}
+
+// Estágio mais recente: decide sobre o aviso do estágio I/III no período anterior.
+$ultimo = end($historico);
+$nivel_ultimo   = $ultimo['nivel'];
+$periodo_ultimo = $ultimo['periodo'];
+
+if (($nivel_ultimo == 1 || $nivel_ultimo == 3) && $periodo_ultimo != PERIODO_ATUAL) {
+	echo "<h2>Atenção: aluno que cursou estágio I ou III no período anterior</h2><p style='text-align:justify; background-color:#e7e1ae'>Prezada(o) aluna(o):<br><br>Clicando no botão embaixo sua solicitação será processada, ainda que, pelas normas vigentes, alunos que cursaram estágio I ou III no último período devem requerer autorização especial na Coordenação de Estágio e Extensão para serem habilitados a trocar de estágio antes do cumprimento de dois períodos consecutivos numa mesma instituição.<br><br>Em caso de dúvida entre em contacto através do e-mail <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a></p>";
+	echo "
+	<form action='mural-alunos_modifica.php' method='post'>
+	<input type='submit' name='submit' value='Confirmar inscrição'>
+	<input type='hidden' name='registro' value='$registro'>
+	<input type='hidden' name='aluno_id' value='$aluno_id'>
+	<input type='hidden' name='aluno' value='1'>
+	<input type='hidden' name='muralestagio_id' value='$muralestagio_id'>
+	</form>
+		";
+	die;
+}
+
+echo "<meta HTTP-EQUIV='refresh' CONTENT='1;URL=mural-alunos_modifica.php?aluno_id=$aluno_id&registro=$registro&muralestagio_id=$muralestagio_id&aluno=1'>";
+die;
 
 ?>

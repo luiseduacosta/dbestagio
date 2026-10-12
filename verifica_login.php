@@ -2,6 +2,7 @@
 
 require_once("setup.php");
 require_once("libphp/models.php");
+require_once("libphp/sessao.php");
 
 $email_digitado = isset($_POST['email']) ? trim($_POST['email']) : '';
 $password_digitada = isset($_POST['password']) ? $_POST['password'] : '';
@@ -37,11 +38,10 @@ if ($usuario === null) {
 $senha_ok = $usuario->verifyPassword($password_digitada);
 
 if ($senha_ok) {
-    // Cookie com flags de segurança: inacessível via JS (httponly) e restrito
-    // ao mesmo site (samesite=Lax); secure apenas quando a conexão for HTTPS.
-    $seguro = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
-    setcookie("email", $usuario->email, 0, "/", "", $seguro, true);
-    setcookie("usuario", $usuario->email, 0, "/", "", $seguro, true);
+    // A identidade passa a viver na sessão (cookie de sessão httponly/samesite).
+    // Os cookies de nome/email gravados aqui servem apenas para os menus em
+    // JavaScript — nunca para autorizar.
+    sessao_autenticar($usuario);
     echo("<script language='javascript'>parent.window.location.href='../estagio/mural/ver-mural.php'</script>");
 } else {
     volta_ao_login();

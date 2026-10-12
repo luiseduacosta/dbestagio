@@ -96,6 +96,22 @@ class Aluno extends ADODB_Model {
     }
 
     /**
+     * Busca um aluno pelo registro (matrícula): linha completa da tabela
+     * alunos, ou null quando não existe.
+     */
+    public static function porRegistro($registro) {
+        $db = static::db();
+        $rs = $db->Execute(
+            "SELECT * FROM alunos WHERE registro = ? LIMIT 1",
+            array((int)$registro)
+        );
+        if ($rs === false || $rs->RecordCount() == 0) {
+            return null;
+        }
+        return $rs->fields;
+    }
+
+    /**
      * Busca um aluno pelo id (com contagem de estágios e inscrições).
      */
     public static function buscar($id) {
@@ -121,10 +137,32 @@ class Aluno extends ADODB_Model {
     }
 
     /**
-     * Histórico de estágios do aluno, com instituição, supervisor e professor
-     * resolvidos na própria consulta (sem N+1).
+     * Histórico de estágios do aluno (por estagiarios.aluno_id), com instituição,
+     * supervisor e professor resolvidos na própria consulta (sem N+1).
      */
     public static function historicoEstagios($aluno_id) {
+        return self::estagiosDoAluno("e.aluno_id = ?", array((int)$aluno_id));
+    }
+
+    /**
+     * Histórico de estágios do aluno pelo registro (matrícula), no mesmo
+     * formato de historicoEstagios().
+     *
+     * Usado no mural: há linhas de estagiarios com aluno_id nulo, que a busca
+     * por aluno_id perderia.
+     */
+    public static function historicoEstagiosPorRegistro($registro) {
+        return self::estagiosDoAluno("e.registro = ?", array((int)$registro));
+    }
+
+    /**
+     * Consulta base do histórico de estágios (JOINs de instituição, supervisor e
+     * professor), ordenada por período — do mais antigo para o mais recente.
+     *
+     * @param string $where  Condição (com placeholder) sobre a tabela estagiarios.
+     * @param array  $params Valores da condição.
+     */
+    private static function estagiosDoAluno($where, array $params) {
         $db = static::db();
         $rs = $db->Execute(
             "SELECT e.id AS estagiario_id, e.tc, e.nivel, e.periodo, e.nota, e.ch, "
@@ -135,8 +173,8 @@ class Aluno extends ADODB_Model {
             . "LEFT JOIN instituicoes i ON i.id = e.instituicao_id "
             . "LEFT JOIN supervisores s ON s.id = e.supervisor_id "
             . "LEFT JOIN professores p ON p.id = e.professor_id "
-            . "WHERE e.aluno_id = ? ORDER BY e.periodo",
-            array((int)$aluno_id)
+            . "WHERE $where ORDER BY e.periodo, e.id",
+            $params
         );
         if ($rs === false) {
             return array();

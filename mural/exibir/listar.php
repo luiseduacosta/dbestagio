@@ -2,14 +2,15 @@
 
 include_once(__DIR__ . "/../../setup.php");
 require_once(__DIR__ . "/../../libphp/models.php");
+require_once(__DIR__ . "/../../libphp/sessao.php");
 
 // O seletor de período é exclusivo do administrador. Para os demais usuários a
 // página sempre mostra o período atual (e ignora o parâmetro ?periodo da URL).
+// O papel vem da SESSÃO autenticada: cookie de identificação não autoriza mais.
 $is_admin = false;
-$usuario_cookie = isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : '';
-if ($usuario_cookie !== '') {
-    $role = Instituicao::$db->GetOne("SELECT role FROM users WHERE email = ?", array($usuario_cookie));
-    $is_admin = ($role === 'admin');
+$sessao_usuario = sessao_usuario_atual();
+if ($sessao_usuario !== null) {
+    $is_admin = ((string)$sessao_usuario['role'] === 'admin');
 }
 
 // Período selecionado (filtra a lista). Vazio = todos os períodos.

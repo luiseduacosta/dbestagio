@@ -1,7 +1,8 @@
 <?php
 
-// Elimino os cookies
-setcookie("usuario", "");
+// Encerro a sessão autenticada (a capa é a entrada pública do sistema)
+require_once(__DIR__ . "/libphp/sessao.php");
+sessao_encerrar();
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 

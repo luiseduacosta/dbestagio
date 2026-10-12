@@ -1,97 +1,89 @@
 <?php
+/**
+ * cadastro.php — Cadastro público do candidato novo no mural de estágios.
+ *
+ * Mantém a rota pública do mural (POST de alunos-mural_insere.tpl, alcançada
+ * por verifica.php): grava o aluno novo na tabela alunos e a inscrição dele na
+ * oferta de mural_estagios escolhida, e redireciona para a lista de inscritos.
+ *
+ * Toda a leitura/gravação passa pelos modelos (libphp/Aluno.php e
+ * libphp/Inscricao.php), que gravam com parâmetros ligados — sem SQL cru.
+ * Observe que a coluna alunos.id NÃO é auto_increment: o id é gerado por
+ * Aluno::proximoId().
+ */
 
-include_once("../setup.php");
+include_once(__DIR__ . "/../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
-$submit = isset($_POST['submit']) ? $_POST['submit'] : NULL;
+$submit = isset($_POST['submit']) ? $_POST['submit'] : null;
 
-$nome            = $_POST['nome'];
-$registro        = $_REQUEST['registro'];
-$codigo_telefone = $_POST['codigo_telefone'];
-$telefone        = $_POST['telefone'];
-$codigo_celular  = $_POST['codigo_celular'];
-$celular         = $_POST['celular'];
-$email           = strtolower($_POST['email']);
-$cpf             = $_POST['cpf'];
-$identidade      = $_POST['identidade'];
-$orgao           = $_POST['orgao']; 
-$nascimento      = $_POST['nascimento'];
-$endereco        = $_POST['endereco'];
-$cep             = $_POST['cep'];
-$municipio       = $_POST['municipio'];
-$bairro          = $_POST['bairro'];
+$registro        = isset($_REQUEST['registro']) ? trim((string)$_REQUEST['registro']) : '';
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 
-$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? $_REQUEST['muralestagio_id'] : NULL;
-$sql = "select instituicao from mural_estagios where id='$muralestagio_id'";
-// echo $sql. "<br>";
-$resultado = $db->Execute($sql);
-$instituicao = $resultado->fields['instituicao'];
-
-// echo "Muralestagio id " . $muralestagio_id . "<br>";
-// echo "Nascimento " . date("d-m-Y",strtotime($nascimento)) . "<br>";
-// echo "Registro: " . $registro . "<br>";
-
-// die;
-
-if (empty($nascimento))
-	$dataNascimento = "";
-else
-	$dataNascimento = date("Y-m-d", strtotime($nascimento));
+// Instituição da oferta em que o candidato se inscreve (consulta parametrizada).
+$oferta = ($muralestagio_id > 0) ? Mural::find($muralestagio_id) : null;
+if ($oferta === null) {
+	die("Oferta de estágio não encontrada no mural (id $muralestagio_id).");
+}
+$instituicao = $oferta->instituicao;
 
 if ($submit) {
-	// Verifico se ja existe um aluno com esse DRE
-	$sql_verifica = "select nome from alunos where registro = $registro";
-	$resultado_sql_verifica = $db->Execute($sql_verifica);
-	$quantidade = $resultado_sql_verifica->RecordCount();
-	if ($quantidade > 0) {
+
+	if (!ctype_digit($registro)) {
+		die("Registro (DRE) inválido: informe somente números.");
+	}
+
+	// Aluno já cadastrado: segue para a atualização dos dados (mesma rota antiga).
+	if (Aluno::registroDuplicado($registro) !== null) {
 		header("Location:mural-alunos_modifica.php?registro=$registro");
 		exit;
 	}
 
-	// Insero o registro na tabela alunos
-	$sql_alunos  = "insert into alunos(registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, ";
-	$sql_alunos .= "cpf, identidade, orgao, nascimento, endereco, cep, municipio, bairro) ";
-	$sql_alunos .= "values('$registro','$nome','$codigo_telefone','$telefone','$codigo_celular','$celular','$email',";
-	$sql_alunos .= "'$cpf','$identidade','$orgao','$dataNascimento','$endereco','$cep','$municipio','$bairro')";
-	// echo $sql_alunos . "<br>";
+	$nascimento = isset($_POST['nascimento']) ? trim($_POST['nascimento']) : '';
+	$dataNascimento = ($nascimento === '') ? null : date("Y-m-d", strtotime($nascimento));
 
-	$resultado_insere = $db->Execute($sql_alunos);
-    	if ($resultado_insere === false) die ("Não foi possível inserir o registro na tabela alunos");
+	// Grava o aluno novo.
+	$novoAluno = new Aluno();
+	$novoAluno->id                = Aluno::proximoId(); // id não é auto_increment.
+	$novoAluno->registro          = (int)$registro;
+	$novoAluno->nome              = isset($_POST['nome']) ? $_POST['nome'] : '';
+	$novoAluno->codigo_telefone   = (isset($_POST['codigo_telefone']) && $_POST['codigo_telefone'] !== '') ? (int)$_POST['codigo_telefone'] : 21;
+	$novoAluno->telefone          = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+	$novoAluno->codigo_celular    = (isset($_POST['codigo_celular']) && $_POST['codigo_celular'] !== '') ? (int)$_POST['codigo_celular'] : 21;
+	$novoAluno->celular           = isset($_POST['celular']) ? $_POST['celular'] : '';
+	$novoAluno->email             = strtolower(isset($_POST['email']) ? $_POST['email'] : '');
+	$novoAluno->cpf               = isset($_POST['cpf']) ? $_POST['cpf'] : '';
+	$novoAluno->identidade        = isset($_POST['identidade']) ? $_POST['identidade'] : '';
+	$novoAluno->orgao             = isset($_POST['orgao']) ? $_POST['orgao'] : '';
+	$novoAluno->nascimento        = $dataNascimento;
+	$novoAluno->endereco          = isset($_POST['endereco']) ? $_POST['endereco'] : '';
+	$novoAluno->cep               = isset($_POST['cep']) ? $_POST['cep'] : '';
+	$novoAluno->municipio         = isset($_POST['municipio']) ? $_POST['municipio'] : '';
+	$novoAluno->bairro            = isset($_POST['bairro']) ? $_POST['bairro'] : '';
+	$novoAluno->estagiarios_count = 0;
+	$novoAluno->inscricao_count   = 0;
 
-	// Pego o id do último registro inserido.
-/*
-    $res_ultimo = $db->Execute("select max(id) as ultimo_aluno from alunos");
-    if($res_ultimo === false) die ("Nao foi possivel consultar a sequencia alunos");
-    $ultimo_aluno = $res_ultimo->fields['ultimo_aluno'];
-*/
-	// Parece que ja nao e mais necessario
+	if (!$novoAluno->save()) {
+		error_log("Erro ao inserir aluno: " . ADODB_Model::$db->ErrorMsg());
+		die("Não foi possível inserir o registro na tabela alunos");
+	}
 
-	// A data de hoje
-	$data = date("Y-m-d");
+	// Grava a inscrição do aluno novo na oferta escolhida.
+	$novaInscricao = new Inscricao();
+	$novaInscricao->registro        = (int)$registro;
+	$novaInscricao->muralestagio_id = $muralestagio_id;
+	$novaInscricao->aluno_id        = $novoAluno->id;
+	$novaInscricao->periodo         = PERIODO_ATUAL;
+	$novaInscricao->data            = date('Y-m-d');
 
-	// Capturo o PERIODO_ATUAL
-	$periodo = PERIODO_ATUAL;
-	// echo $periodo . "<br>";
-
-	// Insero um novo registro na tabela inscricoes com o numero de registro do aluno
-	// Busco o id do aluno na tabela alunos
-	$sql_aluno = "select id from alunos where registro='$registro'";
-	$res_aluno = $db->Execute($sql_aluno);
-	$aluno_id = $res_aluno->fields['id'];
-	if (!$aluno_id) die ("Não foi possível encontrar o aluno com registro $registro na tabela alunos");
-
-	$sql_inserir = "insert into inscricoes (registro,muralestagio_id,data,periodo,aluno_id) ".
-		"values('$registro','$muralestagio_id','$data','$periodo','$aluno_id')";
-	// echo $sql_inserir . "<br>";
-	$resultado_inscricao = $db->Execute($sql_inserir);
-	if ($resultado_inscricao === false) die ("Não foi possível inserir o registro na tabela inscricoes");
+	if (!$novaInscricao->save()) {
+		error_log("Erro ao inserir inscricao: " . ADODB_Model::$db->ErrorMsg());
+		die("Não foi possível inserir o registro na tabela inscricoes");
+	}
 
 	header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
-	// header("Location:ver-mural.php?insere=$nome");
-
-    exit;
+	exit;
 }
-
-// echo $registro . "<br>";
 
 $smarty = new Smarty_estagio;
 $smarty->assign("registro",$registro);
