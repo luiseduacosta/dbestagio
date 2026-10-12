@@ -242,6 +242,30 @@ class Mural extends ADODB_Model {
         return self::formatar($mural->toArray(true));
     }
 
+    /**
+     * Registro formatado para o cartaz (imprime_cartaz.php). Filtra
+     * tambem por periodo (defesa em profundidade) para impedir a
+     * impressao de cartazes de periodos passados.
+     *
+     * @param int    $id      PK da oferta em mural_estagios.
+     * @param string $periodo Periodo (ex.: "2025-2"); vinculado ao WHERE.
+     * @return array|null Registro formatado via formatar() ou null se
+     *                    nao pertence ao periodo (ou nao existe).
+     */
+    public static function cartazPorId($id, $periodo) {
+        $id = (int)$id;
+        if ($id <= 0 || !is_string($periodo) || $periodo === '') {
+            return null;
+        }
+        $db = static::db();
+        $sql = "SELECT * FROM mural_estagios WHERE id = ? AND periodo = ? LIMIT 1";
+        $rs = $db->Execute($sql, array($id, $periodo));
+        if ($rs === false || $rs->EOF) {
+            return null;
+        }
+        return self::formatar($rs->fields);
+    }
+
     // ------------------------------------------------------------------
     // Datas (entrada de formulário)
     // ------------------------------------------------------------------
