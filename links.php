@@ -306,7 +306,7 @@ require_once __DIR__ . '/autentica.inc';
                         </a>
 
                         <div class="section">
-                            <a class="box2" href="estagiarios/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="estagiarios/listar.php" target="_corpo">
                                 Listar</a><br>
                         </div>
                     </td>

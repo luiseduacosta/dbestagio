@@ -70,8 +70,8 @@ Busca: <input type="text" id="busca" name="busca" value="{$busca}" onkeyup="if (
 <td>
 {if $smarty.cookies.usuario}
 <a href="ver_cada.php?id={$e.id}">Ver</a> |
-<a href="../atualizar/atualiza.php?id={$e.id}">Editar</a> |
-<a href="../cancelar/cancela.php?id={$e.id}" onclick="return confirm('Excluir este estágio?');">Excluir</a>
+<a href="atualizar.php?id={$e.id}">Editar</a> |
+<a href="excluir.php?id={$e.id}" onclick="return confirm('Excluir este estágio?');">Excluir</a>
 {/if}
 </td>
 </tr>
@@ -81,7 +81,7 @@ Busca: <input type="text" id="busca" name="busca" value="{$busca}" onkeyup="if (
 </table>
 
 <div align="center">
-<p><a href="../inserir/inserir.php?periodo={$periodo}">Novo estágio</a></p>
+<p><a href="inserir.php?periodo={$periodo}">Novo estágio</a></p>
 </div>
 
 {literal}

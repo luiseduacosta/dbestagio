@@ -101,7 +101,7 @@
 </tbody>
 </table>
 
-<p><a href="../../estagiarios/atualizar/atualiza.php?id={$e.id}">Editar estágio</a></p>
+<p><a href="../../estagiarios/atualizar.php?id={$e.id}">Editar estágio</a></p>
 </div>
 
 </body>
