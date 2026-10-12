@@ -2,7 +2,7 @@
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <link href="../../estagio.css" rel="stylesheet" type="text/css">
+        <link href="../estagio.css" rel="stylesheet" type="text/css">
         <title>Ver cada instituição</title>
 
         {literal}
@@ -144,7 +144,7 @@
                         {if !$curso}
                             {if isset($smarty.cookies.usuario)}
                                 <td>
-                                    <form name="cabacalho" action="../../visitas/inserir/formulario.php" method="get">
+                                    <form name="cabacalho" action="../visitas/inserir/formulario.php" method="get">
                                         <input type="hidden" name="instituicao_id" value="{$instituicao_id}">
                                         <input type="submit" name="submit" value="Adicionar visita">
                                     </form>
@@ -313,7 +313,7 @@
                                 {if $modifica}
                                     Campo calculado automaticamente
                                 {else}
-                                    <a href="../../alunos/exibir/listar.php?seleciona_instituicao={$id}&seleciona_periodo={$turma}">{$turma}</a>
+                                    <a href="../alunos/exibir/listar.php?seleciona_instituicao={$id}&seleciona_periodo={$turma}">{$turma}</a>
                                 {/if}
                             </td>
                         </tr>
@@ -330,7 +330,7 @@
                                     {/section}
                                 </select>
                             {else}
-                                <a href="../../areas/exibir/instituicoes.php?id_area={$id_area}">{$area}</a>
+                                <a href="../areas/exibir/instituicoes.php?id_area={$id_area}">{$area}</a>
                             {/if}
                         </td>
 
@@ -440,20 +440,20 @@
                                 <td width="10%" style="text-align:right">{$inst_supervisores[i].cress}</td>
                                 <td>
                                     {if $curso}
-                                        <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].supervisor_id}'>{$inst_supervisores[i].nome}</a>
+                                        <a href='../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].supervisor_id}'>{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como supervisor de estagio *}
                                         {if $inst_supervisores[i].id_super_estagio}
-                                            <a href='../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
+                                            <a href='../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
                                             &nbsp;
                                             <a href='ver_cada.php?instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
                                     {else}	
-                                        <a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
+                                        <a href="../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como assistente social do curso *}
                                         {if isset($inst_supervisores[i].id_super_curso)}
-                                            <a href='../../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_super_curso}'>[1]</a>
+                                            <a href='../curso/ver_cada_supervisor.php?id_supervisor={$inst_supervisores[i].id_super_curso}'>[1]</a>
                                             &nbsp;
                                             <a href='ver_cada.php?curso=sem&instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
@@ -464,11 +464,11 @@
                                 {if !$curso}
                                     {if $sistema_autentica == 1}
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
+                                            <a href="../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
                                         </td>
 
                                         <td width="10%" style="text-align:center">
-                                            <a href="../../supervisores/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
+                                            <a href="../supervisores/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
                                         </td>
                                     {/if}
                                 {/if}
