@@ -90,16 +90,30 @@ function contacarateres() {
 <body>
 
 <?php
-
-// include_once("../../db.inc");
+require_once(__DIR__ . "/../../libphp/models.php");
 include_once("../../autentica.inc");
 
-$nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : NULL;
-$cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : NULL;
-$telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : NULL;
-$celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : NULL;
-$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : NULL;
-$supervisor_id = isset($_REQUEST['supervisor_id']) ? $_REQUEST['supervisor_id'] : NULL;
+// Initialize and cast all variables to prevent undefined warnings
+$nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : '';
+$cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : '';
+$telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : '';
+$celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : '';
+$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
+$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+
+// Initialize variables to prevent undefined warnings
+$inst_super_id = 0;
+$instituicao_id = 0;
+$instituicao = '';
+$endereco = '';
+$bairro = '';
+$municipio = '';
+$cep = '';
+$escola = '';
+$ano_formatura = '';
+$outros_estudos = '';
+$area_curso = '';
+$ano_curso = '';
 
 if ($cress) {
 	if (ctype_digit($cress) == FALSE) echo "Digite somente números.";
@@ -110,20 +124,23 @@ $sql .=	" from supervisores ";
 $sql .= " left join inst_super on supervisores.id = inst_super.supervisor_id ";
 $sql .= " left join instituicoes on inst_super.instituicao_id = instituicoes.id ";
 
+// Use parameterized queries to prevent SQL injection
+$params = array();
 if (!empty($supervisor_id)) {
-	$sql .= " where supervisores.id='$supervisor_id'";
+	$sql .= " where supervisores.id=?";
+	$params[] = $supervisor_id;
 } elseif(!empty($cress)) {
-	$sql .= " where supervisores.cress='$cress'";
+	$sql .= " where supervisores.cress=?";
+	$params[] = $cress;
 } else {
 	die("Número de Cress não foi digitado");
 }
-// echo $sql . "<br>";
 
-$resultado = $db->Execute($sql);
+// Use model query method instead of raw $db->Execute
+$resultado = Supervisor::query($sql, $params);
+if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
 
 $quantidade = $resultado->RecordCount();
-
-// $acao = ($quantidade == 0) ? "inserir.php" : "atualizar.php";
 
 // Se esta sendo utilizada como cadastro entao bloquea caso nao tenha cress
 if ($sistema_autentica == 0) {
@@ -133,27 +150,26 @@ if ($sistema_autentica == 0) {
 	}
 }
 
-while (!$resultado->EOF) {
-	$inst_super_id = $resultado->fields['id_inst_super'];
-	$instituicao_id = $resultado->fields['instituicao_id'];
-	$instituicao = $resultado->fields['instituicao'];
-	$supervisor_id = $resultado->fields['id'];
-    $cress = $resultado->fields['cress'];
-    $nome = $resultado->fields['nome'];
-    $email = $resultado->fields['email'];
-    $telefone = $resultado->fields['telefone'];
-    $celular = $resultado->fields['celular'];
-    $endereco = $resultado->fields['endereco'];
-    $bairro = $resultado->fields['bairro'];
-    $municipio = $resultado->fields['municipio'];
-    $cep = $resultado->fields['cep'];
-    $escola = $resultado->fields['escola'];
-    $ano_formatura = $resultado->fields['ano_formatura'];
-    $outros_estudos = $resultado->fields['outros_estudos'];
-    $area_curso = $resultado->fields['area_curso'];
-    $ano_curso = $resultado->fields['ano_curso'];
-	
-    $resultado->MoveNext();
+// Replace legacy EOF loop with modern foreach loop (ADODB_Model compatible)
+foreach ($resultado as $item) {
+	$inst_super_id = isset($item->id_inst_super) ? (int)$item->id_inst_super : 0;
+	$instituicao_id = isset($item->instituicao_id) ? (int)$item->instituicao_id : 0;
+	$instituicao = isset($item->instituicao) ? $item->instituicao : '';
+	$supervisor_id = isset($item->id) ? (int)$item->id : 0;
+    $cress = isset($item->cress) ? $item->cress : '';
+    $nome = isset($item->nome) ? $item->nome : '';
+    $email = isset($item->email) ? $item->email : '';
+    $telefone = isset($item->telefone) ? $item->telefone : '';
+    $celular = isset($item->celular) ? $item->celular : '';
+    $endereco = isset($item->endereco) ? $item->endereco : '';
+    $bairro = isset($item->bairro) ? $item->bairro : '';
+    $municipio = isset($item->municipio) ? $item->municipio : '';
+    $cep = isset($item->cep) ? $item->cep : '';
+    $escola = isset($item->escola) ? $item->escola : '';
+    $ano_formatura = isset($item->ano_formatura) ? $item->ano_formatura : '';
+    $outros_estudos = isset($item->outros_estudos) ? $item->outros_estudos : '';
+    $area_curso = isset($item->area_curso) ? $item->area_curso : '';
+    $ano_curso = isset($item->ano_curso) ? $item->ano_curso : '';
 }
 
 ?>
@@ -316,16 +332,15 @@ echo "
 <?php
 
 $sql = "select instituicoes.id, instituicoes.instituicao from instituicoes order by instituicao";	
-$resultado = $db->Execute($sql);
-while (!$resultado->EOF) {
-	$id = $resultado->fields['id'];
-	$instituicao = $resultado->fields['instituicao'];
+$resultado = Instituicao::query($sql);
+if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
+foreach ($resultado as $item) {
+	$id = (int)$item->id;
+	$instituicao = $item->instituicao;
 	
 	echo "
 	<option value='$id'>$instituicao</option>
 	";
-	
-	$resultado->MoveNext();
 }
 
 ?>

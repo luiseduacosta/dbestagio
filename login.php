@@ -53,6 +53,7 @@ sessao_encerrar();
 <td colspan="2">
 <p class="coluna_centralizada">
 <input type="submit" name="submit" value="Confirma">
+</p>
 </td>
 </tr>
 

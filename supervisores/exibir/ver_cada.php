@@ -29,14 +29,13 @@ if ($periodo !== '') {
 }
 $sql .= " ORDER BY s.nome";
 
-$rs = $db->Execute($sql, $params);
-if ($rs === false) {
+$rs = Supervisor::query($sql, $params);
+if (empty($rs)) {
     die("Não foi possível consultar a tabela supervisores.");
 }
 $lista = array();
-while (!$rs->EOF) {
-    $lista[] = (int)$rs->fields['id'];
-    $rs->MoveNext();
+foreach ($rs as $item) {
+    $lista[] = (int)$item->id;
 }
 $ultimo = count($lista);
 
@@ -64,7 +63,7 @@ if ($supervisor === null) {
 if (!empty($_POST['num_instituicao'])) {
     $num_instituicao = (int)$_POST['num_instituicao'];
     if ($num_instituicao > 0) {
-        $ok = $db->Execute(
+        $ok = Instituicao::query(
             "INSERT INTO inst_super (supervisor_id, instituicao_id) VALUES (?, ?)",
             array($supervisor_id, $num_instituicao)
         );
@@ -79,7 +78,7 @@ $emprego = $supervisor->instituicoes();
 
 // Alunos supervisionados (consulta única, sem N+1).
 $alunos = array();
-$rs = $db->Execute(
+$rs = Estagiario::query(
     "SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao
      FROM estagiarios AS e
      INNER JOIN alunos AS a ON a.id = e.aluno_id
@@ -91,25 +90,24 @@ $rs = $db->Execute(
 if ($rs === false) {
     die("Não foi possível consultar a tabela alunos");
 }
-while (!$rs->EOF) {
+foreach ($rs as $item) {
     $alunos[] = array(
-        'aluno_id'       => (int)$rs->fields['aluno_id'],
-        'registro'       => (int)$rs->fields['registro'],
-        'nome'           => $rs->fields['nome'],
-        'periodo'        => $rs->fields['periodo'],
-        'instituicao_id' => (int)$rs->fields['instituicao_id'],
-        'instituicao'    => ($rs->fields['instituicao'] !== null) ? $rs->fields['instituicao'] : 'Sem dados',
+        'aluno_id'       => (int)$item->aluno_id,
+        'registro'       => (int)$item->registro,
+        'nome'           => $item->nome,
+        'periodo'        => $item->periodo,
+        'instituicao_id' => (int)$item->instituicao_id,
+        'instituicao'    => ($item->instituicao !== null) ? $item->instituicao : 'Sem dados',
     );
-    $rs->MoveNext();
 }
 
 // Vínculo do supervisor com o curso (mesma regra usada no índice).
 $id_curso = null;
 $cress = (string)$supervisor->cress;
 if ($cress !== '' && $cress !== '0' && ctype_digit($cress)) {
-    $id_curso = $db->GetOne("SELECT id FROM curso_inscricao_supervisor WHERE cress = ? LIMIT 1", array($cress));
-    if ($id_curso === false) {
-        $id_curso = null;
+    $curso = Supervisor::query("SELECT id FROM curso_inscricao_supervisor WHERE cress = ? LIMIT 1", array($cress));
+    if (!empty($curso)) {
+        $id_curso = (int)$curso[0]->id;
     }
 }
 

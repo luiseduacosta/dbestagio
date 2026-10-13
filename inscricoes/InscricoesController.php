@@ -72,11 +72,9 @@ class InscricoesController {
 		if ($aluno_id <= 0 || !ADODB_Model::$db) {
 			return '';
 		}
-		$registro = ADODB_Model::$db->GetOne(
-			"SELECT registro FROM alunos WHERE id = ?",
-			array($aluno_id)
-		);
-		return ($registro === false || $registro === null) ? '' : (string)$registro;
+		$aluno = Aluno::find($aluno_id);
+		$registro = $aluno !== null ? $aluno->registro : '';
+		return (string)$registro;
 	}
 
 	/** True se a inscrição pertence ao aluno logado. */

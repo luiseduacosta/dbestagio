@@ -69,11 +69,12 @@ class InstituicoesController {
 	 * carregar todo o resultset em memória.
 	 */
 	private function idNaPosicao($indice) {
-		$id = (int)ADODB_Model::$db->GetOne(
-			"SELECT id FROM instituicoes ORDER BY instituicao LIMIT 1 OFFSET ?",
-			array((int)$indice)
-		);
-		return $id > 0 ? (int)$id : 0;
+		$indice = (int)$indice;
+		if ($indice < 0) return 0;
+		$instituicoes = Instituicao::all("ORDER BY instituicao LIMIT 1 OFFSET $indice");
+		if (empty($instituicoes)) return 0;
+		$inst = reset($instituicoes);
+		return (int)$inst->id > 0 ? (int)$inst->id : 0;
 	}
 
 	/**
@@ -83,15 +84,14 @@ class InstituicoesController {
 	private function posicaoDoId($id) {
 		$id = (int)$id;
 		if ($id <= 0) return -1;
-		$rs = ADODB_Model::$db->Execute("SELECT id FROM instituicoes ORDER BY instituicao");
-		if (!$rs) return -1;
+		$instituicoes = Instituicao::all("ORDER BY instituicao");
+		if (empty($instituicoes)) return -1;
 		$lugar = 0;
-		while (!$rs->EOF) {
-			if ((int)$rs->fields['id'] === $id) {
+		foreach ($instituicoes as $inst) {
+			if ((int)$inst->id === $id) {
 				return $lugar;
 			}
 			$lugar++;
-			$rs->MoveNext();
 		}
 		return -1;
 	}
@@ -183,12 +183,12 @@ class InstituicoesController {
 		if ($novo_supervisor_nome !== '') {
 			$novo_supervisor_cress = $this->campoTexto('novo_supervisor_cress');
 			$novo_supervisor_email = $this->campoTexto('novo_supervisor_email');
-			$ok_supervisor = Instituicao::$db->Execute(
-				"INSERT INTO supervisores (nome, cress, email) VALUES (?, ?, ?)",
-				array($novo_supervisor_nome, $novo_supervisor_cress, $novo_supervisor_email)
-			);
-			if ($ok_supervisor !== false) {
-				$nova->vincularSupervisor((int)Instituicao::$db->Insert_ID());
+			$novo_supervisor = new Supervisor();
+			$novo_supervisor->nome = $novo_supervisor_nome;
+			$novo_supervisor->cress = $novo_supervisor_cress;
+			$novo_supervisor->email = $novo_supervisor_email;
+			if ($novo_supervisor->save()) {
+				$nova->vincularSupervisor((int)$novo_supervisor->getKey());
 			} else {
 				error_log("Erro ao inserir supervisor: " . Instituicao::$db->ErrorMsg());
 			}
@@ -220,10 +220,13 @@ class InstituicoesController {
 		// Última turma com estagiários (readonly no formulário).
 		$turma = '';
 		if ($inst->countEstagiarios() > 0) {
-			$turma = ADODB_Model::$db->GetOne(
-				"SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
+			$ultimo_periodo = Estagiario::query(
+				"SELECT MAX(periodo) as max_periodo FROM estagiarios WHERE instituicao_id = ?",
 				array($instituicao_id)
 			);
+			if (!empty($ultimo_periodo)) {
+				$turma = $ultimo_periodo[0]->max_periodo;
+			}
 		}
 
 		$smarty = new Smarty_estagio;
@@ -463,17 +466,20 @@ class InstituicoesController {
 		if ($inst) {
 			// Última turma de estagiários da instituição.
 			if ($inst->countEstagiarios() > 0) {
-				$dados['turma'] = ADODB_Model::$db->GetOne(
-					"SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
+				$ultimo_periodo = Estagiario::query(
+					"SELECT MAX(periodo) as max_periodo FROM estagiarios WHERE instituicao_id = ?",
 					array($inst->getKey())
 				);
+				if (!empty($ultimo_periodo)) {
+					$dados['turma'] = $ultimo_periodo[0]->max_periodo;
+				}
 			}
 
 			// Supervisores vinculados.
 			$dados['inst_supervisores'] = $inst->supervisores();
 
 			// Professores que orientam estagiários nesta instituição (última turma).
-			$rs_prof = ADODB_Model::$db->Execute(
+			$professores = Professor::query(
 				"SELECT p.id AS id_professor, p.nome, MAX(e.periodo) AS periodo
 				 FROM estagiarios AS e
 				 INNER JOIN professores AS p ON e.professor_id = p.id
@@ -482,14 +488,13 @@ class InstituicoesController {
 				 ORDER BY p.nome",
 				array($inst->getKey())
 			);
-			if ($rs_prof) {
+			if (!empty($professores)) {
 				$i = 0;
-				while (!$rs_prof->EOF) {
-					$dados['inst_professores'][$i]['id_professor'] = $rs_prof->fields['id_professor'];
-					$dados['inst_professores'][$i]['nome']         = $rs_prof->fields['nome'];
-					$dados['inst_professores'][$i]['periodo']      = $rs_prof->fields['periodo'];
+				foreach ($professores as $prof) {
+					$dados['inst_professores'][$i]['id_professor'] = $prof->id_professor;
+					$dados['inst_professores'][$i]['nome']         = $prof->nome;
+					$dados['inst_professores'][$i]['periodo']      = $prof->periodo;
 					$i++;
-					$rs_prof->MoveNext();
 				}
 			}
 		}
@@ -541,7 +546,11 @@ class InstituicoesController {
 	public function listar() {
 		$this->semAutenticacao();
 
-		$turma        = isset($_GET['turma']) ? $_GET['turma'] : Instituicao::$db->GetOne("SELECT MAX(periodo) FROM estagiarios");
+		$turma        = isset($_GET['turma']) ? $_GET['turma'] : '';
+		$max_periodo = Estagiario::query("SELECT MAX(periodo) as max_periodo FROM estagiarios");
+		if (!empty($max_periodo)) {
+			$turma = empty($turma) ? $max_periodo[0]->max_periodo : $turma;
+		}
 		$sem_periodo  = ($turma === '' || $turma === null || (string)$turma === '0');
 		$instituicao  = isset($_REQUEST['instituicao']) ? trim((string)$_REQUEST['instituicao']) : '';
 		$naturezaFilt = isset($_GET['natureza']) ? $_GET['natureza'] : '';
@@ -549,9 +558,21 @@ class InstituicoesController {
 		$total_supervi  = 0;
 
 		// ---------- Totais gerais ----------
-		$total_alunos      = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT registro) FROM estagiarios");
-		$total_instituicoes = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT instituicao_id) FROM estagiarios WHERE instituicao_id IS NOT NULL");
-		$total_professores = (int)Instituicao::$db->GetOne("SELECT COUNT(DISTINCT professor_id) FROM estagiarios WHERE professor_id IS NOT NULL");
+		$totais = Estagiario::query(
+			"SELECT COUNT(DISTINCT registro) as total_alunos,
+			 COUNT(DISTINCT instituicao_id) as total_instituicoes,
+			 COUNT(DISTINCT professor_id) as total_professores
+			 FROM estagiarios 
+			 WHERE instituicao_id IS NOT NULL AND professor_id IS NOT NULL"
+		);
+		$total_alunos = 0;
+		$total_instituicoes = 0;
+		$total_professores = 0;
+		if (!empty($totais)) {
+			$total_alunos = (int)$totais[0]->total_alunos;
+			$total_instituicoes = (int)$totais[0]->total_instituicoes;
+			$total_professores = (int)$totais[0]->total_professores;
+		}
 
 		// ---------- Lista de instituições (filtrada por turma e nome/natureza) ----------
 		$wheres = array();
@@ -577,55 +598,70 @@ class InstituicoesController {
 		        LEFT JOIN estagiarios AS t ON e.id = t.instituicao_id
 		        $where_sql
 		        GROUP BY e.instituicao, e.area_id, e.beneficios, e.id";
-		$resultado = Instituicao::$db->Execute($sql, $params);
-		if ($resultado === false) {
+		$resultado = Instituicao::query($sql, $params);
+		if ($resultado === false || empty($resultado)) {
 			error_log("Erro ao consultar instituicoes: " . Instituicao::$db->ErrorMsg());
 			die("Não foi possível consultar a tabela instituicoes.");
 		}
 
 		$matriz = array();
-		while (!$resultado->EOF) {
-			$id          = (int)$resultado->fields['id'];
-			$inst_nome   = $resultado->fields['instituicao'];
-			$convenio    = $resultado->fields['convenio'];
-			$seguro      = $resultado->fields['seguro'];
-			$beneficio   = $resultado->fields['beneficio'];
-			$id_area     = $resultado->fields['id_area'];
-			$area        = $resultado->fields['area'];
-			$natureza    = $resultado->fields['natureza'];
+		foreach ($resultado as $row) {
+			$id          = (int)$row->id;
+			$inst_nome   = $row->instituicao;
+			$convenio    = $row->convenio;
+			$seguro      = $row->seguro;
+			$beneficio   = $row->beneficio;
+			$id_area     = $row->id_area;
+			$area        = $row->area;
+			$natureza    = $row->natureza;
 
 			// Supervisores distintos no período (e no total quando turma=vazio).
-			$superSql   = "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?";
+			$superSql   = "SELECT COUNT(DISTINCT supervisor_id) as count FROM estagiarios WHERE instituicao_id = ?";
 			$superArgs  = array($id);
 			if (!$sem_periodo) {
 				$superSql .= " AND periodo = ?";
 				$superArgs[] = $turma;
 			}
-			$q_supervi  = (int)Instituicao::$db->GetOne($superSql, $superArgs);
+			$super_count = Estagiario::query($superSql, $superArgs);
+			$q_supervi = 0;
+			if (!empty($super_count)) {
+				$q_supervi = (int)$super_count[0]->count;
+			}
 			$total_supervi += $q_supervi;
 
 			// Última turma com estagiários na instituição.
-			$turma_inst = Instituicao::$db->GetOne(
-				"SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
+			$turma_inst_query = Estagiario::query(
+				"SELECT MAX(periodo) as max_periodo FROM estagiarios WHERE instituicao_id = ?",
 				array($id)
 			);
-			$turma_inst = $turma_inst ?: '';
+			$turma_inst = '';
+			if (!empty($turma_inst_query)) {
+				$turma_inst = $turma_inst_query[0]->max_periodo ?: '';
+			}
 
 			// Alunos (distintos por registro) no período selecionado.
-			$aluSql   = "SELECT COUNT(DISTINCT registro) FROM estagiarios WHERE instituicao_id = ?";
+			$aluSql   = "SELECT COUNT(DISTINCT registro) as count FROM estagiarios WHERE instituicao_id = ?";
 			$aluArgs  = array($id);
 			if (!$sem_periodo) {
 				$aluSql .= " AND periodo = ?";
 				$aluArgs[] = $turma;
 			}
-			$q_alunos = (int)Instituicao::$db->GetOne($aluSql, $aluArgs);
+			$aluno_count = Estagiario::query($aluSql, $aluArgs);
+			$q_alunos = 0;
+			if (!empty($aluno_count)) {
+				$q_alunos = (int)$aluno_count[0]->count;
+			}
 
 			// Total de períodos (valores distintos de periodo) para a instituição.
-			$n_periodos = Instituicao::$db->GetOne(
-				"SELECT COUNT(DISTINCT periodo) FROM estagiarios WHERE instituicao_id = ?",
+			$periodos_count = Estagiario::query(
+				"SELECT COUNT(DISTINCT periodo) as count FROM estagiarios WHERE instituicao_id = ?",
 				array($id)
 			);
-			$todos_periodos += (int)$n_periodos;
+			$n_periodos = 0;
+			if (!empty($periodos_count)) {
+				$n_periodos = (int)$periodos_count[0]->count;
+			}
+			$todos_periodos += $n_periodos;
 
 			$row = array(
 				'instituicao_id' => $id,
@@ -647,20 +683,18 @@ class InstituicoesController {
 
 		// ---------- Períodos e naturezas para os filtros ----------
 		$periodos = array();
-		$rs_turma = Instituicao::$db->Execute("SELECT DISTINCT periodo FROM estagiarios WHERE periodo IS NOT NULL ORDER BY periodo DESC");
-		if ($rs_turma) {
-			while (!$rs_turma->EOF) {
-				$periodos[] = $rs_turma->fields['periodo'];
-				$rs_turma->MoveNext();
+		$rs_turma = Estagiario::query("SELECT DISTINCT periodo FROM estagiarios WHERE periodo IS NOT NULL ORDER BY periodo DESC");
+		if (!empty($rs_turma)) {
+			foreach ($rs_turma as $turma) {
+				$periodos[] = $turma->periodo;
 			}
 		}
 
 		$naturezas = array();
-		$rs_nat = Instituicao::$db->Execute("SELECT DISTINCT natureza FROM instituicoes WHERE natureza IS NOT NULL ORDER BY natureza");
-		if ($rs_nat) {
-			while (!$rs_nat->EOF) {
-				$naturezas[] = $rs_nat->fields['natureza'];
-				$rs_nat->MoveNext();
+		$rs_nat = Instituicao::query("SELECT DISTINCT natureza FROM instituicoes WHERE natureza IS NOT NULL ORDER BY natureza");
+		if (!empty($rs_nat)) {
+			foreach ($rs_nat as $nat) {
+				$naturezas[] = $nat->natureza;
 			}
 		}
 
@@ -707,10 +741,14 @@ class InstituicoesController {
 		// ---------- Checagem de registros dependentes ----------
 		$erros = array();
 
-		$countInstSuper = (int)Instituicao::$db->GetOne(
-			"SELECT COUNT(*) FROM inst_super WHERE instituicao_id = ?",
+		$countInstSuper = 0;
+		$rs_super = Instituicao::query(
+			"SELECT COUNT(*) as count FROM inst_super WHERE instituicao_id = ?",
 			array($instituicao_id)
 		);
+		if (!empty($rs_super)) {
+			$countInstSuper = (int)$rs_super[0]->count;
+		}
 		if ($countInstSuper > 0) {
 			$erros[] = "supervisores vinculados ($countInstSuper)";
 		}

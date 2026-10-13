@@ -17,15 +17,16 @@ if ($periodo) {
 } else {
 
 	$sql = "select periodo from inscricoes group by periodo order by periodo";
-	$resultado = $db->Execute($sql);
+	$resultado = Inscricao::query($sql);
 	$i = 0;
-	while (!$resultado->EOF) {
-		$periodo = $resultado->fields['periodo'];
+	$historico = array();
+	foreach ($resultado as $item) {
+		$periodo = $item->periodo;
 
-		$sql_periodo = "SELECT count(distinct registro) as subtotal FROM inscricoes WHERE periodo = '$periodo'";
-		$resultado_periodo = $db->Execute($sql_periodo);
-		$subtotal = $resultado_periodo->fields['subtotal'];
-		$historico[$i]['subtotal'] = $subtotal;
+		$sql_periodo = "SELECT count(distinct registro) as subtotal FROM inscricoes WHERE periodo = ?";
+		$resultado_periodo = Inscricao::query($sql_periodo, array($periodo));
+		$subtotal = $resultado_periodo[0]->subtotal;
+		$historico[$i]['subtotal'] = (int)$subtotal;
 		$historico[$i]['periodo'] = $periodo;
 
 		$historico[$i]['vagas'] = Mural::totalVagasPorPeriodo($periodo);
@@ -34,7 +35,6 @@ if ($periodo) {
 		$historico[$i]['alunos_sem_estagio'] = $alunos_periodo[1];
 		
 		$i++;
-		$resultado->MoveNext();
 	}
 	
 	$smarty = new Smarty_estagio;
@@ -69,18 +69,18 @@ function instituicoes_periodo($selecao) {
 
 	require("../db.inc");
 
-	$sql_instituicoes = "select instituicao, vagas from mural_estagios where mural_estagios.periodo = '$selecao' order by instituicao";
+	$sql_instituicoes = "select instituicao, vagas from mural_estagios where mural_estagios.periodo = ? order by instituicao";
 	// echo "<br>";
-	$resultado_instituicoes = $db->Execute($sql_instituicoes);
+	$resultado_instituicoes = Mural::query($sql_instituicoes, array($selecao));
 	$j = 0;
-	while(!$resultado_instituicoes->EOF) {
+	$instituicoes = array();
+	foreach($resultado_instituicoes as $item) {
 		
-		$instituicoes[$j]['instituicao'] = $resultado_instituicoes->fields['instituicao'];
-	  	$instituicoes[$j]['vagas'] = $resultado_instituicoes->fields['vagas'];
+		$instituicoes[$j]['instituicao'] = $item->instituicao;
+	  	$instituicoes[$j]['vagas'] = (int)$item->vagas;
 
 	  	$total_vagas = $total_vagas + $instituicoes[$j]['vagas'];
 	  	$j++;
-		$resultado_instituicoes->MoveNext();
 	}
 	
 	$smarty = new Smarty_estagio;
@@ -99,7 +99,7 @@ function alunos_por_periodo($periodo) {
 	$sql_alunos = "select inscricoes.registro, alunos.nome 
 	from inscricoes 
 	left outer join alunos on inscricoes.registro = alunos.registro 
-	where periodo='$periodo' 
+	where periodo=? 
 	group by inscricoes.registro 
 	order by alunos.nome ";
 	// echo $sql_alunos . "<br>";
@@ -110,23 +110,27 @@ function alunos_por_periodo($periodo) {
 		$indice = $ordem;
 	}
 	
-	$resultado_alunos = $db->Execute($sql_alunos);
+	$resultado_alunos = Inscricao::query($sql_alunos, array($periodo));
 	$j = 0;
 	$k = 0;	// Sem estagio
-	while (!$resultado_alunos->EOF) {
+	$alunos = array();
+	$alunos_sem_estagio = array();
+	$total_sem_estagio = 0;
+	$nivel0 = $nivel1 = $nivel2 = $nivel3 = $nivel4 = 0;
+	foreach ($resultado_alunos as $item) {
 		
 		$alunos[$j][$ordem] = $$indice;
-		$alunos[$j]['id_aluno'] = $resultado_alunos->fields['registro'];
-	  	$alunos[$j]['nome'] = $resultado_alunos->fields['nome'];
+		$alunos[$j]['id_aluno'] = $item->registro;
+	  	$alunos[$j]['nome'] = $item->nome;
 		$alunos[$j]['situacao'] = 1; // Com estagio
 	  	
-	  	$id_aluno = $resultado_alunos->fields['registro'];
-	  	$nome = $resultado_alunos->fields['nome'];
+	  	$id_aluno = $item->registro;
+	  	$nome = $item->nome;
 
         // Busco se está estagiando
-	  	$sql_estagiario = "select nivel from estagiarios where registro = '$id_aluno' and periodo = '$periodo'";
-		$resultado_estagiario = $db->Execute($sql_estagiario);
-		$nivel = $resultado_estagiario->fields['nivel'];
+	  	$sql_estagiario = "select nivel from estagiarios where registro = ? and periodo = ?";
+		$resultado_estagiario = Estagiario::query($sql_estagiario, array($id_aluno, $periodo));
+		$nivel = isset($resultado_estagiario[0]->nivel) ? (int)$resultado_estagiario[0]->nivel : 0;
 		if (empty($nivel)) $nivel0++;
 		if ($nivel == 1) $nivel1++;
 		if ($nivel == 2) $nivel2++;
@@ -136,38 +140,35 @@ function alunos_por_periodo($periodo) {
 		// echo $nivel0 . " " . $nivel1 . " " . $nivel2 . " " . $nivel3 . " " . $nivel4;
 		// echo "<br>";
 		
-		$alunos[$j]['nivel'] = $resultado_estagiario->fields['nivel'];
+		$alunos[$j]['nivel'] = $nivel;
 	  	// echo "<br>";
 	  	
 		// Se nao estah em alunos estagiarios entao busco em alunos
 	  	if (empty($nome)) {
 			// echo "Aluno sem estagio<br>";
-	  		$sql_aluno_novo = "select nome, email, telefone, celular from alunos where registro='$id_aluno' order by nome";
-			$resultado_aluno_novo = $db->Execute($sql_aluno_novo);
-			$sem_estagio = $resultado_aluno_novo->RecordCount();
+	  		$sql_aluno_novo = "select nome, email, telefone, celular from alunos where registro=? order by nome";
+			$resultado_aluno_novo = Aluno::query($sql_aluno_novo, array($id_aluno));
+			$sem_estagio = count($resultado_aluno_novo);
 			$total_sem_estagio = $total_sem_estagio + $sem_estagio;
 			// echo "<br>";
 
-			while (!$resultado_aluno_novo->EOF) {
+			foreach ($resultado_aluno_novo as $aluno_item) {
 				
 				$alunos[$j]['id_aluno'] = $id_aluno;
-	  			$alunos[$j]['nome'] = $resultado_aluno_novo->fields['nome'];
+	  			$alunos[$j]['nome'] = $aluno_item->nome;
 				$alunos[$j]['situacao'] = 0; // Sem estagio
 
-	  			$alunos_sem_estagio[$k]['nome'] = $resultado_aluno_novo->fields['nome'];
-	  			$alunos_sem_estagio[$k]['email'] = $resultado_aluno_novo->fields['email'];
-       	  			$alunos_sem_estagio[$k]['telefone'] = $resultado_aluno_novo->fields['telefone'];
-                                $alunos_sem_estagio[$k]['celular'] = $resultado_aluno_novo->fields['celular'];
+	  			$alunos_sem_estagio[$k]['nome'] = $aluno_item->nome;
+	  			$alunos_sem_estagio[$k]['email'] = $aluno_item->email;
+       	  			$alunos_sem_estagio[$k]['telefone'] = $aluno_item->telefone;
+                                $alunos_sem_estagio[$k]['celular'] = $aluno_item->celular;
                                 $alunos_sem_estagio[$k]['id_aluno'] = $id_aluno;
 
 	  			$k++;
-	  			
-				$resultado_aluno_novo->MoveNext();
 				}
 			}
 
 	  	$j++;
-		$resultado_alunos->MoveNext();
 	}
 
 	$nivel_total = $nivel0 + $nivel1 + $nivel2 + $nivel3 + $nivel4;

@@ -1,4 +1,6 @@
-<?php require_once("ajaxInstituicao.php"); ?>
+<?php 
+require_once(__DIR__ . "/../../libphp/models.php");
+require_once("ajaxInstituicao.php"); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -269,8 +271,8 @@ if($sistema_autentica == 0) {
 $sql  = "select id, nome ";
 $sql .= " from supervisores ";
 $sql .= " order by nome";
-$resultado = $db->Execute($sql);
-if ($resultado_=== false) die ("Não foi possível consultar a tabela supervisores");
+$resultado = Supervisor::query($sql);
+if ($resultado === false) die ("Não foi possível consultar a tabela supervisores");
 ?>
 
 <tr>
@@ -279,13 +281,12 @@ if ($resultado_=== false) die ("Não foi possível consultar a tabela supervisor
 <select nome="id_supervisor" id="id_supervisor" size="1" onChange="return ver_Supervisor();">
 <option value=0>Se já está cadastrado selecione aqui, caso contrário digite a informação</option>
 <?php
-while (!$resultado->EOF) {
-    $id_supervisor = $resultado->fields['id'];
-    $supervisor    = $resultado->fields['nome'];
+foreach ($resultado as $item) {
+    $id_supervisor = (int)$item->id;
+    $supervisor    = $item->nome;
     echo "
     <option value=$id_supervisor>$supervisor</option>
     ";
-    $resultado->MoveNext();
 }
 ?>
 </select>

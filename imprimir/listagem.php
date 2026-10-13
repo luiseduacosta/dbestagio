@@ -1,6 +1,7 @@
 <?php
 
 require_once("../autentica.inc"); // Carrega setup.php e exige login
+require_once(__DIR__ . "/../libphp/models.php");
 
 // Intranet
 define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
@@ -76,7 +77,7 @@ where e.area_id=a.id
 order by instituicao";
 // echo $sql . "<br>";
 
-$resultado = $db->Execute($sql);
+$resultado = Instituicao::query($sql);
 if ($resultado === false) die ("Não foi possível consultar a tabela instituicoes e/ou areas");
 
 $pdf->AddPage();
@@ -85,7 +86,7 @@ $pdf->AddPage();
 $linha = 20;
 // A variavel pagina conta as instituicoes ja renderizadas na pagina atual (quebra a cada 5)
 $pagina = 0;
-while (!$resultado->EOF) {
+foreach ($resultado as $item) {
     // Antes de renderizar, fecha a anterior e abre nova pagina se ja temos 5 instituicoes
     if ($pagina >= 5) {
         $pdf->SetXY(0,275);
@@ -95,26 +96,24 @@ while (!$resultado->EOF) {
         $linha = 20;
     }
 
-    $area           = $resultado->fields["area"];
-    $instituicao    = $resultado->fields["instituicao"];
-    $endereco       = $resultado->fields["endereco"];
-    $telefone       = $resultado->fields["telefone"];
-    $beneficios     = $resultado->fields["beneficios"];
-    $fim_de_semana  = $resultado->fields["f_semana"];
-    $id             = (int)$resultado->fields["id"];
+    $area           = $item->area;
+    $instituicao    = $item->instituicao;
+    $endereco       = $item->endereco;
+    $telefone       = $item->telefone;
+    $beneficios     = $item->beneficios;
+    $fim_de_semana  = $item->f_semana;
+    $id             = (int)$item->id;
 
     // Conta os supervisores distintos que ja registraram estagiarios nesta instituicao
     // para dimensionar o espaco do bloco no PDF (varia conforme a quantidade de supervisores)
-    $quantidade_supervisores = (int)$db->GetOne(
-        "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?",
-        array($id)
-    );
+    $sql_count = "SELECT COUNT(DISTINCT supervisor_id) FROM estagiarios WHERE instituicao_id = ?";
+    $res_count = Estagiario::query($sql_count, array($id));
+    $quantidade_supervisores = (int)$res_count[0]->{"COUNT(DISTINCT supervisor_id)"};
 
     // Turma mais recente com estagiarios nesta instituicao
-    $turma = $db->GetOne(
-        "SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?",
-        array($id)
-    );
+    $sql_turma = "SELECT MAX(periodo) FROM estagiarios WHERE instituicao_id = ?";
+    $res_turma = Estagiario::query($sql_turma, array($id));
+    $turma = $res_turma[0]->{"MAX(periodo)"};
 
     $instituicao = trim($instituicao);
     $instituicao = ucwords($instituicao);
@@ -183,8 +182,6 @@ while (!$resultado->EOF) {
     $pagina++;
     $linha = $linha + 50;    
     // $linha = $linha + 50 + ($quantidade_supervisores * 5);
-
-    $resultado->MoveNext();
 
 }
 

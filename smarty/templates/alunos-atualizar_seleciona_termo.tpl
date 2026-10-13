@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <style type="text/css">
-@import url("../estagio.css");
+@import url("../../estagio.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">

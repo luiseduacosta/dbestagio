@@ -43,7 +43,8 @@ if (!$sup->delete()) {
 }
 
 // Remove também os vínculos com instituições (inst_super).
-Supervisor::$db->Execute("DELETE FROM inst_super WHERE supervisor_id = ?", array($supervisor_id));
+$sql = "DELETE FROM inst_super WHERE supervisor_id = ?";
+Supervisor::query($sql, array($supervisor_id));
 
 header("Location: ../exibir/ver_cada.php?indice=$indice");
 exit;

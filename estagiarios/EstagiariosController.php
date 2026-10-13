@@ -112,12 +112,9 @@ class EstagiariosController {
 
 		// Registra o registro do aluno automaticamente a partir da tabela alunos.
 		$registro = 0;
-		$aluno = ADODB_Model::$db->GetOne(
-			"SELECT registro FROM alunos WHERE id = ?",
-			array($aluno_id)
-		);
-		if ($aluno !== false && $aluno !== null) {
-			$registro = (int)$aluno;
+		$aluno = Aluno::find($aluno_id);
+		if ($aluno !== null) {
+			$registro = (int)$aluno->registro;
 		}
 
 		return array(

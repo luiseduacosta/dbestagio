@@ -50,10 +50,8 @@ $novo_id = $novo->getKey();
 // Vínculo com a instituição, se informado.
 $instituicao_id = (int)(isset($_POST['instituicao_id']) ? $_POST['instituicao_id'] : 0);
 if ($instituicao_id > 0) {
-    ADODB_Model::$db->Execute(
-        "INSERT INTO inst_super (instituicao_id, supervisor_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE supervisor_id = supervisor_id",
-        array($instituicao_id, $novo_id)
-    );
+    $sql = "INSERT INTO inst_super (instituicao_id, supervisor_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE supervisor_id = supervisor_id";
+    Instituicao::query($sql, array($instituicao_id, $novo_id));
 }
 
 header("Location: ../exibir/ver_cada.php?supervisor_id=$novo_id");

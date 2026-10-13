@@ -71,11 +71,16 @@ class AlunosController {
 	 * carregar todo o resultset em memória.
 	 */
 	private function idNaPosicao($indice) {
-		$id = (int)ADODB_Model::$db->GetOne(
+		$alunos = Aluno::query(
 			"SELECT id FROM alunos ORDER BY nome LIMIT 1 OFFSET ?",
 			array((int)$indice)
 		);
-		return $id > 0 ? (int)$id : 0;
+		if (!empty($alunos)) {
+			$primeiroAluno = reset($alunos);
+			$id = (int)$primeiroAluno->id;
+			return $id > 0 ? $id : 0;
+		}
+		return 0;
 	}
 
 	/**
@@ -85,15 +90,14 @@ class AlunosController {
 	private function posicaoDoId($id) {
 		$id = (int)$id;
 		if ($id <= 0) return -1;
-		$rs = ADODB_Model::$db->Execute("SELECT id FROM alunos ORDER BY nome");
-		if (!$rs) return -1;
+		$alunos = Aluno::all("ORDER BY nome");
+		if (empty($alunos)) return -1;
 		$lugar = 0;
-		while (!$rs->EOF) {
-			if ((int)$rs->fields['id'] === $id) {
+		foreach ($alunos as $aluno) {
+			if ((int)$aluno->id === $id) {
 				return $lugar;
 			}
 			$lugar++;
-			$rs->MoveNext();
 		}
 		return -1;
 	}
@@ -132,29 +136,15 @@ class AlunosController {
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST' && ($verifica || $registro_in !== '' || $aluno_id_in > 0)) {
 			$dados = null;
 			if ($registro_in !== '') {
-				$dados = Aluno::$db->Execute(
-					"SELECT id, registro, nome, codigo_telefone, telefone, "
-					. "codigo_celular, celular, email, cpf, "
-					. "identidade, orgao, nascimento, endereco, cep, "
-					. "bairro, municipio "
-					. "FROM alunos WHERE registro = ? LIMIT 1",
-					array((int)$registro_in)
-				);
+				$dados = Aluno::firstWhere("registro = ?", array((int)$registro_in));
 			} elseif ($aluno_id_in > 0) {
-				$dados = Aluno::$db->Execute(
-					"SELECT id, registro, nome, codigo_telefone, telefone, "
-					. "codigo_celular, celular, email, cpf, "
-					. "identidade, orgao, nascimento, endereco, cep, "
-					. "bairro, municipio "
-					. "FROM alunos WHERE id = ? LIMIT 1",
-					array($aluno_id_in)
-				);
+				$dados = Aluno::find($aluno_id_in);
 			}
 			if ($dados === false) {
 				die("Não foi possível consultar a tabela alunos");
 			}
-			if ($dados && !$dados->EOF) {
-				header("Location: ver_cada.php?registro=" . (int)$dados->fields['registro']);
+			if ($dados !== null) {
+				header("Location: ver_cada.php?registro=" . (int)$dados->registro);
 				exit;
 			}
 			// Não existe: mostra o formulário pré-preenchido.
@@ -306,15 +296,21 @@ class AlunosController {
 				$nota           = $this->campoTexto('nota');
 				$ch             = $this->campoTexto('ch');
 
-				$ok = Aluno::$db->Execute(
-					"UPDATE estagiarios SET aluno_id=?, registro=?, nivel=?, "
-					. "periodo=?, tc=?, supervisor_id=?, instituicao_id=?, "
-					. "professor_id=?, nota=?, ch=? WHERE id=?",
-					array($aluno_id, $registro, $nivel, $periodo, $tc,
-					      $supervisor_id, $instituicao_id, $professor_id,
-					      $nota, $ch, $estagiario_id)
-				);
-				if ($ok === false) {
+				$estagiario = Estagiario::find($estagiario_id);
+				if ($estagiario === null) {
+					die("Estagiário não encontrado (id $estagiario_id).");
+				}
+				$estagiario->aluno_id = $aluno_id;
+				$estagiario->registro = $registro;
+				$estagiario->nivel = $nivel;
+				$estagiario->periodo = $periodo;
+				$estagiario->tc = $tc;
+				$estagiario->supervisor_id = $supervisor_id;
+				$estagiario->instituicao_id = $instituicao_id;
+				$estagiario->professor_id = $professor_id;
+				$estagiario->nota = $nota;
+				$estagiario->ch = $ch;
+				if (!$estagiario->save()) {
 					die("Nao foi possivel atualizar o registro na tabela estagiarios");
 				}
 
@@ -375,12 +371,14 @@ class AlunosController {
 			}
 
 			// Sincroniza o campo registro na tabela estagiarios.
-			$ok2 = Aluno::$db->Execute(
-				"UPDATE estagiarios SET registro=? WHERE aluno_id=?",
-				array($registro, $aluno_id)
-			);
-			if ($ok2 === false) {
-				die("Nao foi possivel atualizar o campo registro na tabela estagiarios");
+			$estagiarios = Estagiario::all("WHERE aluno_id = ?", array($aluno_id));
+			if (!empty($estagiarios)) {
+				foreach ($estagiarios as $estagiario) {
+					$estagiario->registro = $registro;
+					if (!$estagiario->save()) {
+						die("Nao foi possivel atualizar o campo registro na tabela estagiarios");
+					}
+				}
 			}
 
 			if (substr_count($origem, "listar.php") == 1) {
@@ -416,27 +414,24 @@ class AlunosController {
 
 		// Selects do formulário.
 		$instituicoes = array();
-		$res = Aluno::$db->Execute("SELECT id, instituicao FROM instituicoes ORDER BY instituicao");
-		if ($res) {
-			while (!$res->EOF) {
-				$instituicoes[] = array('instituicao_id' => (int)$res->fields['id'], 'instituicao' => $res->fields['instituicao']);
-				$res->MoveNext();
+		$todasInstituicoes = Instituicao::all("ORDER BY instituicao");
+		if (!empty($todasInstituicoes)) {
+			foreach ($todasInstituicoes as $inst) {
+				$instituicoes[] = array('instituicao_id' => (int)$inst->id, 'instituicao' => $inst->instituicao);
 			}
 		}
 		$supervisores = array();
-		$res = Aluno::$db->Execute("SELECT id, nome FROM supervisores ORDER BY nome");
-		if ($res) {
-			while (!$res->EOF) {
-				$supervisores[] = array('supervisor_id' => (int)$res->fields['id'], 'supervisor' => $res->fields['nome']);
-				$res->MoveNext();
+		$todosSupervisores = Supervisor::all("ORDER BY nome");
+		if (!empty($todosSupervisores)) {
+			foreach ($todosSupervisores as $sup) {
+				$supervisores[] = array('supervisor_id' => (int)$sup->id, 'supervisor' => $sup->nome);
 			}
 		}
 		$professores = array();
-		$res = Aluno::$db->Execute("SELECT id, nome FROM professores ORDER BY nome");
-		if ($res) {
-			while (!$res->EOF) {
-				$professores[] = array('professor_id' => (int)$res->fields['id'], 'professor' => $res->fields['nome']);
-				$res->MoveNext();
+		$todosProfessores = Professor::all("ORDER BY nome");
+		if (!empty($todosProfessores)) {
+			foreach ($todosProfessores as $prof) {
+				$professores[] = array('professor_id' => (int)$prof->id, 'professor' => $prof->nome);
 			}
 		}
 
@@ -498,24 +493,20 @@ class AlunosController {
 
 		// Se veio por registro, converte para aluno_id.
 		if ($aluno_id <= 0 && $registro > 0) {
-			$res = Aluno::$db->Execute(
-				"SELECT id FROM alunos WHERE registro = ? LIMIT 1",
-				array($registro)
-			);
-			if ($res !== false && !$res->EOF) {
-				$aluno_id = (int)$res->fields['id'];
+			$aluno = Aluno::firstWhere("registro = ?", array($registro));
+			if ($aluno !== null) {
+				$aluno_id = (int)$aluno->id;
 			}
 		}
 
 		// Lista ordenada de alunos (apenas os ids) — base da navegação.
 		$alunos_ids = array();
-		$res = Aluno::$db->Execute("SELECT id FROM alunos ORDER BY nome");
-		if ($res === false) {
+		$todosAlunos = Aluno::all("ORDER BY nome");
+		if ($todosAlunos === false) {
 			die("Não foi possível consultar a tabela alunos.");
 		}
-		while (!$res->EOF) {
-			$alunos_ids[] = (int)$res->fields['id'];
-			$res->MoveNext();
+		foreach ($todosAlunos as $aluno) {
+			$alunos_ids[] = (int)$aluno->id;
 		}
 		$ultimo = count($alunos_ids);
 
@@ -716,19 +707,18 @@ class AlunosController {
 		// Checagem de registros dependentes.
 		$erros = array();
 
-		$countEstagiarios = (int)Aluno::$db->GetOne(
-			"SELECT COUNT(*) FROM estagiarios WHERE aluno_id = ?",
-			array($aluno_id)
-		);
+		$estagiariosDoAluno = Estagiario::all("WHERE aluno_id = ?", array($aluno_id));
+		$countEstagiarios = count($estagiariosDoAluno);
 		if ($countEstagiarios > 0) {
 			$erros[] = "estágios vinculados ($countEstagiarios)";
 		}
 
 		$registro = (int)$aluno->registro;
-		$countInscricoes = (int)Aluno::$db->GetOne(
-			"SELECT COUNT(*) FROM inscricoes WHERE aluno_id = ? OR registro = ?",
+		$inscricoesDoAluno = Aluno::query(
+			"SELECT id FROM inscricoes WHERE aluno_id = ? OR registro = ?",
 			array($aluno_id, $registro)
 		);
+		$countInscricoes = count($inscricoesDoAluno);
 		if ($countInscricoes > 0) {
 			$erros[] = "inscrições no mural ($countInscricoes)";
 		}

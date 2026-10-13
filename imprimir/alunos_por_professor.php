@@ -5,6 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
+require_once(__DIR__ . "/../libphp/models.php");
 require_once('../setup.php');
 
 
@@ -45,23 +46,23 @@ $pdf->SetFont('times', '', 12);
 $pdf->AddPage();
 
 
-$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : NULL;
-$prof_id = isset($_REQUEST['id_professor']) ? $_REQUEST['id_professor'] : NULL;
-$professor = isset($_REQUEST['professor']) ? $_REQUEST['professor'] : NULL;
-$id_area = isset($_REQUEST['id_area']) ? $_REQUEST['id_area'] : NULL;
+$periodo = isset($_REQUEST['periodo']) ? $_REQUEST['periodo'] : '';
+$prof_id = isset($_REQUEST['id_professor']) ? (int)$_REQUEST['id_professor'] : 0;
+$professor = isset($_REQUEST['professor']) ? $_REQUEST['professor'] : '';
+$id_area = isset($_REQUEST['id_area']) ? (int)$_REQUEST['id_area'] : 0;
 
 // echo $periodo . " " . $prof_id . "<br>";
 /* Capturo os valores para a área */
 $sql  = "select areas.area from estagiarios ";
 $sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 $sql .= " left join areas on instituicoes.area_id = areas.id ";
-$sql .=	" where estagiarios.periodo = '$periodo' "; 
-$sql .= " and instituicoes.area_id = $id_area ";
-$sql .=	" and estagiarios.professor_id = '$prof_id' ";
+$sql .=	" where estagiarios.periodo = ? "; 
+$sql .= " and instituicoes.area_id = ? ";
+$sql .=	" and estagiarios.professor_id = ? ";
 // echo $sql . "<br>";
 
-$res = $db->Execute($sql);
-$area = $res->fields['area'];
+$res = Estagiario::query($sql, array($periodo, $id_area, $prof_id));
+$area = isset($res[0]->area) ? $res[0]->area : '';
 
 // $pdf->SetXY(15,25);
 
@@ -91,22 +92,22 @@ $sql  = "select alunos.registro, alunos.nome as aluno, estagiarios.nivel, estagi
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
 $sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 $sql .= " left join supervisores on estagiarios.supervisor_id = supervisores.id ";
-$sql .=	" where estagiarios.periodo = '$periodo' "; 
-$sql .= " and instituicoes.area_id = $id_area ";
-$sql .=	" and estagiarios.professor_id = '$prof_id' ";
+$sql .=	" where estagiarios.periodo = ? "; 
+$sql .= " and instituicoes.area_id = ? ";
+$sql .=	" and estagiarios.professor_id = ? ";
 $sql .= " order by alunos.nome ";
 // echo $sql . "<br>";
 
-$res = $db->Execute($sql);
+$res = Estagiario::query($sql, array($periodo, $id_area, $prof_id));
 
-while (!$res->EOF) {
-	$registro = $res->fields['registro'];
-	$aluno = $res->fields['aluno'];
-	$supervisor = $res->fields['supervisor'];
-	$id_prof = $res->fields['id_professor'];
-	$instituicao = $res->fields['instituicao'];
-	$periodo = $res->fields['periodo'];
-	$nivel = $res->fields['nivel'];
+foreach ($res as $item) {
+	$registro = $item->registro;
+	$aluno = $item->aluno;
+	$supervisor = isset($item->supervisor) ? $item->supervisor : '';
+	$id_prof = (int)$item->id_professor;
+	$instituicao = $item->instituicao;
+	$periodo = $item->periodo;
+	$nivel = (int)$item->nivel;
 
 $tbl .= <<<EOD
 <tr>
@@ -117,9 +118,6 @@ $tbl .= <<<EOD
 <td>$supervisor</td>
 </tr>
 EOD;
-        
-        $res->MoveNext();
-
 }
 
 $tbl .= <<<EOD
