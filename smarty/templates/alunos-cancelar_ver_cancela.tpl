@@ -110,7 +110,7 @@ function confirma() {
 
 <tr>
 <td>Supervisor:</td>
-<td><a href="../supervisores/exibir/exibir.php?supervisor_id={$supervisor_id}">{$supervisor}</a></td>
+<td><a href="../supervisores/ver_cada.php?supervisor_id={$supervisor_id}">{$supervisor}</a></td>
 </tr>
 
 </tbody>

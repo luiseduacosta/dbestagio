@@ -241,7 +241,7 @@
                         <td>
                             {if $isAdmin}
                             <a
-                                href="../supervisores/exibir/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
+                                href="../supervisores/ver_cada.php?supervisor_id={$historico_estagio[estagio].supervisor_id}">{$historico_estagio[estagio].supervisor}</a>
                             {else}
                             {$historico_estagio[estagio].supervisor}
                             {/if}

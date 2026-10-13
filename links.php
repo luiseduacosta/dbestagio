@@ -89,11 +89,11 @@ require_once __DIR__ . '/autentica.inc';
                             <img src="lib/mygosumenu/1.3/images/arrow1.gif" width="8" height="8">
                         </a>
                         <div class="section">
-                            <a class="box2" href="administracao/configuracao.php" target="_corpo">
+                            <a class="box2" href="configuracoes/ver_cada.php" target="_corpo">
                                 Configurações</a><br>
-                            <a class="box2" href="users/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="users/listar.php" target="_corpo">
                                 Usuários</a><br>
-                            <a class="box2" href="users/inserir/formulario.php" target="_corpo">
+                            <a class="box2" href="users/inserir.php" target="_corpo">
                                 Inserir usuário</a><br>
                         </div>
                     </td>
@@ -157,25 +157,23 @@ require_once __DIR__ . '/autentica.inc';
                         <div class="section">
 
                             <div id='supervisores' style='display:none'>
-                                <a class="box2" href="supervisores/seleciona.php?opcao=modifica" target="_corpo">
+                                <a class="box2" href="supervisores/seleciona.php?opcao=atualizar" target="_corpo">
                                     Modificar</a><br>
                                 <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
                                     Excluir</a>
-                                <a class="box2" href="supervisores/exibir/aluno_supervisor.php" target="_corpo">
+                                <a class="box2" href="supervisores/alunos_supervisor.php" target="_corpo">
                                     Supervisores alunos</a><br>
-                                <a class="box2" href="supervisores/atualizar/seleciona_cadastro.php" target="_corpo">
-                                    Cadastro</a><br>
-                                <a class="box2" href="supervisores/buscar/busca.php" target="_corpo">
+                                <a class="box2" href="supervisores/buscar.php" target="_corpo">
                                     Buscar</a><br>
-                                <a class="box2" href="supervisores/exibir/seleciona.php" target="_corpo">
+                                <a class="box2" href="supervisores/seleciona.php" target="_corpo">
                                     Ver supervisor</a><br>
-                                <a class="box2" href="supervisores/exibir/ver_cada.php?indice=0" target="_corpo">
+                                <a class="box2" href="supervisores/ver_cada.php?indice=0" target="_corpo">
                                     Ver c/supervisor</a><br>
 
                             </div>
-                            <a class="box2" href="supervisores/inserir/form_inserir.php" target="_corpo">
+                            <a class="box2" href="supervisores/inserir.php" target="_corpo">
                                 Inserir supervisor</a><br>
-                            <a class="box2" href="supervisores/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="supervisores/listar.php" target="_corpo">
                                 Listar todos</a><br>
                         </div>
                     </td>
@@ -259,7 +257,7 @@ require_once __DIR__ . '/autentica.inc';
                             <a class="box2" href="alunos/inserir.php" target="_corpo">
                                 Inserir aluno</a><br>
 
-                            <a class="box2" href="turnos/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="turnos/listar.php" target="_corpo">
                                 Turnos</a><br>
 
                         </div>

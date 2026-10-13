@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Ver turno</title>
 </head>
 <body>
@@ -36,7 +36,7 @@
 {section name=i loop=$alunos}
 <tr>
 <td class="coluna_direita">{$alunos[i].registro}</td>
-<td><a href="../../alunos/ver_cada.php?aluno_id={$alunos[i].id}">{$alunos[i].nome}</a></td>
+<td><a href="../alunos/ver_cada.php?aluno_id={$alunos[i].id}">{$alunos[i].nome}</a></td>
 <td class="coluna_centralizada">{$alunos[i].ingresso}</td>
 </tr>
 {/section}
@@ -46,7 +46,8 @@
 
 <div align="center">
 <p>
-<a href="../atualizar/modifica.php?id={$t.id}">Editar</a> |
+<a href="atualizar.php?id={$t.id}">Editar</a> |
+<a href="excluir.php?id={$t.id}" onclick="return confirm('Tem certeza que deseja excluir este turno?');">Excluir</a> |
 <a href="listar.php">Voltar</a>
 </p>
 </div>

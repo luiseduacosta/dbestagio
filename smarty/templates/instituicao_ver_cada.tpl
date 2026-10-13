@@ -445,12 +445,12 @@
 
                                         {* Tambem cadastrado como supervisor de estagio *}
                                         {if $inst_supervisores[i].id_super_estagio}
-                                            <a href='../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
+                                            <a href='../supervisores/ver_cada.php?supervisor_id={$inst_supervisores[i].id_super_estagio}'>[1]</a>
                                             &nbsp;
                                             <a href='ver_cada.php?instituicao_id={$inst_supervisores[i].id_curso_inst}'>[{$inst_supervisores[i].id_curso_inst}]</a>
                                         {/if}
                                     {else}	
-                                        <a href="../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
+                                        <a href="../supervisores/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">{$inst_supervisores[i].nome}</a>
 
                                         {* Tambem cadastrado como assistente social do curso *}
                                         {if isset($inst_supervisores[i].id_super_curso)}
@@ -465,11 +465,11 @@
                                 {if !$curso}
                                     {if $sistema_autentica == 1}
                                         <td width="10%" style="text-align:center">
-                                            <a href="../supervisores/exibir/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
+                                            <a href="../supervisores/ver_cada.php?supervisor_id={$inst_supervisores[i].supervisor_id}">Modifica</a>
                                         </td>
 
                                         <td width="10%" style="text-align:center">
-                                            <a href="../supervisores/cancelar/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
+                                            <a href="../supervisores/inst_supervisor.php?supervisor_id={$inst_supervisores[i].supervisor_id}&instituicao_id={$id}">Excluir</a>
                                         </td>
                                     {/if}
                                 {/if}

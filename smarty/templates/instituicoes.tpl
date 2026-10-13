@@ -117,7 +117,7 @@ function carrega_tabela() {
 	<td  style="text-align:center">{$instituicoes[elementos].supervisores}</td>
 {else}
 	<td  style="text-align:center">
-	<a href="../supervisores/exibir/listar.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
+	<a href="../supervisores/listar.php?instituicao_id={$instituicoes[elementos].instituicao_id}">{$instituicoes[elementos].supervisores}</a>
 	</td>
 {/if}
 
