@@ -32,25 +32,21 @@ $acao     = $_REQUEST['acao'];
 $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
-// Aluno
-$sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
-$sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro='$registro'";
-
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
-while (!$resultado->EOF) {
-	$aluno_id = $resultado->fields['id'];
-	$registro = $resultado->fields['registro'];
-	$nome = $resultado->fields['nome'];
-	$codigo_telefone = $resultado->fields['codigo_telefone'];
-	$telefone = $resultado->fields['telefone'];
-	$codigo_celular = $resultado->fields['codigo_celular'];
-	$celular = $resultado->fields['celular'];
-	$email = $resultado->fields['email'];
-	$cpf = $resultado->fields['cpf'];
-	$identidade = $resultado->fields['identidade'];
-	$orgao = $resultado->fields['orgao'];
-	$nascimento = $resultado->fields['nascimento'];
+// Aluno - Usando modelo Aluno
+$aluno = Aluno::firstWhere("registro = ?", array($registro));
+if (!$aluno) die ("Nao foi possivel consultar a tabela alunos");
+$aluno_id = $aluno->id;
+$registro = $aluno->registro;
+$nome = $aluno->nome;
+$codigo_telefone = $aluno->codigo_telefone;
+$telefone = $aluno->telefone;
+$codigo_celular = $aluno->codigo_celular;
+$celular = $aluno->celular;
+$email = $aluno->email;
+$cpf = $aluno->cpf;
+$identidade = $aluno->identidade;
+$orgao = $aluno->orgao;
+$nascimento = $aluno->nascimento;
 	
 	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
 	$nova_data = ereg_replace("-","/",$nascimento);
@@ -59,14 +55,13 @@ while (!$resultado->EOF) {
 	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
 	// echo $data_sql . "<br>";
 	
-	$endereco = $resultado->fields['endereco'];
-	$cep = $resultado->fields['cep'];
-	$bairro = $resultado->fields['bairro'];
-	$municipio = $resultado->fields['municipio'];
-	$observacoes = $resultado->fields['observacoes'];
+	$endereco = $aluno->endereco;
+	$cep = $aluno->cep;
+	$bairro = $aluno->bairro;
+	$municipio = $aluno->municipio;
+	$observacoes = $aluno->observacoes;
 	// echo $observacoes . "<br>";
-	$resultado->MoveNext();
-}
+
 
 $smarty = new Smarty_estagio;
 $smarty->assign("origem",$origem);

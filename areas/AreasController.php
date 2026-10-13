@@ -187,12 +187,11 @@ class AreasController {
 		$proximo_id  = null;
 		$menos_10_id = null;
 		$mais_10_id  = null;
-		$rs_nav = Area::$db->Execute("SELECT id FROM areas ORDER BY area, id");
-		if ($rs_nav) {
+		$areas_nav = Area::all("ORDER BY area, id");
+		if (!empty($areas_nav)) {
 			$ids_nav = array();
-			while (!$rs_nav->EOF) {
-				$ids_nav[] = (int)$rs_nav->fields['id'];
-				$rs_nav->MoveNext();
+			foreach ($areas_nav as $area) {
+				$ids_nav[] = (int)$area->id;
 			}
 			$total_nav = count($ids_nav);
 			$pos_nav   = array_search($area_id, $ids_nav, true);
@@ -255,23 +254,22 @@ class AreasController {
 		        GROUP BY instituicoes.area_id, estagiarios.professor_id, areas.area, professores.nome, professores.id
 		        ORDER BY " . $ordens_validas[$ordem];
 
-		$res_professores = Area::$db->Execute($sql);
-		if ($res_professores === false) {
+		$res_professores = Area::query($sql);
+		if (empty($res_professores)) {
 			error_log("Erro ao consultar areas: " . Area::$db->ErrorMsg());
 			die("Não foi possível consultar as tabelas.");
 		}
 
 		$matriz = array();
 		$i = 0;
-		while (!$res_professores->EOF) {
-			$matriz[$i]['area_id']       = $res_professores->fields['area_id'];
-			$matriz[$i]['area']          = $res_professores->fields['area'];
-			$matriz[$i]['id_professor']  = $res_professores->fields['id_professor'];
-			$matriz[$i]['nome']          = $res_professores->fields['nome'];
-			$matriz[$i]['min_periodo']   = $res_professores->fields['min_periodo'];
-			$matriz[$i]['max_periodo']   = $res_professores->fields['max_periodo'];
+		foreach ($res_professores as $row) {
+			$matriz[$i]['area_id']       = $row->area_id;
+			$matriz[$i]['area']          = $row->area;
+			$matriz[$i]['id_professor']  = $row->id_professor;
+			$matriz[$i]['nome']          = $row->nome;
+			$matriz[$i]['min_periodo']   = $row->min_periodo;
+			$matriz[$i]['max_periodo']   = $row->max_periodo;
 			$i++;
-			$res_professores->MoveNext();
 		}
 
 		$areas = Area::listarAllAreas();

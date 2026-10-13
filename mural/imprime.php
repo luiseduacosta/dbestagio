@@ -5,91 +5,90 @@ define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
 
 require(FPDF."fpdf.php");
 require_once(__DIR__ . "/../libphp/PDFHelper.php");
+require_once(__DIR__ . "/../libphp/models.php");
 require("../setup.php");
 
 if (!isset($muralestagio_id)) {
-	$muralestagio_id = $_REQUEST['muralestagio_id'];
+	$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 	// echo "id: " . $muralestagio_id . "<br>";
 }
 
-$sql = "select instituicao from mural_estagios where id=$muralestagio_id";
+$sql = "select instituicao from mural_estagios where id=?";
 // echo $sql . "<br>";
-$res_instituicao = $db->Execute($sql);
+$res_instituicao = Mural::query($sql, array($muralestagio_id));
 if ($res_instituicao === false) die ("Não foi possível consultar a tabela mural_estagios");
-while (!$res_instituicao->EOF) {
-    $instituicao = $res_instituicao->fields['instituicao'];
-    $res_instituicao->MoveNext();
+$instituicao = '';
+foreach ($res_instituicao as $item) {
+    $instituicao = $item->instituicao;
 }
 
 $sql = "SELECT id, registro, data 
     FROM `inscricoes` 
-    WHERE muralestagio_id='$muralestagio_id' and periodo='". PERIODO_ATUAL . "'";
+    WHERE muralestagio_id=? and periodo=?";
 //echo $sql . "<br>";
 
-$resultado = $db->Execute($sql);
+$resultado = Inscricao::query($sql, array($muralestagio_id, PERIODO_ATUAL));
 if ($resultado === false) die ("Não foi possível consultar a tabela inscricoes");
 $i = 0;
-while (!$resultado->EOF) {
-	$id = $resultado->fields['id'];
-	$id_aluno = $resultado->fields['registro'];
-	$data = date("d-m-Y",strtotime($resultado->fields['data']));
+$inscritos = array();
+foreach ($resultado as $item) {
+	$id = $item->id;
+	$id_aluno = $item->registro;
+	$data = date("d-m-Y",strtotime($item->data));
 
 	$sqlAlunos = "select nome, alunos.registro, alunos.id, telefone, celular, email, max(nivel) as nivel 
 	    from alunos 
 	    inner join estagiarios on estagiarios.registro = alunos.registro 
-	    where alunos.registro='$id_aluno' 
-	    and estagiarios.periodo != " . PERIODO_ATUAL . "
+	    where alunos.registro=? 
+	    and estagiarios.periodo != ?
 	    group by estagiarios.registro";
 		// echo $sqlAlunos . "<br>";
-		$resultadoAlunos = $db->Execute($sqlAlunos);
+		$resultadoAlunos = Aluno::query($sqlAlunos, array($id_aluno, PERIODO_ATUAL));
 		if ($resultadoAlunos === false) die ("Não foi possível consultar a tabela alunos");
-		$quantidade = $resultadoAlunos->RecordCount();
+		$quantidade = count($resultadoAlunos);
 		// echo $quantidade . " ";
 		if ($quantidade == 0) {
-			$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunos where registro=$id_aluno";
-			$resultadoAlunosNovos = $db->Execute($sqlAlunosNovos);
+			$sqlAlunosNovos = "select nome, registro, id, telefone, celular, email from alunos where registro=?";
+			$resultadoAlunosNovos = Aluno::query($sqlAlunosNovos, array($id_aluno));
 			if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
-				while (!$resultadoAlunosNovos->EOF) {
+				foreach ($resultadoAlunosNovos as $aluno_item) {
 					$nome = $resultadoAlunosNovos->fields['nome'];
 					// echo "Novos " . $nome . "<br>";
 					// $instituicao = $resultadoAlunosNovos->fields['instituicao'];
-					$inscritos[$i]['nome'] = $resultadoAlunosNovos->fields['nome'];
+					$inscritos[$i]['nome'] = $aluno_item->nome;
 					$inscritos[$i]['id'] = $id;
-					$inscritos[$i]['registro'] = $resultadoAlunosNovos->fields['registro'];
-					$inscritos[$i]['id'] = $resultadoAlunosNovos->fields['id'];
-					$inscritos[$i]['telefone'] = $resultadoAlunosNovos->fields['telefone'];
-					$inscritos[$i]['celular'] = $resultadoAlunosNovos->fields['celular'];
-					$inscritos[$i]['email'] = $resultadoAlunosNovos->fields['email'];
-					$inscritos[$i]['instituicao'] = $resultadoAlunosNovos->fields['instituicao'];
+					$inscritos[$i]['registro'] = $aluno_item->registro;
+					$inscritos[$i]['id'] = (int)$aluno_item->id;
+					$inscritos[$i]['telefone'] = $aluno_item->telefone;
+					$inscritos[$i]['celular'] = $aluno_item->celular;
+					$inscritos[$i]['email'] = $aluno_item->email;
+					$inscritos[$i]['instituicao'] = isset($aluno_item->instituicao) ? $aluno_item->instituicao : '';
 					$inscritos[$i]['data'] = $data;
 					$inscritos[$i]['nivel'] = 0;
 						
 					$inscritos[$i]['aluno'] = 0;
 					$i++;
-					$resultadoAlunosNovos->MoveNext();
 				}
 		} else {
-		while (!$resultadoAlunos->EOF) {
-				$nome = $resultadoAlunos->fields['nome'];
+		foreach ($resultadoAlunos as $aluno_old) {
+				$nome = $aluno_old->nome;
 				// echo "Velhos: " . $nome . "<br>";
-				// $instituicao = $resultadoAlunos->fields['instituicao'];
-				$inscritos[$i]['nome'] = $resultadoAlunos->fields['nome'];			
+				// $instituicao = $aluno_old->instituicao;
+				$inscritos[$i]['nome'] = $aluno_old->nome;			
 				$inscritos[$i]['id'] = $id;
-				$inscritos[$i]['registro'] = $resultadoAlunos->fields['registro'];
-				$inscritos[$i]['id'] = $resultadoAlunos->fields['id'];
-				$inscritos[$i]['telefone'] = $resultadoAlunos->fields['telefone'];
-				$inscritos[$i]['celular'] = $resultadoAlunos->fields['celular'];
-				$inscritos[$i]['email'] = $resultadoAlunos->fields['email'];
-				$inscritos[$i]['instituicao'] = $resultadoAlunos->fields['instituicao'];
+				$inscritos[$i]['registro'] = $aluno_old->registro;
+				$inscritos[$i]['id'] = (int)$aluno_old->id;
+				$inscritos[$i]['telefone'] = $aluno_old->telefone;
+				$inscritos[$i]['celular'] = $aluno_old->celular;
+				$inscritos[$i]['email'] = $aluno_old->email;
+				$inscritos[$i]['instituicao'] = isset($aluno_old->instituicao) ? $aluno_old->instituicao : '';
 				$inscritos[$i]['data'] = $data;
-				$inscritos[$i]['nivel'] = $resultadoAlunos->fields['nivel'];
+				$inscritos[$i]['nivel'] = (int)$aluno_old->nivel;
 
 				$inscritos[$i]['aluno'] = 1;
 				$i++;				
-				$resultadoAlunos->MoveNext();
 			}
 		}
-		$resultado->MoveNext();
 }
 
 if (sizeof($inscritos) != 0) {

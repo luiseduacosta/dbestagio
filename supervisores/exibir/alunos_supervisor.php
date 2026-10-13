@@ -3,8 +3,9 @@
  * Created on Jun 23, 2007
  *
  * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
+ * Window - Preferences - PHPeclipse - PHP - PHPeclipse - PHP - Templates
  */
+require_once(__DIR__ . "/../../libphp/models.php");
 include_once("../../autentica.inc");
 
 $supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
@@ -30,20 +31,20 @@ $sql .= " from estagiarios ";
 $sql .= " join alunos on estagiarios.registro = alunos.registro ";
 $sql .= " join instituicoes on estagiarios.instituicao_id = instituicoes.id ";
 $sql .= " where supervisor_id = ? order by $orderby";
-$alunos = $db->Execute($sql, array($supervisor_id));
+$alunos = Estagiario::query($sql, array($supervisor_id));
 if ($alunos === false) die ("Não foi possível consultar a tabela estagiarios, alunos");
 $i = 0;
-while (!$alunos->EOF) {
-	$estagiario[$i]['registro'] = $alunos->fields['registro'];
-	$estagiario[$i]['aluno_id'] = $alunos->fields['aluno_id'];
-	$estagiario[$i]['nome'] = $alunos->fields['nome'];
-	$estagiario[$i]['periodo'] = $alunos->fields['periodo'];
-	$estagiario[$i]['email'] = $alunos->fields['email'];
-	$estagiario[$i]['instituicao_id'] = $alunos->fields['instituicao_id'];	
-	$estagiario[$i]['instituicao'] = $alunos->fields['instituicao'];
+$estagiario = array();
+foreach ($alunos as $item) {
+	$estagiario[$i]['registro'] = $item->registro;
+	$estagiario[$i]['aluno_id'] = (int)$item->aluno_id;
+	$estagiario[$i]['nome'] = $item->nome;
+	$estagiario[$i]['periodo'] = $item->periodo;
+	$estagiario[$i]['email'] = $item->email;
+	$estagiario[$i]['instituicao_id'] = (int)$item->instituicao_id;	
+	$estagiario[$i]['instituicao'] = $item->instituicao;
 	// echo $estagiario[$i]['registro'] . " " . $estagiario[$i]['nome'] . " " . $estagiario[$i]['email'] . " " . $estagiario[$i]['periodo'] . " ". $estagiario[$i]['instituicao'] . "<br>";
 	$i++;
-	$alunos->MoveNext();
 }
 
 $smarty = new Smarty_estagio;

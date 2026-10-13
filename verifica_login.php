@@ -42,7 +42,7 @@ if ($senha_ok) {
     // Os cookies de nome/email gravados aqui servem apenas para os menus em
     // JavaScript — nunca para autorizar.
     sessao_autenticar($usuario);
-    echo("<script language='javascript'>parent.window.location.href='../estagio/mural/ver-mural.php'</script>");
+    echo("<script language='javascript'>parent.window.location.href='../estagio/index1.html'</script>");
 } else {
     volta_ao_login();
 }

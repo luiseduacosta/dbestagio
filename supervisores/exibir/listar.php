@@ -14,12 +14,14 @@ $instituicao_id = isset($_GET['instituicao_id']) ? intval($_GET['instituicao_id'
 // Periodos existentes: alimentam o filtro da pagina e servem de lista
 // fechada de valores aceitos para $turma (protecao contra SQL injection).
 $periodos = array();
-$res_turma = $db->Execute("select distinct periodo from estagiarios order by periodo");
-if ($res_turma === false) die("Não foi possivel consultar a tabela estagiarios");
-while (!$res_turma->EOF) {
-    $periodos[] = $res_turma->fields['periodo'];
-    $res_turma->MoveNext();
+require_once(__DIR__ . "/../../libphp/models.php");
+$res_turma = Estagiario::query("select distinct periodo from estagiarios order by periodo");
+if (!empty($res_turma)) {
+    foreach ($res_turma as $turma_item) {
+        $periodos[] = $turma_item->periodo;
+    }
 }
+if (empty($periodos)) die("Não foi possivel consultar a tabela estagiarios");
 
 // So aceita periodo que existe no banco
 if (!empty($turma) && !in_array($turma, $periodos, true)) {
@@ -64,25 +66,24 @@ if ($where)
 $sql .= " group by s.id";
 $sql .= " order by " . $orderby;
 
-$resultado = $db->Execute($sql);
-if ($resultado === false) die("Não foi possivel consultar as tabelas");
+$resultado = Supervisor::query($sql);
+if (empty($resultado)) die("Não foi possivel consultar as tabelas");
 
 $supervisores = array();
-while (!$resultado->EOF) {
+foreach ($resultado as $res) {
     $supervisores[] = array(
-        'supervisor_id'  => $resultado->fields['supervisor_id'],
-        'cress'          => $resultado->fields['cress'],
-        'nome'           => $resultado->fields['nome'],
-        'email'          => $resultado->fields['email'],
-        'telefone'       => $resultado->fields['telefone'],
-        'celular'        => $resultado->fields['celular'],
-        'instituicao_id' => $resultado->fields['estagio_id'],
-        'instituicao'    => $resultado->fields['instituicao'],
-        'turma'          => $resultado->fields['turma'],
-        'q_periodos'     => $resultado->fields['q_periodos'],
-        'id_curso'       => $resultado->fields['id_curso'],
+        'supervisor_id'  => $res->supervisor_id,
+        'cress'          => $res->cress,
+        'nome'           => $res->nome,
+        'email'          => $res->email,
+        'telefone'       => $res->telefone,
+        'celular'        => $res->celular,
+        'instituicao_id' => $res->estagio_id,
+        'instituicao'    => $res->instituicao,
+        'turma'          => $res->turma,
+        'q_periodos'     => $res->q_periodos,
+        'id_curso'       => $res->id_curso,
     );
-    $resultado->MoveNext();
 }
 
 $smarty = new Smarty_estagio;

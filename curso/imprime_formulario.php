@@ -1,9 +1,10 @@
 <?php
 
-$id_supervisor = $_REQUEST['id_supervisor'];
+require_once(__DIR__ . "/../libphp/models.php");
+$id_supervisor = isset($_REQUEST['id_supervisor']) ? (int)$_REQUEST['id_supervisor'] : 0;
 
 include_once("../setup.php");
-$turma = TURMA;
+$turma = (int)TURMA;
 
 // define("FPDF_FONTPATH","/var/www/fpdf151/font/");
 // define("FPDF","/var/www/fpdf151/");
@@ -45,44 +46,50 @@ $pdf->SetX((210-$cabecalho4)/2);
 $pdf->Cell($cabecalho4,9,"Inscricao para o $turma º curso atualização de supervisores",0,1,'C',0);
 $pdf->Ln(2);
 
+// Initialize variables to prevent undefined warnings
+$num_inscricao = $nome = $endereco = $bairro = $municipio = $cep = $telefone = $email = '';
+$escola = $ano_formatura = $cress = $outros_estudos = $area_curso = $ano_curso = $cargo = '';
+$instituicao = $inst_endereco = $inst_bairro = $inst_municipio = $inst_cep = $inst_telefone = '';
+$inst_fax = $beneficio = $fim_de_semana = '';
+
 $sql = "select " .
 " s.num_inscricao, s.nome, s.endereco, s.bairro, s.municipio, s.cep, s.telefone, s.email, " .
 " s.escola, s.ano_formatura, s.cress, s.outros_estudos, s.area_curso, s.ano_curso, s.cargo, " .
 " i.instituicao, i.endereco as inst_endereco, i.bairro as inst_bairro, i.municipio as inst_municipio, " .
 " i.cep as inst_cep, i.telefone as inst_telefone, i.fax as inst_fax, i.beneficio, i.fim_de_semana " .
 " from curso_inscricao_supervisor as s, curso_inscricao_instituicao as i, curso_inst_super as j " .
-" where s.id=j.id_supervisor and j.id_instituicao=i.id and s.id=$id_supervisor " .
-" and s.curso_turma=$turma";
+" where s.id=j.id_supervisor and j.id_instituicao=i.id and s.id=? " .
+" and s.curso_turma=?";
 
-$resultado = $db->Execute($sql);
+// Use Supervisor model (curso tables are related to supervisors)
+$resultado = Supervisor::query($sql, array($id_supervisor, $turma));
 if($resultado === false) die ("Não foi possível consultar as tabelas de inscricao");
-while(!$resultado->EOF)
+foreach ($resultado as $item)
 {
-  $num_inscricao  = $resultado->fields['num_inscricao'];
-  $nome           = $resultado->fields['nome'];
-  $endereco       = $resultado->fields['endereco'];
-  $bairro         = $resultado->fields['bairro'];
-  $municipio      = $resultado->fields['municipio'];
-  $cep            = $resultado->fields['cep'];
-  $telefone       = $resultado->fields['telefone'];
-  $email          = $resultado->fields['email'];
-  $escola         = $resultado->fields['escola'];
-  $ano_formatura  = $resultado->fields['ano_formatura'];
-  $cress          = $resultado->fields['cress'];
-  $outros_estudos = $resultado->fields['outros_estudos'];
-  $area_curso     = $resultado->fields['area_curso'];
-  $ano_curso      = $resultado->fields['ano_curso'];
-  $cargo          = $resultado->fields['cargo'];
-  $instituicao    = $resultado->fields['instituicao'];
-  $inst_endereco  = $resultado->fields['inst_endereco'];
-  $inst_bairro    = $resultado->fields['inst_bairro'];
-  $inst_municipio = $resultado->fields['inst_municipio'];
-  $inst_cep       = $resultado->fields['inst_cep'];
-  $inst_telefone  = $resultado->fields['inst_telefone'];
-  $inst_fax       = $resultado->fields['inst_fax'];
-  $beneficio      = $resultado->fields['beneficio'];
-  $fim_de_semana  = $resultado->fields['fim_de_semana'];
-  $resultado->MoveNext();
+  $num_inscricao  = $item->num_inscricao;
+  $nome           = $item->nome;
+  $endereco       = $item->endereco;
+  $bairro         = $item->bairro;
+  $municipio      = $item->municipio;
+  $cep            = $item->cep;
+  $telefone       = $item->telefone;
+  $email          = $item->email;
+  $escola         = $item->escola;
+  $ano_formatura  = $item->ano_formatura;
+  $cress          = $item->cress;
+  $outros_estudos = $item->outros_estudos;
+  $area_curso     = $item->area_curso;
+  $ano_curso      = $item->ano_curso;
+  $cargo          = $item->cargo;
+  $instituicao    = $item->instituicao;
+  $inst_endereco  = $item->inst_endereco;
+  $inst_bairro    = $item->inst_bairro;
+  $inst_municipio = $item->inst_municipio;
+  $inst_cep       = $item->inst_cep;
+  $inst_telefone  = $item->inst_telefone;
+  $inst_fax       = $item->inst_fax;
+  $beneficio      = $item->beneficio;
+  $fim_de_semana  = $item->fim_de_semana;
 }
 
 if($fim_de_semana == 0)

@@ -22,12 +22,11 @@ $anterior_id = null;
 $proximo_id  = null;
 $menos_10_id = null;
 $mais_10_id  = null;
-$rs_nav = Professor::$db->Execute("SELECT id FROM professores ORDER BY nome, id");
+$rs_nav = Professor::query("SELECT id FROM professores ORDER BY nome, id");
 if ($rs_nav) {
     $ids_nav = array();
-    while (!$rs_nav->EOF) {
-        $ids_nav[] = (int)$rs_nav->fields['id'];
-        $rs_nav->MoveNext();
+    foreach ($rs_nav as $item) {
+        $ids_nav[] = (int)$item->id;
     }
     $total_nav = count($ids_nav);
     $pos_nav   = array_search($professor_id, $ids_nav, true);

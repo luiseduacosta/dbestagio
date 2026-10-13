@@ -150,35 +150,40 @@ function contacarateres() {
 <a href='javascript:history.back();'>Voltar</a>
 
 <?php
-
+require_once(__DIR__ . "/../libphp/models.php");
 include_once("../autentica.inc");
-// echo "Autentica: " . $sistema_autentica . "<br>";
 
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? $_REQUEST['id_supervisor'] : NULL;
-$submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : NULL;
-$flag = isset($_REQUEST['flag']) ? $_REQUEST['flag'] : NULL;
+// Initialize and cast all variables to prevent undefined warnings
+$id_supervisor = isset($_REQUEST['id_supervisor']) ? (int)$_REQUEST['id_supervisor'] : 0;
+$submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : null;
+$flag = isset($_REQUEST['flag']) ? (int)$_REQUEST['flag'] : 0;
 
-$nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : NULL;
-$cpf = isset($_REQUEST['cpf']) ? $_REQUEST['cpf'] : NULL;
-$endereco = isset($_REQUEST['endereco']) ? $_REQUEST['endereco'] : NULL;
-$municipio = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : NULL;
-$bairro = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : NULL;
-$cep = isset($_REQUEST['cep']) ? $_REQUEST['cep'] : NULL;
-$codigo_tel = isset($_REQUEST['codigo_tel']) ? $_REQUEST['codigo_tel'] : NULL;
-$telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : NULL;
-$codigo_cel = isset($_REQUEST['codigo_cel']) ? $_REQUEST['codigo_cel'] : NULL;
-$celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : NULL;
-$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : NULL;
-$regiao = isset($_REQUEST['regiao']) ? $_REQUEST['regiao'] : NULL;
-$cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : NULL;
-$escola = isset($_REQUEST['escola']) ? $_REQUEST['escola'] : NULL;
-$ano_formatura = isset($_REQUEST['ano_formatura']) ? $_REQUEST['ano_formatura'] : NULL;
-$outros_estudos = isset($_REQUEST['outros_estudos']) ? $_REQUEST['outros_estudos'] : NULL;
-$ano_curso = isset($_REQUEST['ano_curso']) ? $_REQUEST['ano_curso'] : NULL;
-$area_curso = isset($_REQUEST['area_curso']) ? $_REQUEST['area_curso'] : NULL;
-$num_inscricao = isset($_REQUEST['num_inscricao']) ? $_REQUEST['num_inscricao'] : NULL;
-$curso_turma = isset($_REQUEST['curso_turma']) ? $_REQUEST['curso_turma'] : NULL;
-$selecao = isset($_REQUEST['selecao']) ? $_REQUEST['selecao'] : NULL;
+$nome = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : '';
+$cpf = isset($_REQUEST['cpf']) ? $_REQUEST['cpf'] : '';
+$endereco = isset($_REQUEST['endereco']) ? $_REQUEST['endereco'] : '';
+$municipio = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : '';
+$bairro = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : '';
+$cep = isset($_REQUEST['cep']) ? $_REQUEST['cep'] : '';
+$codigo_tel = isset($_REQUEST['codigo_tel']) ? $_REQUEST['codigo_tel'] : '';
+$telefone = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : '';
+$codigo_cel = isset($_REQUEST['codigo_cel']) ? $_REQUEST['codigo_cel'] : '';
+$celular = isset($_REQUEST['celular']) ? $_REQUEST['celular'] : '';
+$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
+$regiao = isset($_REQUEST['regiao']) ? $_REQUEST['regiao'] : '';
+$cress = isset($_REQUEST['cress']) ? $_REQUEST['cress'] : '';
+$escola = isset($_REQUEST['escola']) ? $_REQUEST['escola'] : '';
+$ano_formatura = isset($_REQUEST['ano_formatura']) ? $_REQUEST['ano_formatura'] : '';
+$outros_estudos = isset($_REQUEST['outros_estudos']) ? $_REQUEST['outros_estudos'] : '';
+$ano_curso = isset($_REQUEST['ano_curso']) ? $_REQUEST['ano_curso'] : '';
+$area_curso = isset($_REQUEST['area_curso']) ? $_REQUEST['area_curso'] : '';
+$num_inscricao = isset($_REQUEST['num_inscricao']) ? $_REQUEST['num_inscricao'] : '';
+$curso_turma = isset($_REQUEST['curso_turma']) ? $_REQUEST['curso_turma'] : '';
+$selecao = isset($_REQUEST['selecao']) ? $_REQUEST['selecao'] : '';
+
+// Initialize variables with default values to prevent undefined warnings
+$estagio_id = 0;
+$instituicao_id = 0;
+$instituicao = '';
 
 // Para alterar entre as diferentes visoes
 $flag++;
@@ -188,10 +193,9 @@ if ($flag == 1) {
 } elseif ($flag == 2) {
 	$botao = "Atualizar";
 } elseif ($flag == 3) {
-
-	$sql = "update curso_inscricao_supervisor set nome='$nome', cpf='$cpf', endereco='$endereco', municipio='$municipio', bairro='$bairro', cep='$cep', codigo_tel='$codigo_tel', telefone='$telefone', codigo_cel='$codigo_cel' ,celular='$celular', email='$email', escola='$escola', ano_formatura='$ano_formatura', cress='$cress', regiao='$regiao', outros_estudos='$outros_estudos', area_curso='$area_curso', ano_curso='$ano_curso', selecao='$selecao' where id='$id_supervisor'";
-	// echo $sql . "<br>";
-	$res_atualiza = $db->Execute($sql);
+	// Use parameterized query to prevent SQL injection
+	$sql = "update curso_inscricao_supervisor set nome=?, cpf=?, endereco=?, municipio=?, bairro=?, cep=?, codigo_tel=?, telefone=?, codigo_cel=?, celular=?, email=?, escola=?, ano_formatura=?, cress=?, regiao=?, outros_estudos=?, area_curso=?, ano_curso=?, selecao=? where id=?";
+	$res_atualiza = Supervisor::query($sql, array($nome, $cpf, $endereco, $municipio, $bairro, $cep, $codigo_tel, $telefone, $codigo_cel, $celular, $email, $escola, $ano_formatura, $cress, $regiao, $outros_estudos, $area_curso, $ano_curso, $selecao, $id_supervisor));
 	if ($res_atualiza === false) die ("Nao foi possivel atualizar a tabela curso_inscricao_supervisor");
 
 	unset($submit);
@@ -199,46 +203,46 @@ if ($flag == 1) {
 	$botao = "Alterar dados";
 }
 
+// Use parameterized query to prevent SQL injection
 $sql  = "select nome, cpf, curso_inscricao_supervisor.endereco, curso_inscricao_supervisor.bairro, curso_inscricao_supervisor.municipio, curso_inscricao_supervisor.cep, codigo_tel, curso_inscricao_supervisor.telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, num_inscricao, curso_turma, selecao, ";
 $sql .= " id_estagio, curso_inscricao_instituicao.id as instituicao_id, instituicao ";
 $sql .= " from curso_inscricao_supervisor ";
 $sql .= " left join curso_inst_super on curso_inscricao_supervisor.id = curso_inst_super.id_supervisor ";
 $sql .= " left join curso_inscricao_instituicao on curso_inst_super.id_instituicao = curso_inscricao_instituicao.id ";
-$sql .= " where curso_inscricao_supervisor.id='$id_supervisor'";
-// echo $sql . "<br>";
+$sql .= " where curso_inscricao_supervisor.id=?";
 
-$res_sql = $db->Execute($sql);
+// Use model query method instead of raw $db->Execute
+$res_sql = Supervisor::query($sql, array($id_supervisor));
 if ($res_sql === false) die ("Nao foi possivel consultar a tabela curso_inscricao_supervisor");
 
-while (!$res_sql->EOF) {
-	$nome = $res_sql->fields['nome'];
-	$cpf = $res_sql->fields['cpf'];
-        $endereco = $res_sql->fields['endereco'];
-	$bairro = $res_sql->fields['bairro'];
-	$municipio = $res_sql->fields['municipio'];
-	$cep = $res_sql->fields['cep'];
-	$codigo_tel = $res_sql->fields['codigo_tel'];
-	$telefone = $res_sql->fields['telefone'];
-	$codigo_cel = $res_sql->fields['codigo_cel'];
-	$celular = $res_sql->fields['celular'];
-	$email = $res_sql->fields['email'];
-	$escola = $res_sql->fields['escola'];		
-	$ano_formatura = $res_sql->fields['ano_formatura'];
-	$regiao = $res_sql->fields['regiao'];
-	$cress = $res_sql->fields['cress'];
-	$outros_estudos = $res_sql->fields['outros_estudos'];	
-	$area_curso = $res_sql->fields['area_curso'];	
-	$ano_curso = $res_sql->fields['ano_curso'];
-	$num_inscricao = $res_sql->fields['num_inscricao'];
-	$curso_turma = $res_sql->fields['curso_turma'];
-	$selecao = $res_sql->fields['selecao'];
+// Replace legacy EOF loop with modern foreach loop (ADODB_Model compatible)
+foreach ($res_sql as $item) {
+	$nome = $item->nome;
+	$cpf = $item->cpf;
+        $endereco = $item->endereco;
+	$bairro = $item->bairro;
+	$municipio = $item->municipio;
+	$cep = $item->cep;
+	$codigo_tel = $item->codigo_tel;
+	$telefone = $item->telefone;
+	$codigo_cel = $item->codigo_cel;
+	$celular = $item->celular;
+	$email = $item->email;
+	$escola = $item->escola;		
+	$ano_formatura = $item->ano_formatura;
+	$regiao = $item->regiao;
+	$cress = $item->cress;
+	$outros_estudos = $item->outros_estudos;	
+	$area_curso = $item->area_curso;	
+	$ano_curso = $item->ano_curso;
+	$num_inscricao = $item->num_inscricao;
+	$curso_turma = $item->curso_turma;
+	$selecao = $item->selecao;
 
-	$estagio_id = $res_sql->fields['id_estagio'];
-	$instituicao_id = $res_sql->fields['instituicao_id'];
-	$instituicao = $res_sql->fields['instituicao'];
-	
-	$res_sql->MoveNext();
-	}
+	$estagio_id = isset($item->id_estagio) ? (int)$item->id_estagio : 0;
+	$instituicao_id = isset($item->instituicao_id) ? (int)$item->instituicao_id : 0;
+	$instituicao = isset($item->instituicao) ? $item->instituicao : '';
+}
 
 ?>
 
