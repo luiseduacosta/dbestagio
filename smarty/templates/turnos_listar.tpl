@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Turnos</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
 <th>Id</th>
 <th>Turno</th>
 <th>Alunos</th>
-<th>Ações</th>
+<th data-orderable="false">Ações</th>
 </tr>
 </thead>
 <tbody>
@@ -33,7 +33,8 @@
 <td class="coluna_direita">{$turnos[i].num_alunos}</td>
 <td>
 <a href="ver_cada.php?id={$turnos[i].id}">Ver</a> |
-<a href="../atualizar/modifica.php?id={$turnos[i].id}">Editar</a>
+<a href="atualizar.php?id={$turnos[i].id}">Editar</a> |
+<a href="excluir.php?id={$turnos[i].id}" onclick="return confirm('Excluir este turno?');">Excluir</a>
 </td>
 </tr>
 {/section}
@@ -42,16 +43,16 @@
 </table>
 
 <div align="center">
-<p><a href="../inserir/formulario.php">Inserir novo turno</a></p>
+<p><a href="inserir.php">Inserir novo turno</a></p>
 </div>
 
 {literal}
-<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
-<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
 	$('#turnos').DataTable({
-		language: { url: '../../libjs/datatables/pt-BR.json' },
+		language: { url: '../libjs/datatables/pt-BR.json' },
 		pageLength: 25,
 		lengthMenu: [10, 25, 50, 100],
 		order: []

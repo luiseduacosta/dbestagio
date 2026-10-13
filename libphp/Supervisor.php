@@ -37,8 +37,7 @@ class Supervisor extends ADODB_Model {
      * Nomes das instituições vinculadas (para exibição / proteção de exclusão).
      */
     public function instituicoes() {
-        $db = self::$db;
-        $rs = $db->Execute(
+        $rs = static::query(
             "SELECT i.id, i.instituicao
              FROM instituicoes AS i
              INNER JOIN inst_super AS j ON j.instituicao_id = i.id
@@ -48,12 +47,35 @@ class Supervisor extends ADODB_Model {
         );
         $out = array();
         if ($rs) {
-            while (!$rs->EOF) {
-                $out[] = array('id' => (int)$rs->fields['id'], 'instituicao' => $rs->fields['instituicao']);
-                $rs->MoveNext();
+            foreach ($rs as $row) {
+                $out[] = array('id' => (int)$row->id, 'instituicao' => $row->instituicao);
             }
         }
         return $out;
+    }
+
+    /**
+     * Vincula uma instituição ao supervisor.
+     */
+    public function vincularInstituicao($instituicao_id) {
+        $instituicao_id = (int)$instituicao_id;
+        if ($instituicao_id <= 0) return false;
+        return static::query(
+            "INSERT INTO inst_super (supervisor_id, instituicao_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE supervisor_id = supervisor_id",
+            array($this->getKey(), $instituicao_id)
+        );
+    }
+
+    /**
+     * Desvincula uma instituição do supervisor.
+     */
+    public function desvincularInstituicao($instituicao_id) {
+        $instituicao_id = (int)$instituicao_id;
+        if ($instituicao_id <= 0) return false;
+        return static::query(
+            "DELETE FROM inst_super WHERE supervisor_id = ? AND instituicao_id = ?",
+            array($this->getKey(), $instituicao_id)
+        );
     }
 
     /**
@@ -84,17 +106,15 @@ class Supervisor extends ADODB_Model {
      * Lista de supervisores (ordenada) para o seletor/índice.
      */
     public static function listar($ordem = 'nome') {
-        $db = self::$db;
         $colunas_validas = array('nome', 'cress', 'email', 'id');
         if (!in_array($ordem, $colunas_validas, true)) {
             $ordem = 'nome';
         }
-        $rs = $db->Execute("SELECT * FROM supervisores ORDER BY " . $ordem);
+        $rs = static::query("SELECT * FROM supervisores ORDER BY " . $ordem);
         $out = array();
         if ($rs) {
-            while (!$rs->EOF) {
-                $out[] = $rs->fields;
-                $rs->MoveNext();
+            foreach ($rs as $row) {
+                $out[] = (array)$row;
             }
         }
         return $out;

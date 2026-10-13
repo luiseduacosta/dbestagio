@@ -2,7 +2,7 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>{$titulo}</title>
 </head>
 <body>

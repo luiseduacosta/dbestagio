@@ -198,8 +198,7 @@ class User extends ADODB_Model {
         );
         $out = array();
         if ($rs) {
-            while (!$rs->EOF) {
-                $f = $rs->fields;
+            foreach ($rs->GetArray() as $f) {
                 $out[] = array(
                     'id'              => (int)$f['id'],
                     'email'           => $f['email'],
@@ -217,7 +216,6 @@ class User extends ADODB_Model {
                     'professor'       => $f['professor_nome'],
                     'professor_id'    => isset($f['professor_id'])    ? (int)$f['professor_id']    : null,
                 );
-                $rs->MoveNext();
             }
         }
         return $out;
