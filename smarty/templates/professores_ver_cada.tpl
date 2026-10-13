@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Professor - {$professor_nome}</title>
 </head>
 <body>
@@ -69,20 +69,20 @@
 {/if}
 
 <td>
-<form action="../inserir/form.php" method="get">
+<form action="inserir.php" method="get">
 <input type="submit" value="Inserir">
 </form>
 </td>
 
 <td>
-<form action="../atualizar/atualiza.php" method="get">
+<form action="atualizar.php" method="get">
 <input type="hidden" name="professor_id" value="{$professor_id}">
 <input type="submit" value="Modificar">
 </form>
 </td>
 
 <td style="background-color:red">
-<form action="../cancelar/cancela.php" method="get" onClick="return confirm('Tem certeza?');">
+<form action="excluir.php" method="get" onClick="return confirm('Tem certeza?');">
 <input type="hidden" name="professor_id" value="{$professor_id}">
 <input type="submit" value="Excluir">
 </form>
@@ -146,12 +146,12 @@
 {foreach item=e from=$estagiarios}
 <tr>
 <td class="coluna_direita">{$e.registro}</td>
-<td><a href="../../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a></td>
+<td><a href="../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a></td>
 <td class="coluna_centralizada">{$e.periodo}</td>
 <td class="coluna_centralizada">{$e.nivel}</td>
 <td>
 {if $e.instituicao_id}
-<a href="../../instituicoes/ver_cada.php?instituicao_id={$e.instituicao_id}">{$e.instituicao}</a>
+<a href="../instituicoes/ver_cada.php?instituicao_id={$e.instituicao_id}">{$e.instituicao}</a>
 {else}
 {$e.instituicao}
 {/if}
@@ -165,16 +165,16 @@
 </div>
 
 <div align="center">
-<p><a href="../atualizar/atualiza.php?professor_id={$professor_id}">Editar dados do professor</a></p>
+<p><a href="atualizar.php?professor_id={$professor_id}">Editar dados do professor</a></p>
 </div>
 
 {literal}
-<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
-<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
 	$('#estagiarios').DataTable({
-		language: { url: '../../libjs/datatables/pt-BR.json' },
+		language: { url: '../libjs/datatables/pt-BR.json' },
 		pageLength: 25,
 		lengthMenu: [10, 25, 50, 100],
 		order: []

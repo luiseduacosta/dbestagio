@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>{$titulo}</title>
 </head>
 <body>

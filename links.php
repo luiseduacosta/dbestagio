@@ -290,9 +290,9 @@ require_once __DIR__ . '/autentica.inc';
                         </a>
 
                         <div class="section">
-                            <a class="box2" href="professores/exibir/listar.php" target="_corpo">
+                            <a class="box2" href="professores/listar.php" target="_corpo">
                                 Listar</a><br>
-                            <a class="box2" href="professores/inserir/form.php" target="_corpo">
+                            <a class="box2" href="professores/inserir.php" target="_corpo">
                                 Inserir</a><br>
                         </div>
                     </td>

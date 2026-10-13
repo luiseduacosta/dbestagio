@@ -1,7 +1,7 @@
 <?php
 
-include_once(__DIR__ . "/../../autentica.inc");
-include_once(__DIR__ . "/../../libphp/models.php");
+include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
 
@@ -15,7 +15,8 @@ foreach ($alunos as $aluno) {
     $i++;
 }
 
-$smarty->assign("alunos",$alunos);
+$smarty->assign("alunos", $alunos);
+$smarty->assign("pagina", isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '');
 $smarty->display("alunos-cancelar_seleciona.tpl");
 
 ?>

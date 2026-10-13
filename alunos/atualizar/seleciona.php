@@ -1,7 +1,7 @@
 <?php
 
-include_once(__DIR__ . "/../../autentica.inc");
-include_once(__DIR__ . "/../../libphp/models.php");
+include_once("../../autentica.inc");
+include_once("../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
 
