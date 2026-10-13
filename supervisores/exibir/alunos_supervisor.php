@@ -48,7 +48,6 @@ foreach ($alunos as $item) {
 }
 
 $smarty = new Smarty_estagio;
-$smarty->assign("logado",$logado);
 $smarty->assign("supervisor_id",$supervisor_id);
 $smarty->assign("id_supervisor",$supervisor_id);
 $smarty->assign("nome_supervisor",$nome_supervisor);

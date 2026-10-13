@@ -78,6 +78,30 @@ class Estagiario extends ADODB_Model {
     }
 
     /**
+     * Retorna os estágios de um aluno ordenados do período mais recente para o mais antigo,
+     * incluindo nome da instituição e do supervisor.
+     */
+    public static function estagiosPorRegistroDesc($registro) {
+        $db = static::db();
+        $sql = "SELECT e.periodo, e.nivel, e.instituicao_id, e.supervisor_id, e.professor_id, "
+             . "i.instituicao, s.nome AS supervisor_nome "
+             . "FROM estagiarios e "
+             . "LEFT JOIN instituicoes i ON e.instituicao_id = i.id "
+             . "LEFT JOIN supervisores s ON e.supervisor_id = s.id "
+             . "WHERE e.registro = ? OR e.aluno_id = (SELECT id FROM alunos WHERE registro = ? LIMIT 1) "
+             . "ORDER BY e.periodo DESC";
+        $rs = $db->Execute($sql, array((int)$registro, (int)$registro));
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $out[] = $rs->fields;
+                $rs->MoveNext();
+            }
+        }
+        return $out;
+    }
+
+    /**
      * Lista de estágios para o índice (DataTables), com JOINs sem N+1.
      *
      * @param string $periodo Filtra por período (valida contra a lista fechada no chamador).

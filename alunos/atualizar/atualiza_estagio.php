@@ -1,7 +1,7 @@
 <?php
 
 include_once("../../autentica.inc");
-require_once("../../libphp/models.php"); // Inicializa os modelos
+include_once("../../libphp/models.php"); // Inicializa os modelos
 
 $origem = isset($_REQUEST['origem']) ? $_REQUEST['origem'] : '';
 if (empty($origem )) {
@@ -14,13 +14,23 @@ $aluno_id = isset($_REQUEST['aluno_id']) ? $_REQUEST['aluno_id'] : NULL;
 
 // Aluno - Usando modelo Aluno
 $aluno = Aluno::find($aluno_id);
-if (!$aluno) die ("Nao foi possivel consultar a tabela alunos");
+if (!$aluno) {
+	$smarty = new Smarty_estagio;
+	$smarty->assign("mensagem", "Não foi possível encontrar o aluno.");
+	$smarty->display("erro.tpl");
+	exit;
+}
 $nome_aluno = $aluno->nome;
 $registro   = $aluno->registro;
 
 // Estagiarios - Usando modelo Estagiario
 $estagiario = Estagiario::find($estagiario_id);
-if (!$estagiario) die ("Nao foi possivel consultar a tabela estagiarios");
+if (!$estagiario) {
+	$smarty = new Smarty_estagio;
+	$smarty->assign("mensagem", "Não foi possível encontrar o estagiário.");
+	$smarty->display("erro.tpl");
+	exit;
+}
 $periodo        = $estagiario->periodo;
 $tc	        	= $estagiario->tc;
 $nivel          = $estagiario->nivel;
@@ -33,7 +43,12 @@ $ch             = $estagiario->ch;
 // Nome da Instituicao - Usando modelo Instituicao
 if (!empty($instituicao_id)) {
 	$instituicaoObj = Instituicao::find($instituicao_id);
-	if (!$instituicaoObj) die ("Nao foi possivel consultar a tabela instituicoes");
+	if (!$instituicaoObj) {
+		$smarty = new Smarty_estagio;
+		$smarty->assign("mensagem", "Não foi possível encontrar a instituição.");
+		$smarty->display("erro.tpl");
+		exit;
+	}
 	$instituicao = $instituicaoObj->instituicao;
 } else {
 	$instituicao_id = 0;
@@ -43,7 +58,12 @@ if (!empty($instituicao_id)) {
 // Nome do Supervisor - Usando modelo Supervisor
 if (!empty($supervisor_id)) {
 	$supervisorObj = Supervisor::find($supervisor_id);
-	if (!$supervisorObj) die ("Nao foi possivel consultar a tabela supervisores");
+	if (!$supervisorObj) {
+		$smarty = new Smarty_estagio;
+		$smarty->assign("mensagem", "Não foi possível encontrar o supervisor.");
+		$smarty->display("erro.tpl");
+		exit;
+	}
 	$supervisor = $supervisorObj->nome;
 } else {
 	$supervisor_id = 0;
@@ -53,7 +73,12 @@ if (!empty($supervisor_id)) {
 // Nome do Professor - Usando modelo Professor
 if (!empty($professor_id)) {
 	$professorObj = Professor::find($professor_id);
-	if (!$professorObj) die ("Nao foi possivel consultar a tabela professores");
+	if (!$professorObj) {
+		$smarty = new Smarty_estagio;
+		$smarty->assign("mensagem", "Não foi possível encontrar o professor.");
+		$smarty->display("erro.tpl");
+		exit;
+	}
 	$professor = $professorObj->nome;
 } else {
 	$professor_id = 0;
@@ -62,6 +87,12 @@ if (!empty($professor_id)) {
 
 // Capturo a informacao sobre as instituicoes - Usando modelo Instituicao
 $todasInstituicoes = Instituicao::all();
+if (!$todasInstituicoes) {
+	$smarty = new Smarty_estagio;
+	$smarty->assign("mensagem", "Não foi possível encontrar as instituições.");
+	$smarty->display("erro.tpl");
+	exit;
+}
 $i = 0;
 $instituicoes[$i]['instituicao_id'] = "0";
 $instituicoes[$i]['instituicao'] = "Sem dados";
@@ -86,7 +117,12 @@ foreach ($todosSupervisores as $sup) {
 
 // Capturo a informacao sobre os professores - Usando modelo Professor
 $todosProfessores = Professor::all();
-if (empty($todosProfessores)) die ("Nao foi possivel consultar a tabela professores");
+if (!$todosProfessores) {
+	$smarty = new Smarty_estagio;
+	$smarty->assign("mensagem", "Não foi possível encontrar os professores.");
+	$smarty->display("erro.tpl");
+	exit;
+}
 $i = 0;
 $professores[$i]['professor_id'] = "0";
 $professores[$i]['professor'] = "Sem dados";

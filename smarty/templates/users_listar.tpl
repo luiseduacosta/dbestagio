@@ -52,7 +52,7 @@
 </td>
 <td>
 {if $usuarios[u].professor_id}
-<a href="../../professores/exibir/ver_cada.php?professor_id={$usuarios[u].professor_id}">{$usuarios[u].professor}</a>
+<a href="../../professores/ver_cada.php?professor_id={$usuarios[u].professor_id}">{$usuarios[u].professor}</a>
 {else}
 —
 {/if}

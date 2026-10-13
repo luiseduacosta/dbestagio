@@ -600,7 +600,6 @@ class AlunosController {
 		$periodos = Aluno::periodos();
 
 		$smarty = new Smarty_estagio;
-		$smarty->assign("logado", $isAdmin);
 		$smarty->assign("isAdmin", $isAdmin);
 		$smarty->assign("periodo", $periodo);
 		$smarty->assign("origem", $origem);

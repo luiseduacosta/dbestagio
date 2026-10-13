@@ -1,8 +1,8 @@
 <?php
 
-include_once("../../setup.php");
-include_once("../../libphp/jpgraph/src/jpgraph.php");
-include_once("../../libphp/jpgraph/src/jpgraph_bar.php");
+require_once("../../autentica.inc");
+require_once("../../libphp/jpgraph/src/jpgraph.php");
+require_once("../../libphp/jpgraph/src/jpgraph_bar.php");
 
 $chart = new graph(500, 250, "png");
 $chart->SetScale("textlin");

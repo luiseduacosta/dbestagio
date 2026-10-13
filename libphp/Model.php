@@ -134,9 +134,22 @@ class ADODB_Model {
 
     /**
      * Retorna todos os registros da tabela (array de models).
+     * Aceita opcionalmente cláusula ORDER BY/LIMIT ou condições WHERE.
      */
-    public static function all() {
-        return static::where(array());
+    public static function all($conditions = array(), $params = array()) {
+        if (is_string($conditions) && $conditions !== '') {
+            $trimmed = trim($conditions);
+            if (stripos($trimmed, 'order by') === 0 || stripos($trimmed, 'limit') === 0) {
+                $sql = "SELECT " . static::columns() . " FROM " . static::table() . " " . $trimmed;
+                $rs  = static::db()->Execute($sql, $params);
+                return static::hydrate($rs);
+            }
+            if (stripos($trimmed, 'where ') === 0) {
+                $trimmed = substr($trimmed, 6);
+            }
+            return static::where($trimmed, $params);
+        }
+        return static::where($conditions, $params);
     }
 
     /**

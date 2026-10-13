@@ -3,8 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Professores</title>
 
 {literal}
@@ -52,11 +52,7 @@ Status:
 {foreach item=p from=$professores}
 <tr>
 <td>
-{if $smarty.cookies.usuario}
 <a href="ver_cada.php?professor_id={$p.id}">{$p.nome}</a>
-{else}
-{$p.nome}
-{/if}
 </td>
 <td>{$p.departamento}</td>
 <td>{$p.email}</td>
@@ -65,11 +61,9 @@ Status:
 <td>{$p.status}</td>
 <td class="coluna_centralizada">{$p.num_estagios}</td>
 <td>
-{if $smarty.cookies.usuario}
 <a href="ver_cada.php?professor_id={$p.id}">Ver</a> |
-<a href="../atualizar/atualiza.php?professor_id={$p.id}">Editar</a> |
-<a href="../cancelar/cancela.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
-{/if}
+<a href="atualizar.php?professor_id={$p.id}">Editar</a> |
+<a href="excluir.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
 </td>
 </tr>
 {/foreach}
@@ -78,16 +72,16 @@ Status:
 </table>
 
 <div align="center">
-<p><a href="../inserir/inserir.php">Novo professor</a></p>
+<p><a href="inserir.php">Novo professor</a></p>
 </div>
 
 {literal}
-<script src="../../libjs/datatables/jquery-3.7.1.min.js"></script>
-<script src="../../libjs/datatables/dataTables.min.js"></script>
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
 	$('#professores').DataTable({
-		language: { url: '../../libjs/datatables/pt-BR.json' },
+		language: { url: '../libjs/datatables/pt-BR.json' },
 		pageLength: 25,
 		lengthMenu: [10, 25, 50, 100],
 		order: []

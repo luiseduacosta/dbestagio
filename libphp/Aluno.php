@@ -302,6 +302,41 @@ class Aluno extends ADODB_Model {
         return $out;
     }
 
+    /**
+     * Lista alunos com seus respectivos supervisores e cress (via estagiarios).
+     *
+     * @param string $ordem Campo de ordenação ('aluno', 'cress', 'supervisor').
+     * @return array
+     */
+    public static function alunosSupervisores($ordem = 'aluno') {
+        $ordenacoes = array(
+            'aluno'      => 'a.nome ASC',
+            'cress'      => 's.cress ASC, a.nome ASC',
+            'supervisor' => 's.nome ASC, a.nome ASC',
+        );
+        $orderby = isset($ordenacoes[$ordem]) ? $ordenacoes[$ordem] : 'a.nome ASC';
+
+        $db = static::db();
+        $sql = "SELECT a.id AS aluno_id, a.registro, a.nome, a.nome AS aluno, "
+             . "e.nivel, e.supervisor_id, e.instituicao_id, "
+             . "COALESCE(s.cress, '') AS cress, "
+             . "COALESCE(s.nome, '') AS supervisor "
+             . "FROM alunos a "
+             . "LEFT JOIN estagiarios e ON e.aluno_id = a.id "
+             . "LEFT JOIN supervisores s ON s.id = e.supervisor_id "
+             . "ORDER BY " . $orderby;
+
+        $rs = $db->Execute($sql);
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $out[] = $rs->fields;
+                $rs->MoveNext();
+            }
+        }
+        return $out;
+    }
+
     private static function formataTelefone($ddd, $numero) {
         if (empty($numero)) return '';
         $ddd = (int)$ddd ?: 21;

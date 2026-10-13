@@ -1,24 +1,26 @@
 <?php
 
-include_once("../../setup.php");
-
-$sql = "select * from alunos order by nome";
-$resultado = $db->Execute($sql);
-if ($resultado === false) die ("Não foi possível consultar a tabela alunos");
-
-$i = 0;
-while (!$resultado->EOF) {
-    $alunos[$i]["aluno_id"] = $resultado->fields["id"];
-    $alunos[$i]["registro"] = $resultado->fields["registro"];
-    $alunos[$i]["nome"]     = $resultado->fields["nome"];
-    $i++;
-    $resultado->MoveNext();
-}
+include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
 $smarty = new Smarty_estagio;
+
+$alunos = Aluno::all(array("order" => "nome"));
+if (!$alunos) {
+    $smarty->assign("mensagem", "Não foi possível consultar a tabela alunos.");
+    $smarty->display("erro.tpl");
+    exit;
+}
+
+$i = 0;
+foreach ($alunos as $aluno) {
+    $alunos[$i]["aluno_id"] = $aluno->id;
+    $alunos[$i]["registro"] = $aluno->registro;
+    $alunos[$i]["nome"]     = $aluno->nome;
+    $i++;
+}
+
 $smarty->assign("alunos",$alunos);
 $smarty->display("alunos-exibir_seleciona.tpl");
-
-exit;
 
 ?>

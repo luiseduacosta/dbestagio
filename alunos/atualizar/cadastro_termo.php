@@ -1,9 +1,9 @@
 <?php
 
-include_once(__DIR__ . "/../../autentica.inc");
-include_once(__DIR__ . "/../../libphp/models.php");
+include_once("../../autentica.inc");
+require_once("../../libphp/models.php");
 
-$origem = $_REQUEST['origem'];
+$origem = isset($_REQUEST['origem']) ? $_REQUEST['origem'] : '';
 // echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
 
 if (empty($origem))
@@ -35,6 +35,7 @@ $cadastro = $_REQUEST['valorcadastro'];
 // Aluno - Usando modelo Aluno
 $aluno = Aluno::firstWhere("registro = ?", array($registro));
 if (!$aluno) die ("Nao foi possivel consultar a tabela alunos");
+
 $aluno_id = $aluno->id;
 $registro = $aluno->registro;
 $nome = $aluno->nome;
@@ -48,20 +49,19 @@ $identidade = $aluno->identidade;
 $orgao = $aluno->orgao;
 $nascimento = $aluno->nascimento;
 	
-	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-	$nova_data = ereg_replace("-","/",$nascimento);
-	// echo "Nova data: ". $nova_data . "<br>";
-	$dataCorrigida = explode("/",$nova_data);
-	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
-	// echo $data_sql . "<br>";
+// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
+$nova_data = ereg_replace("-","/",$nascimento);
+// echo "Nova data: ". $nova_data . "<br>";
+$dataCorrigida = explode("/",$nova_data);
+$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
+// echo $data_sql . "<br>";
 	
-	$endereco = $aluno->endereco;
-	$cep = $aluno->cep;
-	$bairro = $aluno->bairro;
-	$municipio = $aluno->municipio;
-	$observacoes = $aluno->observacoes;
-	// echo $observacoes . "<br>";
-
+$endereco = $aluno->endereco;
+$cep = $aluno->cep;
+$bairro = $aluno->bairro;
+$municipio = $aluno->municipio;
+$observacoes = $aluno->observacoes;
+// echo $observacoes . "<br>";
 
 $smarty = new Smarty_estagio;
 $smarty->assign("origem",$origem);
