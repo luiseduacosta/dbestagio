@@ -39,19 +39,14 @@
 	<tbody>
 		{assign var = 'j' value = 1}
 		{section name=i loop=$alunos}
-		{if $alunos[i].situacao eq 0}
-			<tr style='background-color:#e7e1ae'>
-		{elseif $alunos[i].situacao eq 1}
-		<tr>
-		{/if}	
+			{if $alunos[i].situacao eq 0}
+				<tr style='background-color:#e7e1ae'>
+			{elseif $alunos[i].situacao eq 1}
+				<tr>
+			{/if}
 			<td style='text-align:right;'>{$j++}</td>
 			<td style='text-align:center;'>{$alunos[i].id_aluno}</td>
-			{if !$alunos[i].situacao eq 0}
-				<td><a href='../alunos/ver_cada.php?registro={$alunos[i].id_aluno}'>{$alunos[i].nome}</a></td>
-			{else}
-				<td>{$alunos[i].nome}</td>
-			{/if}
-			
+			<td><a href='../alunos/ver_cada.php?registro={$alunos[i].id_aluno}' target='_blank'>{$alunos[i].nome}</a></td>
 			<td style='text-align:center;'>{$alunos[i].nivel}</td>
 		</tr>
 		{/section}
