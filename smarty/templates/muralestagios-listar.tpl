@@ -45,7 +45,7 @@
 	<span id="alunoInscrito"></span>
 	
 	{if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="muralestagios-menu.tpl"}
 	{/if}
 
 	<h1>Mural de estágios - Turma {$periodo_atual}</h1>

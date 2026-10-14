@@ -98,6 +98,6 @@ $smarty = new Smarty_estagio;
 $smarty->assign("sistema_autentica",$sistema_autentica);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$inscritos);
-$smarty->display("../../mural/lista-alunos_mural.tpl");
+$smarty->display("muralestagios-lista_alunos.tpl");
 
 ?>

@@ -20,7 +20,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("opcao",$opcao);
 $smarty->assign("id_instituicao",$id_instituicao);
 $smarty->assign("instituicao",$instituicao);
-$smarty->display("../../mural/seleciona.tpl");
+$smarty->display("muralestagios-seleciona.tpl");
 
 exit;
 

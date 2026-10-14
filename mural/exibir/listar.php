@@ -48,7 +48,7 @@ $smarty->assign("periodos", $periodos);
 $smarty->assign("ofertas", $ofertas);
 $smarty->assign("total_ofertas", $total_ofertas);
 $smarty->assign("total_vagas", $total_vagas);
-$smarty->display("mural_listar.tpl");
+$smarty->display("muralestagios-exibir_listar.tpl");
 
 exit;
 

@@ -60,7 +60,7 @@ function verificaConvenio() {
 
 <body onLoad="return janelaAviso()">
 
-{include file="mural_menu.tpl"}
+{include file="muralestagios-menu.tpl"}
 
 <form name="aviso" id="aviso" action="#" method="post" enctype="text/plain">
 <input type="hidden" name="instituicaoConveniada" id="instituicaoConveniada" value="{$aviso}">

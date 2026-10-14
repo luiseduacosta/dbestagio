@@ -168,7 +168,7 @@ class VisitasController {
 		$this->preencheFormulario($smarty, $dados_vazio);
 		$smarty->assign("acao", "inserir.php");
 		$smarty->assign("titulo", "Inserir visita");
-		$smarty->display("visitas_form.tpl");
+		$smarty->display("visitas-inserir.tpl");
 		exit;
 	}
 
@@ -224,7 +224,7 @@ class VisitasController {
 		$this->preencheFormulario($smarty, $dados);
 		$smarty->assign("acao", "atualizar.php");
 		$smarty->assign("titulo", "Editar visita");
-		$smarty->display("visitas_form.tpl");
+		$smarty->display("visitas-atualizar.tpl");
 		exit;
 	}
 
@@ -246,7 +246,7 @@ class VisitasController {
 		$smarty->assign("v", $v->toArray());
 		$smarty->assign("nome_instituicao", $v->instituicaoNome());
 		$smarty->assign("nome_professor", $v->professorNome());
-		$smarty->display("visitas_ver_cada.tpl");
+		$smarty->display("visitas-ver_cada.tpl");
 
 		exit;
 	}
@@ -267,7 +267,7 @@ class VisitasController {
 		$smarty = new Smarty_estagio;
 		$smarty->assign("visitas", $visitas);
 		$smarty->assign("filtro_instituicao", $filtro_instituicao);
-		$smarty->display("visitas_listar.tpl");
+		$smarty->display("visitas-listar.tpl");
 
 		exit;
 	}

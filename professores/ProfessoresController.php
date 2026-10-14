@@ -183,7 +183,7 @@ class ProfessoresController {
 		$smarty->assign("status", $status);
 		$smarty->assign("statuses", $statuses);
 		$smarty->assign("professores", $professores);
-		$smarty->display("professores_listar.tpl");
+		$smarty->display("professores-listar.tpl");
 		exit;
 	}
 
@@ -275,7 +275,7 @@ class ProfessoresController {
 		$smarty->assign("num_instituicoes", (int)$dados['num_instituicoes']);
 		$smarty->assign("estagiarios",     $estagiarios);
 		$smarty->assign("ordem",           $ordem);
-		$smarty->display("professores_ver_cada.tpl");
+		$smarty->display("professores-ver_cada.tpl");
 		exit;
 	}
 
@@ -343,7 +343,7 @@ class ProfessoresController {
 		$smarty->assign("acao", "inserir.php");
 		$smarty->assign("titulo", "Novo professor");
 		$smarty->assign("e_edicao", false);
-		$smarty->display("professores_form.tpl");
+		$smarty->display("professores-inserir.tpl");
 		exit;
 	}
 
@@ -415,7 +415,7 @@ class ProfessoresController {
 		$smarty->assign("acao", "atualizar.php");
 		$smarty->assign("titulo", "Editar professor");
 		$smarty->assign("e_edicao", true);
-		$smarty->display("professores_form.tpl");
+		$smarty->display("professores-atualizar.tpl");
 		exit;
 	}
 
@@ -479,7 +479,7 @@ class ProfessoresController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("instituicoes", $instituicoes);
-		$smarty->display("professores_instituicoes.tpl");
+		$smarty->display("professores-instituicoes.tpl");
 		exit;
 	}
 

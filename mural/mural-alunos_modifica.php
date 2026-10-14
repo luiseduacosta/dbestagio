@@ -74,7 +74,7 @@ $smarty->assign("observacoes", $aluno['observacoes']);
 $smarty->assign("instituicao", $instituicao);
 $smarty->assign("muralestagio_id", $muralestagio_id);
 
-$smarty->display("../../mural/mural-alunos_modifica.tpl");
+$smarty->display("muralestagios-alunos_modifica.tpl");
 
 exit;
 

@@ -31,7 +31,7 @@
 <body>
 
 	{if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="muralestagios-menu.tpl"}
 	{/if}
 
 	<p><a href="javascript:history.back(1)">Voltar</a></p>

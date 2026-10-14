@@ -45,7 +45,7 @@ if ($quantidade === 0) {
     $smarty->assign("matriz",$curso_super);
     $smarty->assign("palavra",$palavra);
     $smarty->assign("autentica",$sistema_autentica);
-    $smarty->display("busca_inscritos.tpl");
+    $smarty->display("curso-busca_inscritos.tpl");
 }
 
 exit;

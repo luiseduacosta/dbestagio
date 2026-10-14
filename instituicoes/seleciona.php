@@ -23,7 +23,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("opcao", $opcao);
 $smarty->assign("instituicao_id", $instituicao_id);
 $smarty->assign("nome_instituicao", $nome_instituicao);
-$smarty->display("instituicao_seleciona.tpl");
+$smarty->display("instituicoes-seleciona.tpl");
 
 exit;
 

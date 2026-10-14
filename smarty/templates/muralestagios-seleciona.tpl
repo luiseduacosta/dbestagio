@@ -36,7 +36,7 @@ function elimina() {
 
 <body>
 
-{include file="mural_menu.tpl"}
+{include file="muralestagios-menu.tpl"}
 
 {if $opcao === "cancela"}
 	<p>Seleciona instituição para excluir</p>

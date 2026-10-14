@@ -39,7 +39,7 @@ if ($periodo) {
 	
 	$smarty = new Smarty_estagio;
 	$smarty->assign("historico",$historico);
-	$smarty->display("../../mural/historico.tpl");
+	$smarty->display("muralestagios-historico.tpl");
 }
 
 function alunos_periodo($periodo) {
@@ -60,7 +60,7 @@ function alunos_periodo($periodo) {
 	$smarty->assign("sem_estagio",$total_sem_estagio);
 	$smarty->assign("niveis",$niveis);
 	$smarty->assign("alunos",$alunos);
-	$smarty->display("../../mural/historico_alunos.tpl");
+	$smarty->display("muralestagios-historico_alunos.tpl");
 	
 	return;
 }
@@ -87,7 +87,7 @@ function instituicoes_periodo($selecao) {
 	$smarty->assign("periodo",$selecao);
 	$smarty->assign("instituicoes",$instituicoes);
 	$smarty->assign("total_vagas",$total_vagas);
-	$smarty->display("../../mural/historico_instituicoes.tpl");
+	$smarty->display("muralestagios-historico_instituicoes.tpl");
 	
 	return;
 }
@@ -193,7 +193,7 @@ function alunos_sem_estagio($periodo_sem_estagio) {
 	$smarty = new Smarty_estagio;
 	$smarty->assign("periodo",$periodo_sem_estagio);
 	$smarty->assign("sem_estagio",$sem_estagio);
-	$smarty->display("../../mural/historico_sem_estagio.tpl");
+	$smarty->display("muralestagios-historico_sem_estagio.tpl");
 
 }
 
