@@ -35,7 +35,7 @@
 <body style="direction: ltr;">
 
 	{if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="muralestagios-menu.tpl"}
 	<p>
 		<a href="imprime.php?muralestagio_id={$id_instituicao}">Imprimir</a>
 	</p>

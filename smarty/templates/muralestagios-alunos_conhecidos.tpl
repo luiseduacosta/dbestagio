@@ -34,7 +34,7 @@ function confirma() {
 <body style="direction: ltr;">
 
 {if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="muralestagios-menu.tpl"}
 {/if}
 
 <h1>Lista de alunos que buscam mudar de estágio</h1>

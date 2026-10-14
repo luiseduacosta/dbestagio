@@ -133,7 +133,6 @@ while (!$res_turma->EOF) {
 // print_r($matriz);
 
 $smarty = new Smarty_estagio;
-$smarty->template_dir = "/curso/"; 
 $smarty->assign("selecao",$selecao);
 $smarty->assign("autentica",$sistema_autentica);
 $smarty->assign("inscricaoRealizada",$inscricaoRealizada);
@@ -141,12 +140,7 @@ $smarty->assign("turma",$turma);
 $smarty->assign("matriz",$matriz);
 $smarty->assign("turmas",$turmas);
 
-$myfile = RAIZ . "/smarty/templates/inscricao_lista.tpl";
-// echo "Meu arquivo " . $myfile . "<br>";
-$smarty->display("file:$myfile");
-
-// $output = $smarty->fetch("file:$myfile");
-// echo $output;
+$smarty->display("curso-inscricao_lista.tpl");
 
 exit;
 

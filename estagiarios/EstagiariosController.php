@@ -211,7 +211,7 @@ class EstagiariosController {
 
 		$smarty = new Smarty_estagio;
 		$this->preencheFormulario($smarty, $v, "inserir.php", "Novo estágio", false);
-		$smarty->display("estagiarios_form.tpl");
+		$smarty->display("estagiarios-inserir.tpl");
 		exit;
 	}
 
@@ -252,7 +252,7 @@ class EstagiariosController {
 
 			$smarty = new Smarty_estagio;
 			$this->preencheFormulario($smarty, $v, "atualizar.php", "Editar estágio", true);
-			$smarty->display("estagiarios_form.tpl");
+			$smarty->display("estagiarios-atualizar.tpl");
 			exit;
 		}
 
@@ -297,7 +297,7 @@ class EstagiariosController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("e", $dados);
-		$smarty->display("estagiarios_ver_cada.tpl");
+		$smarty->display("estagiarios-ver_cada.tpl");
 
 		exit;
 	}
@@ -341,7 +341,7 @@ class EstagiariosController {
 		$smarty->assign("periodos", $periodos);
 		$smarty->assign("busca", $busca);
 		$smarty->assign("estagiarios", $estagiarios);
-		$smarty->display("estagiarios_listar.tpl");
+		$smarty->display("estagiarios-listar.tpl");
 
 		exit;
 	}

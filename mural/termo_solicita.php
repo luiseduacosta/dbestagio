@@ -243,7 +243,7 @@ $smarty->assign("instituicoes",$instituicoes);
 $smarty->assign("supervisores",$supervisores);
 
 $smarty->display("alunos-atualizar_atualiza_termo.tpl");
-// $smarty->display("mural-termo_solicita.tpl");
+// $smarty->display("muralestagios-termo_solicita.tpl");
 
 exit;
 

@@ -118,7 +118,7 @@ class InstituicoesController {
 		$smarty = new Smarty_estagio;
 		$smarty->assign("matriz_areas", Instituicao::areasLista());
 		$smarty->assign("supervisores", Instituicao::supervisoresTodos());
-		$smarty->display("instituicao_form.tpl");
+		$smarty->display("instituicoes-inserir.tpl");
 		exit;
 	}
 
@@ -244,7 +244,7 @@ class InstituicoesController {
 		$smarty->assign("matriz_areas", Instituicao::areasLista());
 		$smarty->assign("inst_supervisores", $inst->supervisores());
 		$smarty->assign("supervisores", Instituicao::supervisoresTodos());
-		$smarty->display("instituicao_modifica.tpl");
+		$smarty->display("instituicoes-atualizar.tpl");
 		exit;
 	}
 
@@ -534,7 +534,7 @@ class InstituicoesController {
 		$smarty->assign("matriz_areas", $matriz_areas);
 		$smarty->assign("flag", $flag);
 		$smarty->assign("flash", isset($flash) ? $flash : '');
-		$smarty->display("instituicao_ver_cada.tpl");
+		$smarty->display("instituicoes-ver_cada.tpl");
 		exit;
 	}
 
@@ -710,7 +710,7 @@ class InstituicoesController {
 		$smarty->assign("total_supervisores", $total_supervi);
 		$smarty->assign("total_alunos", $total_alunos);
 		$smarty->assign("total_periodos", $todos_periodos);
-		$smarty->display("instituicoes.tpl");
+		$smarty->display("instituicoes-listar.tpl");
 		exit;
 	}
 

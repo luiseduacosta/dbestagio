@@ -26,7 +26,7 @@ while (!$resultado->EOF) {
 // echo $supervisores . "<br>";
 $smarty = new Smarty_estagio;
 $smarty->assign("supervisores",$supervisores);
-$smarty->display("supervisores_seleciona.tpl");
+$smarty->display("curso-supervisores_seleciona.tpl");
 
 exit;
 

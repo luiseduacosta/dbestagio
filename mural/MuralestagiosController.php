@@ -83,7 +83,7 @@ class MuralestagiosController {
 		$smarty->assign("totalAlunos", $stats['total']);
 		$smarty->assign("alunos_novos", $novo_novo);
 		$smarty->assign("alunosVelhos", $conhecidos_conhecidos);
-		$smarty->display("file:" . RAIZ . "/mural/ver-mural.tpl");
+		$smarty->display("muralestagios-listar.tpl");
 		exit;
 	}
 
@@ -138,7 +138,7 @@ class MuralestagiosController {
 		$smarty->assign("area_id", $area_id);
 		$smarty->assign("areas", $areas);
 		$smarty->assign("instituicoes", $instituicoes);
-		$smarty->display("file:" . RAIZ . "/mural/mural_inserir.tpl");
+		$smarty->display("muralestagios-inserir.tpl");
 		exit;
 	}
 
@@ -291,7 +291,7 @@ class MuralestagiosController {
 		$smarty->assign("data_encerramento", ''); // campo legado, nunca preenchido
 		$smarty->assign("data_fax", 0);
 		$smarty->assign("indice", $indice);
-		$smarty->display("file:" . RAIZ . "/mural/ver_cada.tpl");
+		$smarty->display("muralestagios-ver_cada.tpl");
 		exit;
 	}
 
@@ -344,7 +344,7 @@ class MuralestagiosController {
 		$smarty->assign("periodo", $mural->periodo);
 		$smarty->assign("areas", $areas);
 		$smarty->assign("professores", $professores);
-		$smarty->display("file:" . RAIZ . "/mural/mural-modifica.tpl");
+		$smarty->display("muralestagios-atualizar.tpl");
 		exit;
 	}
 

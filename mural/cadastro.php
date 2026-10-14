@@ -89,7 +89,7 @@ $smarty = new Smarty_estagio;
 $smarty->assign("registro",$registro);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("muralestagio_id",$muralestagio_id);
-$smarty->display("../../mural/alunos-mural_insere.tpl");
+$smarty->display("muralestagios-alunos_insere.tpl");
 
 exit;
 

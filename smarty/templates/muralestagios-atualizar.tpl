@@ -21,7 +21,7 @@
 
 <body>
 
-{include file="mural_menu.tpl"}
+{include file="muralestagios-menu.tpl"}
 
 <form name="atualiza_instituicao" action="mural-atualiza.php" method="post">
 

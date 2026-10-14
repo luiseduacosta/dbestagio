@@ -679,7 +679,7 @@ class AlunosController {
 		$smarty->assign("instituicao_id", $instituicao_id);
 		$smarty->assign("instituicoes", $instituicoes);
 		$smarty->assign("alunos", $alunos);
-		$smarty->display("alunos_listar.tpl");
+		$smarty->display("alunos-listar.tpl");
 		exit;
 	}
 

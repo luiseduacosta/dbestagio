@@ -217,7 +217,7 @@ class InscricoesController {
 		$smarty->assign("acao", "inserir.php");
 		$smarty->assign("titulo", "Inscrever aluno");
 		$smarty->assign("e_edicao", false);
-		$smarty->display("inscricoes_form.tpl");
+		$smarty->display("inscricoes-inserir.tpl");
 		exit;
 	}
 
@@ -317,7 +317,7 @@ class InscricoesController {
 		$smarty->assign("acao", "atualizar.php");
 		$smarty->assign("titulo", "Editar inscrição");
 		$smarty->assign("e_edicao", true);
-		$smarty->display("inscricoes_form.tpl");
+		$smarty->display("inscricoes-atualizar.tpl");
 		exit;
 	}
 
@@ -373,7 +373,7 @@ class InscricoesController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("ins", $ins);
-		$smarty->display("inscricoes_ver_cada.tpl");
+		$smarty->display("inscricoes-ver_cada.tpl");
 		exit;
 	}
 
@@ -431,7 +431,7 @@ class InscricoesController {
 		$smarty->assign("muralestagio_id", $muralestagio_id);
 		$smarty->assign("titulo_oferta", $titulo_oferta);
 		$smarty->assign("inscritos", $inscritos);
-		$smarty->display("inscricoes_listar.tpl");
+		$smarty->display("inscricoes-listar.tpl");
 		exit;
 	}
 

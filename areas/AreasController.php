@@ -118,7 +118,7 @@ class AreasController {
 
 		// GET: renderiza o formulário de inclusão.
 		$smarty = new Smarty_estagio;
-		$smarty->display("area_form_inserir.tpl");
+		$smarty->display("areas-inserir.tpl");
 		exit;
 	}
 
@@ -157,7 +157,7 @@ class AreasController {
 		$smarty = new Smarty_estagio;
 		$smarty->assign("area_id", $area_id);
 		$smarty->assign("area", $area);
-		$smarty->display("area_atualiza.tpl");
+		$smarty->display("areas-atualizar.tpl");
 		exit;
 	}
 
@@ -217,7 +217,7 @@ class AreasController {
 		$smarty->assign("num_instituicoes", $area->countInstituicoes());
 		$smarty->assign("instituicoes",     $area->instituicoes());
 		$smarty->assign("pagina",           $_SERVER['PHP_SELF']);
-		$smarty->display("area-ver_cada.tpl");
+		$smarty->display("areas-ver_cada.tpl");
 
 		exit;
 	}
@@ -278,7 +278,7 @@ class AreasController {
 		$smarty->assign("ordem", $ordem);
 		$smarty->assign("areas", $areas);
 		$smarty->assign("matriz", $matriz);
-		$smarty->display("areas_listar.tpl");
+		$smarty->display("areas-listar.tpl");
 
 		exit;
 	}
@@ -345,7 +345,7 @@ class AreasController {
 		$smarty->assign("opcao", $opcao);
 		$smarty->assign("id_areas", $id_areas);
 		$smarty->assign("areas", $areas);
-		$smarty->display("area_seleciona.tpl");
+		$smarty->display("areas-seleciona.tpl");
 
 		exit;
 	}
@@ -390,7 +390,7 @@ class AreasController {
 		$smarty->assign("area_id", $area_id);
 		$smarty->assign("nome_area", $nome_area);
 		$smarty->assign("instituicoes", $matriz);
-		$smarty->display("area_instituicoes.tpl");
+		$smarty->display("areas-instituicoes.tpl");
 
 		exit;
 	}

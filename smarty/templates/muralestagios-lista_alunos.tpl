@@ -34,7 +34,7 @@ $("#link").toggle(function() {
 <body style="direction: ltr;">
 
 {if $sistema_autentica == 1}
-	{include file="mural_menu.tpl"}
+	{include file="muralestagios-menu.tpl"}
 {/if}
 
 {*
