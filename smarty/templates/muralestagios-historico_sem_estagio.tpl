@@ -30,10 +30,10 @@
 		<tr>
 			<td style='text-align:right;'>{$j++}</td>
 			<td style='text-align:center;'>{$sem_estagio[i].id_aluno}</td>
-			<td>{$sem_estagio[i].nome}</td>
-                        <td>{$sem_estagio[i].email}</td>
-                        <td>{$sem_estagio[i].telefone}</td>
-                        <td>{$sem_estagio[i].celular}</td>
+			<td><a href='../alunos/ver_cada.php?registro={$sem_estagio[i].id_aluno}' target='_blank'>{$sem_estagio[i].nome}</a></td>
+            <td>{$sem_estagio[i].email}</td>
+            <td>{$sem_estagio[i].telefone}</td>
+            <td>{$sem_estagio[i].celular}</td>
 		</tr>
 		{/section}
 	</tbody>
