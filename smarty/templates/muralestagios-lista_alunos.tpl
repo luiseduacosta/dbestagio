@@ -63,7 +63,9 @@ $("#link").toggle(function() {
 			<th>Telefone</th>
 			<th>Celular</th>
 			<th><a href='?ordem=email'>E-mail</a></th>
+			{if $isAdmin}
 			<th>Excluir</th>
+			{/if}
 		{/if}
 	</tr>
 
@@ -91,9 +93,9 @@ $("#link").toggle(function() {
 	<td>{$alunos[i].email}</td>
 {/if}
 
-{* Omito os dados de cpf, identidade e data de nascimento se nao esta cadastrado *}
-{if $sistema_autentica == 1}
-	<td style="text-align:center;"><a href="mural-excluir_aluno.php?aluno_id={$alunos[i].id}&registro={$alunos[i].registro}">Excluir</a></td>
+{* Exclusão restrita ao admin (o endpoint confere a permissão de novo) *}
+{if $isAdmin}
+	<td style="text-align:center;"><a href="mural-excluir_aluno.php?aluno_id={$alunos[i].id}&registro={$alunos[i].registro}" onclick="return confirm('Confirma a remoção das inscrições deste aluno no período atual?');">Excluir</a></td>
 {/if}
 
 </tr>

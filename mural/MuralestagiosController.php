@@ -8,8 +8,12 @@
  *   index()     <- ver-mural.php      (listagem do período atual, com login)
  *   inserir()   <- mural_inserir.php   (formulário + gravação, com login)
  *   ver_cada()  <- ver_cada.php        (ficha registro a registro, sem login)
- *   editar()    <- mural-modifica.php  (formulário de edição, sem login)
+ *   editar()    <- mural-modifica.php  (formulário de edição, com login)
  *   atualizar() <- mural-atualiza.php  (gravação da edição, sem login)
+ *   excluir()   <- excluir.php         (exclusão da oferta, com login)
+ *   selecionar() <- seleciona.php      (seletor modificar/excluir, com login)
+ *   excluir_aluno() <- mural-excluir_aluno.php (tira o aluno da lista de
+ *                      alunos que buscam estágio, com login)
  *
  * O controlador cuida apenas de HTTP (parâmetros, higienização, includes de
  * autenticação, assigns do Smarty e redirecionamentos). Toda a lógica de
@@ -21,9 +25,9 @@
  *   $controller = new MuralestagiosController();
  *   $controller->index();
  *
- * ATENÇÃO: editar()/atualizar() NÃO exigem login — mantido por paridade com
- * os scripts antigos (mural-modifica.php/mural-atualiza.php também não
- * exigiam). Vale proteger esses endpoints no futuro.
+ * ATENÇÃO: atualizar() NÃO exige login — mantido por paridade com o script
+ * antigo (mural-atualiza.php também não exigia). Vale proteger esse endpoint
+ * no futuro.
  */
 if (!class_exists('MuralestagiosController', false)) {
 
@@ -36,10 +40,22 @@ class MuralestagiosController {
 	 * libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica;
+		global $db, $sistema_autentica, $isAdmin;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 		require_once(__DIR__ . "/../libphp/sessao.php");
+	}
+
+	/**
+	 * As exclusões do mural (oferta do mural e remoção de aluno da lista) são
+	 * restritas ao role admin. A interface esconde os botões dos demais
+	 * perfis, mas a permissão é conferida de novo aqui — nunca só na tela.
+	 */
+	private function exigirAdmin() {
+		global $isAdmin;
+		if (empty($isAdmin)) {
+			die("Acesso restrito: apenas administradores podem excluir registros do mural.");
+		}
 	}
 
 	/**
@@ -179,7 +195,7 @@ class MuralestagiosController {
 
 		if (!$mural->save()) die("Não foi possível inserir o registro na tabela mural_estagios");
 
-		header("Location: ver_cada.php?mural_id=" . $mural->getKey());
+		header("Location: ver_cada.php?muralestagio_id=" . $mural->getKey());
 		exit;
 	}
 
@@ -192,10 +208,12 @@ class MuralestagiosController {
 		global $db;
 		$this->semAutenticacao();
 
-		$mural_id       = isset($_REQUEST['mural_id']) ? (int)$_REQUEST['mural_id'] : 0;
-		$instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
-		$indice         = isset($_REQUEST['indice']) ? $_REQUEST['indice'] : '';
-		$botao          = isset($_REQUEST['botao']) ? $_REQUEST['botao'] : '';
+		// Id da oferta recebido na URL/formulário (muralestagio_id é o nome
+		// único para a PK de mural_estagios). A variável é reatribuída mais
+		// abaixo com o id da oferta EM EXIBIÇÃO, usado pelos links do template.
+		$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+		$indice          = isset($_REQUEST['indice']) ? $_REQUEST['indice'] : '';
+		$botao           = isset($_REQUEST['botao']) ? $_REQUEST['botao'] : '';
 
 		$num_linhas = Mural::contarPorPeriodo(PERIODO_ATUAL);
 		$ultimo_registro = $num_linhas - 1;
@@ -233,13 +251,13 @@ class MuralestagiosController {
 		}
 		$indice = (int)$indice;
 
-		// Quando vem um id (novo mural_id ou o antigo id_instituicao, que
-		// apontava para o id do mural), converto para a posição na listagem.
-		if ($mural_id > 0) {
-			$pos = Mural::posicaoDoRegistro($mural_id, PERIODO_ATUAL);
-			if ($pos !== null) $indice = $pos;
-		} elseif ($instituicao_id > 0) {
-			$pos = Mural::posicaoDoRegistro($instituicao_id, PERIODO_ATUAL);
+		// Posição na listagem. Pelos botões de navegação (indice + botao) ou,
+		// quando o acesso vem por link, pelo muralestagio_id. O formulário de
+		// navegação também envia muralestagio_id (a oferta em exibição), então
+		// ele só vale quando não há botão no request — senão cada clique de
+		// navegação voltaria para a oferta atual em vez de avançar.
+		if ($botao === '' && $muralestagio_id > 0) {
+			$pos = Mural::posicaoDoRegistro($muralestagio_id, PERIODO_ATUAL);
 			if ($pos !== null) $indice = $pos;
 		}
 
@@ -281,6 +299,7 @@ class MuralestagiosController {
 		$data_selecao = ($data_selecao_iso !== '') ? (int)str_replace('-', '', $data_selecao_iso) : 0;
 
 		$smarty = new Smarty_estagio;
+		$smarty->assign("isAdmin", $usuario_role === "admin");
 		$smarty->assign("sistema_autentica", $sistema_autentica);
 		$smarty->assign("muralestagio_id", $muralestagio_id);
 		$smarty->assign("pode_inscrever", $pode_inscrever);
@@ -303,7 +322,8 @@ class MuralestagiosController {
 		global $db;
 		$this->comAutenticacao();
 
-		$id = isset($_REQUEST['id_instituicao']) ? (int)$_REQUEST['id_instituicao'] : 0;
+		// Id da oferta (PK de mural_estagios).
+		$id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
 		$mural = Mural::find($id);
 		if (!$mural) die("Registro não encontrado na tabela mural_estagios");
 
@@ -320,7 +340,7 @@ class MuralestagiosController {
 		$f = Mural::formatar($mural->toArray(true));
 
 		$smarty = new Smarty_estagio;
-		$smarty->assign("instituicao_id", $id);
+		$smarty->assign("muralestagio_id", $id);
 		$smarty->assign("convenio", $mural->convenio);
 		$smarty->assign("instituicao", $mural->instituicao);
 		$smarty->assign("vagas", $mural->vagas);
@@ -357,12 +377,15 @@ class MuralestagiosController {
 		$this->semAutenticacao();
 
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			$id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
-			header("Location: mural-modifica.php?instituicao_id=" . $id);
+			// Acesso direto (GET) ao endpoint de gravação: manda para o
+			// formulário de edição.
+			$id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+			header("Location: mural-modifica.php?muralestagio_id=" . $id);
 			exit;
 		}
 
-		$id = isset($_POST['mural_id']) ? (int)$_POST['mural_id'] : 0;
+		// Id da oferta vindo do formulário de edição (campo muralestagio_id).
+		$id = isset($_POST['muralestagio_id']) ? (int)$_POST['muralestagio_id'] : 0;
 		$mural = Mural::find($id);
 		if (!$mural) die("Registro não encontrado na tabela mural_estagios");
 
@@ -393,7 +416,116 @@ class MuralestagiosController {
 
 		if (!$mural->save()) die("Não foi possível atualizar o registro na tabela mural_estagios");
 
-		header("Location: ver_cada.php?mural_id=" . $mural->getKey());
+		header("Location: ver_cada.php?muralestagio_id=" . $mural->getKey());
+		exit;
+	}
+
+	/**
+	 * Exclui uma oferta do mural (DELETE). Substitui excluir.php.
+	 * Restrito ao admin e só exclui quando não há alunos inscritos: as
+	 * inscrições apontam para a oferta (inscricoes.muralestagio_id) e a tabela
+	 * não tem chave estrangeira, então a checagem é feita aqui, antes do delete.
+	 */
+	public function excluir() {
+		global $db;
+		$this->comAutenticacao();
+		$this->exigirAdmin();
+
+		$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+		if ($muralestagio_id <= 0) {
+			die("Oferta inválida (id $muralestagio_id).");
+		}
+
+		$mural = Mural::find($muralestagio_id);
+		if (!$mural) die("Registro não encontrado na tabela mural_estagios");
+
+		$quantidade = Mural::contarInscritos($muralestagio_id);
+		if ($quantidade > 0) {
+			echo "Primeiro tem que excluir os alunos inscritos ($quantidade) para logo poder excluir a oferta do mural.";
+			echo "<meta http-equiv='refresh' content='3;ver-mural.php' />";
+			exit;
+		}
+
+		if (!$mural->delete()) {
+			error_log("Erro ao excluir mural_estagios: " . ADODB_Model::$db->ErrorMsg());
+			die("Não foi possível excluir o registro da tabela mural_estagios");
+		}
+
+		header("Location: ver-mural.php");
+		exit;
+	}
+
+	/**
+	 * Seletor de ofertas do período atual para modificar ou excluir.
+	 * Substitui seleciona.php — que consultava a tabela inexistente
+	 * mural_estagio (singular) e morria antes mesmo de exibir o formulário.
+	 * O template decide o destino do formulário pela opção: "cancela" aponta
+	 * para excluir.php; qualquer outro valor (ou ausente) aponta para
+	 * mural-modifica.php.
+	 */
+	public function selecionar() {
+		global $db;
+		$this->comAutenticacao();
+
+		$opcao = isset($_GET['opcao']) ? (string)$_GET['opcao'] : '';
+		if ($opcao !== 'cancela') {
+			$opcao = 'modificar';
+		}
+
+		$ofertas = Mural::listarSimplesPorPeriodo(PERIODO_ATUAL);
+
+		$smarty = new Smarty_estagio;
+		$smarty->assign("opcao", $opcao);
+		$smarty->assign("ofertas", $ofertas);
+		$smarty->display("muralestagios-seleciona.tpl");
+		exit;
+	}
+
+	/**
+	 * Tira o aluno da lista "alunos que buscam estágio" do período atual,
+	 * removendo todas as suas inscrições do período. Substitui
+	 * mural-excluir_aluno.php. Restrito ao admin.
+	 *
+	 * O script antigo (sem login e com SQL montado por concatenação) excluía
+	 * também o registro da tabela alunos, deixando órfãos os vínculos que
+	 * apontam para ele (estagiarios.aluno_id, users.aluno_id) e apagando as
+	 * inscrições de todos os períodos. Aqui só as inscrições do período atual
+	 * saem; a exclusão do aluno em si continua no módulo alunos
+	 * (alunos/excluir.php), que checa dependências antes de apagar.
+	 */
+	public function excluir_aluno() {
+		global $db;
+		$this->comAutenticacao();
+		$this->exigirAdmin();
+
+		$registro = isset($_REQUEST['registro']) ? (int)$_REQUEST['registro'] : 0;
+		$aluno_id = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
+
+		// Se veio apenas aluno_id ou apenas registro, resolve o outro a partir de Aluno
+		if ($registro <= 0 && $aluno_id > 0) {
+			$aluno = Aluno::find($aluno_id);
+			if ($aluno !== null) {
+				$registro = (int)$aluno->registro;
+			}
+		} elseif ($aluno_id <= 0 && $registro > 0) {
+			$aluno = Aluno::firstWhere('registro', $registro);
+			if ($aluno !== null) {
+				$aluno_id = (int)$aluno->id;
+			}
+		}
+
+		if ($registro <= 0 && $aluno_id <= 0) {
+			die("Aluno inválido (registro $registro, id $aluno_id).");
+		}
+
+		$excluidas = Inscricao::excluirDoPeriodo($registro, PERIODO_ATUAL, $aluno_id);
+		if ($excluidas === false) {
+			error_log("Erro ao excluir inscricoes do aluno (registro $registro, aluno_id $aluno_id, periodo "
+				. PERIODO_ATUAL . "): " . ADODB_Model::$db->ErrorMsg());
+			die("Não foi possível excluir os registros da tabela inscricoes");
+		}
+
+		header("Location: lista-alunos.php");
 		exit;
 	}
 

@@ -46,8 +46,10 @@ function elimina() {
 	<form name="seleciona_instituicao" action="mural-modifica.php" method="post">
 {/if}
 
-<select name="id_instituicao">
-{html_options values=$id_instituicao output=$instituicao|truncate:50}
+<select name="muralestagio_id">
+{foreach from=$ofertas item=oferta}
+<option value="{$oferta.id}">{$oferta.instituicao|truncate:50}</option>
+{/foreach}
 </select>
 
 {if $opcao === "cancela"}

@@ -31,7 +31,7 @@
 
 <tr>
 <td>Id instituição</td>
-<td>{$id_instituicao}</td>
+<td>{$muralestagio_id}</td>
 </tr>
 
 <tr>
@@ -66,7 +66,7 @@
 <td>Final de semana</td>
 <td>
 {if $final_de_semana == 0}
-	<input type="radio" name="final_de_semana" id="final_de_semana" value="0" checked="{$fianl_de_semana}">Não
+	<input type="radio" name="final_de_semana" id="final_de_semana" value="0" checked="{$final_de_semana}">Não
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="1">Sim
 	<input type="radio" name="final_de_semana" id="final_de_semana" value="2">Parcialmente
 {elseif $final_de_semana == 1}
@@ -97,7 +97,7 @@
 <select name="area_id" id="area_id" size="1">
 <option value={$area_id}>{$area}<option>
 {section name=item loop=$areas}
-<option value={$areas[item].areas_id}>{$areas[item].areas}</option>
+<option value={$areas[item].id_areas}>{$areas[item].areas}</option>
 {/section}
 </select>
 </td>
@@ -109,7 +109,7 @@
 <select name="professor_id" id="professor_id" size="1">
 <option value={$professor_id}>{$professor}</option>
 {section name=item loop=$professores}
-<option value={$professores[item].professores_id}>{$professores[item].professores}</option>
+<option value={$professores[item].id_professores}>{$professores[item].professores}</option>
 {/section}
 </select>
 </td>
@@ -199,7 +199,7 @@ Formato hh:mm</td>
 <tr class="rodape">
 <td colspan="2" class="coluna_centralizada">
 <input type="hidden" name="periodo" value="{$periodo}">
-<input type="hidden" name="mural_id" value="{$instituicao_id}">
+<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 <input type="submit" value="Confirma" name="inserir">
 </td>
 </tr>

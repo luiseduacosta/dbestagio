@@ -39,7 +39,6 @@ while (!$resultado_inscritos->EOF) {
 	$id_aluno = $resultado_inscritos->fields['registro'];
 	$nivel = $resultado_inscritos->fields['nivel'];
 	$periodo = $resultado_inscritos->fields['periodo'];
-	$id_instituicao = $resultado_inscritos->fields['muralestagio_id'];
 	
 	$nome = $resultado_inscritos->fields['nome'];
 	$telefone = $resultado_inscritos->fields['telefone'];

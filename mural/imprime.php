@@ -1,12 +1,13 @@
 <?php
 
-define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
-define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
+// setup.php primeiro (define $db, FPDF_FONTPATH e FPDF); models.php depois,
+// para ligar a conexão $db aos models — invertido, Mural/Inscricao::query
+// lançam "Conexão ADOdb não definida".
+require("../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
 require(FPDF."fpdf.php");
 require_once(__DIR__ . "/../libphp/PDFHelper.php");
-require_once(__DIR__ . "/../libphp/models.php");
-require("../setup.php");
 
 if (!isset($muralestagio_id)) {
 	$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
@@ -52,8 +53,7 @@ foreach ($resultado as $item) {
 			$resultadoAlunosNovos = Aluno::query($sqlAlunosNovos, array($id_aluno));
 			if ($resultadoAlunosNovos === false) die ("Não foi possível consultar a tabela alunos");
 				foreach ($resultadoAlunosNovos as $aluno_item) {
-					$nome = $resultadoAlunosNovos->fields['nome'];
-					// echo "Novos " . $nome . "<br>";
+					// echo "Novos " . $aluno_item->nome . "<br>";
 					// $instituicao = $resultadoAlunosNovos->fields['instituicao'];
 					$inscritos[$i]['nome'] = $aluno_item->nome;
 					$inscritos[$i]['id'] = $id;
@@ -130,7 +130,7 @@ $pdf->Ln(20);
 
 $pdf->SetFont("Arial","","14");
 $subtitulo = "Alunos inscritos para seleção de estagio: " . $instituicao;
-$cabecalho4 = $pdf->GetStringWidth($substitulo);
+$cabecalho4 = $pdf->GetStringWidth($subtitulo);
 $pdf->SetX((210-$cabecalho4)/2);
 $pdf->MultiCell(0,15,$subtitulo);
 $pdf->Ln(20);
@@ -212,7 +212,8 @@ for($j=0;$j<sizeof($inscritos);$j++) {
 
 $arquivo = "estagio" . $muralestagio_id . ".pdf";
 $camino = TMP. $arquivo;
-$pdf->Output("$camino");
+// Assinatura atual do FPDF: Output($destino, $nome). 'F' = gravar no arquivo.
+$pdf->Output('F', $camino);
 
 // Arquivo anexo nao mostrar o pdf na tela
 

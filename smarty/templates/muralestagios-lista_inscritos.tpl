@@ -37,7 +37,7 @@
 	{if $sistema_autentica == 1}
 	{include file="muralestagios-menu.tpl"}
 	<p>
-		<a href="imprime.php?muralestagio_id={$id_instituicao}">Imprimir</a>
+		<a href="imprime.php?muralestagio_id={$muralestagio_id}">Imprimir</a>
 	</p>
 
 	{/if}
@@ -99,7 +99,7 @@
 				{if $sistema_autentica == 1}
 				<td>
 					<form name="excluirInscricao" id="excluirInscricao" method="post"
-						action="../inscricoes/excluir.php?muralestagio_id={$id_instituicao}"
+						action="../inscricoes/excluir.php?muralestagio_id={$muralestagio_id}"
 						onSubmit="return confirma();">
 						<input type="hidden" name="id" value="{$inscritos[item].id}">
 						<input type="submit" name="submit" value="Excluir">

@@ -44,7 +44,6 @@ $smarty = new Smarty_estagio;
 
 $smarty->assign("sistema_autentica", $sistema_autentica);
 $smarty->assign("muralestagio_id", $muralestagio_id);
-$smarty->assign("id_instituicao", $muralestagio_id);
 $smarty->assign("instituicao", $instituicao);
 $smarty->assign("inscritos", $inscritos);
 $smarty->display("muralestagios-lista_inscritos.tpl");

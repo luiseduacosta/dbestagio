@@ -198,6 +198,46 @@ class Inscricao extends ADODB_Model {
     }
 
     /**
+     * Remove todas as inscrições de um aluno no período informado.
+     * Usada pela lista de alunos que buscam estágio do mural ("Excluir"):
+     * tira o aluno do processo do período sem tocar no registro da tabela
+     * alunos — a exclusão do aluno em si continua no módulo alunos
+     * (alunos/excluir.php), que checa dependências antes de apagar.
+     *
+     * @param int    $registro Matrícula (DRE) do aluno.
+     * @param string $periodo  Período das inscrições (ex.: "2025-2").
+     * @param int    $aluno_id (Opcional) PK do aluno na tabela alunos.
+     * @return int|false Número de inscrições excluídas ou false em erro.
+     */
+    public static function excluirDoPeriodo($registro, $periodo, $aluno_id = 0) {
+        $db = static::db();
+        $conds = array();
+        $params = array();
+
+        if ((int)$registro > 0) {
+            $conds[] = "registro = ?";
+            $params[] = (int)$registro;
+        }
+        if ((int)$aluno_id > 0) {
+            $conds[] = "aluno_id = ?";
+            $params[] = (int)$aluno_id;
+        }
+
+        if (empty($conds)) {
+            return 0;
+        }
+
+        $sql = "DELETE FROM inscricoes WHERE (" . implode(" OR ", $conds) . ") AND periodo = ?";
+        $params[] = $periodo;
+
+        $rs = $db->Execute($sql, $params);
+        if ($rs === false) {
+            return false;
+        }
+        return (int)$db->Affected_Rows();
+    }
+
+    /**
      * Lista de alunos (registro + nome) para o seletor do formulário.
      */
     public static function alunosLista() {
