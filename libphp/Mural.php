@@ -97,9 +97,9 @@ class Mural extends ADODB_Model {
         }
 
         // m.id também com o nome "id": formatar() lê $f['id'] (sem o alias, as
-        // linhas da listagem saíam com mural_estagio_id = 0 e os links do mural
+        // linhas da listagem saíam com muralestagio_id = 0 e os links do mural
         // apontavam para o registro errado).
-        $sql = "SELECT m.id AS mural_estagio_id, m.id AS id, m.instituicao_id, m.instituicao, m.convenio, m.vagas, "
+        $sql = "SELECT m.id AS id, m.instituicao_id, m.instituicao, m.convenio, m.vagas, "
              . "m.beneficios, m.final_de_semana, m.carga_horaria, m.requisitos, m.horario, "
              . "m.data_selecao, m.horario_selecao, m.data_inscricao, m.local_selecao, "
              . "m.forma_selecao, m.contato, m.email, m.periodo, m.outras, "
@@ -181,6 +181,20 @@ class Mural extends ADODB_Model {
     }
 
     /**
+     * Quantidade de inscrições (alunos) vinculadas a uma oferta. Usada pelo
+     * excluir(): a oferta só pode ser excluída quando não tiver inscritos.
+     *
+     * @param int $id PK da oferta em mural_estagios.
+     * @return int Número de registros em inscricoes apontando para a oferta.
+     */
+    public static function contarInscritos($id) {
+        return (int)static::db()->GetOne(
+            "SELECT COUNT(*) FROM inscricoes WHERE muralestagio_id = ?",
+            array((int)$id)
+        );
+    }
+
+    /**
      * Soma da coluna 'vagas' de todas as ofertas do mural no período.
      *
      * @param string $periodo Período (ex.: "2025-2").
@@ -191,6 +205,32 @@ class Mural extends ADODB_Model {
             "SELECT COALESCE(SUM(vagas), 0) FROM mural_estagios WHERE periodo = ?",
             array($periodo)
         );
+    }
+
+    /**
+     * Ofertas de um período em formato simples (id e instituição), ordenadas
+     * por instituição — usadas no seletor de modificar/excluir (seleciona.php).
+     *
+     * @param string $periodo Período (ex.: "2025-2").
+     * @return array Lista de array('id' => int, 'instituicao' => string).
+     */
+    public static function listarSimplesPorPeriodo($periodo) {
+        $rs = static::db()->Execute(
+            "SELECT id, instituicao FROM mural_estagios WHERE periodo = ? ORDER BY instituicao, id",
+            array($periodo)
+        );
+        if ($rs === false) {
+            die("Não foi possível consultar a tabela mural_estagios");
+        }
+        $out = array();
+        while (!$rs->EOF) {
+            $out[] = array(
+                'id'          => (int)$rs->fields['id'],
+                'instituicao' => $rs->fields['instituicao'],
+            );
+            $rs->MoveNext();
+        }
+        return $out;
     }
 
     /**
@@ -303,8 +343,7 @@ class Mural extends ADODB_Model {
     public static function formatar($f) {
         $tem_inscritos = isset($f['quantidade_alunos']);
         return array(
-            'mural_estagio_id'   => (int)$f['id'],
-            'muralestagio_id'    => (int)$f['id'], // alias usado por ver_cada.tpl
+            'muralestagio_id'    => (int)$f['id'], // PK de mural_estagios
             'instituicao_id'     => (int)$f['instituicao_id'],
             'instituicao'        => $f['instituicao'],
             'convenio'           => $f['convenio'],

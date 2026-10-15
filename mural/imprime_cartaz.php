@@ -1,13 +1,19 @@
 <?php
 
 include_once("../setup.php");
-require_once(__DIR__ . "/../libphp/Mural.php");
+// models.php carrega o Mural e liga a conexão $db aos models (sem isso
+// Mural::cartazPorId lança "Conexão ADOdb não definida").
+require_once(__DIR__ . "/../libphp/models.php");
 
-$instituicao_id = $_REQUEST['instituicao_id'] or die("Faltou passar o parâmetro instituicao_id");
+// Id da oferta (mural_estagios): muralestagio_id é o nome atual, usado pelos
+// links da ficha; instituicao_id fica aceito como alias do link antigo.
+$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+if ($muralestagio_id <= 0 && isset($_REQUEST['instituicao_id'])) {
+	$muralestagio_id = (int)$_REQUEST['instituicao_id'];
+}
+if ($muralestagio_id <= 0) die("Faltou passar o parâmetro muralestagio_id");
 
-define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
-define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
-
+// FPDF_FONTPATH e FPDF já vêm definidos pelo setup.php.
 require(FPDF."fpdf.php");
 require_once(__DIR__ . "/../libphp/PDFHelper.php");
 
@@ -40,9 +46,9 @@ $pdf->SetFont("Arial","IB","24");
 $pdf->Cell($cabecalho4,9,"Seleção para estágio",0,1,'C',0);
 $pdf->Ln(2);
 
-$dados = Mural::cartazPorId($instituicao_id, PERIODO_ATUAL);
+$dados = Mural::cartazPorId($muralestagio_id, PERIODO_ATUAL);
 if ($dados === null) {
-    die("Não há cartaz com id " . (int)$instituicao_id . " no período atual");
+    die("Não há cartaz com id " . (int)$muralestagio_id . " no período atual");
 }
 extract($dados, EXTR_SKIP);
 

@@ -57,10 +57,10 @@ function carrega_tabela() {
 
 {section name=item loop=$ofertas}
 <tr>
-<td><a href="../ver_cada.php?instituicao_id={$ofertas[item].instituicao_id}">{$ofertas[item].instituicao}</a></td>
+<td><a href="../ver_cada.php?muralestagio_id={$ofertas[item].muralestagio_id}">{$ofertas[item].instituicao}</a></td>
 <td class="coluna_centralizada">{$ofertas[item].periodo}</td>
 <td class="coluna_centralizada">{$ofertas[item].vagas}</td>
-<td class="coluna_centralizada"><a href="../listaInscritos.php?muralestagio_id={$ofertas[item].mural_estagio_id}">{$ofertas[item].quantidade_alunos}</a></td>
+<td class="coluna_centralizada"><a href="../listaInscritos.php?muralestagio_id={$ofertas[item].muralestagio_id}">{$ofertas[item].quantidade_alunos}</a></td>
 <td>{$ofertas[item].beneficios}</td>
 <td class="coluna_centralizada">{$ofertas[item].horario}</td>
 <td class="coluna_centralizada">{$ofertas[item].carga_horaria}</td>

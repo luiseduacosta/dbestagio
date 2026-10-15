@@ -2,7 +2,7 @@
 
 include_once("../autentica.inc");
 
-$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : nome;
+$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'nome';
 
 $sql = "SELECT registro, data " .
 		" FROM inscricoes " .
@@ -140,6 +140,7 @@ $smarty = new Smarty_estagio;
 
 $smarty->assign("periodo_atual",PERIODO_ATUAL);
 $smarty->assign("sistema_autentica",$sistema_autentica);
+$smarty->assign("isAdmin",$isAdmin);
 $smarty->assign("totalAlunos",$i);
 $smarty->assign("alunos",$inscritos);
 $smarty->display("muralestagios-lista_alunos.tpl");

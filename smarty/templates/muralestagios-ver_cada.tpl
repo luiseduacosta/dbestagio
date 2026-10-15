@@ -39,7 +39,7 @@
 	<div align="center">
 		{if $sistema_autentica == 1}
 		<span class="botao">
-			<a href="imprime_cartaz.php?instituicao_id={$muralestagio_id}">Imprimir cartaz</a>
+			<a href="imprime_cartaz.php?muralestagio_id={$muralestagio_id}">Imprimir cartaz</a>
 		</span>
 		{/if}
 
@@ -78,61 +78,55 @@
 				<tr>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="primeiro">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="Primeiro">
 						</form>
 					</td>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="menos_10">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="mun_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="- 10">
 						</form>
 					</td>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="menos_1">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="- 1">
 						</form>
 					</td>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="mais_1">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="+ 1">
 						</form>
 					</td>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="mais_10">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="+ 10">
 						</form>
 					</td>
 
 					<td>
-						<form name="cabacalho" action="#" method="post">
+						<form name="cabecalho" action="#" method="post">
 							<input type="hidden" name="botao" value="ultimo">
 							<input type="hidden" name="indice" value="{$indice}">
-							<input type="hidden" name="num_instituicao" value="{$muralestagio_id}">
-							<input type="hidden" name="id_instituicao" value="">
+							<input type="hidden" name="muralestagio_id" value="{$muralestagio_id}">
 							<input type="submit" name="submit" value="Último">
 						</form>
 					</td>
@@ -280,10 +274,10 @@
 						{if $sistema_autentica == 1}
 						<span class="botao">
 							{if $muralestagio_id == ""}
-							<a href="mural-modifica.php?id_instituicao={$instituicao[item].muralestagio_id}">Editar</a>
-							{else}
-							<a href="mural-modifica.php?id_instituicao={$muralestagio_id}">Editar</a>
-							{/if}
+								<a href="mural-modifica.php?muralestagio_id={$instituicao[item].muralestagio_id}">Editar</a>
+								{else}
+								<a href="mural-modifica.php?muralestagio_id={$muralestagio_id}">Editar</a>
+								{/if}
 						</span>
 						{/if}
 
@@ -326,7 +320,7 @@
 								{/if}
 							</span>
 
-							{if $sistema_autentica == 1}
+							{if $isAdmin}
 							<span class="botao">
 								{if $muralestagio_id == ""}
 								<a href="excluir.php?muralestagio_id={$instituicao[item].muralestagio_id}">Excluir</a>
