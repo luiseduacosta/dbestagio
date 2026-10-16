@@ -5,12 +5,9 @@ include_once("../setup.php");
 // Mural::cartazPorId lança "Conexão ADOdb não definida").
 require_once(__DIR__ . "/../libphp/models.php");
 
-// Id da oferta (mural_estagios): muralestagio_id é o nome atual, usado pelos
-// links da ficha; instituicao_id fica aceito como alias do link antigo.
+// Id da oferta (mural_estagios): muralestagio_id é o nome canônico usado
+// pelos links e formulários do módulo.
 $muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
-if ($muralestagio_id <= 0 && isset($_REQUEST['instituicao_id'])) {
-	$muralestagio_id = (int)$_REQUEST['instituicao_id'];
-}
 if ($muralestagio_id <= 0) die("Faltou passar o parâmetro muralestagio_id");
 
 // FPDF_FONTPATH e FPDF já vêm definidos pelo setup.php.
