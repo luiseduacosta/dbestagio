@@ -3,3 +3,7 @@ smarty/templates_c/*
 tmp/*
 vendor/
 
+# Arquivos gerados automaticamente pelo ambiente TRAE (não pertencem ao código)
+.trae-html-share-packages/
+*.patch
+
