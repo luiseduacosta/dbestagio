@@ -201,6 +201,12 @@ phpmailer — prefer `vendor/` and constants defined in `setup.php` (`ADODB`, `S
   `curso_abertura_inscricoes` / `curso_encerramento_inscricoes` columns make this a live risk, so
   consumers must handle `''` explicitly — see the deadline gate in `curso/inscricao_supervisores.php`
   (no configured deadline = fail **closed**, and log the cause).
+- **`TURMA` is always an `int`; `0` means "turma não configurada".**
+  `configuracoes.curso_turma_atual` is nullable, but the legacy `curso/` scripts interpolate it
+  *unquoted* into SQL (`where curso_turma=$turma`), so a NULL yielded `where curso_turma=` and a
+  MariaDB syntax error. `setup.php` now casts it — which fixes every consumer at once — and the
+  write path (`curso/inscricao_curso.php`) refuses the registration instead of storing an orphan
+  row. Read-only pages degrade to "no rows". Keep the cast if you add a consumer.
 - Current period, current class (`TURMA`) and registration deadlines come from the
   `configuracoes` table — change behavior through that table/admin UI, not by editing constants.
 

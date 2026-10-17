@@ -104,7 +104,11 @@ if ($_periodo_atual[1] == 1) $periodo_anterior = $_periodo_atual[0] - 1 . "-2";
 define("PERIODO_ANTERIOR",$periodo_anterior);
 
 // Para o curso - 2009 = turma 8
-define("TURMA",$curso_turma_atual);
+// curso_turma_atual e anulavel. Sem o cast, TURMA seria NULL e as queries que o
+// interpolam sem aspas ("where curso_turma=$turma") gerariam SQL invalido, e o
+// INSERT de curso/inscricao_curso.php gravaria a inscricao sem turma. 0 aqui
+// significa "turma nao configurada"; quem grava trata esse caso explicitamente.
+define("TURMA", (int)$curso_turma_atual);
 // Formato USA mes/dia/ano
 // define("ENCERRAMENTO",date('m/d/Y',mktime(0,0,0,03,16,2009)));
 // Fica '' quando curso_encerramento_inscricoes nao esta configurado (coluna

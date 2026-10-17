@@ -102,7 +102,17 @@ if (empty($instituicao)) {
 
 // include_once("../db.inc");
 include_once("../setup.php");
-$turma = TURMA;
+$turma = (int)TURMA;
+
+// Sem turma configurada nao ha onde gravar a inscricao. Melhor recusar aqui do
+// que inserir curso_turma=0 e ainda renumerar num_inscricao de uma turma que
+// nao existe -- os dados ficariam gravados sem nenhum aviso visivel.
+if ($turma <= 0) {
+    error_log("inscricao_curso.php: configuracoes.curso_turma_atual sem valor; inscricao recusada.");
+    echo "<h1>Inscri&ccedil;&otilde;es encerradas</h1>";
+    echo "<p><a href='javascript:history.back(1)'>Voltar</a></p>";
+    exit;
+}
 
 // Para nao repetir uma mesma inscricao - poderia ser tambem com o cpf -
 $sql_verifica = "select id from curso_inscricao_supervisor where cpf='$cpf' and curso_turma='$turma'";
