@@ -3,3 +3,6 @@ smarty/templates_c/*
 tmp/*
 vendor/
 
+
+# TRAE IDE internal share packages (auto-generated, not source)
+.trae-html-share-packages/
