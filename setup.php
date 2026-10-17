@@ -53,6 +53,27 @@ class Smarty_estagio extends Smarty {
 define("FPDF_FONTPATH", __DIR__ . "/lib/fpdf/font/");
 define("FPDF", __DIR__ . "/lib/fpdf/");
 
+/**
+ * Converte uma data vinda do banco para o formato pedido, sem emitir aviso
+ * quando a coluna vier NULL/vazia ou trouxer o sentinel legado '0000-00-00'.
+ *
+ * Devolve '' quando nao ha data utilizavel, para que o chamador decida o que
+ * fazer. Antes, strtotime(null) retornava false e date() o convertia em epoch,
+ * produzindo silenciosamente '01/01/1970' (e um deprecated no PHP 8.1+).
+ */
+if (!function_exists('estagio_formata_data')) {
+
+function estagio_formata_data($data, $formato) {
+	$data = trim((string)$data);
+	if ($data === '' || $data === '0000-00-00') {
+		return '';
+	}
+	$ts = strtotime($data);
+	return $ts ? date($formato, $ts) : '';
+}
+
+}
+
 /* Configurações */
 $sql = "select mural_periodo_atual," .
 		" curso_turma_atual, " .
@@ -86,7 +107,9 @@ define("PERIODO_ANTERIOR",$periodo_anterior);
 define("TURMA",$curso_turma_atual);
 // Formato USA mes/dia/ano
 // define("ENCERRAMENTO",date('m/d/Y',mktime(0,0,0,03,16,2009)));
-define("ENCERRAMENTO",date('m/d/Y',strtotime($curso_encerramento_inscricoes)));
+// Fica '' quando curso_encerramento_inscricoes nao esta configurado (coluna
+// anulavel); quem compara o prazo trata o vazio explicitamente.
+define("ENCERRAMENTO", estagio_formata_data($curso_encerramento_inscricoes, 'm/d/Y'));
 // echo $encerramento = ENCERRAMENTO;
 $debug = 0;
 
@@ -104,10 +127,14 @@ if ($_tc_periodo_atual[1] == 2) $tc_periodo_anterior = $_tc_periodo_atual[0] . "
 if ($_tc_periodo_atual[1] == 1) $tc_periodo_anterior = $_tc_periodo_atual[0] - 1 . "-2";
 define("TC_PERIODO_ANTERIOR",$tc_periodo_anterior);
 
-$validade1 = date('d/m/Y',strtotime($termo_compromisso_inicio));
-$validade2 = date('d/m/Y',strtotime($termo_compromisso_final));
+// Datas do termo de compromisso (impressas no documento). Vazio em vez de
+// 01/01/1970 se a coluna vier sem valor utilizavel.
+$validade1 = estagio_formata_data($termo_compromisso_inicio, 'd/m/Y');
+$validade2 = estagio_formata_data($termo_compromisso_final, 'd/m/Y');
 
-// Servidor onde esta sendo executado o programa
-$servidor = $_SERVER['SERVER_NAME'];
+// Servidor onde esta sendo executado o programa.
+// Em CLI (scripts de manutencao, php -r) nao existe SERVER_NAME, entao usa
+// localhost como alternativa: evita o aviso sem alterar o acesso via Apache.
+$servidor = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
 ?>

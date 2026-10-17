@@ -12,7 +12,7 @@ $bancodados = "ess_apps";
 
 $db = NewADOConnection($tipo);
 $db->Connect($host, $usuario, $senha, $bancodados);
-$db->Execute("set names 'utf8");
+$db->Execute("set names 'utf8'");
 $db->SetFetchMode(ADODB_FETCH_ASSOC);
 
 ?>
