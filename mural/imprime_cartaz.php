@@ -19,7 +19,7 @@ require_once(__DIR__ . "/../libphp/PDFHelper.php");
 
 $pdf = new PDF_UTF8();
 $pdf->AddPage();
-// $pdf->SetMargins(30,20,30);
+$pdf->SetMargins(30,20,30);
 $pdf->SetFont("Arial","","16");
 
 $pdf->Image("../imprimir/minerva.jpg",25,30,20,20,'jpg');
@@ -54,7 +54,7 @@ extract($dados, EXTR_SKIP);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-// $pdf->Cell(0,0,"Institui��o: ");
+// $pdf->Cell(0,0,"Instituição: ");
 // $pdf->SetX(70);
 $pdf->SetFont("Arial","B","18");
 $pdf->SetLineWidth(0,5);
