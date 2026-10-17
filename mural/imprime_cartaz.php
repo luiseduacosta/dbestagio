@@ -51,7 +51,7 @@ extract($dados, EXTR_SKIP);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-// $pdf->Cell(0,0,"Institui��o: ");
+// $pdf->Cell(0,0,"Instituição: ");
 // $pdf->SetX(70);
 $pdf->SetFont("Arial","B","18");
 $pdf->SetLineWidth(0,5);
