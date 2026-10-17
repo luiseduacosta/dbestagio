@@ -37,7 +37,7 @@
 	{if $sistema_autentica == 1}
 	{include file="muralestagios-menu.tpl"}
 	<p>
-		<a href="imprime.php?muralestagio_id={$muralestagio_id}">Imprimir</a>
+		<a href="imprime_inscricoes.php?muralestagio_id={$muralestagio_id}">Imprimir</a>
 	</p>
 
 	{/if}

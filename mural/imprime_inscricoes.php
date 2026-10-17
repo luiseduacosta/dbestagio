@@ -1,14 +1,13 @@
 <?php
 
-define("FPDF_FONTPATH", dirname(__DIR__) . "/lib/fpdf/font/");
-define("FPDF", dirname(__DIR__) . "/lib/fpdf/");
+// setup.php primeiro (define $db, FPDF_FONTPATH e FPDF); models.php depois,
+// para ligar a conexão $db aos models — sem isso Mural::cartazPorId lança
+// "Conexão ADOdb não definida".
+require("../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
 require(FPDF."fpdf.php");
 require_once(__DIR__ . "/../libphp/PDFHelper.php");
-
-include_once("../setup.php");
-require_once(__DIR__ . "/../libphp/Mural.php");
-require_once(__DIR__ . "/../libphp/Inscricao.php");
 
 if (!isset($muralestagio_id)) {
     $muralestagio_id = $_REQUEST['muralestagio_id'] ?? null;
@@ -142,6 +141,8 @@ foreach ($inscritos as $inscrito) {
 
 $arquivo = "estagio" . $muralestagio_id . ".pdf";
 
-$pdf->Output("/tmp/$arquivo");
+// Grava no diretório tmp da aplicação e redireciona (mesmo padrão do antigo
+// imprime.php). FPDF moderno: Output($destino, $nome) — 'F' = gravar arquivo.
+$pdf->Output('F', TMP . $arquivo);
 
-echo "<html><script>document.location='/tmp/$arquivo';</script></html>";
+echo "<html><script>document.location='../tmp/$arquivo';</script></html>";
