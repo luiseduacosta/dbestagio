@@ -235,7 +235,16 @@ $turma = TURMA;
 // echo "Hoje " . date('m/d/Y'). "<br>";
 // echo "Encerramento " . ENCERRAMENTO . "<br>";
 // O comando strtotime somente funciona com o formato de data USA
-$data_encerramento = strtotime(ENCERRAMENTO);
+// ENCERRAMENTO vem '' quando configuracoes.curso_encerramento_inscricoes nao
+// esta configurado (a coluna e anulavel). Nao havendo prazo, nao ha como a
+// inscricao estar aberta: usa 0 e registra a causa no log, em vez de deixar a
+// comparacao depender de uma data invalida convertida em 01/01/1970.
+if (ENCERRAMENTO === '') {
+    error_log("inscricao_supervisores.php: configuracoes.curso_encerramento_inscricoes sem valor; inscricoes permanecem encerradas.");
+    $data_encerramento = 0;
+} else {
+    $data_encerramento = strtotime(ENCERRAMENTO);
+}
 $data_hoje = strtotime(date('m/d/Y'));
 
 $sql  = "select count(*) as quantidade ";

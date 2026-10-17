@@ -3,8 +3,9 @@
 require_once(__DIR__ . "/setup.php"); // Garante a conexao $db, pois alguns arquivos incluem este autentica.inc antes do setup.php
 require_once(__DIR__ . "/libphp/sessao.php");
 
-// Servidor onde esta sendo executado o programa (usado nos redirecionamentos)
-$url = $_SERVER['SERVER_NAME'];
+// Servidor onde esta sendo executado o programa (usado nos redirecionamentos).
+// Em CLI nao existe SERVER_NAME: localhost evita o aviso sem mudar o comportamento web.
+$url = $_SERVER['SERVER_NAME'] ?? 'localhost';
 
 // Dados do usuario logado (tabela users)
 $usuario_id            = NULL;
@@ -55,7 +56,7 @@ if ($usuario_ok) {
 } else {
 	$mural_autentica = 0;
     $sistema_autentica = 0;
-	$url = $_SERVER['SERVER_NAME'];
+	$url = $_SERVER['SERVER_NAME'] ?? 'localhost';
 	header("Location: http://$url/estagio/login.php");
 	exit;
 }
