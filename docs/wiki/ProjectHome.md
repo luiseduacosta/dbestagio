@@ -1,0 +1,1 @@
+Banco de dados para gestão de estágios em cursos de Serviço Social desenvolvido para a Escola de Serviço Social da UFRJ no Brasil. Gestiona tabelas de alunos, instituições, supervisores, e professores por períodos. Inclui a possibilidade de lançamento de notas. Incorpora um módulo de gestão de inscrições para curso de supervisores e um módulo de oferta de estágios (mural).
