@@ -31,18 +31,27 @@ while (!$resultado->EOF) {
 	// Insero o supervisor
 	$sql_supervisor  =  "insert into supervisores ";
 	$sql_supervisor .= "(nome, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
-	$sql_supervisor .= "values('$nome','$endereco','$bairro','$municipio','$cep','$codigo_tel','$telefone','$codigo_cel','$celular','$email','$escola','$ano_formatura','$cress','$regiao','$outros_estudos','$area_curso','$ano_curso','$cargo','$quantidade','$turma')";
+	$sql_supervisor .= "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	echo $sql_supervisor . "<br>";
-	$res_supervisor = $db->Execute($sql_supervisor);
+	// N.B.: $regiao, $quantidade e $turma nunca sao definidos neste script -- ele le
+	// $region, $num_inscricao e $curso_turma do registro, mas o INSERT referencia
+	// outros nomes. O original interpolava os tres como string vazia; o "?? ''"
+	// preserva exatamente esse valor. Bug pre-existente, apenas sinalizado.
+	$res_supervisor = $db->Execute($sql_supervisor, array(
+		$nome, $endereco, $bairro, $municipio, $cep, $codigo_tel, $telefone,
+		$codigo_cel, $celular, $email, $escola, $ano_formatura, $cress,
+		$regiao ?? '', $outros_estudos, $area_curso, $ano_curso, $cargo,
+		$quantidade ?? '', $turma ?? ''
+	));
 	if ($res_supervisor === false) die ("Não foi possível inserir o registro na tabela supervisores");
 	
 	$res_ultimo_supervisor = $db->Execute("select max(id) as ultimo_registro from supervisores");
 	if ($res_ultima_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
 	$id_supervisor = $res_ultimo_supervisor->fields['ultimo_registro'];
-	
-	$sql_inst_super = "select * from curso_inst_super where id_supervisor=$id_supervisor";
-	$resultado_inst_super = $db->Execute($sql_inst_super);
-	while (!$resultado_inst_super->EOF) {	
+
+	$sql_inst_super = "select * from curso_inst_super where id_supervisor=?";
+	$resultado_inst_super = $db->Execute($sql_inst_super, array($id_supervisor));
+	while (!$resultado_inst_super->EOF) {
 
 		$id_instituicao = $resultado_inst_super->fields['id_instituicao'];
 		
@@ -50,8 +59,8 @@ while (!$resultado->EOF) {
 		 * Tenho que pensar mais o que fazer aqui
 		 */
 		
-		$sql_instituicao = "select * from curso_inscricao_instituicao where id=$id_instituicao";
-		$res_instituicao = $db->Execute($sql_instituicao);
+		$sql_instituicao = "select * from curso_inscricao_instituicao where id=?";
+		$res_instituicao = $db->Execute($sql_instituicao, array($id_instituicao));
 		while (!$res_instituicao->EOF) {
 			$id = $res_instituicao->fields['id'];
 			$instituicao = $res_instituicao->fields['instituicao'];	
@@ -65,17 +74,20 @@ while (!$resultado->EOF) {
 			
 			$sql_instituicao  = "insert into instituicoes ";
 			$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, beneficios, fim_de_semana) ";
-			$sql_instituicao .= "values('$instituicao','$inst_endereco','$inst_bairro','$inst_municipio','$inst_cep','$inst_telefone','$beneficio','$fim_de_semana')";
+			$sql_instituicao .= "values(?,?,?,?,?,?,?,?)";
 			echo $sql_instituicao . "<br>";
-			$res_institucao = $db->Execute($sql_instituicao);
+			$res_institucao = $db->Execute($sql_instituicao, array(
+				$instituicao, $inst_endereco, $inst_bairro, $inst_municipio,
+				$inst_cep, $inst_telefone, $beneficio, $fim_de_semana
+			));
 			if($res_instituicao === false) die ("Não foi possível inserir o registro na tabela instituicoes");
 
 			$res_ultima_instituicao = $db->Execute("select max(id) as ultimo_registro from instituicoes");
 			if($res_ultima_instituicao === false) die ("Não foi possível consultar a tabela instituicoes");
 			$id_instituicao = $res_ultima_instituicao->fields['ultimo_registro'];
-		
-			$sql_inst_sup = "insert into curso_inst_super (id_supervisor, id_instituicao) values('$id_supervisor','$id_instituicao')";
-			$res_inst_sup = $db->Execute($sql_inst_sup);
+
+			$sql_inst_sup = "insert into curso_inst_super (id_supervisor, id_instituicao) values(?,?)";
+			$res_inst_sup = $db->Execute($sql_inst_sup, array($id_supervisor, $id_instituicao));
 			if($res_inst_sup === false) die ("Não foi possível inserir o registro na tabela curso_inst_sup");
 			// echo $sql_inst_sup . "<br>";
 		
