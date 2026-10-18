@@ -5,7 +5,8 @@
  * Reúne as ações relacionadas às ofertas de estágio do mural (tabela
  * mural_estagios). Cada ação substitui um script legado:
  *
- *   index()     <- ver-mural.php      (listagem do período atual, com login)
+ *   index()     <- ver-mural.php      (listagem do mural; o admin escolhe o
+ *                      período pelo seletor, os demais perfis veem o atual)
  *   inserir()   <- mural_inserir.php   (formulário + gravação, com login)
  *   ver_cada()  <- ver_cada.php        (ficha registro a registro, sem login)
  *   editar()    <- mural-modifica.php  (formulário de edição, com login)
@@ -70,28 +71,53 @@ class MuralestagiosController {
 	}
 
 	/**
-	 * Lista as ofertas do período atual (index do mural).
-	 * Substitui ver-mural.php.
+	 * Lista as ofertas do mural. Substitui ver-mural.php.
+	 *
+	 * O seletor de período é exclusivo do admin: os demais perfis sempre veem
+	 * o período atual e o parâmetro ?periodo da URL é ignorado. O papel vem da
+	 * SESSÃO autenticada (cookie de identificação não autoriza).
 	 */
 	public function index() {
 		global $db, $sistema_autentica;
 		$this->semAutenticacao();
 
+		$is_admin = false;
+		$sessao_usuario = sessao_usuario_atual();
+		if ($sessao_usuario !== null) {
+			$is_admin = ((string)$sessao_usuario['role'] === 'admin');
+		}
+
 		// Nome do aluno recém-inscrito em seleção de estágio (vem por GET).
 		$insere = isset($_GET['insere']) ? $_GET['insere'] : '';
 
+		// Períodos existentes no mural: preenchem o seletor do admin e servem
+		// de lista fechada de valores aceitos em ?periodo.
+		$periodos = Mural::periodos();
+
+		// Período exibido. Para o admin, ?periodo escolhe o período (vazio =
+		// todos); valor fora da lista cai de volta no período atual.
+		$periodo = PERIODO_ATUAL;
+		if ($is_admin && isset($_GET['periodo'])) {
+			$periodo = trim((string)$_GET['periodo']);
+			if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
+				$periodo = PERIODO_ATUAL;
+			}
+		}
+
 		// Ordenação: chave validada por whitelist dentro do model.
 		$ordem = isset($_GET['ordem']) ? $_GET['ordem'] : '';
-		$instituicao = Mural::listarMuralPorPeriodo(PERIODO_ATUAL, $ordem);
-		$totalVagas = Mural::totalVagasPorPeriodo(PERIODO_ATUAL);
+		$instituicao = Mural::listarMuralPorPeriodo($periodo, $ordem);
+		$totalVagas = Mural::totalVagasPorPeriodo($periodo);
 
-		$stats = Mural::estatisticasInscritos(PERIODO_ATUAL);
+		$stats = Mural::estatisticasInscritos($periodo);
 		$novos = $stats['total'] - $stats['conhecidos'];
 		$novo_novo = $novos + $stats['estagio_um'];
 		$conhecidos_conhecidos = $stats['conhecidos'] - $stats['estagio_um'];
 
 		$smarty = new Smarty_estagio;
-		$smarty->assign("periodo_atual", PERIODO_ATUAL);
+		$smarty->assign("is_admin", $is_admin);
+		$smarty->assign("periodo", $periodo);
+		$smarty->assign("periodos", $periodos);
 		$smarty->assign("sistema_autentica", $sistema_autentica);
 		$smarty->assign("insere", $insere);
 		$smarty->assign("instituicao", $instituicao);

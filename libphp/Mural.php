@@ -135,28 +135,37 @@ class Mural extends ADODB_Model {
      * total      = inscritos distintos;
      * conhecidos = que já constam em estagiarios;
      * estagio_um = conhecidos que já fizeram estágio de nível 1 no período.
+     *
+     * @param string $periodo Período (ex.: "2025-2"). Vazio = todos os períodos;
+     *                        nesse caso estagio_um conta o nível 1 de qualquer
+     *                        período, já que não há um período de referência.
      */
     public static function estatisticasInscritos($periodo) {
         $db = static::db();
 
+        $params         = ($periodo !== '') ? array($periodo) : array();
+        $filtro_inscr   = ($periodo !== '') ? " WHERE periodo = ?" : '';
+        $filtro_aluno   = ($periodo !== '') ? "i.periodo = ?" : '1 = 1';
+        $filtro_estagio = ($periodo !== '') ? "e.periodo = ? AND e.nivel = 1" : 'e.nivel = 1';
+
         $total = (int)$db->GetOne(
-            "SELECT COUNT(DISTINCT registro) FROM inscricoes WHERE periodo = ?",
-            array($periodo)
+            "SELECT COUNT(DISTINCT registro) FROM inscricoes" . $filtro_inscr,
+            $params
         );
 
         $conhecidos = (int)$db->GetOne(
             "SELECT COUNT(DISTINCT i.registro) FROM inscricoes AS i "
-          . "WHERE i.periodo = ? "
+          . "WHERE $filtro_aluno "
           . "AND EXISTS (SELECT 1 FROM estagiarios AS e WHERE e.registro = i.registro)",
-            array($periodo)
+            $params
         );
 
         $estagio_um = (int)$db->GetOne(
             "SELECT COUNT(DISTINCT i.registro) FROM inscricoes AS i "
-          . "WHERE i.periodo = ? "
+          . "WHERE $filtro_aluno "
           . "AND EXISTS (SELECT 1 FROM estagiarios AS e WHERE e.registro = i.registro "
-          . "            AND e.periodo = ? AND e.nivel = 1)",
-            array($periodo, $periodo)
+          . "            AND $filtro_estagio)",
+            ($periodo !== '') ? array($periodo, $periodo) : array()
         );
 
         return array(
@@ -195,16 +204,19 @@ class Mural extends ADODB_Model {
     }
 
     /**
-     * Soma da coluna 'vagas' de todas as ofertas do mural no período.
+     * Soma da coluna 'vagas' das ofertas do mural de um período.
      *
-     * @param string $periodo Período (ex.: "2025-2").
+     * @param string $periodo Período (ex.: "2025-2"). Vazio = todas as ofertas.
      * @return int Soma das vagas; 0 quando não há registros.
      */
     public static function totalVagasPorPeriodo($periodo) {
-        return (int)static::db()->GetOne(
-            "SELECT COALESCE(SUM(vagas), 0) FROM mural_estagios WHERE periodo = ?",
-            array($periodo)
-        );
+        $sql = "SELECT COALESCE(SUM(vagas), 0) FROM mural_estagios";
+        $params = array();
+        if ($periodo !== '') {
+            $sql .= " WHERE periodo = ?";
+            $params[] = $periodo;
+        }
+        return (int)static::db()->GetOne($sql, $params);
     }
 
     /**
