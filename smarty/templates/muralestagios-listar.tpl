@@ -48,7 +48,20 @@
 	{include file="muralestagios-menu.tpl"}
 	{/if}
 
-	<h1>Mural de estágios - Turma {$periodo_atual}</h1>
+	<h1>Mural de estágios{if $periodo == ''} - todos os períodos{else} - Turma {$periodo}{/if}</h1>
+
+	{if $is_admin}
+	<form name="seleciona_periodo" method="get" action="ver-mural.php">
+		<label for="periodo">Período exibido:</label>
+		<select name="periodo" id="periodo" onChange="this.form.submit();">
+			<option value=""{if $periodo == ''} selected{/if}>Todos os períodos</option>
+			{section name=periodo_item loop=$periodos}
+			<option value="{$periodos[periodo_item]}"{if $periodos[periodo_item] == $periodo} selected{/if}>{$periodos[periodo_item]}</option>
+			{/section}
+		</select>
+		<noscript><input type="submit" value="Ver"></noscript>
+	</form>
+	{/if}
 
 	<p style="font-size:100%;background-color:#e7e1ae">Clique <a
 			href="http://www.pr1.ufrj.br/estagios/busca.php">aqui</a>
