@@ -51,12 +51,13 @@ extract($dados, EXTR_SKIP);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
-// $pdf->Cell(0,0,"Instituição: ");
-// $pdf->SetX(70);
+$pdf->Cell(0,0,"Instituição: ");
+$pdf->SetX(60);
 $pdf->SetFont("Arial","B","18");
 $pdf->SetLineWidth(0,5);
 $pdf->MultiCell(160,8,strip_tags(html_entity_decode($instituicao)),1);
 
+$pdf->Ln(5);
 $pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
 $pdf->SetX(20);
