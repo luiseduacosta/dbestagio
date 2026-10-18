@@ -143,7 +143,9 @@ function get_periodo() {
 <td>
 {if $id_curso}
     <a href="../curso/ver_cada_supervisor.php?id_supervisor={$id_curso}">{$id_curso}</a>
-    &nbsp;<a href="../curso/atualiza_supervisor_estagio.php?id_supervisor_curso={$id_curso}&indice={$indice}">[Sincronizar]</a>
+    {* atualiza_supervisor_estagio.php exige sessao admin; esconder o link evita
+       que aluno, professor e supervisor recebam "Acesso restrito" ao clicar. *}
+    {if $isAdmin}&nbsp;<a href="../curso/atualiza_supervisor_estagio.php?id_supervisor_curso={$id_curso}&indice={$indice}">[Sincronizar]</a>{/if}
 {else}
     —
 {/if}

@@ -191,6 +191,7 @@ class SupervisoresController {
 	 * Substitui supervisores/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
+		global $isAdmin;
 		$this->comAutenticacao();
 
 		$indice        = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
@@ -294,6 +295,9 @@ class SupervisoresController {
 		$instituicoes = Instituicao::listar_todas();
 
 		$smarty = new Smarty_estagio;
+		// Necessário para o template decidir se mostra o link [Sincronizar],
+		// cujo destino é restrito a administradores.
+		$smarty->assign("isAdmin", $isAdmin);
 		$smarty->assign("ultimo", ($ultimo > 0) ? $ultimo - 1 : 0);
 		$smarty->assign("indice", $indice);
 		$smarty->assign("supervisor_id", $supervisor_id);
