@@ -6,19 +6,25 @@ $xajax = new xajax("ver_supervisor.php");
 $xajax->registerFunction("ver_supervisor");
 $xajax->registerFunction("ver_instituicao");
 
-$id_supervisor = $_POST['id_supervisor'];
-$id_instituicao = $_POST['id_instituicao'];
+// Os ids chegam como argumentos xajax nas funcoes abaixo. A leitura direta de
+// $_POST que havia aqui era codigo morto (os parametros sombreavam as
+// variaveis) e ainda emitia aviso de indice inexistente no PHP 8 a cada
+// chamada, o que corromperia a resposta XML do xajax.
 
 function ver_supervisor($id_supervisor) {
 
     include_once("../db.inc");
     $respostaXajax = new xajaxResponse();
 
+    // Devolvido ao navegador em addAppend("supervisor_id"): int impede injecao
+    // no SQL e reflexao de texto arbitrario na resposta.
+    $id_supervisor = (int)$id_supervisor;
+
     $sql  = "select nome, endereco, bairro, municipio, cep, telefone ";
-	$sql .= " from curso_inscricao_supervisor "; 
-    $sql .= " where id=$id_supervisor";
-    $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
+	$sql .= " from curso_inscricao_supervisor ";
+    $sql .= " where id=?";
+    $resultado = $db->Execute($sql, array($id_supervisor));
+    if($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_supervisor");
 
     while (!$resultado->EOF) {
 			$nome = $resultado->fields['nome'];
@@ -48,11 +54,15 @@ function ver_instituicao($id_instituicao) {
     include_once("../db.inc");
     $respostaXajax = new xajaxResponse();
 
+    // Devolvido ao navegador em addAppend("num_instituicao"): int impede
+    // injecao no SQL e reflexao de texto arbitrario na resposta.
+    $id_instituicao = (int)$id_instituicao;
+
     $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, fax, beneficio, fim_de_semana ";
-	$sql .= " from curso_inscricao_instituicao "; 
-    $sql .= " where id=$id_instituicao order by instituicao";
-    $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
+	$sql .= " from curso_inscricao_instituicao ";
+    $sql .= " where id=? order by instituicao";
+    $resultado = $db->Execute($sql, array($id_instituicao));
+    if($resultado === false) die ("Não foi possível consultar a tabela curso_inscricao_instituicao");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];

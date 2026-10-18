@@ -1,6 +1,8 @@
 <?php
 
-$id_instituicao = $_POST['id_instituicao'];
+// Endpoint xajax PUBLICO: chamado pelo onChange do select de instituicoes em
+// curso/inscricao_supervisores.php, pagina que inclui apenas setup.php e nao
+// autentica.inc. Nao acrescentar gate de sessao aqui sem tratar aquela pagina.
 require_once("ajaxInstituicao.php");
 
 function verInstituicao($id_instituicao) {
@@ -8,11 +10,16 @@ function verInstituicao($id_instituicao) {
     include_once("../db.inc");
     $respostaXajax = new xajaxResponse();
 
+    // O id chega como argumento xajax e tambem e devolvido ao navegador no
+    // addAppend("num_instituicao") abaixo: o cast impede tanto a injecao no SQL
+    // quanto a reflexao de texto arbitrario na resposta.
+    $id_instituicao = (int)$id_instituicao;
+
     $sql  = "select instituicao, endereco, bairro, municipio, cep, telefone, beneficios as beneficio, fim_de_semana ";
     $sql .= " from instituicoes ";
-    $sql .= " where id=$id_instituicao order by instituicao";
-    $resultado = $db->Execute($sql);
-    if($resultado_=== false) die ("Não foi possível consultar a tabela instituicoes");
+    $sql .= " where id=? order by instituicao";
+    $resultado = $db->Execute($sql, array($id_instituicao));
+    if($resultado === false) die ("Não foi possível consultar a tabela instituicoes");
 
     while (!$resultado->EOF) {
 			$instituicao = $resultado->fields['instituicao'];
