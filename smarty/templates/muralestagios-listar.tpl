@@ -94,7 +94,7 @@
 				</td>
 				<td class="coluna_centralizada">{$instituicao[item].vagas}</td>
 				<td class="coluna_centralizada"><a
-						href="listaInscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">{$instituicao[item].quantidade_alunos}</a>
+						href="inscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">{$instituicao[item].quantidade_alunos}</a>
 				</td>
 				<td>{$instituicao[item].beneficios}</td>
 

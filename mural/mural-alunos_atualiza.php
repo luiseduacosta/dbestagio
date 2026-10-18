@@ -65,7 +65,7 @@ if ($muralestagio_id > 0) {
 
 	// O aluno já fez inscrição nesta seleção? Segue direto para a lista.
 	if (Inscricao::duplicada($registro, $muralestagio_id, $periodo) !== null) {
-		header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+		header("Location:inscritos.php?muralestagio_id=$muralestagio_id");
 		exit;
 	}
 
@@ -81,7 +81,7 @@ if ($muralestagio_id > 0) {
 		die("Não foi possível inserir o registro na tabela inscricoes");
 	}
 
-	header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+	header("Location:inscritos.php?muralestagio_id=$muralestagio_id");
 	exit;
 }
 

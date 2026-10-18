@@ -16,9 +16,9 @@
     Ver cada instituição</a>
     <a class="item2" href="ver-mural.php" target="_corpo">
     Listar todas instituições</a>
-    <a class="item2" href="lista-alunos.php" target="_corpo">
+    <a class="item2" href="inscritos.php" target="_corpo">
     Listar alunos</a>
-    <a class="item2" href="alunosConhecidos.php" target="_corpo">
+    <a class="item2" href="inscritos.php?grupo=conhecidos" target="_corpo">
     Alunos mudam de estágio</a>
     <a class="item2" href="seleciona.php?opcao=cancela" target="_corpo">
     Excluir</a>

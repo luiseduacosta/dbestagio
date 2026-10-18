@@ -312,10 +312,10 @@
 
 							<span class="botao">
 								{if $muralestagio_id == ""}
-								<a href="listaInscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
+								<a href="inscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
 									inscritos</a>
 								{else}
-								<a href="listaInscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
+								<a href="inscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
 									inscritos</a>
 								{/if}
 							</span>

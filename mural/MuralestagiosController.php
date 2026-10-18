@@ -15,6 +15,10 @@
  *   selecionar() <- seleciona.php      (seletor modificar/excluir, com login)
  *   excluir_aluno() <- mural-excluir_aluno.php (tira o aluno da lista de
  *                      alunos que buscam estágio, com login)
+ *   inscritos() <- lista-alunos.php, lista-novos_alunos.php,
+ *                      alunosConhecidos.php e listaInscritos.php (tabela única
+ *                      dos alunos inscritos, com filtros de período, oferta e
+ *                      grupo — os quatro scripts foram removidos)
  *
  * O controlador cuida apenas de HTTP (parâmetros, higienização, includes de
  * autenticação, assigns do Smarty e redirecionamentos). Toda a lógica de
@@ -126,6 +130,71 @@ class MuralestagiosController {
 		$smarty->assign("alunos_novos", $novo_novo);
 		$smarty->assign("alunosVelhos", $conhecidos_conhecidos);
 		$smarty->display("muralestagios-listar.tpl");
+		exit;
+	}
+
+	/**
+	 * Tabela única dos alunos inscritos no mural. Substitui as quatro listagens
+	 * legadas: lista-alunos.php (grupo todos), lista-novos_alunos.php (grupo
+	 * novos), alunosConhecidos.php (grupo conhecidos) e listaInscritos.php
+	 * (filtro por oferta).
+	 *
+	 * Filtros: ?periodo (vazio = todos os períodos; SÓ o admin escolhe),
+	 * ?muralestagio_id (0 = todas as ofertas) e ?grupo
+	 * ('todos' | 'novos' | 'conhecidos'). A ordenação é do DataTables, no
+	 * cliente. Exige login, como os quatro scripts antigos.
+	 */
+	public function inscritos() {
+		global $db, $sistema_autentica, $isAdmin;
+		$this->comAutenticacao();
+
+		$is_admin = !empty($isAdmin);
+
+		// Períodos com ofertas no mural: preenchem o seletor do admin e servem
+		// de lista fechada de valores aceitos em ?periodo.
+		$periodos = Mural::periodos();
+
+		// Período exibido: o admin escolhe (vazio = todos); os demais perfis
+		// sempre veem o período atual e o parâmetro da URL é ignorado.
+		$periodo = PERIODO_ATUAL;
+		if ($is_admin && isset($_GET['periodo'])) {
+			$periodo = trim((string)$_GET['periodo']);
+			if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
+				$periodo = PERIODO_ATUAL;
+			}
+		}
+
+		$muralestagio_id = isset($_GET['muralestagio_id']) ? (int)$_GET['muralestagio_id'] : 0;
+
+		$grupo = isset($_GET['grupo']) ? (string)$_GET['grupo'] : 'todos';
+		if (!in_array($grupo, array('todos', 'novos', 'conhecidos'), true)) {
+			$grupo = 'todos';
+		}
+
+		$alunos = Inscricao::listarAlunosPorPeriodo($periodo, $muralestagio_id, $grupo);
+
+		// Ofertas do período para o seletor e a instituição em foco (título e
+		// link de impressão).
+		$ofertas     = Inscricao::ofertasPorPeriodo($periodo);
+		$instituicao = '';
+		if ($muralestagio_id > 0) {
+			$oferta = Mural::find($muralestagio_id);
+			$instituicao = ($oferta !== null) ? $oferta->instituicao : '';
+		}
+
+		$smarty = new Smarty_estagio;
+		$smarty->assign("is_admin", $is_admin);
+		$smarty->assign("sistema_autentica", $sistema_autentica);
+		$smarty->assign("periodo", $periodo);
+		$smarty->assign("periodo_atual", PERIODO_ATUAL);
+		$smarty->assign("periodos", $periodos);
+		$smarty->assign("muralestagio_id", $muralestagio_id);
+		$smarty->assign("instituicao", $instituicao);
+		$smarty->assign("grupo", $grupo);
+		$smarty->assign("ofertas", $ofertas);
+		$smarty->assign("totalAlunos", count($alunos));
+		$smarty->assign("alunos", $alunos);
+		$smarty->display("muralestagios-inscritos.tpl");
 		exit;
 	}
 
@@ -551,7 +620,7 @@ class MuralestagiosController {
 			die("Não foi possível excluir os registros da tabela inscricoes");
 		}
 
-		header("Location: lista-alunos.php");
+		header("Location: inscritos.php");
 		exit;
 	}
 
