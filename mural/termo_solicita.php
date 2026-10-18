@@ -1,21 +1,6 @@
 <?php
 require_once(__DIR__ . "/../libphp/models.php");
-
-// include_once("../../autentica.inc");
-
 include_once("../setup.php");
-
-// $origem = $_REQUEST['origem'];
-// echo $_SERVER['PHP_SELF'] . " " . $origem . "<br>";
-// $url = $_SERVER['SERVER_NAME'];
-
-// if(empty($origem))
-//    $origem = $_SERVER['HTTP_REFERER'];
-
-if ($debug == 1) {
-    echo $origem . "<br>";
-    echo $_SERVER['PHP_SELF'] . "<br>";
-}
 
 $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 // Alunos
@@ -41,23 +26,10 @@ $id_instituicao = isset($_REQUEST['id_instituicao']) ? (int)$_REQUEST['id_instit
 $id_supervisor = isset($_REQUEST['id_supervisor']) ? (int)$_REQUEST['id_supervisor'] : 0;
 // echo $nascimento . "<br>";
 
-
-if ($debug == 1) {
-    // print_r($_REQUEST) . "<br>";
-	}
-
 $acao     = isset($_REQUEST['acao']) ? $_REQUEST['acao'] : '';
 $envio    = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 $cadastro = isset($_REQUEST['valorcadastro']) ? $_REQUEST['valorcadastro'] : '';
 $atualizar_estagio = isset($_REQUEST['atualizar_estagio']) ? (int)$_REQUEST['atualizar_estagio'] : 0;
-
-if ($debug == 1) {
-    echo "Acao " . $acao . "<br>";
-    echo "Cadastro " . $cadastro . "<br>";
-    echo "Atualizar estagio ". $atualizar_estagio . "<br>";
-}
-
-// echo "Id estagiario " . $id_estagiarios . " - " . $_REQUEST['id_estagiarios'] . "<br>";
 
 // Se ja esta cadastrado
 if ($submit) {
@@ -111,9 +83,6 @@ if ($submit) {
 // Aluno
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro=?";
-
-if ($debug == 1)
-    echo $sql . "<br>";
 
 $resultado = Aluno::query($sql, array($registro));
 if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");

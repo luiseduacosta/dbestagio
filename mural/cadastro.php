@@ -81,7 +81,7 @@ if ($submit) {
 		die("Não foi possível inserir o registro na tabela inscricoes");
 	}
 
-	header("Location:listaInscritos.php?muralestagio_id=$muralestagio_id");
+	header("Location:inscritos.php?muralestagio_id=$muralestagio_id");
 	exit;
 }
 

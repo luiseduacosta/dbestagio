@@ -391,7 +391,7 @@ class InscricoesController {
 			$periodo = PERIODO_ATUAL;
 		}
 
-		// Oferta específica (quando acessado a partir do mural: listaInscritos.php).
+		// Oferta específica (quando acessado a partir do mural: mural/inscritos.php).
 		$muralestagio_id = isset($_GET['muralestagio_id']) ? (int)$_GET['muralestagio_id'] : 0;
 
 		$periodos = $this->periodosDisponiveis();

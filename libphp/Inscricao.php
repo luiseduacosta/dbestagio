@@ -161,6 +161,228 @@ class Inscricao extends ADODB_Model {
     }
 
     /**
+     * Lista os ALUNOS com inscrição em um período e/ou oferta, agregando as
+     * inscrições por aluno — tabela única do mural (mural/inscritos.php).
+     *
+     * Substitui as quatro listagens legadas do mural:
+     *   mural/lista-alunos.php       -> grupo 'todos'      (quem busca estágio)
+     *   mural/lista-novos_alunos.php -> grupo 'novos'      (nunca estagiou antes)
+     *   mural/alunosConhecidos.php   -> grupo 'conhecidos' (já estagiou; muda de estágio)
+     *   mural/listaInscritos.php     -> muralestagio_id > 0 (inscritos de uma oferta)
+     *
+     * Uma linha por aluno: as inscrições do escopo (período/oferta) viram
+     * 'quantidade', 'ofertas' e as datas de início/última. Ingresso, estágios e
+     * nomes de instituições são buscados em bloco com IN (...) — sem N+1.
+     *
+     * @param string $periodo         Período exibido ('' = todos os períodos).
+     * @param int    $muralestagio_id Filtra uma oferta específica (0 = todas).
+     * @param string $grupo           'todos', 'novos' ou 'conhecidos'.
+     * @return array Linhas prontas para o template (uma por aluno).
+     */
+    public static function listarAlunosPorPeriodo($periodo = '', $muralestagio_id = 0, $grupo = 'todos') {
+        $db = static::db();
+
+        // 1) Inscrições do escopo, com aluno e oferta resolvidos no JOIN.
+        $sql = "SELECT i.id, i.registro, i.aluno_id, i.muralestagio_id, i.periodo, i.data, "
+             . "m.instituicao AS oferta_instituicao, "
+             . "al.nome, al.email, al.telefone, al.celular "
+             . "FROM inscricoes AS i "
+             . "LEFT JOIN mural_estagios AS m ON m.id = i.muralestagio_id "
+             . "LEFT JOIN alunos AS al        ON al.registro = i.registro";
+
+        $where  = array();
+        $params = array();
+        if ($periodo !== '') {
+            $where[]  = "i.periodo = ?";
+            $params[] = $periodo;
+        }
+        if ($muralestagio_id > 0) {
+            $where[]  = "i.muralestagio_id = ?";
+            $params[] = (int)$muralestagio_id;
+        }
+        if ($where) {
+            $sql .= " WHERE " . implode(" AND ", $where);
+        }
+        $sql .= " ORDER BY al.nome, i.data, i.id";
+
+        $rs = $db->Execute($sql, $params);
+        if ($rs === false) {
+            die("Não foi possível consultar a tabela inscricoes");
+        }
+
+        $alunos = array(); // registro => linha agregada do aluno
+        while (!$rs->EOF) {
+            $f   = $rs->fields;
+            $reg = (int)$f['registro'];
+            if (!isset($alunos[$reg])) {
+                $alunos[$reg] = array(
+                    'registro'     => $reg,
+                    'aluno_id'     => (int)$f['aluno_id'],
+                    'nome'         => (string)$f['nome'],
+                    'email'        => (string)$f['email'],
+                    'telefone'     => (string)$f['telefone'],
+                    'celular'      => (string)$f['celular'],
+                    'quantidade'   => 0,
+                    'data_inicio'  => '', // ISO, para a ordenação do DataTables
+                    'data_ultima'  => '', // ISO
+                    'periodos'     => array(),
+                    'ofertas'      => array(),
+                    'inscricao_id' => 0,  // preenchido só no filtro por oferta
+                );
+            }
+
+            $alunos[$reg]['quantidade']++;
+
+            $data = self::dataIso($f['data']);
+            if ($data !== '') {
+                if ($alunos[$reg]['data_inicio'] === '' || $data < $alunos[$reg]['data_inicio']) {
+                    $alunos[$reg]['data_inicio'] = $data;
+                }
+                if ($alunos[$reg]['data_ultima'] === '' || $data > $alunos[$reg]['data_ultima']) {
+                    $alunos[$reg]['data_ultima'] = $data;
+                }
+            }
+
+            if (!in_array($f['periodo'], $alunos[$reg]['periodos'], true)) {
+                $alunos[$reg]['periodos'][] = $f['periodo'];
+            }
+
+            $oferta = (string)$f['oferta_instituicao'];
+            if ($oferta === '') {
+                $oferta = "Oferta " . (int)$f['muralestagio_id'];
+            }
+            if (!in_array($oferta, $alunos[$reg]['ofertas'], true)) {
+                $alunos[$reg]['ofertas'][] = $oferta;
+            }
+
+            // Com o filtro por oferta o aluno tem no máximo uma inscrição nela
+            // (Inscricao::duplicada impede repetição), então o id é único.
+            if ($muralestagio_id > 0) {
+                $alunos[$reg]['inscricao_id'] = (int)$f['id'];
+            }
+
+            $rs->MoveNext();
+        }
+
+        if (empty($alunos)) {
+            return array();
+        }
+
+        $registros = array_keys($alunos);
+        $placeh    = implode(', ', array_fill(0, count($registros), '?'));
+
+        // 2) Período/turno de ingresso na universidade (uma consulta em bloco;
+        //    quando há mais de uma linha, vale a primeira — como no legado).
+        $rs = $db->Execute(
+            "SELECT registro, periodo, turno FROM alunos_ingresso WHERE registro IN ($placeh)",
+            $registros
+        );
+        while ($rs && !$rs->EOF) {
+            $reg = (int)$rs->fields['registro'];
+            if (isset($alunos[$reg]) && !isset($alunos[$reg]['data_ingresso'])) {
+                $alunos[$reg]['data_ingresso'] = (string)$rs->fields['periodo'];
+                $alunos[$reg]['turno']         = (string)$rs->fields['turno'];
+            }
+            $rs->MoveNext();
+        }
+
+        // 3) Estágios dos alunos (poucos por aluno): período, nível, termo de
+        //    compromisso e instituição de cada estágio.
+        $estagios         = array(); // registro => estágios, ordenados por período
+        $instituicoes_ids = array();
+        $rs = $db->Execute(
+            "SELECT registro, periodo, nivel, tc, instituicao_id FROM estagiarios "
+          . "WHERE registro IN ($placeh) ORDER BY registro, periodo, id",
+            $registros
+        );
+        while ($rs && !$rs->EOF) {
+            $f = $rs->fields;
+            $estagios[(int)$f['registro']][] = $f;
+            $iid = (int)$f['instituicao_id'];
+            if ($iid > 0) {
+                $instituicoes_ids[$iid] = true;
+            }
+            $rs->MoveNext();
+        }
+
+        // 4) Nome das instituições usadas pelos estágios (evita N+1).
+        $instituicoes = array();
+        if ($instituicoes_ids) {
+            $ids = array_keys($instituicoes_ids);
+            $ph2 = implode(', ', array_fill(0, count($ids), '?'));
+            $rs  = $db->Execute("SELECT id, instituicao FROM instituicoes WHERE id IN ($ph2)", $ids);
+            while ($rs && !$rs->EOF) {
+                $instituicoes[(int)$rs->fields['id']] = (string)$rs->fields['instituicao'];
+                $rs->MoveNext();
+            }
+        }
+
+        // 5) Consolida estágio, nível, situação e textos de cada aluno.
+        $out = array();
+        foreach ($alunos as $reg => $a) {
+            $est = isset($estagios[$reg]) ? $estagios[$reg] : array();
+
+            $a['data_ingresso']       = isset($a['data_ingresso']) ? $a['data_ingresso'] : '';
+            $a['turno']               = isset($a['turno']) ? $a['turno'] : '';
+            $a['nivel']               = '';
+            $a['tc']                  = '';
+            $a['estagio_periodo']     = '';
+            $a['estagio_instituicao'] = '';
+
+            $nivel_max = 0;
+            $tem_outro = false; // estágio registrado fora do período exibido
+            foreach ($est as $e) {
+                $nivel = (int)$e['nivel'];
+                if ($nivel > $nivel_max) {
+                    $nivel_max = $nivel;
+                }
+                if ($periodo === '' || (string)$e['periodo'] !== $periodo) {
+                    $tem_outro = true;
+                }
+                if ($periodo !== '' && (string)$e['periodo'] === $periodo) {
+                    // Nível e TC do período exibido (como nas listas legadas).
+                    $a['nivel'] = $nivel;
+                    $a['tc']    = (string)$e['tc'];
+                }
+            }
+
+            // Último estágio = maior período (a lista já vem ordenada).
+            if ($est) {
+                $ultimo = $est[count($est) - 1];
+                $a['estagio_periodo']     = (string)$ultimo['periodo'];
+                $iid                      = (int)$ultimo['instituicao_id'];
+                $a['estagio_instituicao'] = isset($instituicoes[$iid]) ? $instituicoes[$iid] : '';
+                if ($a['nivel'] === '') {
+                    $a['nivel'] = $nivel_max;
+                }
+            }
+
+            // "Novo" = ainda não estagiou fora do período exibido (critério de
+            // lista-novos_alunos.php); "estagiário" = já estagiou ou está em
+            // nível > 1 no período exibido (critério de lista-alunos.php).
+            $a['situacao']       = ($tem_outro || (int)$a['nivel'] > 1) ? 'estagiario' : 'novo';
+            $a['situacao_texto'] = ($a['situacao'] === 'estagiario') ? 'Já estagiou' : 'Novo';
+
+            // Filtro por grupo: reproduz as três listas de alunos do mural.
+            if ($grupo === 'novos' && $tem_outro) {
+                continue;
+            }
+            if ($grupo === 'conhecidos' && empty($est)) {
+                continue;
+            }
+
+            $a['periodos_texto']  = implode(', ', $a['periodos']);
+            $a['ofertas_texto']   = implode('; ', $a['ofertas']);
+            $a['data_inicio_txt'] = self::dataTexto($a['data_inicio']);
+            $a['data_ultima_txt'] = self::dataTexto($a['data_ultima']);
+            unset($a['periodos'], $a['ofertas']);
+            $out[] = $a;
+        }
+
+        return $out;
+    }
+
+    /**
      * Retorna UMA inscrição com dados do aluno e da oferta, ou null.
      */
     public static function buscar($id) {
