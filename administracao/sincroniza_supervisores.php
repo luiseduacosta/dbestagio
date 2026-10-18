@@ -1,6 +1,12 @@
 <?php
 
-include_once("../setup.php");
+// Script de manutencao: exige sessao autenticada e perfil admin. A permissao e
+// conferida aqui, nunca apenas na tela (mesmo criterio de exigirAdmin()).
+// autentica.inc ja inclui setup.php, entao $db continua disponivel.
+require_once(__DIR__ . "/../autentica.inc");
+if (empty($isAdmin)) {
+	die("Acesso restrito: apenas administradores podem executar esta manutencao.");
+}
 
 $sql = "select * from curso_inscricao_supervisor";
 $resultado = $db->Execute($sql);
