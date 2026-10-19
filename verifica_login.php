@@ -18,7 +18,7 @@ $usuario = User::byEmail($email_digitado);
 // Redireciona de volta ao login sem refletir nada do que o usuário digitou
 // (evita XSS e evita que a senha/e-mail apareçam na URL).
 function volta_ao_login() {
-    echo("<script language='javascript'>parent.window.location.href='index0.html'</script>");
+    echo("<script language='javascript'>window.top.location.href='index.php'</script>");
     exit;
 }
 
@@ -42,7 +42,7 @@ if ($senha_ok) {
     // Os cookies de nome/email gravados aqui servem apenas para os menus em
     // JavaScript — nunca para autorizar.
     sessao_autenticar($usuario);
-    echo("<script language='javascript'>parent.window.location.href='../estagio/index1.html'</script>");
+    echo("<script language='javascript'>window.top.location.href='index.php'</script>");
 } else {
     volta_ao_login();
 }

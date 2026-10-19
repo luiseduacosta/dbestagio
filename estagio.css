@@ -124,3 +124,37 @@ td.coluna_direita {
 	border-width: thick;
 	border-style: outset;
 	}
+
+/* === Styles integrated from mural/mural.css === */
+
+h2 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 16pt;
+	text-align: center;
+	color: #000000;
+	background-color: #E7E1AE;
+}
+
+.cabecalho {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 16pt;
+	text-align: center;
+	font-weight: bold;
+	color: #000000;
+	background-color: #E7E1AE;
+}
+
+.rodape {
+	font-weight: bold;
+	color: #000000;
+	background-color: #E7E1AE;
+	text-align: center;
+}
+
+#resaltado {
+	background-color: #DDDDDD;
+}
+
+#natural {
+	background-color: #D0EFFF;
+}

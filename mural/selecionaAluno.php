@@ -12,7 +12,7 @@
 		<meta name="description" content="">
 		<meta name="keywords" content="">
 <style type="text/css">
-@import url("mural.css");
+@import url("../estagio.css");
 </style>
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {

@@ -53,13 +53,13 @@ function sessao_autenticar($usuario) {
 
     $_SESSION['usuario_id']    = (int)$usuario->id;
     $_SESSION['usuario_email'] = (string)$usuario->email;
-    $_SESSION['usuario_nome']  = (string)$usuario->nome;
-    $_SESSION['usuario_role']  = (string)$usuario->role;
+    $_SESSION['usuario_nome']  = (string)$usuario->email;
+    $_SESSION['usuario_role']  = (string)$usuario->categoria;
 
     // Cookies de exibição dos menus em JavaScript (nunca de autorização).
     $seguro = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     setcookie('usuario', (string)$usuario->email, 0, '/', '', $seguro, false);
-    setcookie('usuario_nome', (string)$usuario->nome, 0, '/', '', $seguro, false);
+    setcookie('usuario_nome', (string)$usuario->email, 0, '/', '', $seguro, false);
     setcookie('email', '', time() - 3600, '/');
 }
 
@@ -94,11 +94,26 @@ function sessao_usuario_atual() {
         require_once __DIR__ . '/models.php';
     }
     $user = User::find($sessao['id']);
-    if ($user === null || (int)$user->ativo !== 1) {
+    if ($user === null) {
         sessao_encerrar();
         return null;
     }
-    return $user->toArray();
+    // A tabela users real tem: id, email, password, categoria, numero,
+    // timestamp, estudante_id, supervisor_id, docente_id. Não há colunas
+    // nome/role/ativo. Mapeamos para as chaves esperadas pelo restante do
+    // sistema (autentica.inc, index.php): nome=email, role=categoria,
+    // aluno_id=estudante_id, professor_id=docente_id.
+    $data = $user->toArray();
+    return array(
+        'id'              => (int)$data['id'],
+        'email'           => $data['email'],
+        'nome'            => $data['email'],
+        'role'            => isset($data['categoria']) ? $data['categoria'] : '',
+        'categoria'       => isset($data['categoria']) ? $data['categoria'] : '',
+        'aluno_id'        => isset($data['estudante_id']) ? $data['estudante_id'] : null,
+        'supervisor_id'   => isset($data['supervisor_id']) ? $data['supervisor_id'] : null,
+        'professor_id'    => isset($data['docente_id']) ? $data['docente_id'] : null,
+    );
 }
 
 /**
