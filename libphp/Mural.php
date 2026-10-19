@@ -295,7 +295,7 @@ class Mural extends ADODB_Model {
     }
 
     /**
-     * Registro formatado para o cartaz (imprime_cartaz.php). Filtra
+     * Registro formatado para o cartaz (mural-imprime_cartaz.php). Filtra
      * tambem por periodo (defesa em profundidade) para impedir a
      * impressao de cartazes de periodos passados.
      *

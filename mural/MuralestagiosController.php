@@ -88,9 +88,11 @@ class MuralestagiosController {
 		$this->semAutenticacao();
 
 		$is_admin = false;
+		$sistema_autentica = 0;
 		$sessao_usuario = sessao_usuario_atual();
 		if ($sessao_usuario !== null) {
 			$is_admin = ((string)$sessao_usuario['role'] === 'admin');
+			$sistema_autentica = 1;
 		}
 
 		// Nome do aluno recém-inscrito em seleção de estágio (vem por GET).
@@ -469,13 +471,13 @@ class MuralestagiosController {
 			$sistema_autentica = 1;
 		}
 
-		// Botão Inscrição: admin sempre; aluno só com inscrição ainda aberta;
-		// professor/supervisor nunca.
+		// Botão Inscrição: admin sempre; aluno só com inscrição ainda aberta
+		// (data de encerramento >= hoje); professor/supervisor nunca.
 		$data_inscricao_iso = $registro ? $registro['data_inscricao_iso'] : '';
 		$pode_inscrever = false;
 		if ($usuario_role === "admin") {
 			$pode_inscrever = true;
-		} elseif ($usuario_role === "aluno" && $data_inscricao_iso !== '' && $data_inscricao_iso < date("Y-m-d")) {
+		} elseif ($usuario_role === "aluno" && $data_inscricao_iso !== '' && $data_inscricao_iso >= date("Y-m-d")) {
 			$pode_inscrever = true;
 		}
 		if ($registro) {
@@ -493,6 +495,7 @@ class MuralestagiosController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("isAdmin", $usuario_role === "admin");
+		$smarty->assign("is_aluno", $usuario_role === "aluno");
 		$smarty->assign("sistema_autentica", $sistema_autentica);
 		$smarty->assign("muralestagio_id", $muralestagio_id);
 		$smarty->assign("pode_inscrever", $pode_inscrever);
@@ -563,11 +566,11 @@ class MuralestagiosController {
 
 	/**
 	 * Grava a edição confirmada no formulário de edição.
-	 * Substitui mural-atualiza.php. Mantém a ausência de login do original.
+	 * Substitui mural-atualiza.php.
 	 */
 	public function atualizar() {
 		global $db;
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			// Acesso direto (GET) ao endpoint de gravação: manda para o

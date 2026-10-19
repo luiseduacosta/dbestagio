@@ -541,10 +541,9 @@ class InstituicoesController {
 	/**
 	 * Lista instituições com filtros por período, nome e natureza.
 	 * Substitui instituicoes/exibir/listar.php.
-	 * PÚBLICO: não exige login.
 	 */
 	public function listar() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		$turma        = isset($_GET['turma']) ? $_GET['turma'] : '';
 		$max_periodo = Estagiario::query("SELECT MAX(periodo) as max_periodo FROM estagiarios");

@@ -32,7 +32,7 @@
 	<div align="center">
 		{if $sistema_autentica == 1}
 		<span class="botao">
-			<a href="imprime_cartaz.php?muralestagio_id={$muralestagio_id}">Imprimir cartaz</a>
+			<a href="mural-imprime_cartaz.php?muralestagio_id={$muralestagio_id}">Imprimir cartaz</a>
 		</span>
 		{/if}
 
@@ -64,6 +64,7 @@
 //-->
 	</div>
 
+	{if $sistema_autentica == 1}
 	<div align="center">
 		<table border="0">
 			<tbody>
@@ -128,6 +129,7 @@
 			</tbody>
 		</table>
 	</div>
+	{/if}
 
 	{section name=item loop=$instituicao}
 
@@ -145,15 +147,15 @@
 				</tr>
 
 				<tr>
-					<td width="30%">Instituição</td>
-					{if $instituicao[item].instituicao_id == 0}
-					<td>{$instituicao[item].instituicao}</td>
-					{else}
-					<td><a
-							href="../instituicoes/ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
-					</td>
-					{/if}
-				</tr>
+				<td width="30%">Instituição</td>
+				{if $instituicao[item].instituicao_id == 0 || $sistema_autentica != 1}
+				<td>{$instituicao[item].instituicao}</td>
+				{else}
+				<td><a
+						href="../instituicoes/ver_cada.php?instituicao_id={$instituicao[item].instituicao_id}">{$instituicao[item].instituicao}</a>
+				</td>
+				{/if}
+			</tr>
 
 				<tr>
 					<td>Vagas</td>
@@ -263,69 +265,40 @@
 				</tr>
 
 				<tr>
-					<td colspan="2" class="coluna_centralizada">
-						{if $sistema_autentica == 1}
-						<span class="botao">
-							{if $muralestagio_id == ""}
-								<a href="mural-modifica.php?muralestagio_id={$instituicao[item].muralestagio_id}">Editar</a>
-								{else}
-								<a href="mural-modifica.php?muralestagio_id={$muralestagio_id}">Editar</a>
-								{/if}
-						</span>
-						{/if}
+				<td colspan="2" class="coluna_centralizada">
 
-						{* Para a administração sempre está aberta a possibilidade de realizar inscrições fora de prazo
-						*}
-						{if $sistema_autentica == 1}
-						<span class="botao">
-							{if $muralestagio_id == ""}
-							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$instituicao[item].muralestagio_id}">Inscrição
-								para seleção</a>
-							{else}
-							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$muralestagio_id}">Inscrição
-								para seleção</a>
-							{/if}
-						</span>
-						{else}
-						{if $data_inscricao == 0}
-						<span class="botao">
-							<a href="#">Inscrições diretamente na instituição</a>
-						</span>
-						{else}
-						{if $data_hoje <= $data_inscricao} <span class="botao">
-							<a
-								href="selecionaAluno.php?instituicao={$instituicao[item].instituicao}&muralestagio_id={$instituicao[item].muralestagio_id}">Inscrição
-								para seleção</a>
-							</span>
-							{/if}
-							{/if}
-							{/if}
+					{* --- Botões restritos a usuários autenticados --- *}
 
-							<span class="botao">
-								{if $muralestagio_id == ""}
-								<a href="inscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
-									inscritos</a>
-								{else}
-								<a href="inscritos.php?muralestagio_id={$instituicao[item].muralestagio_id}">Alunos
-									inscritos</a>
-								{/if}
-							</span>
+					{if $sistema_autentica == 1}
+					<span class="botao">
+						<a href="mural-modifica.php?muralestagio_id={$muralestagio_id}">Editar</a>
+					</span>
+					{/if}
 
-							{if $isAdmin}
-							<span class="botao">
-								{if $muralestagio_id == ""}
-								<a href="mural-excluir.php?muralestagio_id={$instituicao[item].muralestagio_id}">Excluir</a>
-								{else}
-								<a href="mural-excluir.php?muralestagio_id={$muralestagio_id}">Excluir</a>
-								{/if}
-							</span>
-							{/if}
+					{* Inscrição: admin sempre; aluno só se pode_inscrever (data ok) *}
+					{if $pode_inscrever}
+					<span class="botao">
+						<a href="../inscricoes/inserir.php?muralestagio_id={$muralestagio_id}">Inscrição para seleção</a>
+					</span>
+					{/if}
 
-					</td>
-				</tr>
-				{/section}
+					{* Alunos inscritos: só para coordenação (admin/professor/supervisor) *}
+					{if $sistema_autentica == 1 && !$is_aluno}
+					<span class="botao">
+						<a href="inscritos.php?muralestagio_id={$muralestagio_id}">Alunos inscritos</a>
+					</span>
+					{/if}
+
+					{* Excluir: só admin *}
+					{if $isAdmin}
+					<span class="botao">
+						<a href="mural-excluir.php?muralestagio_id={$muralestagio_id}">Excluir</a>
+					</span>
+					{/if}
+
+				</td>
+			</tr>
+			{/section}
 
 			</tbody>
 		</table>
