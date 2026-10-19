@@ -165,7 +165,7 @@ Do not centre a narrow fixed column inside the shell. The previous `#corpo { wid
 
 ### Fixing the existing layout
 
-The current shell is `index.php` + `app.css`: a flex row with an iframe set to `flex: 1` and a 250 px sidebar after it. Inside the iframe, `estagio.css` sets `body` to a 10 px margin and `#corpo` to a fixed **750 px** width. On a wide monitor the iframe grows, but its document does not, so the content sits at the left of a large empty band. The inner pages also repeat a legacy `muralestagios-menu.tpl`, duplicating navigation inside the content.
+The current shell is `index.php` + `app.css`: a flex row with an iframe set to `flex: 1` and a 250 px sidebar after it. Inside the iframe, `estagio.css` sets `body` to a 10 px margin and `#corpo` to a fixed **750 px** width. On a wide monitor the iframe grows, but its document does not, so the content sits at the left of a large empty band.
 
 The target design removes that failure mode:
 
@@ -174,7 +174,7 @@ The target design removes that failure mode:
 - Remove `#corpo { width: 750px }`, fixed `width` attributes on layout tables, `align="center"` wrappers, and inline layout styles.
 - Use `.page-container { width: 100%; max-width: 1600px; padding-inline: clamp(20px, 3vw, 48px); }`. Prose blocks may cap at 72ch; data surfaces must fill the container.
 - As an interim patch if the iframe remains in production for one release, override the inner document with `#corpo { width: 100%; max-width: none; }` and make its page wrapper full width. This is a compatibility patch, not the target architecture.
-- Delete the duplicated `muralestagios-menu.tpl` include from redesigned content routes; keep one navigation source in the shell.
+- Keep one navigation source in the shell; the duplicated inner menu has been removed.
 
 ### CSS and component rules
 

@@ -14,9 +14,6 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 
 {literal}
 <script language="JavaScript" type="text/javascript">
@@ -45,7 +42,7 @@ function verificaConvenio() {
    		} // Fecha for
    		
 	var email = document.getElementById("email").value;
-	alert(email);
+	// alert(email);
 	if(email == "") {
 		alert("Sem o e-mail não será possível enviar e-mail para a instituicao");
 	}
@@ -59,8 +56,6 @@ function verificaConvenio() {
 </head>
 
 <body onLoad="return janelaAviso()">
-
-{include file="muralestagios-menu.tpl"}
 
 <form name="aviso" id="aviso" action="#" method="post" enctype="text/plain">
 <input type="hidden" name="instituicaoConveniada" id="instituicaoConveniada" value="{$aviso}">

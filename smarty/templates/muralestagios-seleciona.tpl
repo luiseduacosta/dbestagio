@@ -15,9 +15,6 @@
 @import url("../estagio.css");
 </style>
 {literal}
-<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 <script language="JavaScript" type="text/javascript">
 <!--
 function elimina() {
@@ -35,8 +32,6 @@ function elimina() {
 </head>
 
 <body>
-
-{include file="muralestagios-menu.tpl"}
 
 {if $opcao === "cancela"}
 	<p>Seleciona instituição para excluir</p>
