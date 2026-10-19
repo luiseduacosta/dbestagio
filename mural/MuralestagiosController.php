@@ -5,13 +5,15 @@
  * Reúne as ações relacionadas às ofertas de estágio do mural (tabela
  * mural_estagios). Cada ação substitui um script legado:
  *
- *   index()     <- ver-mural.php      (listagem do mural; o admin escolhe o
+ *   listar()    <- mural-listar.php      (listagem do mural; o admin escolhe o
  *                      período pelo seletor, os demais perfis veem o atual)
- *   inserir()   <- mural_inserir.php   (formulário + gravação, com login)
- *   ver_cada()  <- ver_cada.php        (ficha registro a registro, sem login)
+ *   inserir()   <- mural-inserir.php   (formulário + gravação, com login)
+ *   inscricao_aluno() <- mural-aluno_inscricao.php (cadastro público do
+ *                      candidato novo e inscrição na oferta, sem login)
+ *   ver_cada()  <- mural-ver_cada.php        (ficha registro a registro, sem login)
  *   editar()    <- mural-modifica.php  (formulário de edição, com login)
  *   atualizar() <- mural-atualiza.php  (gravação da edição, sem login)
- *   excluir()   <- excluir.php         (exclusão da oferta, com login)
+ *   excluir()   <- mural-excluir.php         (exclusão da oferta, com login)
  *   selecionar() <- seleciona.php      (seletor modificar/excluir, com login)
  *   excluir_aluno() <- mural-excluir_aluno.php (tira o aluno da lista de
  *                      alunos que buscam estágio, com login)
@@ -28,7 +30,7 @@
  * Uso (front-controllers finos):
  *   require_once(__DIR__ . "/MuralestagiosController.php");
  *   $controller = new MuralestagiosController();
- *   $controller->index();
+ *   $controller->listar();
  *
  * ATENÇÃO: atualizar() NÃO exige login — mantido por paridade com o script
  * antigo (mural-atualiza.php também não exigia). Vale proteger esse endpoint
@@ -45,7 +47,7 @@ class MuralestagiosController {
 	 * libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $isAdmin;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $isProfessor, $isSupervisor;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 		require_once(__DIR__ . "/../libphp/sessao.php");
@@ -75,13 +77,13 @@ class MuralestagiosController {
 	}
 
 	/**
-	 * Lista as ofertas do mural. Substitui ver-mural.php.
+	 * Lista as ofertas do mural (front-controller mural-listar.php).
 	 *
 	 * O seletor de período é exclusivo do admin: os demais perfis sempre veem
 	 * o período atual e o parâmetro ?periodo da URL é ignorado. O papel vem da
 	 * SESSÃO autenticada (cookie de identificação não autoriza).
 	 */
-	public function index() {
+	public function listar() {
 		global $db, $sistema_autentica;
 		$this->semAutenticacao();
 
@@ -142,11 +144,20 @@ class MuralestagiosController {
 	 * Filtros: ?periodo (vazio = todos os períodos; SÓ o admin escolhe),
 	 * ?muralestagio_id (0 = todas as ofertas) e ?grupo
 	 * ('todos' | 'novos' | 'conhecidos'). A ordenação é do DataTables, no
-	 * cliente. Exige login, como os quatro scripts antigos.
+	 * cliente. Exige login e é restrita à coordenação (admin, professor ou
+	 * supervisor); alunos usam inscricoes/listar.php, que mostra só as
+	 * próprias inscrições.
 	 */
 	public function inscritos() {
-		global $db, $sistema_autentica, $isAdmin;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $isProfessor, $isSupervisor;
 		$this->comAutenticacao();
+
+		// A lista reúne dados pessoais de todos os inscritos: é exclusiva da
+		// coordenação. Alunos usam inscricoes/listar.php, que mostra apenas as
+		// próprias inscrições.
+		if (empty($isAdmin) && empty($isProfessor) && empty($isSupervisor)) {
+			die("Acesso restrito: a lista de inscritos no mural é exclusiva da coordenação.");
+		}
 
 		$is_admin = !empty($isAdmin);
 
@@ -199,8 +210,95 @@ class MuralestagiosController {
 	}
 
 	/**
+	 * Cadastro público do candidato novo e inscrição dele na oferta escolhida.
+	 * Substitui mural-aluno_inscricao.php (antigo cadastro.php).
+	 *
+	 * Exibe o formulário (muralestagios-alunos_insere.tpl) e, no POST, grava o
+	 * aluno e a inscrição no período atual, redirecionando para a lista de
+	 * inscritos da oferta. Não exige login: é a rota pública alcançada por
+	 * verifica.php.
+	 */
+	public function inscricao_aluno() {
+		global $db;
+		$this->semAutenticacao();
+
+		$registro        = isset($_REQUEST['registro']) ? trim((string)$_REQUEST['registro']) : '';
+		$muralestagio_id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
+
+		// Instituição da oferta em que o candidato se inscreve.
+		$oferta = ($muralestagio_id > 0) ? Mural::find($muralestagio_id) : null;
+		if ($oferta === null) {
+			die("Oferta de estágio não encontrada no mural (id $muralestagio_id).");
+		}
+
+		if (!empty($_POST['submit'])) {
+			$this->gravaInscricaoAluno($registro, $muralestagio_id);
+		}
+
+		$smarty = new Smarty_estagio;
+		$smarty->assign("registro", $registro);
+		$smarty->assign("instituicao", $oferta->instituicao);
+		$smarty->assign("muralestagio_id", $muralestagio_id);
+		$smarty->display("muralestagios-alunos_insere.tpl");
+		exit;
+	}
+
+	/**
+	 * Grava o aluno novo e a inscrição dele na oferta; redireciona ao final.
+	 *
+	 * alunos.id NÃO é auto_increment: o id vem de Aluno::proximoId().
+	 */
+	private function gravaInscricaoAluno($registro, $muralestagio_id) {
+		if (!ctype_digit($registro)) {
+			die("Registro (DRE) inválido: informe somente números.");
+		}
+
+		// Aluno já cadastrado: segue para a atualização dos dados.
+		if (Aluno::registroDuplicado($registro) !== null) {
+			header("Location: mural-alunos_modifica.php?registro=$registro");
+			exit;
+		}
+
+		$nascimento = isset($_POST['nascimento']) ? trim($_POST['nascimento']) : '';
+
+		// Grava o aluno novo.
+		$aluno = new Aluno();
+		$aluno->id                = Aluno::proximoId();
+		$aluno->registro          = (int)$registro;
+		$aluno->nome              = isset($_POST['nome']) ? $_POST['nome'] : '';
+		$aluno->codigo_telefone   = (isset($_POST['codigo_telefone']) && $_POST['codigo_telefone'] !== '') ? (int)$_POST['codigo_telefone'] : 21;
+		$aluno->telefone          = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+		$aluno->codigo_celular    = (isset($_POST['codigo_celular']) && $_POST['codigo_celular'] !== '') ? (int)$_POST['codigo_celular'] : 21;
+		$aluno->celular           = isset($_POST['celular']) ? $_POST['celular'] : '';
+		$aluno->email             = strtolower(isset($_POST['email']) ? $_POST['email'] : '');
+		$aluno->cpf               = isset($_POST['cpf']) ? $_POST['cpf'] : '';
+		$aluno->identidade        = isset($_POST['identidade']) ? $_POST['identidade'] : '';
+		$aluno->orgao             = isset($_POST['orgao']) ? $_POST['orgao'] : '';
+		$aluno->nascimento        = ($nascimento === '') ? null : date("Y-m-d", strtotime($nascimento));
+		$aluno->endereco          = isset($_POST['endereco']) ? $_POST['endereco'] : '';
+		$aluno->cep               = isset($_POST['cep']) ? $_POST['cep'] : '';
+		$aluno->municipio         = isset($_POST['municipio']) ? $_POST['municipio'] : '';
+		$aluno->bairro            = isset($_POST['bairro']) ? $_POST['bairro'] : '';
+		$aluno->estagiarios_count = 0;
+		$aluno->inscricao_count   = 0;
+
+		if (!$aluno->save()) {
+			error_log("Erro ao inserir aluno: " . ADODB_Model::$db->ErrorMsg());
+			die("Não foi possível inserir o registro na tabela alunos");
+		}
+
+		// Grava a inscrição do aluno novo na oferta escolhida.
+		if (Inscricao::inscrever($registro, $muralestagio_id, $aluno->id, PERIODO_ATUAL, date('Y-m-d')) === null) {
+			die("Não foi possível inserir o registro na tabela inscricoes");
+		}
+
+		header("Location: inscritos.php?muralestagio_id=$muralestagio_id");
+		exit;
+	}
+
+	/**
 	 * Exibe o formulário de inserção e, quando confirmado, grava a oferta.
-	 * Substitui mural_inserir.php.
+	 * Substitui mural-inserir.php.
 	 */
 	public function inserir() {
 		global $db, $sistema_autentica;
@@ -214,7 +312,7 @@ class MuralestagiosController {
 			if ($convenio === "1") {
 				$this->gravaInsercao(); // grava e redireciona; não retorna
 			} elseif ($convenio === "0") {
-				// Antes: redirect para mural_inserir.php?aviso=...; agora exibe
+				// Antes: redirect para mural-inserir.php?aviso=...; agora exibe
 				// o aviso diretamente junto com o formulário.
 				$aviso = "Instituição NÃO conveniada!";
 			}
@@ -290,13 +388,13 @@ class MuralestagiosController {
 
 		if (!$mural->save()) die("Não foi possível inserir o registro na tabela mural_estagios");
 
-		header("Location: ver_cada.php?muralestagio_id=" . $mural->getKey());
+		header("Location: mural-ver_cada.php?muralestagio_id=" . $mural->getKey());
 		exit;
 	}
 
 	/**
 	 * Ficha de uma oferta, com navegação registro a registro.
-	 * Substitui ver_cada.php. Não força login: apenas lê o cookie para
+	 * Usada por mural-ver_cada.php. Não força login: apenas lê o cookie para
 	 * habilitar funções administrativas.
 	 */
 	public function ver_cada() {
@@ -511,12 +609,12 @@ class MuralestagiosController {
 
 		if (!$mural->save()) die("Não foi possível atualizar o registro na tabela mural_estagios");
 
-		header("Location: ver_cada.php?muralestagio_id=" . $mural->getKey());
+		header("Location: mural-ver_cada.php?muralestagio_id=" . $mural->getKey());
 		exit;
 	}
 
 	/**
-	 * Exclui uma oferta do mural (DELETE). Substitui excluir.php.
+	 * Exclui uma oferta do mural (DELETE). Substitui mural-excluir.php.
 	 * Restrito ao admin e só exclui quando não há alunos inscritos: as
 	 * inscrições apontam para a oferta (inscricoes.muralestagio_id) e a tabela
 	 * não tem chave estrangeira, então a checagem é feita aqui, antes do delete.
@@ -537,7 +635,7 @@ class MuralestagiosController {
 		$quantidade = Mural::contarInscritos($muralestagio_id);
 		if ($quantidade > 0) {
 			echo "Primeiro tem que excluir os alunos inscritos ($quantidade) para logo poder excluir a oferta do mural.";
-			echo "<meta http-equiv='refresh' content='3;ver-mural.php' />";
+			echo "<meta http-equiv='refresh' content='3;mural-listar.php' />";
 			exit;
 		}
 
@@ -546,7 +644,7 @@ class MuralestagiosController {
 			die("Não foi possível excluir o registro da tabela mural_estagios");
 		}
 
-		header("Location: ver-mural.php");
+		header("Location: mural-listar.php");
 		exit;
 	}
 
@@ -555,7 +653,7 @@ class MuralestagiosController {
 	 * Substitui seleciona.php — que consultava a tabela inexistente
 	 * mural_estagio (singular) e morria antes mesmo de exibir o formulário.
 	 * O template decide o destino do formulário pela opção: "cancela" aponta
-	 * para excluir.php; qualquer outro valor (ou ausente) aponta para
+	 * para mural-excluir.php; qualquer outro valor (ou ausente) aponta para
 	 * mural-modifica.php.
 	 */
 	public function selecionar() {

@@ -63,7 +63,7 @@
 	<noscript><input type="submit" value="Filtrar"></noscript>
 </form>
 
-<p><a href="ver-mural.php">Voltar para mural</a></p>
+<p><a href="mural-listar.php">Voltar para mural</a></p>
 
 {* A impressão em PDF só existe para uma oferta do período atual. *}
 {if $muralestagio_id > 0 && $periodo == $periodo_atual}

@@ -3,7 +3,7 @@
  * verifica.php — Identificação pública do candidato no mural (pelo DRE).
  *
  * Recebe o registro (DRE) e a oferta escolhida e decide o próximo passo:
- *   - aluno ainda não cadastrado -> cadastro.php (cadastro de aluno novo);
+ *   - aluno ainda não cadastrado -> mural-aluno_inscricao.php (cadastro de aluno novo);
  *   - aluno cadastrado           -> mural-alunos_modifica.php;
  *   - cursou estágio I ou III no último período -> exibe o aviso e a inscrição
  *     só segue com a confirmação do candidato.
@@ -26,7 +26,7 @@ if (!ctype_digit($registro)) {
 // Aluno já cadastrado? Se não, é candidato novo: segue para o cadastro.
 $aluno = Aluno::porRegistro($registro);
 if ($aluno === null) {
-	echo "<meta http-equiv='refresh' content='1; URL=cadastro.php?registro=$registro&muralestagio_id=$muralestagio_id'>";
+	echo "<meta http-equiv='refresh' content='1; URL=mural-aluno_inscricao.php?registro=$registro&muralestagio_id=$muralestagio_id'>";
 	die;
 }
 

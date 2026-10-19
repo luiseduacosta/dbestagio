@@ -1,6 +1,6 @@
 <?php
 /**
- * ver_cada.php — Front-controller da ficha de uma oferta do mural.
+ * mural-ver_cada.php — Front-controller da ficha de uma oferta do mural.
  *
  * Mantém o endpoint público (ficha registro a registro das ofertas do
  * período atual) e delega toda a lógica ao MuralestagiosController.

@@ -26,7 +26,8 @@ h1 {
 	}
 
 #corpo {
-	width: 750px;
+	width: 100%;
+	max-width: none;
 	}
 
 #cabecalho {

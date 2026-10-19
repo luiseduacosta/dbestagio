@@ -40,7 +40,7 @@ function elimina() {
 
 {if $opcao === "cancela"}
 	<p>Seleciona instituição para excluir</p>
-	<form name="seleciona_instituicao" action="excluir.php" method="post">
+	<form name="seleciona_instituicao" action="mural-excluir.php" method="post">
 {else}
 	<p>Seleciona instituição para modificar</p>
 	<form name="seleciona_instituicao" action="mural-modifica.php" method="post">
