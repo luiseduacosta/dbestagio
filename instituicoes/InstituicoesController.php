@@ -599,7 +599,7 @@ class InstituicoesController {
 		        $where_sql
 		        GROUP BY e.instituicao, e.area_id, e.beneficios, e.id";
 		$resultado = Instituicao::query($sql, $params);
-		if ($resultado === false || empty($resultado)) {
+		if ($resultado === false) {
 			error_log("Erro ao consultar instituicoes: " . Instituicao::$db->ErrorMsg());
 			die("Não foi possível consultar a tabela instituicoes.");
 		}
@@ -677,21 +677,19 @@ class InstituicoesController {
 				'periodos'       => (int)$n_periodos,
 			);
 			$matriz[] = $row;
-
-			$resultado->MoveNext();
 		}
 
 		// ---------- Períodos e naturezas para os filtros ----------
 		$periodos = array();
 		$rs_turma = Estagiario::query("SELECT DISTINCT periodo FROM estagiarios WHERE periodo IS NOT NULL ORDER BY periodo DESC");
 		if (!empty($rs_turma)) {
-			foreach ($rs_turma as $turma) {
-				$periodos[] = $turma->periodo;
+			foreach ($rs_turma as $periodo_row) {
+				$periodos[] = $periodo_row->periodo;
 			}
 		}
 
 		$naturezas = array();
-		$rs_nat = Instituicao::query("SELECT DISTINCT natureza FROM instituicoes WHERE natureza IS NOT NULL ORDER BY natureza");
+		$rs_nat = Instituicao::query("SELECT DISTINCT natureza FROM instituicoes WHERE natureza IS NOT NULL AND natureza <> '' ORDER BY natureza");
 		if (!empty($rs_nat)) {
 			foreach ($rs_nat as $nat) {
 				$naturezas[] = $nat->natureza;
