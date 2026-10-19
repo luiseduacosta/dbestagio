@@ -57,7 +57,7 @@ if ($usuario_ok) {
 	$mural_autentica = 0;
     $sistema_autentica = 0;
 	$url = $_SERVER['SERVER_NAME'] ?? 'localhost';
-	header("Location: http://$url/estagio/login.php");
+	header("Location: http://$url/estagio/index.php");
 	exit;
 }
 

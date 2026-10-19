@@ -12,7 +12,7 @@
 	<meta name="keywords" content="">
 	<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
-		@import url("mural.css");
+		@import url("../estagio.css");
 	</style>
 	<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
 	<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
