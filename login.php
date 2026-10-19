@@ -2,64 +2,46 @@
 // Encerro a sessão anterior (quem chega ao formulário de login entra de novo)
 require_once(__DIR__ . "/libphp/sessao.php");
 sessao_encerrar();
-
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<title>Menu lateral</title>
-<link href="estagio.css" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login — Coordenação de Estágio ESS/UFRJ</title>
+	<link rel="stylesheet" href="estagio.css">
+	<link rel="stylesheet" href="estagio-moderno.css">
 </head>
+<body id="corpo">
+	<main class="mural-page" style="max-width: 480px; margin: 60px auto;">
+		<header class="page-head">
+			<div class="page-heading">
+				<p class="eyebrow">Coordenação de Estágio e Extensão · ESS/UFRJ</p>
+				<h1>Acessar o sistema</h1>
+			</div>
+		</header>
 
-<body>
+		<div class="table-shell">
+			<form name="login" id="login" action="verifica_login.php?opcao=capa" method="post">
+				<p style="margin: 0 0 12px;">
+					<label for="email" style="display:block; font-weight:600; margin-bottom:4px;">E-mail</label>
+					<input type="text" name="email" id="email" required
+						style="width:100%; min-height:40px; padding:0 12px; border:1px solid var(--mural-line-strong); border-radius:6px; font:inherit;">
+				</p>
+				<p style="margin: 0 0 16px;">
+					<label for="password" style="display:block; font-weight:600; margin-bottom:4px;">Senha</label>
+					<input type="password" name="password" id="password" required
+						style="width:100%; min-height:40px; padding:0 12px; border:1px solid var(--mural-line-strong); border-radius:6px; font:inherit;">
+				</p>
+				<p style="text-align:center; margin:0;">
+					<button type="submit" style="min-height:40px; padding:0 24px; border:none; border-radius:6px; background:var(--mural-accent); color:#fff; font:inherit; font-weight:600; cursor:pointer;">Entrar</button>
+				</p>
+			</form>
+		</div>
 
-<div align="center">
-<strong>
-<font size="+1">UNIVERSIDADE FEDERAL DO RIO DE JANEIRO</font>
-</strong>
-</div>
-
-<br>
-
-<div align="center">
-<strong>
-<font size="+1">ESCOLA DE SERVIÇO SOCIAL</font>
-</strong>
-</div>
-
-<br>
-
-<div align="center">
-<strong>
-<font size="+1">Coordenação de estágio e extensão</font>
-</strong>
-</div>
-
-<br>
-
-<form name="login" id="login" action="verifica_login.php?opcao=capa" method="post">
-<table align="center">
-<tr>
-<td>Email</td>
-<td><input type="text" name="email" id="email" size="15"></td>
-</tr>
-
-<tr>
-<td>Senha</td>
-<td><input type="password" name="password" id="password" size="15"></td>
-</tr>
-
-<tr>
-<td colspan="2">
-<p class="coluna_centralizada">
-<input type="submit" name="submit" value="Confirma">
-</p>
-</td>
-</tr>
-
-</table>
-
-</form>
-
+		<p style="text-align:center; margin-top:16px;">
+			Não tem conta? <a href="users/registrar.php" style="color:var(--mural-accent); font-weight:600;">Cadastrar-se</a>
+		</p>
+	</main>
 </body>
 </html>

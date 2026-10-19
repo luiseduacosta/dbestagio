@@ -228,7 +228,7 @@ class AreasController {
 	 * PÚBLICO: não exige login.
 	 */
 	public function listar() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		$ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'areas.area';
 
@@ -356,7 +356,7 @@ class AreasController {
 	 * PÚBLICO: não exige login.
 	 */
 	public function instituicoes() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		$area_id = isset($_GET['area_id']) ? (int)$_GET['area_id'] : 0;
 		$ordem   = isset($_GET['ordem']) ? $_GET['ordem'] : 'instituicao';

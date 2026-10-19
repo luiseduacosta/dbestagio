@@ -100,7 +100,7 @@ class SupervisoresController {
 	 * Substitui supervisores/exibir/listar.php.
 	 */
 	public function listar() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 		global $sistema_autentica;
 
 		$ordem          = isset($_GET['ordem']) ? $_GET['ordem'] : 'nome';

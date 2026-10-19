@@ -254,10 +254,9 @@ class VisitasController {
 	/**
 	 * Lista as visitas registradas, com filtro opcional por instituição.
 	 * Substitui visitas/exibir/listar.php.
-	 * PÚBLICO: não exige login.
 	 */
 	public function listar() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		// Filtro opcional por instituição.
 		$filtro_instituicao = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;

@@ -454,10 +454,9 @@ class ProfessoresController {
 	/**
 	 * Lista as instituições vinculadas aos professores através de seus estágios.
 	 * Substitui professores/exibir/instituicoes.php.
-	 * PÚBLICO: não exige login.
 	 */
 	public function instituicoes() {
-		$this->semAutenticacao();
+		$this->comAutenticacao();
 
 		$sql = "SELECT DISTINCT p.nome, i.instituicao "
 			 . "FROM professores p "

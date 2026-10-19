@@ -50,15 +50,13 @@ if ($dados === null) {
 extract($dados, EXTR_SKIP);
 
 $pdf->Ln(10);
+$pdf->SetFont("Arial","","14");
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Instituição: ");
-$pdf->SetX(60);
-$pdf->SetFont("Arial","B","18");
+$pdf->SetX(70);
 $pdf->SetLineWidth(0,5);
-$pdf->MultiCell(160,8,strip_tags(html_entity_decode($instituicao)),1);
+$pdf->MultiCell(110,8,strip_tags(html_entity_decode($instituicao)),1);
 
-$pdf->Ln(5);
-$pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Vagas:");
@@ -87,19 +85,11 @@ if(!empty($requisitos)) {
     $pdf->Ln(10);
     $pdf->SetX(20);
     $pdf->Cell(0,0,"Requisitos:");
-    // $pdf->Ln(5);
     $pdf->SetLineWidth(0,5);
     $pdf->SetFont("Arial","","14");
     $pdf->SetX(70);
     $pdf->MultiCell(110,5,strip_tags(html_entity_decode($requisitos)),1);
 }
-
-$pdf->SetFont("Arial","","14");
-$pdf->Ln(10);
-$pdf->SetX(20);
-$pdf->Cell(0,0,"Horário da OTP:");
-$pdf->SetX(70);
-$pdf->Cell(0,0,$horario);
 
 $pdf->Ln(10);
 $pdf->SetX(20);
@@ -121,7 +111,9 @@ $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Local da seleção:");
 $pdf->SetX(70);
-$pdf->MultiCell(100,5,strip_tags(html_entity_decode($local_selecao)));
+if (!empty($local_selecao)) {
+    $pdf->MultiCell(110,5,strip_tags(html_entity_decode($local_selecao)),1);
+}
 
 $pdf->Ln(10);
 $pdf->SetX(20);
@@ -133,25 +125,28 @@ $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Contatos:");
 $pdf->SetX(70);
-$pdf->Cell(0,0,strip_tags(html_entity_decode($contato)));
+$pdf->MultiCell(110,5,strip_tags(html_entity_decode($contato)),1);
 
-// echo strlen($outras);
-if(strlen(trim($outras)) > 250) {
+$pdf->SetFont("Arial","","14");
+$texto_outras = strip_tags(html_entity_decode($outras));
+$linhas_estimadas = max(1, ceil($pdf->GetStringWidth($texto_outras) / 160));
+$altura_necessaria = $linhas_estimadas * 5 + 20;
+$limite_pagina = $pdf->GetPageHeight() - 10;
+if ($pdf->GetY() + $altura_necessaria > $limite_pagina) {
     $pdf->AddPage();
 }
 
-$pdf->SetFont("Arial","","14");
 $pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->Cell(0,0,"Outras informações:");
-$pdf->Ln(5);
+$pdf->Ln(10);
 $pdf->SetX(20);
 $pdf->SetLineWidth(0,5);
 $pdf->MultiCell(160,5,strip_tags(html_entity_decode($outras)),1);
 
-$pdf->Ln(8);
+$pdf->Ln(10);
 $pdf->SetX(55);
-$pdf->SetFont("Arial","U","16");
+$pdf->SetFont("Arial","U","14");
 $pdf->Cell(0,0,"http://www.ess.ufrj.br");
 
 $pdf->Output();

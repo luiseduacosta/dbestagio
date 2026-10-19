@@ -6,6 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 include_once("../setup.php");
+include_once(__DIR__ . "/../autentica.inc");
 
 $turma = TURMA;
 $sql = "select num_inscricao, nome, id from curso_inscricao_supervisor where curso_turma=$turma order by nome";

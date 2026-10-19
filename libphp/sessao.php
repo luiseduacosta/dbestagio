@@ -98,21 +98,27 @@ function sessao_usuario_atual() {
         sessao_encerrar();
         return null;
     }
-    // A tabela users real tem: id, email, password, categoria, numero,
-    // timestamp, estudante_id, supervisor_id, docente_id. Não há colunas
-    // nome/role/ativo. Mapeamos para as chaves esperadas pelo restante do
-    // sistema (autentica.inc, index.php): nome=email, role=categoria,
-    // aluno_id=estudante_id, professor_id=docente_id.
+    // A tabela users tem colunas separadas para role e categoria:
+    //   role       -> 'admin' | 'aluno' | 'professor' | 'supervisor' (texto)
+    //   categoria  -> '1' | '2' | '3' | '4' (código numérico em string)
+    // A checagem de permissão (autentica.inc, MuralestagiosController) compara
+    // role === 'admin', então a chave 'role' precisa vir da coluna role, NÃO
+    // da categoria (senão admin vira '1' e isAdmin sempre false).
     $data = $user->toArray();
+    $role_raw = isset($data['role']) ? (string)$data['role'] : '';
+    // Compatibilidade: se por acaso role estiver com código numérico legado,
+    // traduz para o texto canônico.
+    $role_map = array('1' => 'admin', '2' => 'aluno', '3' => 'professor', '4' => 'supervisor');
+    $role = isset($role_map[$role_raw]) ? $role_map[$role_raw] : $role_raw;
     return array(
         'id'              => (int)$data['id'],
         'email'           => $data['email'],
-        'nome'            => $data['email'],
-        'role'            => isset($data['categoria']) ? $data['categoria'] : '',
+        'nome'            => isset($data['nome']) && $data['nome'] !== '' ? $data['nome'] : $data['email'],
+        'role'            => $role,
         'categoria'       => isset($data['categoria']) ? $data['categoria'] : '',
-        'aluno_id'        => isset($data['estudante_id']) ? $data['estudante_id'] : null,
+        'aluno_id'        => isset($data['aluno_id']) ? $data['aluno_id'] : (isset($data['estudante_id']) ? $data['estudante_id'] : null),
         'supervisor_id'   => isset($data['supervisor_id']) ? $data['supervisor_id'] : null,
-        'professor_id'    => isset($data['docente_id']) ? $data['docente_id'] : null,
+        'professor_id'    => isset($data['professor_id']) ? $data['professor_id'] : (isset($data['docente_id']) ? $data['docente_id'] : null),
     );
 }
 

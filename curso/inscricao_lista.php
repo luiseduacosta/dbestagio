@@ -7,7 +7,7 @@
  */
 
 include_once("../setup.php");
-// include_once("../autentica.inc");
+include_once(__DIR__ . "/../autentica.inc");
 
 $turma = isset($_GET['turma']) ? $turma = $_REQUEST['turma'] : TURMA;
 $ordem = isset($_GET['ordem']) ? $ordem = $_REQUEST['ordem'] : ordem;

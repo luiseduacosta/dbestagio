@@ -1,9 +1,14 @@
 <?php
 /**
  * links.php — Sidebar menu partial.
- * Included by index.php. Expects $isAdmin and $usuario_nome to be set.
+ * Included by index.php. Expects $isAdmin, $usuario_logado and $usuario_nome to be set.
+ *
+ * Authorization rules:
+ *   - Unauthenticated: only "Mural → Listar" and "Eventos" (external links).
+ *   - Authenticated:   full menu (with admin sections behind $isAdmin).
  */
-if (!isset($isAdmin)) { $isAdmin = false; }
+if (!isset($isAdmin))        { $isAdmin = false; }
+if (!isset($usuario_logado)) { $usuario_logado = false; }
 ?>
 <nav class="sidebar-nav">
 
@@ -19,12 +24,16 @@ if (!isset($isAdmin)) { $isAdmin = false; }
 <details>
   <summary>Mural de Estágios</summary>
   <a href="mural/mural-listar.php" target="_corpo">Listar mural</a>
+<?php if ($usuario_logado) { ?>
   <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
   <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
   <hr>
   <a href="alunos/atualizar/seleciona_termo.php" target="_corpo">Termo de Compromisso</a>
   <a href="mural/historico.php" target="_corpo">Histórico</a>
+<?php } ?>
 </details>
+
+<?php if ($usuario_logado) { ?>
 
 <details>
   <summary>Instituições</summary>
@@ -108,15 +117,19 @@ if (!isset($isAdmin)) { $isAdmin = false; }
   <a href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj" target="_top">Lista de discussão</a>
 </details>
 
+<?php } // end $usuario_logado ?>
+
 <details>
   <summary>Eventos</summary>
   <a href="http://web.intranet.ess.ufrj.br/ocs/index.php/estagio/estagioI" target="_corpo">I Seminário Regional</a>
 </details>
 
+<?php if ($usuario_logado) { ?>
 <details>
   <summary>Manual do aluno</summary>
   <a href="http://localhost/wiki/doku.php?id=estagio" target="_corpo">Abrir manual</a>
 </details>
+<?php } ?>
 
 </nav>
 

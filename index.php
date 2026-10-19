@@ -29,8 +29,11 @@ if ($usuario_logado) {
     }
 }
 
-// Determine initial iframe content
-$pagina_inicial = $usuario_logado ? 'capa_logado.php' : 'login.php';
+// Determine initial iframe content.
+// Unauthenticated users land on the mural listing (current period) so they
+// can see available offers without logging in. Login is required only for
+// actions (add/edit/delete/inscribe).
+$pagina_inicial = $usuario_logado ? 'capa_logado.php' : 'mural/mural-listar.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
