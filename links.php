@@ -18,9 +18,9 @@ if (!isset($isAdmin)) { $isAdmin = false; }
 
 <details>
   <summary>Mural de Estágios</summary>
-  <a href="mural/ver-mural.php" target="_corpo">Listar mural</a>
-  <a href="mural/mural_inserir.php" target="_corpo">Inserir mural</a>
-  <a href="mural/ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
+  <a href="mural/mural-listar.php" target="_corpo">Listar mural</a>
+  <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
+  <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
   <hr>
   <a href="alunos/atualizar/seleciona_termo.php" target="_corpo">Termo de Compromisso</a>
   <a href="mural/historico.php" target="_corpo">Histórico</a>

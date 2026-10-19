@@ -69,15 +69,7 @@ if ($muralestagio_id > 0) {
 		exit;
 	}
 
-	$nova = new Inscricao();
-	$nova->registro        = (int)$registro;
-	$nova->muralestagio_id = $muralestagio_id;
-	$nova->data            = date("Y-m-d");
-	$nova->periodo         = $periodo;
-	$nova->aluno_id        = $aluno_id;
-
-	if (!$nova->save()) {
-		error_log("Erro ao inserir inscricao: " . ADODB_Model::$db->ErrorMsg());
+	if (Inscricao::inscrever($registro, $muralestagio_id, $aluno_id, $periodo, date("Y-m-d")) === null) {
 		die("Não foi possível inserir o registro na tabela inscricoes");
 	}
 

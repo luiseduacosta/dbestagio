@@ -8,13 +8,13 @@
 <td>
 <a class="item1 left" href="javascript:void(0)">ADMINISTRAÇÃO</a>
 <div class="section">
-    <a class="item2" href="mural_inserir.php" target="_corpo">
+    <a class="item2" href="mural-inserir.php" target="_corpo">
     Inserir</a>
     <a class="item2" href="seleciona.php?opcao=modificar" target="_corpo">
     Modificar</a>
-    <a class="item2" href="ver_cada.php?indice=0" target="_corpo">
+    <a class="item2" href="mural-ver_cada.php?indice=0" target="_corpo">
     Ver cada instituição</a>
-    <a class="item2" href="ver-mural.php" target="_corpo">
+    <a class="item2" href="mural-listar.php" target="_corpo">
     Listar todas instituições</a>
     <a class="item2" href="inscritos.php" target="_corpo">
     Listar alunos</a>

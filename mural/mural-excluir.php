@@ -1,6 +1,6 @@
 <?php
 /**
- * excluir.php — Front-controller da exclusão de uma oferta do mural.
+ * mural-excluir.php — Front-controller da exclusão de uma oferta do mural.
  *
  * Mantém o endpoint usado pela ficha da oferta (ver_cada) e delega toda a
  * lógica ao MuralestagiosController. Exige login e não permite excluir a

@@ -1,0 +1,165 @@
+{
+  "version": 2,
+  "rootId": "__root__",
+  "objects": {
+    "__root__": {
+      "id": "__root__",
+      "type": "frame",
+      "name": "Root",
+      "parentId": null,
+      "frameId": null,
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [
+        "s_mver7s42_1",
+        "s_mverwqaz_2"
+      ]
+    },
+    "s_mver7s42_1": {
+      "id": "s_mver7s42_1",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 12000,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "41aa3636",
+      "embeddedArtifact": {
+        "id": "41aa3636",
+        "kind": "html",
+        "versionId": "41aa3636-v1"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mverwqaz_2": {
+      "id": "s_mverwqaz_2",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 12000,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "41aa3636",
+      "embeddedArtifact": {
+        "id": "41aa3636",
+        "kind": "html",
+        "versionId": "41aa3636-v2"
+      },
+      "devicePreset": "desktop"
+    }
+  },
+  "motion": {
+    "version": 1,
+    "timelines": {}
+  },
+  "rendererReplayWatermarkTurnId": "turn_eb9e25bb9e3943a5b075b616b433081f",
+  "codeBindings": [
+    {
+      "id": "binding_s_mver7s42_1_kun-design_d4523f2e_41aa3636_v1_html",
+      "designObjectId": "s_mver7s42_1",
+      "kind": "file",
+      "target": {
+        "sourceFile": ".kun-design/d4523f2e/41aa3636/v1.html"
+      },
+      "status": "active",
+      "createdAt": "2026-10-19T04:47:46.754Z",
+      "updatedAt": "2026-10-19T04:47:46.754Z",
+      "metadata": {
+        "tagName": "main",
+        "text": "Estágio ESS/UFRJ — marca principal e variantes Marca principal MARCA PRINCIPAL ASSINATURA VERTICAL Estágio ESS/UFRJ COORDENAÇÃO DE ESTÁGIO E EXTENSÃO SÍMBOLO DE PERCURSO AZUL INSTITUCIONAL · 0B5CAB 02 · Assinatura horizontal 2 CORES Estágio",
+        "rect": {
+          "left": 4044,
+          "top": 77,
+          "width": 1128,
+          "height": 14287
+        }
+      }
+    },
+    {
+      "id": "binding_s_mverwqaz_2_kun-design_d4523f2e_41aa3636_v2_html",
+      "designObjectId": "s_mverwqaz_2",
+      "kind": "file",
+      "target": {
+        "sourceFile": ".kun-design/d4523f2e/41aa3636/v2.html"
+      },
+      "status": "stale",
+      "createdAt": "2026-10-19T04:51:28.066Z",
+      "updatedAt": "2026-10-19T04:51:37.079Z",
+      "metadata": {
+        "tagName": "main",
+        "text": "Estágio ESS/UFRJ — marca principal e variantes Marca principal MARCA PRINCIPAL ASSINATURA VERTICAL Estágio ESS/UFRJ COORDENAÇÃO DE ESTÁGIO E EXTENSÃO SÍMBOLO DE PERCURSO AZUL INSTITUCIONAL · 0B5CAB 02 · Assinatura horizontal 2 CORES Estágio",
+        "rect": {
+          "left": 4044,
+          "top": 91,
+          "width": 1128,
+          "height": 14273
+        }
+      }
+    },
+    {
+      "id": "binding_s_mverwqaz_2_main_kun-design_d4523f2e_41aa3636_v2_html",
+      "designObjectId": "s_mverwqaz_2",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d4523f2e/41aa3636/v2.html",
+        "domId": "main"
+      },
+      "status": "active",
+      "createdAt": "2026-10-19T04:51:37.079Z",
+      "updatedAt": "2026-10-19T04:56:35.505Z",
+      "metadata": {
+        "tagName": "main",
+        "text": "SISTEMA DE MARCA · VERSÃO 2 Estágio ESS/UFRJ Símbolo, assinatura e aplicação digital do mural de estágios da Escola de Serviço Social. 2026.2 PERÍODO 18 OFERTAS ABERTAS 62 VAGAS DADOS DE EXEMPLO Baixar símbolo SVG Ver aplicação no mural Mar",
+        "rect": {
+          "left": 4044,
+          "top": 105,
+          "width": 1128,
+          "height": 14259
+        }
+      }
+    }
+  ]
+}

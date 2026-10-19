@@ -20,7 +20,7 @@
 	<script>
 		function barra() {
 			var valor = document.getElementById("barra_indice").value;
-			window.location = "ver_cada.php?indice=" + valor;
+			window.location = "mural-ver_cada.php?indice=" + valor;
 			return true;
 			// alert("Hola" + valor);
 		}
@@ -323,9 +323,9 @@
 							{if $isAdmin}
 							<span class="botao">
 								{if $muralestagio_id == ""}
-								<a href="excluir.php?muralestagio_id={$instituicao[item].muralestagio_id}">Excluir</a>
+								<a href="mural-excluir.php?muralestagio_id={$instituicao[item].muralestagio_id}">Excluir</a>
 								{else}
-								<a href="excluir.php?muralestagio_id={$muralestagio_id}">Excluir</a>
+								<a href="mural-excluir.php?muralestagio_id={$muralestagio_id}">Excluir</a>
 								{/if}
 							</span>
 							{/if}

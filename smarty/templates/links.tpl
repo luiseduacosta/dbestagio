@@ -130,9 +130,9 @@ Entrar
 <img src="../mygosumenu/1.3/images/arrow1.gif" width="11" height="11">
 </a>
 <div class="section">
-    <a class="box2" href="mural/ver-mural.php" target="_corpo">
+    <a class="box2" href="mural/mural-listar.php" target="_corpo">
     Listar mural total</a><br />
-    <a class="box2" href="mural/ver_cada.php?opcao=1&indice=0" target="_corpo">
+    <a class="box2" href="mural/mural-ver_cada.php?opcao=1&indice=0" target="_corpo">
     Ver cada mural</a><br />
     <a class="box2" href="mural/inscritos.php" target="_corpo">
     Total de alunos</a><br />

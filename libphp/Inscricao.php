@@ -96,6 +96,41 @@ class Inscricao extends ADODB_Model {
     }
 
     /**
+     * Grava uma inscrição de aluno em uma oferta do mural.
+     *
+     * Compartilhada pelas três telas que inscrevem alunos: o formulário do
+     * módulo de inscrições (registro já existente), o cadastro público do
+     * candidato novo e a atualização da ficha no mural.
+     *
+     * @param int    $registro        Matrícula do aluno.
+     * @param int    $muralestagio_id Oferta do mural.
+     * @param int    $aluno_id        Id do aluno (alunos.id).
+     * @param string $periodo         Período da inscrição.
+     * @param string $data            Data da inscrição (Y-m-d).
+     * @param bool   $comTimestamp    Preenche timestamp com o instante atual.
+     * @return Inscricao|null Modelo gravado, ou null quando a gravação falha.
+     */
+    public static function inscrever($registro, $muralestagio_id, $aluno_id, $periodo, $data, $comTimestamp = false) {
+        $inscricao = new Inscricao();
+        $inscricao->registro        = (int)$registro;
+        $inscricao->muralestagio_id = (int)$muralestagio_id;
+        $inscricao->aluno_id        = (int)$aluno_id;
+        $inscricao->periodo         = $periodo;
+        $inscricao->data            = $data;
+
+        if ($comTimestamp) {
+            $inscricao->timestamp = date('Y-m-d H:i:s');
+        }
+
+        if (!$inscricao->save()) {
+            error_log("Erro ao inserir inscricao: " . ADODB_Model::$db->ErrorMsg());
+            return null;
+        }
+
+        return $inscricao;
+    }
+
+    /**
      * Lista inscrições (com aluno e oferta), opcionalmente filtradas por oferta.
      *
      * @param string $periodo         Período ('' = todos).

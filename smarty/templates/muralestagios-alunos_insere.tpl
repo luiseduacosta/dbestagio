@@ -122,7 +122,7 @@ $(function() {
 
 <div align="center" id="formulario_insere_aluno" style="visibility: visible">
 
-<form method="post" action="cadastro.php" name="inserir_aluno" id="inserir_aluno">
+<form method="post" action="mural-aluno_inscricao.php" name="inserir_aluno" id="inserir_aluno">
 
 <table border="1">
 <caption>Inserir aluno novo para seleção de estágio em {$instituicao}</caption>

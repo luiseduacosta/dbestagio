@@ -68,7 +68,7 @@ function verificaConvenio() {
 
 <span id="aviso"></span>
 
-<form name="cadastro" id="cadastro" action="mural_inserir.php" method="post" onSubmit="return verificaConvenio();">
+<form name="cadastro" id="cadastro" action="mural-inserir.php" method="post" onSubmit="return verificaConvenio();">
 
 <div align="center">
 <table border="1">

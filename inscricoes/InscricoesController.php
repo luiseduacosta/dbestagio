@@ -167,16 +167,14 @@ class InscricoesController {
 				die("Nenhum aluno encontrado com o registro {$dados['registro']}.");
 			}
 
-			$nova = new Inscricao();
-			$nova->registro        = $dados['registro'];
-			$nova->muralestagio_id = $dados['muralestagio_id'];
-			$nova->data            = $dados['data'];
-			$nova->periodo         = $dados['periodo'];
-			$nova->aluno_id        = $aluno['id'];
-			$nova->timestamp       = date('Y-m-d H:i:s');
-
-			if (!$nova->save()) {
-				error_log("Erro ao inserir inscricao: " . ADODB_Model::$db->ErrorMsg());
+			if (Inscricao::inscrever(
+				$dados['registro'],
+				$dados['muralestagio_id'],
+				$aluno['id'],
+				$dados['periodo'],
+				$dados['data'],
+				true
+			) === null) {
 				die("Não foi possível inserir o registro na tabela inscricoes.");
 			}
 
@@ -403,6 +401,12 @@ class InscricoesController {
 		if ($isAluno) {
 			$filtro_aluno_id  = $this->alunoIdLogado();
 			$filtro_aluno_reg = $this->alunoRegistroLogado();
+
+			// Sem vínculo com a tabela alunos não há como restringir a
+			// consulta: falha fechado em vez de listar as inscrições de todos.
+			if ($filtro_aluno_id <= 0 && $filtro_aluno_reg === '') {
+				die("Usuário aluno sem cadastro de aluno vinculado.");
+			}
 		} else {
 			$filtro_aluno_id  = 0;
 			$filtro_aluno_reg = '';

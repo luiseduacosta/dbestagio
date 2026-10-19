@@ -78,12 +78,11 @@ php -S localhost:8080 -t /home/luis/html/dbestagio
 
 ### Database
 
-No SQL schema dump is committed. Credentials are **hard-coded in three places** and must be
+No SQL schema dump is committed. Credentials are **hard-coded in two places** and must be
 changed together:
 
 - `setup.php`
 - `db.inc` (minimal connection only, no `configuracoes` load)
-- `mural/database.inc` (phpMyEdit `$opts`)
 
 Default dev values: host `localhost`, user `root`, password `root`, database `ess_apps`.
 A `mysql`/`mariadb` client is available on the dev machine.
