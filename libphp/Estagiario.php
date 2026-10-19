@@ -183,6 +183,27 @@ class Estagiario extends ADODB_Model {
     }
 
     /**
+     * Contagem de estagiários por período (para o gráfico de alunos por
+     * período). Uma única consulta agregada, sem laços N+1.
+     */
+    public static function contagemPorPeriodo() {
+        $db = static::db();
+        $rs = $db->Execute("SELECT periodo, COUNT(*) AS quantidade"
+            . " FROM estagiarios GROUP BY periodo ORDER BY periodo");
+        $out = array();
+        if ($rs) {
+            while (!$rs->EOF) {
+                $out[] = array(
+                    'periodo'    => $rs->fields['periodo'],
+                    'quantidade' => (int)$rs->fields['quantidade'],
+                );
+                $rs->MoveNext();
+            }
+        }
+        return $out;
+    }
+
+    /**
      * Lista de alunos (para o select do formulário).
      */
     public static function alunos() {

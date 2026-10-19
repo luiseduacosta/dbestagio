@@ -1,95 +1,113 @@
 <?php
+/**
+ * graficos.php — Alunos em estágio por período (gráfico de barras).
+ *
+ * Substitui a antiga geração de PNG no servidor (Libchart/JpGraph e a
+ * desativada Google Image Charts API) por um gráfico Chart.js no navegador,
+ * com os dados vindos de uma única consulta agregada (Estagiario::contagemPorPeriodo).
+ */
 
-include_once("../../setup.php");
-include_once("../../libphp/libchart-1.2.1/libchart/classes/libchart.php");
+require_once(__DIR__ . "/../../autentica.inc");
+require_once(__DIR__ . "/../../libphp/models.php");
 
-echo "
+$dados = Estagiario::contagemPorPeriodo();
+
+$periodos    = array();
+$quantidades = array();
+foreach ($dados as $d) {
+	$periodos[]    = $d['periodo'];
+	$quantidades[] = $d['quantidade'];
+}
+$total = array_sum($quantidades);
+
+// json_encode com HEX_TAG evita "</script>" no meio do bloco de dados.
+$periodos_json    = json_encode($periodos, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
+$quantidades_json = json_encode($quantidades, JSON_HEX_TAG);
+
+header("Content-Type: text/html; charset=utf-8");
+echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
+	\"http://www.w3.org/TR/html4/loose.dtd\">
 <html>
-<head></head>
+<head>
+<meta charset=\"utf-8\">
+<link href=\"../../estagio.css\" rel=\"stylesheet\" type=\"text/css\">
+<title>Gráfico - Alunos por período</title>
+</head>
 <body>
-<img alt='Alunos por período' src='generated/estagio.png' style='border: 1px solid gray;'/>
-<table border='1'>
+
+<a href=\"javascript:history.back();\">Voltar</a><br>
+
+<div align=\"center\">
+<h3>Alunos em estágio por período — ESS/UFRJ</h3>
+<div style=\"max-width: 700px;\">
+<canvas id=\"grafico_alunos\" role=\"img\" aria-label=\"Gráfico de barras: alunos em estágio por período\"></canvas>
+</div>
+</div>
+
+<table class=\"ficha\">
+<caption>Alunos em estágio por período (total: $total)</caption>
 <thead>
 <tr><th>Período</th><th>Alunos</th></tr>
 </thead>
 <tbody>
 ";
 
-$chart = new VerticalBarChart(500, 250);
-$dataSet = new XYDataSet();
-
-$sql_periodo = "select periodo from estagiarios group by periodo order by periodo";
-// echo $sql_periodo . "<br>";
-$resultado_periodo = $db->Execute($sql_periodo);
-while (!$resultado_periodo->EOF) {
-
-	$periodo = $resultado_periodo->fields['periodo'];
-	$sql = "select id from estagiarios where periodo='$periodo'";
-	// echo $sql . "<br>";
-	$resultado = $db->Execute($sql);
-	$quantidade = $resultado->RecordCount();
-
-	$periodos[] = $periodo;
-	$alunos[]   = $quantidade;
-
-	$dataSet->addPoint(new Point("$periodo", $quantidade));
-
-	echo "
-    <tr><td style='text-align:center'>$periodo</td><td style='text-align:right'>$quantidade</td></tr>
-    ";
-
-	$resultado_periodo->MoveNext();
+foreach ($dados as $d) {
+	$periodo = htmlspecialchars((string)$d['periodo'], ENT_QUOTES, 'UTF-8');
+	$quantidade = (int)$d['quantidade'];
+	echo "<tr><td>$periodo</td><td class=\"coluna_centralizada\">$quantidade</td></tr>\n";
 }
 
-$chart->setDataSet($dataSet);
-
-$chart->setTitle("Alunos em estágio por período - ESS/UFRJ");
-$chart->render("generated/estagio.png");
-
-echo "
-</tbody>
+echo "</tbody>
 </table>
-";
-// print_r($alunos);
 
-for ($i=0; $i<sizeof($alunos); $i++) {
-	if ($i > 0) {
-		$variavel .= "," . $alunos[$i];
-	} else {
-		$variavel = $alunos[$i];
+<script src=\"../../libjs/chartjs/chart.umd.js\"></script>
+<script>
+var periodos = $periodos_json;
+var quantidades = $quantidades_json;
+
+new Chart(document.getElementById('grafico_alunos'), {
+	type: 'bar',
+	data: {
+		labels: periodos,
+		datasets: [{
+			label: 'Alunos',
+			data: quantidades,
+			backgroundColor: 'rgba(232, 145, 45, 0.75)',
+			borderColor: 'rgba(160, 90, 15, 1)',
+			borderWidth: 1
+		}]
+	},
+	options: {
+		responsive: true,
+		plugins: {
+			legend: { display: false },
+			title: {
+				display: true,
+				text: 'Alunos em estágio por período — ESS/UFRJ'
+			},
+			tooltip: {
+				callbacks: {
+					label: function (ctx) {
+						return ctx.parsed.y + ' aluno(s)';
+					}
+				}
+			}
+		},
+		scales: {
+			x: {
+				title: { display: true, text: 'Períodos' }
+			},
+			y: {
+				beginAtZero: true,
+				ticks: { precision: 0 },
+				title: { display: true, text: 'Alunos' }
+			}
+		}
 	}
-        // echo $variavel;
-}
+});
+</script>
 
-var_dump($periodos);
-for ($i=0; $i<sizeof($periodos); $i++) {
-	if ($i > 0) {
-		$var_periodo .= "|" . $periodos[$i];
-	} else {
-		$var_periodo = $periodos[$i];
-	}
-        echo $var_periodo;
-}
-
-echo "
-<img src=\"http://chart.apis.google.com/chart?
-cht=bvg&amp
-chco=4D89F9&amp
-chs=500x200&amp
-chtt=Alunos+em+estagio+por+periodo&amp
-chd=t:$variavel&amp
-chds=0,350&amp
-chxt=x,x,y,y&amp
-chxl=0:|$var_periodo|1:|Periodos|3:|Alunos&amp
-chxp=1,50|3,50&amp
-chxr=2,0,300&amp
-chbh=20,1,20&amp
-chm=N,FF0000,-1,,10\">
-";
-
-echo "
 </body>
 </html>
 ";
-
-?>
