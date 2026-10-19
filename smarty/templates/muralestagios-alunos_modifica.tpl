@@ -14,9 +14,6 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
-<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
-<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 
 {* Calendario *}
 <link rel="stylesheet" type="text/css" href="../../epoch/epoch_styles.css" />
@@ -121,10 +118,6 @@ function confirma() {
 </head>
 
 <body style="direction: ltr;">
-
-{if $sistema_autentica == 1}
-	{include file="muralestagios-menu.tpl"}
-{/if}
 
 <h1>Inscrição em seleção de estágio na instituição {$instituicao}</h1>
 

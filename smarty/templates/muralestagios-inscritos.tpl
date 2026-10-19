@@ -9,17 +9,10 @@
 	<meta http-equiv="Content-Style-Type" content="text/css">
 	<meta name="description" content="Alunos inscritos nas ofertas do mural de estágios">
 	<link rel="stylesheet" type="text/css" href="../estagio.css">
-	<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css">
 	<link rel="stylesheet" type="text/css" href="../libjs/datatables/dataTables.min.css">
-	<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-	<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 </head>
 
 <body style="direction: ltr;">
-
-{if $sistema_autentica == 1}
-	{include file="muralestagios-menu.tpl"}
-{/if}
 
 <h1>Alunos inscritos no mural{if $periodo != ''} - Turma {$periodo}{else} - todos os períodos{/if}</h1>
 

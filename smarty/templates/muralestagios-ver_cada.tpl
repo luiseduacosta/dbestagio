@@ -13,9 +13,6 @@
 	<style type="text/css">
 		@import url("../estagio.css");
 	</style>
-	<link rel="stylesheet" type="text/css" href="../lib/mygosumenu/1.0/example1.css" />
-	<script type="text/javascript" src="../lib/mygosumenu/ie5.js"></script>
-	<script type="text/javascript" src="../lib/mygosumenu/1.0/DropDownMenu1.js"></script>
 	{literal}
 	<script>
 		function barra() {
@@ -29,10 +26,6 @@
 </head>
 
 <body>
-
-	{if $sistema_autentica == 1}
-	{include file="muralestagios-menu.tpl"}
-	{/if}
 
 	<p><a href="javascript:history.back(1)">Voltar</a></p>
 
