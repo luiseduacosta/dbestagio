@@ -37,9 +37,21 @@ class InstituicoesController {
 	 * libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $usuario_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
+	}
+
+	/**
+	 * Garante que o usuário autenticado é administrador. Somente admin
+	 * cadastra, edita, exclui instituições ou vincula supervisores; os demais
+	 * papéis (inclusive professor) apenas visualizam a ficha.
+	 */
+	private function exigirAdmin() {
+		global $isAdmin;
+		if (empty($isAdmin)) {
+			die("Acesso restrito: somente administradores podem cadastrar, editar ou excluir instituições.");
+		}
 	}
 
 	/**
@@ -107,6 +119,7 @@ class InstituicoesController {
 	public function inserir() {
 		global $db, $sistema_autentica, $usuario_id;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$confirma = isset($_POST['inserir']) ? $_POST['inserir'] : null;
 
@@ -206,6 +219,7 @@ class InstituicoesController {
 	public function atualizar() {
 		global $sistema_autentica;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
 		$inst = Instituicao::find($instituicao_id);
@@ -307,7 +321,7 @@ class InstituicoesController {
 	 * Substitui instituicoes/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
-		global $db, $sistema_autentica, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $usuario_id;
 		$this->comAutenticacao();
 
 		$instituicao_id = isset($_REQUEST['instituicao_id'])
@@ -319,6 +333,13 @@ class InstituicoesController {
 		$inserir        = isset($_REQUEST['inserir']) ? $_REQUEST['inserir'] : null;
 		$indice         = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
 		$botao          = isset($_REQUEST['botao']) ? $_REQUEST['botao'] : null;
+
+		// Autorização: professor (e demais não-admin) apenas consulta a ficha.
+		// Criar em branco, editar inline e vincular supervisor são exclusivos
+		// do administrador — bloqueia também requisições forjadas.
+		if (!$isAdmin && ($inserir || $modifica || $supervisor_id > 0)) {
+			$this->exigirAdmin();
+		}
 
 		$curso = false; // este módulo trabalha somente com a tabela instituicoes
 
@@ -505,6 +526,7 @@ class InstituicoesController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("titulo", "Ver cada instituição");
+		$smarty->assign("isAdmin", $isAdmin);
 		$smarty->assign("curso", $curso);
 		$smarty->assign("modifica", $modifica);
 		$smarty->assign("sistema_autentica", $sistema_autentica);
@@ -719,6 +741,7 @@ class InstituicoesController {
 	public function excluir() {
 		global $sistema_autentica;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
 		$indice         = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;

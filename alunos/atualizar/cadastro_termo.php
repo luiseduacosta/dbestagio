@@ -33,7 +33,7 @@ $envio    = $_REQUEST['submit'];
 $cadastro = $_REQUEST['valorcadastro'];
 
 // Aluno - Usando modelo Aluno
-$aluno = Aluno::firstWhere("registro = ?", array($registro));
+$aluno = Aluno::firstWhere("registro", (int)$registro);
 if (!$aluno) die ("Nao foi possivel consultar a tabela alunos");
 
 $aluno_id = $aluno->id;

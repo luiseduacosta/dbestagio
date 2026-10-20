@@ -25,6 +25,10 @@ $usuario_nome = $usuario_logado ? $sessao['nome'] : '';
 $role = ($usuario_logado && isset($sessao['role'])) ? $sessao['role'] : '';
 $isAdmin = ($role === 'admin');
 $isAluno = ($role === 'aluno');
+$isProfessor = ($role === 'professor');
+
+// Id da entidade do próprio usuário (para o link "Meu cadastro" no menu).
+$usuario_professor_id = ($usuario_logado && isset($sessao['professor_id'])) ? (int)$sessao['professor_id'] : 0;
 
 // Determine initial iframe content.
 // Unauthenticated users land on the mural listing (current period) so they

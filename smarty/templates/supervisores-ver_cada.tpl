@@ -21,6 +21,8 @@ function get_periodo() {
 
 <main class="mural-page">
 
+	{* Barra de navegação: exclusiva do administrador. *}
+	{if $isAdmin}
 	<table id="navegacao" class="toolbar">
 	<tbody>
 	<tr>
@@ -97,6 +99,7 @@ function get_periodo() {
 	</tr>
 	</tbody>
 	</table>
+	{/if}
 
 	<header class="page-head">
 		<div class="page-heading">
@@ -104,6 +107,7 @@ function get_periodo() {
 			<h1>Supervisor: {$nome}<span>{$cress}{if $cress} · {/if}{$escola}</span></h1>
 		</div>
 
+		{if $isAdmin}
 		<form class="periodo-form">
 			<label for="periodo">Período</label>
 			<select name="periodo" id="periodo" size="1" onChange="get_periodo();">
@@ -117,6 +121,7 @@ function get_periodo() {
 			{/foreach}
 			</select>
 		</form>
+		{/if}
 	</header>
 
 	<table class="ficha card-table">
@@ -156,7 +161,9 @@ function get_periodo() {
 		<th>Instituição vinculada</th>
 		<td>
 			<a href="../instituicoes/ver_cada.php?instituicao_id={$emp.id}">{$emp.instituicao}</a>
+			{if $isAdmin}
 			&nbsp;<a class="btn btn-danger btn-sm" href="inst_supervisor.php?supervisor_id={$supervisor_id}&instituicao_id={$emp.id}" onclick="return confirm('Desvincular esta instituição?');">Desvincular</a>
+			{/if}
 		</td>
 	</tr>
 	{/foreach}
@@ -165,6 +172,8 @@ function get_periodo() {
 	</tbody>
 	</table>
 
+	{* Vincular instituição: exclusivo do administrador. *}
+	{if $isAdmin}
 	<section class="table-shell" aria-label="Vincular instituição">
 		<form name="sel_instituicao" action="ver_cada.php" method="POST" class="periodo-form">
 			<label for="num_instituicao">Vincular instituição</label>
@@ -179,6 +188,7 @@ function get_periodo() {
 			<button type="submit" class="btn btn-sm">Acrescentar instituição</button>
 		</form>
 	</section>
+	{/if}
 
 	{if $alunos}
 	<section class="table-shell" aria-label="Alunos supervisionados">
@@ -207,7 +217,9 @@ function get_periodo() {
 	{/if}
 
 	<div class="action-row">
+		{if $pode_editar}
 		<a class="action-btn" href="atualizar.php?supervisor_id={$supervisor_id}">Editar dados do supervisor</a>
+		{/if}
 		<a class="btn btn-secondary" href="listar.php">Voltar para a listagem</a>
 	</div>
 

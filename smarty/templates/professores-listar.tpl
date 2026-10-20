@@ -73,8 +73,10 @@ function carrega_tabela() {
 		<td>
 		<span class="action-links">
 		<a href="ver_cada.php?professor_id={$p.id}">Ver</a>
+		{if $isAdmin}
 		<a href="atualizar.php?professor_id={$p.id}">Editar</a>
 		<a class="is-danger" href="excluir.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
+		{/if}
 		</span>
 		</td>
 		</tr>

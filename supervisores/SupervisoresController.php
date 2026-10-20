@@ -191,7 +191,7 @@ class SupervisoresController {
 	 * Substitui supervisores/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
-		global $isAdmin;
+		global $isAdmin, $isSupervisor, $usuario_supervisor_id;
 		$this->comAutenticacao();
 
 		$indice        = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;
@@ -246,8 +246,12 @@ class SupervisoresController {
 				: "Nenhum supervisor cadastrado.");
 		}
 
-		// Vincula instituição caso submetido o formulário inline
+		// Vincula instituição caso submetido o formulário inline. Somente
+		// administradores gerenciam os vínculos do supervisor.
 		if (!empty($_POST['num_instituicao'])) {
+			if (!$isAdmin) {
+				die("Acesso restrito: somente administradores podem vincular instituições a um supervisor.");
+			}
 			$num_instituicao = (int)$_POST['num_instituicao'];
 			if ($num_instituicao > 0) {
 				$supervisor->vincularInstituicao($num_instituicao);
@@ -298,6 +302,9 @@ class SupervisoresController {
 		// Necessário para o template decidir se mostra o link [Sincronizar],
 		// cujo destino é restrito a administradores.
 		$smarty->assign("isAdmin", $isAdmin);
+		// Editar o cadastro: admin ou o próprio supervisor.
+		$pode_editar = $isAdmin || ($isSupervisor && (int)$usuario_supervisor_id === (int)$supervisor_id);
+		$smarty->assign("pode_editar", $pode_editar);
 		$smarty->assign("ultimo", ($ultimo > 0) ? $ultimo - 1 : 0);
 		$smarty->assign("indice", $indice);
 		$smarty->assign("supervisor_id", $supervisor_id);
@@ -333,8 +340,13 @@ class SupervisoresController {
 	 * Substitui supervisores/inserir/form_inserir.php + supervisores/inserir/inserir.php.
 	 */
 	public function inserir() {
+		global $isAdmin, $usuario_id;
 		$this->comAutenticacao();
-		global $usuario_id;
+
+		// Apenas administradores cadastram novos supervisores.
+		if (!$isAdmin) {
+			die("Acesso restrito: somente administradores podem cadastrar supervisores.");
+		}
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dados = $this->lerPost();
@@ -623,7 +635,13 @@ class SupervisoresController {
 	 * Substitui supervisores/cancelar/inst_supervisor.php.
 	 */
 	public function inst_supervisor() {
+		global $isAdmin;
 		$this->comAutenticacao();
+
+		// Apenas administradores gerenciam vínculos supervisor x instituição.
+		if (!$isAdmin) {
+			die("Acesso restrito: somente administradores podem desvincular instituições de um supervisor.");
+		}
 
 		$supervisor_id  = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
 		$instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;

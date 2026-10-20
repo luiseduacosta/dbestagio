@@ -142,22 +142,23 @@ class Professor extends ADODB_Model {
     }
 
     /**
-     * Estagiários vinculados ao professor, com instituição e período resolvidos
-     * na própria consulta (sem N+1).
+     * Estagiários vinculados ao professor, com instituição, supervisor e
+     * período resolvidos na própria consulta (sem N+1).
      */
     public static function estagiarios($professor_id, $ordem = 'e.periodo') {
         $db = static::db();
-        $ordens_validas = array('e.periodo', 'a.nome', 'a.registro', 'i.instituicao');
+        $ordens_validas = array('e.periodo', 'e.nivel', 'a.nome', 'a.registro', 'i.instituicao', 's.nome');
         if (!in_array($ordem, $ordens_validas, true)) {
             $ordem = 'e.periodo';
         }
         $rs = $db->Execute(
             "SELECT e.id AS estagiario_id, a.id AS aluno_id, a.registro, a.nome AS aluno_nome, "
-            . "e.periodo, e.nivel, i.id AS instituicao_id, i.instituicao, ar.area "
+            . "e.periodo, e.nivel, e.nota, e.ch, i.id AS instituicao_id, i.instituicao, "
+            . "e.supervisor_id, s.nome AS supervisor_nome "
             . "FROM estagiarios e "
             . "JOIN alunos a ON a.id = e.aluno_id "
             . "LEFT JOIN instituicoes i ON i.id = e.instituicao_id "
-            . "LEFT JOIN areas ar ON ar.id = i.area "
+            . "LEFT JOIN supervisores s ON s.id = e.supervisor_id "
             . "WHERE e.professor_id = ? ORDER BY " . $ordem,
             array((int)$professor_id)
         );
@@ -173,9 +174,13 @@ class Professor extends ADODB_Model {
                 'aluno_nome'      => $rs->fields['aluno_nome'],
                 'periodo'         => $rs->fields['periodo'],
                 'nivel'           => $rs->fields['nivel'],
+                // Nota e carga horária: campos lançados pelo professor responsável.
+                'nota'            => ($rs->fields['nota'] !== null) ? $rs->fields['nota'] : '',
+                'ch'              => ($rs->fields['ch'] !== null) ? (int)$rs->fields['ch'] : '',
                 'instituicao_id'  => (int)$rs->fields['instituicao_id'],
                 'instituicao'     => ($rs->fields['instituicao'] !== null) ? $rs->fields['instituicao'] : 'Sem dados',
-                'area'            => $rs->fields['area'],
+                'supervisor_id'   => (int)$rs->fields['supervisor_id'],
+                'supervisor'      => ($rs->fields['supervisor_nome'] !== null) ? $rs->fields['supervisor_nome'] : '',
             );
             $rs->MoveNext();
         }

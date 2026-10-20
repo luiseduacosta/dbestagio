@@ -35,7 +35,7 @@ function escolaImagem() {
 <strong>
 <font size="+2">Escola de Serviço Social</font>
 <br />
-<font size="+2">Coordenação de Estágio e Extens&atilde;o</font>
+<font size="+2">Coordenação de Estágio e Extensão</font>
 </strong>
 
 <br />
