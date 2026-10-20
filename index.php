@@ -19,21 +19,29 @@ $sessao = sessao_usuario_atual();
 $usuario_logado = ($sessao !== null);
 $usuario_nome = $usuario_logado ? $sessao['nome'] : '';
 
-// Set $isAdmin for links.php
-$isAdmin = false;
-if ($usuario_logado) {
-    // 'role' vem mapeado de sessao_usuario_atual() a partir da coluna real
-    // `categoria` (a tabela users não tem coluna `role`).
-    if (isset($sessao['role']) && $sessao['role'] === 'admin') {
-        $isAdmin = true;
-    }
-}
+// Set role flags for links.php.
+// 'role' vem mapeado de sessao_usuario_atual() a partir da coluna real
+// `categoria` (a tabela users não tem coluna `role`).
+$role = ($usuario_logado && isset($sessao['role'])) ? $sessao['role'] : '';
+$isAdmin = ($role === 'admin');
+$isAluno = ($role === 'aluno');
 
 // Determine initial iframe content.
 // Unauthenticated users land on the mural listing (current period) so they
 // can see available offers without logging in. Login is required only for
 // actions (add/edit/delete/inscribe).
 $pagina_inicial = $usuario_logado ? 'capa_logado.php' : 'mural/mural-listar.php';
+
+// Impersonação: admin visualizando como outro usuário
+$admin_real_id = $usuario_logado ? sessao_admin_real() : 0;
+$imprimindo = ($admin_real_id > 0);
+
+// Se voltando de impersonação, carrega a ficha da entidade no iframe
+// em vez de capa_logado.php. O destino é definido por assumir() na sessão.
+if ($imprimindo && !empty($_SESSION['impersonacao_destino'])) {
+    $pagina_inicial = $_SESSION['impersonacao_destino'];
+    unset($_SESSION['impersonacao_destino']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -51,8 +59,15 @@ $pagina_inicial = $usuario_logado ? 'capa_logado.php' : 'mural/mural-listar.php'
     </div>
     <div class="header-right">
         <?php if ($usuario_logado) { ?>
-            <span class="user-name">Olá, <?php echo htmlspecialchars($usuario_nome); ?></span>
-            <a href="logout.php" class="btn-logout">Sair</a>
+            <?php if ($imprimindo) { ?>
+                <span class="impersonation-banner" style="background:#fff3cd; color:#856404; padding:4px 12px; border-radius:4px; font-size:0.85em;">
+                    Visualizando como: <?php echo htmlspecialchars($usuario_nome); ?>
+                </span>
+                <a href="users/desassumir.php" class="btn-logout" style="background:#dc3545;">Voltar como admin</a>
+            <?php } else { ?>
+                <span class="user-name">Olá, <?php echo htmlspecialchars($usuario_nome); ?></span>
+                <a href="logout.php" class="btn-logout">Sair</a>
+            <?php } ?>
         <?php } else { ?>
             <a href="login.php" target="_corpo" class="btn-login">Entrar</a>
         <?php } ?>

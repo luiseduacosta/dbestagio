@@ -1,19 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html lang="pt-br">
-
+<!doctype html>
+<html lang="pt-BR">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inserir/atualizar aluno</title>
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Script-Type" content="text/javascript">
-<meta http-equiv="Content-Style-Type" content="text/css">
-<meta name="author" content="Luis Acosta">
-<meta name="generator" content="screem 0.12.1">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<style type="text/css">
-@import url("../estagio.css");
-</style>
+<link rel="stylesheet" href="../../estagio.css">
+<link rel="stylesheet" href="../../estagio-moderno.css">
+
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {
@@ -37,16 +30,27 @@ function verificaRegistro() {
 {/literal}
 </head>
 
-<body>
+<body id="corpo">
 
-<h1>Inserir/atualizar aluno</h1>
+<main class="mural-page">
 
-<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="inserir.php" enctype="text/html" onSubmit="return verificaRegistro();">
-<h2>Digite o número de registro (DRE):</h2>
-<input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
-<input type="hidden" name="origem" value={$origem}>
-<input type="submit" name="confirma" value="Confirma" size="5">
-</form>
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · Alunos</p>
+			<h1>Inserir/atualizar aluno<span>Digite o número de registro (DRE)</span></h1>
+		</div>
+	</header>
+
+	<section class="table-shell">
+		<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="inserir.php" enctype="text/html" onSubmit="return verificaRegistro();" class="periodo-form">
+			<label for="registro">Registro (DRE)</label>
+			<input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
+			<input type="hidden" name="origem" value={$origem}>
+			<button type="submit" name="confirma" class="btn btn-sm">Confirma</button>
+		</form>
+	</section>
+
+</main>
 
 </body>
 </html>

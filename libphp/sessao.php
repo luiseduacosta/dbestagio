@@ -138,6 +138,48 @@ function sessao_encerrar() {
     setcookie('email', '', time() - 3600, '/');
 }
 
+// ------------------------------------------------------------------
+// Impersonação (admin "assumindo" a identidade de outro usuário)
+// ------------------------------------------------------------------
+
+/**
+ * Inicia a impersonação: o admin atual passa a ser visto como o usuário
+ * alvo. O id real do admin é guardado em $_SESSION['admin_real_id'] para
+ * que sessao_desassumir() possa restaurá-lo. Não regenera o id da sessão
+ * — a impersonação vive na mesma sessão do admin.
+ *
+ * @param int $user_id ID do usuário a ser assumido (não-admin).
+ */
+function sessao_assumir($user_id) {
+    sessao_iniciar();
+    // Guarda o id real do admin apenas na primeira vez (permite aninhar?
+    // Não — mas evita sobrescrever se chamado duas vezes).
+    if (empty($_SESSION['admin_real_id'])) {
+        $_SESSION['admin_real_id'] = $_SESSION['usuario_id'];
+    }
+    $_SESSION['usuario_id'] = (int)$user_id;
+}
+
+/**
+ * Encerra a impersonação: restaura o id do admin real e limpa o marcador.
+ */
+function sessao_desassumir() {
+    sessao_iniciar();
+    if (!empty($_SESSION['admin_real_id'])) {
+        $_SESSION['usuario_id'] = (int)$_SESSION['admin_real_id'];
+        unset($_SESSION['admin_real_id']);
+    }
+}
+
+/**
+ * Retorna o id do admin real quando há impersonação ativa, ou 0 caso
+ * contrário.
+ */
+function sessao_admin_real() {
+    sessao_iniciar();
+    return isset($_SESSION['admin_real_id']) ? (int)$_SESSION['admin_real_id'] : 0;
+}
+
 }
 
 ?>

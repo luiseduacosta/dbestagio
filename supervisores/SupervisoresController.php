@@ -31,7 +31,7 @@ class SupervisoresController {
 	 * Inclui autentica.inc (exige login ativo) e carrega os models.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $isAdmin, $isAluno, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $isSupervisor, $usuario_id, $usuario_supervisor_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 	}
@@ -376,9 +376,17 @@ class SupervisoresController {
 	 * Substitui supervisores/atualizar/modifica.php + supervisores/atualizar/atualiza.php.
 	 */
 	public function atualizar() {
+		global $isAdmin, $isSupervisor, $usuario_supervisor_id;
 		$this->comAutenticacao();
 
+		// Autorização: não-admin só edita o próprio cadastro
 		$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+		if (!$isAdmin) {
+			if (!$isSupervisor || (int)$usuario_supervisor_id !== $supervisor_id) {
+				die("Você só pode editar seu próprio cadastro.");
+			}
+		}
+
 		if ($supervisor_id <= 0) {
 			die("Supervisor inválido.");
 		}
@@ -387,14 +395,29 @@ class SupervisoresController {
 		if ($sup === null) {
 			die("Supervisor não encontrado (id $supervisor_id).");
 		}
+		$sup_user_id_original = $sup->user_id;
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dados = $this->lerPost();
 			$sup->preencher($dados);
 
+			// Não-admin: preserva user_id e sincroniza e-mail para manter
+			// a relação user ↔ supervisor intacta.
+			if (!$isAdmin) {
+				$sup->user_id = $sup_user_id_original;
+			}
+
 			if (!$sup->save()) {
 				error_log("Erro ao atualizar supervisor: " . ADODB_Model::$db->ErrorMsg());
 				die("Não foi possível atualizar a tabela supervisores. Tente novamente.");
+			}
+
+			if (!$isAdmin && !empty($sup->user_id)) {
+				$user = User::find((int)$sup->user_id);
+				if ($user && strtolower($user->email) !== strtolower($sup->email)) {
+					$user->email = $sup->email;
+					$user->save();
+				}
 			}
 
 			header("Location: ver_cada.php?supervisor_id=$supervisor_id");
@@ -431,7 +454,13 @@ class SupervisoresController {
 	 * Substitui supervisores/cancelar/cancela.php.
 	 */
 	public function excluir() {
+		global $isAdmin;
 		$this->comAutenticacao();
+
+		// Apenas administradores podem excluir registros de supervisores
+		if (!$isAdmin) {
+			die("Apenas administradores podem excluir registros de supervisores.");
+		}
 
 		$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
 		$indice        = isset($_REQUEST['indice']) ? (int)$_REQUEST['indice'] : 0;

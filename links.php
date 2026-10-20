@@ -5,9 +5,12 @@
  *
  * Authorization rules:
  *   - Unauthenticated: only "Mural → Listar" and "Eventos" (external links).
- *   - Authenticated:   full menu (with admin sections behind $isAdmin).
+ *   - Aluno:           "Mural → Listar / Ver cada / Termo de Compromisso",
+ *                      "Eventos" and "Manual do aluno" only.
+ *   - Other authenticated (admin etc.): full menu (admin sections behind $isAdmin).
  */
 if (!isset($isAdmin))        { $isAdmin = false; }
+if (!isset($isAluno))        { $isAluno = false; }
 if (!isset($usuario_logado)) { $usuario_logado = false; }
 ?>
 <nav class="sidebar-nav">
@@ -21,19 +24,30 @@ if (!isset($usuario_logado)) { $usuario_logado = false; }
 </details>
 <?php } ?>
 
+<?php if (isset($imprimindo) && $imprimindo) { ?>
+<details open>
+  <summary>Impersonação ativa</summary>
+  <a href="users/desassumir.php" target="_top">Voltar como admin</a>
+</details>
+<?php } ?>
+
 <details>
   <summary>Mural de Estágios</summary>
   <a href="mural/mural-listar.php" target="_corpo">Listar mural</a>
 <?php if ($usuario_logado) { ?>
+<?php if (!$isAluno) { ?>
   <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
+<?php } ?>
   <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
   <hr>
   <a href="alunos/atualizar/seleciona_termo.php" target="_corpo">Termo de Compromisso</a>
+<?php if (!$isAluno) { ?>
   <a href="mural/historico.php" target="_corpo">Histórico</a>
+<?php } ?>
 <?php } ?>
 </details>
 
-<?php if ($usuario_logado) { ?>
+<?php if ($usuario_logado && !$isAluno) { ?>
 
 <details>
   <summary>Instituições</summary>

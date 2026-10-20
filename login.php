@@ -42,6 +42,9 @@ sessao_encerrar();
 		<p style="text-align:center; margin-top:16px;">
 			Não tem conta? <a href="users/registrar.php" style="color:var(--mural-accent); font-weight:600;">Cadastrar-se</a>
 		</p>
+		<p style="text-align:center; margin-top:8px;">
+			<a href="users/recuperar.php" style="color:var(--mural-line-strong); font-size: 0.9em;">Esqueci minha senha</a>
+		</p>
 	</main>
 </body>
 </html>

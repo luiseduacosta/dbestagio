@@ -37,7 +37,7 @@ class ProfessoresController {
 	 * libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $isAdmin, $isAluno, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $isProfessor, $usuario_id, $usuario_professor_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 	}
@@ -352,13 +352,22 @@ class ProfessoresController {
 	 * Substitui professores/atualizar/atualiza.php.
 	 */
 	public function atualizar() {
+		global $isAdmin, $isProfessor, $usuario_professor_id;
 		$this->comAutenticacao();
 
+		// Autorização: não-admin só edita o próprio cadastro
 		$professor_id = isset($_REQUEST['professor_id']) ? (int)$_REQUEST['professor_id'] : 0;
+		if (!$isAdmin) {
+			if (!$isProfessor || (int)$usuario_professor_id !== $professor_id) {
+				die("Você só pode editar seu próprio cadastro.");
+			}
+		}
+
 		$prof = Professor::find($professor_id);
 		if ($prof === null) {
 			die("Professor não encontrado (id $professor_id).");
 		}
+		$prof_user_id_original = $prof->user_id;
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dados = $this->lerPost();
@@ -371,9 +380,23 @@ class ProfessoresController {
 			$prof->preencher($dados);
 			$prof->modified = date('Y-m-d H:i:s');
 
+			// Não-admin: preserva user_id e sincroniza e-mail para manter
+			// a relação user ↔ professor intacta.
+			if (!$isAdmin) {
+				$prof->user_id = $prof_user_id_original;
+			}
+
 			if (!$prof->save()) {
 				error_log("Erro ao atualizar professor: " . ADODB_Model::$db->ErrorMsg());
 				die("Não foi possível atualizar o registro na tabela professores.");
+			}
+
+			if (!$isAdmin && !empty($prof->user_id)) {
+				$user = User::find((int)$prof->user_id);
+				if ($user && strtolower($user->email) !== strtolower($prof->email)) {
+					$user->email = $prof->email;
+					$user->save();
+				}
 			}
 
 			header("Location: ver_cada.php?professor_id=$professor_id");
@@ -424,7 +447,13 @@ class ProfessoresController {
 	 * Substitui professores/cancelar/cancela.php.
 	 */
 	public function excluir() {
+		global $isAdmin;
 		$this->comAutenticacao();
+
+		// Apenas administradores podem excluir registros de professores
+		if (!$isAdmin) {
+			die("Apenas administradores podem excluir registros de professores.");
+		}
 
 		$professor_id = isset($_REQUEST['professor_id']) ? (int)$_REQUEST['professor_id'] : 0;
 

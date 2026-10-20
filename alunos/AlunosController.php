@@ -37,7 +37,7 @@ class AlunosController {
 	 * $GLOBALS e libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $isAdmin, $isAluno, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $usuario_id, $usuario_aluno_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 	}
@@ -268,8 +268,16 @@ class AlunosController {
 	 * as duas tabelas será feita em um futuro EstagiariosController.
 	 */
 	public function atualizar() {
-		global $sistema_autentica;
+		global $sistema_autentica, $isAdmin, $isAluno, $usuario_aluno_id;
 		$this->comAutenticacao();
+
+		// Autorização: não-admin só edita o próprio cadastro
+		$aluno_id = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
+		if (!$isAdmin) {
+			if (!$isAluno || (int)$usuario_aluno_id !== $aluno_id) {
+				die("Você só pode editar seu próprio cadastro.");
+			}
+		}
 
 		$origem = isset($_REQUEST['origem']) ? trim($_REQUEST['origem']) : '';
 		if (substr_count($origem, "seleciona.php") == 1) {
@@ -370,6 +378,16 @@ class AlunosController {
 				die("Nao foi possivel atualizar o registro na tabela alunos");
 			}
 
+			// Não-admin: sincroniza o e-mail da entidade com users.email
+			// para preservar a relação user ↔ aluno.
+			if (!$isAdmin && !empty($aluno->user_id)) {
+				$user = User::find((int)$aluno->user_id);
+				if ($user && strtolower($user->email) !== strtolower($aluno->email)) {
+					$user->email = $aluno->email;
+					$user->save();
+				}
+			}
+
 			// Sincroniza o campo registro na tabela estagiarios.
 			$estagiarios = Estagiario::all("WHERE aluno_id = ?", array($aluno_id));
 			if (!empty($estagiarios)) {
@@ -436,6 +454,7 @@ class AlunosController {
 		}
 
 		$smarty = new Smarty_estagio;
+		$smarty->assign("isAdmin", $isAdmin);
 		$smarty->assign("origem", $origem);
 		$smarty->assign("aluno_id", $aluno_id);
 		$smarty->assign("registro", $registro);
@@ -470,7 +489,7 @@ class AlunosController {
 	 * alunos/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
-		global $sistema_autentica, $isAdmin;
+		global $sistema_autentica, $isAdmin, $isAluno;
 		$this->comAutenticacao();
 
 		$aluno_id      = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
@@ -601,6 +620,7 @@ class AlunosController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("isAdmin", $isAdmin);
+		$smarty->assign("isAluno", $isAluno);
 		$smarty->assign("periodo", $periodo);
 		$smarty->assign("origem", $origem);
 		$smarty->assign("indice", $indice);
@@ -688,8 +708,13 @@ class AlunosController {
 	 * inscrições). Substitui alunos/cancelar/cancela.php.
 	 */
 	public function excluir() {
-		global $sistema_autentica;
+		global $sistema_autentica, $isAdmin;
 		$this->comAutenticacao();
+
+		// Apenas administradores podem excluir registros de alunos
+		if (!$isAdmin) {
+			die("Apenas administradores podem excluir registros de alunos.");
+		}
 
 		$aluno_id = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
 		if ($aluno_id <= 0) {

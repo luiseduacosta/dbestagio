@@ -1,11 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link href="../libjs/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="../estagio.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Professores</title>
+<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 
 {literal}
 <script type="text/javascript">
@@ -19,61 +20,75 @@ function carrega_tabela() {
 {/literal}
 
 </head>
-<body>
+<body id="corpo">
 
-<a href="javascript:history.back();">Voltar</a><br>
+<main class="mural-page">
 
-<form name="filtros" onsubmit="return carrega_tabela();">
-Busca: <input type="text" id="busca" name="busca" value="{$busca}" onkeyup="if (event.keyCode == 13) return carrega_tabela();">
-Status:
-<select id="status" name="status" onChange="return carrega_tabela();">
-{foreach item=s key=k from=$statuses}
-<option value="{$k}" {if $k == $status}selected{/if}>{$s}</option>
-{/foreach}
-</select>
-<input type="submit" value="Filtrar">
-</form>
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · ESS/UFRJ</p>
+			<h1>Professores<span>Supervisores acadêmicos de estágio</span></h1>
+		</div>
 
-<table id="professores" class="display">
-<thead>
-<tr>
-<th>Nome</th>
-<th>Departamento</th>
-<th>E-mail</th>
-<th>Telefone</th>
-<th>Celular</th>
-<th>Status</th>
-<th>Nº estágios</th>
-<th data-orderable="false">Ações</th>
-</tr>
-</thead>
-<tbody>
+		<form class="periodo-form" name="filtros" onsubmit="return carrega_tabela();">
+			<label for="busca">Busca</label>
+			<input type="text" id="busca" name="busca" value="{$busca}" onkeyup="if (event.keyCode == 13) return carrega_tabela();">
+			<label for="status">Status</label>
+			<select id="status" name="status" onChange="return carrega_tabela();">
+			{foreach item=s key=k from=$statuses}
+			<option value="{$k}" {if $k == $status}selected{/if}>{$s}</option>
+			{/foreach}
+			</select>
+			<button type="submit" class="btn btn-sm">Filtrar</button>
+		</form>
+	</header>
 
-{foreach item=p from=$professores}
-<tr>
-<td>
-<a href="ver_cada.php?professor_id={$p.id}">{$p.nome}</a>
-</td>
-<td>{$p.departamento}</td>
-<td>{$p.email}</td>
-<td class="coluna_centralizada">{$p.telefone}</td>
-<td class="coluna_centralizada">{$p.celular}</td>
-<td>{$p.status}</td>
-<td class="coluna_centralizada">{$p.num_estagios}</td>
-<td>
-<a href="ver_cada.php?professor_id={$p.id}">Ver</a> |
-<a href="atualizar.php?professor_id={$p.id}">Editar</a> |
-<a href="excluir.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
-</td>
-</tr>
-{/foreach}
+	<section class="table-shell" aria-label="Professores">
+		<table id="professores" class="display dt-table">
+		<thead>
+		<tr>
+		<th>Nome</th>
+		<th>Departamento</th>
+		<th>E-mail</th>
+		<th>Telefone</th>
+		<th>Celular</th>
+		<th>Status</th>
+		<th>Nº estágios</th>
+		<th data-orderable="false">Ações</th>
+		</tr>
+		</thead>
+		<tbody>
 
-</tbody>
-</table>
+		{foreach item=p from=$professores}
+		<tr>
+		<td>
+		<a href="ver_cada.php?professor_id={$p.id}">{$p.nome}</a>
+		</td>
+		<td>{$p.departamento}</td>
+		<td>{$p.email}</td>
+		<td class="coluna_centralizada">{$p.telefone}</td>
+		<td class="coluna_centralizada">{$p.celular}</td>
+		<td>{$p.status}</td>
+		<td class="coluna_centralizada">{$p.num_estagios}</td>
+		<td>
+		<span class="action-links">
+		<a href="ver_cada.php?professor_id={$p.id}">Ver</a>
+		<a href="atualizar.php?professor_id={$p.id}">Editar</a>
+		<a class="is-danger" href="excluir.php?professor_id={$p.id}" onclick="return confirm('Excluir este professor?');">Excluir</a>
+		</span>
+		</td>
+		</tr>
+		{/foreach}
 
-<div align="center">
-<p><a href="inserir.php">Novo professor</a></p>
-</div>
+		</tbody>
+		</table>
+	</section>
+
+	<div class="action-row">
+		<a class="action-btn" href="inserir.php">Novo professor</a>
+	</div>
+
+</main>
 
 {literal}
 <script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
