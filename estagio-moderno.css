@@ -245,6 +245,15 @@ body#corpo h1 span {
 .dt-table a:hover { text-decoration: underline; }
 .dt-table .coluna_centralizada { text-align: center; }
 
+/* Campos de nota/carga horária lançados na ficha do professor (form inline) */
+.dt-table .nota-ch-input {
+	width: 68px;
+	min-height: 32px;
+	padding: 4px 8px;
+	text-align: center;
+}
+.dt-table .action-btn { min-height: 32px; padding: 0 12px; font-size: 13px; }
+
 /* Backwards-compatible alias: #mural = .dt-table */
 #mural {
 	width: 100% !important;
@@ -320,6 +329,59 @@ body#corpo h1 span {
 	color: var(--mural-warning);
 	background: var(--mural-warning-soft);
 	border-color: #E8CFA8;
+}
+
+/* Situação do inscrito no mural (novo x já estagiou) */
+.situacao-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	font-family: "IBM Plex Mono", Consolas, "Liberation Mono", monospace;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	line-height: 1.5;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.situacao-badge.novo {
+	color: var(--mural-accent);
+	background: var(--mural-soft);
+	border-color: #B9CFE8;
+}
+
+.situacao-badge.estagiario {
+	color: var(--mural-success);
+	background: var(--mural-success-soft);
+	border-color: #B9DCC5;
+}
+
+/* ------------------------------------------------------------------ */
+/* Lista de inscritos: tabela larga com rolagem horizontal            */
+/* ------------------------------------------------------------------ */
+.table-shell.is-scroll { overflow-x: auto; }
+
+#inscritos { min-width: 1200px; }
+
+/* Exclusão inline por linha (form POST dentro da tabela) */
+body#corpo .dt-table .form-excluir { margin: 0; }
+
+body#corpo .dt-table .form-excluir input[type="submit"] {
+	min-height: 30px;
+	padding: 0 12px;
+	border-color: #C0392B;
+	background: var(--mural-surface);
+	color: #C0392B;
+	font-size: 12px;
+}
+
+body#corpo .dt-table .form-excluir input[type="submit"]:hover {
+	border-color: #C0392B;
+	background: #FDECEA;
+	color: #C0392B;
 }
 
 /* ------------------------------------------------------------------ */

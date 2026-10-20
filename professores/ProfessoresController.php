@@ -151,6 +151,7 @@ class ProfessoresController {
 	 * Substitui professores/exibir/listar.php.
 	 */
 	public function listar() {
+		global $isAdmin;
 		$this->comAutenticacao();
 
 		$busca  = isset($_GET['busca']) ? trim($_GET['busca']) : '';
@@ -179,6 +180,7 @@ class ProfessoresController {
 		$professores = Professor::listar($busca, $status, $orderby);
 
 		$smarty = new Smarty_estagio;
+		$smarty->assign("isAdmin", $isAdmin);
 		$smarty->assign("busca", $busca);
 		$smarty->assign("status", $status);
 		$smarty->assign("statuses", $statuses);
@@ -193,6 +195,7 @@ class ProfessoresController {
 	 * Substitui professores/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
+		global $isAdmin, $isProfessor, $usuario_professor_id;
 		$this->comAutenticacao();
 
 		$professor_id = isset($_REQUEST['professor_id']) ? (int)$_REQUEST['professor_id'] : 0;
@@ -243,6 +246,12 @@ class ProfessoresController {
 		}
 
 		$smarty = new Smarty_estagio;
+		// Permissões de edição: admin edita qualquer professor; professor só o
+		// próprio cadastro (mesma regra aplicada em atualizar()).
+		$pode_editar = $isAdmin || ($isProfessor && (int)$usuario_professor_id === $professor_id);
+		$smarty->assign("isAdmin",         $isAdmin);
+		$smarty->assign("isProfessor",     $isProfessor);
+		$smarty->assign("pode_editar",     $pode_editar);
 		$smarty->assign("professor_id",    $professor_id);
 		$smarty->assign("primeiro_id",     $primeiro_id);
 		$smarty->assign("ultimo_id",       $ultimo_id);

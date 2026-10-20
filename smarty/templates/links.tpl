@@ -190,7 +190,7 @@ clickMenu1.init();
 		</tr>
 		<tr>
 			<td class="coluna_centralizada">
-				<a href="mailto:estagio@ess.ufrj.br?Subject=Cat�logo de institui��es e supervisores">Coordena��o de est�gio</a>
+				<a href="mailto:estagio@ess.ufrj.br?Subject=Catálogo de instituições e supervisores">Coordenação de estágio</a>
 			</td>
 		</tr>
 	</tbody>

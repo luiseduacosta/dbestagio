@@ -7,11 +7,17 @@
  *   - Unauthenticated: only "Mural → Listar" and "Eventos" (external links).
  *   - Aluno:           "Mural → Listar / Ver cada / Termo de Compromisso",
  *                      "Eventos" and "Manual do aluno" only.
- *   - Other authenticated (admin etc.): full menu (admin sections behind $isAdmin).
+ *   - Professor:       "Mural → Listar / Ver cada", "Professores" (Listar +
+ *                      o próprio cadastro), "Estagiários", "Eventos" and
+ *                      "Manual do aluno" only.
+ *   - Other authenticated (admin, supervisor): full menu (admin sections
+ *     behind $isAdmin).
  */
 if (!isset($isAdmin))        { $isAdmin = false; }
 if (!isset($isAluno))        { $isAluno = false; }
+if (!isset($isProfessor))    { $isProfessor = false; }
 if (!isset($usuario_logado)) { $usuario_logado = false; }
+if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
 ?>
 <nav class="sidebar-nav">
 
@@ -35,19 +41,21 @@ if (!isset($usuario_logado)) { $usuario_logado = false; }
   <summary>Mural de Estágios</summary>
   <a href="mural/mural-listar.php" target="_corpo">Listar mural</a>
 <?php if ($usuario_logado) { ?>
-<?php if (!$isAluno) { ?>
+<?php if (!$isAluno && !$isProfessor) { ?>
   <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
 <?php } ?>
   <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
+<?php if (!$isProfessor) { ?>
   <hr>
   <a href="alunos/atualizar/seleciona_termo.php" target="_corpo">Termo de Compromisso</a>
-<?php if (!$isAluno) { ?>
+<?php } ?>
+<?php if (!$isAluno && !$isProfessor) { ?>
   <a href="mural/historico.php" target="_corpo">Histórico</a>
 <?php } ?>
 <?php } ?>
 </details>
 
-<?php if ($usuario_logado && !$isAluno) { ?>
+<?php if ($usuario_logado && !$isAluno && !$isProfessor) { ?>
 
 <details>
   <summary>Instituições</summary>
@@ -127,11 +135,26 @@ if (!isset($usuario_logado)) { $usuario_logado = false; }
   <a href="curso/inscricao_lista.php?selecao=1" target="_corpo">Selecionados</a>
   <a href="curso/curso_busca.html" target="_corpo">Busca inscritos</a>
   <a href="http://docs.google.com/View?id=dhd8s6wp_479f78fcbg4" target="_corpo">Programação</a>
-  <a href="http://web.intranet.ess.ufrj.br/cursos/" target="_corpo">Plataforma do curso</a>
-  <a href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj" target="_top">Lista de discussão</a>
 </details>
 
-<?php } // end $usuario_logado ?>
+<?php } // end $usuario_logado && !$isAluno && !$isProfessor ?>
+
+<?php if ($usuario_logado && $isProfessor) { ?>
+
+<details>
+  <summary>Professores</summary>
+  <a href="professores/listar.php" target="_corpo">Listar</a>
+<?php if ($usuario_professor_id) { ?>
+  <a href="professores/ver_cada.php?professor_id=<?php echo (int)$usuario_professor_id; ?>" target="_corpo">Meu cadastro</a>
+<?php } ?>
+</details>
+
+<details>
+  <summary>Estagiários</summary>
+  <a href="estagiarios/listar.php" target="_corpo">Listar</a>
+</details>
+
+<?php } // end $isProfessor ?>
 
 <details>
   <summary>Eventos</summary>
@@ -148,7 +171,5 @@ if (!isset($usuario_logado)) { $usuario_logado = false; }
 </nav>
 
 <div class="sidebar-footer">
-  <a href="http://groups.google.com/forum/#!forum/estagio_ess" target="_top">Alunos em estágio da ESS/UFRJ</a>
-  <a href="http://groups.google.com/forum/#!forum/supervisores-da-essufrj" target="_top">Supervisores da ESS/UFRJ</a>
   <p><a href="mailto:estagio@ess.ufrj.br?Subject=Mural de Estágio">Fale conosco</a></p>
 </div>

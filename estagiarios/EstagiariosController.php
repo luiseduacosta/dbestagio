@@ -30,6 +30,8 @@
  *
  * Permissões (replicando o comportamento dos scripts legados):
  *  - todas as ações exigem login (autentica.inc).
+ *  - salvarNotaCh: além do login, exige ser admin ou o professor responsável
+ *    pelo estágio (nota e carga horária são lançadas pelo professor).
  */
 if (!class_exists('EstagiariosController', false)) {
 
@@ -42,7 +44,7 @@ class EstagiariosController {
 	 * libphp/models.php consegue ligar a conexão aos modelos.
 	 */
 	private function comAutenticacao() {
-		global $db, $sistema_autentica, $isAdmin, $isAluno, $usuario_id;
+		global $db, $sistema_autentica, $isAdmin, $isAluno, $isProfessor, $usuario_id, $usuario_professor_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
 	}
@@ -277,6 +279,51 @@ class EstagiariosController {
 		}
 
 		header("Location: ver_cada.php?id=$id");
+		exit;
+	}
+
+	/**
+	 * Grava apenas a nota e a carga horária de um estágio.
+	 *
+	 * É a ação central do professor: ele lança a nota e a carga horária dos
+	 * seus próprios estagiários. Restrita a admin ou ao professor responsável
+	 * pelo estágio (e.professor_id). Chamada pelo formulário inline da ficha
+	 * do professor (professores/ver_cada.php).
+	 */
+	public function salvarNotaCh() {
+		global $isAdmin, $isProfessor, $usuario_professor_id;
+		$this->comAutenticacao();
+
+		$estagiario_id = isset($_POST['estagiario_id']) ? (int)$_POST['estagiario_id'] : 0;
+
+		$est = Estagiario::find($estagiario_id);
+		if ($est === null) {
+			die("Estágio não encontrado (id $estagiario_id).");
+		}
+
+		$professor_id = (int)$est->professor_id;
+
+		// Autorização: admin lança em qualquer estágio; o professor somente
+		// nos estágios dos quais é o responsável.
+		if (!$isAdmin) {
+			if (!$isProfessor || (int)$usuario_professor_id !== $professor_id) {
+				die("Somente o professor responsável (ou um administrador) pode lançar nota e carga horária.");
+			}
+		}
+
+		$nota = isset($_POST['nota']) ? trim((string)$_POST['nota']) : '';
+		$ch   = isset($_POST['ch']) ? trim((string)$_POST['ch']) : '';
+
+		$est->nota = ($nota === '') ? null : $nota;
+		$est->ch   = ($ch === '') ? null : (int)$ch;
+
+		if (!$est->save()) {
+			error_log("Erro ao salvar nota/ch: " . ADODB_Model::$db->ErrorMsg());
+			die("Não foi possível salvar a nota e a carga horária.");
+		}
+
+		// Volta para a ficha do professor responsável.
+		header("Location: ../professores/ver_cada.php?professor_id=$professor_id");
 		exit;
 	}
 

@@ -12,6 +12,9 @@
 
 <main class="mural-page">
 
+	{* Barra de navegação e ações de CRUD: exclusiva do admin. O professor
+	   acessa o próprio cadastro pelo botão do rodapé. *}
+	{if $isAdmin}
 	<table id="navegacao" class="toolbar">
 	<tbody>
 	<tr>
@@ -93,6 +96,7 @@
 	</tr>
 	</tbody>
 	</table>
+	{/if}
 
 	<header class="page-head">
 		<div class="page-heading">
@@ -133,9 +137,12 @@
 	<th><a href="?professor_id={$professor_id}&ordem=a.registro">Registro</a></th>
 	<th><a href="?professor_id={$professor_id}&ordem=a.nome">Aluno</a></th>
 	<th><a href="?professor_id={$professor_id}&ordem=e.periodo">Período</a></th>
-	<th>Nível</th>
+	<th><a href="?professor_id={$professor_id}&ordem=e.nivel">Nível</a></th>
 	<th><a href="?professor_id={$professor_id}&ordem=i.instituicao">Instituição</a></th>
-	<th>Área</th>
+	<th><a href="?professor_id={$professor_id}&ordem=s.nome">Supervisor</a></th>
+	<th>Nota</th>
+	<th>CH</th>
+	{if $isAdmin || $pode_editar}<th data-orderable="false">Lançar</th>{/if}
 	</tr>
 	</thead>
 	<tbody>
@@ -153,7 +160,34 @@
 	{$e.instituicao}
 	{/if}
 	</td>
-	<td>{$e.area}</td>
+	<td>
+	{if $e.supervisor_id}
+	<a href="../supervisores/ver_cada.php?supervisor_id={$e.supervisor_id}">{$e.supervisor}</a>
+	{else}
+	{$e.supervisor}
+	{/if}
+	</td>
+
+	{* Nota e carga horária: lançadas pelo professor responsável ou por um
+	   administrador. O formulário usa o atributo form= para levar os dois
+	   campos (em células distintas) para o mesmo POST. *}
+	{if $isAdmin || $pode_editar}
+	<td class="coluna_centralizada">
+	<form id="notach_{$e.estagiario_id}" action="../estagiarios/salvar_nota_ch.php" method="post">
+	<input type="hidden" name="estagiario_id" value="{$e.estagiario_id}">
+	</form>
+	<input form="notach_{$e.estagiario_id}" type="text" name="nota" value="{$e.nota}" size="3" maxlength="5" class="nota-ch-input" aria-label="Nota de {$e.aluno_nome}">
+	</td>
+	<td class="coluna_centralizada">
+	<input form="notach_{$e.estagiario_id}" type="text" name="ch" value="{$e.ch}" size="4" maxlength="5" class="nota-ch-input" aria-label="Carga horária de {$e.aluno_nome}">
+	</td>
+	<td class="coluna_centralizada">
+	<button type="submit" form="notach_{$e.estagiario_id}" class="action-btn">Salvar</button>
+	</td>
+	{else}
+	<td class="coluna_centralizada">{$e.nota}</td>
+	<td class="coluna_centralizada">{$e.ch}</td>
+	{/if}
 	</tr>
 	{/foreach}
 
@@ -162,7 +196,9 @@
 	</section>
 
 	<div class="action-row">
+		{if $isAdmin || $pode_editar}
 		<a class="action-btn" href="atualizar.php?professor_id={$professor_id}">Editar dados do professor</a>
+		{/if}
 		<a class="btn btn-secondary" href="listar.php">Voltar para a listagem</a>
 		<a class="btn btn-secondary" href="javascript:history.back();">Voltar</a>
 	</div>

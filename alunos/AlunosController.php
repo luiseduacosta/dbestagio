@@ -136,7 +136,7 @@ class AlunosController {
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST' && ($verifica || $registro_in !== '' || $aluno_id_in > 0)) {
 			$dados = null;
 			if ($registro_in !== '') {
-				$dados = Aluno::firstWhere("registro = ?", array((int)$registro_in));
+				$dados = Aluno::firstWhere("registro", (int)$registro_in);
 			} elseif ($aluno_id_in > 0) {
 				$dados = Aluno::find($aluno_id_in);
 			}
@@ -512,7 +512,7 @@ class AlunosController {
 
 		// Se veio por registro, converte para aluno_id.
 		if ($aluno_id <= 0 && $registro > 0) {
-			$aluno = Aluno::firstWhere("registro = ?", array($registro));
+			$aluno = Aluno::firstWhere("registro", $registro);
 			if ($aluno !== null) {
 				$aluno_id = (int)$aluno->id;
 			}
