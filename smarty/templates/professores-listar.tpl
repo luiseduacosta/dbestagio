@@ -87,7 +87,9 @@ function carrega_tabela() {
 	</section>
 
 	<div class="action-row">
+		{if $isAdmin}
 		<a class="action-btn" href="inserir.php">Novo professor</a>
+		{/if}
 	</div>
 
 </main>

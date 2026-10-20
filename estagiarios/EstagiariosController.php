@@ -28,8 +28,11 @@
  *   $controller = new EstagiariosController();
  *   $controller->listar();
  *
- * Permissões (replicando o comportamento dos scripts legados):
+ * Permissões:
  *  - todas as ações exigem login (autentica.inc).
+ *  - inserir / atualizar / excluir (CRUD administrativo): somente admin. O
+ *    aluno cadastra/edita o PRÓPRIO estágio pelo fluxo do Termo de Compromisso
+ *    (alunos/atualizar/atualiza_termo.php), que trava o registro na sessão.
  *  - salvarNotaCh: além do login, exige ser admin ou o professor responsável
  *    pelo estágio (nota e carga horária são lançadas pelo professor).
  */
@@ -47,6 +50,17 @@ class EstagiariosController {
 		global $db, $sistema_autentica, $isAdmin, $isAluno, $isProfessor, $usuario_id, $usuario_professor_id;
 		include_once(__DIR__ . "/../autentica.inc");
 		require_once(__DIR__ . "/../libphp/models.php");
+	}
+
+	/**
+	 * Restringe uma ação ao papel admin. Deve ser chamado depois de
+	 * comAutenticacao() (que popula $isAdmin no escopo global).
+	 */
+	private function exigirAdmin() {
+		global $isAdmin;
+		if (empty($isAdmin)) {
+			die("Acesso restrito: somente administradores podem cadastrar, editar ou excluir estágios.");
+		}
 	}
 
 	// ------------------------------------------------------------------
@@ -165,6 +179,7 @@ class EstagiariosController {
 	 */
 	public function inserir() {
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dados = $this->validarPost();
@@ -223,6 +238,7 @@ class EstagiariosController {
 	 */
 	public function atualizar() {
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 
@@ -332,6 +348,7 @@ class EstagiariosController {
 	 * resolvidos na consulta. Substitui estagiarios/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
+		global $isAdmin;
 		$this->comAutenticacao();
 
 		$id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
@@ -344,6 +361,7 @@ class EstagiariosController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("e", $dados);
+		$smarty->assign("isAdmin", !empty($isAdmin));
 		$smarty->display("estagiarios-ver_cada.tpl");
 
 		exit;
@@ -355,6 +373,7 @@ class EstagiariosController {
 	 * Substitui estagiarios/exibir/listar.php.
 	 */
 	public function listar() {
+		global $isAdmin;
 		$this->comAutenticacao();
 
 		$periodo  = isset($_GET['periodo']) ? trim($_GET['periodo']) : '';
@@ -408,6 +427,7 @@ class EstagiariosController {
 		$smarty->assign("supervisor_id", $supervisor_id);
 		$smarty->assign("professor_id", $professor_id);
 		$smarty->assign("nivel", $nivel);
+		$smarty->assign("isAdmin", !empty($isAdmin));
 		$smarty->display("estagiarios-listar.tpl");
 
 		exit;
@@ -418,6 +438,7 @@ class EstagiariosController {
 	 */
 	public function excluir() {
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 

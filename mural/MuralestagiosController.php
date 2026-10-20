@@ -32,9 +32,9 @@
  *   $controller = new MuralestagiosController();
  *   $controller->listar();
  *
- * ATENÇÃO: atualizar() NÃO exige login — mantido por paridade com o script
- * antigo (mural-atualiza.php também não exigia). Vale proteger esse endpoint
- * no futuro.
+ * ATENÇÃO: as gravações (inserir, editar, atualizar, excluir) exigem login e
+ * são restritas ao role admin — supervisor, professor e aluno não cadastram,
+ * editam nem excluem ofertas no mural_estagios.
  */
 if (!class_exists('MuralestagiosController', false)) {
 
@@ -54,14 +54,15 @@ class MuralestagiosController {
 	}
 
 	/**
-	 * As exclusões do mural (oferta do mural e remoção de aluno da lista) são
-	 * restritas ao role admin. A interface esconde os botões dos demais
-	 * perfis, mas a permissão é conferida de novo aqui — nunca só na tela.
+	 * As gravações do mural (inserir, editar, excluir a oferta e remover um
+	 * aluno da lista) são restritas ao role admin. A interface esconde os
+	 * botões dos demais perfis, mas a permissão é conferida de novo aqui —
+	 * nunca só na tela.
 	 */
 	private function exigirAdmin() {
 		global $isAdmin;
 		if (empty($isAdmin)) {
-			die("Acesso restrito: apenas administradores podem excluir registros do mural.");
+			die("Acesso restrito: apenas administradores podem cadastrar, editar ou excluir registros do mural.");
 		}
 	}
 
@@ -305,6 +306,7 @@ class MuralestagiosController {
 	public function inserir() {
 		global $db, $sistema_autentica;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$confirma = isset($_POST['inserir']) ? $_POST['inserir'] : null;
 		$aviso    = isset($_GET['aviso']) ? $_GET['aviso'] : null;
@@ -517,6 +519,7 @@ class MuralestagiosController {
 	public function editar() {
 		global $db;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		// Id da oferta (PK de mural_estagios).
 		$id = isset($_REQUEST['muralestagio_id']) ? (int)$_REQUEST['muralestagio_id'] : 0;
@@ -571,6 +574,7 @@ class MuralestagiosController {
 	public function atualizar() {
 		global $db;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			// Acesso direto (GET) ao endpoint de gravação: manda para o
@@ -662,6 +666,7 @@ class MuralestagiosController {
 	public function selecionar() {
 		global $db;
 		$this->comAutenticacao();
+		$this->exigirAdmin();
 
 		$opcao = isset($_GET['opcao']) ? (string)$_GET['opcao'] : '';
 		if ($opcao !== 'cancela') {

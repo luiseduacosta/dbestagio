@@ -29,9 +29,7 @@
 	<tr>
 	<th>Aluno</th>
 	<td>
-	{if $smarty.cookies.usuario}
 	<a href="../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a>
-	{else}{$e.aluno_nome}{/if}
 	({$e.registro})
 	</td>
 	</tr>
@@ -73,7 +71,9 @@
 	</table>
 
 	<div class="action-row">
+		{if $isAdmin}
 		<a class="action-btn" href="atualizar.php?id={$e.id}">Editar estágio</a>
+		{/if}
 		<a class="btn btn-secondary" href="listar.php">Voltar para a listagem</a>
 	</div>
 

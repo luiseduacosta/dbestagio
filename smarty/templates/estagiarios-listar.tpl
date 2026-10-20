@@ -105,11 +105,7 @@ function carrega_tabela() {
 		<td class="coluna_centralizada">{$e.periodo}</td>
 		<td class="coluna_centralizada">{$e.registro}</td>
 		<td>
-		{if $smarty.cookies.usuario}
 		<a href="ver_cada.php?id={$e.id}">{$e.aluno_nome}</a>
-		{else}
-		{$e.aluno_nome}
-		{/if}
 		</td>
 		<td>{$e.instituicao}</td>
 		<td>{$e.supervisor}</td>
@@ -118,8 +114,8 @@ function carrega_tabela() {
 		<td class="coluna_centralizada">{$e.nota}</td>
 		<td>
 		<span class="action-links">
-		{if $smarty.cookies.usuario}
 		<a href="ver_cada.php?id={$e.id}">Ver</a>
+		{if $isAdmin}
 		<a href="atualizar.php?id={$e.id}">Editar</a>
 		<a class="is-danger" href="excluir.php?id={$e.id}" onclick="return confirm('Excluir este estágio?');">Excluir</a>
 		{/if}
@@ -133,7 +129,9 @@ function carrega_tabela() {
 	</section>
 
 	<div class="action-row">
+		{if $isAdmin}
 		<a class="action-btn" href="inserir.php?periodo={$periodo}">Novo estágio</a>
+		{/if}
 		<a class="btn btn-secondary" href="javascript:history.back();">Voltar</a>
 	</div>
 

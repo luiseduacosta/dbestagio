@@ -100,6 +100,7 @@ class SupervisoresController {
 	 * Substitui supervisores/exibir/listar.php.
 	 */
 	public function listar() {
+		global $isAdmin;
 		$this->comAutenticacao();
 		global $sistema_autentica;
 
@@ -177,6 +178,9 @@ class SupervisoresController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("sistema_autentica", isset($sistema_autentica) ? $sistema_autentica : 1);
+		// Editar/Excluir são exclusivos do admin: o supervisor não edita nem
+		// exclui registros nesta listagem (os endpoints também barram).
+		$smarty->assign("isAdmin", !empty($isAdmin));
 		$smarty->assign("instituicao_id", $instituicao_id);
 		$smarty->assign("turma", $turma);
 		$smarty->assign("ordem", $ordem);
