@@ -50,6 +50,10 @@ if ($usuario !== null) {
 	$isAdmin      = ($usuario_role === 'admin');
 }
 
+// Impersonação: admin assumindo identidade de outro usuário
+$admin_real_id = sessao_admin_real();
+$imprimindo = ($admin_real_id > 0);
+
 if ($usuario_ok) {
 	$mural_autentica = 1;
     $sistema_autentica = 1;

@@ -1,15 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="pt-BR">
 <head>
-<link href="../estagio.css" rel="stylesheet" type="text/css"> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Seleciona aluno</title>
+<link rel="stylesheet" href="../../estagio.css">
+<link rel="stylesheet" href="../../estagio-moderno.css">
+
 {literal}
 <script language="Javascript" type="text/javascript">
-function seleciona() 
+function seleciona()
 {
     var id_valor = document.seleciona_aluno.aluno_id.value;
-    var id_valor = getElementById("id_aluno");
-    /* alert("id_valor"); */
     document.location.href="inserir.php?aluno_id=" + id_valor;
     return false;
 }
@@ -17,21 +19,31 @@ function seleciona()
 {/literal}
 </head>
 
-<body>
+<body id="corpo">
 
-<form name="seleciona_aluno" action="inserir.php" method="post">
+<main class="mural-page">
 
-<select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
-<option value=0>Selecione aluno</option>
-{section name=elemento loop=$alunos}
-<option value={$alunos[elemento].aluno_id}>{$alunos[elemento].nome}</option>
-{/section}
-</select>
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · Alunos</p>
+			<h1>Selecionar aluno<span>Escolha um aluno para inserir estágio</span></h1>
+		</div>
+	</header>
 
-<input type="submit" name="selecionaAluno" value="Confirma">
+	<section class="table-shell">
+		<form name="seleciona_aluno" action="inserir.php" method="post" class="periodo-form">
+			<label for="aluno_id">Aluno</label>
+			<select name="aluno_id" id="aluno_id" size="1" onChange="return seleciona();">
+				<option value=0>Selecione aluno</option>
+				{section name=elemento loop=$alunos}
+				<option value={$alunos[elemento].aluno_id}>{$alunos[elemento].nome}</option>
+				{/section}
+			</select>
+			<button type="submit" name="selecionaAluno" class="btn btn-sm">Confirma</button>
+		</form>
+	</section>
 
-</form>
+</main>
 
 </body>
-
 </html>

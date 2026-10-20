@@ -422,6 +422,386 @@ body#corpo h1 span {
 #mural_wrapper .dt-paging .dt-paging-button { min-width: 32px; min-height: 32px; border-radius: 4px !important; }
 
 /* ------------------------------------------------------------------ */
+/* Buttons                                                            */
+/* ------------------------------------------------------------------ */
+.btn,
+body#corpo input[type="submit"],
+body#corpo input[type="reset"],
+body#corpo button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 0 16px;
+	border: 1px solid var(--mural-accent);
+	border-radius: 6px;
+	background: var(--mural-accent);
+	color: #FFFFFF;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.btn:hover,
+body#corpo input[type="submit"]:hover,
+body#corpo input[type="reset"]:hover,
+body#corpo button:hover {
+	background: var(--mural-accent-deep);
+	border-color: var(--mural-accent-deep);
+	color: #FFFFFF;
+}
+
+.btn-secondary,
+body#corpo input[type="button"] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 0 16px;
+	border: 1px solid var(--mural-line-strong);
+	border-radius: 6px;
+	background: var(--mural-surface);
+	color: var(--mural-ink);
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.btn-secondary:hover,
+body#corpo input[type="button"]:hover {
+	background: var(--mural-soft);
+	border-color: var(--mural-accent);
+	color: var(--mural-accent);
+}
+
+.btn-danger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 0 16px;
+	border: 1px solid #C0392B;
+	border-radius: 6px;
+	background: #C0392B;
+	color: #FFFFFF;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.btn-danger:hover {
+	background: #9E2F23;
+	border-color: #9E2F23;
+	color: #FFFFFF;
+}
+
+.btn-sm { min-height: 32px; padding: 0 12px; font-size: 13px; }
+
+/* ------------------------------------------------------------------ */
+/* Action link groups ("Ver | Editar | Excluir" as buttons)           */
+/* ------------------------------------------------------------------ */
+.action-links {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+.action-links a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 30px;
+	padding: 0 10px;
+	border: 1px solid var(--mural-line-strong);
+	border-radius: 5px;
+	background: var(--mural-surface);
+	color: var(--mural-accent);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.action-links a:hover {
+	border-color: var(--mural-accent);
+	background: var(--mural-soft);
+	text-decoration: none;
+}
+
+.action-links a.is-danger { color: #C0392B; }
+
+.action-links a.is-danger:hover {
+	border-color: #C0392B;
+	background: #FDECEA;
+}
+
+/* Standalone action link rendered as a button (e.g. "Novo aluno") */
+.action-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 0 16px;
+	border: 1px solid var(--mural-accent);
+	border-radius: 6px;
+	background: var(--mural-accent);
+	color: #FFFFFF !important;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none !important;
+	white-space: nowrap;
+}
+
+.action-btn:hover { background: var(--mural-accent-deep); border-color: var(--mural-accent-deep); }
+
+.action-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 16px 0 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Toolbars / navigation bars (legacy <table id="navegacao">)         */
+/* ------------------------------------------------------------------ */
+body#corpo .toolbar,
+body#corpo table#navegacao {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	margin: 0 0 18px;
+	padding: 10px 12px;
+	border: 1px solid var(--mural-line);
+	border-radius: 8px;
+	background: var(--mural-surface);
+	font-size: 14px;
+	text-align: left;
+}
+
+body#corpo table#navegacao tbody,
+body#corpo table#navegacao tr,
+body#corpo .toolbar tbody,
+body#corpo .toolbar tr { display: contents; }
+
+body#corpo table#navegacao td,
+body#corpo .toolbar td {
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: 14px;
+}
+
+body#corpo table#navegacao caption,
+body#corpo .toolbar caption {
+	flex-basis: 100%;
+	margin: 0 0 6px;
+	color: var(--mural-muted);
+	font-size: 12px;
+	font-weight: 600;
+	text-align: left;
+}
+
+body#corpo table#navegacao form,
+body#corpo .toolbar form { margin: 0; }
+
+body#corpo table#navegacao input[type="submit"],
+body#corpo .toolbar input[type="submit"] {
+	min-height: 32px;
+	padding: 0 12px;
+	border-color: var(--mural-line-strong);
+	background: var(--mural-surface);
+	color: var(--mural-ink);
+	font-size: 13px;
+}
+
+body#corpo table#navegacao input[type="submit"]:hover,
+body#corpo .toolbar input[type="submit"]:hover {
+	border-color: var(--mural-accent);
+	background: var(--mural-soft);
+	color: var(--mural-accent);
+}
+
+body#corpo table#navegacao td.is-danger input[type="submit"],
+body#corpo .toolbar td.is-danger input[type="submit"] {
+	border-color: #C0392B;
+	color: #C0392B;
+}
+
+body#corpo table#navegacao td.is-danger input[type="submit"]:hover,
+body#corpo .toolbar td.is-danger input[type="submit"]:hover {
+	border-color: #C0392B;
+	background: #FDECEA;
+	color: #C0392B;
+}
+
+/* ------------------------------------------------------------------ */
+/* Form controls                                                      */
+/* ------------------------------------------------------------------ */
+body#corpo input[type="text"],
+body#corpo input[type="password"],
+body#corpo input[type="email"],
+body#corpo input[type="number"],
+body#corpo input[type="search"],
+body#corpo input[type="date"],
+body#corpo select,
+body#corpo textarea {
+	min-height: 38px;
+	padding: 6px 10px;
+	border: 1px solid var(--mural-line-strong);
+	border-radius: 6px;
+	background: var(--mural-surface);
+	color: var(--mural-ink);
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+body#corpo textarea { min-height: 96px; resize: vertical; }
+
+body#corpo input:focus,
+body#corpo select:focus,
+body#corpo textarea:focus {
+	border-color: var(--mural-accent);
+	box-shadow: 0 0 0 3px rgba(11, 92, 171, .15);
+}
+
+/* ------------------------------------------------------------------ */
+/* Card tables (forms and detail sheets)                              */
+/* ------------------------------------------------------------------ */
+body#corpo .card-table,
+body#corpo table.ficha {
+	width: 100%;
+	margin: 0 0 16px;
+	border: 1px solid var(--mural-line) !important;
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 8px;
+	background: var(--mural-surface);
+	overflow: hidden;
+	font-size: 14px;
+}
+
+body#corpo .card-table > tbody > tr > th,
+body#corpo .card-table > tbody > tr > td,
+body#corpo table.ficha > tbody > tr > th,
+body#corpo table.ficha > tbody > tr > td {
+	padding: 11px 14px;
+	border: 0;
+	border-bottom: 1px solid #EDF2F5;
+	background: var(--mural-surface);
+	color: var(--mural-ink);
+	font-size: 14px;
+	text-align: left;
+	vertical-align: top;
+}
+
+body#corpo .card-table > tbody > tr:last-child > th,
+body#corpo .card-table > tbody > tr:last-child > td,
+body#corpo table.ficha > tbody > tr:last-child > th,
+body#corpo table.ficha > tbody > tr:last-child > td { border-bottom: 0; }
+
+/* Label column (first cell) */
+body#corpo .card-table > tbody > tr > th,
+body#corpo table.ficha > tbody > tr > th,
+body#corpo table.ficha > tbody > tr > td:first-child {
+	width: 32%;
+	background: #F8FBFD;
+	color: var(--mural-muted);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+
+/* Section header rows (colspan) */
+body#corpo .card-table > tbody > tr > td[colspan],
+body#corpo table.ficha > tbody > tr > td[colspan] {
+	width: auto;
+	background: var(--mural-soft);
+	color: var(--mural-ink);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+/* Footer row with the form buttons */
+body#corpo table.ficha tr.rodape td,
+body#corpo .card-table tr.rodape td,
+body#corpo tr.rodape td {
+	background: #F8FBFD;
+	padding: 14px;
+	text-align: center;
+}
+
+body#corpo tr.rodape td input { margin: 0 4px; }
+
+/* Titles inside forms / cards */
+body#corpo h2 {
+	margin: 0 0 12px;
+	padding: 0;
+	background: none;
+	color: var(--mural-ink);
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-align: left;
+}
+
+body#corpo h3 {
+	margin: 0 0 12px;
+	padding: 0;
+	background: none;
+	color: var(--mural-ink);
+	font-size: 17px;
+	font-weight: 700;
+	text-align: left;
+}
+
+.card-note {
+	margin: 0 0 12px;
+	color: var(--mural-muted);
+	font-size: 13px;
+	font-style: italic;
+}
+
+/* Inline validation alert inside forms (hidden while empty) */
+.form-alert {
+	margin: 0 0 14px;
+	padding: 12px 14px;
+	border: 1px solid #E8CFA8;
+	border-radius: 8px;
+	background: var(--mural-warning-soft);
+	color: var(--mural-warning);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.form-alert:empty { display: none; }
+
+/* ------------------------------------------------------------------ */
 /* Accessibility                                                      */
 /* ------------------------------------------------------------------ */
 .sr-only {
@@ -457,4 +837,8 @@ body#corpo button:focus-visible {
 	.summary-strip { gap: 8px 18px; }
 	.table-shell { overflow-x: auto; padding: 12px; }
 	#mural { min-width: 760px; }
+	body#corpo .card-table > tbody > tr > th,
+	body#corpo table.ficha > tbody > tr > th,
+	body#corpo table.ficha > tbody > tr > td:first-child { width: 42%; }
+	.action-links { width: 100%; }
 }

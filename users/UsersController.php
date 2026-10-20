@@ -43,6 +43,33 @@ class UsersController {
 		require_once(__DIR__ . "/../libphp/models.php");
 	}
 
+	/**
+	 * Inclui apenas setup.php (sem exigir login) e carrega os models.
+	 * Usado pela ação pública de recuperação de senha.
+	 */
+	private function semAutenticacao() {
+		global $db;
+		include_once(__DIR__ . "/../setup.php");
+		require_once(__DIR__ . "/../libphp/models.php");
+	}
+
+	// ------------------------------------------------------------------
+	// Recuperação de senha (público, sem login)
+	// ------------------------------------------------------------------
+
+	/**
+	 * Exibe uma mensagem orientando o usuário a enviar um e-mail ao
+	 * administrador (estagio@ess.ufrj.br) para redefinição de senha.
+	 * Não envia e-mail nem gera token — o admin redefinie manualmente.
+	 */
+	public function recuperar() {
+		$this->semAutenticacao();
+
+		$smarty = new Smarty_estagio();
+		$smarty->assign("admin_email", "estagio@ess.ufrj.br");
+		$smarty->display('users-recuperar.tpl');
+	}
+
 	// ------------------------------------------------------------------
 	// Auxiliares
 	// ------------------------------------------------------------------
@@ -186,6 +213,7 @@ class UsersController {
 	 * Substitui users/exibir/ver_cada.php.
 	 */
 	public function ver_cada() {
+		global $isAdmin;
 		$this->comAutenticacao();
 
 		$id    = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
@@ -197,7 +225,81 @@ class UsersController {
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("u", $dados);
+		$smarty->assign("is_admin", $isAdmin);
 		$smarty->display("users-ver_cada.tpl");
+		exit;
+	}
+
+	// ------------------------------------------------------------------
+	// Impersonação (admin "assumindo" a identidade de outro usuário)
+	// ------------------------------------------------------------------
+
+	/**
+	 * Permite que um admin assuma a identidade de um usuário não-admin
+	 * (aluno, professor ou supervisor). A sessão é trocada para o id do
+	 * usuário alvo; o id real do admin é guardado para restauração via
+	 * desassumir().
+	 */
+	public function assumir() {
+		global $isAdmin;
+		$this->comAutenticacao();
+
+		if (!$isAdmin) {
+			die("Apenas administradores podem usar esta função.");
+		}
+
+		$id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
+		if ($id <= 0) {
+			die("Usuário inválido.");
+		}
+
+		$alvo = User::find($id);
+		if ($alvo === null) {
+			die("Usuário não encontrado (id $id).");
+		}
+
+		// Não pode assumir identidade de outro admin
+		$role_alvo = (string)$alvo->role;
+		$role_map = array('1' => 'admin', '2' => 'aluno', '3' => 'professor', '4' => 'supervisor');
+		if (isset($role_map[$role_alvo])) {
+			$role_alvo = $role_map[$role_alvo];
+		}
+		if ($role_alvo === 'admin') {
+			die("Não é possível assumir a identidade de um administrador.");
+		}
+
+		// Inicia a impersonação na sessão
+		sessao_assumir($id);
+
+		// Guarda a página da entidade para o index.php carregar no iframe
+		// (sem o prefixo ../, pois index.php está na raiz do projeto).
+		if ($role_alvo === 'aluno' && !empty($alvo->aluno_id)) {
+			$_SESSION['impersonacao_destino'] = "alunos/ver_cada.php?aluno_id=" . (int)$alvo->aluno_id;
+		} elseif ($role_alvo === 'professor' && !empty($alvo->professor_id)) {
+			$_SESSION['impersonacao_destino'] = "professores/ver_cada.php?professor_id=" . (int)$alvo->professor_id;
+		} elseif ($role_alvo === 'supervisor' && !empty($alvo->supervisor_id)) {
+			$_SESSION['impersonacao_destino'] = "supervisores/ver_cada.php?supervisor_id=" . (int)$alvo->supervisor_id;
+		}
+
+		// Redireciona para o shell (index.php) que recarrega o menu lateral
+		// com a sidebar da impersonação e carrega a ficha no iframe.
+		echo("<script language='javascript'>window.top.location.href='../index.php'</script>");
+		exit;
+	}
+
+	/**
+	 * Encerra a impersonação e restaura a identidade do admin real.
+	 */
+	public function desassumir() {
+		$this->comAutenticacao();
+
+		if (!sessao_admin_real()) {
+			die("Não há impersonação ativa.");
+		}
+
+		sessao_desassumir();
+
+		echo("<script language='javascript'>window.top.location.href='../index.php'</script>");
 		exit;
 	}
 

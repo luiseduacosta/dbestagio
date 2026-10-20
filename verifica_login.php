@@ -42,7 +42,33 @@ if ($senha_ok) {
     // Os cookies de nome/email gravados aqui servem apenas para os menus em
     // JavaScript — nunca para autorizar.
     sessao_autenticar($usuario);
-    echo("<script language='javascript'>window.top.location.href='index.php'</script>");
+
+    // Normaliza role (compat com códigos numéricos legados)
+    $role = (string)$usuario->role;
+    $role_map = array('1' => 'admin', '2' => 'aluno', '3' => 'professor', '4' => 'supervisor');
+    if (isset($role_map[$role])) {
+        $role = $role_map[$role];
+    }
+
+    // Redireciona para a ficha da entidade correspondente:
+    //   aluno      → alunos/ver_cada.php?aluno_id=xx
+    //   professor  → professores/ver_cada.php?professor_id=xx
+    //   supervisor → supervisores/ver_cada.php?supervisor_id=xx
+    // Se o usuário ainda não tem entidade vinculada, vai completar o cadastro.
+    // Admin cai na página principal.
+    if ($role === 'aluno' && !empty($usuario->aluno_id)) {
+        $destino = "alunos/ver_cada.php?aluno_id=" . (int)$usuario->aluno_id;
+    } elseif ($role === 'professor' && !empty($usuario->professor_id)) {
+        $destino = "professores/ver_cada.php?professor_id=" . (int)$usuario->professor_id;
+    } elseif ($role === 'supervisor' && !empty($usuario->supervisor_id)) {
+        $destino = "supervisores/ver_cada.php?supervisor_id=" . (int)$usuario->supervisor_id;
+    } elseif (in_array($role, array('aluno', 'professor', 'supervisor'), true)) {
+        $destino = "users/registrar_entidade.php?user_id=" . (int)$usuario->id;
+    } else {
+        $destino = "index.php";
+    }
+
+    echo("<script language='javascript'>window.top.location.href='" . $destino . "'</script>");
 } else {
     volta_ao_login();
 }
