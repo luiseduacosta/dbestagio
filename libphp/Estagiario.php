@@ -107,8 +107,13 @@ class Estagiario extends ADODB_Model {
      * @param string $periodo Filtra por período (valida contra a lista fechada no chamador).
      * @param string $busca   Valor a pesquisar em aluno (nome/registro) ou instituição.
      * @param string $orderby Coluna de ordenação (whitelist aplicada no chamador).
+     * @param int    $instituicao_id Filtra pela instituição (0 = todas).
+     * @param int    $supervisor_id  Filtra pelo supervisor (0 = todos).
+     * @param int    $professor_id   Filtra pelo professor (0 = todos).
+     * @param string $nivel          Filtra pelo nível ('' = todos).
      */
-    public static function listar($periodo = '', $busca = '', $orderby = 'e.periodo DESC, a.nome') {
+    public static function listar($periodo = '', $busca = '', $orderby = 'e.periodo DESC, a.nome',
+            $instituicao_id = 0, $supervisor_id = 0, $professor_id = 0, $nivel = '') {
         $db = static::db();
 
         $sql = "SELECT e.id, e.registro, e.periodo, e.nivel, e.tc, e.nota, e.ch, "
@@ -133,6 +138,22 @@ class Estagiario extends ADODB_Model {
             $params[] = "%$busca%";
             $params[] = "%$busca%";
             $params[] = "%$busca%";
+        }
+        if ($instituicao_id > 0) {
+            $where[]  = "e.instituicao_id = ?";
+            $params[] = (int)$instituicao_id;
+        }
+        if ($supervisor_id > 0) {
+            $where[]  = "e.supervisor_id = ?";
+            $params[] = (int)$supervisor_id;
+        }
+        if ($professor_id > 0) {
+            $where[]  = "e.professor_id = ?";
+            $params[] = (int)$professor_id;
+        }
+        if ($nivel !== '') {
+            $where[]  = "e.nivel = ?";
+            $params[] = $nivel;
         }
         if ($where) {
             $sql .= " WHERE " . implode(" AND ", $where);

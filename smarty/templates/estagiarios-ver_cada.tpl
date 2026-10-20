@@ -1,108 +1,83 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
-<title>Estágio #{$e.id}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estágio #{$e.id} — Estágio ESS/UFRJ</title>
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 </head>
-<body>
+<body id="corpo">
 
-<a href="javascript:history.back();">Voltar</a>
+<main class="mural-page">
 
-<div align="center">
-<h3>Estágio #{$e.id}</h3>
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · Estagiários</p>
+			<h1>Estágio #{$e.id}<span>{$e.aluno_nome}{if $e.periodo} · {$e.periodo}{/if}</span></h1>
+		</div>
+	</header>
 
-<table class="ficha">
-<tbody>
+	<table class="ficha card-table">
+	<tbody>
 
-<tr>
-<td class="coluna_direita">Período</td>
-<td>{$e.periodo}</td>
-</tr>
+	<tr>
+	<th>Período</th>
+	<td>{$e.periodo}</td>
+	</tr>
 
-<tr>
-<td class="coluna_direita">Aluno</td>
-<td>
-{if $smarty.cookies.usuario}
-<a href="../../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a>
-{else}{$e.aluno_nome}{/if}
-<span style="font-size:85%">({$e.registro})</span>
-</td>
-</tr>
+	<tr>
+	<th>Aluno</th>
+	<td>
+	{if $smarty.cookies.usuario}
+	<a href="../alunos/ver_cada.php?aluno_id={$e.aluno_id}">{$e.aluno_nome}</a>
+	{else}{$e.aluno_nome}{/if}
+	({$e.registro})
+	</td>
+	</tr>
 
-<tr>
-<td class="coluna_direita">Instituição</td>
-<td>
-<a href="../../instituicoes/ver_cada.php?id_instituicao={$e.instituicao_id}">{$e.instituicao}</a>
-</td>
-</tr>
+	<tr>
+	<th>Instituição</th>
+	<td>
+	{if $e.instituicao_id}
+	<a href="../instituicoes/ver_cada.php?id_instituicao={$e.instituicao_id}">{$e.instituicao}</a>
+	{else}{$e.instituicao}{/if}
+	</td>
+	</tr>
 
-<tr>
-<td class="coluna_direita">Supervisor</td>
-<td>{$e.supervisor}</td>
-</tr>
+	<tr><th>Supervisor</th><td>{$e.supervisor}</td></tr>
 
-<tr>
-<td class="coluna_direita">Professor</td>
-<td>{$e.professor}</td>
-</tr>
+	<tr><th>Professor</th><td>{$e.professor}</td></tr>
 
-<tr>
-<td class="coluna_direita">Nível</td>
-<td>{$e.nivel}</td>
-</tr>
+	<tr><th>Nível</th><td>{$e.nivel}</td></tr>
 
-<tr>
-<td class="coluna_direita">TC</td>
-<td>{$e.tc}</td>
-</tr>
+	<tr><th>TC</th><td>{$e.tc}</td></tr>
 
-<tr>
-<td class="coluna_direita">TC solicitação</td>
-<td>{$e.tc_solicitacao}</td>
-</tr>
+	<tr><th>TC solicitação</th><td>{$e.tc_solicitacao}</td></tr>
 
-<tr>
-<td class="coluna_direita">Nota</td>
-<td>{$e.nota}</td>
-</tr>
+	<tr><th>Nota</th><td>{$e.nota}</td></tr>
 
-<tr>
-<td class="coluna_direita">Carga horária</td>
-<td>{$e.ch}</td>
-</tr>
+	<tr><th>Carga horária</th><td>{$e.ch}</td></tr>
 
-<tr>
-<td class="coluna_direita">Ajuste 2020</td>
-<td>{$e.ajuste2020}</td>
-</tr>
+	<tr><th>Ajuste 2020</th><td>{$e.ajuste2020}</td></tr>
 
-<tr>
-<td class="coluna_direita">Transporte</td>
-<td>{if $e.benetransporte}Sim{else}Não{/if}</td>
-</tr>
+	<tr><th>Transporte</th><td>{if $e.benetransporte}Sim{else}Não{/if}</td></tr>
 
-<tr>
-<td class="coluna_direita">Alimentação</td>
-<td>{if $e.benealimentacao}Sim{else}Não{/if}</td>
-</tr>
+	<tr><th>Alimentação</th><td>{if $e.benealimentacao}Sim{else}Não{/if}</td></tr>
 
-<tr>
-<td class="coluna_direita">Bolsa</td>
-<td>{$e.benebolsa}</td>
-</tr>
+	<tr><th>Bolsa</th><td>{$e.benebolsa}</td></tr>
 
-<tr>
-<td class="coluna_direita">Observações</td>
-<td>{$e.observacoes}</td>
-</tr>
+	<tr><th>Observações</th><td>{$e.observacoes}</td></tr>
 
-</tbody>
-</table>
+	</tbody>
+	</table>
 
-<p><a href="../../estagiarios/atualizar.php?id={$e.id}">Editar estágio</a></p>
-</div>
+	<div class="action-row">
+		<a class="action-btn" href="atualizar.php?id={$e.id}">Editar estágio</a>
+		<a class="btn btn-secondary" href="listar.php">Voltar para a listagem</a>
+	</div>
+
+</main>
 
 </body>
 </html>

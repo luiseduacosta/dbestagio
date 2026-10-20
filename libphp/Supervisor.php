@@ -114,7 +114,7 @@ class Supervisor extends ADODB_Model {
         $out = array();
         if ($rs) {
             foreach ($rs as $row) {
-                $out[] = (array)$row;
+                $out[] = $row->toArray();
             }
         }
         return $out;

@@ -350,7 +350,8 @@ class EstagiariosController {
 	}
 
 	/**
-	 * Lista os estágios com filtros por período/busca e ordenação segura.
+	 * Lista os estágios com filtros combináveis (período, busca, instituição,
+	 * supervisor, professor e nível) e ordenação segura.
 	 * Substitui estagiarios/exibir/listar.php.
 	 */
 	public function listar() {
@@ -375,19 +376,38 @@ class EstagiariosController {
 		}
 		$orderby = $colunas_ordem[$ordem];
 
-		// Valida período contra a lista fechada.
+		// Filtros combináveis por instituição, supervisor, professor e nível.
+		$instituicao_id = isset($_GET['instituicao_id']) ? (int)$_GET['instituicao_id'] : 0;
+		$supervisor_id  = isset($_GET['supervisor_id']) ? (int)$_GET['supervisor_id'] : 0;
+		$professor_id   = isset($_GET['professor_id']) ? (int)$_GET['professor_id'] : 0;
+		$nivel          = isset($_GET['nivel']) ? trim($_GET['nivel']) : '';
+
+		// Valida período e nível contra listas fechadas.
 		$periodos = Estagiario::periodos();
 		if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
 			$periodo = '';
 		}
 
-		$estagiarios = Estagiario::listar($periodo, $busca, $orderby);
+		$niveis = Estagiario::niveis();
+		if ($nivel !== '' && !in_array($nivel, $niveis, true)) {
+			$nivel = '';
+		}
+
+		$estagiarios = Estagiario::listar($periodo, $busca, $orderby, $instituicao_id, $supervisor_id, $professor_id, $nivel);
 
 		$smarty = new Smarty_estagio;
 		$smarty->assign("periodo", $periodo);
 		$smarty->assign("periodos", $periodos);
 		$smarty->assign("busca", $busca);
 		$smarty->assign("estagiarios", $estagiarios);
+		$smarty->assign("instituicoes", Instituicao::listar_todas());
+		$smarty->assign("supervisores", Supervisor::listar('nome'));
+		$smarty->assign("professores", Professor::listar('', '', 'p.nome'));
+		$smarty->assign("niveis", $niveis);
+		$smarty->assign("instituicao_id", $instituicao_id);
+		$smarty->assign("supervisor_id", $supervisor_id);
+		$smarty->assign("professor_id", $professor_id);
+		$smarty->assign("nivel", $nivel);
 		$smarty->display("estagiarios-listar.tpl");
 
 		exit;
