@@ -121,6 +121,12 @@ class AlunosController {
 		global $isAdmin, $isAluno;
 		$this->comAutenticacao();
 
+		// Apenas administradores cadastram alunos. O próprio aluno cria o
+		// seu registro pelo fluxo de cadastro (users/registrar_entidade.php).
+		if (!$isAdmin) {
+			die("Acesso restrito: somente administradores podem cadastrar alunos.");
+		}
+
 		$origem = isset($_REQUEST['origem']) ? trim($_REQUEST['origem']) : '';
 		if (empty($origem)) {
 			$origem = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -657,7 +663,7 @@ class AlunosController {
 	 * instituição de estágio. Substitui alunos/exibir/listar.php.
 	 */
 	public function listar() {
-		global $sistema_autentica;
+		global $sistema_autentica, $isAdmin;
 		$this->comAutenticacao();
 
 		$busca          = isset($_GET['busca']) ? trim($_GET['busca']) : '';
@@ -699,6 +705,9 @@ class AlunosController {
 		$smarty->assign("instituicao_id", $instituicao_id);
 		$smarty->assign("instituicoes", $instituicoes);
 		$smarty->assign("alunos", $alunos);
+		// Editar/Excluir são exclusivos do admin: alunos, professores e
+		// supervisores não editam nem excluem registros nesta listagem.
+		$smarty->assign("isAdmin", !empty($isAdmin));
 		$smarty->display("alunos-listar.tpl");
 		exit;
 	}

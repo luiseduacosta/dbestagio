@@ -105,8 +105,10 @@ function carrega_tabela() {
 	<td>
 		<span class="action-links">
 		<a href="ver_cada.php?supervisor_id={$s.supervisor_id}">Ver</a>
+		{if $isAdmin}
 		<a href="atualizar.php?supervisor_id={$s.supervisor_id}">Editar</a>
 		<a class="is-danger" href="excluir.php?supervisor_id={$s.supervisor_id}" onclick="return confirm('Excluir este supervisor?');">Excluir</a>
+		{/if}
 		</span>
 	</td>
 	</tr>
@@ -117,7 +119,9 @@ function carrega_tabela() {
 	</section>
 
 	<div class="action-row">
+		{if $isAdmin}
 		<a class="action-btn" href="inserir.php">Inserir novo supervisor</a>
+		{/if}
 	</div>
 
 </main>

@@ -93,8 +93,10 @@ function carrega_tabela() {
 			<td>
 			<span class="action-links">
 			<a href="ver_cada.php?aluno_id={$alunos[i].id}">Ver</a>
+			{if $isAdmin}
 			<a href="atualizar.php?aluno_id={$alunos[i].id}">Editar</a>
 			<a class="is-danger" href="excluir.php?aluno_id={$alunos[i].id}" onclick="return confirm('Excluir este aluno?');">Excluir</a>
+			{/if}
 			</span>
 			</td>
 			{/if}
@@ -106,7 +108,9 @@ function carrega_tabela() {
 	</section>
 
 	<div class="action-row">
+		{if $isAdmin}
 		<a class="action-btn" href="../../alunos/inserir/seleciona_aluno.php">Novo aluno</a>
+		{/if}
 		<a class="btn btn-secondary" href="javascript:history.back();">Voltar</a>
 	</div>
 

@@ -293,7 +293,15 @@ class ProfessoresController {
 	 * Substitui professores/inserir/form.php + professores/inserir/inserir.php.
 	 */
 	public function inserir() {
+		global $isAdmin;
 		$this->comAutenticacao();
+
+		// Apenas administradores cadastram novos professores. O próprio
+		// professor cria/edita o seu registro pelo fluxo de cadastro
+		// (users/registrar_entidade.php) e pela edição do próprio cadastro.
+		if (!$isAdmin) {
+			die("Acesso restrito: somente administradores podem cadastrar professores.");
+		}
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$dados = $this->lerPost();

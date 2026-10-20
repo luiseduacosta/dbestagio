@@ -41,7 +41,7 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
   <summary>Mural de Estágios</summary>
   <a href="mural/mural-listar.php" target="_corpo">Listar mural</a>
 <?php if ($usuario_logado) { ?>
-<?php if (!$isAluno && !$isProfessor) { ?>
+<?php if ($isAdmin) { ?>
   <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
 <?php } ?>
   <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>

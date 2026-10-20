@@ -4,8 +4,8 @@
  * oferta do mural.
  *
  * Mantém o endpoint público (action do formulário mural-modifica.tpl) e
- * delega toda a lógica ao MuralestagiosController. Como o script original,
- * NÃO exige login (paridade de comportamento; ver nota no controlador).
+ * delega toda a lógica ao MuralestagiosController. Exige login e é restrito
+ * ao role admin (ver nota no controlador).
  */
 require_once(__DIR__ . "/MuralestagiosController.php");
 
