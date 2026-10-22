@@ -38,7 +38,6 @@ while (!$resultado->EOF) {
 	$sql_supervisor  =  "insert into supervisores ";
 	$sql_supervisor .= "(nome, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
 	$sql_supervisor .= "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	echo $sql_supervisor . "<br>";
 	// N.B.: $regiao, $quantidade e $turma nunca sao definidos neste script -- ele le
 	// $region, $num_inscricao e $curso_turma do registro, mas o INSERT referencia
 	// outros nomes. O original interpolava os tres como string vazia; o "?? ''"
@@ -46,13 +45,13 @@ while (!$resultado->EOF) {
 	$res_supervisor = $db->Execute($sql_supervisor, array(
 		$nome, $endereco, $bairro, $municipio, $cep, $codigo_tel, $telefone,
 		$codigo_cel, $celular, $email, $escola, $ano_formatura, $cress,
-		$regiao ?? '', $outros_estudos, $area_curso, $ano_curso, $cargo,
-		$quantidade ?? '', $turma ?? ''
+		$region ?? '', $outros_estudos, $area_curso, $ano_curso, $cargo,
+		$num_inscricao ?? '', $curso_turma ?? ''
 	));
 	if ($res_supervisor === false) die ("Não foi possível inserir o registro na tabela supervisores");
 	
 	$res_ultimo_supervisor = $db->Execute("select max(id) as ultimo_registro from supervisores");
-	if ($res_ultima_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
+	if ($res_ultimo_supervisor === false) die ("Não foi possível consultar a tabela supervisores");
 	$id_supervisor = $res_ultimo_supervisor->fields['ultimo_registro'];
 
 	$sql_inst_super = "select * from curso_inst_super where id_supervisor=?";
@@ -81,7 +80,6 @@ while (!$resultado->EOF) {
 			$sql_instituicao  = "insert into instituicoes ";
 			$sql_instituicao .= "(instituicao, endereco, bairro, municipio, cep, telefone, beneficios, fim_de_semana) ";
 			$sql_instituicao .= "values(?,?,?,?,?,?,?,?)";
-			echo $sql_instituicao . "<br>";
 			$res_institucao = $db->Execute($sql_instituicao, array(
 				$instituicao, $inst_endereco, $inst_bairro, $inst_municipio,
 				$inst_cep, $inst_telefone, $beneficio, $fim_de_semana
