@@ -10,12 +10,21 @@
  *   - Professor:       "Mural → Listar / Ver cada", "Professores" (Listar +
  *                      o próprio cadastro), "Estagiários", "Eventos" and
  *                      "Manual do aluno" only.
- *   - Other authenticated (admin, supervisor): full menu (admin sections
- *     behind $isAdmin).
+ *   - Supervisor:      read-only menu — "Mural → Listar / Ver cada",
+ *                      "Instituições" (listar), "Supervisores" (listar /
+ *                      ver), "Alunos" (listar / ver / buscar), "Inscrições",
+ *                      "Professores" (listar), "Estagiários", "Gráficos",
+ *                      "Curso Estágio", "Eventos" and "Manual do aluno".
+ *                      Não cadastra, edita nem exclui (links de escrita
+ *                      ocultos; os endpoints também barram).
+ *   - Admin:           full menu, incluindo "Visitas".
+ *
+ * Observação: a seção "Turmas de OTP" foi removida do menu.
  */
 if (!isset($isAdmin))        { $isAdmin = false; }
 if (!isset($isAluno))        { $isAluno = false; }
 if (!isset($isProfessor))    { $isProfessor = false; }
+if (!isset($isSupervisor))   { $isSupervisor = false; }
 if (!isset($usuario_logado)) { $usuario_logado = false; }
 if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
 ?>
@@ -61,22 +70,22 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
   <summary>Instituições</summary>
   <a href="imprimir/listagem.php" target="_corpo">Imprimir catálogo</a>
   <a href="instituicoes/listar.php" target="_corpo">Listar todas</a>
+<?php if ($isAdmin) { ?>
   <a href="instituicoes/inserir.php" target="_corpo">Inserir instituição</a>
+<?php } ?>
   <a href="areas/listar.php" target="_corpo">Listar áreas</a>
 </details>
 
 <details>
   <summary>Supervisores</summary>
   <a href="supervisores/listar.php" target="_corpo">Listar todos(as)</a>
-  <a href="supervisores/seleciona.php?opcao=atualizar" target="_corpo">Modificar</a>
-  <a href="supervisores/seleciona.php?opcao=cancela" target="_corpo">Excluir</a>
-  <a href="supervisores/alunos_supervisor.php" target="_corpo">Supervisores alunos</a>
-  <a href="supervisores/buscar.php" target="_corpo">Buscar</a>
-  <a href="supervisores/seleciona.php" target="_corpo">Ver supervisor</a>
   <a href="supervisores/ver_cada.php?indice=0" target="_corpo">Ver c/supervisor</a>
+<?php if ($isAdmin) { ?>
   <a href="supervisores/inserir.php" target="_corpo">Inserir supervisor</a>
+<?php } ?>
 </details>
 
+<?php if ($isAdmin) { ?>
 <details>
   <summary>Visitas</summary>
   <a href="visitas/listar.php" target="_corpo">Listar</a>
@@ -84,25 +93,22 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
   <a href="visitas/listar.php" target="_corpo">Editar</a>
   <a href="visitas/listar.php" target="_corpo">Excluir</a>
 </details>
-
-<details>
-  <summary>Turmas de OTP</summary>
-  <a href="areas/listar.php" target="_corpo">Listar</a>
-  <a href="areas/inserir.php" target="_corpo">Inserir</a>
-  <a href="areas/seleciona.php" target="_corpo">Modificar</a>
-  <a href="areas/seleciona.php?opcao=cancela" target="_corpo">Excluir</a>
-</details>
+<?php } ?>
 
 <details>
   <summary>Alunos</summary>
   <a href="alunos/listar.php" target="_corpo">Listar</a>
+<?php if ($isAdmin) { ?>
   <a href="alunos/inserir/seleciona_aluno.php" target="_corpo">Inserir/atualizar aluno</a>
   <a href="alunos/atualizar/seleciona.php" target="_corpo">Modificar</a>
   <a href="alunos/cancelar/seleciona.php" target="_corpo">Excluir</a>
+<?php } ?>
   <a href="alunos/buscar/busca.php" target="_corpo">Buscar</a>
   <a href="alunos/ver_cada.php?indice=0" target="_corpo">Ver c/aluno</a>
   <a href="alunos/exibir/seleciona.php" target="_corpo">Ver aluno</a>
+<?php if ($isAdmin) { ?>
   <a href="alunos/inserir.php" target="_corpo">Inserir aluno</a>
+<?php } ?>
   <a href="turnos/listar.php" target="_corpo">Turnos</a>
 </details>
 
@@ -114,7 +120,9 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
 <details>
   <summary>Professores</summary>
   <a href="professores/listar.php" target="_corpo">Listar</a>
+<?php if ($isAdmin) { ?>
   <a href="professores/inserir.php" target="_corpo">Inserir</a>
+<?php } ?>
 </details>
 
 <details>

@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Supervisores - {$nome}</title>
+<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
 <link rel="stylesheet" href="../estagio.css">
 <link rel="stylesheet" href="../estagio-moderno.css">
 
@@ -193,13 +194,16 @@ function get_periodo() {
 	{if $alunos}
 	<section class="table-shell" aria-label="Alunos supervisionados">
 		<p class="eyebrow">Alunos supervisionados</p>
-		<table class="dt-table">
+		<table id="estagiarios" class="display dt-table">
 		<thead>
 		<tr>
 		<th>Registro</th>
 		<th>Nome</th>
 		<th>Instituição</th>
+		<th>Professor</th>
 		<th>Período</th>
+		<th>Nota</th>
+		<th>CH</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -208,7 +212,16 @@ function get_periodo() {
 		<td class="coluna_direita">{$al.registro}</td>
 		<td><a href="../alunos/ver_cada.php?aluno_id={$al.aluno_id}">{$al.nome}</a></td>
 		<td><a href="../instituicoes/ver_cada.php?instituicao_id={$al.instituicao_id}">{$al.instituicao}</a></td>
+		<td>
+		{if $al.professor_id && $al.professor}
+		<a href="../professores/ver_cada.php?professor_id={$al.professor_id}">{$al.professor}</a>
+		{else}
+		—
+		{/if}
+		</td>
 		<td class="coluna_centralizada">{$al.periodo}</td>
+		<td class="coluna_centralizada">{if $al.nota ne ''}{$al.nota}{else}—{/if}</td>
+		<td class="coluna_centralizada">{if $al.ch ne ''}{$al.ch}{else}—{/if}</td>
 		</tr>
 		{/foreach}
 		</tbody>
@@ -224,6 +237,24 @@ function get_periodo() {
 	</div>
 
 </main>
+
+{literal}
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
+<script>
+$(document).ready(function () {
+	// A tabela so existe quando o supervisor tem estagiarios vinculados.
+	if ($('#estagiarios').length) {
+		$('#estagiarios').DataTable({
+			language: { url: '../libjs/datatables/pt-BR.json' },
+			pageLength: 25,
+			lengthMenu: [10, 25, 50, 100],
+			order: []
+		});
+	}
+});
+</script>
+{/literal}
 
 </body>
 </html>

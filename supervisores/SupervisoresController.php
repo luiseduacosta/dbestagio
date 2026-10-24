@@ -10,9 +10,6 @@
  *   ver_cada()          <- exibir/ver_cada.php
  *   listar()            <- exibir/listar.php
  *   excluir()           <- cancelar/cancela.php
- *   alunos_supervisor() <- exibir/alunos_supervisor.php
- *   seleciona()         <- seleciona.php + exibir/seleciona.php
- *   buscar()            <- buscar/busca.php + buscar/resultado.php
  *   inst_supervisor()   <- cancelar/inst_supervisor.php
  *
  * O controlador cuida de HTTP, autenticação, sanitização e assigns do Smarty.
@@ -268,10 +265,12 @@ class SupervisoresController {
 		// Alunos supervisionados
 		$alunos = array();
 		$rsAlunos = Estagiario::query(
-			"SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao "
+			"SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao, "
+			. "e.professor_id, p.nome AS professor, e.nota, e.ch "
 			. "FROM estagiarios AS e "
 			. "INNER JOIN alunos AS a ON a.id = e.aluno_id "
 			. "LEFT JOIN instituicoes AS i ON i.id = e.instituicao_id "
+			. "LEFT JOIN professores AS p ON p.id = e.professor_id "
 			. "WHERE e.supervisor_id = ? "
 			. "ORDER BY e.periodo, a.nome",
 			array($supervisor_id)
@@ -285,6 +284,10 @@ class SupervisoresController {
 					'periodo'        => $item->periodo,
 					'instituicao_id' => (int)$item->instituicao_id,
 					'instituicao'    => ($item->instituicao !== null) ? $item->instituicao : 'Sem dados',
+					'professor_id'   => ($item->professor_id !== null) ? (int)$item->professor_id : 0,
+					'professor'      => ($item->professor !== null) ? $item->professor : '',
+					'nota'           => ($item->nota !== null) ? $item->nota : '',
+					'ch'             => ($item->ch !== null) ? (int)$item->ch : '',
 				);
 			}
 		}
@@ -507,130 +510,6 @@ class SupervisoresController {
 		Supervisor::query("DELETE FROM inst_super WHERE supervisor_id = ?", array($supervisor_id));
 
 		header("Location: listar.php");
-		exit;
-	}
-
-	/**
-	 * Lista alunos supervisionados por um supervisor específico.
-	 * Substitui supervisores/exibir/alunos_supervisor.php.
-	 */
-	public function alunos_supervisor() {
-		$this->comAutenticacao();
-
-		$supervisor_id   = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
-		$nome_supervisor = isset($_REQUEST['nome_supervisor']) ? htmlspecialchars(trim($_REQUEST['nome_supervisor']), ENT_QUOTES, 'UTF-8') : '';
-		if ($nome_supervisor === '' && $supervisor_id > 0) {
-			$sup = Supervisor::find($supervisor_id);
-			if ($sup) {
-				$nome_supervisor = $sup->nome;
-			}
-		}
-		$ordem           = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'periodo, nome';
-
-		$ordenacoes = array(
-			'periodo, nome' => 'periodo, nome',
-			'nome'          => 'nome',
-			'periodo'       => 'periodo',
-			'instituicao'   => 'instituicao',
-			'nome_desc'     => 'nome DESC',
-		);
-		if (!isset($ordenacoes[$ordem])) {
-			$ordem = 'periodo, nome';
-		}
-		$orderby = $ordenacoes[$ordem];
-
-		$sql = "SELECT e.id, e.aluno_id, e.registro, e.periodo, e.instituicao_id, "
-			 . "a.nome, a.email, i.instituicao "
-			 . "FROM estagiarios AS e "
-			 . "JOIN alunos AS a ON e.registro = a.registro "
-			 . "JOIN instituicoes AS i ON e.instituicao_id = i.id "
-			 . "WHERE e.supervisor_id = ? ORDER BY $orderby";
-
-		$alunos = Estagiario::query($sql, array($supervisor_id));
-		$estagiario = array();
-		if (!empty($alunos)) {
-			foreach ($alunos as $item) {
-				$estagiario[] = array(
-					'registro'       => $item->registro,
-					'aluno_id'       => (int)$item->aluno_id,
-					'nome'           => $item->nome,
-					'periodo'        => $item->periodo,
-					'email'          => $item->email,
-					'instituicao_id' => (int)$item->instituicao_id,
-					'instituicao'    => $item->instituicao,
-				);
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("supervisor_id", $supervisor_id);
-		$smarty->assign("id_supervisor", $supervisor_id);
-		$smarty->assign("nome_supervisor", $nome_supervisor);
-		$smarty->assign("estagiario", $estagiario);
-		$smarty->display("supervisores-alunos_supervisor.tpl");
-		exit;
-	}
-
-	/**
-	 * Seletor de supervisor para ações rápidas (modificar/cancelar/ver).
-	 * Substitui supervisores/seleciona.php e supervisores/exibir/seleciona.php.
-	 */
-	public function seleciona() {
-		$this->comAutenticacao();
-
-		$opcao = isset($_GET['opcao']) ? $_GET['opcao'] : '';
-		$res = Supervisor::all("ORDER BY nome");
-
-		$supervisores = array();
-		if (!empty($res)) {
-			foreach ($res as $item) {
-				$supervisores[] = array(
-					'id'   => (int)$item->id,
-					'nome' => $item->nome,
-				);
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("opcao", $opcao);
-		$smarty->assign("supervisores", $supervisores);
-		$smarty->display("supervisores-seleciona.tpl");
-		exit;
-	}
-
-	/**
-	 * Busca de supervisores por nome.
-	 * Substitui supervisores/buscar/busca.php e supervisores/buscar/resultado.php.
-	 */
-	public function buscar() {
-		$this->comAutenticacao();
-
-		$palavra = isset($_REQUEST['palavra']) ? trim($_REQUEST['palavra']) : '';
-		$supervisores = array();
-
-		if ($palavra !== '') {
-			$res = Supervisor::query(
-				"SELECT id, nome, cress, email, telefone, celular FROM supervisores WHERE nome LIKE ? ORDER BY nome",
-				array("%$palavra%")
-			);
-			if (!empty($res)) {
-				foreach ($res as $item) {
-					$supervisores[] = array(
-						'supervisor_id'   => (int)$item->id,
-						'nome_supervisor' => $item->nome,
-						'cress'           => $item->cress,
-						'email'           => $item->email,
-						'telefone'        => $item->telefone,
-						'celular'         => $item->celular,
-					);
-				}
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("palavra", $palavra);
-		$smarty->assign("supervisores", $supervisores);
-		$smarty->display("supervisores-busca.tpl");
 		exit;
 	}
 
