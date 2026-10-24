@@ -88,7 +88,7 @@ function carrega_tabela() {
 
 	<td class="coluna_direita">
 	{if $s.turma}
-		<a href="alunos_supervisor.php?supervisor_id={$s.supervisor_id}&nome_supervisor={$s.nome|escape:'url'}">{$s.turma}</a>
+		{$s.turma}
 	{else}
 		—
 	{/if}

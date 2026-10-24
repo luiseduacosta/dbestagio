@@ -51,16 +51,8 @@ Entrar
 <div class="section">
     <a class="box2" href="supervisores/inserir.php" target="_corpo">
     Inserir</a><br>
-    <a class="box2" href="supervisores/seleciona.php?opcao=atualizar" target="_corpo">
-    Modificar</a><br>
-    <a class="box2" href="supervisores/buscar.php" target="_corpo">
-    Buscar</a><br>
     <a class="box2" href="supervisores/listar.php" target="_corpo">
     Listar todos</a><br>
-    <a class="box2" href="supervisores/seleciona.php" target="_corpo">
-    Ver supervisor</a><br>
-    <a class="box2" href="supervisores/seleciona.php?opcao=cancela" target="_corpo">
-    Excluir</a>
 </div>
 </td>
 </tr>
