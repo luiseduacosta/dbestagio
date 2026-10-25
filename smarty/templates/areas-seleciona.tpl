@@ -1,7 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="pt-BR">
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seleciona área</title>
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -17,30 +21,38 @@ function elimina()
 //-->
 </script>
 {/literal}
-<title>Seleciona área</title>
 </head>
+<body id="corpo">
 
-<body>
+<main class="mural-page">
 
-{if $opcao == "cancela"}
-<p>Cancela registro</p>
-<form name="seleciona_area" action="../../areas/excluir.php" method="post">
-{else}
-<p>Modifica registro</p>
-<form name="seleciona_area" action="../../areas/atualizar.php" method="post">
-{/if}
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · ESS/UFRJ</p>
+			<h1>{if $opcao == "cancela"}Excluir área{else}Modificar área{/if}<span>Selecione a área desejada</span></h1>
+		</div>
+	</header>
 
-<select name=id_area>
-{html_options values=$id_areas output=$areas}
-</select>
+	{if $opcao == "cancela"}
+	<form class="periodo-form" name="seleciona_area" action="excluir.php" method="post">
+	{else}
+	<form class="periodo-form" name="seleciona_area" action="atualizar.php" method="post">
+	{/if}
 
-{if $opcao == "cancela"}
-<input type="submit" name="submit" value="Confirma" onClick="return elimina()">
-{else}
-<input type="submit" name="submit" value="Confirma">
-{/if}
+		<label for="id_area">Área</label>
+		<select name="id_area" id="id_area">
+		{html_options values=$id_areas output=$areas}
+		</select>
 
-</form>
+		{if $opcao == "cancela"}
+		<input type="submit" name="submit" value="Confirma" onClick="return elimina()">
+		{else}
+		<input type="submit" name="submit" value="Confirma">
+		{/if}
+
+	</form>
+
+</main>
 
 </body>
 

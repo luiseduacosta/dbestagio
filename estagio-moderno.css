@@ -748,6 +748,15 @@ body#corpo textarea:focus {
 	box-shadow: 0 0 0 3px rgba(11, 92, 171, .15);
 }
 
+/* Texto auxiliar associado a um controle de formulário */
+.form-hint {
+	display: block;
+	margin-top: 4px;
+	color: var(--mural-muted);
+	font-size: 12px;
+	line-height: 1.4;
+}
+
 /* ------------------------------------------------------------------ */
 /* Card tables (forms and detail sheets)                              */
 /* ------------------------------------------------------------------ */

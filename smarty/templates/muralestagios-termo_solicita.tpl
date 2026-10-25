@@ -1,19 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html lang="pt-br">
-
+<!doctype html>
+<html lang="pt-BR">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Solicitação de termo de compromisso</title>
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Script-Type" content="text/javascript">
-<meta http-equiv="Content-Style-Type" content="text/css">
-<meta name="author" content="Luis Acosta">
-<meta name="generator" content="screem 0.12.1">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<style type="text/css">
-@import url("../../estagio.css");
-</style>
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {
@@ -37,15 +29,39 @@ function verificaRegistro() {
 {/literal}
 </head>
 
-<body>
+<body id="corpo">
 
-<h1>Solicitação de termo de compromisso</h1>
+<main class="mural-page">
 
-<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="termo_solicita.php" enctype="text/html" onSubmit="return verificaRegistro();">
-<h2>Digite o número de registro (DRE):</h2>
-<input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();">
-<input type="submit" name="confirma" value="Confirma" size="5">
-</form>
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · Mural</p>
+			<h1>Solicitação de termo de compromisso<span>Informe o número de registro (DRE) do aluno</span></h1>
+		</div>
+	</header>
+
+	<form name="seleciona_aluno" id="seleciona_aluno" method="post" action="termo_solicita.php" enctype="text/html" onSubmit="return verificaRegistro();">
+
+		<table class="card-table">
+		<tbody>
+
+		<tr>
+		<th><label for="registro">Número de registro (DRE)</label></th>
+		<td><input type="text" name="registro" id="registro" size="9" maxlength="9" onBlur="return verificaRegistro();"></td>
+		</tr>
+
+		<tr class="rodape">
+		<td colspan="2">
+		<input type="submit" name="confirma" value="Confirma" size="5">
+		</td>
+		</tr>
+
+		</tbody>
+		</table>
+
+	</form>
+
+</main>
 
 </body>
 </html>

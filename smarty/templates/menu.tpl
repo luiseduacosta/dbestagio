@@ -87,18 +87,12 @@ Entrar
     Inserir aluno novo</a><br>
     <a class="box2" href="alunos/inserir/seleciona.php" target="_corpo">
     Inserir estágio</a><br>
-    <a class="box2" href="alunos/atualizar/seleciona.php" target="_corpo">
-    Modificar</a><br>
     <a class="box2" href="alunos/listar.php" target="_corpo">
     Listar</a><br>
-    <a class="box2" href="alunos/exibir/seleciona.php" target="_corpo">
-    Ver aluno</a><br>
     <a class="box2" href="alunos/ver_cada.php?indice=0" target="_corpo">
     Ver cada aluno</a><br>
     <a class="box2" href="alunos/exibir/aluno_supervisor.php" target="_corpo">
-    Aluno por supervisor</a><br>
-    <a class="box2" href="alunos/cancelar/seleciona.php" target="_corpo">
-    Cancela</a>
+    Aluno por supervisor</a>
 </div>
 </td>
 </tr>

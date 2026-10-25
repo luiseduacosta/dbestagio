@@ -1,36 +1,47 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="pt-BR">
 <head>
-<link href="../../estagio.css" rel="stylesheet" type="text/css"> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Formulário para inserir áreas</title>
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 </head>
+<body id="corpo">
 
-<body>
+<main class="mural-page">
 
-<form name="inserir_area" action="inserir.php" method="post">
+	<header class="page-head">
+		<div class="page-heading">
+			<p class="eyebrow">Coordenação de Estágio · ESS/UFRJ</p>
+			<h1>Nova área<span>Cadastro de área de estágio</span></h1>
+		</div>
+	</header>
 
-<div align="center">
-<table>
-<caption>Área</caption>
-<tbody>
+	<form name="inserir_area" action="inserir.php" method="post">
 
-<tr>
-<td>
-<input type="text" name="area" size="30">
-</td>
-</tr>
+		<table class="card-table">
+		<tbody>
 
-<tr>
-<td align="center" class="rodape">
-<input type="submit" name="submit" value="Confirmar">
-</td>
-</tr>
+		<tr>
+		<th><label for="area">Área</label></th>
+		<td>
+		<input type="text" name="area" id="area" size="30" maxlength="90">
+		</td>
+		</tr>
 
-</tbody>
-</table>
-</div>
+		<tr class="rodape">
+		<td colspan="2">
+		<input type="submit" name="submit" value="Confirmar">
+		</td>
+		</tr>
 
-</form>
+		</tbody>
+		</table>
+
+	</form>
+
+</main>
 
 </body>
 

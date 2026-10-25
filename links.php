@@ -12,7 +12,7 @@
  *                      "Manual do aluno" only.
  *   - Supervisor:      read-only menu — "Mural → Listar / Ver cada",
  *                      "Instituições" (listar), "Supervisores" (listar /
- *                      ver), "Alunos" (listar / ver / buscar), "Inscrições",
+ *                      ver), "Alunos" (listar / ver),
  *                      "Professores" (listar), "Estagiários", "Gráficos",
  *                      "Curso Estágio", "Eventos" and "Manual do aluno".
  *                      Não cadastra, edita nem exclui (links de escrita
@@ -20,6 +20,14 @@
  *   - Admin:           full menu, incluindo "Visitas".
  *
  * Observação: a seção "Turmas de OTP" foi removida do menu.
+ * Observação: a seção "Inscrições" é exclusiva de admin (o endpoint continua
+ *             acessível a alunos, que só enxergam as próprias inscrições).
+ * Observação: o link "Termo de Compromisso" é exclusivo de aluno e admin —
+ *             o fluxo (atualiza_termo.php) também barra os demais perfis.
+ * Observação: o link "Buscar" (alunos/buscar/) foi removido — a consulta é
+ *             feita pelo campo de busca da listagem (alunos/listar.php).
+ * Observação: o link "Ver aluno" (alunos/exibir/seleciona.php) também foi
+ *             removido — a seleção é feita pela busca da listagem.
  */
 if (!isset($isAdmin))        { $isAdmin = false; }
 if (!isset($isAluno))        { $isAluno = false; }
@@ -54,7 +62,7 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
   <a href="mural/mural-inserir.php" target="_corpo">Inserir mural</a>
 <?php } ?>
   <a href="mural/mural-ver_cada.php?opcao=1&amp;indice=0" target="_corpo">Ver cada mural</a>
-<?php if (!$isProfessor) { ?>
+<?php if (!$isProfessor && !$isSupervisor) { ?>
   <hr>
   <a href="alunos/atualizar/seleciona_termo.php" target="_corpo">Termo de Compromisso</a>
 <?php } ?>
@@ -90,32 +98,25 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
   <summary>Visitas</summary>
   <a href="visitas/listar.php" target="_corpo">Listar</a>
   <a href="visitas/inserir.php" target="_corpo">Inserir</a>
-  <a href="visitas/listar.php" target="_corpo">Editar</a>
-  <a href="visitas/listar.php" target="_corpo">Excluir</a>
 </details>
 <?php } ?>
 
 <details>
   <summary>Alunos</summary>
   <a href="alunos/listar.php" target="_corpo">Listar</a>
-<?php if ($isAdmin) { ?>
-  <a href="alunos/inserir/seleciona_aluno.php" target="_corpo">Inserir/atualizar aluno</a>
-  <a href="alunos/atualizar/seleciona.php" target="_corpo">Modificar</a>
-  <a href="alunos/cancelar/seleciona.php" target="_corpo">Excluir</a>
-<?php } ?>
-  <a href="alunos/buscar/busca.php" target="_corpo">Buscar</a>
   <a href="alunos/ver_cada.php?indice=0" target="_corpo">Ver c/aluno</a>
-  <a href="alunos/exibir/seleciona.php" target="_corpo">Ver aluno</a>
 <?php if ($isAdmin) { ?>
   <a href="alunos/inserir.php" target="_corpo">Inserir aluno</a>
 <?php } ?>
   <a href="turnos/listar.php" target="_corpo">Turnos</a>
 </details>
 
+<?php if ($isAdmin) { ?>
 <details>
   <summary>Inscrições</summary>
   <a href="inscricoes/listar.php" target="_corpo">Listar</a>
 </details>
+<?php } ?>
 
 <details>
   <summary>Professores</summary>
