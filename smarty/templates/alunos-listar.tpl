@@ -109,7 +109,7 @@ function carrega_tabela() {
 
 	<div class="action-row">
 		{if $isAdmin}
-		<a class="action-btn" href="../../alunos/inserir/seleciona_aluno.php">Novo aluno</a>
+		<a class="action-btn" href="inserir.php">Novo aluno</a>
 		{/if}
 		<a class="btn btn-secondary" href="javascript:history.back();">Voltar</a>
 	</div>

@@ -7,3 +7,6 @@ vendor/
 # A regra "*.patch" que vinha junto no commit 312f3b3 ficou de fora de proposito:
 # preserve-wiki-docs.patch e versionado e "*.patch" esconderia todo patch futuro.
 .trae-html-share-packages/
+
+# Diretorio temporario de ferramenta local, nao versionado.
+.kun-canvas/

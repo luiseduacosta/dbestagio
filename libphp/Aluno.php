@@ -130,13 +130,6 @@ class Aluno extends ADODB_Model {
     }
 
     /**
-     * Busca alunos por parte do nome (retorna array de modelos Aluno).
-     */
-    public static function buscarPorNome($palavra) {
-        return static::where("nome LIKE ?", array("%" . $palavra . "%"));
-    }
-
-    /**
      * Histórico de estágios do aluno (por estagiarios.aluno_id), com instituição,
      * supervisor e professor resolvidos na própria consulta (sem N+1).
      */
