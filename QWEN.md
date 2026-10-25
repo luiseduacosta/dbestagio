@@ -22,7 +22,7 @@ separate name `dbestagio-cakephp`; this repository remains the running legacy-mo
 | Templates | **Smarty 4.5** (`smarty/templates/*.tpl`) |
 | PDF | **TCPDF 6.7**, **FPDF 1.8** |
 | Mail | **PHPMailer 6.9** (legacy Pommo code still referenced in docs) |
-| Front end | jQuery 1.x + plugins, DataTables-style client sorting, framesets, HTML 4.01 doctypes |
+| Front end | Legacy templates: jQuery 1.x + plugins, server-side sorting, framesets, HTML 4.01 doctypes. Modern templates: jQuery 3.7.1 + DataTables 2.2.2 (`libjs/datatables/`), HTML5, `estagio-moderno.css` design system |
 | Dependency management | Composer (`vendor/` is git-ignored) |
 
 ### Architecture
@@ -175,7 +175,55 @@ API: `find()`, `firstWhere()`, `where()`, `all()`, `query()`, `raw()`, `count()`
 - Compiled output goes to `smarty/templates_c/`, cache to `smarty/cache/`; both are git-ignored.
 - `Smarty_estagio` sets `caching = true` and `compile_check = true`; **`compile_check` must be
   `false` in production**. The debug console is off and URL-triggered only from localhost.
-- Templates are HTML 4.01 Transitional with `{literal}...{/literal}` around raw JavaScript.
+- Legacy templates are HTML 4.01 Transitional with `{literal}...{/literal}` around raw
+  JavaScript; modernized templates use the design-system markup described in *Modern UI* below.
+
+### Modern UI (`estagio-moderno.css`)
+
+A shared modern design system is being rolled out module by module (already converted:
+`turnos`, `mural`, `instituicoes`, `visitas`, `inscricoes`), replacing the legacy HTML 4.01
+markup. Modern templates must load the modern stylesheet **after** the legacy one, otherwise the
+design tokens and component rules do not win:
+
+```html
+<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+<link rel="stylesheet" href="../estagio.css">
+<link rel="stylesheet" href="../estagio-moderno.css">
+```
+
+Asset paths are relative to the **URL directory of the endpoint that renders the template**, not
+the template's physical location: one-level modules (`mural/`, `instituicoes/`, `inscricoes/`,
+`visitas/`, `turnos/`, `alunos/`) use `../`; two-level modules (`alunos/inserir/`) use `../../`.
+Using `../../` from a one-level page escapes the `/estagio` root and 404s.
+
+Standard components (`estagio-moderno.css` is the authoritative reference): `body#corpo` base,
+`<main class="mural-page">`, `header.page-head` (`p.eyebrow` + `h1`, with the subtitle in a nested
+`<span>`), `section.table-shell` (`.is-scroll` for wide tables) wrapping a DataTables
+`table.dt-table`, `table.card-table` for forms, `table.ficha.card-table` for read-only detail
+pages, `.action-links` for inline row mini-buttons, `.action-row` + `.btn` / `.btn-secondary` /
+`.btn-danger` for standalone buttons, `.form-hint` for helper text under a control,
+`.empty-state` for empty listings, and `.summary-strip` / `.metric` for totals. Prefer these
+classes over inline styles.
+
+#### Search, edit and delete come from the listing plus the detail page
+
+There is **no dedicated search or selection page**. The workflow is:
+
+1. **Search** — the user types in the **search box of the listing table** (the DataTables filter
+   on `<module>/listar.php`) to narrow the rows.
+2. **Open the record** — clicking a row opens `<module>/ver_cada.php`.
+3. **Edit or delete** — `ver_cada.php` renders the **Editar** and **Excluir** buttons for that
+   record; these are the only entry points for those actions.
+
+Because of this, the redundant sidebar links (`Editar`, `Excluir`, `Modificar`, `Inserir/
+atualizar`) and their backing selector scripts/templates were removed, e.g.:
+- `visitas`: the sidebar `Editar`/`Excluir` links were dropped.
+- `alunos`: `alunos/inserir/seleciona_aluno.php`, `alunos/atualizar/seleciona.php` and
+  `alunos/cancelar/seleciona.php` (plus their templates) were deleted; the listing's "Novo aluno"
+  button now points to the insert form `alunos/inserir.php`.
+
+Do not add per-record edit/delete links back into the listing rows or the sidebar — keep
+`ver_cada.php` as the single place for those actions.
 
 ### Vendored vs Composer libraries
 
