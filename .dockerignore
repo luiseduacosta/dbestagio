@@ -1,0 +1,11 @@
+.git
+.gitignore
+.cache
+.settings
+.project
+.buildpath
+.kun-canvas
+.kun-design
+.trae-html-share-packages
+docker/init-db/*.sql
+*.patch

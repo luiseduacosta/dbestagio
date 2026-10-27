@@ -10,3 +10,7 @@ vendor/
 
 # Diretorio temporario de ferramenta local, nao versionado.
 .kun-canvas/
+
+# SQL dumps para docker init (protege dados reais de alunos/banco)
+docker/init-db/*.sql
+
