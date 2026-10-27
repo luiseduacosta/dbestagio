@@ -1,0 +1,51 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dbestagio_web
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: ess_apps
+      DB_TYPE: mysqli
+    depends_on:
+      - db
+    volumes:
+      # Live sync files for local development
+      - .:/var/www/html
+      # Keep container-compiled template caches isolated
+      - smarty_cache:/var/www/html/smarty/cache
+      - smarty_templates_c:/var/www/html/smarty/templates_c
+    networks:
+      - dbestagio_net
+
+  db:
+    image: mariadb:10.11
+    container_name: dbestagio_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ess_apps
+    ports:
+      # Expose on port 3307 to avoid conflict if host has MySQL running on 3306
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      # Any SQL file placed here will run automatically on initial startup
+      - ./docker/init-db:/docker-entrypoint-initdb.d:ro
+    networks:
+      - dbestagio_net
+
+volumes:
+  db_data:
+  smarty_cache:
+  smarty_templates_c:
+
+networks:
+  dbestagio_net:
+    driver: bridge
