@@ -269,7 +269,7 @@ Modifica dados do aluno
 	<h1>Cadastrando aluno estagiário: nivel {$nivel_romano}</h1>
 {/if}
 
-<form action="atualiza_termo.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+<form action="{if $form_action}{$form_action}{else}atualiza_termo.php{/if}" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table width='90%' border='0' summary='Tabela'>
 <caption>Solicitação de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>

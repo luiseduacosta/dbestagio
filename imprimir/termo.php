@@ -1,6 +1,7 @@
 <?php
 
 require_once("../setup.php");
+require_once(__DIR__ . "/../libphp/models.php");
 
 // Data de hoje
 $dia = date("d");
@@ -168,8 +169,13 @@ $pdf->Cell(0, 5, "DRE: $registro", 0, 0, "R");
 $pdf->Output(dirname(__DIR__) . "/tmp/termo". $registro . ".pdf");
 $file = "/tmp/termo" . $registro . ".pdf";
 
+// Pagina de retorno apos o download do PDF (o id do aluno nao vinha no $_GET)
+$alunoTermo = Aluno::firstWhere('registro', $registro);
+$id_aluno   = $alunoTermo ? (int)$alunoTermo->id : 0;
+$url_volta  = ($id_aluno > 0) ? "../alunos/ver_cada.php?aluno_id=$id_aluno" : "../alunos/listar.php";
+
 echo "<html><head>
-<meta http-equiv='refresh' content='2;url=../exibir/ver_cada.php?id_aluno=$id_aluno'>
+<meta http-equiv='refresh' content='2;url=$url_volta'>
 <script>document.location='http://$servidor/estagio/$file';</script>
 </head></html>";
 
