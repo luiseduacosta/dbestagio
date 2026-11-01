@@ -153,8 +153,6 @@ function confirma() {
 
 	<form action="mural-alunos_atualiza.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
-		{if $sistema_autentica == 1}
-
 		<table class="card-table">
 		<tbody>
 
@@ -233,8 +231,6 @@ function confirma() {
 		</tbody>
 		</table>
 
-		{/if}
-
 		<table class="card-table">
 		<tbody>
 
@@ -251,7 +247,6 @@ function confirma() {
 		</tbody>
 		</table>
 
-		<input type="hidden" name="sistema_autentica" id="sistema_autentica" value="{$sistema_autentica}">
 		<input type="hidden" name="aluno_id" id="aluno_id" value="{$aluno_id}">
 		<input type="hidden" name="registro" id="registro" value="{$registro}">
 		<input type="hidden" name="muralestagio_id" id="muralestagio_id" value="{$muralestagio_id}">
