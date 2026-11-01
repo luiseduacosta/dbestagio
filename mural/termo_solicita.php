@@ -36,11 +36,6 @@ $instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituic
 $supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
 // echo $nascimento . "<br>";
 
-$acao     = isset($_REQUEST['acao']) ? $_REQUEST['acao'] : '';
-$envio    = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
-$cadastro = isset($_REQUEST['valorcadastro']) ? $_REQUEST['valorcadastro'] : '';
-$atualizar_estagio = isset($_REQUEST['atualizar_estagio']) ? (int)$_REQUEST['atualizar_estagio'] : 0;
-
 // Aluno
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro=?";
