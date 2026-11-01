@@ -111,8 +111,8 @@ $instituicao_id = 0;
 $instituicao = '';
 $supervisor_id = 0;
 $supervisor = '';
-$id_instituicao_atual = 0;
-$id_instituicao_anterior = 0;
+$instituicao_atual_id = 0;
+$instituicao_anterior_id = 0;
 if (!empty($estagios_aluno)) {
 	$instituicao_id = (int)$estagios_aluno[0]['instituicao_id'];
 	$instituicao    = (string)$estagios_aluno[0]['instituicao'];
@@ -120,9 +120,9 @@ if (!empty($estagios_aluno)) {
 	$supervisor     = (string)$estagios_aluno[0]['supervisor_nome'];
 	foreach ($estagios_aluno as $estagio) {
 		if ($estagio['periodo'] == TC_PERIODO_ATUAL) {
-			$id_instituicao_atual = (int)$estagio['instituicao_id'];
-		} elseif ($id_instituicao_anterior == 0) {
-			$id_instituicao_anterior = (int)$estagio['instituicao_id'];
+			$instituicao_atual_id = (int)$estagio['instituicao_id'];
+		} elseif ($instituicao_anterior_id == 0) {
+			$instituicao_anterior_id = (int)$estagio['instituicao_id'];
 		}
 	}
 }
@@ -182,8 +182,8 @@ $smarty->assign("instituicao_id",$instituicao_id);
 $smarty->assign("instituicao",$instituicao);
 $smarty->assign("supervisor_id",$supervisor_id);
 $smarty->assign("supervisor",$supervisor);
-$smarty->assign("id_instituicao_atual",$id_instituicao_atual);
-$smarty->assign("id_instituicao_anterior",$id_instituicao_anterior);
+$smarty->assign("instituicao_atual_id",$instituicao_atual_id);
+$smarty->assign("instituicao_anterior_id",$instituicao_anterior_id);
 // Destino do formulario (este script roda em mural/, o handler fica em alunos/atualizar/)
 $smarty->assign("form_action","../alunos/atualizar/atualiza_termo.php");
 // Instituicoes

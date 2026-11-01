@@ -420,8 +420,8 @@ Município:
 <input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="registro" value="{$registro}">
 <input type="hidden" name="nivel" value="{$nivel}">
-<input type="hidden" name="id_instituicao_periodo_atual" value="{$id_instituicao_atual}">
-<input type="hidden" name="id_instituicao_periodo_anterior" value="{$id_instituicao_anterior}">
+<input type="hidden" name="instituicao_atual_id" value="{$instituicao_atual_id}">
+<input type="hidden" name="instituicao_anterior_id" value="{$instituicao_anterior_id}">
 <input type="submit" name="submit" value="Confirma" onClick="return confirma();">
 </td>
 </tr>

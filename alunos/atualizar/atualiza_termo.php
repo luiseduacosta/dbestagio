@@ -44,9 +44,11 @@ $municipio       = isset($_REQUEST['municipio']) ? trim($_REQUEST['municipio']) 
 $observacoes     = isset($_REQUEST['observacoes']) ? trim($_REQUEST['observacoes']) : '';
 $nivel           = isset($_REQUEST['nivel']) ? (int)$_REQUEST['nivel'] : 1;
 
-// Instituicao na qual o aluno estava estagiando no periodo anterior
-$instituicao_id_periodo_atual    = isset($_REQUEST['id_instituicao_periodo_atual']) ? (int)$_REQUEST['id_instituicao_periodo_atual'] : (isset($_REQUEST['instituicao_id_periodo_atual']) ? (int)$_REQUEST['instituicao_id_periodo_atual'] : 0);
-$instituicao_id_periodo_anterior = isset($_REQUEST['id_instituicao_periodo_anterior']) ? (int)$_REQUEST['id_instituicao_periodo_anterior'] : (isset($_REQUEST['instituicao_id_periodo_anterior']) ? (int)$_REQUEST['instituicao_id_periodo_anterior'] : 0);
+// Instituicoes onde o aluno estagiou no periodo atual e no anterior.
+// Os nomes antigos dos campos POST ainda sao aceitos por compatibilidade
+// (formularios abertos antes desta mudanca).
+$instituicao_atual_id    = (int)($_REQUEST['instituicao_atual_id'] ?? $_REQUEST['id_instituicao_periodo_atual'] ?? $_REQUEST['instituicao_id_periodo_atual'] ?? 0);
+$instituicao_anterior_id = (int)($_REQUEST['instituicao_anterior_id'] ?? $_REQUEST['id_instituicao_periodo_anterior'] ?? $_REQUEST['instituicao_id_periodo_anterior'] ?? 0);
 
 $instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : NULL;
 $supervisor_id  = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : NULL;
@@ -68,7 +70,7 @@ if ($submit) {
     } else {
         $nivel_inicial = $nivel - 1;
         // 0 = nao muda, 1 = muda
-        $muda_estagio = ($instituicao_id == $instituicao_id_periodo_anterior) ? 0 : 1;
+        $muda_estagio = ($instituicao_id == $instituicao_anterior_id) ? 0 : 1;
         echo "Aluno estagiário.<br>";
         if (($nivel_inicial == 1 || $nivel_inicial == 3) && ($muda_estagio == 1)) {
             $classificacao = 0; // Mudanca fora de regimento
@@ -297,8 +299,8 @@ $observacoes     = $alunoObj->observacoes;
 // Busca estágios recentes do aluno usando o modelo Estagiario
 $estagiarios = Estagiario::estagiosPorRegistroDesc($registro);
 
-$instituicao_id_periodo_atual    = 0;
-$instituicao_id_periodo_anterior = 0;
+$instituicao_atual_id            = 0;
+$instituicao_anterior_id         = 0;
 $instituicao_id                  = 0;
 $instituicao                     = '';
 $supervisor_id                   = 0;
@@ -318,7 +320,7 @@ if (empty($estagiarios)) {
         if ($periodo == TC_PERIODO_ATUAL) {
             // Aluno estagiário já cadastrado no período atual
             $aluno = 1;
-            $instituicao_id_periodo_atual = (int)$estagio['instituicao_id'];
+            $instituicao_atual_id         = (int)$estagio['instituicao_id'];
             $instituicao_periodo_atual    = $estagio['instituicao'];
 
             $supervisor_id_periodo_atual  = (int)$estagio['supervisor_id'];
@@ -328,7 +330,7 @@ if (empty($estagiarios)) {
             $periodo_atual                = $estagio['periodo'];
 
             // Para o formulário
-            $instituicao_id = $instituicao_id_periodo_atual;
+            $instituicao_id = $instituicao_atual_id;
             $instituicao    = $instituicao_periodo_atual;
             $supervisor_id  = $supervisor_id_periodo_atual;
             $supervisor     = $supervisor_periodo_atual;
@@ -340,7 +342,7 @@ if (empty($estagiarios)) {
         } else {
             // Aluno estagiário não cadastrado no período atual
             $aluno = ($aluno == 1) ? 1 : 2;
-            $instituicao_id_periodo_anterior = (int)$estagio['instituicao_id'];
+            $instituicao_anterior_id         = (int)$estagio['instituicao_id'];
             $instituicao_periodo_anterior    = $estagio['instituicao'];
 
             $supervisor_id_periodo_anterior  = (int)$estagio['supervisor_id'];
@@ -350,7 +352,7 @@ if (empty($estagiarios)) {
             $periodo_anterior                = $estagio['periodo'];
 
             // Para o formulário
-            $instituicao_id = $instituicao_id_periodo_anterior;
+            $instituicao_id = $instituicao_anterior_id;
             $instituicao    = $instituicao_periodo_anterior;
             $supervisor_id  = $supervisor_id_periodo_anterior;
             $supervisor     = $supervisor_periodo_anterior;
@@ -417,9 +419,8 @@ $smarty->assign("bairro", $bairro);
 $smarty->assign("municipio", $municipio);
 $smarty->assign("observacoes", $observacoes ?? '');
 
-$smarty->assign("instituicao_atual_id", $instituicao_id_periodo_atual);
-$smarty->assign("id_instituicao_atual", $instituicao_id_periodo_atual);
-$smarty->assign("id_instituicao_anterior", $instituicao_id_periodo_anterior);
+$smarty->assign("instituicao_atual_id", $instituicao_atual_id);
+$smarty->assign("instituicao_anterior_id", $instituicao_anterior_id);
 $smarty->assign("instituicao_id", $instituicao_id);
 $smarty->assign("instituicao", $instituicao ?? '');
 $smarty->assign("supervisor_id", $supervisor_id);
