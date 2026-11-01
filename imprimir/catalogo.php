@@ -60,11 +60,7 @@ $pdf->SetXY(0,270);
 $pdf->Cell(0,0,$data, 0, 0, "C");
 
 $sql = "select
-e.id,
-e.instituicao,
-e.endereco,
-e.telefone,
-e.beneficios,
+e.*,
 case e.fim_de_semana
     when 0 then 'Não'
     when 1 then 'Sim'

@@ -76,7 +76,7 @@ if (!isset($usuario_professor_id)) { $usuario_professor_id = 0; }
 
 <details>
   <summary>Instituições</summary>
-  <a href="imprimir/listagem.php" target="_corpo">Imprimir catálogo</a>
+  <a href="imprimir/catalogo.php" target="_corpo">Imprimir catálogo</a>
   <a href="instituicoes/listar.php" target="_corpo">Listar todas</a>
 <?php if ($isAdmin) { ?>
   <a href="instituicoes/inserir.php" target="_corpo">Inserir instituição</a>
