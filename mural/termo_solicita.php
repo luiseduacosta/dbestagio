@@ -31,9 +31,9 @@ $cep             = isset($_REQUEST['cep']) ? $_REQUEST['cep'] : '';
 $bairro          = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : '';
 $municipio       = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : '';
 $observacoes     = isset($_REQUEST['observacoes']) ? $_REQUEST['observacoes'] : '';
-$nivel = isset($_REQUEST['nivel']) ? $_REQUEST['nivel'] : '';
-$instituicao_id = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
-$supervisor_id = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
+$nivel           = isset($_REQUEST['nivel']) ? $_REQUEST['nivel'] : '';
+$instituicao_id  = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
+$supervisor_id   = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
 // echo $nascimento . "<br>";
 
 // Aluno
