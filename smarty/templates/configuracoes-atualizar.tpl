@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../estagio-moderno.css">
 <title>Editar Configuração do Sistema</title>
 </head>
-<body>
+<body id="corpo">
 
 <p><a href="ver_cada.php">Voltar</a></p>
 
