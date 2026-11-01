@@ -1,11 +1,22 @@
 <?php
-include_once("../setup.php");
+include_once("../autentica.inc");
 require_once(__DIR__ . "/../libphp/models.php");
 
 $submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 // Alunos
 $aluno_id        = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
 $registro        = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : '';
+
+// Apenas aluno e admin solicitam termo de compromisso (mesma regra do handler
+// alunos/atualizar/atualiza_termo.php). O aluno fica restrito ao proprio DRE.
+if ($isAluno) {
+	$aluno_logado = Aluno::find($usuario_aluno_id);
+	if (!$aluno_logado) die ("Nao foi possivel encontrar o seu registro");
+	$registro = $aluno_logado->registro;
+	$aluno_id = (int)$aluno_logado->id;
+} elseif (!$isAdmin) {
+	die ("Acesso restrito: apenas alunos e administradores podem solicitar o termo de compromisso.");
+}
 $nome            = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : '';
 $codigo_telefone = isset($_REQUEST['codigo_telefone']) ? $_REQUEST['codigo_telefone'] : '';
 $telefone        = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : '';
