@@ -3,7 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../estagio.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 <title>Editar Configuração do Sistema</title>
 </head>
 <body>

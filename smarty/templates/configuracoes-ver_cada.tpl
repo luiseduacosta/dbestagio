@@ -3,10 +3,11 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="../estagio.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css">
 <title>Configuração do Sistema</title>
 </head>
-<body>
+<body id="corpo">
 
 <div align="center">
 <h3>Configuração do Sistema</h3>
