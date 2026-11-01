@@ -2,7 +2,6 @@
 include_once("../autentica.inc");
 require_once(__DIR__ . "/../libphp/models.php");
 
-$submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 // Alunos
 $aluno_id        = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
 $registro        = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : '';
@@ -41,117 +40,6 @@ $acao     = isset($_REQUEST['acao']) ? $_REQUEST['acao'] : '';
 $envio    = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 $cadastro = isset($_REQUEST['valorcadastro']) ? $_REQUEST['valorcadastro'] : '';
 $atualizar_estagio = isset($_REQUEST['atualizar_estagio']) ? (int)$_REQUEST['atualizar_estagio'] : 0;
-
-// Se ja esta cadastrado
-// Fluxo legado: aceita o POST direto com "submit" e grava aqui mesmo.
-// O formulario exibido abaixo envia para alunos/atualizar/atualiza_termo.php.
-if ($submit) {
-
-	if (empty($nivel)) die ("É obrigatório preencher o nivel de estágio para o qual está solicitando o termo de compromisso");
-
-	if (empty($instituicao_id)) die ("É obrigatório selecionar a instituição para o qual está solicitando o termo de compromisso");
-
-	// Para salvar tenho que utilizar o formato aaaa-mm-dd (a data vem dd/mm/aaaa)
-	$data_nascimento = '';
-	if (!empty($nascimento)) {
-		$ts_nascimento = strtotime(str_replace('/', '-', $nascimento));
-		$data_nascimento = ($ts_nascimento !== false) ? date("Y-m-d", $ts_nascimento) : '';
-	}
-
-	// Update student record (using Aluno model for consistency, even though this line was commented in original)
-	$sql_alunos  = "update alunos set registro = ?, nome = ?, codigo_telefone = ?, ";
-	$sql_alunos .= " telefone = ?, codigo_celular = ?, celular=?, email=?, ";
-	$sql_alunos .= " identidade = ?, orgao=?, cpf = ?, nascimento=?, ";
-	$sql_alunos .= " endereco=?, cep=?, bairro=?, municipio=?, ";
-	$sql_alunos .= " observacoes=? ";
-	$sql_alunos .= " where registro=?";
-	if (Aluno::raw($sql_alunos, array($registro, $nome, $codigo_telefone, $telefone, $codigo_celular, $celular, $email, $identidade, $orgao, $cpf, $data_nascimento, $endereco, $cep, $bairro, $municipio, $observacoes, $registro)) === false) {
-		die ("Nao foi possivel atualizar o cadastro do aluno");
-	}
-
-	// Get institution name
-	$sql_instituicao = "select instituicao from instituicoes where id=?";
-	$res_instituicao = Instituicao::query($sql_instituicao, array($instituicao_id));
-	$instituicao = '';
-	foreach ($res_instituicao as $item) {
-	    $instituicao = $item->instituicao;
-	}
-
-	// Get supervisor name (e cress, usados no termo)
-	$sql_supervisor = "select nome, cress from supervisores where id=?";
-	$resultado_supervisor = Supervisor::query($sql_supervisor, array($supervisor_id));
-	$supervisor = '';
-	$cress = '';
-	foreach ($resultado_supervisor as $item) {
-	    $supervisor = $item->nome;
-	    $cress = $item->cress;
-	}
-
-	$niveis_romanos = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
-	$nivel_romano = isset($niveis_romanos[(int)$nivel]) ? $niveis_romanos[(int)$nivel] : 'I';
-
-	// Registra a solicitacao do termo no estagio do periodo atual.
-	// Nao existe a tabela `termo`: o pedido fica em estagiarios.tc_solicitacao.
-	$estagiarios = array();
-	if ($aluno_id > 0) {
-		$estagiarios = Estagiario::where("aluno_id = ? AND periodo = ?", array($aluno_id, TC_PERIODO_ATUAL));
-	}
-	if (empty($estagiarios)) {
-		$estagiarios = Estagiario::where("registro = ? AND periodo = ?", array($registro, TC_PERIODO_ATUAL));
-	}
-	if (empty($estagiarios)) {
-		die ("Aluno sem estagio cadastrado no periodo atual: nao e possivel solicitar o termo de compromisso");
-	}
-	$estagiario = $estagiarios[0];
-	$estagiario->preencher(array(
-		'nivel'          => (int)$nivel,
-		'tc'             => 0,
-		'tc_solicitacao' => date("Y-m-d"),
-		'instituicao_id' => $instituicao_id,
-		'supervisor_id'  => $supervisor_id
-	));
-	if (!$estagiario->save()) {
-		die ("Nao foi possivel registrar a solicitacao do termo de compromisso");
-	}
-
-	// Instituicao do periodo anterior, para classificar a mudanca de estagio
-	$instituicao_id_periodo_anterior = 0;
-	$estagios_previos = Estagiario::estagiosPorRegistroDesc($registro);
-	foreach ($estagios_previos as $estagio_previo) {
-		if ($estagio_previo['periodo'] != TC_PERIODO_ATUAL) {
-			$instituicao_id_periodo_anterior = (int)$estagio_previo['instituicao_id'];
-			break;
-		}
-	}
-
-	// Classifica o termo: novo, mudanca de estagio ou renovacao
-	$nivel_int = (int)$nivel;
-	if ($nivel_int <= 1) {
-		$classificacao = 0;
-	} else {
-		$nivel_inicial = $nivel_int - 1;
-		$muda_estagio = ($instituicao_id == $instituicao_id_periodo_anterior) ? 0 : 1;
-		if (($nivel_inicial == 1 || $nivel_inicial == 3) && $muda_estagio == 1) {
-			$classificacao = 0;
-		} elseif ($nivel_inicial == 2 && $muda_estagio == 1) {
-			$classificacao = 1;
-		} elseif ($nivel_inicial == 2 && $muda_estagio == 0) {
-			$classificacao = 2;
-		} else {
-			$classificacao = 3;
-		}
-	}
-
-	// O termo e gerado por uma pagina que le os dados de $_GET: redireciona.
-	echo "<meta http-equiv='refresh' content='0;url=../imprimir/termo.php?registro=" . urlencode($registro)
-	   . "&nome=" . urlencode($nome)
-	   . "&nivel_romano=" . urlencode($nivel_romano)
-	   . "&instituicao=" . urlencode($instituicao)
-	   . "&supervisor=" . urlencode($supervisor)
-	   . "&cress=" . urlencode($cress)
-	   . "&classificacao=" . $classificacao . "'>";
-	exit;	
-}
 
 // Aluno
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
