@@ -103,6 +103,34 @@ if ($submit) {
 		die ("Nao foi possivel registrar a solicitacao do termo de compromisso");
 	}
 
+	// Instituicao do periodo anterior, para classificar a mudanca de estagio
+	$instituicao_id_periodo_anterior = 0;
+	$estagios_previos = Estagiario::estagiosPorRegistroDesc($registro);
+	foreach ($estagios_previos as $estagio_previo) {
+		if ($estagio_previo['periodo'] != TC_PERIODO_ATUAL) {
+			$instituicao_id_periodo_anterior = (int)$estagio_previo['instituicao_id'];
+			break;
+		}
+	}
+
+	// Classifica o termo: novo, mudanca de estagio ou renovacao
+	$nivel_int = (int)$nivel;
+	if ($nivel_int <= 1) {
+		$classificacao = 0;
+	} else {
+		$nivel_inicial = $nivel_int - 1;
+		$muda_estagio = ($instituicao_id == $instituicao_id_periodo_anterior) ? 0 : 1;
+		if (($nivel_inicial == 1 || $nivel_inicial == 3) && $muda_estagio == 1) {
+			$classificacao = 0;
+		} elseif ($nivel_inicial == 2 && $muda_estagio == 1) {
+			$classificacao = 1;
+		} elseif ($nivel_inicial == 2 && $muda_estagio == 0) {
+			$classificacao = 2;
+		} else {
+			$classificacao = 3;
+		}
+	}
+
 	// O termo e gerado por uma pagina que le os dados de $_GET: redireciona.
 	echo "<meta http-equiv='refresh' content='0;url=../imprimir/termo.php?registro=" . urlencode($registro)
 	   . "&nome=" . urlencode($nome)
@@ -110,7 +138,7 @@ if ($submit) {
 	   . "&instituicao=" . urlencode($instituicao)
 	   . "&supervisor=" . urlencode($supervisor)
 	   . "&cress=" . urlencode($cress)
-	   . "&classificacao=0'>";
+	   . "&classificacao=" . $classificacao . "'>";
 	exit;	
 }
 

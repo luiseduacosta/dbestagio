@@ -167,7 +167,7 @@ $pdf->Ln(3);
 $pdf->Cell(0, 5, "DRE: $registro", 0, 0, "R");
 
 $pdf->Output(dirname(__DIR__) . "/tmp/termo". $registro . ".pdf");
-$file = "/tmp/termo" . $registro . ".pdf";
+$file = "tmp/termo" . $registro . ".pdf";
 
 // Pagina de retorno apos o download do PDF (o id do aluno nao vinha no $_GET)
 $alunoTermo = Aluno::firstWhere('registro', $registro);
