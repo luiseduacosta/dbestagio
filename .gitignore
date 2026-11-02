@@ -14,3 +14,11 @@ vendor/
 # SQL dumps para docker init (protege dados reais de alunos/banco)
 docker/init-db/*.sql
 
+# Arquivos de configuração sensíveis
+.env
+.env.local
+.env.*.local
+
+# Configurações do Kiro (podem conter chaves)
+.kiro/settings/mcp.json
+.kiro/settings/*.json

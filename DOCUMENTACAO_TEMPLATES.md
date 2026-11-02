@@ -113,3 +113,87 @@ O CSS e a abertura do `<body id="corpo">` ficam a cargo do `cabecalho.tpl`, que 
 **Data da última verificação**: 2026-11-02  
 **Responsável**: Sistema de automação Kiro  
 **Status**: 100% dos templates seguem padrão moderno ✅
+## 🔧 Configuração MCP para APIs de IA
+
+### **Configuração das APIs**
+
+O sistema está configurado para usar servidores MCP com DeepSeek e Qwen. As chaves de API devem ser configuradas como variáveis de ambiente.
+
+#### **Passos para configurar:**
+
+1. **Criar arquivo `.env`** (baseado em `.env.example`):
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Editar `.env`** com suas chaves:
+   ```env
+   DEEPSEEK_API_KEY=sua_chave_aqui
+   QWEN_API_KEY=sua_chave_aqui
+   ```
+
+3. **Configurar variáveis de ambiente**:
+   ```bash
+   # Linux/Mac
+   export DEEPSEEK_API_KEY="sua_chave"
+   export QWEN_API_KEY="sua_chave"
+   
+   # Ou adicionar ao ~/.bashrc ou ~/.zshrc
+   ```
+
+#### **Configuração automática no MCP:**
+
+Edite `.kiro/settings/mcp.json` para incluir as variáveis:
+
+```json
+{
+  "mcpServers": {
+    "deepseek-api": {
+      "command": "npx",
+      "args": ["-y", "deepseek-mcp-server"],
+      "env": {
+        "DEEPSEEK_API_KEY": "${DEEPSEEK_API_KEY}"
+      },
+      "disabled": false,
+      "autoApprove": ["chat", "models", "balance"]
+    },
+    "qwen-api": {
+      "command": "openai-mcp-server",
+      "args": ["--base-url", "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"],
+      "env": {
+        "OPENAI_API_KEY": "${QWEN_API_KEY}"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+### **Solucionando problemas:**
+
+#### **Erro: "DEEPSEEK_API_KEY environment variable is required"**
+- Solução: Configure a variável de ambiente `DEEPSEEK_API_KEY`
+- Verifique se o .env está carregado corretamente
+
+#### **Erro: Push bloqueado no GitHub**
+- Solução: Nunca commit chaves de API no código
+- Use arquivos .env e .gitignore
+- O arquivo `.env` já está no .gitignore
+
+#### **Servidor não inicia**
+- Verifique se os servidores MCP estão instalados:
+  ```bash
+  npx -y deepseek-mcp-server --help
+  pipx list | grep openai-mcp-server
+  ```
+
+### **Testando a configuração:**
+
+1. **Reinicie o Kiro** para carregar novas configurações MCP
+2. **Verifique os logs** no painel MCP
+3. **Teste as ferramentas** através do Kiro
+
+---
+
+**Nota de segurança**: As chaves de API são sensíveis e não devem ser compartilhadas ou commitadas no repositório.
