@@ -6,6 +6,7 @@
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
+@import url("../../estagio-moderno.css");
 </style>
 
 {literal}
@@ -250,7 +251,7 @@ window.onload = function() {
 
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo" style="direction: ltr;">
 
 <!--
 Modifica dados do aluno
