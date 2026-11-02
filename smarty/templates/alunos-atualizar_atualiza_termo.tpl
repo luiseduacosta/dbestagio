@@ -252,6 +252,8 @@ window.onload = function() {
 </head>
 
 <body id="corpo" style="direction: ltr;">
+<main class="mural-page">
+
 
 <!--
 Modifica dados do aluno
@@ -434,5 +436,6 @@ Município:
 </form>
 </div>
 
+</main>
 </body>
 </html>

@@ -1,7 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 <title>Supervisores inscritos no curso</title>
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 <style>
 @import url(formulario_curso.css);
 </style>
@@ -17,7 +20,9 @@ function get_turma() {
 {/literal}
 </head>
 
-<body>
+<body id="corpo">
+
+<main class="mural-page">
 
 <div align="center">
 <table border="1">
@@ -92,6 +97,7 @@ function get_turma() {
 </table>
 </div>
 
+</main>
 </body>
 
 </html>

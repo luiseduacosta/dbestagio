@@ -8,6 +8,8 @@
 <title>Configuração do Sistema</title>
 </head>
 <body id="corpo">
+<main class="mural-page">
+
 
 <div align="center">
 <h3>Configuração do Sistema</h3>
@@ -28,5 +30,6 @@
 <p><a href="atualizar.php">Editar configuração</a></p>
 </div>
 
+</main>
 </body>
 </html>

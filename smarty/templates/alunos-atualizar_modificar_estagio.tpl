@@ -24,9 +24,13 @@ function aluno()
 </script>
 {/literal}
 
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo" >
+<main class="mural-page">
+
 
 <!--
 Modifica dados do aluno
@@ -273,5 +277,6 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 
 </form>
 
+</main>
 </body>
 </html>

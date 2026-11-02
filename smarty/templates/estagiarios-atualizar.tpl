@@ -4,9 +4,12 @@
 <head>
 <meta charset="utf-8">
 <link href="../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio-moderno.css" rel="stylesheet" type="text/css">
 <title>{$titulo}</title>
 </head>
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <div align="center">
 <h3>{$titulo}</h3>
@@ -160,5 +163,6 @@
 
 </form>
 
+</main>
 </body>
 </html>

@@ -25,9 +25,13 @@ $(document).ready(function() {
 </script>
 
 {/literal}
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <h1>Atualizar dados do supervisor</h1>
 
@@ -38,5 +42,6 @@ $(document).ready(function() {
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>
 
+</main>
 </body>
 </html>

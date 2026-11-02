@@ -42,6 +42,8 @@ function verificaRegistro() {
 </head>
 
 <body id="corpo">
+<main class="mural-page">
+
 
 <h1>Solicitação de termo de compromisso</h1>
 
@@ -53,5 +55,6 @@ function verificaRegistro() {
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>
 
+</main>
 </body>
 </html>

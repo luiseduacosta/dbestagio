@@ -4,9 +4,8 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Aluno modifica estágio</title>
   <meta content="Luis Acosta" name="author">
-<style type="text/css">
-@import url("../estagio.css");
-</style>
+  <link rel="stylesheet" href="../estagio.css" type="text/css">
+  <link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaPeriodo() {
@@ -33,7 +32,9 @@ window.onload = function() {
 
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo">
+
+<main class="mural-page">
 
 <!--
 Modifica dados do aluno
@@ -125,5 +126,6 @@ dd/mm/aaaa
 
 </div>
 
+</main>
 </body>
 </html>

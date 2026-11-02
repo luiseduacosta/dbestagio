@@ -8,6 +8,8 @@
 <title>Editar Configuração do Sistema</title>
 </head>
 <body id="corpo">
+<main class="mural-page">
+
 
 <p><a href="ver_cada.php">Voltar</a></p>
 
@@ -93,5 +95,6 @@
 
 </div>
 
+</main>
 </body>
 </html>

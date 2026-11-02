@@ -7,9 +7,13 @@
 <style type="text/css">
 @import url("../estagio.css");
 </style>
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <p>
 <a href="javascript:history.back();">Voltar</a>
@@ -39,5 +43,6 @@
 </table>
 </div>
 
+</main>
 </body>
 </html>

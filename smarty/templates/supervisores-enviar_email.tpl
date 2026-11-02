@@ -1,7 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
+<link href="../../estagio-moderno.css" rel="stylesheet" type="text/css">
 <title>Supervisores - enviar e-mail</title>
 
 {literal}
@@ -26,7 +28,9 @@ $("input#main").click(function() {
 
 </head>
 
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <div id="tabela">
 
@@ -93,6 +97,7 @@ $("input#main").click(function() {
 
 </div>
 
+</main>
 </body>
 
 </html>
