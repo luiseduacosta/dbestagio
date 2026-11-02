@@ -14,8 +14,8 @@ $templates_dir = __DIR__ . '/smarty/templates';
 if (!function_exists('eh_fragmento')) {
     function eh_fragmento($arquivo) {
         $conteudo = file_get_contents($arquivo);
-        $tem_body = preg_match('/<body[^>]*>/i', $conteudo);
-        $tem_head = preg_match('/<head[^>]*>/i', $conteudo);
+        $tem_body = preg_match('/<body[\s>]/i', $conteudo);
+        $tem_head = preg_match('/<head[\s>]/i', $conteudo);
         return !$tem_body && !$tem_head;
     }
 }

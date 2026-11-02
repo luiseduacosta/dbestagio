@@ -79,7 +79,7 @@ Nenhum template apresenta pendências. Todos os itens anteriormente listados for
 
 ### Fragmentos (critérios não aplicáveis)
 Os seguintes arquivos são *partials* e não possuem `<head>` nem `<body>` de abertura, portanto **não precisam** de `estagio-moderno.css` nem de `body id="corpo"`:
-- `capa.tpl` — bloco `<div class="capa">` incluído dentro de uma página.
+- `capa.tpl` — bloco `<section class="capa">` incluído dentro de uma página.
 - `rodape.tpl` — apenas fecha as tags `</body></html>`.
 
 O CSS e a abertura do `<body id="corpo">` ficam a cargo do `cabecalho.tpl`, que monta a estrutura HTML completa.
