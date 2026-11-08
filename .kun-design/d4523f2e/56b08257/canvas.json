@@ -49,12 +49,12 @@
       "cornerRadius": 0,
       "children": [],
       "clipContent": true,
-      "htmlArtifactId": "41aa3636",
       "embeddedArtifact": {
         "id": "41aa3636",
         "kind": "html",
         "versionId": "41aa3636-v1"
       },
+      "htmlArtifactId": "41aa3636",
       "devicePreset": "desktop"
     },
     "s_mverwqaz_2": {
@@ -82,12 +82,12 @@
       "cornerRadius": 0,
       "children": [],
       "clipContent": true,
-      "htmlArtifactId": "41aa3636",
       "embeddedArtifact": {
         "id": "41aa3636",
         "kind": "html",
         "versionId": "41aa3636-v2"
       },
+      "htmlArtifactId": "41aa3636",
       "devicePreset": "desktop"
     }
   },
@@ -105,16 +105,16 @@
         "sourceFile": ".kun-design/d4523f2e/41aa3636/v1.html"
       },
       "status": "active",
-      "createdAt": "2026-10-19T04:47:46.754Z",
-      "updatedAt": "2026-10-19T04:47:46.754Z",
+      "createdAt": "2026-11-07T02:48:23.497Z",
+      "updatedAt": "2026-11-07T02:48:23.497Z",
       "metadata": {
         "tagName": "main",
         "text": "Estágio ESS/UFRJ — marca principal e variantes Marca principal MARCA PRINCIPAL ASSINATURA VERTICAL Estágio ESS/UFRJ COORDENAÇÃO DE ESTÁGIO E EXTENSÃO SÍMBOLO DE PERCURSO AZUL INSTITUCIONAL · 0B5CAB 02 · Assinatura horizontal 2 CORES Estágio",
         "rect": {
           "left": 4044,
-          "top": 77,
+          "top": 76,
           "width": 1128,
-          "height": 14287
+          "height": 14288
         }
       }
     },
@@ -149,7 +149,7 @@
       },
       "status": "active",
       "createdAt": "2026-10-19T04:51:37.079Z",
-      "updatedAt": "2026-10-19T04:56:35.505Z",
+      "updatedAt": "2026-11-07T02:48:23.524Z",
       "metadata": {
         "tagName": "main",
         "text": "SISTEMA DE MARCA · VERSÃO 2 Estágio ESS/UFRJ Símbolo, assinatura e aplicação digital do mural de estágios da Escola de Serviço Social. 2026.2 PERÍODO 18 OFERTAS ABERTAS 62 VAGAS DADOS DE EXEMPLO Baixar símbolo SVG Ver aplicação no mural Mar",
