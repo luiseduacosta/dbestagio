@@ -36,7 +36,7 @@ while (!$resultado->EOF) {
 
 	// Insero o supervisor
 	$sql_supervisor  =  "insert into supervisores ";
-	$sql_supervisor .= "(nome, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formatura, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
+	$sql_supervisor .= "(nome, endereco, bairro, municipio, cep, codigo_tel, telefone, codigo_cel, celular, email, escola, ano_formacao, cress, regiao, outros_estudos, area_curso, ano_curso, cargo, num_inscricao, curso_turma) ";
 	$sql_supervisor .= "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	// N.B.: $regiao, $quantidade e $turma nunca sao definidos neste script -- ele le
 	// $region, $num_inscricao e $curso_turma do registro, mas o INSERT referencia

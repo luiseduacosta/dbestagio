@@ -39,6 +39,11 @@
 	</tr>
 
 	<tr>
+	<td><label for="regiao">Região (CRESS)</label></td>
+	<td><input type="number" name="regiao" id="regiao" min="-128" max="127" step="1" value="7"></td>
+	</tr>
+
+	<tr>
 	<td><label for="cpf">CPF</label></td>
 	<td><input type="text" name="cpf" id="cpf" size="14" maxlength="14"></td>
 	</tr>
@@ -84,18 +89,13 @@
 	</tr>
 
 	<tr>
-	<td><label for="ano_formatura">Ano de formatura</label></td>
-	<td><input type="text" name="ano_formatura" id="ano_formatura" size="4" maxlength="4"></td>
+	<td><label for="ano_formacao">Ano de formatura</label></td>
+	<td><input type="text" name="ano_formacao" id="ano_formacao" size="4" maxlength="4"></td>
 	</tr>
 
 	<tr>
 	<td><label for="cargo">Cargo</label></td>
 	<td><input type="text" name="cargo" id="cargo" size="25" maxlength="25"></td>
-	</tr>
-
-	<tr>
-	<td><label for="regiao">Região (CRESS)</label></td>
-	<td><input type="number" name="regiao" id="regiao" min="-128" max="127" step="1" value="7"></td>
 	</tr>
 
 	<tr>

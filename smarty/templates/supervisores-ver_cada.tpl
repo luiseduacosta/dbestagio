@@ -129,6 +129,7 @@ function get_periodo() {
 	<tbody>
 	<tr><th>Id</th><td>{$supervisor_id}</td></tr>
 	<tr><th>Cress</th><td>{$cress}</td></tr>
+	<tr><th>Região (CRESS)</th><td>{$regiao}</td></tr>
 	<tr><th>Nome</th><td>{$nome}</td></tr>
 	<tr><th>CPF</th><td>{$cpf}</td></tr>
 	<tr><th>Telefone</th><td>{if $telefone}{$telefone}{else}—{/if}</td></tr>
@@ -138,10 +139,21 @@ function get_periodo() {
 	<tr><th>Bairro</th><td>{$bairro}</td></tr>
 	<tr><th>Município</th><td>{$municipio}</td></tr>
 	<tr><th>CEP</th><td>{$cep}</td></tr>
-	<tr><th>Região (CRESS)</th><td>{$regiao}</td></tr>
 	<tr><th>Escola</th><td>{$escola}</td></tr>
-	<tr><th>Ano de formatura</th><td>{$ano_formatura}</td></tr>
+	<tr><th>Ano de formatura</th><td>{$ano_formacao}</td></tr>
 	<tr><th>Cargo</th><td>{$cargo}</td></tr>
+
+	{foreach from=$emprego item=emp}
+	<tr>
+		<th>Instituição vinculada</th>
+		<td>
+			<a href="../instituicoes/ver_cada.php?instituicao_id={$emp.id}">{$emp.instituicao}</a>
+			{if $isAdmin}
+			&nbsp;<a class="btn btn-danger btn-sm" href="inst_supervisor.php?supervisor_id={$supervisor_id}&instituicao_id={$emp.id}" onclick="return confirm('Desvincular esta instituição?');">Desvincular</a>
+			{/if}
+		</td>
+	</tr>
+	{/foreach}
 
 	<tr>
 	<th>Curso</th>
@@ -156,18 +168,6 @@ function get_periodo() {
 	{/if}
 	</td>
 	</tr>
-
-	{foreach from=$emprego item=emp}
-	<tr>
-		<th>Instituição vinculada</th>
-		<td>
-			<a href="../instituicoes/ver_cada.php?instituicao_id={$emp.id}">{$emp.instituicao}</a>
-			{if $isAdmin}
-			&nbsp;<a class="btn btn-danger btn-sm" href="inst_supervisor.php?supervisor_id={$supervisor_id}&instituicao_id={$emp.id}" onclick="return confirm('Desvincular esta instituição?');">Desvincular</a>
-			{/if}
-		</td>
-	</tr>
-	{/foreach}
 
 	<tr><th>Observações</th><td>{$observacoes}</td></tr>
 	</tbody>

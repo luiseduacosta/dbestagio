@@ -71,7 +71,7 @@ class SupervisoresController {
 			'municipio'     => 30,
 			'cep'           => 9,
 			'escola'        => 70,
-			'ano_formatura' => 4,
+			'ano_formacao'  => 4,
 			'cargo'         => 25,
 		);
 		$dados = array();
@@ -356,7 +356,7 @@ class SupervisoresController {
 		$smarty->assign("municipio", $supervisor->municipio);
 		$smarty->assign("cep", $supervisor->cep);
 		$smarty->assign("escola", $supervisor->escola);
-		$smarty->assign("ano_formatura", $supervisor->ano_formatura);
+		$smarty->assign("ano_formacao", $supervisor->ano_formacao);
 		$smarty->assign("cargo", $supervisor->cargo);
 		$smarty->assign("regiao", $supervisor->regiao);
 		$smarty->assign("observacoes", $supervisor->observacoes);
@@ -484,7 +484,7 @@ class SupervisoresController {
 		$smarty->assign("municipio", $sup->municipio);
 		$smarty->assign("cep", $sup->cep);
 		$smarty->assign("escola", $sup->escola);
-		$smarty->assign("ano_formatura", $sup->ano_formatura);
+		$smarty->assign("ano_formacao", $sup->ano_formacao);
 		$smarty->assign("cargo", $sup->cargo);
 		$smarty->assign("regiao", $sup->regiao);
 		$smarty->assign("observacoes", $sup->observacoes);

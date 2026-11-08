@@ -32,8 +32,7 @@ $templates_problematicos = [
     'curso-supervisores_lista.tpl',
     'curso-supervisores_seleciona.tpl',
     'rodape.tpl',
-    'supervisores-atualizar_seleciona_cadastro.tpl',
-    'supervisores-enviar_email.tpl'
+    'supervisores-atualizar_seleciona_cadastro.tpl'
 ];
 
 function aplicar_correcoes($arquivo, $conteudo) {

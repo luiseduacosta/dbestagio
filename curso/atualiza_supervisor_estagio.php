@@ -41,7 +41,7 @@ $curso_turma = $res_curso->fields['curso_turma'];
 // Atualizacao
 $sql  = "update supervisores set nome=?, cpf=?, endereco=?, municipio=?, bairro=?, cep=?, ";
 $sql .= " codigo_tel=?, telefone=?, codigo_cel=?, celular=?, email=?, escola=?, ";
-$sql .= " ano_formatura=?, outros_estudos=?, area_curso=?, ano_curso=? where cress=?";
+$sql .= " ano_formacao=?, outros_estudos=?, area_curso=?, ano_curso=? where cress=?";
 // echo "Atualiza supervisor " . $sql . "<br>";
 $res_atualiza_supervisores = $db->Execute($sql, array(
 	$nome, $cpf, $endereco, $municipio, $bairro, $cep,

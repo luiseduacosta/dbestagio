@@ -7,7 +7,7 @@ require_once __DIR__ . '/Model.php';
  *
  * Colunas conforme libphp/estagio.sql: id (auto), nome, cpf, email, telefone,
  *          celular, cress (INT), regiao (TINYINT), endereco, bairro, municipio,
- *          cep, escola, ano_formatura, cargo, observacoes, user_id.
+ *          cep, escola, ano_formacao, cargo, observacoes, user_id.
  * Relação: instituições via tabela ponte `inst_super` (supervisor_id, instituicao_id).
  */
 class Supervisor extends ADODB_Model {
@@ -17,7 +17,7 @@ class Supervisor extends ADODB_Model {
     // Lista de colunas que podem ser gravadas/atualizadas.
     private static $colunas = array(
         'nome', 'cpf', 'email', 'telefone', 'celular', 'cress', 'regiao',
-        'endereco', 'bairro', 'municipio', 'cep', 'escola', 'ano_formatura',
+        'endereco', 'bairro', 'municipio', 'cep', 'escola', 'ano_formacao',
         'cargo', 'observacoes', 'user_id',
     );
 

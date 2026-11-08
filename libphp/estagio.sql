@@ -395,7 +395,7 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
   `municipio` varchar(30) DEFAULT NULL,
   `cep` varchar(9) DEFAULT NULL,
   `escola` varchar(70) DEFAULT NULL COMMENT 'Instituição de formação do supervisor(a)',
-  `ano_formatura` varchar(4) DEFAULT NULL COMMENT 'Ano de formatura do supervisor(a)',
+  `ano_formacao` varchar(4) DEFAULT NULL COMMENT 'Ano de formatura do supervisor(a)',
   `cargo` varchar(25) DEFAULT NULL COMMENT 'Cargo do supervisor na instituição',
   `observacoes` text DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL COMMENT 'ID da tabela users',

@@ -160,7 +160,7 @@ if ($supervisores_cress_id) {
 	// echo "Supervisor conhecido: atualizando";
 	$sql  = "update supervisores set nome=?, cpf=?, endereco=?, municipio=?, bairro=?, cep=?, ";
 	$sql .= " codigo_tel=?, telefone=?, codigo_cel=?, celular=?, email=?, escola=?, ";
-	$sql .= " ano_formatura=?, outros_estudos=?, area_curso=?, ano_curso=? where id=?";
+	$sql .= " ano_formacao=?, outros_estudos=?, area_curso=?, ano_curso=? where id=?";
 	// echo "Atualiza supervisor " . $sql . "<br>";
 	$res_atualiza_supervisores = $db->Execute($sql, array(
 		$nome, $cpf, $endereco, $municipio, $bairro, $cep,
