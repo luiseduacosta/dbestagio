@@ -5,7 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="light">
 	<title>Mural de Estágios — Estágio ESS/UFRJ</title>
+	{if $mensagem_mural == ''}
 	<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+	{/if}
 	<link rel="stylesheet" href="../estagio.css">
 	<link rel="stylesheet" href="../estagio-moderno.css">
 </head>
@@ -22,14 +24,15 @@
 		<header class="page-head">
 			<div class="page-heading">
 				<p class="eyebrow">Coordenação de Estágio e Extensão · ESS/UFRJ</p>
-				<h1>Mural de estágios<span>{if $periodo == ''}Todos os períodos{else}Turma {$periodo}{/if}</span></h1>
+				<h1>Mural de estágios<span>{if !$periodo_disponivel}Período não configurado{elseif $periodo == ''}Todos os períodos{else}Turma {$periodo}{/if}</span></h1>
 			</div>
 
 			{if $is_admin}
 			<form class="periodo-form" name="seleciona_periodo" method="get" action="mural-listar.php">
 				<label for="periodo">Período exibido</label>
 				<select name="periodo" id="periodo" onChange="this.form.submit();">
-					<option value=""{if $periodo == ''} selected{/if}>Todos os períodos</option>
+					{if !$periodo_disponivel}<option value="" selected disabled>Selecione um período</option>{/if}
+					<option value=""{if $periodo_disponivel && $periodo == ''} selected{/if}>Todos os períodos</option>
 					{section name=periodo_item loop=$periodos}
 					<option value="{$periodos[periodo_item]}"{if $periodos[periodo_item] == $periodo} selected{/if}>{$periodos[periodo_item]}</option>
 					{/section}
@@ -39,6 +42,9 @@
 			{/if}
 		</header>
 
+		{if $mensagem_mural != ''}
+		<p class="empty-state" role="status">{$mensagem_mural|escape:'html'}</p>
+		{else}
 		<div class="summary-strip" aria-label="Resumo do mural">
 			<span class="metric"><strong>{$totalVagas}</strong> vagas</span>
 			<span class="metric"><strong>{$totalAlunos}</strong> alunos</span>
@@ -79,18 +85,17 @@
 							{if $instituicao[item].data_selecao == ''}Sem data{else}{$instituicao[item].data_selecao} Horário: {$instituicao[item].horario_selecao}{/if}
 						</td>
 					</tr>
-					{sectionelse}
-					<tr>
-						<td colspan="6" class="empty-state">Nenhuma oferta de estágio encontrada para este período.</td>
-					</tr>
 					{/section}
 				</tbody>
 			</table>
 		</section>
+		{/if}
 	</main>
 
 	<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+	{if $mensagem_mural == ''}
 	<script src="../libjs/datatables/dataTables.min.js"></script>
+	{/if}
 	<script>
 		$(function () {
 			var input = document.getElementById('registroInserido');
@@ -101,12 +106,14 @@
 				message.hidden = false;
 			}
 
+			{if $mensagem_mural == ''}
 			$('#mural').DataTable({
 				language: { url: '../libjs/datatables/pt-BR.json' },
 				pageLength: 25,
 				lengthMenu: [10, 25, 50, 100],
 				order: []
 			});
+			{/if}
 		});
 	</script>
 </body>

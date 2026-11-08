@@ -105,17 +105,42 @@ class MuralestagiosController {
 
 		// Período exibido. Para o admin, ?periodo escolhe o período (vazio =
 		// todos); valor fora da lista cai de volta no período atual.
-		$periodo = PERIODO_ATUAL;
-		if ($is_admin && isset($_GET['periodo'])) {
-			$periodo = trim((string)$_GET['periodo']);
-			if ($periodo !== '' && !in_array($periodo, $periodos, true)) {
-				$periodo = PERIODO_ATUAL;
+		$periodo_atual = trim((string)PERIODO_ATUAL);
+		$periodo = ($periodo_atual !== '') ? $periodo_atual : null;
+		if ($is_admin && isset($_GET['periodo']) && is_string($_GET['periodo'])) {
+			$periodo_solicitado = trim($_GET['periodo']);
+			if ($periodo_solicitado === '' || in_array($periodo_solicitado, $periodos, true)) {
+				$periodo = $periodo_solicitado;
 			}
+		}
+
+		$smarty = new Smarty_estagio;
+		$smarty->assign("is_admin", $is_admin);
+		$smarty->assign("periodo", $periodo);
+		$smarty->assign("periodo_disponivel", $periodo !== null);
+		$smarty->assign("periodos", $periodos);
+		$smarty->assign("sistema_autentica", $sistema_autentica);
+		$smarty->assign("insere", $insere);
+		$smarty->assign("mensagem_mural", '');
+
+		// NULL indica configuração ausente; '' só representa a escolha do admin.
+		if ($periodo === null) {
+			$smarty->assign("mensagem_mural", "O período atual do mural não está configurado. Entre em contato com a Coordenação de Estágio.");
+			$smarty->display("muralestagios-listar.tpl");
+			exit;
 		}
 
 		// Ordenação: chave validada por whitelist dentro do model.
 		$ordem = isset($_GET['ordem']) ? $_GET['ordem'] : '';
 		$instituicao = Mural::listarMuralPorPeriodo($periodo, $ordem);
+		if (empty($instituicao)) {
+			$mensagem = ($periodo === '')
+				? "Nenhuma oferta de estágio cadastrada no mural."
+				: "Nenhuma oferta de estágio encontrada para este período.";
+			$smarty->assign("mensagem_mural", $mensagem);
+			$smarty->display("muralestagios-listar.tpl");
+			exit;
+		}
 		$totalVagas = Mural::totalVagasPorPeriodo($periodo);
 
 		$stats = Mural::estatisticasInscritos($periodo);
@@ -123,12 +148,6 @@ class MuralestagiosController {
 		$novo_novo = $novos + $stats['estagio_um'];
 		$conhecidos_conhecidos = $stats['conhecidos'] - $stats['estagio_um'];
 
-		$smarty = new Smarty_estagio;
-		$smarty->assign("is_admin", $is_admin);
-		$smarty->assign("periodo", $periodo);
-		$smarty->assign("periodos", $periodos);
-		$smarty->assign("sistema_autentica", $sistema_autentica);
-		$smarty->assign("insere", $insere);
 		$smarty->assign("instituicao", $instituicao);
 		$smarty->assign("totalVagas", $totalVagas);
 		$smarty->assign("totalAlunos", $stats['total']);
