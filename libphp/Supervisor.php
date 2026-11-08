@@ -5,9 +5,9 @@ require_once __DIR__ . '/Model.php';
 /**
  * Supervisor — Model da tabela `supervisores`.
  *
- * Colunas: id (auto), nome, cpf, codigo_telefone, telefone, codigo_celular, celular,
- *          email, escola, ano_formacao, cress, regiao, cargo, endereco, bairro,
- *          municipio, cep, observacoes, user_id, estagiarios_count.
+ * Colunas conforme libphp/estagio.sql: id (auto), nome, cpf, email, telefone,
+ *          celular, cress (INT), regiao (TINYINT), endereco, bairro, municipio,
+ *          cep, escola, ano_formatura, cargo, observacoes, user_id.
  * Relação: instituições via tabela ponte `inst_super` (supervisor_id, instituicao_id).
  */
 class Supervisor extends ADODB_Model {
@@ -16,10 +16,9 @@ class Supervisor extends ADODB_Model {
 
     // Lista de colunas que podem ser gravadas/atualizadas.
     private static $colunas = array(
-        'nome', 'cpf', 'codigo_telefone', 'telefone', 'codigo_celular', 'celular',
-        'email', 'escola', 'ano_formacao', 'cress', 'regiao', 'cargo',
-        'endereco', 'bairro', 'municipio', 'cep',
-        'observacoes', 'user_id', 'estagiarios_count',
+        'nome', 'cpf', 'email', 'telefone', 'celular', 'cress', 'regiao',
+        'endereco', 'bairro', 'municipio', 'cep', 'escola', 'ano_formatura',
+        'cargo', 'observacoes', 'user_id',
     );
 
     /**
@@ -90,8 +89,8 @@ class Supervisor extends ADODB_Model {
     }
 
     /**
-     * Constrói uma query parametrizada simples com base em um array associativo.
-     * Retorna true em caso de sucesso.
+     * Preenche apenas as colunas persistentes da tabela supervisores.
+     * A gravação é realizada posteriormente por save().
      */
     public function preencher(array $dados) {
         foreach (self::$colunas as $col) {

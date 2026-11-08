@@ -47,44 +47,73 @@ class SupervisoresController {
 	 * Lê um campo de texto do POST (trim).
 	 */
 	private function campoTexto($nome) {
-		return isset($_POST[$nome]) ? trim((string)$_POST[$nome]) : '';
+		$valor = $_POST[$nome] ?? '';
+		if (!is_string($valor)) {
+			http_response_code(400);
+			die("O campo $nome deve ser um texto.");
+		}
+		return trim($valor);
 	}
 
 	/**
 	 * Lê e valida os campos do formulário do supervisor (POST).
 	 */
 	private function lerPost() {
-		$nome = $this->campoTexto('nome');
-		if ($nome === '') {
+		// Limites VARCHAR da tabela supervisores em libphp/estagio.sql.
+		$limites = array(
+			'nome'          => 70,
+			'cpf'           => 14,
+			'email'         => 50,
+			'telefone'      => 15,
+			'celular'       => 15,
+			'endereco'      => 100,
+			'bairro'        => 30,
+			'municipio'     => 30,
+			'cep'           => 9,
+			'escola'        => 70,
+			'ano_formatura' => 4,
+			'cargo'         => 25,
+		);
+		$dados = array();
+		foreach ($limites as $campo => $limite) {
+			$valor = $this->campoTexto($campo);
+			if (mb_strlen($valor, 'UTF-8') > $limite) {
+				http_response_code(400);
+				die("O campo $campo excede $limite caracteres.");
+			}
+			$dados[$campo] = ($valor !== '') ? $valor : null;
+		}
+		if ($dados['nome'] === null) {
+			http_response_code(400);
 			die("O campo Nome é obrigatório.");
 		}
-		if (mb_strlen($nome, 'UTF-8') > 70) {
-			die("O nome do supervisor excede 70 caracteres.");
+
+		$cress = $_POST['cress'] ?? null;
+		if (!is_string($cress) || preg_match('/\A[0-9]{1,9}\z/', $cress) !== 1) {
+			http_response_code(400);
+			die("O CRESS é obrigatório e deve conter de 1 a 9 dígitos, sem espaços ou símbolos.");
 		}
 
-		$codigo_telefone = $this->campoTexto('codigo_telefone');
-		$codigo_celular  = $this->campoTexto('codigo_celular');
-		$regiao          = $this->campoTexto('regiao');
+		$regiao = $this->campoTexto('regiao');
+		if ($regiao === '') {
+			$regiao = '7';
+		}
+		if (preg_match('/\A-?[0-9]{1,3}\z/', $regiao) !== 1 || (int)$regiao < -128 || (int)$regiao > 127) {
+			http_response_code(400);
+			die("A região deve ser um número inteiro entre -128 e 127 (TINYINT).");
+		}
 
-		return array(
-			'nome'            => $nome,
-			'cress'           => $this->campoTexto('cress') ?: null,
-			'cpf'             => $this->campoTexto('cpf') ?: null,
-			'email'           => $this->campoTexto('email') ?: null,
-			'codigo_telefone' => ($codigo_telefone !== '') ? (int)$codigo_telefone : null,
-			'telefone'        => $this->campoTexto('telefone') ?: null,
-			'codigo_celular'  => ($codigo_celular !== '') ? (int)$codigo_celular : null,
-			'celular'         => $this->campoTexto('celular') ?: null,
-			'endereco'        => $this->campoTexto('endereco') ?: null,
-			'bairro'          => $this->campoTexto('bairro') ?: null,
-			'municipio'       => $this->campoTexto('municipio') ?: null,
-			'cep'             => $this->campoTexto('cep') ?: null,
-			'escola'          => $this->campoTexto('escola') ?: null,
-			'ano_formacao'    => $this->campoTexto('ano_formacao') ?: null,
-			'cargo'           => $this->campoTexto('cargo') ?: null,
-			'regiao'          => ($regiao !== '') ? (int)$regiao : 7,
-			'observacoes'     => $this->campoTexto('observacoes') ?: null,
-		);
+		$observacoes = $this->campoTexto('observacoes');
+		if (strlen($observacoes) > 65535) {
+			http_response_code(400);
+			die("As observações excedem o limite de 65535 bytes do campo TEXT.");
+		}
+
+		// INT(6) indica largura de exibição, não limite de seis dígitos.
+		$dados['cress'] = (int)$cress;
+		$dados['regiao'] = (int)$regiao;
+		$dados['observacoes'] = ($observacoes !== '') ? $observacoes : null;
+		return $dados;
 	}
 
 	// ------------------------------------------------------------------
@@ -130,7 +159,7 @@ class SupervisoresController {
 			 . "MIN(e.id) AS instituicao_id, MIN(e.instituicao) AS instituicao, "
 			 . "MAX(est.periodo) AS turma, "
 			 . "(SELECT COUNT(DISTINCT periodo) FROM estagiarios WHERE supervisor_id = s.id) AS q_periodos, "
-			 . "IF(s.cress REGEXP '^[0-9]+$' AND s.cress <> '0', "
+			 . "IF(s.cress > 0, "
 			 . "(SELECT id FROM curso_inscricao_supervisor WHERE cress = s.cress LIMIT 1), NULL) AS id_curso "
 			 . "FROM supervisores AS s "
 			 . "LEFT OUTER JOIN inst_super AS i ON s.id = i.supervisor_id "
@@ -294,8 +323,8 @@ class SupervisoresController {
 
 		// Curso do supervisor
 		$id_curso = null;
-		$cress = (string)$supervisor->cress;
-		if ($cress !== '' && $cress !== '0' && ctype_digit($cress)) {
+		$cress = (int)$supervisor->cress;
+		if ($cress > 0) {
 			$curso = Supervisor::query("SELECT id FROM curso_inscricao_supervisor WHERE cress = ? LIMIT 1", array($cress));
 			if (!empty($curso)) {
 				$id_curso = (int)$curso[0]->id;
@@ -319,9 +348,7 @@ class SupervisoresController {
 		$smarty->assign("cress", $supervisor->cress);
 		$smarty->assign("nome", $supervisor->nome);
 		$smarty->assign("cpf", $supervisor->cpf);
-		$smarty->assign("codigo_telefone", $supervisor->codigo_telefone);
 		$smarty->assign("telefone", $supervisor->telefone);
-		$smarty->assign("codigo_celular", $supervisor->codigo_celular);
 		$smarty->assign("celular", $supervisor->celular);
 		$smarty->assign("email", $supervisor->email);
 		$smarty->assign("endereco", $supervisor->endereco);
@@ -329,7 +356,7 @@ class SupervisoresController {
 		$smarty->assign("municipio", $supervisor->municipio);
 		$smarty->assign("cep", $supervisor->cep);
 		$smarty->assign("escola", $supervisor->escola);
-		$smarty->assign("ano_formacao", $supervisor->ano_formacao);
+		$smarty->assign("ano_formatura", $supervisor->ano_formatura);
 		$smarty->assign("cargo", $supervisor->cargo);
 		$smarty->assign("regiao", $supervisor->regiao);
 		$smarty->assign("observacoes", $supervisor->observacoes);
@@ -450,16 +477,14 @@ class SupervisoresController {
 		$smarty->assign("cress", $sup->cress);
 		$smarty->assign("cpf", $sup->cpf);
 		$smarty->assign("email", $sup->email);
-		$smarty->assign("codigo_telefone", $sup->codigo_telefone);
 		$smarty->assign("telefone", $sup->telefone);
-		$smarty->assign("codigo_celular", $sup->codigo_celular);
 		$smarty->assign("celular", $sup->celular);
 		$smarty->assign("endereco", $sup->endereco);
 		$smarty->assign("bairro", $sup->bairro);
 		$smarty->assign("municipio", $sup->municipio);
 		$smarty->assign("cep", $sup->cep);
 		$smarty->assign("escola", $sup->escola);
-		$smarty->assign("ano_formacao", $sup->ano_formacao);
+		$smarty->assign("ano_formatura", $sup->ano_formatura);
 		$smarty->assign("cargo", $sup->cargo);
 		$smarty->assign("regiao", $sup->regiao);
 		$smarty->assign("observacoes", $sup->observacoes);

@@ -131,8 +131,8 @@ function get_periodo() {
 	<tr><th>Cress</th><td>{$cress}</td></tr>
 	<tr><th>Nome</th><td>{$nome}</td></tr>
 	<tr><th>CPF</th><td>{$cpf}</td></tr>
-	<tr><th>Telefone</th><td>{if $telefone}({$codigo_telefone}) {$telefone}{else}—{/if}</td></tr>
-	<tr><th>Celular</th><td>{if $celular}({$codigo_celular}) {$celular}{else}—{/if}</td></tr>
+	<tr><th>Telefone</th><td>{if $telefone}{$telefone}{else}—{/if}</td></tr>
+	<tr><th>Celular</th><td>{if $celular}{$celular}{else}—{/if}</td></tr>
 	<tr><th>E-mail</th><td>{if $email}<a href="mailto:{$email}">{$email}</a>{else}—{/if}</td></tr>
 	<tr><th>Endereço</th><td>{$endereco}</td></tr>
 	<tr><th>Bairro</th><td>{$bairro}</td></tr>
@@ -140,7 +140,7 @@ function get_periodo() {
 	<tr><th>CEP</th><td>{$cep}</td></tr>
 	<tr><th>Região (CRESS)</th><td>{$regiao}</td></tr>
 	<tr><th>Escola</th><td>{$escola}</td></tr>
-	<tr><th>Ano de formação</th><td>{$ano_formacao}</td></tr>
+	<tr><th>Ano de formatura</th><td>{$ano_formatura}</td></tr>
 	<tr><th>Cargo</th><td>{$cargo}</td></tr>
 
 	<tr>
