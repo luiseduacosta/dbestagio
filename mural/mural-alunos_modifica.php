@@ -47,7 +47,6 @@ $aluno_nascimento = empty($nascimento) ? '' : date("d-m-Y", strtotime($nasciment
 
 $smarty = new Smarty_estagio;
 
-$smarty->assign("sistema_autentica", $sistema_autentica);
 // O histórico só aparece para aluno já conhecido (aluno=1, enviado por verifica.php).
 $smarty->assign("aluno", isset($_REQUEST['aluno']) ? (int)$_REQUEST['aluno'] : (!empty($estagiarios) ? 1 : 0));
 $smarty->assign("aluno_id", $aluno_id);

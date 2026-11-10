@@ -36,9 +36,13 @@ function confirma() {
 }
 </script>
 {/literal}
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body onLoad="return verifica();">
+<body id="corpo" onLoad="return verifica();">
+<main class="mural-page">
+
 
 <form name="erro" id="erro" action="#" method="get">
 <input type="hidden" name="erro" id="erro" value={$erro}>
@@ -126,5 +130,6 @@ name="submit" value="Confirma excluir"></td>
 
 </div>
 
+</main>
 </body>
 </html>

@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Supervisores - {$nome}</title>
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 <link rel="stylesheet" href="../estagio.css">
 <link rel="stylesheet" href="../estagio-moderno.css">
 
@@ -128,20 +132,47 @@ function get_periodo() {
 	<tbody>
 	<tr><th>Id</th><td>{$supervisor_id}</td></tr>
 	<tr><th>Cress</th><td>{$cress}</td></tr>
+<<<<<<< HEAD
 	<tr><th>Nome</th><td>{$nome}</td></tr>
 	<tr><th>CPF</th><td>{$cpf}</td></tr>
 	<tr><th>Telefone</th><td>{if $telefone}({$codigo_telefone}) {$telefone}{else}—{/if}</td></tr>
 	<tr><th>Celular</th><td>{if $celular}({$codigo_celular}) {$celular}{else}—{/if}</td></tr>
+=======
+	<tr><th>Região (CRESS)</th><td>{$regiao}</td></tr>
+	<tr><th>Nome</th><td>{$nome}</td></tr>
+	<tr><th>CPF</th><td>{$cpf}</td></tr>
+	<tr><th>Telefone</th><td>{if $telefone}{$telefone}{else}—{/if}</td></tr>
+	<tr><th>Celular</th><td>{if $celular}{$celular}{else}—{/if}</td></tr>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<tr><th>E-mail</th><td>{if $email}<a href="mailto:{$email}">{$email}</a>{else}—{/if}</td></tr>
 	<tr><th>Endereço</th><td>{$endereco}</td></tr>
 	<tr><th>Bairro</th><td>{$bairro}</td></tr>
 	<tr><th>Município</th><td>{$municipio}</td></tr>
 	<tr><th>CEP</th><td>{$cep}</td></tr>
+<<<<<<< HEAD
 	<tr><th>Região (CRESS)</th><td>{$regiao}</td></tr>
 	<tr><th>Escola</th><td>{$escola}</td></tr>
 	<tr><th>Ano de formação</th><td>{$ano_formacao}</td></tr>
 	<tr><th>Cargo</th><td>{$cargo}</td></tr>
 
+=======
+	<tr><th>Escola</th><td>{$escola}</td></tr>
+	<tr><th>Ano de formatura</th><td>{$ano_formacao}</td></tr>
+	<tr><th>Cargo</th><td>{$cargo}</td></tr>
+
+	{foreach from=$emprego item=emp}
+	<tr>
+		<th>Instituição vinculada</th>
+		<td>
+			<a href="../instituicoes/ver_cada.php?instituicao_id={$emp.id}">{$emp.instituicao}</a>
+			{if $isAdmin}
+			&nbsp;<a class="btn btn-danger btn-sm" href="inst_supervisor.php?supervisor_id={$supervisor_id}&instituicao_id={$emp.id}" onclick="return confirm('Desvincular esta instituição?');">Desvincular</a>
+			{/if}
+		</td>
+	</tr>
+	{/foreach}
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<tr>
 	<th>Curso</th>
 	<td>
@@ -156,6 +187,7 @@ function get_periodo() {
 	</td>
 	</tr>
 
+<<<<<<< HEAD
 	{foreach from=$emprego item=emp}
 	<tr>
 		<th>Instituição vinculada</th>
@@ -168,6 +200,8 @@ function get_periodo() {
 	</tr>
 	{/foreach}
 
+=======
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<tr><th>Observações</th><td>{$observacoes}</td></tr>
 	</tbody>
 	</table>
@@ -193,13 +227,24 @@ function get_periodo() {
 	{if $alunos}
 	<section class="table-shell" aria-label="Alunos supervisionados">
 		<p class="eyebrow">Alunos supervisionados</p>
+<<<<<<< HEAD
 		<table class="dt-table">
+=======
+		<table id="estagiarios" class="display dt-table">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		<thead>
 		<tr>
 		<th>Registro</th>
 		<th>Nome</th>
 		<th>Instituição</th>
+<<<<<<< HEAD
 		<th>Período</th>
+=======
+		<th>Professor</th>
+		<th>Período</th>
+		<th>Nota</th>
+		<th>CH</th>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		</tr>
 		</thead>
 		<tbody>
@@ -208,7 +253,20 @@ function get_periodo() {
 		<td class="coluna_direita">{$al.registro}</td>
 		<td><a href="../alunos/ver_cada.php?aluno_id={$al.aluno_id}">{$al.nome}</a></td>
 		<td><a href="../instituicoes/ver_cada.php?instituicao_id={$al.instituicao_id}">{$al.instituicao}</a></td>
+<<<<<<< HEAD
 		<td class="coluna_centralizada">{$al.periodo}</td>
+=======
+		<td>
+		{if $al.professor_id && $al.professor}
+		<a href="../professores/ver_cada.php?professor_id={$al.professor_id}">{$al.professor}</a>
+		{else}
+		—
+		{/if}
+		</td>
+		<td class="coluna_centralizada">{$al.periodo}</td>
+		<td class="coluna_centralizada">{if $al.nota ne ''}{$al.nota}{else}—{/if}</td>
+		<td class="coluna_centralizada">{if $al.ch ne ''}{$al.ch}{else}—{/if}</td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		</tr>
 		{/foreach}
 		</tbody>
@@ -225,5 +283,26 @@ function get_periodo() {
 
 </main>
 
+<<<<<<< HEAD
+=======
+{literal}
+<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+<script src="../libjs/datatables/dataTables.min.js"></script>
+<script>
+$(document).ready(function () {
+	// A tabela so existe quando o supervisor tem estagiarios vinculados.
+	if ($('#estagiarios').length) {
+		$('#estagiarios').DataTable({
+			language: { url: '../libjs/datatables/pt-BR.json' },
+			pageLength: 25,
+			lengthMenu: [10, 25, 50, 100],
+			order: []
+		});
+	}
+});
+</script>
+{/literal}
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 </html>

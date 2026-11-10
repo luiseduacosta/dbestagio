@@ -1,11 +1,21 @@
 <?php
+include_once("../autentica.inc");
 require_once(__DIR__ . "/../libphp/models.php");
-include_once("../setup.php");
 
-$submit = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
 // Alunos
-$id_aluno        = isset($_REQUEST['id_aluno']) ? (int)$_REQUEST['id_aluno'] : 0;
+$aluno_id        = isset($_REQUEST['aluno_id']) ? (int)$_REQUEST['aluno_id'] : 0;
 $registro        = isset($_REQUEST['registro']) ? $_REQUEST['registro'] : '';
+
+// Apenas aluno e admin solicitam termo de compromisso (mesma regra do handler
+// alunos/atualizar/atualiza_termo.php). O aluno fica restrito ao proprio DRE.
+if ($isAluno) {
+	$aluno_logado = Aluno::find($usuario_aluno_id);
+	if (!$aluno_logado) die ("Nao foi possivel encontrar o seu registro");
+	$registro = $aluno_logado->registro;
+	$aluno_id = (int)$aluno_logado->id;
+} elseif (!$isAdmin) {
+	die ("Acesso restrito: apenas alunos e administradores podem solicitar o termo de compromisso.");
+}
 $nome            = isset($_REQUEST['nome']) ? $_REQUEST['nome'] : '';
 $codigo_telefone = isset($_REQUEST['codigo_telefone']) ? $_REQUEST['codigo_telefone'] : '';
 $telefone        = isset($_REQUEST['telefone']) ? $_REQUEST['telefone'] : '';
@@ -21,115 +31,25 @@ $cep             = isset($_REQUEST['cep']) ? $_REQUEST['cep'] : '';
 $bairro          = isset($_REQUEST['bairro']) ? $_REQUEST['bairro'] : '';
 $municipio       = isset($_REQUEST['municipio']) ? $_REQUEST['municipio'] : '';
 $observacoes     = isset($_REQUEST['observacoes']) ? $_REQUEST['observacoes'] : '';
-$nivel = isset($_REQUEST['nivel']) ? $_REQUEST['nivel'] : '';
-$id_instituicao = isset($_REQUEST['id_instituicao']) ? (int)$_REQUEST['id_instituicao'] : 0;
-$id_supervisor = isset($_REQUEST['id_supervisor']) ? (int)$_REQUEST['id_supervisor'] : 0;
+$nivel           = isset($_REQUEST['nivel']) ? $_REQUEST['nivel'] : '';
+$instituicao_id  = isset($_REQUEST['instituicao_id']) ? (int)$_REQUEST['instituicao_id'] : 0;
+$supervisor_id   = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
 // echo $nascimento . "<br>";
-
-$acao     = isset($_REQUEST['acao']) ? $_REQUEST['acao'] : '';
-$envio    = isset($_REQUEST['submit']) ? $_REQUEST['submit'] : '';
-$cadastro = isset($_REQUEST['valorcadastro']) ? $_REQUEST['valorcadastro'] : '';
-$atualizar_estagio = isset($_REQUEST['atualizar_estagio']) ? (int)$_REQUEST['atualizar_estagio'] : 0;
-
-// Se ja esta cadastrado
-if ($submit) {
-
-	if (empty($nivel)) die ("É obrigatório preencher o nivel de estágio para o qual está solicitando o termo de compromisso");
-
-	if (empty($id_instituicao)) die ("É obrigatório selecionar a instituição para o qual está solicitando o termo de compromisso");
-
-	// Para salvar tenho que utilizar o formato aaaa/mm/dd/
-	$data_nascimento = date("Y-m-d",strtotime($nascimento));
-
-	// Update student record (using Aluno model for consistency, even though this line was commented in original)
-	$sql_alunos  = "update alunos set registro = ?, nome = ?, codigo_telefone = ?, ";
-	$sql_alunos .= " telefone = ?, codigo_celular = ?, celular=?, email=?, ";
-	$sql_alunos .= " identidade = ?, orgao=?, cpf = ?, nascimento=?, ";
-	$sql_alunos .= " endereco=?, cep=?, bairro=?, municipio=?, ";
-	$sql_alunos .= " observacoes=? ";
-	$sql_alunos .= " where registro=?";
-	Aluno::query($sql_alunos, array($registro, $nome, $codigo_telefone, $telefone, $codigo_celular, $celular, $email, $identidade, $orgao, $cpf, $data_nascimento, $endereco, $cep, $bairro, $municipio, $observacoes, $registro));
-	
-	// Get institution name
-	$sql_instituicao = "select instituicao from instituicoes where id=?";
-	$res_instituicao = Instituicao::query($sql_instituicao, array($id_instituicao));
-	$instituicao = '';
-	foreach ($res_instituicao as $item) {
-	    $instituicao = $item->instituicao;
-	}
-
-	// Get supervisor name
-	$sql_supervisor = "select nome from supervisores where id=?";
-	$resultado_supervisor = Supervisor::query($sql_supervisor, array($id_supervisor));
-	$supervisor = '';
-	foreach ($resultado_supervisor as $item) {
-	    $supervisor = $item->nome;
-	}
-	$data = date("d-m-Y");
-	require("../../imprime/termo.php");
-/*
-	$sql = "select registro from termo where registro=?";
-	$resultado = Termo::query($sql, array($registro));
-	$quantidade = $resultado->RecordCount();
-	if($quantidade > 0) echo "Termo de compromisso ja foi solicitado";
-*/
-	// Insert new termo record
-	$sql_termo  = "insert into termo(registro,nivel,id_instituicao,id_supervisor,data) ";
-	$sql_termo .= " values(?,?,?,?,?)";
-	Termo::query($sql_termo, array($registro, $nivel, $id_instituicao, $id_supervisor, $data));
-
-}
 
 // Aluno
 $sql  = "select registro, nome, codigo_telefone, telefone, codigo_celular, celular, email, cpf, identidade, orgao, nascimento, ";
 $sql .= "endereco, cep, bairro, municipio, observacoes from alunos where registro=?";
 
 $resultado = Aluno::query($sql, array($registro));
-if ($resultado === false) die ("Nao foi possivel consultar a tabela alunos");
 // Verifico se o aluno está cadastrado
-$quantidade = $resultado->RecordCount();
+$quantidade = count($resultado);
 $aluno_novo = 0;
 
 if ($quantidade == 0) {
-
-	$sql_novo = "select * from alunos";
-	$resultado_novo = Aluno::query($sql_novo);
-	if ($resultado_novo === false) die ("Nao foi possivel consultar a tabela alunos");
-	$quantidade_novo = $resultado_novo->RecordCount();
-	if ($quantidade_novo == 0) {
-	    echo "Aluno não cadastrado em estágio <br />";
-	    echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a>";
-	    exit;
-	}
-
-	foreach ($resultado_novo as $item) {
-	    // $id_aluno = $resultado->fields['id'];
-	    $registro = $item->registro;
-	    $nome = $item->nome;
-	    $codigo_telefone = $item->codigo_telefone;
-	    $telefone = $item->telefone;
-	    $codigo_celular = $item->codigo_celular;
-	    $celular = $item->celular;
-	    $email = $item->email;
-	    $cpf = $item->cpf;
-	    $identidade = $item->identidade;
-	    $orgao = $item->orgao;
-	    $nascimento = $item->nascimento;
-	    // Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-	    $nova_data = ereg_replace("-","/",$nascimento);
-	    // echo "Nova data: ". $nova_data . "<br>";
-	    $dataCorrigida = explode("/",$nova_data);
-	    $data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
-	    // echo $data_sql . "<br>";
-
-	    $endereco = $item->endereco;
-	    $cep = $item->cep;
-	    $bairro = $item->bairro;
-	    $municipio = $item->municipio;
-	    $observacoes = $item->observacoes;
-	    // echo $observacoes . "<br>";
-	    $aluno_novo = 0; // Aluno buscando estagio
-	}
+	echo "Aluno não cadastrado em estágio <br />";
+	echo "Causa provável: aluno não participou de seleção de estágio. <br />";
+	echo "Favor enviar um e-mail para <a href='mailto:estagio@ess.ufrj.br'>estagio@ess.ufrj.br</a> informando o seu DRE.";
+	exit;
 }
 
 foreach ($resultado as $item) {
@@ -145,12 +65,8 @@ foreach ($resultado as $item) {
 	$identidade = $item->identidade;
 	$orgao = $item->orgao;
 	$nascimento = $item->nascimento;
-	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa
-	$nova_data = ereg_replace("-","/",$nascimento);
-	// echo "Nova data: ". $nova_data . "<br>";
-	$dataCorrigida = explode("/",$nova_data);
-	$data_sql = $dataCorrigida[2] . "/" . $dataCorrigida[1] . "/" . $dataCorrigida[0];
-	// echo $data_sql . "<br>";
+	// Transformo a data do BD de aaaa-mm-dd para dd/mm/aaaa ('' se nula)
+	$data_sql = estagio_formata_data($nascimento, 'd/m/Y');
 
 	$endereco = $item->endereco;
 	$cep = $item->cep;
@@ -161,6 +77,56 @@ foreach ($resultado as $item) {
 	// echo $observacoes . "<br>";
 }
 
+// Situacao do aluno no periodo atual do termo de compromisso:
+// 0 = nunca estagiou, 1 = estagia no periodo atual, 2 = estagia em outro periodo
+$estagios_aluno = Estagiario::estagiosPorRegistroDesc($registro);
+$aluno = 0;
+if (!empty($estagios_aluno)) {
+	$aluno = 2;
+	foreach ($estagios_aluno as $estagio) {
+		if ($estagio['periodo'] == TC_PERIODO_ATUAL) {
+			$aluno = 1;
+			break;
+		}
+	}
+}
+
+// Nivel do formulario: o informado na requisicao ou o proximo nivel do aluno
+$nivel_formulario = (int)$nivel;
+if ($nivel_formulario < 1 || $nivel_formulario > 4) {
+	$nivel_formulario = 1;
+	if (!empty($estagios_aluno)) {
+		$nivel_anterior = (int)$estagios_aluno[0]['nivel'];
+		$nivel_formulario = ($estagios_aluno[0]['periodo'] == TC_PERIODO_ATUAL)
+			? max(1, $nivel_anterior)
+			: (($nivel_anterior >= 4) ? 4 : $nivel_anterior + 1);
+	}
+}
+$nivel = $nivel_formulario;
+$niveis_romanos = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV');
+$nivel_romano = isset($niveis_romanos[$nivel_formulario]) ? $niveis_romanos[$nivel_formulario] : 'I';
+
+// Instituicao e supervisor do estagio do aluno, para pre-selecionar no formulario
+$instituicao_id = 0;
+$instituicao = '';
+$supervisor_id = 0;
+$supervisor = '';
+$instituicao_atual_id = 0;
+$instituicao_anterior_id = 0;
+if (!empty($estagios_aluno)) {
+	$instituicao_id = (int)$estagios_aluno[0]['instituicao_id'];
+	$instituicao    = (string)$estagios_aluno[0]['instituicao'];
+	$supervisor_id  = (int)$estagios_aluno[0]['supervisor_id'];
+	$supervisor     = (string)$estagios_aluno[0]['supervisor_nome'];
+	foreach ($estagios_aluno as $estagio) {
+		if ($estagio['periodo'] == TC_PERIODO_ATUAL) {
+			$instituicao_atual_id = (int)$estagio['instituicao_id'];
+		} elseif ($instituicao_anterior_id == 0) {
+			$instituicao_anterior_id = (int)$estagio['instituicao_id'];
+		}
+	}
+}
+
 // Capturo as instituicoes
 $sql_instituicoes = "select id, instituicao from instituicoes order by instituicao";
 $resposta_instituicoes = Instituicao::query($sql_instituicoes);
@@ -169,6 +135,7 @@ $i = 1;
 $instituicoes = array();
 foreach ($resposta_instituicoes as $item) {
     $instituicoes[$i]['id'] = (int)$item->id;
+    $instituicoes[$i]['instituicao_id'] = (int)$item->id;
     $instituicoes[$i]['instituicao'] = $item->instituicao;
     $i++;
 }
@@ -180,15 +147,15 @@ if ($resposta_supervisores === false) die ("Nao foi possivel consultar a tabela 
 $i = 1;
 $supervisores = array();
 foreach ($resposta_supervisores as $item) {
-    $supervisores[$i]['id']   = (int)$item->id;
-    $supervisores[$i]['nome'] = $item->nome;
+    $supervisores[$i]['id']            = (int)$item->id;
+    $supervisores[$i]['supervisor_id'] = (int)$item->id;
+    $supervisores[$i]['nome']          = $item->nome;
     $i++;
 }
 
 $smarty = new Smarty_estagio;
-$smarty->assign("origem",$origem);
 // Aluno
-$smarty->assign("id_aluno",$id_aluno);
+$smarty->assign("aluno_id",$aluno_id);
 $smarty->assign("registro",$registro);
 $smarty->assign("aluno_nome",$nome);
 $smarty->assign("codigo_telefone",$codigo_telefone);
@@ -206,6 +173,19 @@ $smarty->assign("bairro",$bairro);
 $smarty->assign("municipio",$municipio);
 $smarty->assign("observacoes",$observacoes);
 $smarty->assign("aluno_novo",$aluno_novo);
+// Situacao e nivel do aluno
+$smarty->assign("aluno",$aluno);
+$smarty->assign("nivel",$nivel);
+$smarty->assign("nivel_romano",$nivel_romano);
+// Instituicao e supervisor pre-selecionados
+$smarty->assign("instituicao_id",$instituicao_id);
+$smarty->assign("instituicao",$instituicao);
+$smarty->assign("supervisor_id",$supervisor_id);
+$smarty->assign("supervisor",$supervisor);
+$smarty->assign("instituicao_atual_id",$instituicao_atual_id);
+$smarty->assign("instituicao_anterior_id",$instituicao_anterior_id);
+// Destino do formulario (este script roda em mural/, o handler fica em alunos/atualizar/)
+$smarty->assign("form_action","../alunos/atualizar/atualiza_termo.php");
 // Instituicoes
 $smarty->assign("instituicoes",$instituicoes);
 // Supervisores

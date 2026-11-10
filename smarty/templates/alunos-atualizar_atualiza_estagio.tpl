@@ -4,9 +4,8 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Atualiza estagio</title>
   <meta content="author" name="Luis Acosta">
-<style type="text/css">
-@import url("../../estagio.css");
-</style>
+  <link rel="stylesheet" href="../../estagio.css" type="text/css">
+  <link rel="stylesheet" href="../../estagio-moderno.css" type="text/css">
 
 {literal}
 
@@ -29,7 +28,9 @@ $(document).ready(function() {
 {/literal}
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo">
+
+<main class="mural-page">
 
 {if $atualizar_estagio == 1}
     <p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Atualizar est&aacute;gio</p>
@@ -206,5 +207,6 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 
 </form>
 
+</main>
 </body>
 </html>

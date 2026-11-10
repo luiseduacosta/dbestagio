@@ -88,7 +88,11 @@ function carrega_tabela() {
 
 	<td class="coluna_direita">
 	{if $s.turma}
+<<<<<<< HEAD
 		<a href="alunos_supervisor.php?supervisor_id={$s.supervisor_id}&nome_supervisor={$s.nome|escape:'url'}">{$s.turma}</a>
+=======
+		{$s.turma}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	{else}
 		—
 	{/if}

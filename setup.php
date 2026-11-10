@@ -5,11 +5,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 // Banco de dados
 define("ADODB", __DIR__ . "/vendor/adodb/adodb-php/");
 
-$tipo       = "mysqli";
-$host       = "localhost";
-$usuario    = "root";
-$senha 		= "root";
-$bancodados = "ess_apps";
+$tipo       = getenv('DB_TYPE') ?: "mysqli";
+$host       = getenv('DB_HOST') ?: "localhost";
+$usuario    = getenv('DB_USER') ?: "root";
+$senha 		= getenv('DB_PASS') !== false ? getenv('DB_PASS') : "root";
+$bancodados = getenv('DB_NAME') ?: "ess_apps";
 
 $db = NewADOConnection($tipo);
 $db->Connect($host, $usuario, $senha, $bancodados);
@@ -86,20 +86,24 @@ $sql = "select mural_periodo_atual," .
 $res = $db->Execute($sql);
 if ($res === false) die("Nao foi possivel consultar a tabela configuracoes");
 
-$mural_periodo_atual = $res->fields['mural_periodo_atual'];
-$curso_turma_atual = $res->fields['curso_turma_atual'];
-$curso_encerramento_inscricoes = $res->fields['curso_encerramento_inscricoes'];
-$termo_compromisso_periodo = $res->fields['termo_compromisso_periodo'];
-$termo_compromisso_inicio = $res->fields['termo_compromisso_inicio'];
-$termo_compromisso_final = $res->fields['termo_compromisso_final'];
+// A ausência de configuração é tratada pela página que precisa desses valores.
+$mural_periodo_atual = $res->fields['mural_periodo_atual'] ?? null;
+$curso_turma_atual = $res->fields['curso_turma_atual'] ?? null;
+$curso_encerramento_inscricoes = $res->fields['curso_encerramento_inscricoes'] ?? null;
+$termo_compromisso_periodo = $res->fields['termo_compromisso_periodo'] ?? null;
+$termo_compromisso_inicio = $res->fields['termo_compromisso_inicio'] ?? null;
+$termo_compromisso_final = $res->fields['termo_compromisso_final'] ?? null;
 
 // Para o mural
 define("PERIODO_ATUAL", $mural_periodo_atual);
 $periodo_atual = PERIODO_ATUAL;
 
-$_periodo_atual = explode("-",$periodo_atual);
-if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";
-if ($_periodo_atual[1] == 1) $periodo_anterior = $_periodo_atual[0] - 1 . "-2";
+$periodo_anterior = null;
+if (preg_match('/\A[0-9]{4}-[12]\z/', (string)$periodo_atual)) {
+	$_periodo_atual = explode("-", $periodo_atual);
+	if ($_periodo_atual[1] == 2) $periodo_anterior = $_periodo_atual[0] . "-1";
+	if ($_periodo_atual[1] == 1) $periodo_anterior = ($_periodo_atual[0] - 1) . "-2";
+}
 
 define("PERIODO_ANTERIOR",$periodo_anterior);
 
@@ -126,9 +130,12 @@ define("TMP", __DIR__ . "/tmp/");
 /* Para o termo de compromisso */
 define("TC_PERIODO_ATUAL", $termo_compromisso_periodo);
 $tc_periodo_atual = TC_PERIODO_ATUAL;
-$_tc_periodo_atual = explode("-",$tc_periodo_atual);
-if ($_tc_periodo_atual[1] == 2) $tc_periodo_anterior = $_tc_periodo_atual[0] . "-1";
-if ($_tc_periodo_atual[1] == 1) $tc_periodo_anterior = $_tc_periodo_atual[0] - 1 . "-2";
+$tc_periodo_anterior = null;
+if (preg_match('/\A[0-9]{4}-[12]\z/', (string)$tc_periodo_atual)) {
+	$_tc_periodo_atual = explode("-", $tc_periodo_atual);
+	if ($_tc_periodo_atual[1] == 2) $tc_periodo_anterior = $_tc_periodo_atual[0] . "-1";
+	if ($_tc_periodo_atual[1] == 1) $tc_periodo_anterior = ($_tc_periodo_atual[0] - 1) . "-2";
+}
 define("TC_PERIODO_ANTERIOR",$tc_periodo_anterior);
 
 // Datas do termo de compromisso (impressas no documento). Vazio em vez de

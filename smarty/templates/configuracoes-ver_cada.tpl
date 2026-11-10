@@ -3,10 +3,20 @@
 <html>
 <head>
 <meta charset="utf-8">
+<<<<<<< HEAD
 <link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Configuração do Sistema</title>
 </head>
 <body>
+=======
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css">
+<title>Configuração do Sistema</title>
+</head>
+<body id="corpo">
+<main class="mural-page">
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 
 <div align="center">
 <h3>Configuração do Sistema</h3>
@@ -27,5 +37,9 @@
 <p><a href="atualizar.php">Editar configuração</a></p>
 </div>
 
+<<<<<<< HEAD
+=======
+</main>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 </html>

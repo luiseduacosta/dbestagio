@@ -1,7 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 <title>Supervisores inscritos no curso</title>
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 <style>
 @import url(formulario_curso.css);
 </style>
@@ -25,7 +28,9 @@ function get_turma() {
 {/literal}
 </head>
 
-<body onLoad="return confirmaInsere();">
+<body id="corpo" onLoad="return confirmaInsere();">
+
+<main class="mural-page">
 
 <select name='turma' id='turma' onChange='return get_turma();'>
 	<option value=0>Selecione turma</option>
@@ -141,6 +146,7 @@ para participar da lista de discuss&atilde;o no Google</h1>
 </table>
 </div>
 
+</main>
 </body>
 
 </html>

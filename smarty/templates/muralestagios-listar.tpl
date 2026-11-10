@@ -5,7 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="light">
 	<title>Mural de Estágios — Estágio ESS/UFRJ</title>
+<<<<<<< HEAD
 	<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+=======
+	{if $mensagem_mural == ''}
+	<link rel="stylesheet" href="../libjs/datatables/dataTables.min.css">
+	{/if}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<link rel="stylesheet" href="../estagio.css">
 	<link rel="stylesheet" href="../estagio-moderno.css">
 </head>
@@ -22,14 +28,23 @@
 		<header class="page-head">
 			<div class="page-heading">
 				<p class="eyebrow">Coordenação de Estágio e Extensão · ESS/UFRJ</p>
+<<<<<<< HEAD
 				<h1>Mural de estágios<span>{if $periodo == ''}Todos os períodos{else}Turma {$periodo}{/if}</span></h1>
+=======
+				<h1>Mural de estágios<span>{if !$periodo_disponivel}Período não configurado{elseif $periodo == ''}Todos os períodos{else}Turma {$periodo}{/if}</span></h1>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 			</div>
 
 			{if $is_admin}
 			<form class="periodo-form" name="seleciona_periodo" method="get" action="mural-listar.php">
 				<label for="periodo">Período exibido</label>
 				<select name="periodo" id="periodo" onChange="this.form.submit();">
+<<<<<<< HEAD
 					<option value=""{if $periodo == ''} selected{/if}>Todos os períodos</option>
+=======
+					{if !$periodo_disponivel}<option value="" selected disabled>Selecione um período</option>{/if}
+					<option value=""{if $periodo_disponivel && $periodo == ''} selected{/if}>Todos os períodos</option>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 					{section name=periodo_item loop=$periodos}
 					<option value="{$periodos[periodo_item]}"{if $periodos[periodo_item] == $periodo} selected{/if}>{$periodos[periodo_item]}</option>
 					{/section}
@@ -39,6 +54,12 @@
 			{/if}
 		</header>
 
+<<<<<<< HEAD
+=======
+		{if $mensagem_mural != ''}
+		<p class="empty-state" role="status">{$mensagem_mural|escape:'html'}</p>
+		{else}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		<div class="summary-strip" aria-label="Resumo do mural">
 			<span class="metric"><strong>{$totalVagas}</strong> vagas</span>
 			<span class="metric"><strong>{$totalAlunos}</strong> alunos</span>
@@ -79,18 +100,31 @@
 							{if $instituicao[item].data_selecao == ''}Sem data{else}{$instituicao[item].data_selecao} Horário: {$instituicao[item].horario_selecao}{/if}
 						</td>
 					</tr>
+<<<<<<< HEAD
 					{sectionelse}
 					<tr>
 						<td colspan="6" class="empty-state">Nenhuma oferta de estágio encontrada para este período.</td>
 					</tr>
+=======
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 					{/section}
 				</tbody>
 			</table>
 		</section>
+<<<<<<< HEAD
 	</main>
 
 	<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
 	<script src="../libjs/datatables/dataTables.min.js"></script>
+=======
+		{/if}
+	</main>
+
+	<script src="../libjs/datatables/jquery-3.7.1.min.js"></script>
+	{if $mensagem_mural == ''}
+	<script src="../libjs/datatables/dataTables.min.js"></script>
+	{/if}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<script>
 		$(function () {
 			var input = document.getElementById('registroInserido');
@@ -101,12 +135,20 @@
 				message.hidden = false;
 			}
 
+<<<<<<< HEAD
+=======
+			{if $mensagem_mural == ''}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 			$('#mural').DataTable({
 				language: { url: '../libjs/datatables/pt-BR.json' },
 				pageLength: 25,
 				lengthMenu: [10, 25, 50, 100],
 				order: []
 			});
+<<<<<<< HEAD
+=======
+			{/if}
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		});
 	</script>
 </body>

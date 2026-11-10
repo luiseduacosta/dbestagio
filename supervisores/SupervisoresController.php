@@ -10,9 +10,6 @@
  *   ver_cada()          <- exibir/ver_cada.php
  *   listar()            <- exibir/listar.php
  *   excluir()           <- cancelar/cancela.php
- *   alunos_supervisor() <- exibir/alunos_supervisor.php
- *   seleciona()         <- seleciona.php + exibir/seleciona.php
- *   buscar()            <- buscar/busca.php + buscar/resultado.php
  *   inst_supervisor()   <- cancelar/inst_supervisor.php
  *
  * O controlador cuida de HTTP, autenticação, sanitização e assigns do Smarty.
@@ -50,44 +47,73 @@ class SupervisoresController {
 	 * Lê um campo de texto do POST (trim).
 	 */
 	private function campoTexto($nome) {
-		return isset($_POST[$nome]) ? trim((string)$_POST[$nome]) : '';
+		$valor = $_POST[$nome] ?? '';
+		if (!is_string($valor)) {
+			http_response_code(400);
+			die("O campo $nome deve ser um texto.");
+		}
+		return trim($valor);
 	}
 
 	/**
 	 * Lê e valida os campos do formulário do supervisor (POST).
 	 */
 	private function lerPost() {
-		$nome = $this->campoTexto('nome');
-		if ($nome === '') {
+		// Limites VARCHAR da tabela supervisores em libphp/estagio.sql.
+		$limites = array(
+			'nome'          => 70,
+			'cpf'           => 14,
+			'email'         => 50,
+			'telefone'      => 15,
+			'celular'       => 15,
+			'endereco'      => 100,
+			'bairro'        => 30,
+			'municipio'     => 30,
+			'cep'           => 9,
+			'escola'        => 70,
+			'ano_formacao'  => 4,
+			'cargo'         => 25,
+		);
+		$dados = array();
+		foreach ($limites as $campo => $limite) {
+			$valor = $this->campoTexto($campo);
+			if (mb_strlen($valor, 'UTF-8') > $limite) {
+				http_response_code(400);
+				die("O campo $campo excede $limite caracteres.");
+			}
+			$dados[$campo] = ($valor !== '') ? $valor : null;
+		}
+		if ($dados['nome'] === null) {
+			http_response_code(400);
 			die("O campo Nome é obrigatório.");
 		}
-		if (mb_strlen($nome, 'UTF-8') > 70) {
-			die("O nome do supervisor excede 70 caracteres.");
+
+		$cress = $_POST['cress'] ?? null;
+		if (!is_string($cress) || preg_match('/\A[0-9]{1,9}\z/', $cress) !== 1) {
+			http_response_code(400);
+			die("O CRESS é obrigatório e deve conter de 1 a 9 dígitos, sem espaços ou símbolos.");
 		}
 
-		$codigo_telefone = $this->campoTexto('codigo_telefone');
-		$codigo_celular  = $this->campoTexto('codigo_celular');
-		$regiao          = $this->campoTexto('regiao');
+		$regiao = $this->campoTexto('regiao');
+		if ($regiao === '') {
+			$regiao = '7';
+		}
+		if (preg_match('/\A-?[0-9]{1,3}\z/', $regiao) !== 1 || (int)$regiao < -128 || (int)$regiao > 127) {
+			http_response_code(400);
+			die("A região deve ser um número inteiro entre -128 e 127 (TINYINT).");
+		}
 
-		return array(
-			'nome'            => $nome,
-			'cress'           => $this->campoTexto('cress') ?: null,
-			'cpf'             => $this->campoTexto('cpf') ?: null,
-			'email'           => $this->campoTexto('email') ?: null,
-			'codigo_telefone' => ($codigo_telefone !== '') ? (int)$codigo_telefone : null,
-			'telefone'        => $this->campoTexto('telefone') ?: null,
-			'codigo_celular'  => ($codigo_celular !== '') ? (int)$codigo_celular : null,
-			'celular'         => $this->campoTexto('celular') ?: null,
-			'endereco'        => $this->campoTexto('endereco') ?: null,
-			'bairro'          => $this->campoTexto('bairro') ?: null,
-			'municipio'       => $this->campoTexto('municipio') ?: null,
-			'cep'             => $this->campoTexto('cep') ?: null,
-			'escola'          => $this->campoTexto('escola') ?: null,
-			'ano_formacao'    => $this->campoTexto('ano_formacao') ?: null,
-			'cargo'           => $this->campoTexto('cargo') ?: null,
-			'regiao'          => ($regiao !== '') ? (int)$regiao : 7,
-			'observacoes'     => $this->campoTexto('observacoes') ?: null,
-		);
+		$observacoes = $this->campoTexto('observacoes');
+		if (strlen($observacoes) > 65535) {
+			http_response_code(400);
+			die("As observações excedem o limite de 65535 bytes do campo TEXT.");
+		}
+
+		// INT(6) indica largura de exibição, não limite de seis dígitos.
+		$dados['cress'] = (int)$cress;
+		$dados['regiao'] = (int)$regiao;
+		$dados['observacoes'] = ($observacoes !== '') ? $observacoes : null;
+		return $dados;
 	}
 
 	// ------------------------------------------------------------------
@@ -133,7 +159,7 @@ class SupervisoresController {
 			 . "MIN(e.id) AS instituicao_id, MIN(e.instituicao) AS instituicao, "
 			 . "MAX(est.periodo) AS turma, "
 			 . "(SELECT COUNT(DISTINCT periodo) FROM estagiarios WHERE supervisor_id = s.id) AS q_periodos, "
-			 . "IF(s.cress REGEXP '^[0-9]+$' AND s.cress <> '0', "
+			 . "IF(s.cress > 0, "
 			 . "(SELECT id FROM curso_inscricao_supervisor WHERE cress = s.cress LIMIT 1), NULL) AS id_curso "
 			 . "FROM supervisores AS s "
 			 . "LEFT OUTER JOIN inst_super AS i ON s.id = i.supervisor_id "
@@ -268,10 +294,12 @@ class SupervisoresController {
 		// Alunos supervisionados
 		$alunos = array();
 		$rsAlunos = Estagiario::query(
-			"SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao "
+			"SELECT a.id AS aluno_id, a.registro, a.nome, e.periodo, e.instituicao_id, i.instituicao, "
+			. "e.professor_id, p.nome AS professor, e.nota, e.ch "
 			. "FROM estagiarios AS e "
 			. "INNER JOIN alunos AS a ON a.id = e.aluno_id "
 			. "LEFT JOIN instituicoes AS i ON i.id = e.instituicao_id "
+			. "LEFT JOIN professores AS p ON p.id = e.professor_id "
 			. "WHERE e.supervisor_id = ? "
 			. "ORDER BY e.periodo, a.nome",
 			array($supervisor_id)
@@ -285,14 +313,18 @@ class SupervisoresController {
 					'periodo'        => $item->periodo,
 					'instituicao_id' => (int)$item->instituicao_id,
 					'instituicao'    => ($item->instituicao !== null) ? $item->instituicao : 'Sem dados',
+					'professor_id'   => ($item->professor_id !== null) ? (int)$item->professor_id : 0,
+					'professor'      => ($item->professor !== null) ? $item->professor : '',
+					'nota'           => ($item->nota !== null) ? $item->nota : '',
+					'ch'             => ($item->ch !== null) ? (int)$item->ch : '',
 				);
 			}
 		}
 
 		// Curso do supervisor
 		$id_curso = null;
-		$cress = (string)$supervisor->cress;
-		if ($cress !== '' && $cress !== '0' && ctype_digit($cress)) {
+		$cress = (int)$supervisor->cress;
+		if ($cress > 0) {
 			$curso = Supervisor::query("SELECT id FROM curso_inscricao_supervisor WHERE cress = ? LIMIT 1", array($cress));
 			if (!empty($curso)) {
 				$id_curso = (int)$curso[0]->id;
@@ -316,9 +348,7 @@ class SupervisoresController {
 		$smarty->assign("cress", $supervisor->cress);
 		$smarty->assign("nome", $supervisor->nome);
 		$smarty->assign("cpf", $supervisor->cpf);
-		$smarty->assign("codigo_telefone", $supervisor->codigo_telefone);
 		$smarty->assign("telefone", $supervisor->telefone);
-		$smarty->assign("codigo_celular", $supervisor->codigo_celular);
 		$smarty->assign("celular", $supervisor->celular);
 		$smarty->assign("email", $supervisor->email);
 		$smarty->assign("endereco", $supervisor->endereco);
@@ -447,9 +477,7 @@ class SupervisoresController {
 		$smarty->assign("cress", $sup->cress);
 		$smarty->assign("cpf", $sup->cpf);
 		$smarty->assign("email", $sup->email);
-		$smarty->assign("codigo_telefone", $sup->codigo_telefone);
 		$smarty->assign("telefone", $sup->telefone);
-		$smarty->assign("codigo_celular", $sup->codigo_celular);
 		$smarty->assign("celular", $sup->celular);
 		$smarty->assign("endereco", $sup->endereco);
 		$smarty->assign("bairro", $sup->bairro);
@@ -507,130 +535,6 @@ class SupervisoresController {
 		Supervisor::query("DELETE FROM inst_super WHERE supervisor_id = ?", array($supervisor_id));
 
 		header("Location: listar.php");
-		exit;
-	}
-
-	/**
-	 * Lista alunos supervisionados por um supervisor específico.
-	 * Substitui supervisores/exibir/alunos_supervisor.php.
-	 */
-	public function alunos_supervisor() {
-		$this->comAutenticacao();
-
-		$supervisor_id   = isset($_REQUEST['supervisor_id']) ? (int)$_REQUEST['supervisor_id'] : 0;
-		$nome_supervisor = isset($_REQUEST['nome_supervisor']) ? htmlspecialchars(trim($_REQUEST['nome_supervisor']), ENT_QUOTES, 'UTF-8') : '';
-		if ($nome_supervisor === '' && $supervisor_id > 0) {
-			$sup = Supervisor::find($supervisor_id);
-			if ($sup) {
-				$nome_supervisor = $sup->nome;
-			}
-		}
-		$ordem           = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : 'periodo, nome';
-
-		$ordenacoes = array(
-			'periodo, nome' => 'periodo, nome',
-			'nome'          => 'nome',
-			'periodo'       => 'periodo',
-			'instituicao'   => 'instituicao',
-			'nome_desc'     => 'nome DESC',
-		);
-		if (!isset($ordenacoes[$ordem])) {
-			$ordem = 'periodo, nome';
-		}
-		$orderby = $ordenacoes[$ordem];
-
-		$sql = "SELECT e.id, e.aluno_id, e.registro, e.periodo, e.instituicao_id, "
-			 . "a.nome, a.email, i.instituicao "
-			 . "FROM estagiarios AS e "
-			 . "JOIN alunos AS a ON e.registro = a.registro "
-			 . "JOIN instituicoes AS i ON e.instituicao_id = i.id "
-			 . "WHERE e.supervisor_id = ? ORDER BY $orderby";
-
-		$alunos = Estagiario::query($sql, array($supervisor_id));
-		$estagiario = array();
-		if (!empty($alunos)) {
-			foreach ($alunos as $item) {
-				$estagiario[] = array(
-					'registro'       => $item->registro,
-					'aluno_id'       => (int)$item->aluno_id,
-					'nome'           => $item->nome,
-					'periodo'        => $item->periodo,
-					'email'          => $item->email,
-					'instituicao_id' => (int)$item->instituicao_id,
-					'instituicao'    => $item->instituicao,
-				);
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("supervisor_id", $supervisor_id);
-		$smarty->assign("id_supervisor", $supervisor_id);
-		$smarty->assign("nome_supervisor", $nome_supervisor);
-		$smarty->assign("estagiario", $estagiario);
-		$smarty->display("supervisores-alunos_supervisor.tpl");
-		exit;
-	}
-
-	/**
-	 * Seletor de supervisor para ações rápidas (modificar/cancelar/ver).
-	 * Substitui supervisores/seleciona.php e supervisores/exibir/seleciona.php.
-	 */
-	public function seleciona() {
-		$this->comAutenticacao();
-
-		$opcao = isset($_GET['opcao']) ? $_GET['opcao'] : '';
-		$res = Supervisor::all("ORDER BY nome");
-
-		$supervisores = array();
-		if (!empty($res)) {
-			foreach ($res as $item) {
-				$supervisores[] = array(
-					'id'   => (int)$item->id,
-					'nome' => $item->nome,
-				);
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("opcao", $opcao);
-		$smarty->assign("supervisores", $supervisores);
-		$smarty->display("supervisores-seleciona.tpl");
-		exit;
-	}
-
-	/**
-	 * Busca de supervisores por nome.
-	 * Substitui supervisores/buscar/busca.php e supervisores/buscar/resultado.php.
-	 */
-	public function buscar() {
-		$this->comAutenticacao();
-
-		$palavra = isset($_REQUEST['palavra']) ? trim($_REQUEST['palavra']) : '';
-		$supervisores = array();
-
-		if ($palavra !== '') {
-			$res = Supervisor::query(
-				"SELECT id, nome, cress, email, telefone, celular FROM supervisores WHERE nome LIKE ? ORDER BY nome",
-				array("%$palavra%")
-			);
-			if (!empty($res)) {
-				foreach ($res as $item) {
-					$supervisores[] = array(
-						'supervisor_id'   => (int)$item->id,
-						'nome_supervisor' => $item->nome,
-						'cress'           => $item->cress,
-						'email'           => $item->email,
-						'telefone'        => $item->telefone,
-						'celular'         => $item->celular,
-					);
-				}
-			}
-		}
-
-		$smarty = new Smarty_estagio;
-		$smarty->assign("palavra", $palavra);
-		$smarty->assign("supervisores", $supervisores);
-		$smarty->display("supervisores-busca.tpl");
 		exit;
 	}
 

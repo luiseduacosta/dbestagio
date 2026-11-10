@@ -25,18 +25,23 @@ $(document).ready(function() {
 </script>
 
 {/literal}
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <h1>Atualizar dados do supervisor</h1>
 
 <form name="seleciona_supervisor" id="seleciona_supervisor" method="post" action="../inserir/auto_cadastro.php" enctype="text/html">
 <h2>Digite o número do CRESS (7a. região):</h2>
 <p>Digite somente números. Não utilize barra, ponto, traço ou qualquer outro símbolo.</p>
-<input type="text" name="cress" id="cress" size="9" maxlength="9" onBlur="return verificaRegistro();">
+{literal}<input type="text" name="cress" id="cress" size="9" maxlength="9" required pattern="[0-9]{1,9}" inputmode="numeric">{/literal}
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>
 
+</main>
 </body>
 </html>

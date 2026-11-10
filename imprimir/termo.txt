@@ -39,7 +39,7 @@ Art. 12. Cabe ao estagiário cumprir o horário acordado com a unidade para o dese
 Art. 13. 0 aluno se compromete a cuidar e manter sigilo em relação à documentação, da unidade campo de estágio, mesmo após o seu desligamento.
 Art. 14. O aluno deverá cumprir com responsabilidade e assiduidade os compromisso assumidos junto ao acampo de estágio, independente do calendário e férias acadêmicas.
 Art. 15. O período de permanência do aluno no campo de estágio se dará de acordo com o contrato formal ou informal assumido com o supervisor
-Art. 16. O presente Termo de Compromisso terá validade de 04/08/2008 a 06/12/2008, correspondente ao Estagio '. $nivel_romano .'. Sua interrupção antes do período previsto, acarretará prejuízo para o aluno na sua avaliação acadêmica.
+Art. 16. O presente Termo de Compromisso terá validade de '. $termo_compromisso_inicio .' a ' . $termo_compromisso_final .', correspondente ao Estagio '. $nivel_romano .'. Sua interrupção antes do período previsto, acarretará prejuízo para o aluno na sua avaliação acadêmica.
 Art. 17. Os casos omissos serão encaminhados à Coordenação de Estágio para serem dirimidos.
 
 Rio de Janeiro, . ' ' . $dia . ' de ' . $mes . ' de ' . $ano . '
@@ -47,5 +47,3 @@ Rio de Janeiro, . ' ' . $dia . ' de ' . $mes . ' de ' . $ano . '
 
 Coordenação de Estágio                                      Supervisor / N° do CRESS: $cress                                    Aluno (DRE: $registro)
 </p>
-
-

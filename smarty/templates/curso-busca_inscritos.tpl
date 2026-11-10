@@ -1,7 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<<<<<<< HEAD
 <html>
 <head>
 <title>Supervisores inscritos no curso</title>
+=======
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<title>Supervisores inscritos no curso</title>
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 <style>
 @import url(formulario_curso.css);
 </style>
@@ -17,7 +26,13 @@ function get_turma() {
 {/literal}
 </head>
 
+<<<<<<< HEAD
 <body>
+=======
+<body id="corpo">
+
+<main class="mural-page">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 
 <div align="center">
 <table border="1">
@@ -92,6 +107,10 @@ function get_turma() {
 </table>
 </div>
 
+<<<<<<< HEAD
+=======
+</main>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 
 </html>

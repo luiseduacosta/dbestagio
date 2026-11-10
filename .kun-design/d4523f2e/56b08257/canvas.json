@@ -49,12 +49,19 @@
       "cornerRadius": 0,
       "children": [],
       "clipContent": true,
+<<<<<<< HEAD
       "htmlArtifactId": "41aa3636",
+=======
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "embeddedArtifact": {
         "id": "41aa3636",
         "kind": "html",
         "versionId": "41aa3636-v1"
       },
+<<<<<<< HEAD
+=======
+      "htmlArtifactId": "41aa3636",
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "devicePreset": "desktop"
     },
     "s_mverwqaz_2": {
@@ -82,12 +89,19 @@
       "cornerRadius": 0,
       "children": [],
       "clipContent": true,
+<<<<<<< HEAD
       "htmlArtifactId": "41aa3636",
+=======
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "embeddedArtifact": {
         "id": "41aa3636",
         "kind": "html",
         "versionId": "41aa3636-v2"
       },
+<<<<<<< HEAD
+=======
+      "htmlArtifactId": "41aa3636",
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "devicePreset": "desktop"
     }
   },
@@ -105,16 +119,27 @@
         "sourceFile": ".kun-design/d4523f2e/41aa3636/v1.html"
       },
       "status": "active",
+<<<<<<< HEAD
       "createdAt": "2026-10-19T04:47:46.754Z",
       "updatedAt": "2026-10-19T04:47:46.754Z",
+=======
+      "createdAt": "2026-11-07T02:48:23.497Z",
+      "updatedAt": "2026-11-07T02:48:23.497Z",
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "metadata": {
         "tagName": "main",
         "text": "Estágio ESS/UFRJ — marca principal e variantes Marca principal MARCA PRINCIPAL ASSINATURA VERTICAL Estágio ESS/UFRJ COORDENAÇÃO DE ESTÁGIO E EXTENSÃO SÍMBOLO DE PERCURSO AZUL INSTITUCIONAL · 0B5CAB 02 · Assinatura horizontal 2 CORES Estágio",
         "rect": {
           "left": 4044,
+<<<<<<< HEAD
           "top": 77,
           "width": 1128,
           "height": 14287
+=======
+          "top": 76,
+          "width": 1128,
+          "height": 14288
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
         }
       }
     },
@@ -149,7 +174,11 @@
       },
       "status": "active",
       "createdAt": "2026-10-19T04:51:37.079Z",
+<<<<<<< HEAD
       "updatedAt": "2026-10-19T04:56:35.505Z",
+=======
+      "updatedAt": "2026-11-07T02:48:23.524Z",
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
       "metadata": {
         "tagName": "main",
         "text": "SISTEMA DE MARCA · VERSÃO 2 Estágio ESS/UFRJ Símbolo, assinatura e aplicação digital do mural de estágios da Escola de Serviço Social. 2026.2 PERÍODO 18 OFERTAS ABERTAS 62 VAGAS DADOS DE EXEMPLO Baixar símbolo SVG Ver aplicação no mural Mar",

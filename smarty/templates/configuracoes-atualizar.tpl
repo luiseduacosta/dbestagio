@@ -3,10 +3,20 @@
 <html>
 <head>
 <meta charset="utf-8">
+<<<<<<< HEAD
 <link href="../estagio.css" rel="stylesheet" type="text/css">
 <title>Editar Configuração do Sistema</title>
 </head>
 <body>
+=======
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css">
+<title>Editar Configuração do Sistema</title>
+</head>
+<body id="corpo">
+<main class="mural-page">
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 
 <p><a href="ver_cada.php">Voltar</a></p>
 
@@ -92,5 +102,9 @@
 
 </div>
 
+<<<<<<< HEAD
+=======
+</main>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 </html>

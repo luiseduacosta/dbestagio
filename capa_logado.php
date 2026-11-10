@@ -11,6 +11,7 @@ $usuario = ($sessao !== null) ? $sessao['nome'] : '';
 <head>
 <title>Menu lateral</title>
 <link href="estagio.css" rel="stylesheet" type="text/css">
+<link href="estagio-moderno.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>

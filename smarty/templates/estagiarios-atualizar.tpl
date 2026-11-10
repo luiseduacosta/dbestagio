@@ -3,10 +3,20 @@
 <html>
 <head>
 <meta charset="utf-8">
+<<<<<<< HEAD
 <link href="../../estagio.css" rel="stylesheet" type="text/css">
 <title>{$titulo}</title>
 </head>
 <body>
+=======
+<link href="../estagio.css" rel="stylesheet" type="text/css">
+<link href="../estagio-moderno.css" rel="stylesheet" type="text/css">
+<title>{$titulo}</title>
+</head>
+<body id="corpo">
+<main class="mural-page">
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 
 <div align="center">
 <h3>{$titulo}</h3>
@@ -160,5 +170,9 @@
 
 </form>
 
+<<<<<<< HEAD
+=======
+</main>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 </html>

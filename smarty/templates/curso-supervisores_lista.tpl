@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 <title>Supervisores inscritos no curso</title>
 <style>
 @import url(formulario_curso.css);
@@ -23,9 +24,13 @@ function get_turma() {
 }
 </script>
 {/literal}
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
 </head>
 
-<body onLoad="return confirmaInsere();">
+<body id="corpo" onLoad="return confirmaInsere();">
+<main class="mural-page">
+
 
 <select name='turma' id='turma' onChange='return get_turma();'>
 <option value=0>Selecione turma</option>
@@ -109,6 +114,7 @@ function get_turma() {
 </table>
 </div>
 
+</main>
 </body>
 
 </html>

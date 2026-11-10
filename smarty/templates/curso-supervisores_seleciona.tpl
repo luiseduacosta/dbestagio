@@ -1,14 +1,30 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<<<<<<< HEAD
 <html>
 <head>
+=======
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 <title>
 </title>
 <style>
 @import url("formulario_curso.css");
 </style>
+<<<<<<< HEAD
 </head>
 
 <body>
+=======
+<link rel="stylesheet" href="../estagio.css" type="text/css">
+<link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
+</head>
+
+<body id="corpo">
+<main class="mural-page">
+
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 
 <form name="seleciona_supervisor" action="imprime_formulario.php" method="post">
 
@@ -36,6 +52,10 @@
 
 </form>
 
+<<<<<<< HEAD
+=======
+</main>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 </body>
 
 </html>

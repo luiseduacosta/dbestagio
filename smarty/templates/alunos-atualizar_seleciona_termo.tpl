@@ -13,12 +13,14 @@
 <meta name="keywords" content="">
 <style type="text/css">
 @import url("../../estagio.css");
+@import url("../../estagio-moderno.css");
 </style>
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaRegistro() {
 	var registro;
 	registro = document.getElementById("registro").value;
+<<<<<<< HEAD
 	tamanho_registro = registro.length;
 	/* alert(tamanho_registro); */
 	if (tamanho_registro < 9) {
@@ -28,6 +30,17 @@ function verificaRegistro() {
 		}
 	for (var i=0; i<9; i++) {
 		letra = document.getElementById("registro").value.charAt(i);
+=======
+	var tamanho_registro = registro.length;
+	/* alert(tamanho_registro); */
+	if (tamanho_registro < 8 || tamanho_registro > 9) {
+		alert("O registro deve conter 8 ou 9 dígitos");
+		document.seleciona_aluno.registro.focus();
+		return false;
+		}
+	for (var i=0; i<tamanho_registro; i++) {
+		var letra = registro.charAt(i);
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 		/* alert(letra); */
 		if (letra != "0" && letra != "1" && letra != "2" && letra != "3" && letra != "4" && letra != "5" && letra != "6" && letra != "7" && letra != "8" && letra != "9") {
 			alert("Digite números e não letras");
@@ -40,7 +53,9 @@ function verificaRegistro() {
 {/literal}
 </head>
 
-<body>
+<body id="corpo">
+<main class="mural-page">
+
 
 <h1>Solicitação de termo de compromisso</h1>
 
@@ -52,5 +67,6 @@ function verificaRegistro() {
 <input type="submit" name="confirma" value="Confirma" size="5">
 </form>
 
+</main>
 </body>
 </html>

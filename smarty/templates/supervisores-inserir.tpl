@@ -34,30 +34,56 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="cress">CRESS</label></td>
 	<td><input type="text" name="cress" id="cress" size="10" maxlength="10"></td>
+=======
+	<td><label for="cress">CRESS *</label></td>
+	<td><input type="text" name="cress" id="cress" size="9" maxlength="9" required pattern="{literal}[0-9]{1,9}{/literal}" inputmode="numeric"></td>
+	</tr>
+
+	<tr>
+	<td><label for="regiao">Região (CRESS)</label></td>
+	<td><input type="number" name="regiao" id="regiao" min="-128" max="127" step="1" value="7"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="cpf">CPF</label></td>
+<<<<<<< HEAD
 	<td><input type="text" name="cpf" id="cpf" size="15" maxlength="15"></td>
+=======
+	<td><input type="text" name="cpf" id="cpf" size="14" maxlength="14"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="email">E-mail</label></td>
+<<<<<<< HEAD
 	<td><input type="text" name="email" id="email" size="50" maxlength="255"></td>
+=======
+	<td><input type="text" name="email" id="email" size="50" maxlength="50"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="telefone">Telefone</label></td>
+<<<<<<< HEAD
 	<td>(<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlength="2" value="21">)
 	<input type="text" name="telefone" id="telefone" size="15" maxlength="15"></td>
+=======
+	<td><input type="tel" name="telefone" id="telefone" size="15" maxlength="15" placeholder="(21) 9999-9999"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="celular">Celular</label></td>
+<<<<<<< HEAD
 	<td>(<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlength="2" value="21">)
 	<input type="text" name="celular" id="celular" size="15" maxlength="15"></td>
+=======
+	<td><input type="tel" name="celular" id="celular" size="15" maxlength="15" placeholder="(21) 99999-9999"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
@@ -86,7 +112,11 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="ano_formacao">Ano de formação</label></td>
+=======
+	<td><label for="ano_formacao">Ano de formatura</label></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<td><input type="text" name="ano_formacao" id="ano_formacao" size="4" maxlength="4"></td>
 	</tr>
 
@@ -96,6 +126,7 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="regiao">Região (CRESS)</label></td>
 	<td><input type="text" name="regiao" id="regiao" size="3" maxlength="2" value="7"></td>
 	</tr>
@@ -103,6 +134,10 @@
 	<tr>
 	<td><label for="observacoes">Observações</label></td>
 	<td><textarea name="observacoes" id="observacoes" rows="4" cols="60"></textarea></td>
+=======
+	<td><label for="observacoes">Observações</label></td>
+	<td><textarea name="observacoes" id="observacoes" rows="4" cols="60" maxlength="65535"></textarea></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>

@@ -39,6 +39,7 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="cress">CRESS</label></td>
 	<td><input type="text" name="cress" id="cress" size="10" maxlength="10" value="{$cress}"></td>
 	</tr>
@@ -46,23 +47,49 @@
 	<tr>
 	<td><label for="cpf">CPF</label></td>
 	<td><input type="text" name="cpf" id="cpf" size="15" maxlength="15" value="{$cpf}"></td>
+=======
+	<td><label for="cress">CRESS *</label></td>
+	<td><input type="text" name="cress" id="cress" size="9" maxlength="9" value="{$cress}" required pattern="{literal}[0-9]{1,9}{/literal}" inputmode="numeric"></td>
+	</tr>
+
+	<tr>
+	<td><label for="regiao">Região (CRESS)</label></td>
+	<td><input type="number" name="regiao" id="regiao" min="-128" max="127" step="1" value="{$regiao}"></td>
+	</tr>
+	
+	<tr>
+	<td><label for="cpf">CPF</label></td>
+	<td><input type="text" name="cpf" id="cpf" size="14" maxlength="14" value="{$cpf}"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="email">E-mail</label></td>
+<<<<<<< HEAD
 	<td><input type="text" name="email" id="email" size="50" maxlength="255" value="{$email}"></td>
+=======
+	<td><input type="text" name="email" id="email" size="50" maxlength="50" value="{$email}"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="telefone">Telefone</label></td>
+<<<<<<< HEAD
 	<td>(<input type="text" name="codigo_telefone" id="codigo_telefone" size="2" maxlength="2" value="{$codigo_telefone}">)
 	<input type="text" name="telefone" id="telefone" size="15" maxlength="15" value="{$telefone}"></td>
+=======
+	<td><input type="tel" name="telefone" id="telefone" size="15" maxlength="15" value="{$telefone}" placeholder="(21) 9999-9999"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
 	<td><label for="celular">Celular</label></td>
+<<<<<<< HEAD
 	<td>(<input type="text" name="codigo_celular" id="codigo_celular" size="2" maxlength="2" value="{$codigo_celular}">)
 	<input type="text" name="celular" id="celular" size="15" maxlength="15" value="{$celular}"></td>
+=======
+	<td><input type="tel" name="celular" id="celular" size="15" maxlength="15" value="{$celular}" placeholder="(21) 99999-9999"></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	<tr>
@@ -91,7 +118,11 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="ano_formacao">Ano de formação</label></td>
+=======
+	<td><label for="ano_formacao">Ano de formatura</label></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	<td><input type="text" name="ano_formacao" id="ano_formacao" size="4" maxlength="4" value="{$ano_formacao}"></td>
 	</tr>
 
@@ -101,6 +132,7 @@
 	</tr>
 
 	<tr>
+<<<<<<< HEAD
 	<td><label for="regiao">Região (CRESS)</label></td>
 	<td><input type="text" name="regiao" id="regiao" size="3" maxlength="2" value="{$regiao}"></td>
 	</tr>
@@ -108,6 +140,10 @@
 	<tr>
 	<td><label for="observacoes">Observações</label></td>
 	<td><textarea name="observacoes" id="observacoes" rows="4" cols="60">{$observacoes}</textarea></td>
+=======
+	<td><label for="observacoes">Observações</label></td>
+	<td><textarea name="observacoes" id="observacoes" rows="4" cols="60" maxlength="65535">{$observacoes}</textarea></td>
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 	</tr>
 
 	{foreach from=$instituicoes item=inst}

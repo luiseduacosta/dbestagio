@@ -6,6 +6,7 @@
   <meta content="Luis Acosta" name="author">
 <style type="text/css">
 @import url("../../estagio.css");
+@import url("../../estagio-moderno.css");
 </style>
 
 {literal}
@@ -250,7 +251,9 @@ window.onload = function() {
 
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo" style="direction: ltr;">
+<main class="mural-page">
+
 
 <!--
 Modifica dados do aluno
@@ -269,7 +272,7 @@ Modifica dados do aluno
 	<h1>Cadastrando aluno estagiário: nivel {$nivel_romano}</h1>
 {/if}
 
-<form action="atualiza_termo.php" name="atualiza_aluno" id="atualiza_aluno" method="post">
+<form action="{if $form_action}{$form_action}{else}atualiza_termo.php{/if}" name="atualiza_aluno" id="atualiza_aluno" method="post">
 
 <table width='90%' border='0' summary='Tabela'>
 <caption>Solicitação de Termo de Compromisso: {$aluno_nome} DRE: {$registro}</caption>
@@ -420,8 +423,8 @@ Município:
 <input type="hidden" name="aluno_id" value="{$aluno_id}">
 <input type="hidden" name="registro" value="{$registro}">
 <input type="hidden" name="nivel" value="{$nivel}">
-<input type="hidden" name="id_instituicao_periodo_atual" value="{$id_instituicao_atual}">
-<input type="hidden" name="id_instituicao_periodo_anterior" value="{$id_instituicao_anterior}">
+<input type="hidden" name="instituicao_atual_id" value="{$instituicao_atual_id}">
+<input type="hidden" name="instituicao_anterior_id" value="{$instituicao_anterior_id}">
 <input type="submit" name="submit" value="Confirma" onClick="return confirma();">
 </td>
 </tr>
@@ -433,5 +436,6 @@ Município:
 </form>
 </div>
 
+</main>
 </body>
 </html>

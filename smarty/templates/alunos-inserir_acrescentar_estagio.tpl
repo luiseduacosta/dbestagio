@@ -4,9 +4,14 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>Insere aluno</title>
   <meta content="Luis Acosta" name="author">
+<<<<<<< HEAD
 <style type="text/css">
 @import url("../estagio.css");
 </style>
+=======
+  <link rel="stylesheet" href="../estagio.css" type="text/css">
+  <link rel="stylesheet" href="../estagio-moderno.css" type="text/css">
+>>>>>>> 73b82345dbc2a4ee8d41cc4ec84448ffcf7e91fa
 {literal}
 <script language="JavaScript" type="text/javascript">
 function verificaPeriodo()
@@ -26,7 +31,9 @@ function aluno()
 
 </head>
 
-<body style="direction: ltr;">
+<body id="corpo">
+
+<main class="mural-page">
 
 <div align="center" id="formulario_acrescenta_estagio" style="visibility: visible">
 <p style="background-color:#e7e1ae; text-align:center; font-weight:bold; font-size:14px">Inserir estágio do aluno <a href="../ver_cada.php?aluno_id={$aluno_id}&origem=seleciona">{$aluno_nome}</a> ({$registro})</p>
@@ -162,5 +169,6 @@ Carga horaria (inteiro): <input type="text" name="ch" id="ch" size="5" maxlength
 
 </div>
 
+</main>
 </body>
 </html>
